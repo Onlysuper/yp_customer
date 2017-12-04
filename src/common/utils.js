@@ -44,4 +44,56 @@ export default {
             return ('00' + str).substr(str.length);
         }
     },
+    /**
+     * 检测数据类型 isType({},"object") 返回true
+     * @param {对象} Obj
+     * @param {类型} type
+     */
+    isType: function (obj, type) {
+        return Object.prototype.toString.call(obj) == "[object " + type + "]";
+    },
+    /**
+     * 随机指定位数的随机串 randomString(3) 返回"Ds2"
+     * @param {长度} len
+     */
+    randomString: function (len) {
+        len = len || 32;
+        var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
+        var maxPos = $chars.length;
+        var pwd = '';
+        for (var i = 0; i < len; i++) {
+            pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+        }
+        return pwd;
+    },
+    /**
+     * 设置标题 兼容微信 setDocumentTitle("首页")
+     * @param {标题} title
+     */
+    setDocumentTitle: function (title) {
+        document.title = title;
+        var ua = navigator.userAgent;
+        if (/\bMicroMessenger\/([\d\.]+)/.test(ua) && /ip(hone|od|ad)/i.test(ua)) {
+            var i = document.createElement('iframe');
+            i.src = '/favicon.ico';
+            i.style.display = 'none';
+            i.onload = function () {
+                setTimeout(function () {
+                    i.remove();
+                }, 9);
+            };
+            document.body.appendChild(i);
+        }
+    },
+    /**
+     * 检测是否微信环境 isWeiXin true | false
+     */
+    isWeiXin: function () {
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            return true;
+        } else {
+            return false;
+        }
+    }()
 }
