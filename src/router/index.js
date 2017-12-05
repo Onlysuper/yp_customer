@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import user from "./user";
+import home from "./home";
 
 Vue.use(Router)
 
@@ -9,7 +10,12 @@ const router = new Router({
         {
             path: "/",
         },
-        user
+        user,
+
+        {
+            path: "/",
+        },
+        home
     ]
 });
 

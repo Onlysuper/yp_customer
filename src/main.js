@@ -4,6 +4,14 @@ import Vue from 'vue';
 import router from './router';
 import store from './vuex';
 import App from './App';
+// plug start
+import axios from 'axios'
+Vue.prototype.$http = axios
+// plug end
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+Vue.use(ElementUI)
+
 
 import mypDirective from './common/directives';
 import mypFilter from './common/filters';

@@ -1,6 +1,6 @@
 <template>
   <div class="reset-box">
-    我是pc主页面
+    我是home主页面
   </div>
 </template>
 <script>
