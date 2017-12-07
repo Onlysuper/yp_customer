@@ -7,7 +7,7 @@ import router from '../router'
 //允许跨域
 // axios.defaults. ;
 //默认axios不发送cookie，需要全局设置以下项，允许跨域发送cookie。
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 //全局请求拦截器
 axios.interceptors.request.use(function (config) {
      //loading
@@ -15,14 +15,14 @@ axios.interceptors.request.use(function (config) {
      //      text: "请稍后...",
      //      spinnerType: 'fading-circle'
      // });
-     var reg = new RegExp(config.baseURL);
-     var apiPath = config.url.replace(reg, "");
-     //console.log("请求地址："+apiPath)
-     if (apiPath === "/user/login/") {
-          //做点什么
-     } else {
-          config.headers.common['token'] = localStorage.getItem("token") || "";
-     }
+    //  var reg = new RegExp(config.baseURL);
+    //  var apiPath = config.url.replace(reg, "");
+    //  //console.log("请求地址："+apiPath)
+    //  if (apiPath === "/user/login/") {
+    //       //做点什么
+    //  } else {
+    //       config.headers.common['token'] = localStorage.getItem("token") || "";
+    //  }
 
      return config;
 }, function (error) {
@@ -64,13 +64,13 @@ function checkCode(res) {
      //           alert(res.data.resultMsg)
      // }
      // alert(res.data.resultCode)
-     if (res.data.resultCode === "01") {
-          router.replace({ path: "/login", query: { redirect: "/home" } });
-          return {
-               resultCode: "-1",
-               resultMsg: "请重新登录！"
-          };
-     }
+    //  if (res.data.resultCode === "01") {
+    //       router.replace({ path: "/login", query: { redirect: "/home" } });
+    //       return {
+    //            resultCode: "-1",
+    //            resultMsg: "请重新登录！"
+    //       };
+    //  }
      //直接返回data中的数据
      return res.data;
 }
@@ -78,25 +78,25 @@ function checkCode(res) {
 
 export default {
      post: function (baseURL, url, data) {
-          return axios({
-               method: "post",
-               url: url,
-               baseURL: baseURL,
-               data: qs.stringify(data),
-               timeout: 10000,
-               headers: {
-                    // "X-requested-With": "XMLHttpRequest",
-                    //使用form表单进行数据交互
-                    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-               },
-          }).then(function (response) {
-               return checkStatus(response)
-          }).then(function (response) {
-               return checkCode(response)
-          })
+        return axios({
+            method: "post",
+            url: url,
+            baseURL: baseURL,
+            data: qs.stringify(data),
+            timeout: 10000,
+            headers: {
+                // "X-requested-With": "XMLHttpRequest",
+                //使用form表单进行数据交互
+                "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            },
+        }).then(function (response) {
+            return checkStatus(response)
+        }).then(function (response) {
+            return checkCode(response)
+        })
      },
      get: function (baseURL, url, params) {
-          return axios({
+         return axios({
                method: "GET",
                url: url,
                baseURL: baseURL,
