@@ -65,9 +65,11 @@ export default {
      background-image: -webkit-gradient(linear, 0 0, 120 120, from(rgba(255, 90, 90, 1)), to(rgba(255, 89, 80, 0.5)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    white-space: nowrap
     }
     p{
       font-size:18px;
+      white-space: nowrap
     }
   }
   .main{
@@ -84,6 +86,7 @@ export default {
       color: #ff5959;
       letter-spacing: 8px;
       text-shadow:  0px 0px 8px rgba(105,105,105,0.5);
+      white-space: nowrap;
     }
     .slogen-img{
       // margin-bottom: -10px;
