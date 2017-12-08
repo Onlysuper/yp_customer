@@ -43,7 +43,7 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="dialogFormVisible = true">密码修改</el-dropdown-item>
-              <el-dropdown-item>个人信息</el-dropdown-item>
+              <el-dropdown-item @click.native="dialogUserVisible = true">个人信息</el-dropdown-item>
               <el-dropdown-item>退出</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -54,132 +54,49 @@
         <router-view></router-view>
         <!-- Content-data end -->
       </el-main>
-      <!-- <el-footer>Footer</el-footer> -->
+    
+      <!-- 修改密码 start -->
+      <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
+        <el-form :model="resetPwform" ref="resetPwform" :rules="passwordRules">
+          <el-form-item label="旧密码" prop="oldPassword" :label-width="formLabelWidth">
+            <el-input type="password" v-model="resetPwform.oldPassword" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码" prop="password" :label-width="formLabelWidth">
+            <el-input type="password" v-model="resetPwform.password" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码" prop="repassword" :label-width="formLabelWidth">
+            <el-input type="password" v-model="resetPwform.repassword" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="resetForm('resetPwform')">取 消</el-button>
+          <el-button type="primary" @click="submitForm('resetPwform')">确 定</el-button>
+        </div>
+      </el-dialog>
+      <!-- 修改密码 end -->
 
-    <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
-      <el-form :model="resetPwform" ref="resetPwform" :rules="passwordRules">
-        <el-form-item label="旧密码" prop="oldPassword" :label-width="formLabelWidth">
-          <el-input type="password" v-model="resetPwform.oldPassword" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="新密码" prop="password" :label-width="formLabelWidth">
-          <el-input type="password" v-model="resetPwform.password" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="repassword" :label-width="formLabelWidth">
-          <el-input type="password" v-model="resetPwform.repassword" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="resetForm('resetPwform')">取 消</el-button>
-        <el-button type="primary" @click="submitForm('resetPwform')">确 定</el-button>
-      </div>
-    </el-dialog>
+      <!-- 管理员信息 start -->
+      <el-dialog title="管理员信息" :visible.sync="dialogUserVisible" width="180px">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            名称:
+          </el-col>
+          <el-col :span="12">
+            {{realname}}
+          </el-col>
+          <el-col :span="12">
+            登录账号:
+          </el-col>
+          <el-col :span="12">
+            {{username}}
+          </el-col>
+        </el-row>
+      </el-dialog>
+      <!-- 个人信息 end -->
+
   </el-container>
 </el-container>
 </template>
-<script>
-import {MenuGet,PasswordUpdate} from "@src/apis"
-export default {
-    name: 'pc',
-    data () {
-      var oldPass = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('密码不能为空'));
-        }else{
-          callback();
-        }
-      };
-      var newPass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入新密码'));
-        }else if(value.length<6||value.length>12){
-          callback(new Error('密码长度必须6到12位!'));
-        } else if (value === this.resetPwform.oldPassword) {
-          callback(new Error('新密码与旧密码不允许相同!'));
-        } else {
-          callback();
-        }
-      };
-      var confirmPass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请确认新密码'));
-        }else if (value !== this.resetPwform.password) {
-          callback(new Error('输入的新密码请保持一致!'));
-        } else {
-          callback();
-        }
-      };
-      //密码修改表单内容
-      return {
-        menuList: '',  // 菜单数据
-        realname:'', // 管理员信息
-        resetPasswordStatus:'',// 
-        username:'',
-        bussinessNo:'',
-        isrouter: true,// 开启路由
-        isCollapse: false, // 菜单收起
-
-        dialogFormVisible: false,// 密码修改窗口显示
-        formLabelWidth: "100px", //密码修改窗口大小
-        resetPwform: {
-          oldPassword: '',   // 旧密码
-          password: '',   //新密码
-          repassword: '' //确认密码
-        },
-        passwordRules: {
-          oldPassword: [
-            { validator: oldPass, trigger: 'blur' }
-          ],
-          password: [
-            { validator: newPass, trigger: 'blur' }
-          ],
-          repassword: [
-            { validator: confirmPass, trigger: 'blur' }
-          ]
-        }
-      }
-    },
-    mounted () {
-      this.dataInit(); // 初始化数据
-    },
-    methods: {
-      // 初始化数据
-      dataInit: function(){
-        var self = this;
-        MenuGet()({}).then(function(data){ 
-          if(data.code==="00"){
-            // 管理员信息
-            self.realname = data.data.realname
-            // 菜单
-            self.menuList = data.data.menuList 
-          }
-        })
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            console.log(resetPwform);
-            // PasswordUpdate()(resetPwform).then(function(data){
-            //   // 修改密码回调
-            //   console.log(data);
-            // })
-          } else {
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      },
-      handleOpen(key, keyPath) {
-        // console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        // console.log(key, keyPath);
-      }
-    }
-}
-</script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
 *{
@@ -274,3 +191,125 @@ export default {
   
 }
 </style>
+
+<script>
+import {MenuGet, PasswordUpdate} from "@src/apis"
+export default {
+    name: 'pc',
+    data () {
+      var oldPass = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('密码不能为空'));
+        }else{
+          callback();
+        }
+      };
+      var newPass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入新密码'));
+        }else if(value.length<6||value.length>12){
+          callback(new Error('密码长度必须6到12位!'));
+        } else if (value === this.resetPwform.oldPassword) {
+          callback(new Error('新密码与旧密码不允许相同!'));
+        } else {
+          callback();
+        }
+      };
+      var confirmPass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请确认新密码'));
+        }else if (value !== this.resetPwform.password) {
+          callback(new Error('输入的新密码请保持一致!'));
+        } else {
+          callback();
+        }
+      };
+      //密码修改表单内容
+      return {
+        menuList: '',  // 菜单数据
+        realname:'', // 管理员信息
+        resetPasswordStatus:'',// 
+        username:'',
+        bussinessNo:'',
+        isrouter: true,// 开启路由
+        isCollapse: false, // 菜单收起
+
+        dialogUserVisible:false,//管理员信息弹出框
+        dialogFormVisible: false,// 密码修改窗口显示
+        formLabelWidth: "100px", //密码修改窗口大小
+        resetPwform: {
+          oldPassword: '',   // 旧密码
+          password: '',   //新密码
+          repassword: '' //确认密码
+        },
+        passwordRules: {
+          oldPassword: [
+            { validator: oldPass, trigger: 'blur' }
+          ],
+          password: [
+            { validator: newPass, trigger: 'blur' }
+          ],
+          repassword: [
+            { validator: confirmPass, trigger: 'blur' }
+          ]
+        }
+      }
+    },
+    mounted () {
+      this.dataInit(); // 初始化数据
+    },
+    methods: {
+      // 初始化数据
+      dataInit: function(){
+        var self = this;
+        MenuGet()({}).then(function(data){ 
+          if(data.code==="00"){
+            // 管理员信息
+            self.realname = data.data.realname //管理员名称
+            self.username = data.data.username // 登录账号
+            console.log(data.data);
+            // 菜单
+            self.menuList = data.data.menuList 
+          }
+        })
+      },
+      submitForm(formName) {
+        var self = this;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            var resetpass = this.resetPwform
+            PasswordUpdate()(resetpass).then(function(data){
+              // 修改密码回调
+              if(data.code==="00"){
+                self.$message({
+                  showClose: true,
+                  message: "密码修改成功",
+                  type: 'success'
+                });
+              }else if(data.resultCode=="-404"){
+                self.$message({
+                  showClose: true,
+                  message: data.resultMsg,
+                  type: 'warning'
+                });
+              }else{
+                console.log(data);
+              }
+            })
+          } else {
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+      handleOpen(key, keyPath) {
+        // console.log(key, keyPath);
+      },
+      handleClose(key, keyPath) {
+        // console.log(key, keyPath);
+      }
+    }
+}
+</script>

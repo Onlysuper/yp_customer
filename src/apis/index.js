@@ -22,6 +22,7 @@ const AgentManage = () => { return (params) => { return http.get(base.oaIp, "/ag
 export {
     AgentManage,
     Login,
-    MenuGet
+    MenuGet,
+    PasswordUpdate
 };
 
