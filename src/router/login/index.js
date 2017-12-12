@@ -8,7 +8,7 @@ export default {
   path: "/login",
   component: r => {
     Loading(true);
-    return require.ensure([], () => { Loading(false); return r(require("@src/views/User/Login")) }, "login")
+    return require.ensure([], () => { Loading(false); return r(require("@src/views/Login/Login")) }, "login")
   },
   meta: {
     pageTitle: "登录"

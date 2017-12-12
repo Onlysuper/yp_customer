@@ -66,7 +66,7 @@ export default {
               }
               if(data.code==='00'){
                   // 登录成功
-                  location.href = '/#/admin/home'
+                  location.href = '/#/'
               }
             })
           } else {

@@ -1,27 +1,33 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import user from "./user";
+// 跟路由
+import Layout from '../views/layout/Layout'
+import login from "./login";
 import admin from "./admin";
-// import home from "./home";
 import utils from "@src/common/utils";
+
 
 Vue.use(Router)
 
 const router = new Router({
     routes: [
-        // {
-        //     path: "/",
-        // },
-        user,
-        // {
-        //     path: "/",
-        // },
+        login,
         // home,
+        {
+            path: "/",
+            component: Layout,
+            redirect: '/home',
+            name:'home',
+            children: [{
+                path: '/home',
+                component: r => {
+                    return require.ensure([], () => {return r(require("@src/views/Home/Home")) }, "layout")
+                },
+                name: 'home'
+            }]
+            
+        },
 
-        // {
-        //     path: "/",
-        // },
-        admin
     ]
 });
 

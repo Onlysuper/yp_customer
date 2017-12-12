@@ -12,7 +12,9 @@
         <el-menu text-color="#fff" :router="isrouter" default-active="1-1"  @open="handleOpen" @close="handleClose" :collapse="isCollapse">
           <el-submenu v-for = "(item, index) in menuList" :index="index+'item1'" :key="index">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <span :class="'icon-'+item.menuCode">
+                <span class="path1"></span><span class="path2"></span>
+              </span>
               <span slot="title">{{item.menuName}}</span>
             </template>
               <el-menu-item v-for = "(item2, index2) in item.child" :key="index2" :index="'/admin/'+item2.menuCode">
@@ -27,11 +29,7 @@
   <el-container>
       <el-header>
         <div class="head-l">
-          
-          <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-          <el-radio-button :label="false">展开</el-radio-button>
-          <el-radio-button :label="true">收起</el-radio-button>
-        </el-radio-group>
+          <span @click="isCollapse=!isCollapse" class="icon-unfurled collapse-button" :title="isCollapse?'展开':'收起'"></span>
         </div>
         <div class="head-r">
           <el-badge :value="200" :max="99" class="item">
@@ -147,6 +145,10 @@
   }
   .head-l{
     float: left;
+    .collapse-button{
+      font-size: 20px;
+      cursor: pointer;
+    }
   }
   .head-r{
     float: right;
@@ -193,6 +195,7 @@
 </style>
 
 <script>
+import "@src/assets/icons/style.css"
 import {MenuGet, PasswordUpdate} from "@src/apis"
 export default {
     name: 'pc',

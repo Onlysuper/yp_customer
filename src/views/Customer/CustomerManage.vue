@@ -5,8 +5,32 @@
       <el-breadcrumb-item>合伙人管理</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="admin-main-box">
-      <search-form :search-form="searchForm"></search-form>
-      <data-page :table-data ="tableData" v-on:childmanage="CustomerManage"></data-page>
+      <div class="operation-box searcform">
+        <el-button-group class="button-group">
+          <el-button type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button type="primary" icon="el-icon-upload">批量入网</el-button>
+          <el-button type="primary" icon="el-icon-sort">批量转移</el-button>
+          <el-button type="primary" icon="el-icon-upload2">导出</el-button>
+        </el-button-group>
+        <el-form :inline="true" :model="searchTop">
+            <el-form-item >
+              <el-col :span="11">
+                <el-date-picker type="date" placeholder="开始日期" v-model="searchTop.dateBegin" style="width: 100%;"></el-date-picker>
+              </el-col>
+              <el-col class="line" :span="2"> -</el-col>
+              <el-col :span="11">
+                <el-date-picker type="date" placeholder="结束日期" v-model="searchTop.dateEnd" style="width: 100%;"></el-date-picker>
+              </el-col>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" >查询</el-button>
+            </el-form-item>
+        </el-form>
+      </div>
+      <!-- <search-form :search-form="searchForm"></search-form> -->
+      <div class="tablelist-box">
+        <data-page :table-data ="tableData" v-on:childmanage="CustomerManage"></data-page>
+      </div>
     </div>
  
   </div>
@@ -18,9 +42,24 @@
     background: #eff2f5
   }
   .admin-page{
+    position: relative;
+    .operation-box{
+      display: flex;
+      z-index: 10;
+      background: #fff;
+      justify-content: space-between;
+      .button-group{
+        margin-right: 10px;
+      }
+      .line{
+        text-align: center
+      }
+    }
     .operation-group{
       padding: 5px 0;
-      // text-align: right;
+      .line{
+        text-align: center
+      }
     }
     .tableHeader{
       background: #f0f0f0
@@ -29,9 +68,11 @@
       margin-bottom: 10px;
     }
     .admin-main-box{
-      overflow: hidden;
-      background: #fff;
-      padding: 15px;
+      padding: 10px;
+      position: relative;
+      height:100%;
+      width: 100%;
+      background: #fff
     }
     .form-box{
       margin-top: 10px;
@@ -42,6 +83,9 @@
     }
     .tip-text{
       color: #67C23A;
+    }
+    .button-group{
+      padding-bottom: 5px;
     }
   }
 </style>
@@ -59,21 +103,28 @@ export default {
     },
     data () {
       return {
+        searchTop: {
+          dateBegin: '',
+          dateEnd: ''
+        },
         // 顶部表单搜索信息
         searchForm: {
           searchType:[
-            {type: 'text', label:'商户编号'},
+            {type: 'text', label:'商户编号',},
             {type: 'text', label:'企业税号'},
             {type: 'text', label:'企业名称'},
-            {type: 'dateGroup', label:'开始时间'},
+            {type: 'dateGroup', label:'选择时间',options:[
+              {label:'开始时间'},
+              {lable:'结束时间'}
+            ]},
             {type: 'text', label:'合伙人编号'},
             {type: 'select', label:'入网来源',options:[
-              {label:'插件'},
-              {label:'后台'},
-              {label:'公众号'},
-              {label:'静默'},
-              {label:'后台'},
-              {label:'第三方'}
+                {label:'插件'},
+                {label:'后台'},
+                {label:'公众号'},
+                {label:'静默'},
+                {label:'后台'},
+                {label:'第三方'}
             ]}
           ]
         },
@@ -88,7 +139,7 @@ export default {
             {key:'联系人',word:'legalPerson'},
             {key:'合伙人编号',word:'agentNo'},
             {key:'来源',word:'taxNo'},
-            {key:'入网时间',word:'createTime'}
+            {key:'入网时间',word:'createTime',width:'200'}
           ],
           states:[ // 状态列信息 key=表头，word=表内容信息
             {key:'状态',word:'status'},

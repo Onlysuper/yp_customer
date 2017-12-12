@@ -18,7 +18,7 @@
          v-for="(item,index) in tableData.dataHeader" :key="index"
         :prop="item.word"
         :label="item.key"
-        width="150">
+        :width="item.width">
         </el-table-column>
 
         <el-table-column
@@ -74,8 +74,14 @@ export default {
     },
     mounted () {
         var self = this;
+        var serchboxHeight = document.querySelector('.searcform').clientHeight;
         this.$emit('childmanage',self.currentPage,self.pageCount)
-        this.tableHeight = document.body.clientHeight-260;
+        this.tableHeight = document.body.clientHeight-serchboxHeight-210;
+
+        window.onresize = function temp() {
+            var serchboxHeight = document.querySelector('.searcform').clientHeight;
+            self.tableHeight = document.body.clientHeight-serchboxHeight-210;
+        };
     },
     methods : {
         handleSizeChange(val) {

@@ -28,7 +28,7 @@
       </div>
       <!-- DataTable 数据表格 start -->
         <el-table
-          :max-height="tableHeight"
+          :max-height="100"
           header-row-class-name="tableHeader"
           :data="tableData"
           style="width: 100%"
