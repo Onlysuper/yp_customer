@@ -17,7 +17,7 @@ export default {
       path: 'home',
       component: r => {
         Loading(true);
-        return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/Home")) }, "admin")
+        return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/Home")) }, "Home")
       },
     },
     {
@@ -25,7 +25,15 @@ export default {
       path: 'agent',
       component: r => {
         Loading(true);
-        return require.ensure([], () => { Loading(false); return r(require("@src/views/Agent/AgentManage")) }, "admin")
+        return require.ensure([], () => { Loading(false); return r(require("@src/views/Agent/AgentManage")) }, "AgentManage")
+      }
+    },
+    {
+      // 商户管理页面
+      path: 'customerlist',
+      component: r => {
+        Loading(true);
+        return require.ensure([], () => { Loading(false); return r(require("@src/views/Customer/CustomerManage")) }, "CustomerManage")
       }
     }
   ],
