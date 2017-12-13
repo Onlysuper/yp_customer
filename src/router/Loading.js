@@ -1,13 +1,10 @@
-import { Indicator, Toast } from 'mint-ui';
-/**
- * 全局路由loading效果，各个按需引入配置即可
- */
+import { Loading } from 'element-ui';
 export default (flag) => {
+    let loading = Loading.service({ text: "加载中..." });
     if (flag) {
-        Indicator.open({ text: "加载中...", spinnerType: 'fading-circle' });
-        setTimeout(() => { Indicator.close(); }, 30000);
+        setTimeout(() => { loading.close(); }, 30000);
     } else {
-        setTimeout(() => { Indicator.close(); }, 50);
+        setTimeout(() => { loading.close(); }, 50);
     }
 }
 

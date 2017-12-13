@@ -5,6 +5,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title></title>
+  <script>
+    window.isMobile = "";
+    // 检测userAgent
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      window.isMobile = "App";
+    }
+  </script>
 </head>
 
 <body>
