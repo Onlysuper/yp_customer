@@ -14,7 +14,7 @@
           </i>
           <span slot="title">{{item.menuName}}</span>
         </template>
-          <el-menu-item v-for = "(item2, index2) in item.child" :key="index2" :index="'/admin/'+item2.menuCode">
+          <el-menu-item v-for = "(item2, index2) in item.child" :key="index2" :index="'/'+item2.menuCode">
           {{item2.menuName}}
           </el-menu-item>
       </el-submenu>
@@ -25,7 +25,12 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
+
 .aside-box{
+   background: #001529;
+    position: relative;
+    height: 100%;
+    z-index: 999;
   .logo-box{
     height: 58px;
     display: flex;
@@ -48,7 +53,6 @@
     }
   }
   /*重置样式*/
-
   .el-menu{
     border-right: 0 !important;
     background: #001529 !important;
@@ -78,7 +82,6 @@
 <script>
 import "@src/assets/icons/style.css"
 import {MenuGet, PasswordUpdate} from "@src/apis"
-import Bus from "@src/views/Layout/components/bus"
 export default {
     name: 'pc',
     data () {
@@ -86,21 +89,18 @@ export default {
       return {
         menuList: '',  // 菜单数据
         realname:'', // 管理员信息
-        isrouter: true,// 开启路由
-        isCollapse: false, // 菜单收起
+        isrouter: true// 开启路由
+      }
+    },
+    computed: {
+      isCollapse (){
+        return this.$store.state.isCollapse
       }
     },
     mounted () {
       this.dataInit(); // 初始化数据
-      this.isCollapseHandle();
     },
     methods: {
-      isCollapseHandle () {
-        var self = this;
-        Bus.$on('getTarget', target => {  
-            self.isCollapse = target
-        });  
-      },
       // 初始化数据
       dataInit: function(){
         var self = this;

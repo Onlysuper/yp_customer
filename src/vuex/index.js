@@ -5,10 +5,14 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     strict: true,
     state: {
+       isCollapse: false,//菜单收起
     },
     getters: {
     },
     mutations: {
+        SidebarHandle (state) {
+            state.isCollapse = !state.isCollapse
+        }
     },
     actions: {
     },

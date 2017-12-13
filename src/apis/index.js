@@ -35,6 +35,7 @@ export {
     MenuGet,
     PasswordUpdate,
     orgCodeHandle,
+    AgentManageAdd,
     CustomerManage
 };
 

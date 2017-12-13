@@ -1,7 +1,7 @@
 <template>
-<div>
+ <el-main>
    <router-view></router-view>
-</div>
+ </el-main>
    
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

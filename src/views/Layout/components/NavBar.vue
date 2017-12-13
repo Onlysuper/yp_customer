@@ -47,7 +47,6 @@
 </style>
 
 <script>
-import Bus from "@src/views/Layout/components/bus"
 export default {
   name: "usermsg",
   data () {
@@ -57,9 +56,7 @@ export default {
   },
   methods : {
     isCollapsefn (){
-      var self = this;
-      self.isCollapse = !self.isCollapse
-      Bus.$emit('getTarget', self.isCollapse)
+      this.$store.commit("SidebarHandle")
     }
   }
 }

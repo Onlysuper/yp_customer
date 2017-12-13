@@ -1,6 +1,6 @@
 <template>
-  <el-container class="login-page">
-    <el-main class="main-reset">
+  <div class="login-page">
+    <div class="login-main">
       <div class="content-box">
         <header class="header">
           <div class="logo-box">
@@ -26,11 +26,11 @@
         </div>
         <!-- form end -->
       </div>
-    </el-main>
+    </div>
     <el-footer class="login-footer">
       <p> © 2016-2017 yeepiao.com 版权所有</p>
     </el-footer>
-  </el-container>
+  </div>
 </template>
 
 <script>
@@ -66,7 +66,7 @@ export default {
               }
               if(data.code==='00'){
                   // 登录成功
-                  location.href = '/#/'
+                  self.$router.push({ path: '/' });
               }
             })
           } else {
@@ -88,6 +88,7 @@ export default {
 @import url('../../assets/less/base.less');
 @default-color:#333; // 字体颜色
 @center-width:280px; // 表单宽度
+
 .login-page{
   position: absolute;
   height: 100%;
@@ -97,6 +98,18 @@ export default {
   background: url(../../assets/images/LoginBack.png) no-repeat center;
   background-size: cover;
   color: @default-color;
+  display: flex;
+  flex: 1;
+  box-sizing: border-box;
+  flex-direction: column;
+  .login-main{
+    padding: 0px;
+    position: relative;
+    flex: 1;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 20px;
+  }
   .header{
     margin-top: 120px;
   }
@@ -135,9 +148,7 @@ export default {
       -webkit-tap-highlight-color: transparent;
       background: #e60012;
   }
-  .main-reset{
-    padding: 0;
-  }
+
   .login-form{
      margin-top: 60px;
       form{
