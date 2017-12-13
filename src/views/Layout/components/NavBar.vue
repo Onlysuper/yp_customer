@@ -15,7 +15,7 @@
       </div>
       <el-dropdown>
         <span class="el-dropdown-link">
-          <i class="userimg"></i>{{realname}}
+          <i class="userimg"></i>{{userMsg.realname}}
           <i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
@@ -100,12 +100,16 @@
 
 <script>
 export default {
-  name: "usermsg",
+  name: "navbar",
   data() {
     return {
       realname: "",
-      isCollapse: false
     };
+  },
+  computed:{
+    userMsg () {
+      return this.$store.state.moduleLayour.userMessage;
+    }
   },
   methods : {
     isCollapsefn (){

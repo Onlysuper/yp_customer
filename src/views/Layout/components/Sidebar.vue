@@ -93,34 +93,20 @@ export default {
   data() {
     //密码修改表单内容
     return {
-      menuList: "", // 菜单数据
-      realname: "", // 管理员信息
       isrouter: true // 开启路由
     };
   },
   computed: {
     isCollapse (){
-      return this.$store.state.isCollapse
+      return this.$store.state.moduleLayour.isCollapse
+    },
+    menuList () {
+      return this.$store.state.moduleLayour.menuList
     }
   },
   mounted() {
-    this.dataInit(); // 初始化数据
   },
   methods: {
-    // 初始化数据
-    dataInit: function() {
-      var self = this;
-      MenuGet()({}).then(function(data) {
-        if (data.code === "00") {
-          // 管理员信息
-          self.realname = data.data.realname; //管理员名称
-          self.username = data.data.username; // 登录账号
-          console.log(data.data);
-          // 菜单
-          self.menuList = data.data.menuList;
-        }
-      });
-    },
     handleOpen(key, keyPath) {
       // console.log(key, keyPath);
     },

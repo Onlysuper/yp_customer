@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Layout from '../views/layout/Layout'
 import login from "./login";
 import home from "./home";
+import customer from "./customer";
 import admin from "./admin";
 import utils from "@src/common/utils";
 
@@ -16,6 +17,7 @@ const router = new Router({
             path: "/",
             redirect: "/home"
         },
+        customer,
         login,
         home
     ]

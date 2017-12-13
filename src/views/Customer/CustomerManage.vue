@@ -5,32 +5,16 @@
       <el-breadcrumb-item>合伙人管理</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="admin-main-box">
+      <search-form :search-form="searchForm"></search-form>
       <div class="operation-box searcform">
-        <el-button-group class="button-group">
-          <el-button type="primary" icon="el-icon-plus">新增</el-button>
-          <el-button type="primary" icon="el-icon-upload">批量入网</el-button>
-          <el-button type="primary" icon="el-icon-sort">批量转移</el-button>
-          <el-button type="primary" icon="el-icon-upload2">导出</el-button>
+        <el-button-group class="button-group" >
+          <el-button size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button size="small" type="primary" icon="el-icon-upload">批量入网</el-button>
+          <el-button size="small" type="primary" icon="el-icon-sort">批量转移</el-button>
+          <el-button size="small" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
-        <el-form :inline="true" :model="searchTop">
-            <el-form-item >
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="开始日期" v-model="searchTop.dateBegin" style="width: 100%;"></el-date-picker>
-              </el-col>
-              <el-col class="line" :span="2"> -</el-col>
-              <el-col :span="11">
-                <el-date-picker type="date" placeholder="结束日期" v-model="searchTop.dateEnd" style="width: 100%;"></el-date-picker>
-              </el-col>
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary" >查询</el-button>
-            </el-form-item>
-        </el-form>
       </div>
-      <!-- <search-form :search-form="searchForm"></search-form> -->
-      <div class="tablelist-box">
-        <data-page :table-data ="tableData" v-on:childmanage="CustomerManage"></data-page>
-      </div>
+      <data-page :table-data ="tableData" v-on:childmanage="CustomerManage"></data-page>
     </div>
  
   </div>

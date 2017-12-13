@@ -23,7 +23,8 @@ var vue = new Vue({
   el: '#app',
   store,
   created (){
-    store.dispatch('fetchData');
+    // 管理员信息与菜单列表数据初始化
+    store.dispatch('UserMenulistFetch');
   },
   router,
   template: '<App/>',
