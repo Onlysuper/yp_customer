@@ -26,6 +26,32 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
+.aside-box {
+    background: #001529;
+    position: relative;
+    /*重置样式 start*/
+    .el-dropdown-link{
+      cursor: pointer;
+    }
+    .el-menu{
+      border-right: 0;
+      background: #001529 !important;
+    }
+    .el-submenu__title:hover{
+      background: transparent !important;
+    }
+    .el-menu--collapse .el-submenu:hover{
+      background: #000c17 !important;
+    }
+    .el-submenu .el-menu-item:hover{
+      background: #000c17 !important;
+    }
+    .el-menu-item.is-active{
+      background: #000c17 !important;
+    }
+  // 重置样式end
+}
+
 @media screen and (max-width: 500px) {
   .aside-box {
     display: none;
@@ -69,21 +95,18 @@ export default {
     return {
       menuList: "", // 菜单数据
       realname: "", // 管理员信息
-      isrouter: true, // 开启路由
-      isCollapse: false // 菜单收起
+      isrouter: true // 开启路由
     };
+  },
+  computed: {
+    isCollapse (){
+      return this.$store.state.isCollapse
+    }
   },
   mounted() {
     this.dataInit(); // 初始化数据
-    this.isCollapseHandle();
   },
   methods: {
-    isCollapseHandle() {
-      var self = this;
-      Bus.$on("getTarget", target => {
-        self.isCollapse = target;
-      });
-    },
     // 初始化数据
     dataInit: function() {
       var self = this;
