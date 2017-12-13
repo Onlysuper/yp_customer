@@ -20,6 +20,9 @@ Vue.use(mypFilter);
 var vue = new Vue({
   el: '#app',
   store,
+  created (){
+    store.dispatch('fetchData');
+  },
   router,
   template: '<App/>',
   components: { App }
