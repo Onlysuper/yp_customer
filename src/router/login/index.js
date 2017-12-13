@@ -1,5 +1,6 @@
 
-import Loading from "../Loading";
+var Loading = require(isMobile ? "@src/router/LoadingApp" : "@src/router/Loading").default;
+
 /**
  * 登录模块
  */

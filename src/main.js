@@ -9,9 +9,11 @@ import axios from 'axios'
 Vue.prototype.$http = axios
 // plug end
 import ElementUI from 'element-ui'
+import MintUI from 'mint-ui'
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
 import './assets/scss/theme-change.scss' // 更改皮肤
-Vue.use(ElementUI)
+Vue.use(MintUI)
+Vue.use(ElementUI);
 import mypDirective from './common/directives';
 import mypFilter from './common/filters';
 Vue.use(mypDirective);
