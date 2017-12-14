@@ -72,24 +72,27 @@ export default {
         }
     },
     mounted () {
+         // 获取数据 交给父页面处理
         var self = this;
-        var serchboxHeight = document.querySelector('.searcform').clientHeight;
-        this.$emit('childmanage',self.currentPage,self.pageCount)
-        this.tableHeight = document.body.clientHeight-serchboxHeight-270;
-
-        window.onresize = function temp() {
-            var serchboxHeight = document.querySelector('.searcform').clientHeight;
-            self.tableHeight = document.body.clientHeight-serchboxHeight-270;
+        this.$emit('childmanage',this.currentPage,this.pageCount)
+        this.tableSizeHandle();
+        window.onresize = function() {
+           self.tableSizeHandle();
         };
     },
     methods : {
+        // 表格大小
+        tableSizeHandle () {
+            var serchboxHeight = document.querySelector('.operation-box').clientHeight;
+            this.tableHeight = document.body.clientHeight-serchboxHeight-270;
+        },
         handleSizeChange(val) {
         // 改变页数
             this.pageCount = val
             this.$emit('childmanage',this.currentPage,this.pageCount)
         },
         handleCurrentChange(val) {
-            // 更改每页显示条数
+        // 更改每页显示条数
             this.currentPage = val;
             this.$emit('childmanage',this.currentPage,this.pageCount)
         },
