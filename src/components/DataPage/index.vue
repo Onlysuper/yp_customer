@@ -75,11 +75,11 @@ export default {
         var self = this;
         var serchboxHeight = document.querySelector('.searcform').clientHeight;
         this.$emit('childmanage',self.currentPage,self.pageCount)
-        this.tableHeight = document.body.clientHeight-serchboxHeight-210;
+        this.tableHeight = document.body.clientHeight-serchboxHeight-270;
 
         window.onresize = function temp() {
             var serchboxHeight = document.querySelector('.searcform').clientHeight;
-            self.tableHeight = document.body.clientHeight-serchboxHeight-210;
+            self.tableHeight = document.body.clientHeight-serchboxHeight-270;
         };
     },
     methods : {

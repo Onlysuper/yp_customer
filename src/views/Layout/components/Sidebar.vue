@@ -2,7 +2,7 @@
   <div class="aside-box">
     <div class="logo-box">
       <div class="img-box">
-        <img src="../../../assets/images/logo.png" alt="">
+        <img :src="require('@src/assets/images/logo.png')" alt="">
       </div>
       <h1 v-show="!isCollapse" class="home-title">易票运营系统v1.0</h1>
     </div>

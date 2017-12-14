@@ -10,7 +10,7 @@
         <el-button size="small">信息</el-button>
       </el-badge>
       <div class="user-img">
-        <img src="../../../assets/images/logo.png" alt="">
+        <img :src="require('@src/assets/images/logo.png')" alt="">
         <span></span>
       </div>
       <el-dropdown>
@@ -52,9 +52,6 @@
         align-items: center;
         .el-badge{
           line-height: 0;
-        }
-        &>div{
-          // margin:0 10px;
         }
         .user-img{
           margin-left: 40px;

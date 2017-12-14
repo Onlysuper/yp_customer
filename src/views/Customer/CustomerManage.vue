@@ -6,7 +6,7 @@
     </el-breadcrumb>
     <div class="admin-main-box">
       <search-form :search-form="searchForm"></search-form>
-      <div class="operation-box searcform">
+      <div class="operation-box searcform" id="searcform">
         <el-button-group class="button-group" >
           <el-button size="small" type="primary" icon="el-icon-plus">新增</el-button>
           <el-button size="small" type="primary" icon="el-icon-upload">批量入网</el-button>
@@ -27,11 +27,11 @@
   }
   .admin-page{
     position: relative;
+    background: #eff2f5;
+    padding: 20px;
     .operation-box{
-      display: flex;
-      z-index: 10;
-      background: #fff;
-      justify-content: space-between;
+      float: left;
+      width: 100%;
       .button-group{
         margin-right: 10px;
       }
