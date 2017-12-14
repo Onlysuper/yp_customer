@@ -5,7 +5,7 @@ import Layout from '../views/layout/Layout'
 import login from "./login";
 import home from "./home";
 import customer from "./customer";
-import admin from "./admin";
+// import admin from "./admin";
 import utils from "@src/common/utils";
 
 
