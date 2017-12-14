@@ -12,7 +12,7 @@ export default {
     path: '/customerlist',
     component: r => {
       Loading(true);
-      return require.ensure([], () => { Loading(false); return r(require("@src/views/Customer/CustomerManage" + isMobile)) }, "CustomerManage")
+      return require.ensure([], () => { Loading(false); return r(require("@src/views/Customer/CustomerManage" + isMobile)) }, "customer-manage")
     }
   }],
   meta: {
