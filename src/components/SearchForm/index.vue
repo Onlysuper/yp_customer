@@ -2,7 +2,7 @@
     <div>
    <!-- Form 表单编写 start -->
     <el-form class="form-box" ref="form" :model="form" label-width="100px" >
-            <el-form-item class="form-item" v-for="(item,index) in searchForm.searchType" :key="index" :label="item.label" :class="index==0||index==1?'showinput allinput':'visibleinput allinput'">
+            <el-form-item class="form-item" v-for="(item,index) in searchForm.searchType" :key="index" :label="item.label" v-show="index==0||index==1?showinput:visibleinput">
                 <!-- 文本框 -->
                 <el-input  v-if="item.type=='text'" :placeholder="item.label" v-model="form.name"></el-input>
 
@@ -22,8 +22,8 @@
                     </el-col>
                 </el-form-item>    
             </el-form-item>
-            <div class="button-box" style="width:100%">
-                <el-button @click="advancSeachfn()" type="text">高级搜索</el-button>
+            <div class="button-box" :style="visibleinput?'width:100%;float:right':'width:auto'">
+                <el-button @click="advancSeachfn()" type="text">{{visibleinput?"普通搜索":"高级搜索"}}</el-button>
                 <el-button type="primary">开始搜索</el-button>
             </div>
     </el-form>
@@ -32,11 +32,11 @@
 </template>
 <style lang="less">
 .form-box{
-    display: flex;
-    flex-wrap:wrap;
-    // justify-content: flex-start;
+    display: block;
     .form-item{
+        float: left;
         min-width: 300px;
+       
     }
     .button-box{
         text-align: right;
@@ -58,21 +58,21 @@ export default {
           advancSeach: false,
           form:{
               select:[]
-          }
+          },
+          showinput:true,
+          visibleinput:false
         }
     },
     computed: {
-        advancSeachfn () {
-            // document.querySelectorAll(".allinput").style.display = 'block'
-        }
+       
     },
     mounted () {
        
     },
     methods: {
-    //    showInput (item,index) {
-    //        console.log(item)
-    //    }
+        advancSeachfn () {
+            this.visibleinput = !this.visibleinput
+        }
     }
 }
 </script>

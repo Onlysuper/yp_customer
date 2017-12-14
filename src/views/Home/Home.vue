@@ -7,7 +7,7 @@
     <div class="main">
       <p class="slogen-text">让用户更轻松</p>
       <div class="slogen-img">
-        <img src="../../assets/images/Home2.png" alt="">
+        <img :src="require('@src/assets/images/Home2.png')" alt="">
       </div>
     </div>
   </div>
@@ -56,6 +56,7 @@ export default {
   position: relative
 }
 .welcome-page{
+  padding: 20px;
   background: #fff;
   .welcome{
     h2{

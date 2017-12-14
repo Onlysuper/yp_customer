@@ -21,10 +21,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-html,body{
-  padding: 0;
-  margin: 0;
-}
 .layout-page{
   height: 100vh;
   .layout-main{
