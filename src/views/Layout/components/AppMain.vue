@@ -8,7 +8,9 @@
 body{
   margin: 0;
 }
-
+.reset-main{
+  position: relative;
+}
 </style>
 <script>
 export default {

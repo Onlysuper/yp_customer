@@ -1,29 +1,33 @@
 
 <template>
   <!-- 管理员信息页面 -->
-  <el-header class="my-header">
-    <div class="head-l">
-      <span @click="isCollapsefn" :class="[isCollapseicon?'isCollapseicon':'','icon-unfurled','collapse-button']"></span>
+  <el-header height="54px" class="my-header">
+    <div @click="isCollapsefn"  class="head-l">
+      <span :class="[isCollapseicon?'isCollapseicon':'','icon-recycling','collapse-button']"></span>
     </div>
     <div class="head-r">
-      <el-badge :value="200" :max="99" class="item">
-        <el-button size="small">信息</el-button>
-      </el-badge>
-      <div class="user-img">
-        <img :src="require('@src/assets/images/logo.png')" alt="">
-        <span></span>
+      <div class="hover-back">
+        <el-badge :value="200" :max="99" class="item">
+            <span class="icon-news"></span>
+        </el-badge>
       </div>
-      <el-dropdown>
-        <span class="el-dropdown-link">
-          <i class="userimg"></i>{{userMsg.realname}}
-          <i class="el-icon-arrow-down el-icon--right"></i>
-        </span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="dialogFormVisible = true">密码修改</el-dropdown-item>
-          <el-dropdown-item @click.native="dialogUserVisible = true">个人信息</el-dropdown-item>
-          <el-dropdown-item>退出</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <div class="hover-back">
+        <div class="user-img">
+          <img :src="require('@src/assets/images/logo.png')" alt="">
+          <span></span>
+        </div>
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <i class="userimg"></i>{{userMsg.realname}}
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="dialogFormVisible = true">密码修改</el-dropdown-item>
+            <el-dropdown-item @click.native="dialogUserVisible = true">个人信息</el-dropdown-item>
+            <el-dropdown-item>退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>  
     </div>
   </el-header>
 </template>
@@ -47,6 +51,22 @@
     align-items: stretch;
     justify-content: space-between;
     padding: 0px !important;
+    box-sizing: border-box;
+    height: 54px;
+    .hover-back{
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      vertical-align: middle;
+      padding: 0 5px;
+      min-width: 50px;
+      &:hover{
+        .my-transition(background);
+        background: rgba(0,193,223,0.2);
+        cursor: pointer;
+      }
+    }
       .head-l{
           width: 70px;
           text-align: center;
@@ -55,11 +75,14 @@
           align-items: center;
           height: 100%;
           vertical-align: middle;
+          .isCollapseicon{
+            transform:rotate(180deg); /* Safari 和 Chrome */
+          }
           &:hover{
-              .my-transition(background);
-              background: rgba(0,193,223,0.2);
-              cursor: pointer;
-            }
+            .my-transition(background);
+            background: rgba(0,193,223,0.2);
+            cursor: pointer;
+          }
           .collapse-button{
             font-size: 25px;
             color: rgba(0, 0, 0, 0.65);
@@ -69,11 +92,14 @@
         display: flex;
         align-items: center;
         padding-right: 20px;
+        .icon-news{
+          font-size: 18px;
+        }
         .el-badge{
           line-height: 0;
+          margin-right: 30px;
         }
         .user-img{
-          margin-left: 40px;
           margin-right: 10px;
           img{
             width: 30px;
@@ -104,7 +130,7 @@ export default {
     userMsg () {
       return this.$store.state.moduleLayour.userMessage;
     },
-    isCollapse () {
+    isCollapseicon () {
       //菜单是否收起
       return this.$store.state.moduleLayour.isCollapse;
     }

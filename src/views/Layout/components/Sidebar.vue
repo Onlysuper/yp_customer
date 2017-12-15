@@ -26,7 +26,12 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-
+.my-transition(@attr){
+  transition: @attr 0.8s;
+  -moz-transition: @attr 0.8s;
+  -webkit-transition: @attr 0.8s;
+  -o-transition: @attr 0.8s;
+}
 .aside-box {
     background: #001529;
     box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
@@ -44,16 +49,10 @@
         color: #878d99 !important;
         &:hover{
           color: #fff !important;
-          transition: color 0.8s;
-          -moz-transition: color 0.8s;
-          -webkit-transition: color 0.8s;
-          -o-transition: color 0.8s;
+          .my-transition(color);
           .icon{
             color: #fff !important;
-            transition: color 0.8s;
-            -moz-transition: color 0.8s;
-            -webkit-transition: color 0.8s;
-            -o-transition: color 0.8s;
+            .my-transition(color);
           }
         }
       }
@@ -75,17 +74,13 @@
        &:hover{
          color:#fff !important;
          transition: color 0.8s;
-          -moz-transition: color 0.8s;
-          -webkit-transition: color 0.8s;
-          -o-transition: color 0.8s;
+         .my-transition(color);
+
        }
        &.is-active{
         background: #00c1df !important;
         color: #fff !important;
-        transition: color 0.8s;
-        -moz-transition: color 0.8s;
-        -webkit-transition: color 0.8s;
-        -o-transition: color 0.8s;
+        .my-transition(color);
       }
     }
   // 重置样式end
@@ -100,14 +95,14 @@
 @media screen and (min-width: 500px) {
   .aside-box {
     .logo-box {
-      height: 58px;
+      height: 54px;
       display: flex;
+      box-sizing: border-box;
       justify-content: start;
       align-items: center;
       padding: 0 16px;
       background: #002240;
       color: #fff;
-      box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
       .img-box {
         display: inline-block;
         img {

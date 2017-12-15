@@ -10,7 +10,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group" >
-          <el-button size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button @click="addHandle" size="small" type="primary" icon="el-icon-plus">新增</el-button>
           <el-button size="small" type="primary" icon="el-icon-upload">批量入网</el-button>
           <el-button size="small" type="primary" icon="el-icon-sort">批量转移</el-button>
           <el-button size="small" type="primary" icon="el-icon-upload2">导出</el-button>
@@ -18,7 +18,19 @@
       </div>
       <data-page :table-data ="tableData" v-on:childmanage="CustomerManageHandle"></data-page>
     </div>
- 
+    <!-- 新增start -->
+    <el-dialog title="新增商户" :visible.sync="dialogFormVisible">
+      <el-form ref="addform" :model="addform" :rules="addRules" label-width="180px">
+        <el-form-item prop="agentName" label="企业名称">
+          <el-input v-model="addform.agentName"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 新增end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -95,7 +107,22 @@ export default {
       'data-page': DataPage // 数据列表组件
     },
     data () {
+      var agentName = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error("合伙人姓名不能为空!"));
+        } else {
+          callback();
+        }
+      };
       return {
+         // 新增框
+        dialogFormVisible: false,
+        addform: {
+          agentName: "", // 合伙人名称
+        },
+        addRules: {
+          agentName: [{ validator: this.$store.state.InputValidation.notNull, trigger: "blur" }],
+        },
         // 查询条件数据
         searchCondition: {
           customerNo: '', // 商户编号
@@ -209,6 +236,7 @@ export default {
             }
           }
         ],
+        
         // 列表数据
         tableData:{
           tableData: [],// table列表数据
@@ -216,14 +244,18 @@ export default {
           dataHeader: [ // table列信息 key=>表头标题，word=>表内容信息
             {
               key:'客户编号',
+              width:'100px',
+              sortable: true,
               word:'agentNo'
             },
             {
               key:'企业名称',
+              width:'100px',
               word:'bussinessName'
             },
             {
               key:'企业税号',
+               width:'170px',
               word:'taxNo'
             },
             {
@@ -232,10 +264,12 @@ export default {
             },
             {
               key:'合伙人编号',
+              width:'120px',
               word:'agentNo'
             },
             {
               key:'来源',
+              width:'170px',
               word:'taxNo'
             },
             {key:'入网时间',word:'createTime',width:'200'}
@@ -258,7 +292,7 @@ export default {
     
     methods: {
       // 普通搜索 具备隐藏
-      visiblesomeHandle: function (){
+      visiblesomeHandle () {
         this.searchOptions.forEach(element => {
           // searchOptions数组里面的idcall 是索引
           if(!element.show){
@@ -277,16 +311,16 @@ export default {
           }
         });
       },
-      callbackformHandle: function(cb,data){
+      callbackformHandle (cb, data) {
           // 表单双向绑定 得到输入的内容并返回到本页面
           cb(data)
       },
-      seachstartHandle: function(){
+      seachstartHandle () {
         // 开始搜索
         this.CustomerManageHandle(1,10)
       },
       //列表数据获取
-      CustomerManageHandle: function(page,limit){
+      CustomerManageHandle (page,limit) {
         var self = this;
         var searchcon = this.searchCondition;
         CustomerManage()({
@@ -306,6 +340,9 @@ export default {
               self.tableData.dataCount = data.count;
             }
           })
+      },
+      addHandle () { // 新增数据
+        this.dialogFormVisible = true;
       }
     },
     mounted () {

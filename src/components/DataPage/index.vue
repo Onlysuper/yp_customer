@@ -6,6 +6,7 @@
             header-row-class-name="tableHeader"
             :data="tableData.tableData"
             style="width: 100%"
+            show-overflow-tooltip="true"
             >
             <el-table-column
             fixed
@@ -17,14 +18,24 @@
             v-for="(item,index) in tableData.dataHeader" :key="index"
             :prop="item.word"
             :label="item.key"
-            :width="item.width">
+            :width="item.width"
+            :sortable="item.sortable"
+            >
+            <template slot-scope="scope">
+                <el-popover trigger="hover" placement="top">
+                <p>{{ scope.row[scope.column.property]}}</p>
+                <div slot="reference" class="name-wrapper">
+                    {{ scope.row[scope.column.property]}}
+                </div>
+                </el-popover>
+            </template>
             </el-table-column>
 
             <el-table-column
             v-for="(item,index) in tableData.states" :key="index"
             prop="tag"
             :label="item.key"
-            :filters="[{ text: '家', value: '家' }, { text: '公司', value: '公司' }]"
+           
             :filter-method="filterTag"
             filter-placement="bottom-end"
             width="150">
@@ -59,6 +70,10 @@
     </div>
 </template>
 <style lang="less">
+.el-popover p{
+    padding: 0px !important;
+    margin: 0;
+}
 </style>
 <script>
 import Vue from "vue";
