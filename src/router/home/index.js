@@ -5,14 +5,18 @@ var Loading = require(isMobile ? "@src/router/LoadingApp" : "@src/router/Loading
  * 登录模块
  */
 export default {
-  name: "home",
-  path: "/home",
+  path: "/",
+  redirect: "/home",
   component: Layout,
   children: [{
     path: 'home',
     component: r => {
       Loading(true);
-      return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/Home" + isMobile)) }, "home")
+      if (isMobile) {
+        return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/HomeApp")) }, "homeApp")
+      } else {
+        return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/Home")) }, "home")
+      }
     }
   }],
   meta: {

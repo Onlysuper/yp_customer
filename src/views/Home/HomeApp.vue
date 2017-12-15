@@ -1,5 +1,5 @@
 <template>
-  <div class="welcome-page1">11111
+  <div class="welcome-page">
     <main-menu></main-menu>
   </div>
 </template>
@@ -33,11 +33,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-.el-main {
-  position: relative;
-}
-.welcome-page1 {
-  background: #fff;
+.welcome-page {
   .welcome {
     h2 {
       font-size: 32px;

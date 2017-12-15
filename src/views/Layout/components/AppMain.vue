@@ -1,22 +1,20 @@
 <template>
- <el-main class="reset-main">
-   <router-view></router-view>
- </el-main>
+  <el-main class="reset-main">
+    <router-view></router-view>
+  </el-main>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-.el-main{
-    position: relative;
-    &.reset-main{
-      padding: 0;
-    }
+.el-main {
+  position: relative;
+  &.reset-main {
+    padding: 0;
+  }
 }
 </style>
 <script>
 export default {
-  name: 'AppMain',
-  computed: {
-
-  }
-}
+  name: "AppMain",
+  computed: {}
+};
 </script>

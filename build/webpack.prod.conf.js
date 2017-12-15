@@ -35,6 +35,9 @@ var webpackConfig = merge(baseWebpackConfig, {
     new webpack.DefinePlugin({
       'process.env': env
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor', 'elementUI'], /*, 'elementUI', 'mintUI'*/
+    }),
     /* 压缩 js (同样可以压缩 css) */
     new webpack.optimize.UglifyJsPlugin({
       // comments: false,//去掉注释

@@ -8,12 +8,18 @@ import App from './App';
 import axios from 'axios'
 Vue.prototype.$http = axios
 // plug end
-import ElementUI from 'element-ui'
-import MintUI from 'mint-ui'
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
 import './assets/scss/theme-change.scss' // 更改皮肤
-Vue.use(MintUI)
+import ElementUI from 'element-ui'
 Vue.use(ElementUI);
+
+if (isMobile) {
+  require.ensure([], () => {
+    var MintUI = require("mint-ui");
+    Vue.use(MintUI)
+  }, "mintUI");
+}
+
 import mypDirective from './common/directives';
 import mypFilter from './common/filters';
 Vue.use(mypDirective);
@@ -22,7 +28,7 @@ Vue.use(mypFilter);
 var vue = new Vue({
   el: '#app',
   store,
-  created (){
+  created() {
     // 管理员信息与菜单列表数据初始化
     store.dispatch('UserMenulistFetch');
   },

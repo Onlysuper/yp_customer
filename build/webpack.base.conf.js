@@ -9,8 +9,10 @@ function resolve(dir) {
 
 module.exports = {
   entry: {
-    common: './src/main.js'
-
+    app: './src/main.js',
+    vendor: ['vue', 'axios'],
+    elementUI: ['element-ui']
+    /* mintUI: ['mint-ui'] */
   },
   output: {
     path: config.build.assetsRoot,
