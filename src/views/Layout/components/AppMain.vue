@@ -1,16 +1,14 @@
 <template>
-  <el-main class="reset-main">
-    <router-view></router-view>
-  </el-main>
+ <div class="reset-main">
+   <router-view></router-view>
+ </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-.el-main {
-  position: relative;
-  &.reset-main {
-    padding: 0;
-  }
+body{
+  margin: 0;
 }
+
 </style>
 <script>
 export default {

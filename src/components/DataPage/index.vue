@@ -71,25 +71,33 @@ export default {
             pageCount: 10,//每页条数
         }
     },
+    computed : {
+        visibleinput () {
+            return this.$store.state.dataTable.visibleinput
+        }
+    },
     mounted () {
+         // 获取数据 交给父页面处理
         var self = this;
-        var serchboxHeight = document.querySelector('.searcform').clientHeight;
-        this.$emit('childmanage',self.currentPage,self.pageCount)
-        this.tableHeight = document.body.clientHeight-serchboxHeight-270;
-
-        window.onresize = function temp() {
-            var serchboxHeight = document.querySelector('.searcform').clientHeight;
-            self.tableHeight = document.body.clientHeight-serchboxHeight-270;
+        this.$emit('childmanage',this.currentPage,this.pageCount)
+        this.tableSizeHandle();
+        window.onresize = function() {
+           self.tableSizeHandle();
         };
     },
     methods : {
+        // 表格大小
+        tableSizeHandle () {
+            var serchboxHeight = document.querySelector('.form-box').clientHeight;
+            this.tableHeight = document.body.clientHeight-serchboxHeight-250;
+        },
         handleSizeChange(val) {
         // 改变页数
             this.pageCount = val
             this.$emit('childmanage',this.currentPage,this.pageCount)
         },
         handleCurrentChange(val) {
-            // 更改每页显示条数
+        // 更改每页显示条数
             this.currentPage = val;
             this.$emit('childmanage',this.currentPage,this.pageCount)
         },
@@ -99,6 +107,12 @@ export default {
       filterTag(value, row) {
         return row.tag === value;
       }
+    },
+    watch : {
+        visibleinput (val) {
+            // 监听高级搜索与普通搜索模式转变
+            this.tableSizeHandle();
+        }
     }
 }
 </script>

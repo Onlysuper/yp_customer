@@ -6,7 +6,7 @@
       </div>
       <h1 v-show="!isCollapse" class="home-title">易票运营系统v1.0</h1>
     </div>
-    <el-menu text-color="#fff" :router="isrouter" default-active="1-1" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+    <el-menu unique-opened text-color="#fff" :router="isrouter" default-active="1-1" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
       <el-submenu v-for="(item, index) in menuList" :index="index+'item1'" :key="index">
         <template slot="title">
           <i :class="'icon icon-'+item.menuCode">
@@ -26,9 +26,13 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
+
 .aside-box {
     background: #001529;
+    box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
+    height: 100%;
     position: relative;
+    z-index: 10;
     /*重置样式 start*/
     .el-dropdown-link{
       cursor: pointer;
@@ -36,6 +40,27 @@
     .el-menu{
       border-right: 0;
       background: #001529 !important;
+      .el-submenu__title{
+        color: #878d99 !important;
+        &:hover{
+          color: #fff !important;
+          transition: color 0.8s;
+          -moz-transition: color 0.8s;
+          -webkit-transition: color 0.8s;
+          -o-transition: color 0.8s;
+          .icon{
+            color: #fff !important;
+            transition: color 0.8s;
+            -moz-transition: color 0.8s;
+            -webkit-transition: color 0.8s;
+            -o-transition: color 0.8s;
+          }
+        }
+      }
+      .icon{
+        font-size: 24px;
+
+      }
     }
     .el-submenu__title:hover{
       background: transparent !important;
@@ -43,11 +68,25 @@
     .el-menu--collapse .el-submenu:hover{
       background: #000c17 !important;
     }
-    .el-submenu .el-menu-item:hover{
-      background: #000c17 !important;
-    }
-    .el-menu-item.is-active{
-      background: #000c17 !important;
+    .el-submenu .el-menu-item{
+        background: #000c17 !important;
+       color: #878d99 !important;
+       text-indent: 18px;
+       &:hover{
+         color:#fff !important;
+         transition: color 0.8s;
+          -moz-transition: color 0.8s;
+          -webkit-transition: color 0.8s;
+          -o-transition: color 0.8s;
+       }
+       &.is-active{
+        background: #00c1df !important;
+        color: #fff !important;
+        transition: color 0.8s;
+        -moz-transition: color 0.8s;
+        -webkit-transition: color 0.8s;
+        -o-transition: color 0.8s;
+      }
     }
   // 重置样式end
 }
@@ -78,7 +117,15 @@
       .home-title {
         display: inline-block;
         padding-left: 20px;
-        padding-left: 17px;
+        padding-left: 10px;
+        font-size: 18px;
+        font-weight: 400;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Chrome/Safari/Opera */
+        -khtml-user-select: none; /* Konqueror */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none
       }
     }
   }  
