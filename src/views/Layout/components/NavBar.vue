@@ -3,7 +3,7 @@
   <!-- 管理员信息页面 -->
   <el-header class="my-header">
     <div class="head-l">
-      <span @click="isCollapsefn"></span>
+      <span @click="isCollapsefn" :class="[isCollapseicon?'isCollapseicon':'','icon-unfurled','collapse-button']"></span>
     </div>
     <div class="head-r">
       <el-badge :value="200" :max="99" class="item">
