@@ -1,13 +1,13 @@
 <template>
     <div>
    <!-- Form 表单编写 start -->
-    <el-form :class="[visibleinput?'showform-box':'visibleform-box']" ref="searchform" label-width="100px" >
+    <el-form :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px" >
             <el-form-item size="small" class="form-item" v-for="(item,index) in searchOptions" :key="index" :label="item.label" v-show="item.show?showinput:visibleinput">
                 <!-- 文本框 -->
                 <el-input ref="myinput" v-if="item.type=='text'"  :placeholder="item.label"  @input="changeInput(item.cb,$event)" v-model="item.value"></el-input>
 
                 <!-- 选择框 -->
-                <el-select  @change="changeInput(item.cb,$event)" v-else-if="item.type=='select'" v-model="item.value" placeholder="请选择">
+                <el-select class="form-select"  @change="changeInput(item.cb,$event)" v-else-if="item.type=='select'" v-model="item.value" placeholder="请选择">
                     <el-option
                     v-for="(item,index) in item.options"
                     :key="item.value"
@@ -18,13 +18,9 @@
                 
                 <!-- 日期组合 -->
                 <el-form-item size="small" class="dateGroup" v-else-if="item.type=='dateGroup'">
-                    <el-col :span="11">
-                        <el-date-picker v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date')" type="date" placeholder="开始时间" style="width: 100%;"></el-date-picker>
-                    </el-col>
-                    <el-col class="line" :span="2">-</el-col>
-                    <el-col :span="11">
-                        <el-date-picker v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date')" type="date" placeholder="结束时间"  style="width: 100%;"></el-date-picker>
-                    </el-col>
+                        <el-date-picker v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date')" type="date" placeholder="开始时间" ></el-date-picker>
+                        <span class="to-line">-</span>
+                        <el-date-picker class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date')" type="date" placeholder="结束时间"></el-date-picker>
                 </el-form-item>    
 
 
@@ -54,19 +50,21 @@ export default {
     data () {
         return {
           advancSeach: false,
-          showinput:true,
-          visibleinput:false // true为普通搜索 false为高级搜索
+          showinput:true
+        //   visibleinput:false // true为高级搜索 false为普通搜索
         }
     },
     computed: {
-       
+       visibleinput () {
+        return this.$store.state.dataTable.visibleinput;
+       }
     },
     mounted () {
        
     },
     methods: {
         advancSeachfn () { // 高级搜索与普通搜索转换
-            this.visibleinput = !this.visibleinput
+            this.$store.commit("visibleinputHandle")
         },
         changeInput (cb,event,type) { // 表单内容双向绑定 把表单输入的内容交给父页面进行操作
             var val = '';
@@ -96,24 +94,58 @@ export default {
 }
 </script>
 <style lang="less">
+.form-box{
+    .form-item {
+        width: 340px;
+        flex-shrink: 1;
+    }
+    .form-select{
+        width: 100%;
+        margin-left: 0;
+    }
+    .el-form-item.dateGroup{
+        width: 240px;
+        background-color: #fff;
+        background-image: none;
+        border-radius: 4px;
+        border: 1px solid #d8dce5;
+        .to-line{
+            font-size: 14px;
+            color: #d8dce5;
+        }
+        .el-form-item__content{
+            width: 260px;
+            display: flex;
+            flex: 1;
+            .enddate-box{
+                .el-input__suffix{
+                    right: 17px;
+                }
+                .el-input__prefix{
+                    display: none;
+                }
+                input{
+                    padding-left: 17px;
+                }
+            }
+            input{
+                padding-right:0px;
+                border:0px;
+                background: none;
+            }
+        }
+        
+    }
+}
 .showform-box{
     margin-top: 0 !important;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     .el-form-item{
         margin-bottom: 10px;
     }
-    .el-form-item{
-        width: 300px;
-    }
-    .dateGroup{
-        width: 290px;
-        text-align: center;
-        input{
-            padding-right:0px;
-        }
-    }
+    
     .button-box{
         width:100%;
         text-align:right;
@@ -122,7 +154,6 @@ export default {
 .visibleform-box{
     display: block;
     .form-item{
-        width:300px;
         float: left;
     }
     .seach-mode{

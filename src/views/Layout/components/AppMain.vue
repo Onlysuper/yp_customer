@@ -1,7 +1,7 @@
 <template>
- <el-main class="reset-main">
+ <div class="reset-main">
    <router-view></router-view>
- </el-main>
+ </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>

@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?vbt6f3');
-  src:  url('fonts/icomoon.eot?vbt6f3#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?vbt6f3') format('truetype'),
-    url('fonts/icomoon.woff?vbt6f3') format('woff'),
-    url('fonts/icomoon.svg?vbt6f3#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?gputxy');
+  src:  url('fonts/icomoon.eot?gputxy#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?gputxy') format('truetype'),
+    url('fonts/icomoon.woff?gputxy') format('woff'),
+    url('fonts/icomoon.svg?gputxy#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,42 +24,39 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-unfurled:before {
-  content: "\e900";
-}
-.icon-My-product:before {
+.icon-qr_code_manage:before {
   content: "\e901";
 }
-.icon-recycling:before {
-  content: "\e902";
+.icon-versionManager:before {
+  content: "\e900";
 }
-.icon-news:before {
+.icon-profit:before {
   content: "\e903";
 }
-.icon-qr_code_manage .path1:before {
-  content: "\e904";
-  color: rgb(0, 0, 0);
-}
-.icon-qr_code_manage .path2:before {
-  content: "\e905";
-  margin-left: -1em;
-  color: rgb(38, 36, 53);
-}
 .icon-customer:before {
-  content: "\e906";
+  content: "\e904";
 }
 .icon-admin:before {
-  content: "\e907";
+  content: "\e905";
 }
 .icon-bill-mg:before {
+  content: "\e906";
+}
+.icon-product-mg:before {
+  content: "\e907";
+}
+.icon-news:before {
   content: "\e908";
 }
 .icon-agent-mg:before {
   content: "\e909";
 }
-.icon-statistical_manage:before {
+.icon-recycling:before {
   content: "\e90a";
 }
-.icon-profit:before {
+.icon-statistical_manage:before {
   content: "\e90b";
+}
+.icon-unfurled:before {
+  content: "\e90c";
 }

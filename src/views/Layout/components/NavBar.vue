@@ -3,7 +3,7 @@
   <!-- 管理员信息页面 -->
   <el-header class="my-header">
     <div class="head-l">
-      <span @click="isCollapsefn" class="icon-unfurled collapse-button"></span>
+      <span @click="isCollapsefn"></span>
     </div>
     <div class="head-r">
       <el-badge :value="200" :max="99" class="item">
@@ -30,26 +30,45 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
 /*重置样式*/
-  .el-header {
+.my-transition(@attr){
+  transition: @attr 0.8s;
+  -moz-transition: @attr 0.8s;
+  -webkit-transition: @attr 0.8s;
+  -o-transition: @attr 0.8s;
+}
+  .my-header {
     background-color: #fff;
-    box-shadow: 0px 0px 8px rgba(105,105,105,0.3);
+    box-shadow: 0px 0px 8px rgba(105,105,105,0.8);
     color: #333;
     overflow: hidden;
     width: 100%;
     display: block;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-between;
-    .head-l{
-        float: left;
-        .collapse-button{
-          font-size: 20px;
-          cursor: pointer;
-        }
+    padding: 0px !important;
+      .head-l{
+          width: 70px;
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          vertical-align: middle;
+          &:hover{
+              .my-transition(background);
+              background: rgba(0,193,223,0.2);
+              cursor: pointer;
+            }
+          .collapse-button{
+            font-size: 25px;
+            color: rgba(0, 0, 0, 0.65);
+          }
       }
       .head-r{
         display: flex;
         align-items: center;
+        padding-right: 20px;
         .el-badge{
           line-height: 0;
         }
@@ -71,28 +90,6 @@
   }
 }
 
-@media screen and (min-width: 500px) {
-  /*重置样式*/
-  .el-header {
-    background-color: #fff;
-    box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.3);
-    color: #333;
-    line-height: 60px;
-    overflow: hidden;
-    width: 100%;
-    display: block;
-    .head-l {
-      float: left;
-      .collapse-button {
-        font-size: 20px;
-        cursor: pointer;
-      }
-    }
-    .head-r {
-      float: right;
-    }
-  }
-}
 </style>
 
 <script>
@@ -106,6 +103,10 @@ export default {
   computed:{
     userMsg () {
       return this.$store.state.moduleLayour.userMessage;
+    },
+    isCollapse () {
+      //菜单是否收起
+      return this.$store.state.moduleLayour.isCollapse;
     }
   },
   methods : {

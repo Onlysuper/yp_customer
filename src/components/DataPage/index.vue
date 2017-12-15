@@ -71,6 +71,11 @@ export default {
             pageCount: 10,//每页条数
         }
     },
+    computed : {
+        visibleinput () {
+            return this.$store.state.dataTable.visibleinput
+        }
+    },
     mounted () {
          // 获取数据 交给父页面处理
         var self = this;
@@ -83,8 +88,8 @@ export default {
     methods : {
         // 表格大小
         tableSizeHandle () {
-            var serchboxHeight = document.querySelector('.operation-box').clientHeight;
-            this.tableHeight = document.body.clientHeight-serchboxHeight-270;
+            var serchboxHeight = document.querySelector('.form-box').clientHeight;
+            this.tableHeight = document.body.clientHeight-serchboxHeight-250;
         },
         handleSizeChange(val) {
         // 改变页数
@@ -102,6 +107,12 @@ export default {
       filterTag(value, row) {
         return row.tag === value;
       }
+    },
+    watch : {
+        visibleinput (val) {
+            // 监听高级搜索与普通搜索模式转变
+            this.tableSizeHandle();
+        }
     }
 }
 </script>
