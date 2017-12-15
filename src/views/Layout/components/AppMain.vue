@@ -5,6 +5,9 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
+body{
+  margin: 0;
+}
 .el-main{
     position: relative;
     &.reset-main{
