@@ -8,9 +8,9 @@
   </el-container>
 </template>
 <script>
-import { NavBar, SideBar, AppMain } from "@src/views/Layout/components";
+import { NavBar, SideBar, AppMain } from "@src/views/layout/components";
 export default {
-  name: "Layout",
+  name: "layout",
   components: {
     NavBar,
     SideBar,
@@ -23,6 +23,7 @@ export default {
 <style lang='less'>
 .layout-page {
   height: 100vh;
+  // overflow: hidden;
   .layout-main {
     flex-direction: column;
   }

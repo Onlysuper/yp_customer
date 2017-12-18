@@ -54,13 +54,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-.el-main {
-  position: relative;
-}
 .welcome-page {
-  padding: 20px;
+  // padding: 20px;
+  overflow: hidden;
   background: #fff;
+  height: 100%;
   .welcome {
+        padding: 0 20px;
     h2 {
       font-size: 32px;
       font-weight: 400;

@@ -18,8 +18,8 @@ const store = new Vuex.Store({
     },
     modules: {
         moduleLayour: moduleLayour,
-        dataTable:DataTable,
-        InputValidation:InputValidation
+        dataTable: DataTable,
+        InputValidation: InputValidation
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

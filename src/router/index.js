@@ -2,9 +2,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 // 跟路由
 import Layout from '../views/layout/Layout'
-import login from "./login/Login";
-import home from "./home/Home";
-import customer from "./customer/CustomerManage";
+import login from "./login/login";
+import home from "./home/home";
+import customer from "./customer/customerManage";
 import utils from "@src/common/utils";
 
 

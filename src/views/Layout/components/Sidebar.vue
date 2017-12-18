@@ -15,7 +15,7 @@
           </i>
           <span slot="title">{{item.menuName}}</span>
         </template>
-          <el-menu-item v-for = "(item2, index2) in item.child" :key="index2" :index="'/'+item2.menuCode">
+        <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="'/'+item2.menuCode">
           {{item2.menuName}}
         </el-menu-item>
       </el-submenu>
@@ -26,63 +26,62 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-.my-transition(@attr){
+.my-transition(@attr) {
   transition: @attr 0.8s;
   -moz-transition: @attr 0.8s;
   -webkit-transition: @attr 0.8s;
   -o-transition: @attr 0.8s;
 }
 .aside-box {
-    background: #001529;
-    box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
-    height: 100%;
-    position: relative;
-    z-index: 10;
-    /*重置样式 start*/
-    .el-dropdown-link{
-      cursor: pointer;
-    }
-    .el-menu{
-      border-right: 0;
-      background: #001529 !important;
-      .el-submenu__title{
-        color: #878d99 !important;
-        &:hover{
-          color: #fff !important;
-          .my-transition(color);
-          .icon{
-            color: #fff !important;
-            .my-transition(color);
-          }
-        }
-      }
-      .icon{
-        font-size: 24px;
-
-      }
-    }
-    .el-submenu__title:hover{
-      background: transparent !important;
-    }
-    .el-menu--collapse .el-submenu:hover{
-      background: #000c17 !important;
-    }
-    .el-submenu .el-menu-item{
-        background: #000c17 !important;
-       color: #878d99 !important;
-       text-indent: 18px;
-       &:hover{
-         color:#fff !important;
-         transition: color 0.8s;
-         .my-transition(color);
-
-       }
-       &.is-active{
-        background: #00c1df !important;
+  background: #001529;
+  box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
+  height: 100%;
+  position: relative;
+  z-index: 11;
+  flex-shrink: 0;
+  /*重置样式 start*/
+  .el-dropdown-link {
+    cursor: pointer;
+  }
+  .el-menu {
+    border-right: 0;
+    background: #001529 !important;
+    .el-submenu__title {
+      color: #878d99 !important;
+      &:hover {
         color: #fff !important;
         .my-transition(color);
+        .icon {
+          color: #fff !important;
+          .my-transition(color);
+        }
       }
     }
+    .icon {
+      font-size: 24px;
+    }
+  }
+  .el-submenu__title:hover {
+    background: transparent !important;
+  }
+  .el-menu--collapse .el-submenu:hover {
+    background: #000c17 !important;
+  }
+  .el-submenu .el-menu-item {
+    background: #000c17 !important;
+    color: #878d99 !important;
+    text-indent: 18px;
+    &:hover {
+      color: #fff !important;
+      transition: color 0.8s;
+      .my-transition(color);
+    }
+    &.is-active {
+      background: #00c1df !important;
+      color: #fff !important;
+      .my-transition(color);
+    }
+  }
   // 重置样式end
 }
 
@@ -96,6 +95,7 @@
   .aside-box {
     .logo-box {
       height: 54px;
+      overflow: hidden;
       display: flex;
       box-sizing: border-box;
       justify-content: start;
@@ -103,6 +103,7 @@
       padding: 0 16px;
       background: #002240;
       color: #fff;
+      box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
       .img-box {
         display: inline-block;
         img {
@@ -110,6 +111,8 @@
         }
       }
       .home-title {
+        padding: 0px;
+        line-height: 0;
         display: inline-block;
         padding-left: 20px;
         padding-left: 10px;
@@ -120,11 +123,11 @@
         -khtml-user-select: none; /* Konqueror */
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none
+        user-select: none;
       }
     }
-  }  
-}  
+  }
+}
 </style>
 
 <script>
@@ -139,15 +142,14 @@ export default {
     };
   },
   computed: {
-    isCollapse (){
-      return this.$store.state.moduleLayour.isCollapse
+    isCollapse() {
+      return this.$store.state.moduleLayour.isCollapse;
     },
-    menuList () {
-      return this.$store.state.moduleLayour.menuList
+    menuList() {
+      return this.$store.state.moduleLayour.menuList;
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     handleOpen(key, keyPath) {
       // console.log(key, keyPath);

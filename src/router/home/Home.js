@@ -12,6 +12,7 @@ export default {
     path: 'home',
     component: r => {
       Loading(true);
+
       if (isMobile) {
         return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/HomeApp")) }, "homeApp")
       } else {

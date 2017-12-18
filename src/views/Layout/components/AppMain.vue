@@ -10,6 +10,7 @@ body{
 }
 .reset-main{
   position: relative;
+  height: 100%;
 }
 </style>
 <script>
