@@ -297,7 +297,7 @@ export default {
         {
           type: "dateGroup",
           label: "选择时间",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           options: [
             {
               corresattr: "createTimeStart",
