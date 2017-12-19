@@ -2,7 +2,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <search-form @changeform="callbackformHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -12,71 +12,8 @@
           <el-button size="small" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page :table-data="tableData" v-on:childmanage="getCustomersHandle" @operation="operationHandle"></myp-data-page>
+      <myp-data-page :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
     </div>
-
-    <!-- 详情 start -->
-    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="500px">
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">企业名称:{{addform.enterpriseName}}</div>
-        </el-col>
-        <el-col :span="12">
-          <div class="grid-content bg-purple-light">企业税号:{{addform.taxNo}}</div>
-        </el-col>
-        <el-col :span="12">
-          <div class="grid-content bg-purple-light">企业法人:{{addform.legalPerson}}</div>
-        </el-col>
-
-        <el-col :span="12">
-          <div class="grid-content bg-purple">身份证:{{addform.idCard}}</div>
-        </el-col>
-        <el-col :span="12">
-          <div class="grid-content bg-purple-light">联系人:{{addform.linkMan}}</div>
-        </el-col>
-        <el-col :span="12">
-          <div class="grid-content bg-purple-light">手机号:{{addform.phoneNo}}</div>
-        </el-col>
-      </el-row>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="detailsFormVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- 详情 end -->
-    <!-- 编辑 start -->
-    <el-dialog title="编辑" center :visible.sync="editFormVisible" width="500px">
-      <el-form :model="editForm">
-        <el-form-item label="企业名称" :label-width="formLabelWidth">
-          <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业税号" :label-width="formLabelWidth">
-          <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业法人" :label-width="formLabelWidth">
-          <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="身份证" :label-width="formLabelWidth">
-          <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" :label-width="formLabelWidth">
-          <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" :label-width="formLabelWidth">
-          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户编号" :label-width="formLabelWidth">
-          <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户来源" :label-width="formLabelWidth">
-          <el-input v-model="editForm.customerFrom" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 编辑 end -->
     <!-- 新增start -->
     <el-dialog center title="新增商户" :visible.sync="addFormVisible">
       <el-form :model="addForm" ref="addForm" :rules="addFormRules">
@@ -100,11 +37,88 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="addFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addFormfn('addForm')">确 定</el-button>
+        <el-button @click="resetAddForm('addForm')">重置</el-button>
+        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
+    <!-- 批量入网 start -->
+    <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
+      <!-- <div>
+        入网模板
+        <el-button>下载入网模板</el-button>
+      </div>
+      <div>
+        入网文件
+        <el-button>上传文件</el-button>
+      </div>
+      <div>
+        相关操作
+      </div> -->
+    </el-dialog>
+    <!-- 批量入网 end -->
+    <!-- 详情 start -->
+    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="500px">
+      <el-row>
+        <el-col :span="12">
+          <div class="grid-content bg-purple">企业名称:{{detailsForm.enterpriseName}}</div>
+        </el-col>
+        <el-col :span="12">
+          <div class="grid-content bg-purple-light">企业税号:{{detailsForm.taxNo}}</div>
+        </el-col>
+        <el-col :span="12">
+          <div class="grid-content bg-purple-light">企业法人:{{detailsForm.legalPerson}}</div>
+        </el-col>
+        <el-col :span="12">
+          <div class="grid-content bg-purple">身份证:{{detailsForm.idCard}}</div>
+        </el-col>
+        <el-col :span="12">
+          <div class="grid-content bg-purple-light">联系人:{{detailsForm.linkMan}}</div>
+        </el-col>
+        <el-col :span="12">
+          <div class="grid-content bg-purple-light">手机号:{{detailsForm.phoneNo}}</div>
+        </el-col>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 详情 end -->
+    <!-- 编辑 start -->
+    <el-dialog title="编辑" center :visible.sync="editFormVisible" width="500px">
+      <el-form :model="editForm" ref="editForm" :rules="addFormRules">
+        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
+          <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
+          <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
+          <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
+          <el-input v-model="editForm.customerFrom" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 编辑 end -->
+
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -158,7 +172,12 @@
   }
 }
 </style>
+
+
+
 <script>
+import SearchForm from "@src/components/SearchForm";
+import DataPage from "@src/components/DataPage";
 import {
   provinceAndCityData,
   regionData,
@@ -170,95 +189,103 @@ import {
 
 import {
   getCustomers,
-  addCustomer,
+  postAddCustomer,
   editCustomer,
   transferCustomer,
   perfectCustomer
 } from "@src/apis";
-import SearchForm from "@src/components/SearchForm";
-import DataPage from "@src/components/DataPage";
 
 export default {
   name: "customermanage",
   components: {
-    "search-form": SearchForm, // 搜索组件
+    "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
   data() {
-    var notNull = (rule, value, callback) => {
+    // 不能为空
+    var notNullVerify = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("不能为空!"));
       } else {
         callback();
       }
     };
-    var agentName = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("合伙人姓名不能为空!"));
+    // 税号
+    var taxNumVerify = (rule, value, callback) => {
+      var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
+      if (!reg.test(value)) {
+        return callback(new Error("税号有误！"));
       } else {
         callback();
       }
     };
+    // 身份证号
+    var idCardVerify = (rule, value, callback) => {
+      var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/;
+      if (!reg.test(value)) {
+        return callback(new Error("身份证号有误!"));
+      } else {
+        callback();
+      }
+    };
+    // 电话号码
+    var phoneNumVerify = (rule, value, callback) => {
+      var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+      if (!reg.test(value)) {
+        return callback(new Error("手机号有误!"));
+      } else {
+        callback();
+      }
+    };
+    // 日期格式转换成如“2017-12-19”的格式
+    var dataHandle = nowDate => {
+      var nowDate = new Date(nowDate);
+      var year = nowDate.getFullYear();
+      var month = nowDate.getMonth() + 1;
+      month = month * 1 < 10 ? "0" + month : month;
+      var day = nowDate.getDate();
+      var todayDate = year + "-" + month + "-" + day;
+      return todayDate;
+    };
+    var todayDate = dataHandle(new Date()); // 初始化默认开始查询日期
+    var beforDate = dataHandle(new Date() - 24 * 60 * 60 * 1000); // 初始化默认结束查询日期
+
+    var searchConditionVar = {
+      customerNo: "", // 商户编号
+      taxNo: "", // 企业税号
+      enterpriseName: "", // 企业名称
+      createTimeStart: beforDate, // 开始时间
+      createTimeEnd: todayDate, // 结束时间
+      agentNo: "", // 合伙人编号
+      customerFrom: "" // 入网来源
+    };
     return {
-      addFormRules: {
-        enterpriseName: [{ validator: notNull, trigger: "blur" }],
-        taxNo: [
-          {
-            validator: (rule, value, callback) => {
-              var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
-              if (!reg.test(value)) {
-                return callback(new Error("税号有误！"));
-              } else {
-                callback();
-              }
-            },
-            trigger: "blur"
-          }
-        ],
-        legalPerson: [{ validator: notNull, trigger: "blur" }],
-        idCard: [
-          {
-            validator: (rule, value, callback) => {
-              var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/;
-              if (!reg.test(value)) {
-                return callback(new Error("身份证号有误"));
-              } else {
-                callback();
-              }
-            },
-            trigger: "blur"
-          }
-        ],
-        linkMan: [{ validator: notNull, trigger: "blur" }],
-        phoneNo: [{ validator: notNull, trigger: "blur" }]
-      },
-      formLabelWidth: "100px",
       addFormVisible: false, // 新增框
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
-      addForm: {},
+      batchNetFormVisible: false, // 批量入网框
+      addFormRules: {
+        enterpriseName: [{ validator: notNullVerify, trigger: "blur" }],
+        taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
+        legalPerson: [{ validator: notNullVerify, trigger: "blur" }],
+        idCard: [{ validator: idCardVerify, trigger: "blur" }],
+        linkMan: [{ validator: notNullVerify, trigger: "blur" }],
+        phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
+      },
+
+      editFormRules: {},
+      formLabelWidth: "100px",
       editForm: {},
       detailsForm: {},
-      addform: {
-        // 新增数据
-      },
-      addRules: {
-        agentName: [
-          {
-            validator: this.$store.state.InputValidation.notNull,
-            trigger: "blur"
-          }
-        ]
-      },
       // 查询条件数据
-      searchCondition: {
-        customerNo: "", // 商户编号
-        taxNo: "", // 企业税号
-        enterpriseName: "", // 企业名称
-        createTimeStart: "", // 开始时间
-        createTimeEnd: "", // 结束时间
-        agentNo: "", // 合伙人编号
-        customerFrom: "" // 入网来源
+      searchCondition: searchConditionVar,
+      addForm: {
+        enterpriseName: "",
+        taxNo: "",
+        legalPerson: "",
+        idCard: "",
+        linkMan: "",
+        phoneNo: ""
       },
       // 顶部搜索表单信息
       searchOptions: [
@@ -302,7 +329,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: "",
+              value: new Date() - 24 * 60 * 60 * 1000,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
               }
@@ -310,7 +337,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
-              value: "",
+              value: new Date(),
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
               }
@@ -334,6 +361,10 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
+            {
+              value: "",
+              label: "请选择"
+            },
             {
               value: "插件",
               label: "插件"
@@ -367,8 +398,12 @@ export default {
 
       // 列表数据
       tableData: {
-        tableData: [], // table列表数据
-        dataCount: 0, //数据条数
+        getDataUrl: {
+          url: getCustomers, // 初始化数据aip
+          page: 1, // 当前页数
+          limit: 10, // 每页条数
+          searchCondition: searchConditionVar // 搜索内容
+        },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
@@ -418,7 +453,7 @@ export default {
           {
             key: "状态",
             word: "status",
-            width: "70px",
+            width: "80px",
             status: true,
             type: data => {
               if (data == "TRUE") {
@@ -436,19 +471,12 @@ export default {
           },
           { key: "入网时间", word: "createTime", width: "170" }
         ],
-        // states: [
-        //   // 状态列信息 key=>表头标题，word=>表内容信息
-        //   {
-        //     key: "状态",
-        //     word: "status"
-        //   }
-        // ],
         operation: [
           // 操作按钮
           {
             text: "详情",
             cb: rowdata => {
-              this.addform = rowdata;
+              this.detailsForm = rowdata;
               this.detailsFormVisible = true;
             }
           },
@@ -495,36 +523,104 @@ export default {
       // 表单双向绑定 得到输入的内容并返回到本页面
       cb(data);
     },
-    seachstartHandle() {
-      // 开始搜索
-      this.getCustomersHandle(1, 10);
-    },
-    //列表数据获取
-    getCustomersHandle(page, limit) {
-      var searchcon = this.searchCondition;
-      getCustomers()({
-        page: page,
-        limit: limit,
-        customerNo: searchcon.customerNo, // 商户编号
-        taxNo: searchcon.taxNo, // 企业税号
-        enterpriseName: searchcon.enterpriseName, // 企业名称
-        createTimeStart: searchcon.createTimeStart, // 开始时间
-        createTimeEnd: searchcon.createTimeEnd, // 结束时间
-        agentNo: searchcon.agentNo, // 合伙人编号
-        customerFrom: searchcon.customerFrom // 入网来源
-      }).then(data => {
-        if (data.code === "00") {
-          // 数据获取成功
-          this.tableData.tableData = data.data;
-          this.tableData.dataCount = data.count;
+    resetSearchHandle() {
+      // 重置查询表单
+      this.searchOptions.forEach(element => {
+        if (element.type != "dateGroup") {
+          element.value = "";
+          this.searchCondition[element.corresattr] = "";
+        } else {
+          element.options.forEach(element => {
+            element.value = "";
+            this.searchCondition[element.corresattr] = "";
+          });
         }
       });
     },
-    // 保存新增内容
-    addFormfn(formName) {
+    resetAddForm() {
+      // 重置新增表单
+      this.addForm = {
+        enterpriseName: "",
+        taxNo: "",
+        legalPerson: "",
+        idCard: "",
+        linkMan: "",
+        phoneNo: ""
+      };
+    },
+    // 获取新数据
+    reloadData() {
+      console.log(this.searchCondition);
+      this.tableData.getDataUrl = {
+        url: getCustomers,
+        page: 1,
+        limit: 10,
+        searchCondition: this.searchCondition
+      };
+    },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+    },
+    addSave(formName) {
+      // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          addCustomer()({}).then(data => {
+          this.resetSearchHandle();
+          postAddCustomer()(this.addForm).then(data => {
+            if (data.code === "00") {
+              this.$message({
+                message: "恭喜你，新增数据成功",
+                type: "success",
+                center: true
+              });
+              this.addFormVisible = false;
+              this.reloadData();
+            } else if (data.code === "98") {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            } else {
+              this.$message({
+                message: data.resultMsg,
+                type: "warning",
+                center: true
+              });
+            }
+            console.log(data);
+          });
+        }
+      });
+    },
+    editSave(formName) {
+      // 编辑内容保存
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.resetSearchHandle();
+          editCustomer()(this.editForm).then(data => {
+            if (data.code === "00") {
+              this.$message({
+                message: "恭喜你，修改数据成功",
+                type: "success",
+                center: true
+              });
+              this.editFormVisible = false;
+              this.reloadData();
+            } else if (data.code === "98") {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            } else {
+              this.$message({
+                message: data.resultMsg,
+                type: "warning",
+                center: true
+              });
+            }
             console.log(data);
           });
         }
@@ -533,6 +629,7 @@ export default {
     addHandle() {
       // 新增数据
       this.addFormVisible = true;
+      this.resetAddForm();
     },
     operationHandle(data, cb) {
       // 操作按钮回调

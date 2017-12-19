@@ -13,13 +13,6 @@ import './assets/scss/theme-change.scss' // 更改皮肤
 import ElementUI from 'element-ui'
 Vue.use(ElementUI);
 
-if (isMobile) {
-  require.ensure([], () => {
-    var MintUI = require("mint-ui");
-    Vue.use(MintUI)
-  }, "mintUI");
-}
-
 import mypDirective from './common/directives';
 import mypFilter from './common/filters';
 Vue.use(mypDirective);

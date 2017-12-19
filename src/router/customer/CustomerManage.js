@@ -1,18 +1,17 @@
-import Layout from '../../views/layout/Layout'
-
-var Loading = require(isMobile ? "@src/router/LoadingApp" : "@src/router/Loading").default;
+import layout from '@src/views/layout/layout'
+import loading from "@src/router/Loading"
 /**
  * 登录模块
  */
 export default {
   name: "customerlist",
   path: "/customerlist",
-  component: Layout,
+  component: layout,
   children: [{
     path: '/customerlist',
     component: r => {
-      Loading(true);
-      return require.ensure([], () => { Loading(false); return r(require("@src/views/Customer/CustomerManage" + isMobile)) }, "customer-manage")
+      loading(true);
+      return require.ensure([], () => { loading(false); return r(require("@src/views/customer/customerManage")) }, "customer-manage")
     }
   }],
   meta: {

@@ -1,23 +1,17 @@
-import Layout from '../../views/layout/Layout'
-
-var Loading = require(isMobile ? "@src/router/LoadingApp" : "@src/router/Loading").default;
+import layout from '@src/views/layout/layout'
+import loading from "@src/router/Loading"
 /**
  * 登录模块
  */
 export default {
   path: "/",
   redirect: "/home",
-  component: Layout,
+  component: layout,
   children: [{
     path: 'home',
     component: r => {
-      Loading(true);
-
-      if (isMobile) {
-        return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/HomeApp")) }, "homeApp")
-      } else {
-        return require.ensure([], () => { Loading(false); return r(require("@src/views/Home/Home")) }, "home")
-      }
+      loading(true);
+      return require.ensure([], () => { loading(false); return r(require("@src/views/home/home")) }, "home")
     }
   }],
   meta: {

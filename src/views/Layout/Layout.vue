@@ -9,6 +9,7 @@
 </template>
 <script>
 import { NavBar, SideBar, AppMain } from "@src/views/layout/components";
+
 export default {
   name: "layout",
   components: {

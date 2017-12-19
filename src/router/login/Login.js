@@ -1,5 +1,5 @@
 
-var Loading = require(isMobile ? "@src/router/LoadingApp" : "@src/router/Loading").default;
+import Loading from "@src/router/Loading"
 
 /**
  * 登录模块
@@ -9,7 +9,7 @@ export default {
   path: "/login",
   component: r => {
     Loading(true);
-    return require.ensure([], () => { Loading(false); return r(require("@src/views/Login/Login")) }, "login")
+    return require.ensure([], () => { Loading(false); return r(require("@src/views/login/login")) }, "login")
   },
   meta: {
     pageTitle: "登录"

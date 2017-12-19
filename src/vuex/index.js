@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { MenuGet } from "@src/apis"
 import moduleLayour from "@src/vuex/Layout/Layout"
 import DataTable from "@src/vuex/DataTable/DataTable"
 import InputValidation from "@src/vuex/InputValidation/InputValidation"

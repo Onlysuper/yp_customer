@@ -8,7 +8,7 @@ export default {
   path: "/layout",
   component: r => {
     Loading(true);
-    return require.ensure([], () => { Loading(false); return r(require("@src/views/Layout/Layout")) }, "layout")
+    return require.ensure([], () => { Loading(false); return r(require("@src/views/layout/layout")) }, "layout")
   },
   meta: {
     pageTitle: "易票运营系统"

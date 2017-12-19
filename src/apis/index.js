@@ -29,13 +29,13 @@ const AgentManageAdd = () => { return (params) => { return http.post(base.oaIp, 
 //商户管理初始化数据
 const getCustomers = () => { return (params) => { return http.get(base.oaIp, "/customer/page", params) } }
 //新增
-const addCustomer = () => { return (params) => { return http.get(base.oaIp, "/customer/add", params) } }
+const postAddCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/add", params) } }
 //编辑
-const editCustomer = () => { return (params) => { return http.get(base.oaIp, "/customer/update", params) } }
+const editCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/update", params) } }
 //转移
-const transferCustomer = () => { return (params) => { return http.get(base.oaIp, "/customer/transfer", params) } }
+const transferCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/transfer", params) } }
 //完善
-const perfectCustomer = () => { return (params) => { return http.get(base.oaIp, "/customer/complete", params) } }
+const perfectCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/complete", params) } }
 export {
     AgentManage,
     Login,
@@ -43,8 +43,9 @@ export {
     PasswordUpdate,
     orgCodeHandle,
     AgentManageAdd,
+    //商户管理
     getCustomers,
-    addCustomer,
+    postAddCustomer,
     editCustomer,
     transferCustomer,
     perfectCustomer
