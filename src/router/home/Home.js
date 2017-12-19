@@ -3,6 +3,7 @@ import loading from "@src/router/loading"
 /**
  * 登录模块
  */
+// zhushi
 export default {
   path: "/",
   redirect: "/home",
