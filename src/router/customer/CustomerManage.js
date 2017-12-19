@@ -1,5 +1,5 @@
 import layout from '@src/views/layout/layout'
-import loading from "@src/router/Loading"
+import loading from "@src/router/loading"
 /**
  * 登录模块
  */

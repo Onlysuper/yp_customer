@@ -22,26 +22,8 @@ export default {
       isCollapse: false // 菜单收起
     };
   },
-  mounted() {
-    console.log(1111);
-    this.init();
-  },
+  mounted() {},
   methods: {
-    init: function() {
-      this.menufn();
-    },
-    menufn: function() {
-      var self = this;
-      this.$http
-        .get("http://192.168.100.248:8080/mock/menu.json")
-        .then(function(response) {
-          self.menuList = response.data.data.menuList;
-          // console.log(response.data.data.menuList);
-        })
-        .catch(function(error) {
-          // console.log(error);
-        });
-    },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
@@ -60,7 +42,7 @@ export default {
   background: #fff;
   height: 100%;
   .welcome {
-        padding: 0 20px;
+    padding: 0 20px;
     h2 {
       font-size: 32px;
       font-weight: 400;
