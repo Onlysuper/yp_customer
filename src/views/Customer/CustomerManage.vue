@@ -44,7 +44,7 @@
     <!-- 新增end -->
     <!-- 批量入网 start -->
     <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
-      <!-- <div>
+      <div class="sep-inline">
         入网模板
         <el-button>下载入网模板</el-button>
       </div>
@@ -54,7 +54,9 @@
       </div>
       <div>
         相关操作
-      </div> -->
+        <el-button>提交</el-button>
+        <el-button>关闭</el-button>
+      </div>
     </el-dialog>
     <!-- 批量入网 end -->
     <!-- 详情 start -->
@@ -263,7 +265,7 @@ export default {
       addFormVisible: false, // 新增框
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
-      batchNetFormVisible: false, // 批量入网框
+      batchNetFormVisible: true, // 批量入网框
       addFormRules: {
         enterpriseName: [{ validator: notNullVerify, trigger: "blur" }],
         taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
