@@ -2,7 +2,7 @@
 
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table :data="tableData" :max-height="tableHeight" v-loading="loading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
+    <el-table :data="tableData" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
       <el-table-column fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
@@ -62,7 +62,7 @@ export default {
   props: ["tableDataInit"],
   data() {
     return {
-      loading: false,
+      ifloading: false,
       tableData: [],
       tableHeight: 0, // 表单的高度
       currentPage: 1, //当前页数
@@ -97,7 +97,7 @@ export default {
   methods: {
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
-      this.loading = true;
+      this.ifloading = true;
       this.getDataUrl.url()({
         page: page,
         limit: limit,
@@ -108,7 +108,7 @@ export default {
           this.tableData = data.data;
           this.dataCount = data.count;
         }
-        this.loading = false;
+        this.ifloading = false;
       });
     },
     // 表格大小
