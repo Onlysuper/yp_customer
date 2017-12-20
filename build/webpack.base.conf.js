@@ -10,8 +10,7 @@ function resolve(dir) {
 module.exports = {
   entry: {
     app: './src/main.js',
-    vendor: ['vue', 'axios'],
-    elementUI: ['element-ui']
+    vendor: ['vue', 'axios']
     /* mintUI: ['mint-ui'] */
   },
   output: {

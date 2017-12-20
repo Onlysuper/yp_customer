@@ -8,9 +8,10 @@
 </template>
 
 <script>
-import PullDownTip from "@src/containers/PullDownTip";
+import PullDownTip from "@src/containers-app/PullDownTip";
 import { Toast, Indicator } from "mint-ui";
 export default {
+  name: "MypLoadmoreApi",
   components: {
     PullDownTip
   },
@@ -70,7 +71,7 @@ export default {
   methods: {
     loadData(query) {
       return this.api()(query).then(data => {
-        if (data.resultCode === "0") {
+        if (data.code === "00") {
           return data.data || [];
         } else {
           Toast(data.resultMsg);
