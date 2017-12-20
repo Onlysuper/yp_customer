@@ -45,6 +45,7 @@ import {
   Popover as elePopover,
   Tag as eleTag,
   Footer as eleFooter,
+  Upload as eleUpload,
   MessageBox,
   Message,
   Loading
@@ -76,6 +77,7 @@ Vue.component(eleTag.name, eleTag)
 Vue.component(eleFooter.name, eleFooter)
 Vue.component(eleRow.name, eleRow)
 Vue.component(eleCol.name, eleCol)
+Vue.component(eleUpload.name, eleUpload)
 
 Vue.use(Loading.directive)
 

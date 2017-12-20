@@ -22,7 +22,7 @@
       </el-form-item>
       <div class="button-box">
         <el-button size="small" @click="searchStart" type="primary">开始搜索</el-button>
-        <el-button size="small" @click="resetInput">重置</el-button>
+        <el-button size="small" @click="resetInput('searchform')">重置</el-button>
         <el-button class="seach-mode" size="small" @click="advancSeachfn()" type="text">{{visibleinput?"普通搜索":"高级搜索"}}</el-button>
 
       </div>
@@ -81,7 +81,7 @@ export default {
       //交给父页面操作
       this.$emit("seachstart");
     },
-    resetInput() {
+    resetInput(formName) {
       //交给父页面操作
       this.$emit("resetInput");
     }

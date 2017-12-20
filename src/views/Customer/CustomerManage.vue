@@ -9,7 +9,7 @@
           <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
           <el-button size="small" @click="batchNetDialog" type="primary" icon="el-icon-upload">批量入网</el-button>
           <el-button size="small" @click="batchTransferDialog" type="primary" icon="el-icon-sort">批量转移</el-button>
-          <el-button size="small" type="primary" icon="el-icon-upload2">导出</el-button>
+          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
       <myp-data-page :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
@@ -47,12 +47,12 @@
       <div class="sep-inline">
         入网模板
         <el-button>
-          <a href="/static/template/customer-batch-2007.xlsx">下载入网模板</a>
+          <a :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
         </el-button>
       </div>
       <div class="sep-inline">
         入网文件
-        <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+        <el-upload action="/customer/incomeBatch" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag multiple>
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或
             <em>点击上传</em>
@@ -71,12 +71,12 @@
       <div class="sep-inline">
         转移模板
         <el-button>
-          <a href="/static/template/customer-batch-2007.xlsx">下载转移模板</a>
+          <a :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
         </el-button>
       </div>
       <div class="sep-inline">
         转移文件
-        <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+        <el-upload action="/customer/transBatch" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload" multiple>
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或
             <em>点击上传</em>
@@ -142,7 +142,7 @@
           <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
-          <el-input v-model="editForm.customerFrom" auto-complete="off"></el-input>
+          <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -325,6 +325,9 @@ export default {
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
       transferFormVisible: false,
+      batchNetForm: {
+        url: ""
+      },
       addFormRules: {
         enterpriseName: [{ validator: notNullVerify, trigger: "blur" }],
         taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
@@ -337,7 +340,9 @@ export default {
       editFormRules: {}, // 编辑单个规则
       editForm: {}, // 编辑单个表单
       detailsForm: {}, // 详情单个表单
-      transferFormRules: {}, // 转移单个规则
+      transferFormRules: {
+        receiveAgentNo: [{ validator: notNullVerify, trigger: "blur" }]
+      }, // 转移单个规则
       transferForm: {}, // 转移单个表单
       // 查询条件数据
       searchCondition: searchConditionVar,
@@ -502,12 +507,17 @@ export default {
               if (data == "OPEN_API") {
                 return {
                   text: "第三方",
-                  type: ""
+                  type: "danger"
                 };
-              } else if ((data = "PLUGIN")) {
+              } else if (data == "PLUGIN") {
                 return {
                   text: "插件",
                   type: "warning"
+                };
+              } else if (data == "LOCAL") {
+                return {
+                  text: "后台",
+                  type: ""
                 };
               }
             }
@@ -552,17 +562,47 @@ export default {
           {
             text: "转移",
             cb: rowdata => {
-              console.log(rowdata);
               this.transferForm = rowdata;
               this.transferFormVisible = true;
             }
           }
+          // {
+          //   text: "修改商户产品",
+          //   cb: rowdata => {
+          //     console.log(rowdata);
+          //   }
+          // }
         ]
       }
     };
   },
 
   methods: {
+    handleBatchTransferSuccess() {
+      // 批量转移文件上传成功
+      this.$message.success("恭喜您！上传成功");
+      batchNetForm.url = URL.createObjectURL(file.raw);
+      console.log(batchNetForm.url);
+    },
+    handleBatchNetSuccess(res, file) {
+      // 批量入网文件上传成功
+      this.$message.success("恭喜您！上传成功");
+      batchNetForm.url = URL.createObjectURL(file.raw);
+      console.log(batchNetForm.url);
+      // this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeBatchNetUpload(file) {
+      const extension = file.name.split(".")[1] === "xlsx";
+      const extension2 = file.name.split(".")[1] === "numbers";
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!extension && !extension2) {
+        this.$message.error("上传文件只能是 xlsx,numbers 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传文件图片大小不能超过 10MB!");
+      }
+      return extension || (extension2 && isLt2M);
+    },
     // 普通搜索 具备隐藏
     visiblesomeHandle() {
       this.searchOptions.forEach(element => {
@@ -653,11 +693,11 @@ export default {
     },
     // 批量入网文件提交
     saveBatchNet() {
-      alert("ok");
+      alert("入网ok");
     },
     // 批量转移文件提交
     saveBatchTransfer() {
-      alert("转移");
+      alert("转移ok");
     },
     editSave(formName) {
       // 编辑内容保存
@@ -691,8 +731,41 @@ export default {
         }
       });
     },
-    transferSave() {
-      alert("单个转移");
+    transferSave(formName) {
+      // 转移保存
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          console.log(this.transferForm);
+          transferCustomer()({
+            customerNo: this.transferForm.customerNo,
+            enterpriseName: this.transferForm.enterpriseName,
+            agentNo: this.transferForm.agentNo,
+            receiveAgentNo: this.transferForm.receiveAgentNo
+          }).then(data => {
+            if (data.code === "00") {
+              this.$message({
+                message: "恭喜你，修改数据成功",
+                type: "success",
+                center: true
+              });
+              this.editFormVisible = false;
+              this.reloadData();
+            } else if (data.code === "98") {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            } else {
+              this.$message({
+                message: data.resultMsg,
+                type: "warning",
+                center: true
+              });
+            }
+          });
+        }
+      });
     },
     operationHandle(data, cb) {
       // 操作按钮回调
@@ -709,6 +782,27 @@ export default {
     batchTransferDialog() {
       // 批量转移 弹出框
       this.batchTransferFormVisible = true;
+    },
+    exportDialog() {
+      // 导出
+      alert("导出");
+      // window.location.href = "/customer/export?" + $("#page-form").serialize();
+    }
+  },
+  computed: {
+    oaIp() {
+      // nginx配置的路由
+      return this.$store.state.Base.oaIp;
+    },
+    editFormCustomerFrom() {
+      // 客户来源
+      if (this.editForm.customerFrom == "OPEN_API") {
+        return "第三方";
+      } else if (this.editForm.customerFrom == "PLUGIN") {
+        return "插件";
+      } else if (this.editForm.customerFrom == "LOCAL") {
+        return "后台";
+      }
     }
   },
   mounted() {}

@@ -26,17 +26,15 @@ const AgentManageAdd = () => { return (params) => { return http.post(base.oaIp, 
 
 
 
-//商户管理初始化数据
+// 商户管理初始化数据
 const getCustomers = () => { return (params) => { return http.get(base.oaIp, "/customer/page", params) } }
-//新增
+// 新增
 const postAddCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/add", params) } }
-//编辑
+// 编辑
 const postEditCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/update", params) } }
-
-const postUploadFile = () => { return (params) => { return http.post(base.oaIp, "/customer/incomeBatch", params) } }
-//转移
+// 转移
 const transferCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/transfer", params) } }
-//完善
+// 完善
 const perfectCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/complete", params) } }
 
 
