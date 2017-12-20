@@ -31,11 +31,15 @@ const getCustomers = () => { return (params) => { return http.get(base.oaIp, "/c
 //新增
 const postAddCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/add", params) } }
 //编辑
-const editCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/update", params) } }
+const postEditCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/update", params) } }
+
+const postUploadFile = () => { return (params) => { return http.post(base.oaIp, "/customer/incomeBatch", params) } }
 //转移
 const transferCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/transfer", params) } }
 //完善
 const perfectCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/complete", params) } }
+
+
 export {
     AgentManage,
     Login,
@@ -46,7 +50,8 @@ export {
     //商户管理
     getCustomers,
     postAddCustomer,
-    editCustomer,
+    postEditCustomer,
+    postUploadFile,
     transferCustomer,
     perfectCustomer
 };

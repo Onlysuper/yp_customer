@@ -6,8 +6,8 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addHandle" size="small" type="primary" icon="el-icon-plus">新增</el-button>
-          <el-button size="small" type="primary" icon="el-icon-upload">批量入网</el-button>
+          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button size="small" @click="batchNetDialog" type="primary" icon="el-icon-upload">批量入网</el-button>
           <el-button size="small" type="primary" icon="el-icon-sort">批量转移</el-button>
           <el-button size="small" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
@@ -44,17 +44,26 @@
     <!-- 新增end -->
     <!-- 批量入网 start -->
     <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
-      <!-- <div>
+      <div class="sep-inline">
         入网模板
-        <el-button>下载入网模板</el-button>
+        <el-button>
+          <a href="/static/template/customer-batch-2007.xlsx">下载入网模板</a>
+        </el-button>
       </div>
-      <div>
+      <div class="sep-inline">
         入网文件
-        <el-button>上传文件</el-button>
+        <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或
+            <em>点击上传</em>
+          </div>
+          <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+        </el-upload>
       </div>
-      <div>
-        相关操作
-      </div> -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchNetFormVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="saveUploadFile">提 交</el-button>
+      </span>
     </el-dialog>
     <!-- 批量入网 end -->
     <!-- 详情 start -->
@@ -128,6 +137,10 @@
   position: relative;
   background: #eff2f5;
   padding: 10px;
+  .sep-inline {
+    margin: 10px 0;
+    width: 100%;
+  }
   .operation-box {
     float: left;
     width: 100%;
@@ -190,7 +203,8 @@ import {
 import {
   getCustomers,
   postAddCustomer,
-  editCustomer,
+  postEditCustomer,
+  postUploadFile, // 上传文件
   transferCustomer,
   perfectCustomer
 } from "@src/apis";
@@ -599,7 +613,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.resetSearchHandle();
-          editCustomer()(this.editForm).then(data => {
+          postEditCustomer()(this.editForm).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",
@@ -626,10 +640,17 @@ export default {
         }
       });
     },
-    addHandle() {
+    // 入网文件提交
+    saveUploadFile() {
+      alert("ok");
+    },
+    addDialog() {
       // 新增数据
       this.addFormVisible = true;
       this.resetAddForm();
+    },
+    batchNetDialog() {
+      this.batchNetFormVisible = true;
     },
     operationHandle(data, cb) {
       // 操作按钮回调
