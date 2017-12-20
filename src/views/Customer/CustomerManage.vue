@@ -8,7 +8,7 @@
         <el-button-group class="button-group">
           <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
           <el-button size="small" @click="batchNetDialog" type="primary" icon="el-icon-upload">批量入网</el-button>
-          <el-button size="small" type="primary" icon="el-icon-sort">批量转移</el-button>
+          <el-button size="small" @click="batchTransferDialog" type="primary" icon="el-icon-sort">批量转移</el-button>
           <el-button size="small" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
@@ -62,10 +62,34 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchNetFormVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="saveUploadFile">提 交</el-button>
+        <el-button type="primary" @click="saveBatchNet">提 交</el-button>
       </span>
     </el-dialog>
     <!-- 批量入网 end -->
+    <!-- 批量转移 start -->
+    <el-dialog title="商户批量转移" center :visible.sync="batchTransferFormVisible" width="500px">
+      <div class="sep-inline">
+        转移模板
+        <el-button>
+          <a href="/static/template/customer-batch-2007.xlsx">下载转移模板</a>
+        </el-button>
+      </div>
+      <div class="sep-inline">
+        转移文件
+        <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或
+            <em>点击上传</em>
+          </div>
+          <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+        </el-upload>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchTransferFormVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="saveBatchTransfer">提 交</el-button>
+      </span>
+    </el-dialog>
+    <!-- 批量转移 end -->
     <!-- 详情 start -->
     <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="500px">
       <el-row>
@@ -94,7 +118,7 @@
     </el-dialog>
     <!-- 详情 end -->
     <!-- 编辑 start -->
-    <el-dialog title="编辑" center :visible.sync="editFormVisible" width="500px">
+    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
       <el-form :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
           <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
@@ -127,7 +151,28 @@
       </div>
     </el-dialog>
     <!-- 编辑 end -->
-
+    <!-- 商户转移 start -->
+    <el-dialog title="商户转移" center :visible.sync="transferFormVisible" width="500px">
+      <el-form :model="transferForm" ref="transferForm" :rules="transferFormRules">
+        <el-form-item label="商户编号" prop="" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="transferForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户名称" prop="" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="transferForm.enterpriseName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="现有合伙人" prop="" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="transferForm.agentNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="接受合伙人" prop="receiveAgentNo" :label-width="formLabelWidth">
+          <el-input v-model="transferForm.receiveAgentNo" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="transferFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="transferSave('transferForm')">保存</el-button>
+      </div>
+    </el-dialog>
+    <!-- 商户转移 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -275,9 +320,11 @@ export default {
     };
     return {
       addFormVisible: false, // 新增框
+      batchNetFormVisible: false, // 批量入网框
+      batchTransferFormVisible: false, // 批量转移模板
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
-      batchNetFormVisible: false, // 批量入网框
+      transferFormVisible: false,
       addFormRules: {
         enterpriseName: [{ validator: notNullVerify, trigger: "blur" }],
         taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
@@ -286,11 +333,12 @@ export default {
         linkMan: [{ validator: notNullVerify, trigger: "blur" }],
         phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
       },
-
-      editFormRules: {},
       formLabelWidth: "100px",
-      editForm: {},
-      detailsForm: {},
+      editFormRules: {}, // 编辑单个规则
+      editForm: {}, // 编辑单个表单
+      detailsForm: {}, // 详情单个表单
+      transferFormRules: {}, // 转移单个规则
+      transferForm: {}, // 转移单个表单
       // 查询条件数据
       searchCondition: searchConditionVar,
       addForm: {
@@ -505,6 +553,8 @@ export default {
             text: "转移",
             cb: rowdata => {
               console.log(rowdata);
+              this.transferForm = rowdata;
+              this.transferFormVisible = true;
             }
           }
         ]
@@ -551,16 +601,8 @@ export default {
         }
       });
     },
-    resetAddForm() {
-      // 重置新增表单
-      this.addForm = {
-        enterpriseName: "",
-        taxNo: "",
-        legalPerson: "",
-        idCard: "",
-        linkMan: "",
-        phoneNo: ""
-      };
+    resetAddForm(formName) {
+      this.$refs[formName].resetFields();
     },
     // 获取新数据
     reloadData() {
@@ -589,6 +631,7 @@ export default {
                 center: true
               });
               this.addFormVisible = false;
+              this.resetAddForm("addForm");
               this.reloadData();
             } else if (data.code === "98") {
               this.$message({
@@ -607,6 +650,14 @@ export default {
           });
         }
       });
+    },
+    // 批量入网文件提交
+    saveBatchNet() {
+      alert("ok");
+    },
+    // 批量转移文件提交
+    saveBatchTransfer() {
+      alert("转移");
     },
     editSave(formName) {
       // 编辑内容保存
@@ -640,21 +691,24 @@ export default {
         }
       });
     },
-    // 入网文件提交
-    saveUploadFile() {
-      alert("ok");
-    },
-    addDialog() {
-      // 新增数据
-      this.addFormVisible = true;
-      this.resetAddForm();
-    },
-    batchNetDialog() {
-      this.batchNetFormVisible = true;
+    transferSave() {
+      alert("单个转移");
     },
     operationHandle(data, cb) {
       // 操作按钮回调
       cb(data);
+    },
+    addDialog() {
+      // 新增数据 弹出框
+      this.addFormVisible = true;
+    },
+    batchNetDialog() {
+      // 批量入网 弹出框
+      this.batchNetFormVisible = true;
+    },
+    batchTransferDialog() {
+      // 批量转移 弹出框
+      this.batchTransferFormVisible = true;
     }
   },
   mounted() {}
