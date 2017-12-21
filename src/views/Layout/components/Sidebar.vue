@@ -6,7 +6,7 @@
       </div>
       <h1 v-show="!isCollapse" class="home-title">易票运营系统v1.0</h1>
     </div>
-    <el-menu unique-opened text-color="#fff" :router="isrouter" default-active="1-1" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+    <el-menu :unique-opened="true" text-color="#fff" :router="isrouter" default-active="1-1" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
       <el-submenu v-for="(item, index) in menuList" :index="index+'item1'" :key="index">
         <template slot="title">
           <i :class="'icon icon-'+item.menuCode">

@@ -1,181 +1,6 @@
 <template>
   <div class="admin-page">
-    <div class="admin-main-box">
-      <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
-      <!-- search form end -->
-      <div class="operation-box">
-        <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
-          <el-button size="small" @click="batchNetDialog" type="primary" icon="el-icon-upload">批量入网</el-button>
-          <el-button size="small" @click="batchTransferDialog" type="primary" icon="el-icon-sort">批量转移</el-button>
-          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
-        </el-button-group>
-      </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
-    </div>
-    <!-- 新增start -->
-    <el-dialog center title="新增商户" :visible.sync="addFormVisible">
-      <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-          <el-input v-model="addForm.enterpriseName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.taxNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-          <el-input v-model="addForm.legalPerson" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-          <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-          <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.phoneNo" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="resetAddForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 新增end -->
-    <!-- 批量入网 start -->
-    <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
-      <div class="content-center-box">
-        <div class="sep-inline">
-          <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
-        </div>
-        <div class="sep-inline">
-          <el-upload action="/customer/incomeBatch" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag multiple>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将入网文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
-          </el-upload>
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="batchNetFormVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="saveBatchNet">提 交</el-button>
-      </span>
-    </el-dialog>
-    <!-- 批量入网 end -->
-    <!-- 批量转移 start -->
-    <el-dialog title="商户批量转移" center :visible.sync="batchTransferFormVisible" width="500px">
-      <div class="content-center-box">
-        <div class="sep-inline">
-          <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
-        </div>
-        <div class="sep-inline">
-          <el-upload action="/customer/transBatch" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload" multiple>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将需要转移的文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
-          </el-upload>
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="batchTransferFormVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="saveBatchTransfer">提 交</el-button>
-      </span>
-    </el-dialog>
-    <!-- 批量转移 end -->
-    <!-- 详情 start -->
-    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
-      <div class="detail-content">
-        <div class="line-label-box">
-          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">企业税号:</span>{{detailsForm.taxNo?detailsForm.taxNo:"??"}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">企业法人:</span>{{detailsForm.legalPerson?detailsForm.legalPerson:"??"}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">身份证:</span>{{detailsForm.idCard?detailsForm.idCard:"??"}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">联系人:</span>{{detailsForm.linkMan?detailsForm.linkMan:"??"}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">手机号:</span>{{detailsForm.phoneNo?detailsForm.phoneNo:"??"}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">商户编号:</span>{{detailsForm.agentNo?detailsForm.agentNo:"??"}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom?detailsForm.customerFrom:"??"}}
-        </div>
-      </div>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="detailsFormVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- 详情 end -->
-    <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
-      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-          <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-          <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-          <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-          <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
-          <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 编辑 end -->
-    <!-- 商户转移 start -->
-    <el-dialog title="商户转移" center :visible.sync="transferFormVisible" width="500px">
-      <el-form size="small" :model="transferForm" ref="transferForm" :rules="transferFormRules">
-        <el-form-item label="商户编号" prop="" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="transferForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户名称" prop="" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="transferForm.enterpriseName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="现有合伙人" prop="" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="transferForm.agentNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="接受合伙人" prop="receiveAgentNo" :label-width="formLabelWidth">
-          <el-input v-model="transferForm.receiveAgentNo" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="transferFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="transferSave('transferForm')">保存</el-button>
-      </div>
-    </el-dialog>
-    <!-- 商户转移 end -->
+    快速开票分润
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -185,6 +10,9 @@
   position: relative;
   background: #eff2f5;
   padding: 10px;
+  .el-form-item {
+    margin-bottom: 10px;
+  }
   .detail-content {
     .line-label-box {
       padding: 4px 0;
@@ -833,7 +661,7 @@ export default {
       return this.$store.state.Base.oaIp;
     },
     editFormCustomerFrom() {
-      // 表单内用户来源显示状态客户来源
+      // 客户来源
       if (this.editForm.customerFrom == "OPEN_API") {
         return "第三方";
       } else if (this.editForm.customerFrom == "PLUGIN") {
