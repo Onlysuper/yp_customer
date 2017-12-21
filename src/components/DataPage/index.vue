@@ -88,7 +88,6 @@ export default {
       this.pageCount,
       this.getDataUrl.searchCondition
     );
-    console.log(this.getDataUrl);
     this.tableSizeHandle();
     window.onresize = () => {
       this.tableSizeHandle();
@@ -140,6 +139,42 @@ export default {
     operationHandle(rowdata, cb) {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);
+    },
+    ExportExcel() {
+      window.location.href =
+        this.$store.state.Base.oaIp +
+        "/customer/export?" +
+        this.getDataUrl.searchCondition;
+      // var tHeader = this.tableDataInit.dataHeader.map(function(item) {
+      //   return item.key;
+      // });
+      // var tBody = this.tableDataInit.dataHeader.map(function(item) {
+      //   return item.word;
+      // });
+      // this.getDataUrl.url()({
+      //   limit: 10,
+      //   page: 1,
+      //   ...this.getDataUrl.searchCondition
+      // }).then(data => {
+      //   if (data.code === "00") {
+      //     // 数据获取成功
+      //     require.ensure([], () => {
+      //       const {
+      //         export_json_to_excel
+      //       } = require("@src/common/Export2Excel");
+      //       const Header = tHeader;
+      //       const filterVal = tBody;
+      //       const list = data.data;
+      //       const data_ = this.formatJson(filterVal, list);
+      //       export_json_to_excel(Header, data_, "列表excel");
+      //       this.downloadLoading = false;
+      //     });
+      //   }
+      //   this.ifloading = false;
+      // });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]));
     }
   },
   watch: {

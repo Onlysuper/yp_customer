@@ -12,7 +12,7 @@
           <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增商户" :visible.sync="addFormVisible">
@@ -466,7 +466,7 @@ export default {
       // 列表数据
       tableData: {
         getDataUrl: {
-          url: getCustomers, // 初始化数据aip
+          url: getCustomers, // 初始化数据
           page: 1, // 当前页数
           limit: 10, // 每页条数
           searchCondition: searchConditionVar // 搜索内容
@@ -519,6 +519,11 @@ export default {
                   text: "后台",
                   type: ""
                 };
+              } else if (data == null) {
+                return {
+                  text: "未知",
+                  type: "info"
+                };
               }
             }
           },
@@ -537,6 +542,11 @@ export default {
                 return {
                   text: "未开启",
                   type: "info"
+                };
+              } else {
+                return {
+                  text: "没写",
+                  type: ""
                 };
               }
             }
@@ -785,8 +795,9 @@ export default {
     },
     exportDialog() {
       // 导出
-      alert("导出");
-      // window.location.href = "/customer/export?" + $("#page-form").serialize();
+      this.$refs.dataTable.ExportExcel();
+      // console.log(this.searchCondition);
+      // window.location.href = "/customer/export?" + this.searchCondition;
     }
   },
   computed: {
