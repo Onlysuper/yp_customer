@@ -193,11 +193,6 @@
     .tree-box {
       width: 300px;
     }
-    .table-box {
-      width: -moz-calc(100%-300px);
-      width: -webkit-calc(100%-300px);
-      width: calc(100%-300px);
-    }
   }
   .form-box {
     margin-top: 10px;
