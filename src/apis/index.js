@@ -147,6 +147,12 @@ const deleteUserManage = () => { return (params) => { return http.delete(base.oa
  */
 const getMenuTrees = () => { return (params) => { return http.get(base.oaIp, "/menu/tree", params) } }
 const getMenuTreePage = () => { return (params) => { return http.get(base.oaIp, "/menu/function/page", params) } }
+const patchAddMenuTree = () => { return (params) => { return http.post(base.oaIp, "/menu", params) } }
+const patchEditMenuTree = () => { return (params) => { return http.patch(base.oaIp, "/menu", params) } }
+const deleteMenuTree = () => { return (params) => { return http.delete(base.oaIp, "/menu/delete", params) } }
+const postAddMenuFunction = () => { return (params) => { return http.post(base.oaIp, "/menu/function", params) } }
+const patchEditMenuFunction = () => { return (params) => { return http.patch(base.oaIp, "/menu/function", params) } }
+const deleteMenuFunction = () => { return (params) => { return http.delete(base.oaIp, "/menu/function/delete", params) } }
 
 // end -------------------------------------------------
 
@@ -209,12 +215,18 @@ export {
     // 菜单管理
     getMenuTrees,
     getMenuTreePage,
+    patchEditMenuTree,
+    postAddMenuFunction,
+    patchEditMenuFunction,
+    deleteMenuFunction,
     // 角色管理
     getRoleManages,
     postAddRole,
     patchEditRole,
     deleteRole,
     getRolesTreeConfig,
-    patchRolesTreeSave
+    patchRolesTreeSave,
+    patchAddMenuTree,
+    deleteMenuTree
 };
 
