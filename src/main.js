@@ -96,56 +96,9 @@ Vue.prototype.$message = Message
 /**
  * 引入mint-ui所需组件
  */
-import {
-  Switch,
-  Field,
-  Swipe,
-  SwipeItem,
-  Button,
-  Radio,
-  Actionsheet,
-  Picker,
-  Cell,
-  Search,
-  Checklist,
-  Navbar,
-  Tabbar,
-  TabContainer,
-  TabContainerItem,
-  TabItem,
-  Spinner,
-  Header,
-  Popup,
-  DatetimePicker,
-  IndexList,
-  IndexSection,
-  Loadmore,
-  Badge
-} from 'mint-ui';
-Vue.component(Switch.name, Switch);
-Vue.component(Field.name, Field);
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
-Vue.component(Button.name, Button);
-Vue.component(Radio.name, Radio);
-Vue.component(Actionsheet.name, Actionsheet);
-Vue.component(Picker.name, Picker);
-Vue.component(Cell.name, Cell);
-Vue.component(Search.name, Search);
-Vue.component(Checklist.name, Checklist);
-Vue.component(Navbar.name, Navbar);
-Vue.component(Tabbar.name, Tabbar);
-Vue.component(TabItem.name, TabItem);
-Vue.component(Spinner.name, Spinner);
-Vue.component(TabContainer.name, TabContainer);
-Vue.component(Header.name, Header);
-Vue.component(Popup.name, Popup);
-Vue.component(DatetimePicker.name, DatetimePicker);
-Vue.component(IndexList.name, IndexList);
-Vue.component(IndexSection.name, IndexSection);
-Vue.component(TabContainerItem.name, TabContainerItem);
-Vue.component(Loadmore.name, Loadmore);
-Vue.component(Badge.name, Badge);
+import mintui from "mint-ui";
+Vue.use(mintui);
+import validator from "@src/common/validator";
 
 /**
  * 全局注册移动端自定义组件
@@ -167,16 +120,6 @@ Vue.component(ViewRadius.name, ViewRadius);
 import MypTr from "@src/components-app/MypTr";
 Vue.component(MypTr.name, MypTr);
 
-
-/**
- * 全局注册PC端自定义组件
- */
-//........
-//........
-//........
-//........
-//........
-
 /**
  * 引入全局css
  */
@@ -185,22 +128,20 @@ if (isMobile) {
   require("@src/assets/css/reset.css");
   require("@src/assets/scss/index.scss");
 } else {
-  //如果需要，这里引入PC端css reset
+
 }
 
 /**
  *这里写 pc 与 移动端 的特殊处理
  */
-import { Toast, MessageBox } from "mint-ui";
-import validator from "@src/common/validator";
 if (isMobile) {
   //这段代码 暂时写在这里
   document.body.style.height = document.documentElement.clientHeight + "px";
   window.onresize = function () {
     document.body.style.height = document.documentElement.clientHeight + "px";
   }
-  Vue.prototype.Toast = Toast;
-  Vue.prototype.MessageBox = MessageBox;
+  Vue.prototype.Toast = mintui.Toast;
+  Vue.prototype.MessageBox = mintui.MessageBox;
   Vue.prototype.validator = validator;
 
 } else {

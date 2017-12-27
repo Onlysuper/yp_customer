@@ -140,8 +140,6 @@ export default {
         }).then(function (response) {
             return checkCode(response)
         })
-<<<<<<< HEAD
-=======
     },
     patch: function (baseURL, url, params) {
         return axios({
@@ -160,6 +158,5 @@ export default {
         }).then(function (response) {
             return checkCode(response)
         })
->>>>>>> 46e72c3f81c96c5ca8ab485ddb39981a2f668bdd
     }
 }
