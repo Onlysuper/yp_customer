@@ -96,7 +96,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="scss">
 .form-box {
   .form-item {
     width: 340px;

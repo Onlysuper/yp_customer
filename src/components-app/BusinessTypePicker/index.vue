@@ -1,33 +1,32 @@
 <template>
-     <mt-popup v-model="businessTypeVisible" position="bottom" class="business-type" popup-transition="popup-fade" :modal="true" :closeOnClickModal="true">
-          <mt-popup v-model="businessTypeVisible" position="bottom" class="business-type-inner" :modal="false">
-               <mt-picker :slots="slots" @change="onValuesChange" valueKey="name" :showToolbar="true" :visibleItemCount="9">
-                    <mt-header :title="'请选择主营业务'" class="re-mint-header">
-                         <div slot="left">
-                              <mt-button @click="businessTypeVisible = false" type="danger">取消</mt-button>
-                         </div>
-                         <div slot="right">
-                              <mt-button @click="confirm" type="danger">确定</mt-button>
-                         </div>
-                    </mt-header>
-               </mt-picker>
-          </mt-popup>
-     </mt-popup>
+  <mt-popup v-model="businessTypeVisible" position="bottom" class="business-type" popup-transition="popup-fade" :modal="true" :closeOnClickModal="true">
+    <mt-popup v-model="businessTypeVisible" position="bottom" class="business-type-inner" :modal="false">
+      <mt-picker :slots="slots" @change="onValuesChange" valueKey="name" :showToolbar="true" :visibleItemCount="9">
+        <mt-header :title="'请选择主营业务'" class="re-mint-header">
+          <div slot="left">
+            <mt-button @click="businessTypeVisible = false" type="danger">取消</mt-button>
+          </div>
+          <div slot="right">
+            <mt-button @click="confirm" type="danger">确定</mt-button>
+          </div>
+        </mt-header>
+      </mt-picker>
+    </mt-popup>
+  </mt-popup>
 </template>
-<style lang="less">
-@import url(../../assets/less/base.less);
-  .business-type {
-    height: 100%;
+<style lang="scss">
+@import '../../assets/scss/base.scss';
+.business-type {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  .business-type-inner {
     width: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    .business-type-inner {
-      width: 100%;
-    }
-    .picker-toolbar {
-      height: @header-height;
-    }
   }
-
+  .picker-toolbar {
+    height: @header-height;
+  }
+}
 </style>
 <script>
 import FullPage from "@src/containers/FullPage";

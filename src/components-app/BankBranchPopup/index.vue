@@ -23,14 +23,14 @@
     </div>
   </full-page-popup>
 </template>
-<style lang="less">
-@import url(../../assets/less/base.less);
+<style lang="scss">
+@import '../../assets/scss/base.scss';
 .bank-branch-page {
   width: 100%;
   height: 100%;
   .pading {
-    margin-top: 20/@rem;
-    padding: 0 20/@rem;
+    margin-top: 20*$rem;
+    padding: 0 20*$rem;
   }
 }
 </style>

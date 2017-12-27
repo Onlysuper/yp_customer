@@ -16,8 +16,8 @@
   </full-page-popup>
 </template>
 
-<style lang="less">
-@import url(../../assets/less/base.less);
+<style lang="scss">
+@import '../../assets/scss/base.scss';
 .search-bank-branch-page {
   width: 100%;
   height: 100%;
@@ -27,9 +27,9 @@
     -webkit-overflow-scrolling: touch;
   }
   .item {
-    line-height: 100/@rem;
-    padding-left: 20/@rem;
-    margin: 20/@rem 0;
+    line-height: 100*$rem;
+    padding-left: 20*$rem;
+    margin: 20*$rem 0;
     background: #fff;
   }
   .page-infinite-loading {

@@ -48,7 +48,8 @@ import {
   DatetimePicker,
   IndexList,
   IndexSection,
-  Loadmore
+  Loadmore,
+  Badge
 } from 'mint-ui';
 Vue.component(Switch.name, Switch);
 Vue.component(Field.name, Field);
@@ -73,20 +74,27 @@ Vue.component(IndexList.name, IndexList);
 Vue.component(IndexSection.name, IndexSection);
 Vue.component(TabContainerItem.name, TabContainerItem);
 Vue.component(Loadmore.name, Loadmore);
+Vue.component(Badge.name, Badge);
 
 /**
  * 全局注册移动端自定义组件
  */
-import FullPage from "@src/containers-app/FullPage";
+import FullPage from "@src/components-app/FullPage";
 Vue.component(FullPage.name, FullPage);
-import FullPagePopup from "@src/containers-app/FullPagePopup";
+import FullPagePopup from "@src/components-app/FullPagePopup";
 Vue.component(FullPagePopup.name, FullPagePopup);
-import ViewRadius from "@src/containers-app/ViewRadius";
-Vue.component(ViewRadius.name, ViewRadius);
-import MypCell from "@src/containers-app/MypCell";
+import MypCell from "@src/components-app/MypCell";
 Vue.component(MypCell.name, MypCell);
+import MypCellPannel from "@src/components-app/MypCellPannel";
+Vue.component(MypCellPannel.name, MypCellPannel);
 import MypLoadmoreApi from "@src/components-app/MypLoadmoreApi";
 Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
+import InputWrapper from "@src/components-app/InputWrapper";
+Vue.component(InputWrapper.name, InputWrapper);
+import ViewRadius from "@src/components-app/ViewRadius";
+Vue.component(ViewRadius.name, ViewRadius);
+import MypTr from "@src/components-app/MypTr";
+Vue.component(MypTr.name, MypTr);
 
 
 /**
@@ -101,9 +109,10 @@ Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
 /**
  * 引入全局css
  */
-
+import "@src/assets/icons/style.css";
 if (isMobile) {
   require("@src/assets/css/reset.css");
+  require("@src/assets/scss/index.scss");
 } else {
   //如果需要，这里引入PC端css reset
 }
@@ -111,9 +120,18 @@ if (isMobile) {
 /**
  *这里写 pc 与 移动端 的特殊处理
  */
+import { Toast, MessageBox } from "mint-ui";
+import validator from "@src/common/validator";
 if (isMobile) {
   //这段代码 暂时写在这里
   document.body.style.height = document.documentElement.clientHeight + "px";
+  window.onresize = function () {
+    document.body.style.height = document.documentElement.clientHeight + "px";
+  }
+  Vue.prototype.Toast = Toast;
+  Vue.prototype.MessageBox = MessageBox;
+  Vue.prototype.validator = validator;
+
 } else {
 
 }

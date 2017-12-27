@@ -85,7 +85,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-@import url("../../assets/less/base.less");
 @default-color: #333; // 字体颜色
 @center-width: 280px; // 表单宽度
 

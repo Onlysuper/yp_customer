@@ -9,8 +9,8 @@
     </mt-index-list>
   </full-page-popup>
 </template>
-<style lang="less">
-@import url(../../assets/less/base.less);
+<style lang="scss">
+@import '../../assets/scss/base.scss';
 .bank-page {
   width: 100%;
   height: 100%;

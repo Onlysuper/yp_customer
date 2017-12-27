@@ -9,14 +9,14 @@ export default {
   component: App,
   children: [{
     //商户管理
-    name: "home",
+    name: "1",
     path: 'home',
     component: r => {
       loading(true);
       return require.ensure([], () => { loading(false); return r(require("@src/views-app/home")) }, "home-app")
     },
     meta: {
-      pageTitle: "首页"
+      pageTitle: "易票"
 
     }
   }]

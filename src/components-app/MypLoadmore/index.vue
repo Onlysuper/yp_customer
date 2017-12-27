@@ -8,7 +8,7 @@
     </mt-loadmore>
   </div>
 </template>
-<style lang="less">
+<style lang="scss">
 .loadmore-warpper {
   position: absolute;
   left: 0;

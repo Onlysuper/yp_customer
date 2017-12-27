@@ -9,48 +9,49 @@
         </div>
     </div>
 </template>
-<style lang="less">
-    @import url(../../assets/less/base.less);
-    .search-box {
-        display: flex;
-        padding: 5px;
-        background: #fff;
-        min-height:30px;
-        .search-input {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            input {
-                padding-left: 10px;
-            }
-            .icon {
-                font-size: 14px;
-                color: #ccc;
-                margin-left: 10px;
-            }
-        }
-        .right {}
+<style lang="scss">
+@import '../../assets/scss/base.scss';
+.search-box {
+  display: flex;
+  padding: 5px;
+  background: #fff;
+  min-height: 30px;
+  .search-input {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    input {
+      padding-left: 10px;
     }
+    .icon {
+      font-size: 14px;
+      color: #ccc;
+      margin-left: 10px;
+    }
+  }
+  .right {
+  }
+}
 </style>
 <script>
-    export default {
-        components: {},
-        props: {},
-        data() {
-            return {
-                selected: this.$route.path
-            }
-        },
-        watch: {
-            selected(value) {
-                this.toUrl(value);
-            }
-        },
-        mounted() {},
-        methods: {
-            showSearchPanel() {
-                this.$emit('result');
-            }
-        },
+export default {
+  components: {},
+  props: {},
+  data() {
+    return {
+      selected: this.$route.path
+    };
+  },
+  watch: {
+    selected(value) {
+      this.toUrl(value);
     }
+  },
+  mounted() {},
+  methods: {
+    showSearchPanel() {
+      this.$emit("result");
+    }
+  }
+};
 </script>
