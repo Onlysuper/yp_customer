@@ -186,6 +186,7 @@ export {
     postUploadFile,
     transferCustomer,
     perfectCustomer,
+    getCustomerConfigs,
     //权限管理
     getUserManages,
     postAddUser,

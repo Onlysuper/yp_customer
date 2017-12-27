@@ -36,6 +36,30 @@ mypFilters.install = function (Vue, options) {
         }
         return "状态" + value;
     })
+
+    Vue.filter('handleDeviceType', function (value) {
+        switch (value) {
+            case "HX_PAN":
+                value = "金税盘";
+                break;
+            case "BW_PAN":
+                value = "税控盘";
+                break;
+        }
+        return value;
+    })
+
+    Vue.filter('handleClientType', function (value) {
+        switch (value) {
+            case "CLIENT":
+                value = "桌面客户端";
+                break;
+            case "BROWER":
+                value = "浏览器";
+                break;
+        }
+        return value;
+    })
     // 3. 添加实例方法
     //Vue.prototype.$myMethod = ...
 }
