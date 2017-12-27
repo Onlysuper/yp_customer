@@ -102,8 +102,16 @@ const perfectCustomer = () => { return (params) => { return http.post(base.oaIp,
 **开票配置start
  */
 const getCustomerConfigs = () => { return (params) => { return http.get(base.oaIp, "/customerConfig/page", params) } }
+const postAddCustomerConfigs = () => { return (params) => { return http.post(base.oaIp, "/customerConfig/add", params) } }
+const postEditCustomerConfigs = () => { return (params) => { return http.post(base.oaIp, "/customerConfig/update", params) } }
 // end -------------------------------------------------
-
+/**
+**商品管理start
+ */
+const getCustomerGoods = () => { return (params) => { return http.get(base.oaIp, "/customerGoods/page", params) } }
+const postAddCustomerGoods = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/add", params) } }
+const postEditCustomerGoods = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/update", params) } }
+// end -------------------------------------------------
 /**
 **授权码审核start
  */
