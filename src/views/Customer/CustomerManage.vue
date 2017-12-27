@@ -44,20 +44,22 @@
     <!-- 新增end -->
     <!-- 批量入网 start -->
     <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
-      <div class="content-center-box">
-        <div class="sep-inline">
-          <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
+      <form>
+        <div class="content-center-box">
+          <div class="sep-inline">
+            <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
+          </div>
+          <div class="sep-inline">
+            <el-upload ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag multiple>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将入网文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+            </el-upload>
+          </div>
         </div>
-        <div class="sep-inline">
-          <el-upload action="/customer/incomeBatch" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag multiple>
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将入网文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
-          </el-upload>
-        </div>
-      </div>
+      </form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchNetFormVisible = false">关 闭</el-button>
         <el-button type="primary" @click="saveBatchNet">提 交</el-button>
@@ -71,7 +73,7 @@
           <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
         </div>
         <div class="sep-inline">
-          <el-upload action="/customer/transBatch" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload" multiple>
+          <el-upload ref="batchtransferFile" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload" multiple>
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将需要转移的文件拖到此处，或
               <em>点击上传</em>
@@ -348,6 +350,11 @@ export default {
       editFormVisible: false, // 编辑框
       transferFormVisible: false,
       batchNetForm: {
+        // 批量上传
+        url: ""
+      },
+      batchTransferForm: {
+        // 批量转移
         url: ""
       },
       addFormRules: {
@@ -580,36 +587,36 @@ export default {
           },
           { key: "入网时间", word: "createTime", width: "170" }
         ],
-        operation: [
-          // 操作按钮
-          {
-            text: "详情",
-            cb: rowdata => {
-              this.detailsForm = rowdata;
-              this.detailsFormVisible = true;
+        operation: {
+          width: "120px",
+          options: [
+            // 操作按钮
+            {
+              text: "详情",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.detailsForm = rowdata;
+                this.detailsFormVisible = true;
+              }
+            },
+            {
+              text: "编辑",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.editForm = rowdata;
+                this.editFormVisible = true;
+              }
+            },
+            {
+              text: "转移",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.transferForm = rowdata;
+                this.transferFormVisible = true;
+              }
             }
-          },
-          {
-            text: "编辑",
-            cb: rowdata => {
-              this.editForm = rowdata;
-              this.editFormVisible = true;
-            }
-          },
-          {
-            text: "转移",
-            cb: rowdata => {
-              this.transferForm = rowdata;
-              this.transferFormVisible = true;
-            }
-          }
-          // {
-          //   text: "修改商户产品",
-          //   cb: rowdata => {
-          //     console.log(rowdata);
-          //   }
-          // }
-        ]
+          ]
+        }
       }
     };
   },
@@ -618,15 +625,12 @@ export default {
     handleBatchTransferSuccess() {
       // 批量转移文件上传成功
       this.$message.success("恭喜您！上传成功");
-      batchNetForm.url = URL.createObjectURL(file.raw);
-      console.log(batchNetForm.url);
+      this.batchTransferForm.url = URL.createObjectURL(file.raw);
     },
     handleBatchNetSuccess(res, file) {
       // 批量入网文件上传成功
       this.$message.success("恭喜您！上传成功");
-      batchNetForm.url = URL.createObjectURL(file.raw);
-      console.log(batchNetForm.url);
-      // this.imageUrl = URL.createObjectURL(file.raw);
+      this.batchNetForm.url = URL.createObjectURL(file.raw);
     },
     beforeBatchNetUpload(file) {
       const extension = file.name.split(".")[1] === "xlsx";
@@ -728,9 +732,9 @@ export default {
         }
       });
     },
-    // 批量入网文件提交
+    // 批量入网文件保存
     saveBatchNet() {
-      alert("入网ok");
+      console.log(this.$refs.batchnetFile);
     },
     // 批量转移文件提交
     saveBatchTransfer() {

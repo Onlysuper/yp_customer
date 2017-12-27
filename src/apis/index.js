@@ -134,18 +134,28 @@ const getArantNumBuybacks = () => { return (params) => { return http.get(base.oa
 const getUserManages = () => { return (params) => { return http.get(base.oaIp, "/user/page", params) } }
 const postAddUser = () => { return (params) => { return http.post(base.oaIp, "/user", params) } }
 const patchEditUser = () => { return (params) => { return http.patch(base.oaIp, "/user", params) } }
+const getRolesTree = () => { return (params) => { return http.get(base.oaIp, "/user/role/tree", params) } }
+const patchConfigRole = () => { return (params) => { return http.patch(base.oaIp, "/user/role", params) } }
+const deleteUserManage = () => { return (params) => { return http.delete(base.oaIp, "/user/delete", params) } }
 // end -------------------------------------------------
 
 /**
 **菜单管理start
  */
-const getMenuManages = () => { return (params) => { return http.get(base.oaIp, "/menu/function/page", params) } }
+const getMenuTrees = () => { return (params) => { return http.get(base.oaIp, "/menu/tree", params) } }
+const getMenuTreePage = () => { return (params) => { return http.get(base.oaIp, "/menu/function/page", params) } }
+
 // end -------------------------------------------------
 
 /**
 **角色管理start
  */
-const getRoleManages = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
+const getRoleManages = () => { return (params) => { return http.get(base.oaIp, "/role/page", params) } }
+const postAddRole = () => { return (params) => { return http.post(base.oaIp, "/role", params) } }
+const patchEditRole = () => { return (params) => { return http.patch(base.oaIp, "/role", params) } }
+const deleteRole = () => { return (params) => { return http.delete(base.oaIp, "/role/delete", params) } }
+const getRolesTreeConfig = () => { return (params) => { return http.get(base.oaIp, "/role/privilege/tree", params) } }
+const patchRolesTreeSave = () => { return (params) => { return http.patch(base.oaIp, "/role/privilege", params) } }
 // end -------------------------------------------------
 
 /**
@@ -186,9 +196,22 @@ export {
     postUploadFile,
     transferCustomer,
     perfectCustomer,
-    //权限管理
+    //用户管理
     getUserManages,
     postAddUser,
-    patchEditUser
+    patchEditUser,
+    getRolesTree,
+    patchConfigRole,
+    deleteUserManage,
+    // 菜单管理
+    getMenuTrees,
+    getMenuTreePage,
+    // 角色管理
+    getRoleManages,
+    postAddRole,
+    patchEditRole,
+    deleteRole,
+    getRolesTreeConfig,
+    patchRolesTreeSave
 };
 

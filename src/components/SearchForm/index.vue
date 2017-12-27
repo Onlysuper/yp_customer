@@ -23,7 +23,7 @@
       <div class="button-box">
         <el-button size="small" @click="searchStart" type="primary">开始搜索</el-button>
         <el-button size="small" @click="resetInput('searchform')">重置</el-button>
-        <el-button size="small" class="seach-mode" @click="advancSeachfn()" type="text">{{visibleinput?"普通搜索":"高级搜索"}}</el-button>
+        <el-button size="small" v-if="visibleSenior" class="seach-mode" @click="advancSeachfn()" type="text">{{visibleinput?"普通搜索":"高级搜索"}}</el-button>
 
       </div>
     </el-form>
@@ -76,6 +76,20 @@ export default {
   computed: {
     visibleinput() {
       return this.$store.state.dataTable.visibleinput;
+    },
+    visibleSenior() {
+      //隐藏高级搜索
+      var showlen = 0;
+      this.searchOptions.forEach(element => {
+        if (element.show) {
+          showlen++;
+        }
+      });
+      if (showlen == this.searchOptions.length) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   mounted() {},

@@ -19,9 +19,9 @@
         </template>
       </el-table-column>
 
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column fixed="right" label="操作" :width="tableDataInit.operation.width">
         <template slot-scope="scope">
-          <el-button v-for="(item,index) in tableDataInit.operation" @click="operationHandle(scope.row,item.cb)" :key="index" type="text" size="small">{{item.text}}</el-button>
+          <el-button v-for="(item,index) in tableDataInit.operation.options" @click="operationHandle(scope.row,item.cb)" :key="index" size="small" type="text" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -112,8 +112,12 @@ export default {
     },
     // 表格大小
     tableSizeHandle() {
-      var serchboxHeight = document.querySelector(".form-box").clientHeight;
-      this.tableHeight = document.body.clientHeight - serchboxHeight - 175;
+      if (document.querySelector(".form-box")) {
+        var serchboxHeight = document.querySelector(".form-box").clientHeight;
+        this.tableHeight = document.body.clientHeight - serchboxHeight - 175;
+      } else {
+        this.tableHeight = document.body.clientHeight - 175;
+      }
     },
     handleSizeChange(val) {
       // 改变页数
@@ -145,33 +149,6 @@ export default {
         this.$store.state.Base.oaIp +
         "/customer/export?" +
         this.getDataUrl.searchCondition;
-      // var tHeader = this.tableDataInit.dataHeader.map(function(item) {
-      //   return item.key;
-      // });
-      // var tBody = this.tableDataInit.dataHeader.map(function(item) {
-      //   return item.word;
-      // });
-      // this.getDataUrl.url()({
-      //   limit: 10,
-      //   page: 1,
-      //   ...this.getDataUrl.searchCondition
-      // }).then(data => {
-      //   if (data.code === "00") {
-      //     // 数据获取成功
-      //     require.ensure([], () => {
-      //       const {
-      //         export_json_to_excel
-      //       } = require("@src/common/Export2Excel");
-      //       const Header = tHeader;
-      //       const filterVal = tBody;
-      //       const list = data.data;
-      //       const data_ = this.formatJson(filterVal, list);
-      //       export_json_to_excel(Header, data_, "列表excel");
-      //       this.downloadLoading = false;
-      //     });
-      //   }
-      //   this.ifloading = false;
-      // });
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));

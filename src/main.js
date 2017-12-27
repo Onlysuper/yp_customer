@@ -36,9 +36,11 @@ import {
   Form as eleForm,
   FormItem as eleFormItem,
   Input as eleInput,
+  InputNumber as eleInputNumber,
   DatePicker as eleDatePicker,
   Select as eleSelect,
   Option as eleOption,
+  OptionGroup as eleOptionGroup,
   Table as eleTable,
   TableColumn as eleTableColumn,
   Pagination as elePagination,
@@ -46,6 +48,7 @@ import {
   Tag as eleTag,
   Footer as eleFooter,
   Upload as eleUpload,
+  Tree as eleTree,
   MessageBox,
   Message,
   Loading
@@ -66,9 +69,11 @@ Vue.component(eleDialog.name, eleDialog)
 Vue.component(eleForm.name, eleForm)
 Vue.component(eleFormItem.name, eleFormItem)
 Vue.component(eleInput.name, eleInput)
+Vue.component(eleInputNumber.name, eleInputNumber)
 Vue.component(eleDatePicker.name, eleDatePicker)
 Vue.component(eleSelect.name, eleSelect)
 Vue.component(eleOption.name, eleOption)
+Vue.component(eleOptionGroup.name, eleOptionGroup)
 Vue.component(eleTable.name, eleTable)
 Vue.component(eleTableColumn.name, eleTableColumn)
 Vue.component(elePagination.name, elePagination)
@@ -78,9 +83,10 @@ Vue.component(eleFooter.name, eleFooter)
 Vue.component(eleRow.name, eleRow)
 Vue.component(eleCol.name, eleCol)
 Vue.component(eleUpload.name, eleUpload)
+Vue.component(eleTree.name, eleTree)
 
 Vue.use(Loading.directive)
-
+// Vue.prototype.$ELEMENT = { size: 'small' }
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
@@ -148,18 +154,22 @@ Vue.component(Loadmore.name, Loadmore);
 /**
  * 全局注册移动端自定义组件
  */
-import FullPage from "@src/containers-app/FullPage";
-Vue.component(FullPage.name, FullPage);
-import FullPagePopup from "@src/containers-app/FullPagePopup";
-Vue.component(FullPagePopup.name, FullPagePopup);
-import ViewRadius from "@src/containers-app/ViewRadius";
-Vue.component(ViewRadius.name, ViewRadius);
-import MypCell from "@src/containers-app/MypCell";
-Vue.component(MypCell.name, MypCell);
-import MypLoadmoreApi from "@src/components-app/MypLoadmoreApi";
-Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
-
-
+if (isMobile) {
+  require.ensure([], () => {
+    var MintUI = require("mint-ui");
+    Vue.use(MintUI)
+  }, "mintUI");
+  var FullPage = require("@src/containers-app/FullPage")
+  Vue.component(FullPage.name, FullPage);
+  var FullPagePopup = require("@src/containers-app/FullPagePopup")
+  Vue.component(FullPagePopup.name, FullPagePopup);
+  var ViewRadius = require("@src/containers-app/ViewRadius")
+  Vue.component(ViewRadius.name, ViewRadius);
+  var MypCell = require("@src/containers-app/MypCell")
+  Vue.component(MypCell.name, MypCell);
+  var MypLoadmoreApi = require("@src/components-app/MypLoadmoreApi")
+  Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
+}
 /**
  * 全局注册PC端自定义组件
  */

@@ -19,6 +19,8 @@ const Layout = {
         modifyData(state, data) { // 接受后台接口数据并传给state
             state.userMessage.realname = data.data.realname //管理员名称
             state.userMessage.username = data.data.username // 登录账号
+            state.userMessage.bussinessNo = data.data.bussinessNo // 登录账号
+            state.userMessage.resetPasswordStatus = data.data.resetPasswordStatus // 登录账号
             state.menuList = data.data.menuList
         }
     },
