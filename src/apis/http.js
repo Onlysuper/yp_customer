@@ -11,10 +11,7 @@ axios.defaults.withCredentials = true;
 //全局请求拦截器
 axios.interceptors.request.use(function (config) {
     //loading
-    // Indicator.open({
-    //      text: "请稍后...",
-    //      spinnerType: 'fading-circle'
-    // });
+    Indicator.open();
     //  var reg = new RegExp(config.baseURL);
     //  var apiPath = config.url.replace(reg, "");
     //  //console.log("请求地址："+apiPath)
@@ -31,7 +28,7 @@ axios.interceptors.request.use(function (config) {
 
 //全局响应拦截器
 axios.interceptors.response.use(function (response) {
-    // Indicator.close();
+    Indicator.close();
     return response;
 }, function (error) {
     return Promise.resolve(error.response);

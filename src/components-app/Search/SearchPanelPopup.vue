@@ -8,7 +8,7 @@
       <div class="pading">
         <view-radius>
           <input-wrapper>
-            <component ref="configDate" :is="item.type" :config="item" v-for="(item,index) in config" @showDate="showDate" :key="index"></component>
+            <component class="border-bottom-1px" ref="configDate" :is="item.type" :config="item" v-for="(item,index) in config" @showDate="showDate" :key="index"></component>
           </input-wrapper>
         </view-radius>
       </div>
@@ -50,13 +50,16 @@ const MypDate = Vue.extend({
   },
   data() {
     return {
-      value: ""
+      value: utils.formatDate(this.config.defaultValue, "yyyy-MM-dd")
     };
   },
   watch: {
     value(val) {
       this.config.cb && this.config.cb(val);
     }
+  },
+  mounted() {
+    this.config.cb(utils.formatDate(this.config.defaultValue, "yyyy-MM-dd"));
   },
   methods: {
     showDate($this) {
@@ -95,25 +98,22 @@ const MypRadioList = Vue.extend({
   },
   data() {
     return {
-      value: ""
+      value: this.config.defaultValue
     };
+  },
+  mounted() {
+    this.config.cb(this.config.defaultValue);
   },
   watch: {
     value(val) {
       this.config.cb && this.config.cb(val);
     }
   },
-  template: `<div><mt-cell :title="config.title" class="border-1px"></mt-cell><mt-radio class="myp-radio border-1px" v-model="value" :options="config.options"></mt-radio></div>`
+  template: `<div><mt-cell v-if="config.title" :title="config.title" class="border-1px"></mt-cell><mt-radio class="myp-radio border-1px" v-model="value" :options="config.options"></mt-radio></div>`
 });
-import PubSub from "pubsub-js";
-import FullPage from "@src/containers/FullPage";
-import InputWrapper from "@src/containers/InputWrapper";
-import ViewRadius from "@src/containers/ViewRadius";
+
 export default {
   components: {
-    FullPage,
-    InputWrapper,
-    ViewRadius,
     MypText,
     MypDate,
     MypChekList,
@@ -161,11 +161,7 @@ export default {
       console.log("val", val);
     }
   },
-  created() {
-    PubSub.subscribe("backbutton", () => {
-      this.popupVisible = false;
-    });
-  },
+  created() {},
   mounted() {
     if (this.value) {
       this.popupVisible = true;
@@ -190,14 +186,14 @@ export default {
 };
 </script>
 
-<style lang="less">
-@import url(../../assets/less/base.less);
+<style lang="scss">
+@import "../../assets/scss/base.scss";
 .search-panel-page {
   width: 100%;
   height: 100%;
   .pading {
-    margin-top: 20/@rem;
-    padding: 0 20/@rem;
+    // margin-top: 20*$rem;
+    padding: 30*$rem 20*$rem;
     .input-box {
       border: 1px solid #eee;
       .input-wrapper {
@@ -218,10 +214,10 @@ export default {
     }
   } //公共
   .item {
-    margin-top: 30/@rem;
+    margin-top: 30*$rem;
   }
   .public-title {
-    line-height: 100/@rem;
+    line-height: 100*$rem;
   }
   .myp-radio,
   .myp-chek-list {

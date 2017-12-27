@@ -9,10 +9,16 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     strict: true,
     state: {
+        scrollTop: {
+
+        }
     },
     getters: {
     },
     mutations: {
+        ["SAVE_SCROLLTOP"](state, page) {
+            state.scrollTop[page.name] = page.scrollTopVal;
+        },
     },
     actions: {
     },

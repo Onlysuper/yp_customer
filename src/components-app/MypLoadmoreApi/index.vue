@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import PullDownTip from "@src/containers-app/PullDownTip";
+import PullDownTip from "../PullDownTip";
 import { Toast, Indicator } from "mint-ui";
 export default {
-  name: "MypLoadmoreApi",
+  name: "myp-loadmore-api",
   components: {
     PullDownTip
   },
@@ -19,6 +19,16 @@ export default {
     api: {
       type: Function,
       default: () => {}
+    },
+    //loadQuery默认值
+    defaultLoadQuery: {
+      type: Object,
+      default() {
+        return {
+          limit: 20,
+          page: 1
+        };
+      }
     }
   },
   watch: {
@@ -32,12 +42,6 @@ export default {
       list: [],
       //指定loadQuery条件
       loadQuery: {},
-      //loadQuery默认值
-      defaultLoadQuery: {
-        limit: 20,
-        page: 1
-      },
-
       loadMoreConfig: {
         //如果TRUE，loadmore将检查和填写其集装箱
         autoFill: false,
@@ -74,15 +78,19 @@ export default {
         if (data.code === "00") {
           return data.data || [];
         } else {
-          Toast(data.resultMsg);
+          Toast(data.msg);
           return [];
         }
       });
     },
     //首次加载和搜索加载操作
-    load(query) {
-      query = query || {};
-      this.loadQuery = Object.assign({}, this.defaultLoadQuery, query);
+    load(searchQuery) {
+      this.searchQuery = searchQuery || {};
+      this.loadQuery = Object.assign(
+        {},
+        this.defaultLoadQuery,
+        this.searchQuery
+      );
       this.loadMoreConfig.allLoaded = false;
       this.list = [];
       Indicator.open();
@@ -94,7 +102,11 @@ export default {
     },
     //下拉刷新操作
     loadTop() {
-      this.loadQuery = Object.assign({}, this.defaultLoadQuery);
+      this.loadQuery = Object.assign(
+        {},
+        this.defaultLoadQuery,
+        this.searchQuery
+      );
       this.loadMoreConfig.allLoaded = false;
       this.list = [];
       this.loadData(this.loadQuery).then(list => {
@@ -124,7 +136,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .loadmore-api-warpper {
   //如果不使用absolute在ios中下拉刷新时会失去高度，导致下拉loading不显示
   position: absolute;

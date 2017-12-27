@@ -102,91 +102,39 @@ Vue.prototype.$message = Message
 /**
  * 引入mint-ui所需组件
  */
-import {
-  Switch,
-  Field,
-  Swipe,
-  SwipeItem,
-  Button,
-  Radio,
-  Actionsheet,
-  Picker,
-  Cell,
-  Search,
-  Checklist,
-  Navbar,
-  Tabbar,
-  TabContainer,
-  TabContainerItem,
-  TabItem,
-  Spinner,
-  Header,
-  Popup,
-  DatetimePicker,
-  IndexList,
-  IndexSection,
-  Loadmore
-} from 'mint-ui';
-Vue.component(Switch.name, Switch);
-Vue.component(Field.name, Field);
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
-Vue.component(Button.name, Button);
-Vue.component(Radio.name, Radio);
-Vue.component(Actionsheet.name, Actionsheet);
-Vue.component(Picker.name, Picker);
-Vue.component(Cell.name, Cell);
-Vue.component(Search.name, Search);
-Vue.component(Checklist.name, Checklist);
-Vue.component(Navbar.name, Navbar);
-Vue.component(Tabbar.name, Tabbar);
-Vue.component(TabItem.name, TabItem);
-Vue.component(Spinner.name, Spinner);
-Vue.component(TabContainer.name, TabContainer);
-Vue.component(Header.name, Header);
-Vue.component(Popup.name, Popup);
-Vue.component(DatetimePicker.name, DatetimePicker);
-Vue.component(IndexList.name, IndexList);
-Vue.component(IndexSection.name, IndexSection);
-Vue.component(TabContainerItem.name, TabContainerItem);
-Vue.component(Loadmore.name, Loadmore);
+import mintui from "mint-ui";
+Vue.use(mintui);
+import validator from "@src/common/validator";
 
 /**
  * 全局注册移动端自定义组件
  */
-if (isMobile) {
-  require.ensure([], () => {
-    var MintUI = require("mint-ui");
-    Vue.use(MintUI)
-  }, "mintUI");
-  var FullPage = require("@src/containers-app/FullPage")
-  Vue.component(FullPage.name, FullPage);
-  var FullPagePopup = require("@src/containers-app/FullPagePopup")
-  Vue.component(FullPagePopup.name, FullPagePopup);
-  var ViewRadius = require("@src/containers-app/ViewRadius")
-  Vue.component(ViewRadius.name, ViewRadius);
-  var MypCell = require("@src/containers-app/MypCell")
-  Vue.component(MypCell.name, MypCell);
-  var MypLoadmoreApi = require("@src/components-app/MypLoadmoreApi")
-  Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
-}
-/**
- * 全局注册PC端自定义组件
- */
-//........
-//........
-//........
-//........
-//........
+import FullPage from "@src/components-app/FullPage";
+Vue.component(FullPage.name, FullPage);
+import FullPagePopup from "@src/components-app/FullPagePopup";
+Vue.component(FullPagePopup.name, FullPagePopup);
+import MypCell from "@src/components-app/MypCell";
+Vue.component(MypCell.name, MypCell);
+import MypCellPannel from "@src/components-app/MypCellPannel";
+Vue.component(MypCellPannel.name, MypCellPannel);
+import MypLoadmoreApi from "@src/components-app/MypLoadmoreApi";
+Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
+import InputWrapper from "@src/components-app/InputWrapper";
+Vue.component(InputWrapper.name, InputWrapper);
+import ViewRadius from "@src/components-app/ViewRadius";
+Vue.component(ViewRadius.name, ViewRadius);
+import MypTr from "@src/components-app/MypTr";
+Vue.component(MypTr.name, MypTr);
 
 /**
  * 引入全局css
  */
-
+import "@src/assets/icons/style.css";
 if (isMobile) {
   require("@src/assets/css/reset.css");
+  require("@src/assets/scss/index.scss");
 } else {
-  //如果需要，这里引入PC端css reset
+
 }
 
 /**
@@ -195,6 +143,13 @@ if (isMobile) {
 if (isMobile) {
   //这段代码 暂时写在这里
   document.body.style.height = document.documentElement.clientHeight + "px";
+  window.onresize = function () {
+    document.body.style.height = document.documentElement.clientHeight + "px";
+  }
+  Vue.prototype.Toast = mintui.Toast;
+  Vue.prototype.MessageBox = mintui.MessageBox;
+  Vue.prototype.validator = validator;
+
 } else {
 
 }

@@ -23,8 +23,8 @@
 
   </mt-tabbar>
 </template>
-<style lang="less">
-@import url(../../assets/less/base.less);
+<style lang="scss">
+@import '../../assets/scss/base.scss';
 .main-menu {
   background-image: none;
   background-color: #fafbfe;
@@ -32,7 +32,7 @@
   border-top: 1px solid #e1e1e1;
   .icon {
     color: #999;
-    font-size: 48/@rem;
+    font-size: 48*$rem;
   }
   .mint-tab-item-label {
     margin-top: 3px;
