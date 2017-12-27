@@ -2,7 +2,7 @@
 
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table :data="tableData" :max-height="tableHeight" v-loading="loading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
+    <el-table :data="tableData" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
       <el-table-column fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
@@ -62,7 +62,7 @@ export default {
   props: ["tableDataInit"],
   data() {
     return {
-      loading: false,
+      ifloading: false,
       tableData: [],
       tableHeight: 0, // 表单的高度
       currentPage: 1, //当前页数
@@ -88,7 +88,6 @@ export default {
       this.pageCount,
       this.getDataUrl.searchCondition
     );
-    console.log(this.getDataUrl);
     this.tableSizeHandle();
     window.onresize = () => {
       this.tableSizeHandle();
@@ -97,7 +96,7 @@ export default {
   methods: {
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
-      this.loading = true;
+      this.ifloading = true;
       this.getDataUrl.url()({
         page: page,
         limit: limit,
@@ -108,7 +107,7 @@ export default {
           this.tableData = data.data;
           this.dataCount = data.count;
         }
-        this.loading = false;
+        this.ifloading = false;
       });
     },
     // 表格大小
@@ -140,6 +139,42 @@ export default {
     operationHandle(rowdata, cb) {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);
+    },
+    ExportExcel() {
+      window.location.href =
+        this.$store.state.Base.oaIp +
+        "/customer/export?" +
+        this.getDataUrl.searchCondition;
+      // var tHeader = this.tableDataInit.dataHeader.map(function(item) {
+      //   return item.key;
+      // });
+      // var tBody = this.tableDataInit.dataHeader.map(function(item) {
+      //   return item.word;
+      // });
+      // this.getDataUrl.url()({
+      //   limit: 10,
+      //   page: 1,
+      //   ...this.getDataUrl.searchCondition
+      // }).then(data => {
+      //   if (data.code === "00") {
+      //     // 数据获取成功
+      //     require.ensure([], () => {
+      //       const {
+      //         export_json_to_excel
+      //       } = require("@src/common/Export2Excel");
+      //       const Header = tHeader;
+      //       const filterVal = tBody;
+      //       const list = data.data;
+      //       const data_ = this.formatJson(filterVal, list);
+      //       export_json_to_excel(Header, data_, "列表excel");
+      //       this.downloadLoading = false;
+      //     });
+      //   }
+      //   this.ifloading = false;
+      // });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]));
     }
   },
   watch: {

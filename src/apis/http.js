@@ -140,5 +140,26 @@ export default {
         }).then(function (response) {
             return checkCode(response)
         })
+<<<<<<< HEAD
+=======
+    },
+    patch: function (baseURL, url, params) {
+        return axios({
+            method: "PATCH",
+            url: url,
+            baseURL: baseURL,
+            params: params,
+            timeout: 10000,
+            // headers: {
+            //     // "X-requested-With": "XMLHttpRequest",
+            //     //使用form表单进行数据交互
+            //     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            // },
+        }).then(function (response) {
+            return checkStatus(response)
+        }).then(function (response) {
+            return checkCode(response)
+        })
+>>>>>>> 46e72c3f81c96c5ca8ab485ddb39981a2f668bdd
     }
 }

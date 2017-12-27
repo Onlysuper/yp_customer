@@ -13,14 +13,85 @@ import mypFilter from './common/filters';
 Vue.use(mypDirective);
 Vue.use(mypFilter);
 
-// plug start
-import axios from 'axios'
-Vue.prototype.$http = axios
-// plug end
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
 import './assets/scss/theme-change.scss' // 更改皮肤
-import ElementUI from 'element-ui'
-Vue.use(ElementUI);
+/**
+ * 引入element-ui所需组件
+ */
+import {
+  Button as eleButton,
+  Row as eleRow,
+  Col as eleCol,
+  ButtonGroup as eleButtonGroup,
+  Container as eleContainer,
+  Menu as eleMenu,
+  Submenu as eleSubmenu,
+  MenuItem as eleMenuItem,
+  Header as eleHeader,
+  Badge as eleBadge,
+  Dropdown as eleDropdown,
+  DropdownMenu as eleDropdownMenu,
+  DropdownItem as eleDropdownItem,
+  Dialog as eleDialog,
+  Form as eleForm,
+  FormItem as eleFormItem,
+  Input as eleInput,
+  DatePicker as eleDatePicker,
+  Select as eleSelect,
+  Option as eleOption,
+  Table as eleTable,
+  TableColumn as eleTableColumn,
+  Pagination as elePagination,
+  Popover as elePopover,
+  Tag as eleTag,
+  Footer as eleFooter,
+  Upload as eleUpload,
+  MessageBox,
+  Message,
+  Loading
+} from 'element-ui'
+
+Vue.component(eleButton.name, eleButton)
+Vue.component(eleButtonGroup.name, eleButtonGroup)
+Vue.component(eleContainer.name, eleContainer)
+Vue.component(eleMenu.name, eleMenu)
+Vue.component(eleSubmenu.name, eleSubmenu)
+Vue.component(eleMenuItem.name, eleMenuItem)
+Vue.component(eleHeader.name, eleHeader)
+Vue.component(eleBadge.name, eleBadge)
+Vue.component(eleDropdown.name, eleDropdown)
+Vue.component(eleDropdownMenu.name, eleDropdownMenu)
+Vue.component(eleDropdownItem.name, eleDropdownItem)
+Vue.component(eleDialog.name, eleDialog)
+Vue.component(eleForm.name, eleForm)
+Vue.component(eleFormItem.name, eleFormItem)
+Vue.component(eleInput.name, eleInput)
+Vue.component(eleDatePicker.name, eleDatePicker)
+Vue.component(eleSelect.name, eleSelect)
+Vue.component(eleOption.name, eleOption)
+Vue.component(eleTable.name, eleTable)
+Vue.component(eleTableColumn.name, eleTableColumn)
+Vue.component(elePagination.name, elePagination)
+Vue.component(elePopover.name, elePopover)
+Vue.component(eleTag.name, eleTag)
+Vue.component(eleFooter.name, eleFooter)
+Vue.component(eleRow.name, eleRow)
+Vue.component(eleCol.name, eleCol)
+Vue.component(eleUpload.name, eleUpload)
+
+Vue.use(Loading.directive)
+
+Vue.prototype.$loading = Loading.service
+Vue.prototype.$msgbox = MessageBox
+Vue.prototype.$alert = MessageBox.alert
+Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$prompt = MessageBox.prompt
+Vue.prototype.$notify = Notification
+Vue.prototype.$message = Message
+
+
+
+
 
 /**
  * 引入mint-ui所需组件
