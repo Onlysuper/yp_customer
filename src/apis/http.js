@@ -146,12 +146,36 @@ export default {
             method: "PATCH",
             url: url,
             baseURL: baseURL,
-            params: params,
+            // params: params,
+            data: qs.stringify(params),
             timeout: 10000,
             // headers: {
-            //     // "X-requested-With": "XMLHttpRequest",
-            //     //使用form表单进行数据交互
-            //     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            //     "Content-Type": ""
+            // }
+            // headers: {
+            //     'Content-Type': 'multipart/form-data'
+            //使用form表单进行数据交互
+            // "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            // "Content-Type": "application/json;charset=UTF-8"
+            // },
+        }).then(function (response) {
+            return checkStatus(response)
+        }).then(function (response) {
+            return checkCode(response)
+        })
+    },
+    delete: function (baseURL, url, params) {
+        return axios({
+            method: "DELETE",
+            url: url + '/' + params,
+            baseURL: baseURL,
+            // params: params,
+            timeout: 10000,
+            // headers: {
+            //     'Content-Type': 'multipart/form-data'
+            //使用form表单进行数据交互
+            // "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            // "Content-Type": "application/json;charset=UTF-8"
             // },
         }).then(function (response) {
             return checkStatus(response)

@@ -36,9 +36,11 @@ import {
   Form as eleForm,
   FormItem as eleFormItem,
   Input as eleInput,
+  InputNumber as eleInputNumber,
   DatePicker as eleDatePicker,
   Select as eleSelect,
   Option as eleOption,
+  OptionGroup as eleOptionGroup,
   Table as eleTable,
   TableColumn as eleTableColumn,
   Pagination as elePagination,
@@ -46,6 +48,7 @@ import {
   Tag as eleTag,
   Footer as eleFooter,
   Upload as eleUpload,
+  Tree as eleTree,
   MessageBox,
   Message,
   Loading
@@ -66,9 +69,11 @@ Vue.component(eleDialog.name, eleDialog)
 Vue.component(eleForm.name, eleForm)
 Vue.component(eleFormItem.name, eleFormItem)
 Vue.component(eleInput.name, eleInput)
+Vue.component(eleInputNumber.name, eleInputNumber)
 Vue.component(eleDatePicker.name, eleDatePicker)
 Vue.component(eleSelect.name, eleSelect)
 Vue.component(eleOption.name, eleOption)
+Vue.component(eleOptionGroup.name, eleOptionGroup)
 Vue.component(eleTable.name, eleTable)
 Vue.component(eleTableColumn.name, eleTableColumn)
 Vue.component(elePagination.name, elePagination)
@@ -78,9 +83,10 @@ Vue.component(eleFooter.name, eleFooter)
 Vue.component(eleRow.name, eleRow)
 Vue.component(eleCol.name, eleCol)
 Vue.component(eleUpload.name, eleUpload)
+Vue.component(eleTree.name, eleTree)
 
 Vue.use(Loading.directive)
-
+// Vue.prototype.$ELEMENT = { size: 'small' }
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert

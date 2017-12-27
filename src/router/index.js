@@ -7,7 +7,9 @@ import login from "./login/login";
 import home from "./home/home";
 import customer from "./customer/customerManage";
 import billprofit from "./billprofit/billprofit";
-import user from "./user/userManage";
+import usermanage from "./admin/userManage";
+import usermenu from "./admin/userMenu";
+import userrole from "./admin/userRole";
 
 
 
@@ -23,7 +25,9 @@ const router = new Router({
         home,
         customer,
         billprofit,
-        user
+        usermanage,
+        usermenu,
+        userrole
     ]
 });
 

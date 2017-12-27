@@ -50,6 +50,16 @@
       </div>
     </el-dialog>
     <!-- 编辑 end -->
+    <!-- 配置角色 start -->
+    <el-dialog title="修改用户信息" center :visible.sync="configRoleFormVisible" width="500px">
+      <el-tree :data="roleData" ref="roleConfigtree" :props="propsRoleData" lazy show-checkbox>
+      </el-tree>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="configRoleFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="configRoleSave(roleForm.username)">保 存</el-button>
+      </div>
+    </el-dialog>
+    <!-- 配置角色 end -->
 
   </div>
 </template>
@@ -131,9 +141,17 @@
 
 
 <script>
+import axios from "axios";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
-import { getUserManages, postAddUser, patchEditUser } from "@src/apis";
+import {
+  getUserManages,
+  postAddUser,
+  patchEditUser,
+  getRolesTree,
+  patchConfigRole,
+  deleteUserManage
+} from "@src/apis";
 
 export default {
   name: "usermanage",
@@ -178,6 +196,12 @@ export default {
     return {
       addFormVisible: false, // 新增框
       editFormVisible: false, // 编辑框
+      configRoleFormVisible: false, // 配置角色框
+      roleData: [], // 配置角色的数据
+      propsRoleData: {
+        children: "children",
+        label: "roleName"
+      },
       addFormRules: {
         realname: [{ validator: notNullVerify, trigger: "blur" }],
         username: [{ validator: notNullVerify, trigger: "blur" }],
@@ -187,6 +211,9 @@ export default {
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
       editForm: {}, // 编辑单个表单
+      roleForm: {
+        username: ""
+      }, // 设置角色表单
       // 查询条件数据
       searchCondition: searchConditionVar,
       addForm: {
@@ -291,30 +318,61 @@ export default {
             }
           }
         ],
-        operation: [
+        operation: {
           // 操作按钮
-          {
-            text: "编辑",
-            cb: rowdata => {
-              this.editForm = rowdata;
-              this.editFormVisible = true;
+          width: "150px",
+          options: [
+            {
+              color: "#67C23A",
+              text: "编辑",
+              cb: rowdata => {
+                this.editForm = rowdata;
+                this.editFormVisible = true;
+              }
+            },
+            {
+              text: "配置角色",
+              color: "#E6A23C",
+              cb: rowdata => {
+                this.roleForm = rowdata;
+                getRolesTree()({ username: rowdata.username }).then(data => {
+                  this.roleData = data;
+                });
+
+                this.configRoleFormVisible = true;
+              }
+            },
+            {
+              text: "删除",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.$confirm("此操作将删除该条管理员数据, 是否继续?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                })
+                  .then(() => {
+                    deleteUserManage()(rowdata.username).then(data => {
+                      console.log(data);
+                      if (data.code == "00") {
+                        this.$message({
+                          type: "success",
+                          message: "删除成功!"
+                        });
+                        this.reloadData();
+                      }
+                    });
+                  })
+                  .catch(() => {
+                    this.$message({
+                      type: "info",
+                      message: "已取消删除"
+                    });
+                  });
+              }
             }
-          },
-          {
-            text: "配置角色",
-            cb: rowdata => {
-              this.detailsForm = rowdata;
-              this.detailsFormVisible = true;
-            }
-          },
-          {
-            text: "删除",
-            cb: rowdata => {
-              this.transferForm = rowdata;
-              this.transferFormVisible = true;
-            }
-          }
-        ]
+          ]
+        }
       }
     };
   },
@@ -379,8 +437,10 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
+          // console.log(this.addForm);
           postAddUser()(this.addForm).then(data => {
+            console.log(data);
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，用户创建成功",
@@ -392,7 +452,7 @@ export default {
               this.reloadData();
             } else if (data.code === "98") {
               this.$message({
-                message: data.msg,
+                message: "当前登录名已存在，请修改！",
                 type: "warning",
                 center: true
               });
@@ -412,12 +472,25 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
-          // const formData = new FormData();
-          // formData.append("realname", "一只");
-          // formData.append("username", "laomeng");
-          // console.log(this.$refs.editForm.$el);
-          patchEditUser()(this.$refs.editForm.$el).then(data => {
+          // {
+          //   realname: this.editForm.realname,
+          //   username: this.editForm.username
+          // }
+          // this.resetSearchHandle();
+          let fmdate = new FormData();
+          fmdate.append("realname", this.editForm.realname);
+          fmdate.append("username", this.editForm.username);
+          console.log(axios);
+
+          // axios.fetch("http://192.168.100.229:8090/tm/user", {
+          //   realname: this.editForm.realname,
+          //   username: this.editForm.username
+          // });
+          // return;
+          patchEditUser()({
+            realname: this.editForm.realname,
+            username: this.editForm.username
+          }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，用户信息更改成功",
@@ -442,6 +515,20 @@ export default {
             console.log(data);
           });
         }
+      });
+    },
+    configRoleSave(username) {
+      // 配置角色保存
+      let checkRole = this.$refs.roleConfigtree.getCheckedNodes();
+      let roleCodes = checkRole.map((item, index, input) => {
+        return item.roleCode;
+      });
+      patchConfigRole()({
+        username: username,
+        addRoleCodes: roleCodes.toString(),
+        deleteRoleCodes: ""
+      }).then(data => {
+        console.log(data);
       });
     },
     operationHandle(data, cb) {

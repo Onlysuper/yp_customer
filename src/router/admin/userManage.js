@@ -11,7 +11,7 @@ export default {
     path: '/user',
     component: r => {
       loading(true);
-      return require.ensure([], () => { loading(false); return r(require("@src/views/user/userManage")) }, "user-manage")
+      return require.ensure([], () => { loading(false); return r(require("@src/views/admin/userManage")) }, "user-manage")
     }
   }],
   meta: {
