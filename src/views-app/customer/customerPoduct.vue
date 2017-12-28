@@ -35,7 +35,9 @@
 <script>
 import SliderNav from "@src/components-app/SliderNav";
 import { getCustomers } from "@src/apis";
+import { scrollBehavior } from "@src/common/mixins";
 export default {
+  mixins: [scrollBehavior],
   components: { SliderNav },
   data() {
     return {
@@ -51,22 +53,12 @@ export default {
     this.$refs.MypLoadmoreApi.load();
   },
   activated() {
-    this.$refs.FullPage.setScrollTop(
-      this.$store.state.scrollTop[this.$route.name]
-    );
     this.routeMenuCode = this.$route.name;
   },
   methods: {
     watchDataList(watchDataList) {
       this.list = watchDataList;
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit("SAVE_SCROLLTOP", {
-      name: this.$route.name,
-      scrollTopVal: this.$refs.FullPage.getScrollTop()
-    });
-    next();
   }
 };
 </script>

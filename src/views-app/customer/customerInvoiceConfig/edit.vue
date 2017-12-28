@@ -1,19 +1,20 @@
 <template>
   <full-page-popup v-model="visible" position="bottom">
-    <mt-header slot="header" title="编辑">
+    <mt-header slot="header" :title="pageTitle[pageType]">
       <mt-button slot="left" :disabled="false" type="danger" @click="close">关闭</mt-button>
       <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <mt-field type="text" label="商户编号" :disabled="true" :disableClear="true" :readonly="true" v-model="customer.customerNo"></mt-field>
-        <div @click="setSheetVisible('deviceTypes')">
-          <mt-field type="text" label="设备类型" placeholder="请选择设备类型" :value="deviceTypeText" :disabled="true" :disableClear="true" :readonly="true">
+        <mt-field type="text" label="商户编号" placeholder="请输入商户编号" :disabled="true" :disableClear="true" :readonly="true" v-model="customer.customerNo" v-if="pageType == 'EDIT'"></mt-field>
+        <mt-field type="text" label="商户编号" placeholder="请输入商户编号" :disabled="false" :disableClear="false" :readonly="false" v-model="customer.customerNo" v-if="pageType == 'ADD'"></mt-field>
+        <div @click="setSheet('deviceTypes')">
+          <mt-field type="text" label="设备类型" placeholder="请选择设备类型" :value="customer.deviceType | handleDeviceType" :disabled="true" :disableClear="true" :readonly="true">
             <i class="icon-admin"></i>
           </mt-field>
         </div>
-        <div @click="setSheetVisible('clientTypes')">
-          <mt-field type="text" label="客户端类型" placeholder="请选择客户端类型" :value="clientTypeText" :disabled="true" :disableClear="true" :readonly="true">
+        <div @click="setSheet('clientTypes')">
+          <mt-field type="text" label="客户端类型" placeholder="请选择客户端类型" :value="customer.clientType | handleClientType" :disabled="true" :disableClear="true" :readonly="true">
             <i class="icon-admin"></i>
           </mt-field>
         </div>
@@ -29,7 +30,7 @@
 </template>
 
 <script>
-import { postAddCustomer, postEditCustomer } from "@src/apis";
+import { postEditCustomerConfigs, postAddCustomerConfigs } from "@src/apis";
 export default {
   data() {
     return {
@@ -65,45 +66,24 @@ export default {
           method: this.transfer
         }
       ],
-      actions: []
+      actions: [],
+      pageType: "",
+      pageTitle: {
+        ADD: "添加",
+        EDIT: "修改"
+      }
     };
-  },
-  computed: {
-    deviceTypeText() {
-      switch (this.customer.deviceType) {
-        case "HX_PAN":
-          return "金税盘";
-          break;
-        case "BW_PAN":
-          return "税控盘";
-          break;
-        default:
-          return "";
-      }
-    },
-    clientTypeText() {
-      switch (this.customer.clientType) {
-        case "BROWER":
-          return "浏览器";
-          break;
-        case "CLIENT":
-          return "桌面客户端";
-          break;
-        default:
-          return "";
-      }
-    }
   },
   methods: {
     close() {
-      this.customer = {};
       this.visible = false;
     },
     open(customer, type) {
+      this.pageType = type;
       this.customer = Object.assign({}, customer);
       this.visible = true;
     },
-    setSheetVisible(type) {
+    setSheet(type) {
       if (type == "deviceTypes") this.actions = this.deviceTypes;
       else if (type == "clientTypes") this.actions = this.clientTypes;
       this.sheetVisible = true;
@@ -113,6 +93,10 @@ export default {
       else if (obj.mode == "clientTypes") this.customer.clientType = obj.type;
     },
     save() {
+      if (!this.validator.isEmpty(this.customer.customerNo)) {
+        this.MessageBox.alert("商户编号不能为空！");
+        return;
+      }
       if (!this.validator.isEmpty(this.customer.deviceType)) {
         this.MessageBox.alert("请选择设备类型！");
         return;
@@ -137,14 +121,29 @@ export default {
         this.MessageBox.alert("复核人不能为空！");
         return;
       }
-      return;
+
       this.btnDisabled = true;
 
-      postEditCustomer()(this.customer).then(data => {
+      let api =
+        this.pageType == "EDIT"
+          ? postEditCustomerConfigs
+          : postAddCustomerConfigs;
+
+      api()({
+        customerNo: this.customer.customerNo,
+        deviceType: this.customer.deviceType,
+        clientType: this.customer.clientType,
+        deviceNo: this.customer.deviceNo,
+        receiveMan: this.customer.receiveMan,
+        invoiceMan: this.customer.invoiceMan,
+        checkMan: this.customer.checkMan
+      }).then(data => {
         this.btnDisabled = false;
         if (data.code == "00") {
-          this.Toast("修改成功");
-          this.$parent.updata(this.customer);
+          this.Toast(this.pageTitle[this.pageType] + "成功");
+          this.pageType == "EDIT"
+            ? this.$parent.updata(this.customer)
+            : this.$parent.$refs.MypLoadmoreApi.load();
           this.close();
         } else {
           this.Toast(data.msg);

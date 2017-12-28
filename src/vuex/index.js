@@ -4,6 +4,8 @@ import moduleLayour from "@src/vuex/Layout/Layout"
 import DataTable from "@src/vuex/DataTable/DataTable"
 import InputValidation from "@src/vuex/InputValidation/InputValidation"
 import Base from "@src/vuex/Base/Base"
+
+import { customerGoods } from "./modules";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -26,7 +28,8 @@ const store = new Vuex.Store({
         moduleLayour: moduleLayour,
         dataTable: DataTable,
         InputValidation: InputValidation,
-        Base: Base
+        Base: Base,
+        customerGoods
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

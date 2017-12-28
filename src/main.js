@@ -5,6 +5,7 @@ import router from './router';
 import routerApp from './router-app';
 import store from './vuex';
 import App from './App';
+
 /**
  * 引入自定义指令 与 过滤器
  */

@@ -193,13 +193,21 @@ export {
     PasswordUpdate,
     orgCodeHandle,
     AgentManageAdd,
+    //商品管理
+    getCustomerGoods,
+    postAddCustomerGoods,
+    postEditCustomerGoods,
     //商户管理
     getCustomers,
     postAddCustomer,
     postEditCustomer,
-    postUploadFile,
     transferCustomer,
     perfectCustomer,
+    //开票配置
+    getCustomerConfigs,
+    postAddCustomerConfigs,
+    postEditCustomerConfigs,
+
     //用户管理
     getUserManages,
     postAddUser,

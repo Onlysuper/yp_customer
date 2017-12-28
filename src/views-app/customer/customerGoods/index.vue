@@ -1,0 +1,115 @@
+<template>
+  <full-page class="" ref="FullPage">
+    <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+      <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'goodsSearch',query:{redirect:$route.path}})">搜索</mt-button>
+      <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button>
+    </mt-header>
+    <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
+    <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
+      <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.goodsName">
+
+        <!-- 常用按钮 -->
+        <div slot="btn" @click="toUrl('EDIT',item.customerNo)">编辑</div>
+
+        <!-- 状态 -->
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.taxRate | handleTaxRate}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.discountType | handleDiscountType}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.enjoyDiscount | handleEnjoyDiscount}}</mt-badge>
+        <mt-badge v-if="item.defaultType == 'TRUE'" slot="badge" class="g-min-badge" size="small" type="error">{{item.defaultType | handleDefaultType}}</mt-badge>
+
+        <myp-cell class="list-item">
+          <!-- 详情 -->
+          <table>
+            <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
+            <myp-tr title="商品编号">{{item.goodsNo}}</myp-tr>
+            <myp-tr title="商品单价">{{item.unitPrice || "--"}}/{{item.unit || "--"}}</myp-tr>
+            <myp-tr title="规格型号">{{item.model}}</myp-tr>
+          </table>
+          <!-- 更多操作 -->
+          <div slot="right" @click="operation(item)">更多</div>
+        </myp-cell>
+
+      </myp-cell-pannel>
+    </myp-loadmore-api>
+
+    <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
+  </full-page>
+
+</template>
+
+<script>
+import SliderNav from "@src/components-app/SliderNav";
+import { getCustomerGoods } from "@src/apis";
+import { mapState } from "vuex";
+import { scrollBehavior } from "@src/common/mixins";
+export default {
+  mixins: [scrollBehavior],
+  components: { SliderNav },
+  data() {
+    return {
+      munes: this.$store.state.moduleLayour.menuList[
+        this.$route.query["menuIndex"]
+      ].child,
+      routeMenuCode: "",
+      api: getCustomerGoods,
+      sheetVisible: false,
+      actions: [
+        {
+          name: "设为默认",
+          method: this.setDefault
+        },
+        {
+          name: "删除",
+          method: this.remove
+        }
+      ]
+    };
+  },
+  computed: {
+    ...mapState({
+      list: state => state.customerGoods.list,
+      searchQuery: state => state.customerGoods.searchQuery,
+      isSearch: state => state.customerGoods.isSearch,
+      isAdd: state => state.customerGoods.isAdd
+    })
+  },
+  watch: {
+    isSearch(flag) {
+      flag && this.$refs.MypLoadmoreApi.load(this.searchQuery);
+    },
+    isAdd(flag) {
+      flag && this.$refs.MypLoadmoreApi.load();
+    }
+  },
+  mounted() {
+    this.$refs.MypLoadmoreApi.load();
+  },
+  methods: {
+    watchDataList(watchDataList) {
+      this.$store.commit("SET_GOODS", watchDataList);
+      this.$store.commit("IS_SEARCH_GOOD", false);
+      this.$store.commit("IS_ADD_GOOD", false);
+    },
+    toUrl(type, customerNo) {
+      this.$router.push({
+        path: "./goods/edit/" + customerNo,
+        query: { type: type }
+      });
+    },
+    operation(customer) {
+      this.sheetVisible = true;
+      this._customer = customer;
+    }
+    // remove() {},
+    // setDefault() {}
+  },
+  activated() {
+    this.routeMenuCode = this.$route.name;
+  }
+};
+</script>
+
+<style>
+
+</style>
