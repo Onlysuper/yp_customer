@@ -3,19 +3,25 @@
     <side-bar class="layout-sldebar"></side-bar>
     <el-container class="layout-main">
       <nav-bar></nav-bar>
+      <tags-view></tags-view>
       <app-main></app-main>
     </el-container>
   </el-container>
 </template>
 <script>
-import { NavBar, SideBar, AppMain } from "@src/views/layout/components";
+import NavBar from "@src/components/NavBar";
+import SideBar from "@src/components/SideBar";
+import AppMain from "@src/components/AppMain";
+import TagsView from "@src/components/TagsView";
+// import { NavBar, SideBar, AppMain } from "@src/views/layout/components";
 
 export default {
   name: "layout",
   components: {
     NavBar,
     SideBar,
-    AppMain
+    AppMain,
+    TagsView
   }
 };
 </script>

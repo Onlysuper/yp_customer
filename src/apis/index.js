@@ -82,8 +82,10 @@ const getProductConfigurePage = () => { return (params) => { return http.get(bas
 **商品管理start
  */
 const getCustomerGoods = () => { return (params) => { return http.get(base.oaIp, "/customerGoods/page", params) } }
-const postAddCustomerGoods = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/add", params) } }
-const postEditCustomerGoods = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/update", params) } }
+const postAddCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/add", params) } }
+const postEditCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/update", params) } }
+const postDeleteCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/delete/" + params.goodsNo, params) } }
+const postDefaultCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/configDefault/" + params.goodsNo, params) } }
 // end -------------------------------------------------
 
 /**
@@ -199,6 +201,12 @@ export {
     PasswordUpdate,
     orgCodeHandle,
     AgentManageAdd,
+    //商品管理
+    getCustomerGoods,
+    postAddCustomerGood,
+    postEditCustomerGood,
+    postDeleteCustomerGood,
+    postDefaultCustomerGood,
     //商户管理
     getCustomers,
     postAddCustomer,

@@ -192,6 +192,10 @@
     flex-wrap: wrap;
     .tree-box {
       width: 300px;
+      flex: 1;
+    }
+    .table-box {
+      flex: 2;
     }
   }
   .form-box {
