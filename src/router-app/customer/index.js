@@ -40,6 +40,30 @@ export default {
       }
     },
     {
+      //商品编辑
+      name: "goodsEdit",
+      path: 'goods/edit/:customerNo',
+      component: r => {
+        return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-edit-app")
+      },
+      meta: {
+        pageTitle: "商品",
+        keepAlive: false
+      }
+    },
+    {
+      //商品搜索
+      name: "goodsSearch",
+      path: 'goods/search',
+      component: r => {
+        return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/search")) }, "customer-edit-app")
+      },
+      meta: {
+        pageTitle: "商品搜索",
+        keepAlive: false
+      }
+    },
+    {
       /**
        * 商户管理
        */

@@ -214,6 +214,11 @@ export {
     postUploadFile,
     transferCustomer,
     perfectCustomer,
+    //开票配置
+    getCustomerConfigs,
+    postAddCustomerConfigs,
+    postEditCustomerConfigs,
+
     //用户管理
     getUserManages,
     postAddUser,

@@ -4,7 +4,13 @@
 .v-modal{
     z-index:2999 !important;
 }
-.mint-toast,.mint-msgbox-wrapper,.mint-actionsheet,.mint-datetime{
+.mint-toast,
+.mint-msgbox-wrapper,
+.mint-actionsheet,
+.mint-datetime,
+.mint-indicator,
+.mint-indicator-wrapper,
+.mint-indicator-mask{
      z-index:3000 !important;
 }
 

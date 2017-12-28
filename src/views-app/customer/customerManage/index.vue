@@ -58,7 +58,9 @@ import transfer from "./transfer";
 import add from "./add";
 import { getCustomers } from "@src/apis";
 import utils from "@src/common/utils";
+import { scrollBehavior } from "@src/common/mixins";
 export default {
+  mixins: [scrollBehavior],
   components: {
     SliderNav,
     SearchPanelPopup,
@@ -211,12 +213,8 @@ export default {
     };
   },
   activated() {
-    this.$refs.FullPage.setScrollTop(
-      this.$store.state.scrollTop[this.$route.name]
-    );
     this.routeMenuCode = this.$route.name;
   },
-  deactivated() {},
   mounted() {
     this.$refs.MypLoadmoreApi.load();
   },
@@ -249,24 +247,6 @@ export default {
     add() {
       this.$refs.add.open({}, "ADD");
     }
-  },
-  // beforeRouteEnter(to, from, next) {
-  // next(vm => {
-  //   console.log(vm);
-  //   vm.$nextTick(() => {
-  //     vm.$refs.FullPage.$refs.fullMain.scrollTop = localStorage.getItem(
-  //       "scrollTop"
-  //     );
-  //   });
-  // });
-  // next();
-  // },
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit("SAVE_SCROLLTOP", {
-      name: this.$route.name,
-      scrollTopVal: this.$refs.FullPage.getScrollTop()
-    });
-    next();
   }
 };
 </script>

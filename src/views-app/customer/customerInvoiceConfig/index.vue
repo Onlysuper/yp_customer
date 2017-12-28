@@ -3,12 +3,13 @@
     <full-page class="" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" :disabled="false" type="danger" @click="searchVisible = true">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="searchVisible = true">搜索</mt-button>
+        <mt-button slot="right" :disabled="false" type="danger" @click="add">新增</mt-button>
       </mt-header>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
 
-        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName || '商户名称'">
+        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName || '-- --'">
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
@@ -39,7 +40,9 @@ import SliderNav from "@src/components-app/SliderNav";
 import SearchPanelPopup from "@src/components-app/Search/SearchPanelPopup";
 import edit from "./edit";
 import { getCustomerConfigs } from "@src/apis";
+import { scrollBehavior } from "@src/common/mixins";
 export default {
+  mixins: [scrollBehavior],
   components: { SliderNav, SearchPanelPopup, edit },
   data() {
     return {
@@ -66,28 +69,27 @@ export default {
     this.$refs.MypLoadmoreApi.load();
   },
   activated() {
-    this.$refs.FullPage.setScrollTop(
-      this.$store.state.scrollTop[this.$route.name]
-    );
     this.routeMenuCode = this.$route.name;
   },
   methods: {
     watchDataList(watchDataList) {
       this.list = watchDataList;
     },
+    add() {
+      this.$refs.edit.open({}, "ADD");
+    },
     edit(customer) {
-      this.$refs.edit.open(customer);
+      this.$refs.edit.open(customer, "EDIT");
     },
     searchPanelResult() {
       this.$refs.MypLoadmoreApi.load(this.searchQuery);
+    },
+    updata(customer) {
+      this.list = this.list.map(item => {
+        if (item.customerNo == customer.customerNo) return customer;
+        else return item;
+      });
     }
-  },
-  beforeRouteLeave(to, from, next) {
-    this.$store.commit("SAVE_SCROLLTOP", {
-      name: this.$route.name,
-      scrollTopVal: this.$refs.FullPage.getScrollTop()
-    });
-    next();
   }
 };
 </script>
