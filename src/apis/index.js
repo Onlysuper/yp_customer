@@ -82,8 +82,10 @@ const getProductConfigurePage = () => { return (params) => { return http.get(bas
 **商品管理start
  */
 const getCustomerGoods = () => { return (params) => { return http.get(base.oaIp, "/customerGoods/page", params) } }
-const postAddCustomerGoods = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/add", params) } }
-const postEditCustomerGoods = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/update", params) } }
+const postAddCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/add", params) } }
+const postEditCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/update", params) } }
+const postDeleteCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/delete/" + params.goodsNo, params) } }
+const postDefaultCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/configDefault/" + params.goodsNo, params) } }
 // end -------------------------------------------------
 
 /**
@@ -148,6 +150,12 @@ const deleteUserManage = () => { return (params) => { return http.delete(base.oa
  */
 const getMenuTrees = () => { return (params) => { return http.get(base.oaIp, "/menu/tree", params) } }
 const getMenuTreePage = () => { return (params) => { return http.get(base.oaIp, "/menu/function/page", params) } }
+const patchAddMenuTree = () => { return (params) => { return http.post(base.oaIp, "/menu", params) } }
+const patchEditMenuTree = () => { return (params) => { return http.patch(base.oaIp, "/menu", params) } }
+const deleteMenuTree = () => { return (params) => { return http.delete(base.oaIp, "/menu/delete", params) } }
+const postAddMenuFunction = () => { return (params) => { return http.post(base.oaIp, "/menu/function", params) } }
+const patchEditMenuFunction = () => { return (params) => { return http.patch(base.oaIp, "/menu/function", params) } }
+const deleteMenuFunction = () => { return (params) => { return http.delete(base.oaIp, "/menu/function/delete", params) } }
 
 // end -------------------------------------------------
 
@@ -195,12 +203,15 @@ export {
     AgentManageAdd,
     //商品管理
     getCustomerGoods,
-    postAddCustomerGoods,
-    postEditCustomerGoods,
+    postAddCustomerGood,
+    postEditCustomerGood,
+    postDeleteCustomerGood,
+    postDefaultCustomerGood,
     //商户管理
     getCustomers,
     postAddCustomer,
     postEditCustomer,
+    postUploadFile,
     transferCustomer,
     perfectCustomer,
     //开票配置
@@ -218,12 +229,18 @@ export {
     // 菜单管理
     getMenuTrees,
     getMenuTreePage,
+    patchEditMenuTree,
+    postAddMenuFunction,
+    patchEditMenuFunction,
+    deleteMenuFunction,
     // 角色管理
     getRoleManages,
     postAddRole,
     patchEditRole,
     deleteRole,
     getRolesTreeConfig,
-    patchRolesTreeSave
+    patchRolesTreeSave,
+    patchAddMenuTree,
+    deleteMenuTree
 };
 
