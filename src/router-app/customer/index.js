@@ -10,7 +10,6 @@ export default {
   redirect: "/customer/productConfig",
   component: App,
   meta: {
-
     // keepAlive: true
   },
   children: [

@@ -52,6 +52,7 @@ export default {
   overflow-y: hidden;
   // -webkit-overflow-scrolling: touch;
   // padding-bottom: 10px;
+  background: #464646;
   ul {
     display: flex;
   }
@@ -63,6 +64,7 @@ export default {
     flex: 1;
     text-align: center;
     border-bottom: 2px solid transparent;
+    color: #b7b7b7;
   }
   .active {
     color: $active-color;
