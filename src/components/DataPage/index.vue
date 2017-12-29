@@ -18,26 +18,9 @@
           </el-popover>
         </template>
       </el-table-column>
-
       <el-table-column fixed="right" label="操作" :width="tableDataInit.operation.width">
         <template slot-scope="scope">
-          <!-- {{scope.row.defaultType}} -->
-          <!-- <div v-for="(item,index) in tableDataInit.operation.options" :key="index">
-            {{scope.row[item.stateName]=="TRUE"?scope.row[item.stateName]:""}}
-          </div> -->
-          <div v-for="(item,index) in tableDataInit.operation.options" :key="index">
-            <span v-if="scope.row[item.stateName]=='TRUE'?!scope.row[item.opposite]?true:false:false">
-              <el-button @click="operationHandle(scope.row,item.cb)" :key="index" size="small" type="text" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
-            </span>
-            <div v-else-if="type === 'B'">
-              B
-            </div>
-            <div v-else-if="type === 'C'">
-              C
-            </div>
-          </div>
-          <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" @click="operationHandle(scope.row,item.cb)" size="small" type="text" :style="item.color?'color:'+item.color:'color:#00c1df'" v-if="scope.row[item.stateName]=='TRUE'?true:false">{{item.text}}</el-button> -->
-          <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" @click="operationHandle(scope.row,item.cb)" :key="index" size="small" type="text" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button> -->
+          <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="scope.row[item.stateName]=='TRUE'?item.opposite?true:false:item.opposite?false:true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
         </template>
       </el-table-column>
     </el-table>

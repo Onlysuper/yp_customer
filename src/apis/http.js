@@ -75,7 +75,7 @@ function checkCode(res) {
 
 
 export default {
-    post: function (baseURL, url, data) {
+    post: function (baseURL, url, data, param) {
         return axios({
             method: "post",
             url: url,
