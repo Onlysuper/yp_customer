@@ -70,7 +70,7 @@
       </el-form>
       <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
         <el-form-item label="商品文件" prop="customerNo" :label-width="formLabelWidth">
-          <el-upload :auto-upload="false" class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+          <el-upload :data="{customerNo:importForm.customerNo}" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
@@ -79,6 +79,10 @@
           </el-upload>
         </el-form-item>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetImportForm('upload','importForm')">重置</el-button>
+        <el-button type="primary" @click="importSave('importForm')">确定导入</el-button>
+      </div>
     </el-dialog>
     <!-- 导入 end -->
     <!-- 编辑start -->
@@ -386,7 +390,9 @@ export default {
         goodsName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
         taxRate: [{ required: true, message: "税率为必选项", trigger: "blur" }]
       },
-      importForm: {},
+      importForm: {
+        customerNo: ""
+      },
       importFormRules: {},
       batchNetFormVisible: false, // 批量入网框
       editFormVisible: false, // 编辑框
@@ -626,6 +632,11 @@ export default {
                   text: "稀土产品",
                   type: "info"
                 };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
               }
             }
           },
@@ -635,10 +646,22 @@ export default {
             word: "defaultType",
             status: true,
             type: data => {
-              return {
-                text: data,
-                type: "info"
-              };
+              if (data == "TRUE") {
+                return {
+                  text: "是",
+                  type: "info"
+                };
+              } else if (data == "FALSE") {
+                return {
+                  text: "否",
+                  type: "info"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
+              }
             }
           },
           {
@@ -839,12 +862,42 @@ export default {
     importDialog() {
       this.importVisible = true;
     },
-    handleBatchNetSuccess(res, file) {
-      // 批量入网文件上传成功
-      this.$message.success("恭喜您！上传成功");
-      this.batchNetForm.url = URL.createObjectURL(file.raw);
+    addDialog() {
+      // 新增数据 弹出框
+      this.addFormVisible = true;
     },
-    beforeBatchNetUpload(file) {
+    // 导入成功
+    uploadSuccess(response, file, fileList) {
+      this.$message({
+        message: "恭喜你，导入成功",
+        type: "success",
+        center: true
+      });
+      this.importDialog();
+      this.importVisible = false;
+    },
+    // 导入失败
+    uploadError(err, file, fileList) {
+      this.$message({
+        message: "很遗憾，导入失败",
+        type: "warning",
+        center: true
+      });
+      this.importDialog();
+      this.importVisible = false;
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    resetImportForm(uploadName, formName) {
+      this.$refs[formName].resetFields();
+      this.$refs[uploadName].clearFiles();
+    },
+    importSave() {
+      // 确定导入
+      this.$refs.upload.submit();
+    },
+    beforeUpload(file) {
       const extension = file.name.split(".")[1] === "xlsx";
       const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
@@ -894,9 +947,7 @@ export default {
         }
       });
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
-    },
+
     // 获取新数据
     reloadData() {
       this.tableData.getDataUrl = {
@@ -999,63 +1050,9 @@ export default {
         }
       });
     },
-    transferSave(formName) {
-      // 转移保存
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          console.log(this.transferForm);
-          transferCustomer()({
-            customerNo: this.transferForm.customerNo,
-            enterpriseName: this.transferForm.enterpriseName,
-            agentNo: this.transferForm.agentNo,
-            receiveAgentNo: this.transferForm.receiveAgentNo
-          }).then(data => {
-            if (data.code === "00") {
-              this.$message({
-                message: "恭喜你，修改数据成功",
-                type: "success",
-                center: true
-              });
-              this.editFormVisible = false;
-              this.reloadData();
-            } else if (data.code === "98") {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            } else {
-              this.$message({
-                message: data.resultMsg,
-                type: "warning",
-                center: true
-              });
-            }
-          });
-        }
-      });
-    },
     operationHandle(data, cb) {
       // 操作按钮回调
       cb(data);
-    },
-    addDialog() {
-      // 新增数据 弹出框
-      this.addFormVisible = true;
-    },
-    batchNetDialog() {
-      // 批量入网 弹出框
-      this.batchNetFormVisible = true;
-    },
-    batchTransferDialog() {
-      // 批量转移 弹出框
-      this.batchTransferFormVisible = true;
-    },
-    exportDialog() {
-      // 导出
-      this.$refs.dataTable.ExportExcel();
-      // console.log(this.searchCondition);
-      // window.location.href = "/customer/export?" + this.searchCondition;
     }
   },
   computed: {
