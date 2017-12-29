@@ -10,7 +10,7 @@
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.goodsName">
 
         <!-- 常用按钮 -->
-        <div slot="btn" @click="toUrl('EDIT',item.customerNo)">编辑</div>
+        <div slot="btn" @click="toUrl('EDIT',item.goodsNo)">编辑</div>
 
         <!-- 状态 -->
         <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.taxRate | handleTaxRate}}</mt-badge>
@@ -41,7 +41,7 @@
 <script>
 import SliderNav from "@src/components-app/SliderNav";
 import { getCustomerGoods } from "@src/apis";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
 export default {
   mixins: [scrollBehavior],
@@ -54,16 +54,7 @@ export default {
       routeMenuCode: "",
       api: getCustomerGoods,
       sheetVisible: false,
-      actions: [
-        {
-          name: "设为默认",
-          method: this.setDefault
-        },
-        {
-          name: "删除",
-          method: this.remove
-        }
-      ]
+      actions: []
     };
   },
   computed: {
@@ -86,23 +77,50 @@ export default {
     this.$refs.MypLoadmoreApi.load();
   },
   methods: {
+    ...mapActions(["deleteGood", "setDefaultGood", "cancelDefaultGood"]),
     watchDataList(watchDataList) {
       this.$store.commit("SET_GOODS", watchDataList);
       this.$store.commit("IS_SEARCH_GOOD", false);
-      this.$store.commit("IS_ADD_GOOD", false);
+      this.$store.commit("IS_RELOAD_GOOD", false);
     },
-    toUrl(type, customerNo) {
+    toUrl(type, goodsNo) {
       this.$router.push({
-        path: "./goods/edit/" + customerNo,
+        path: "./goods/edit/" + goodsNo,
         query: { type: type }
       });
     },
     operation(customer) {
       this.sheetVisible = true;
       this._customer = customer;
+      this.actions = [
+        {
+          name: this._customer.defaultType == "TRUE" ? "取消默认" : "设为默认",
+          defaultType: this._customer.defaultType,
+          method: this.setDefault
+        },
+        {
+          name: "删除",
+          method: this.remove
+        }
+      ];
+    },
+    remove() {
+      this.MessageBox.confirm("确定删除吗?").then(action => {
+        if (confirm) this.deleteGood(this._customer);
+      });
+    },
+    setDefault(obj) {
+      this.MessageBox.confirm("确定当前操作吗?").then(action => {
+        if (confirm) {
+          //defaultType = TRUE(执行取消默认) FALSE(执行设置默认)
+          if (obj.defaultType == "TRUE") {
+            this.cancelDefaultGood(this._customer);
+          } else {
+            this.setDefaultGood(this._customer);
+          }
+        }
+      });
     }
-    // remove() {},
-    // setDefault() {}
   },
   activated() {
     this.routeMenuCode = this.$route.name;

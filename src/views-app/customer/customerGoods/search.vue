@@ -29,6 +29,22 @@ export default {
           this.$store.commit("SEARCH_GOOD", { customerNo: value });
         }
       });
+      this.searchConfig.push({
+        title: "商品编号",
+        type: "myp-text",
+        defaultValue: this.searchQuery.goodsNo,
+        cb: value => {
+          this.$store.commit("SEARCH_GOOD", { goodsNo: value });
+        }
+      });
+      this.searchConfig.push({
+        title: "商品名称",
+        type: "myp-text",
+        defaultValue: this.searchQuery.goodsName,
+        cb: value => {
+          this.$store.commit("SEARCH_GOOD", { goodsName: value });
+        }
+      });
     });
   },
   methods: {

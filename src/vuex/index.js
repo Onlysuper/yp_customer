@@ -23,6 +23,9 @@ const store = new Vuex.Store({
         },
     },
     actions: {
+        delete() {
+            alert(1)
+        }
     },
     modules: {
         moduleLayour: moduleLayour,

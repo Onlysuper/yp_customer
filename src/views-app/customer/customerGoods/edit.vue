@@ -169,7 +169,10 @@ export default {
         this.MessageBox.alert("含税单价不能为空！");
         return;
       }
-      if (!this.validator.isEmpty(this.good.taxRate)) {
+      if (
+        !this.validator.isEmpty(this.good.taxRate) &&
+        this.good.taxRate != "0"
+      ) {
         this.MessageBox.alert("请选择税率！");
         return;
       }
@@ -191,7 +194,7 @@ export default {
         : this.addGood(this.good).then(flag => {
             this.btnDisabled = false;
             if (flag) {
-              this.$store.commit("IS_ADD_GOOD", true);
+              this.$store.commit("IS_RELOAD_GOOD", true);
               this.$router.back();
             }
           });

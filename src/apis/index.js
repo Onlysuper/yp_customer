@@ -84,7 +84,7 @@ const getProductConfigurePage = () => { return (params) => { return http.get(bas
 const getCustomerGoods = () => { return (params) => { return http.get(base.oaIp, "/customerGoods/page", params) } }
 const postAddCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/add", params) } }
 const postEditCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/update", params) } }
-const postDeleteCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/delete/" + params.goodsNo, params) } }
+const postDeleteCustomerGood = goodsNo => { return (params) => { return http.post(base.oaIp, "/customerGoods/delete/" + goodsNo, params) } }
 const postDefaultCustomerGood = () => { return (params) => { return http.post(base.oaIp, "/customerGoods/configDefault/" + params.goodsNo, params) } }
 // end -------------------------------------------------
 
