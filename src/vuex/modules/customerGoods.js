@@ -1,5 +1,5 @@
 
-import { postAddCustomerGoods, postEditCustomerGoods } from "@src/apis";
+import { postAddCustomerGood, postEditCustomerGood } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {

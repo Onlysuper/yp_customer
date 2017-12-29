@@ -220,7 +220,8 @@ import {
   postAddCustomerGood,
   postEditCustomerGood,
   postDeleteCustomerGood,
-  postDefaultCustomerGood
+  postDefaultCustomerGood,
+  postCancelDefaultCustomerGood
 } from "@src/apis";
 export default {
   name: "customergoods",
@@ -497,26 +498,135 @@ export default {
           },
           {
             key: "享受优惠",
-            width: "80px",
+            width: "120px",
             word: "enjoyDiscount",
             status: true,
             type: data => {
-              return {
-                text: data,
-                type: "info"
-              };
+              if (data == "0") {
+                return {
+                  text: "正常税率",
+                  type: "info"
+                };
+              } else if (data == "1") {
+                return {
+                  text: "免税",
+                  type: "info"
+                };
+              } else if (data == "2") {
+                return {
+                  text: "不征税",
+                  type: "info"
+                };
+              } else if (data == "3") {
+                return {
+                  text: "普通零税率",
+                  type: "info"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
+              }
             }
           },
           {
             key: "优惠类型",
-            width: "80px",
+            width: "130px",
             word: "discountType",
             status: true,
             type: data => {
-              return {
-                text: data,
-                type: "info"
-              };
+              if (data == "10") {
+                return {
+                  text: "不使用优惠政策",
+                  type: "info"
+                };
+              } else if (data == "11") {
+                return {
+                  text: "不征税",
+                  type: "info"
+                };
+              } else if (data == "12") {
+                return {
+                  text: "免税",
+                  type: "info"
+                };
+              } else if (data == "13") {
+                return {
+                  text: "先征后退",
+                  type: "info"
+                };
+              } else if (data == "14") {
+                return {
+                  text: "100%先征后退",
+                  type: "info"
+                };
+              } else if (data == "15") {
+                return {
+                  text: "50%先征后退",
+                  type: "info"
+                };
+              } else if (data == "16") {
+                return {
+                  text: "即征即退30%",
+                  type: "info"
+                };
+              } else if (data == "17") {
+                return {
+                  text: "即征即退50%",
+                  type: "info"
+                };
+              } else if (data == "18") {
+                return {
+                  text: "即征即退70%",
+                  type: "info"
+                };
+              } else if (data == "19") {
+                return {
+                  text: "即征即退100%",
+                  type: "info"
+                };
+              } else if (data == "20") {
+                return {
+                  text: "超税负3%即征即退",
+                  type: "info"
+                };
+              } else if (data == "21") {
+                return {
+                  text: "超税负8%即征即退",
+                  type: "info"
+                };
+              } else if (data == "22") {
+                return {
+                  text: "超税负12%即征即退",
+                  type: "info"
+                };
+              } else if (data == "23") {
+                return {
+                  text: "简易征收",
+                  type: "info"
+                };
+              } else if (data == "24") {
+                return {
+                  text: "按5%简易征收减按1.5%计征",
+                  type: "info"
+                };
+              } else if (data == "25") {
+                return {
+                  text: "按5%简易征收",
+                  type: "info"
+                };
+              } else if (data == "26") {
+                return {
+                  text: "按3%简易征收",
+                  type: "info"
+                };
+              } else if (data == "27") {
+                return {
+                  text: "稀土产品",
+                  type: "info"
+                };
+              }
             }
           },
           {
@@ -546,12 +656,6 @@ export default {
             width: "100px",
             word: "model"
           }
-          // {
-          //   key: "操作",
-          //   type: "operation",
-          //   width: "100px",
-          //   word: "model"
-          // }
         ],
         operation: {
           width: "150px",
@@ -569,7 +673,7 @@ export default {
                   type: "warning"
                 })
                   .then(() => {
-                    postDefaultCustomerGood()({
+                    postDefaultCustomerGood(rowdata.goodsNo)({
                       createTime: rowdata.createTime,
                       lastUpdateTime: rowdata.lastUpdateTime,
                       customerNo: rowdata.customerNo,
@@ -614,7 +718,52 @@ export default {
               opposite: true, // 与以上属性是否相反
               text: "取消默认",
               color: "#00c1df",
-              cb: rowdata => {}
+              cb: rowdata => {
+                this.$confirm("确定继续本次操作吗?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                })
+                  .then(() => {
+                    postCancelDefaultCustomerGood(rowdata.goodsNo)({
+                      createTime: rowdata.createTime,
+                      lastUpdateTime: rowdata.lastUpdateTime,
+                      customerNo: rowdata.customerNo,
+                      goodsNo: rowdata.goodsNo,
+                      model: rowdata.model,
+                      unit: rowdata.unit,
+                      unitPrice: rowdata.unitPrice,
+                      taxRate: rowdata.taxRate,
+                      status: rowdata.status,
+                      enjoyDiscount: rowdata.enjoyDiscount,
+                      discountType: rowdata.discountType,
+                      remark: rowdata.remark,
+                      goodsName: rowdata.goodsName,
+                      unionNo: rowdata.unionNo,
+                      defaultType: rowdata.defaultType,
+                      goodsType: rowdata.goodsType
+                    }).then(data => {
+                      if (data.code == "00") {
+                        this.$message({
+                          type: "success",
+                          message: "操作成功!"
+                        });
+                        this.reloadData();
+                      } else {
+                        this.$message({
+                          type: "warning",
+                          message: data.msg
+                        });
+                      }
+                    });
+                  })
+                  .catch(() => {
+                    this.$message({
+                      type: "info",
+                      message: "已取消操作"
+                    });
+                  });
+              }
             },
             {
               text: "编辑",
@@ -640,7 +789,7 @@ export default {
                   type: "warning"
                 })
                   .then(() => {
-                    postDeleteCustomerGoods()({
+                    postDeleteCustomerGood(rowdata.goodsNo)({
                       createTime: rowdata.createTime,
                       lastUpdateTime: rowdata.lastUpdateTime,
                       customerNo: rowdata.customerNo,
@@ -767,7 +916,7 @@ export default {
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
         if (valid) {
-          postAddCustomerGoods()({
+          postAddCustomerGood()({
             unionNo: addForm.unionNo,
             customerNo: addForm.customerNo,
             goodsName: addForm.goodsName,
@@ -812,7 +961,7 @@ export default {
         if (valid) {
           let editForm = this.editForm;
           this.resetSearchHandle();
-          postEditCustomerGoods()({
+          postEditCustomerGood(editForm.goodsNo)({
             unionNo: editForm.unionNo,
             goodsNo: editForm.goodsNo,
             customerNo: editForm.customerNo,
