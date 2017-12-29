@@ -142,80 +142,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.admin-page {
-  position: relative;
-  background: #eff2f5;
-  padding: 10px;
-  .detail-content {
-    .line-label-box {
-      padding: 4px 0;
-      .line-label {
-        min-width: 100px;
-        display: inline-block;
-        padding: 0 10px;
-      }
-      &:nth-child(odd) {
-        background-color: rgba(0, 193, 223, 0.1);
-      }
-      &:nth-child(even) {
-        background-color: #fff;
-      }
-    }
-  }
-  .content-center-box {
-    text-align: center;
-  }
-  .sep-inline {
-    margin: 5px 0;
-    width: 100%;
-  }
-  .operation-box {
-    float: left;
-    width: 100%;
-    .button-group {
-      margin-right: 10px;
-    }
-    .line {
-      text-align: center;
-    }
-  }
-  .operation-group {
-    padding: 5px 0;
-    .line {
-      text-align: center;
-    }
-  }
-  .tableHeader {
-    background: #f0f0f0;
-  }
-  .page-tag {
-    margin-bottom: 10px;
-  }
-  .admin-main-box {
-    padding: 10px;
-    position: relative;
-    height: 100%;
-    // width: 100%;
-    background: #fff;
-  }
-  .form-box {
-    margin-top: 10px;
-  }
-  .el-pagination {
-    text-align: right;
-    padding-top: 17px;
-  }
-  .tip-text {
-    color: #67c23a;
-  }
-  .button-group {
-    padding-bottom: 5px;
-  }
-}
+@import "../../../src/assets/scss-pc/admin-page.scss";
 </style>
-
-
-
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
@@ -741,6 +669,19 @@ export default {
   },
 
   methods: {
+    // 重新获取数据
+    reloadData(page, Current) {
+      let page_ = page ? page : 1;
+      let limit_ = Current ? Current : 10;
+      this.$store.commit("pageCount", page_);
+      this.$store.commit("currentPage", limit_);
+      this.tableData.getDataUrl = {
+        url: this.tableData.getDataUrl.url,
+        page: page_,
+        limit: limit_,
+        searchCondition: this.searchCondition
+      };
+    },
     importDialog() {
       this.importVisible = true;
     },
@@ -828,16 +769,6 @@ export default {
           });
         }
       });
-    },
-
-    // 获取新数据
-    reloadData() {
-      this.tableData.getDataUrl = {
-        url: getCustomerGoods,
-        page: 1,
-        limit: 10,
-        searchCondition: this.searchCondition
-      };
     },
     seachstartHandle() {
       // 开始搜索

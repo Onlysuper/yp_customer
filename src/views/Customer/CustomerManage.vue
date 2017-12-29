@@ -50,7 +50,7 @@
             <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag multiple>
+            <el-upload :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将入网文件拖到此处，或
                 <em>点击上传</em>
@@ -73,7 +73,7 @@
           <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
         </div>
         <div class="sep-inline">
-          <el-upload ref="batchtransferFile" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload" multiple>
+          <el-upload ref="batchtransferFile" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将需要转移的文件拖到此处，或
               <em>点击上传</em>
@@ -183,76 +183,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.admin-page {
-  position: relative;
-  background: #eff2f5;
-  padding: 10px;
-  .detail-content {
-    .line-label-box {
-      padding: 4px 0;
-      .line-label {
-        min-width: 100px;
-        display: inline-block;
-        padding: 0 10px;
-      }
-      &:nth-child(odd) {
-        background-color: rgba(0, 193, 223, 0.1);
-      }
-      &:nth-child(even) {
-        background-color: #fff;
-      }
-    }
-  }
-  .content-center-box {
-    text-align: center;
-  }
-  .sep-inline {
-    margin: 5px 0;
-    width: 100%;
-  }
-  .operation-box {
-    float: left;
-    width: 100%;
-    .button-group {
-      margin-right: 10px;
-    }
-    .line {
-      text-align: center;
-    }
-  }
-  .operation-group {
-    padding: 5px 0;
-    .line {
-      text-align: center;
-    }
-  }
-  .tableHeader {
-    background: #f0f0f0;
-  }
-  .page-tag {
-    margin-bottom: 10px;
-  }
-  .admin-main-box {
-    padding: 10px;
-    position: relative;
-    height: 100%;
-    // width: 100%;
-    background: #fff;
-  }
-  .form-box {
-    margin-top: 10px;
-  }
-  .el-pagination {
-    text-align: right;
-    padding-top: 17px;
-  }
-  .tip-text {
-    color: #67c23a;
-  }
-  .button-group {
-    padding-bottom: 5px;
-  }
-}
+@import "../../../src/assets/scss-pc/admin-page.scss";
 </style>
 
 
@@ -260,6 +191,7 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import {
   provinceAndCityData,
   regionData,
@@ -285,41 +217,6 @@ export default {
     "myp-data-page": DataPage // 数据列表组件
   },
   data() {
-    // 不能为空
-    var notNullVerify = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("不能为空!"));
-      } else {
-        callback();
-      }
-    };
-    // 税号
-    var taxNumVerify = (rule, value, callback) => {
-      var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
-      if (!reg.test(value)) {
-        return callback(new Error("税号有误！"));
-      } else {
-        callback();
-      }
-    };
-    // 身份证号
-    var idCardVerify = (rule, value, callback) => {
-      var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/;
-      if (!reg.test(value)) {
-        return callback(new Error("身份证号有误!"));
-      } else {
-        callback();
-      }
-    };
-    // 电话号码
-    var phoneNumVerify = (rule, value, callback) => {
-      var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
-      if (!reg.test(value)) {
-        return callback(new Error("手机号有误!"));
-      } else {
-        callback();
-      }
-    };
     // 日期格式转换成如“2017-12-19”的格式
     var dataHandle = nowDate => {
       var nowDate = new Date(nowDate);
@@ -358,11 +255,13 @@ export default {
         url: ""
       },
       addFormRules: {
-        enterpriseName: [{ validator: notNullVerify, trigger: "blur" }],
+        enterpriseName: [
+          { required: true, message: "请输入企业名称", trigger: "blur" }
+        ],
         taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
-        legalPerson: [{ validator: notNullVerify, trigger: "blur" }],
+        legalPerson: [{ required: true, message: "请输入企业法人", trigger: "blur" }],
         idCard: [{ validator: idCardVerify, trigger: "blur" }],
-        linkMan: [{ validator: notNullVerify, trigger: "blur" }],
+        linkMan: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
         phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
       },
       formLabelWidth: "100px",
@@ -370,7 +269,7 @@ export default {
       editForm: {}, // 编辑单个表单
       detailsForm: {}, // 详情单个表单
       transferFormRules: {
-        receiveAgentNo: [{ validator: notNullVerify, trigger: "blur" }]
+        receiveAgentNo: [{ required: true, message: "不能为空", trigger: "blur" }]
       }, // 转移单个规则
       transferForm: {}, // 转移单个表单
       // 查询条件数据
@@ -622,6 +521,19 @@ export default {
   },
 
   methods: {
+    // 重新获取数据
+    reloadData(page, Current) {
+      let page_ = page ? page : 1;
+      let limit_ = Current ? Current : 10;
+      this.$store.commit("pageCount", page_);
+      this.$store.commit("currentPage", limit_);
+      this.tableData.getDataUrl = {
+        url: this.tableData.getDataUrl.url,
+        page: page_,
+        limit: limit_,
+        searchCondition: this.searchCondition
+      };
+    },
     handleBatchTransferSuccess() {
       // 批量转移文件上传成功
       this.$message.success("恭喜您！上传成功");
@@ -644,56 +556,9 @@ export default {
       }
       return extension || (extension2 && isLt2M);
     },
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
+
     resetAddForm(formName) {
       this.$refs[formName].resetFields();
-    },
-    // 获取新数据
-    reloadData() {
-      console.log(this.searchCondition);
-      this.tableData.getDataUrl = {
-        url: getCustomers,
-        page: 1,
-        limit: 10,
-        searchCondition: this.searchCondition
-      };
     },
     seachstartHandle() {
       // 开始搜索
@@ -734,11 +599,11 @@ export default {
     },
     // 批量入网文件保存
     saveBatchNet() {
-      console.log(this.$refs.batchnetFile);
+      this.$refs.batchnetFile.submit();
     },
     // 批量转移文件提交
     saveBatchTransfer() {
-      alert("转移ok");
+      this.$refs.batchtransferFile.submit();
     },
     editSave(formName) {
       // 编辑内容保存
@@ -753,7 +618,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              this.reloadData(this.storePageCount, this.storeCurrentPage);
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,
@@ -785,12 +650,12 @@ export default {
           }).then(data => {
             if (data.code === "00") {
               this.$message({
-                message: "恭喜你，修改数据成功",
+                message: "恭喜你，转移数据成功",
                 type: "success",
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              this.reloadData(this.storePageCount, this.storeCurrentPage);
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,
@@ -808,10 +673,7 @@ export default {
         }
       });
     },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    },
+
     addDialog() {
       // 新增数据 弹出框
       this.addFormVisible = true;
@@ -828,8 +690,53 @@ export default {
       // 导出
       this.$refs.dataTable.ExportExcel();
       // console.log(this.searchCondition);
+      // this.$router.push("/customer/export?" + this.searchCondition);
       // window.location.href = "/customer/export?" + this.searchCondition;
+    },
+    /**TABLE页交互 START ************************************************************ */
+    // 普通搜索 具备隐藏
+    visiblesomeHandle() {
+      this.searchOptions.forEach(element => {
+        // searchOptions数组里面的corresattr 是索引
+        if (!element.show) {
+          if (element.type == "dateGroup") {
+            // 开始时间 到结束时间组合 特殊处理
+            element.options.forEach(element => {
+              var corresattr = element.corresattr;
+              element.value = "";
+              this.searchCondition[corresattr] = "";
+            });
+          } else {
+            var corresattr = element.corresattr;
+            element.value = "";
+            this.searchCondition[corresattr] = "";
+          }
+        }
+      });
+    },
+    callbackformHandle(cb, data) {
+      // 表单双向绑定 得到输入的内容并返回到本页面
+      cb(data);
+    },
+    resetSearchHandle() {
+      // 重置查询表单
+      this.searchOptions.forEach(element => {
+        if (element.type != "dateGroup") {
+          element.value = "";
+          this.searchCondition[element.corresattr] = "";
+        } else {
+          element.options.forEach(element => {
+            element.value = "";
+            this.searchCondition[element.corresattr] = "";
+          });
+        }
+      });
+    },
+    operationHandle(data, cb) {
+      // 操作按钮回调
+      cb(data);
     }
+    /**END ***********************************************/
   },
   computed: {
     oaIp() {
@@ -845,6 +752,14 @@ export default {
       } else if (this.editForm.customerFrom == "LOCAL") {
         return "后台";
       }
+    },
+    //当前页数
+    storePageCount() {
+      return this.$store.state.dataTable.pageCount;
+    },
+    //每页条数
+    storeCurrentPage() {
+      return this.$store.state.dataTable.currentPage;
     }
   },
   mounted() {}

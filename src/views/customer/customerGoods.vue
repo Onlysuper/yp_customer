@@ -142,80 +142,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.admin-page {
-  position: relative;
-  background: #eff2f5;
-  padding: 10px;
-  .detail-content {
-    .line-label-box {
-      padding: 4px 0;
-      .line-label {
-        min-width: 100px;
-        display: inline-block;
-        padding: 0 10px;
-      }
-      &:nth-child(odd) {
-        background-color: rgba(0, 193, 223, 0.1);
-      }
-      &:nth-child(even) {
-        background-color: #fff;
-      }
-    }
-  }
-  .content-center-box {
-    text-align: center;
-  }
-  .sep-inline {
-    margin: 5px 0;
-    width: 100%;
-  }
-  .operation-box {
-    float: left;
-    width: 100%;
-    .button-group {
-      margin-right: 10px;
-    }
-    .line {
-      text-align: center;
-    }
-  }
-  .operation-group {
-    padding: 5px 0;
-    .line {
-      text-align: center;
-    }
-  }
-  .tableHeader {
-    background: #f0f0f0;
-  }
-  .page-tag {
-    margin-bottom: 10px;
-  }
-  .admin-main-box {
-    padding: 10px;
-    position: relative;
-    height: 100%;
-    // width: 100%;
-    background: #fff;
-  }
-  .form-box {
-    margin-top: 10px;
-  }
-  .el-pagination {
-    text-align: right;
-    padding-top: 17px;
-  }
-  .tip-text {
-    color: #67c23a;
-  }
-  .button-group {
-    padding-bottom: 5px;
-  }
-}
+@import "../../../src/assets/scss-pc/admin-page.scss";
 </style>
-
-
-
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
@@ -382,27 +310,34 @@ export default {
           }
         ]
       },
-      addFormVisible: false, // 新增框
-      importVisible: false,
+
       addFormRules: {
         unionNo: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
         customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
         goodsName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
         taxRate: [{ required: true, message: "税率为必选项", trigger: "blur" }]
       },
+      // 查询条件数据
+      searchCondition: searchConditionVar,
+      formLabelWidth: "100px",
+      addFormVisible: false, // 新增框
+      importVisible: false,
+      batchNetFormVisible: false, // 批量入网框
+      editFormVisible: false, // 编辑框
+      addForm: {
+        unionNo: "",
+        customerNo: "",
+        goodsName: "",
+        model: "",
+        unit: "",
+        unitPrice: "",
+        taxRate: "",
+        enjoyDiscount: "",
+        discountType: ""
+      },
       importForm: {
         customerNo: ""
       },
-      importFormRules: {},
-      batchNetFormVisible: false, // 批量入网框
-      editFormVisible: false, // 编辑框
-      batchNetForm: {
-        // 批量上传
-        url: ""
-      },
-
-      formLabelWidth: "100px",
-      editFormRules: {}, // 编辑单个规则
       editForm: {
         unionNo: "",
         customerNo: "",
@@ -414,19 +349,11 @@ export default {
         enjoyDiscount: "",
         discountType: ""
       }, // 编辑单个表单
-      detailsForm: {}, // 详情单个表单
-      // 查询条件数据
-      searchCondition: searchConditionVar,
-      addForm: {
-        unionNo: "",
-        customerNo: "",
-        goodsName: "",
-        model: "",
-        unit: "",
-        unitPrice: "",
-        taxRate: "",
-        enjoyDiscount: "",
-        discountType: ""
+      editFormRules: {}, // 编辑单个规则
+      importFormRules: {},
+      batchNetForm: {
+        // 批量上传
+        url: ""
       },
       // 顶部搜索表单信息
       searchOptions: [
@@ -467,7 +394,7 @@ export default {
       // 列表数据
       tableData: {
         getDataUrl: {
-          url: getCustomerGoods, // 初始化数据
+          url: getCustomerGoods, // 获取Table列表数据的后台url
           page: 1, // 当前页数
           limit: 10, // 每页条数
           searchCondition: searchConditionVar // 搜索内容
@@ -498,7 +425,7 @@ export default {
             type: data => {
               return {
                 text: data * 100 + "%",
-                type: "info"
+                type: ""
               };
             }
           },
@@ -511,12 +438,12 @@ export default {
               if (data == "0") {
                 return {
                   text: "正常税率",
-                  type: "info"
+                  type: ""
                 };
               } else if (data == "1") {
                 return {
                   text: "免税",
-                  type: "info"
+                  type: "success"
                 };
               } else if (data == "2") {
                 return {
@@ -526,7 +453,7 @@ export default {
               } else if (data == "3") {
                 return {
                   text: "普通零税率",
-                  type: "info"
+                  type: "warning"
                 };
               } else {
                 return {
@@ -545,7 +472,7 @@ export default {
               if (data == "10") {
                 return {
                   text: "不使用优惠政策",
-                  type: "info"
+                  type: ""
                 };
               } else if (data == "11") {
                 return {
@@ -555,7 +482,7 @@ export default {
               } else if (data == "12") {
                 return {
                   text: "免税",
-                  type: "info"
+                  type: "warning"
                 };
               } else if (data == "13") {
                 return {
@@ -649,7 +576,7 @@ export default {
               if (data == "TRUE") {
                 return {
                   text: "是",
-                  type: "info"
+                  type: "success"
                 };
               } else if (data == "FALSE") {
                 return {
@@ -659,7 +586,7 @@ export default {
               } else {
                 return {
                   text: data,
-                  type: "info"
+                  type: ""
                 };
               }
             }
@@ -719,7 +646,10 @@ export default {
                           type: "success",
                           message: "操作成功!"
                         });
-                        this.reloadData();
+                        this.reloadData(
+                          this.storePageCount,
+                          this.storeCurrentPage
+                        );
                       } else {
                         this.$message({
                           type: "warning",
@@ -771,7 +701,10 @@ export default {
                           type: "success",
                           message: "操作成功!"
                         });
-                        this.reloadData();
+                        this.reloadData(
+                          this.storePageCount,
+                          this.storeCurrentPage
+                        );
                       } else {
                         this.$message({
                           type: "warning",
@@ -859,6 +792,19 @@ export default {
   },
 
   methods: {
+    // 重新获取数据
+    reloadData(page, Current) {
+      let page_ = page ? page : 1;
+      let limit_ = Current ? Current : 10;
+      this.$store.commit("pageCount", page_);
+      this.$store.commit("currentPage", limit_);
+      this.tableData.getDataUrl = {
+        url: this.tableData.getDataUrl.url,
+        page: page_,
+        limit: limit_,
+        searchCondition: this.searchCondition
+      };
+    },
     importDialog() {
       this.importVisible = true;
     },
@@ -908,58 +854,6 @@ export default {
         this.$message.error("上传文件图片大小不能超过 10MB!");
       }
       return extension || (extension2 && isLt2M);
-    },
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-
-    // 获取新数据
-    reloadData() {
-      this.tableData.getDataUrl = {
-        url: getCustomerGoods,
-        page: 1,
-        limit: 10,
-        searchCondition: this.searchCondition
-      };
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
     },
     // 新增保存
     addSave(formName) {
@@ -1031,7 +925,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              this.reloadData(this.storePageCount, this.storeCurrentPage);
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,
@@ -1050,25 +944,67 @@ export default {
         }
       });
     },
+    /**TABLE页交互 START ********************** */
+    // 普通搜索 具备隐藏
+    visiblesomeHandle() {
+      this.searchOptions.forEach(element => {
+        // searchOptions数组里面的corresattr 是索引
+        if (!element.show) {
+          if (element.type == "dateGroup") {
+            // 开始时间 到结束时间组合 特殊处理
+            element.options.forEach(element => {
+              var corresattr = element.corresattr;
+              element.value = "";
+              this.searchCondition[corresattr] = "";
+            });
+          } else {
+            var corresattr = element.corresattr;
+            element.value = "";
+            this.searchCondition[corresattr] = "";
+          }
+        }
+      });
+    },
+    resetSearchHandle() {
+      // 重置查询表单
+      this.searchOptions.forEach(element => {
+        if (element.type != "dateGroup") {
+          element.value = "";
+          this.searchCondition[element.corresattr] = "";
+        } else {
+          element.options.forEach(element => {
+            element.value = "";
+            this.searchCondition[element.corresattr] = "";
+          });
+        }
+      });
+    },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+    },
+    callbackformHandle(cb, data) {
+      // 表单双向绑定 得到输入的内容并返回到本页面
+      cb(data);
+    },
     operationHandle(data, cb) {
       // 操作按钮回调
       cb(data);
     }
+    /**END ********************** */
   },
   computed: {
     oaIp() {
       // nginx配置的路由
       return this.$store.state.Base.oaIp;
     },
-    editFormCustomerFrom() {
-      // 表单内用户来源显示状态客户来源
-      if (this.editForm.customerFrom == "OPEN_API") {
-        return "第三方";
-      } else if (this.editForm.customerFrom == "PLUGIN") {
-        return "插件";
-      } else if (this.editForm.customerFrom == "LOCAL") {
-        return "后台";
-      }
+    //当前页数
+    storePageCount() {
+      return this.$store.state.dataTable.pageCount;
+    },
+    //每页条数
+    storeCurrentPage() {
+      return this.$store.state.dataTable.currentPage;
     }
   },
   mounted() {}

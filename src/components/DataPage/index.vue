@@ -7,7 +7,7 @@
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
         <template slot-scope="scope">
-          <el-tag v-if="item.status" :type="item.type(scope.row[scope.column.property]).type" close-transition> {{item.type(scope.row[scope.column.property]).text}}</el-tag>
+          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property]).text?true:false" :type="item.type(scope.row[scope.column.property]).type?item.type(scope.row[scope.column.property]).type:''" close-transition> {{item.type(scope.row[scope.column.property]).text}}</el-tag>
           <el-popover v-else trigger="click" placement="top">
             <p>{{ scope.row[scope.column.property]}}</p>
             <div slot="reference" class="name-wrapper">
@@ -76,6 +76,14 @@ export default {
     },
     visibleinput() {
       return this.$store.state.dataTable.visibleinput;
+    },
+    //当前页数
+    storePageCount() {
+      return this.$store.state.dataTable.pageCount;
+    },
+    //每页条数
+    storeCurrentPage() {
+      return this.$store.state.dataTable.currentPage;
     }
   },
   mounted() {
@@ -121,6 +129,8 @@ export default {
     handleSizeChange(val) {
       // 改变页数
       this.pageCount = val;
+      this.$store.commit("currentPage", val);
+
       this.postDataInit(
         this.currentPage,
         this.pageCount,
@@ -130,6 +140,7 @@ export default {
     handleCurrentChange(val) {
       // 更改每页显示条数
       this.currentPage = val;
+      this.$store.commit("pageCount", val);
       this.postDataInit(
         this.currentPage,
         this.pageCount,
@@ -170,6 +181,14 @@ export default {
         getDataUrl.limit,
         getDataUrl.searchCondition
       );
+    },
+    //当前页数
+    storePageCount(value) {
+      this.currentPage = value; //当前页数
+    },
+    //每页条数
+    storeCurrentPage(value) {
+      this.pageCount = value; //每页条数
     }
   }
 };

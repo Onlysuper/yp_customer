@@ -1,0 +1,71 @@
+// 表格数据样式
+.admin-page {
+  position: relative;
+  background: #eff2f5;
+  padding: 10px;
+  .detail-content {
+    .line-label-box {
+      padding: 4px 0;
+      .line-label {
+        min-width: 100px;
+        display: inline-block;
+        padding: 0 10px;
+      }
+      &:nth-child(odd) {
+        background-color: rgba(0, 193, 223, 0.1);
+      }
+      &:nth-child(even) {
+        background-color: #fff;
+      }
+    }
+  }
+  .content-center-box {
+    text-align: center;
+  }
+  .sep-inline {
+    margin: 5px 0;
+    width: 100%;
+  }
+  .operation-box {
+    float: left;
+    width: 100%;
+    .button-group {
+      margin-right: 10px;
+    }
+    .line {
+      text-align: center;
+    }
+  }
+  .operation-group {
+    padding: 5px 0;
+    .line {
+      text-align: center;
+    }
+  }
+  .tableHeader {
+    background: #f0f0f0;
+  }
+  .page-tag {
+    margin-bottom: 10px;
+  }
+  .admin-main-box {
+    padding: 10px;
+    position: relative;
+    height: 100%;
+    // width: 100%;
+    background: #fff;
+  }
+  .form-box {
+    margin-top: 10px;
+  }
+  .el-pagination {
+    text-align: right;
+    padding-top: 17px;
+  }
+  .tip-text {
+    color: #67c23a;
+  }
+  .button-group {
+    padding-bottom: 5px;
+  }
+}
