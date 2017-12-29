@@ -8,12 +8,12 @@
       <input-wrapper>
         <!-- 添加表单 -->
         <template v-if="pageType == 'ADD'">
-          <mt-field type="text" label="商户编号" placeholder="请输入商品编号" v-model="good.customerNo"></mt-field>
           <div @click="openGoodsActions">
             <mt-field type="text" label="商品编码" placeholder="请选择商品编码" :value="good.unionNo | handleUnionNo" :disabled="true" :disableClear="true" :readonly="true">
               <i class="icon-admin"></i>
             </mt-field>
           </div>
+          <mt-field type="text" label="商户编号" placeholder="请输入商品编号" v-model="good.customerNo"></mt-field>
           <mt-field type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName"></mt-field>
           <mt-field type="text" label="规格型号" placeholder="请输入规格型号" v-model="good.model"></mt-field>
           <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
@@ -37,8 +37,8 @@
 
         <!-- 编辑表单 -->
         <template v-if="pageType == 'EDIT'">
-          <mt-field type="text" label="商户编号" placeholder="请输入商品编号" v-model="good.customerNo" :disabled="true" :disableClear="true" :readonly="true"></mt-field>
-          <mt-field type="text" label="商品编号" placeholder="请输入商品编号" v-model="good.goodsNo" :disabled="true" :disableClear="true" :readonly="true"></mt-field>
+          <!-- <mt-field type="text" label="商户编号" placeholder="请输入商品编号" v-model="good.customerNo" :disabled="true" :disableClear="true" :readonly="true"></mt-field> -->
+          <!-- <mt-field type="text" label="商品编号" placeholder="请输入商品编号" v-model="good.goodsNo" :disabled="true" :disableClear="true" :readonly="true"></mt-field> -->
           <div @click="openGoodsActions">
             <mt-field type="text" label="商品编码" placeholder="请选择商品编码" :value="good.unionNo | handleUnionNo" :disabled="true" :disableClear="true" :readonly="true">
               <i class="icon-admin"></i>
@@ -91,10 +91,10 @@ export default {
     return {
       btnDisabled: false,
       good: {
-        unionNo: "",
-        taxRate: "",
-        enjoyDiscount: "",
-        discountType: ""
+        unionNo: "3070401000000000000",
+        taxRate: "0",
+        enjoyDiscount: "0",
+        discountType: "10"
       },
       pageType: this.$route.query["type"] || "ADD",
       pageTitle: {

@@ -2,9 +2,14 @@
   <full-page class="" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+      <mt-button slot="right" :disabled="false" type="danger" @click="save">保存</mt-button>
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
-    <div class="tip">敬请期待</div>
+    <input-wrapper>
+      <mt-field type="text" label="交易费率" placeholder="请输入交易费率"></mt-field>
+      <mt-field type="text" label="默认固定成本" placeholder="请输入交易费率"></mt-field>
+      <mt-field type="number" label="默认可用天数" placeholder="请输入交易费率"></mt-field>
+    </input-wrapper>
   </full-page>
 </template>
 
@@ -26,13 +31,14 @@ export default {
   activated() {
     this.routeMenuCode = this.$route.name;
   },
-  methods: {}
+  methods: {
+    save() {
+      this.Toast("暂不支持");
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped>
-.tip {
-  line-height: 200px;
-  text-align: center;
-}
+<style>
+
 </style>

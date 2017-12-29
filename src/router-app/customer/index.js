@@ -7,28 +7,28 @@ import App from "@src/views-app/customer";
 export default {
   name: "myCustomer",
   path: "/customer",
-  redirect: "/customer/product",
+  redirect: "/customer/productConfig",
   component: App,
   meta: {
 
     // keepAlive: true
   },
   children: [
+    //产品配置
     {
-      //产品配置
       name: "agent-customer-product",
-      path: 'product',
+      path: 'productConfig',
       component: r => {
         loading(true);
-        return require.ensure([], () => { loading(false); return r(require("@src/views-app/customer/customerPoduct")) }, "customer-app")
+        return require.ensure([], () => { loading(false); return r(require("@src/views-app/customer/customerPoductConfig")) }, "customer-app")
       },
       meta: {
         pageTitle: "产品配置",
         keepAlive: true
       }
     },
+    //商品管理
     {
-      //商品管理
       name: "customerGoods",
       path: 'goods',
       component: r => {
@@ -39,8 +39,8 @@ export default {
         keepAlive: true
       }
     },
+    //商品管理--编辑
     {
-      //商品编辑
       name: "goodsEdit",
       path: 'goods/edit/:customerNo',
       component: r => {
@@ -51,8 +51,8 @@ export default {
         keepAlive: false
       }
     },
+    //商品管理--搜索
     {
-      //商品搜索
       name: "goodsSearch",
       path: 'goods/search',
       component: r => {
@@ -63,10 +63,20 @@ export default {
         keepAlive: false
       }
     },
+    //商户产品
     {
-      /**
-       * 商户管理
-       */
+      name: "customerProduct",
+      path: 'product',
+      component: r => {
+        return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct")) }, "customer-app")
+      },
+      meta: {
+        pageTitle: "商户产品",
+        keepAlive: true
+      },
+    },
+    //商户管理
+    {
       name: "customerlist",
       path: 'manage',
       component: r => {
@@ -77,8 +87,8 @@ export default {
         keepAlive: true
       },
     },
+    //开票配置
     {
-      //开票配置
       name: "customerInvoiceConfig",
       path: 'invoiceConfig',
       component: r => {
