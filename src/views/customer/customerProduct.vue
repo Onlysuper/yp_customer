@@ -1,8 +1,142 @@
 <template>
   <div class="admin-page">
     <div class="admin-main-box">
-      产品配置fwafe
+      <!-- search form start -->
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <!-- search form end -->
+      <div class="operation-box">
+        <el-button-group class="button-group">
+          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button size="small" @click="importDialog" type="primary" icon="el-icon-download">导入</el-button>
+        </el-button-group>
+      </div>
+      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
     </div>
+    <!-- 新增start -->
+    <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
+      <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
+        <el-form-item label="商品编码" prop="unionNo" :label-width="formLabelWidth">
+          <el-select v-model="addForm.unionNo" placeholder="请选择">
+            <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+          <el-input v-model="addForm.goodsName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
+          <el-input v-model="addForm.model" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
+          <el-input v-model="addForm.unit" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
+          <el-input v-model="addForm.unitPrice" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
+          <el-select v-model="addForm.taxRate" placeholder="请选择">
+            <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
+          <el-select v-model="addForm.enjoyDiscount" placeholder="请选择">
+            <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
+          <el-select v-model="addForm.discountType" placeholder="请选择">
+            <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('addForm')">重置</el-button>
+        <el-button type="primary" @click="addSave('addForm')">确定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 新增end -->
+    <!-- 导入 start -->
+    <el-dialog center title="导入商户信息" :visible.sync="importVisible">
+      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input v-model="importForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
+        <el-form-item label="商品文件" prop="customerNo" :label-width="formLabelWidth">
+          <el-upload :data="{customerNo:importForm.customerNo}" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将文件拖到此处，或
+              <em>点击上传</em>
+            </div>
+            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetImportForm('upload','importForm')">重置</el-button>
+        <el-button type="primary" @click="importSave('importForm')">确定导入</el-button>
+      </div>
+    </el-dialog>
+    <!-- 导入 end -->
+    <!-- 编辑start -->
+    <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
+      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
+        <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
+          <el-select v-model="editForm.unionNo" placeholder="请选择">
+            <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
+          <el-input v-model="editForm.model" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
+          <el-input v-model="editForm.unit" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
+          <el-input v-model="editForm.unitPrice" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
+          <el-select v-model="editForm.taxRate" placeholder="请选择">
+            <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
+          <el-select v-model="editForm.enjoyDiscount" placeholder="请选择">
+            <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
+          <el-select v-model="editForm.discountType" placeholder="请选择">
+            <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('editForm')">重置</el-button>
+        <el-button type="primary" @click="editSave('editForm')">确定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 编辑end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -85,134 +219,213 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
-import {
-  provinceAndCityData,
-  regionData,
-  provinceAndCityDataPlus,
-  regionDataPlus,
-  CodeToText,
-  TextToCode
-} from "element-china-area-data";
-
-import {
-  getCustomers,
-  postAddCustomer,
-  postEditCustomer,
-  postUploadFile, // 上传文件
-  transferCustomer,
-  perfectCustomer
-} from "@src/apis";
-
+import { getCustomerProducts } from "@src/apis";
 export default {
-  name: "customermanage",
+  name: "customergoods",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
   data() {
-    // 不能为空
-    var notNullVerify = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("不能为空!"));
-      } else {
-        callback();
-      }
-    };
-    // 税号
-    var taxNumVerify = (rule, value, callback) => {
-      var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
-      if (!reg.test(value)) {
-        return callback(new Error("税号有误！"));
-      } else {
-        callback();
-      }
-    };
-    // 身份证号
-    var idCardVerify = (rule, value, callback) => {
-      var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/;
-      if (!reg.test(value)) {
-        return callback(new Error("身份证号有误!"));
-      } else {
-        callback();
-      }
-    };
-    // 电话号码
-    var phoneNumVerify = (rule, value, callback) => {
-      var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
-      if (!reg.test(value)) {
-        return callback(new Error("手机号有误!"));
-      } else {
-        callback();
-      }
-    };
-    // 日期格式转换成如“2017-12-19”的格式
-    var dataHandle = nowDate => {
-      var nowDate = new Date(nowDate);
-      var year = nowDate.getFullYear();
-      var month = nowDate.getMonth() + 1;
-      month = month * 1 < 10 ? "0" + month : month;
-      var day = nowDate.getDate();
-      var todayDate = year + "-" + month + "-" + day;
-      return todayDate;
-    };
-    var todayDate = dataHandle(new Date()); // 初始化默认开始查询日期
-    var beforDate = dataHandle(new Date() - 24 * 60 * 60 * 1000); // 初始化默认结束查询日期
-
     var searchConditionVar = {
       customerNo: "", // 商户编号
-      taxNo: "", // 企业税号
-      enterpriseName: "", // 企业名称
-      createTimeStart: beforDate, // 开始时间
-      createTimeEnd: todayDate, // 结束时间
-      agentNo: "", // 合伙人编号
-      customerFrom: "" // 入网来源
+      goodsNo: "", // 商户编码
+      goodsName: "" // 商品名称
     };
     return {
+      selectOptions: {
+        unionNumOptions: [
+          {
+            value: "3070402000000000000",
+            label: "住宿服务"
+          },
+          {
+            value: "3070401000000000000",
+            label: "餐饮服务"
+          }
+        ],
+        taxRateOptions: [
+          {
+            value: "0",
+            label: "0%"
+          },
+          {
+            value: "0.015",
+            label: "1.5%"
+          },
+          {
+            value: "0.03",
+            label: "3%"
+          },
+          {
+            value: "0.04",
+            label: "4%"
+          },
+          {
+            value: "0.05",
+            label: "5%"
+          },
+          {
+            value: "0.06",
+            label: "6%"
+          },
+          {
+            value: "0.11",
+            label: "11%"
+          },
+          {
+            value: "0.13",
+            label: "13%"
+          },
+          {
+            value: "0.17",
+            label: "17%"
+          }
+        ],
+        enjoyDiscountOptions: [
+          {
+            value: "0",
+            label: "正常税率"
+          },
+          {
+            value: "1",
+            label: "免税"
+          },
+          {
+            value: "2",
+            label: "不征税"
+          },
+          {
+            value: "3",
+            label: "普通零税率"
+          }
+        ],
+        discountTypeOptions: [
+          {
+            value: "10",
+            label: "不使用优惠政策"
+          },
+          {
+            value: "11",
+            label: "不征税"
+          },
+          {
+            value: "12",
+            label: "免税"
+          },
+          {
+            value: "13",
+            label: "先征后退"
+          },
+          {
+            value: "14",
+            label: "100%先征后退"
+          },
+          {
+            value: "15",
+            label: "50%先征后退"
+          },
+          {
+            value: "16",
+            label: "即征即退30%"
+          },
+          {
+            value: "17",
+            label: "即征即退50%"
+          },
+          {
+            value: "18",
+            label: "即征即退70%"
+          },
+          {
+            value: "19",
+            label: "即征即退100%"
+          },
+          {
+            value: "20",
+            label: "超税负3%即征即退"
+          },
+          {
+            value: "21",
+            label: "超税负8%即征即退"
+          },
+          {
+            value: "22",
+            label: "超税负12%即征即退"
+          },
+          {
+            value: "23",
+            label: "简易征收"
+          },
+          {
+            value: "24",
+            label: "按5%简易征收减按1.5%计征"
+          },
+          {
+            value: "25",
+            label: "按5%简易征收"
+          },
+          {
+            value: "26",
+            label: "按3%简易征收"
+          },
+          {
+            value: "27",
+            label: "稀土产品"
+          }
+        ]
+      },
       addFormVisible: false, // 新增框
+      importVisible: false,
+      addFormRules: {
+        unionNo: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
+        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
+        goodsName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
+        taxRate: [{ required: true, message: "税率为必选项", trigger: "blur" }]
+      },
+      importForm: {
+        customerNo: ""
+      },
+      importFormRules: {},
       batchNetFormVisible: false, // 批量入网框
-      batchTransferFormVisible: false, // 批量转移模板
-      detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
-      transferFormVisible: false,
       batchNetForm: {
         // 批量上传
         url: ""
       },
-      batchTransferForm: {
-        // 批量转移
-        url: ""
-      },
-      addFormRules: {
-        enterpriseName: [{ validator: notNullVerify, trigger: "blur" }],
-        taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
-        legalPerson: [{ validator: notNullVerify, trigger: "blur" }],
-        idCard: [{ validator: idCardVerify, trigger: "blur" }],
-        linkMan: [{ validator: notNullVerify, trigger: "blur" }],
-        phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
-      },
+
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
-      editForm: {}, // 编辑单个表单
+      editForm: {
+        unionNo: "",
+        customerNo: "",
+        goodsName: "",
+        model: "",
+        unit: "",
+        unitPrice: "",
+        taxRate: "",
+        enjoyDiscount: "",
+        discountType: ""
+      }, // 编辑单个表单
       detailsForm: {}, // 详情单个表单
-      transferFormRules: {
-        receiveAgentNo: [{ validator: notNullVerify, trigger: "blur" }]
-      }, // 转移单个规则
-      transferForm: {}, // 转移单个表单
       // 查询条件数据
       searchCondition: searchConditionVar,
       addForm: {
-        enterpriseName: "",
-        taxNo: "",
-        legalPerson: "",
-        idCard: "",
-        linkMan: "",
-        phoneNo: ""
+        unionNo: "",
+        customerNo: "",
+        goodsName: "",
+        model: "",
+        unit: "",
+        unitPrice: "",
+        taxRate: "",
+        enjoyDiscount: "",
+        discountType: ""
       },
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
-          corresattr: "customerNo",
+          corresattr: "businessNo",
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
@@ -223,96 +436,43 @@ export default {
           }
         },
         {
-          corresattr: "taxNo",
-          type: "text",
-          label: "企业税号",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.taxNo = value;
-          }
-        },
-        {
-          corresattr: "enterpriseName",
-          type: "text",
-          label: "企业名称",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.enterpriseName = value;
-          }
-        },
-        {
-          type: "dateGroup",
-          label: "选择时间",
-          show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "createTimeStart",
-              label: "开始时间",
-              value: new Date() - 24 * 60 * 60 * 1000,
-              cb: value => {
-                this.searchCondition.createTimeStart = value;
-              }
-            },
-            {
-              corresattr: "createTimeEnd",
-              lable: "结束时间",
-              value: new Date(),
-              cb: value => {
-                this.searchCondition.createTimeEnd = value;
-              }
-            }
-          ]
-        },
-        {
-          corresattr: "agentNo",
-          type: "text",
-          label: "合伙人编号",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.agentNo = value;
-          }
-        },
-        {
-          corresattr: "customerFrom",
+          corresattr: "featureType",
           type: "select",
-          label: "入网来源",
-          show: false, // 普通搜索显示
+          label: "产品类型",
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
               value: "",
-              label: "请选择"
+              label: "全部"
             },
             {
-              value: "插件",
-              label: "插件"
+              value: "QRCODE_BILLING",
+              label: "快速开票"
             },
             {
-              value: "扫码",
-              label: "扫码"
+              value: "ELECTRONIC",
+              label: "电子发票"
             },
             {
-              value: "公众号",
-              label: "公众号"
+              value: "WECHAT_COST",
+              label: "微信支付"
             },
             {
-              value: "静默",
-              label: "静默"
+              value: "ALIPAY_COST",
+              label: "支付宝支付"
             },
             {
-              value: "后台",
-              label: "后台"
+              value: "T0_CASH_COST",
+              label: "T0提现"
             },
             {
-              value: "第三方",
-              label: "第三方"
+              value: "T1_CASH_COST",
+              label: "T1提现"
             }
           ],
           cb: value => {
-            this.searchCondition.customerFrom = value;
+            this.searchCondition.goodsNo = value;
           }
         }
       ],
@@ -320,7 +480,7 @@ export default {
       // 列表数据
       tableData: {
         getDataUrl: {
-          url: getCustomers, // 初始化数据
+          url: getCustomerProducts, // 初始化数据
           page: 1, // 当前页数
           limit: 10, // 每页条数
           searchCondition: searchConditionVar // 搜索内容
@@ -331,113 +491,247 @@ export default {
             key: "商户编号",
             width: "100px",
             sortable: true,
-            word: "customerNo"
+            word: "bussinessNo"
           },
           {
-            key: "企业名称",
+            key: "代理商",
             width: "100px",
-            word: "enterpriseName"
+            word: "levelDetail"
           },
           {
-            key: "企业税号",
-            word: "taxNo"
-          },
-          {
-            key: "联系人",
+            key: "产品类型",
             width: "100px",
-            word: "linkMan"
+            word: "featureType"
           },
           {
-            key: "合伙人编号",
-            width: "100px",
-            word: "agentNo"
-          },
-          {
-            key: "来源",
+            key: "费率",
             width: "80px",
-            word: "customerFrom",
+            word: "rate",
             status: true,
             type: data => {
-              if (data == "OPEN_API") {
-                return {
-                  text: "第三方",
-                  type: "danger"
-                };
-              } else if (data == "PLUGIN") {
-                return {
-                  text: "插件",
-                  type: "warning"
-                };
-              } else if (data == "LOCAL") {
-                return {
-                  text: "后台",
-                  type: ""
-                };
-              } else if (data == null || data == "") {
-                return {
-                  text: "未知",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: "未定义",
-                  type: "info"
-                };
-              }
+              return {
+                text: data * 100 + "%",
+                type: "info"
+              };
             }
           },
           {
-            key: "状态",
-            word: "status",
-            width: "80px",
+            key: "单笔",
+            width: "120px",
+            word: "fixed",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "开启",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "未开启",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: "没写",
-                  type: ""
-                };
-              }
+              return {
+                text: data,
+                type: "info"
+              };
             }
           },
-          { key: "入网时间", word: "createTime", width: "170" }
+          {
+            key: "封顶",
+            width: "130px",
+            word: "capped",
+            status: true,
+            type: data => {
+              return {
+                text: data,
+                type: "info"
+              };
+            }
+          },
+          {
+            key: "月电票量",
+            width: "80px",
+            word: "elecBillnum",
+            status: true,
+            type: data => {
+              return {
+                text: data,
+                type: "info"
+              };
+            }
+          },
+          {
+            key: "开始有效期",
+            width: "100px",
+            word: "effectiveBegin"
+          },
+          {
+            key: "结束有效期",
+            width: "100px",
+            word: "effectiveEnd"
+          }
         ],
         operation: {
-          width: "120px",
+          width: "150px",
           options: [
             // 操作按钮
             {
-              text: "详情",
+              stateName: "defaultType",
+              opposite: false,
+              text: "设为默认",
               color: "#00c1df",
               cb: rowdata => {
-                this.detailsForm = rowdata;
-                this.detailsFormVisible = true;
+                this.$confirm("确定继续本次操作吗?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                })
+                  .then(() => {
+                    postDefaultCustomerGood(rowdata.goodsNo)({
+                      createTime: rowdata.createTime,
+                      lastUpdateTime: rowdata.lastUpdateTime,
+                      customerNo: rowdata.customerNo,
+                      goodsNo: rowdata.goodsNo,
+                      model: rowdata.model,
+                      unit: rowdata.unit,
+                      unitPrice: rowdata.unitPrice,
+                      taxRate: rowdata.taxRate,
+                      status: rowdata.status,
+                      enjoyDiscount: rowdata.enjoyDiscount,
+                      discountType: rowdata.discountType,
+                      remark: rowdata.remark,
+                      goodsName: rowdata.goodsName,
+                      unionNo: rowdata.unionNo,
+                      defaultType: rowdata.defaultType,
+                      goodsType: rowdata.goodsType
+                    }).then(data => {
+                      if (data.code == "00") {
+                        this.$message({
+                          type: "success",
+                          message: "操作成功!"
+                        });
+                        this.reloadData();
+                      } else {
+                        this.$message({
+                          type: "warning",
+                          message: data.msg
+                        });
+                      }
+                    });
+                  })
+                  .catch(() => {
+                    this.$message({
+                      type: "info",
+                      message: "已取消操作"
+                    });
+                  });
+              }
+            },
+            {
+              stateName: "defaultType", // 有哪个属性决定可见
+              opposite: true, // 与以上属性是否相反
+              text: "取消默认",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.$confirm("确定继续本次操作吗?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                })
+                  .then(() => {
+                    postCancelDefaultCustomerGood(rowdata.goodsNo)({
+                      createTime: rowdata.createTime,
+                      lastUpdateTime: rowdata.lastUpdateTime,
+                      customerNo: rowdata.customerNo,
+                      goodsNo: rowdata.goodsNo,
+                      model: rowdata.model,
+                      unit: rowdata.unit,
+                      unitPrice: rowdata.unitPrice,
+                      taxRate: rowdata.taxRate,
+                      status: rowdata.status,
+                      enjoyDiscount: rowdata.enjoyDiscount,
+                      discountType: rowdata.discountType,
+                      remark: rowdata.remark,
+                      goodsName: rowdata.goodsName,
+                      unionNo: rowdata.unionNo,
+                      defaultType: rowdata.defaultType,
+                      goodsType: rowdata.goodsType
+                    }).then(data => {
+                      if (data.code == "00") {
+                        this.$message({
+                          type: "success",
+                          message: "操作成功!"
+                        });
+                        this.reloadData();
+                      } else {
+                        this.$message({
+                          type: "warning",
+                          message: data.msg
+                        });
+                      }
+                    });
+                  })
+                  .catch(() => {
+                    this.$message({
+                      type: "info",
+                      message: "已取消操作"
+                    });
+                  });
               }
             },
             {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
+                if (rowdata.unionNo == "3070401000000000000") {
+                  // 餐饮服务
+                }
+                if (rowdata.unionNo == "3070402000000000000") {
+                  // 住宿服务
+                }
                 this.editForm = rowdata;
                 this.editFormVisible = true;
               }
             },
             {
-              text: "转移",
+              text: "删除",
               color: "#00c1df",
               cb: rowdata => {
-                this.transferForm = rowdata;
-                this.transferFormVisible = true;
+                this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                })
+                  .then(() => {
+                    postDeleteCustomerGood(rowdata.goodsNo)({
+                      createTime: rowdata.createTime,
+                      lastUpdateTime: rowdata.lastUpdateTime,
+                      customerNo: rowdata.customerNo,
+                      goodsNo: rowdata.goodsNo,
+                      model: rowdata.model,
+                      unit: rowdata.unit,
+                      unitPrice: rowdata.unitPrice,
+                      taxRate: rowdata.taxRate,
+                      status: rowdata.status,
+                      enjoyDiscount: rowdata.enjoyDiscount,
+                      discountType: rowdata.discountType,
+                      remark: rowdata.remark,
+                      goodsName: rowdata.goodsName,
+                      unionNo: rowdata.unionNo,
+                      defaultType: rowdata.defaultType,
+                      goodsType: rowdata.goodsType
+                    }).then(data => {
+                      if (data.code == "00") {
+                        this.$message({
+                          type: "success",
+                          message: "删除成功!"
+                        });
+                        this.reloadData();
+                      } else {
+                        this.$message({
+                          type: "warning",
+                          message: data.msg
+                        });
+                      }
+                    });
+                  })
+                  .catch(() => {
+                    this.$message({
+                      type: "info",
+                      message: "已取消删除"
+                    });
+                  });
               }
             }
           ]
@@ -447,17 +741,45 @@ export default {
   },
 
   methods: {
-    handleBatchTransferSuccess() {
-      // 批量转移文件上传成功
-      this.$message.success("恭喜您！上传成功");
-      this.batchTransferForm.url = URL.createObjectURL(file.raw);
+    importDialog() {
+      this.importVisible = true;
     },
-    handleBatchNetSuccess(res, file) {
-      // 批量入网文件上传成功
-      this.$message.success("恭喜您！上传成功");
-      this.batchNetForm.url = URL.createObjectURL(file.raw);
+    addDialog() {
+      // 新增数据 弹出框
+      this.addFormVisible = true;
     },
-    beforeBatchNetUpload(file) {
+    // 导入成功
+    uploadSuccess(response, file, fileList) {
+      this.$message({
+        message: "恭喜你，导入成功",
+        type: "success",
+        center: true
+      });
+      this.importDialog();
+      this.importVisible = false;
+    },
+    // 导入失败
+    uploadError(err, file, fileList) {
+      this.$message({
+        message: "很遗憾，导入失败",
+        type: "warning",
+        center: true
+      });
+      this.importDialog();
+      this.importVisible = false;
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    resetImportForm(uploadName, formName) {
+      this.$refs[formName].resetFields();
+      this.$refs[uploadName].clearFiles();
+    },
+    importSave() {
+      // 确定导入
+      this.$refs.upload.submit();
+    },
+    beforeUpload(file) {
       const extension = file.name.split(".")[1] === "xlsx";
       const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
@@ -507,14 +829,11 @@ export default {
         }
       });
     },
-    resetAddForm(formName) {
-      this.$refs[formName].resetFields();
-    },
+
     // 获取新数据
     reloadData() {
-      console.log(this.searchCondition);
       this.tableData.getDataUrl = {
-        url: getCustomers,
+        url: getCustomerGoods,
         page: 1,
         limit: 10,
         searchCondition: this.searchCondition
@@ -524,12 +843,23 @@ export default {
       // 开始搜索
       this.reloadData();
     },
+    // 新增保存
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
+        let addForm = this.addForm;
         if (valid) {
-          this.resetSearchHandle();
-          postAddCustomer()(this.addForm).then(data => {
+          postAddCustomerGood()({
+            unionNo: addForm.unionNo,
+            customerNo: addForm.customerNo,
+            goodsName: addForm.goodsName,
+            model: addForm.model,
+            unit: addForm.unit,
+            unitPrice: addForm.unitPrice,
+            taxRate: addForm.taxRate,
+            enjoyDiscount: addForm.enjoyDiscount,
+            discountType: addForm.discountType
+          }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -537,7 +867,7 @@ export default {
                 center: true
               });
               this.addFormVisible = false;
-              this.resetAddForm("addForm");
+              this.resetForm("addForm");
               this.reloadData();
             } else if (data.code === "98") {
               this.$message({
@@ -557,56 +887,24 @@ export default {
         }
       });
     },
-    // 批量入网文件保存
-    saveBatchNet() {
-      console.log(this.$refs.batchnetFile);
-    },
-    // 批量转移文件提交
-    saveBatchTransfer() {
-      alert("转移ok");
-    },
+    // 保存编辑
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          let editForm = this.editForm;
           this.resetSearchHandle();
-          postEditCustomer()(this.editForm).then(data => {
-            if (data.code === "00") {
-              this.$message({
-                message: "恭喜你，修改数据成功",
-                type: "success",
-                center: true
-              });
-              this.editFormVisible = false;
-              this.reloadData();
-            } else if (data.code === "98") {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            } else {
-              this.$message({
-                message: data.resultMsg,
-                type: "warning",
-                center: true
-              });
-            }
-            console.log(data);
-          });
-        }
-      });
-    },
-    transferSave(formName) {
-      // 转移保存
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          console.log(this.transferForm);
-          transferCustomer()({
-            customerNo: this.transferForm.customerNo,
-            enterpriseName: this.transferForm.enterpriseName,
-            agentNo: this.transferForm.agentNo,
-            receiveAgentNo: this.transferForm.receiveAgentNo
+          postEditCustomerGood(editForm.goodsNo)({
+            unionNo: editForm.unionNo,
+            goodsNo: editForm.goodsNo,
+            customerNo: editForm.customerNo,
+            goodsName: editForm.goodsName,
+            model: editForm.model,
+            unit: editForm.unit,
+            unitPrice: editForm.unitPrice,
+            taxRate: editForm.taxRate,
+            enjoyDiscount: editForm.enjoyDiscount,
+            discountType: editForm.discountType
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -629,6 +927,7 @@ export default {
                 center: true
               });
             }
+            console.log(data);
           });
         }
       });
@@ -636,24 +935,6 @@ export default {
     operationHandle(data, cb) {
       // 操作按钮回调
       cb(data);
-    },
-    addDialog() {
-      // 新增数据 弹出框
-      this.addFormVisible = true;
-    },
-    batchNetDialog() {
-      // 批量入网 弹出框
-      this.batchNetFormVisible = true;
-    },
-    batchTransferDialog() {
-      // 批量转移 弹出框
-      this.batchTransferFormVisible = true;
-    },
-    exportDialog() {
-      // 导出
-      this.$refs.dataTable.ExportExcel();
-      // console.log(this.searchCondition);
-      // window.location.href = "/customer/export?" + this.searchCondition;
     }
   },
   computed: {
