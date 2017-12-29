@@ -1,5 +1,5 @@
 
-import { postAddCustomerGood, postEditCustomerGood, postDeleteCustomerGood, postDefaultCustomerGood } from "@src/apis";
+import { postAddCustomerGood, postEditCustomerGood, postDeleteCustomerGood, postDefaultCustomerGood, postCancelDefaultCustomerGood } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -141,7 +141,7 @@ export default {
       })
     },
     cancelDefaultGood({ commit, dispatch, getters, rootGetters, rootState, state }, good) {
-      postDefaultCustomerGood(good.goodsNo)(good).then(data => {
+      postCancelDefaultCustomerGood(good.goodsNo)(good).then(data => {
         if (data.code == "00") {
           Toast("操作成功");
 

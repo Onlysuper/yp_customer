@@ -50,9 +50,7 @@ export default {
   methods: {
     searchPanelResult() {
       this.$store.commit("IS_SEARCH_GOOD", true);
-      this.$router.back({
-        path: this.$route.query["redirect"]
-      });
+      this.$router.back();
     }
   }
 };
