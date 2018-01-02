@@ -1,84 +1,189 @@
 <template>
   <div class="admin-page">
-    快速开票分润
+    <div class="admin-main-box">
+      <!-- search form start -->
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <!-- search form end -->
+      <div class="operation-box">
+        <el-button-group class="button-group">
+          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button size="small" @click="batchNetDialog" type="primary" icon="el-icon-upload">批量入网</el-button>
+          <el-button size="small" @click="batchTransferDialog" type="primary" icon="el-icon-sort">批量转移</el-button>
+          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
+        </el-button-group>
+      </div>
+      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+    </div>
+    <!-- 新增start -->
+    <el-dialog center title="新增商户" :visible.sync="addFormVisible">
+      <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
+        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+          <el-input v-model="addForm.enterpriseName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+          <el-input v-model="addForm.taxNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
+          <el-input v-model="addForm.legalPerson" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
+          <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
+          <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+          <el-input v-model="addForm.phoneNo" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetAddForm('addForm')">重置</el-button>
+        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 新增end -->
+    <!-- 批量入网 start -->
+    <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
+      <form>
+        <div class="content-center-box">
+          <div class="sep-inline">
+            <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
+          </div>
+          <div class="sep-inline">
+            <el-upload :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将入网文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+            </el-upload>
+          </div>
+        </div>
+      </form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchNetFormVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="saveBatchNet">提 交</el-button>
+      </span>
+    </el-dialog>
+    <!-- 批量入网 end -->
+    <!-- 批量转移 start -->
+    <el-dialog title="商户批量转移" center :visible.sync="batchTransferFormVisible" width="500px">
+      <div class="content-center-box">
+        <div class="sep-inline">
+          <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
+        </div>
+        <div class="sep-inline">
+          <el-upload ref="batchtransferFile" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将需要转移的文件拖到此处，或
+              <em>点击上传</em>
+            </div>
+            <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+          </el-upload>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchTransferFormVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="saveBatchTransfer">提 交</el-button>
+      </span>
+    </el-dialog>
+    <!-- 批量转移 end -->
+    <!-- 详情 start -->
+    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
+      <div class="detail-content">
+        <div class="line-label-box">
+          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">企业税号:</span>{{detailsForm.taxNo?detailsForm.taxNo:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">企业法人:</span>{{detailsForm.legalPerson?detailsForm.legalPerson:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">身份证:</span>{{detailsForm.idCard?detailsForm.idCard:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">联系人:</span>{{detailsForm.linkMan?detailsForm.linkMan:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">手机号:</span>{{detailsForm.phoneNo?detailsForm.phoneNo:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">商户编号:</span>{{detailsForm.agentNo?detailsForm.agentNo:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom?detailsForm.customerFrom:"??"}}
+        </div>
+      </div>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 详情 end -->
+    <!-- 编辑 start -->
+    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
+      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
+        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
+          <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
+          <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
+          <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
+          <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 编辑 end -->
+    <!-- 商户转移 start -->
+    <el-dialog title="商户转移" center :visible.sync="transferFormVisible" width="500px">
+      <el-form size="small" :model="transferForm" ref="transferForm" :rules="transferFormRules">
+        <el-form-item label="商户编号" prop="" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="transferForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户名称" prop="" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="transferForm.enterpriseName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="现有合伙人" prop="" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="transferForm.agentNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="接受合伙人" prop="receiveAgentNo" :label-width="formLabelWidth">
+          <el-input v-model="transferForm.receiveAgentNo" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="transferFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="transferSave('transferForm')">保存</el-button>
+      </div>
+    </el-dialog>
+    <!-- 商户转移 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.admin-page {
-  position: relative;
-  background: #eff2f5;
-  padding: 10px;
-  .el-form-item {
-    margin-bottom: 10px;
-  }
-  .detail-content {
-    .line-label-box {
-      padding: 4px 0;
-      .line-label {
-        min-width: 100px;
-        display: inline-block;
-        padding: 0 10px;
-      }
-      &:nth-child(odd) {
-        background-color: rgba(0, 193, 223, 0.1);
-      }
-      &:nth-child(even) {
-        background-color: #fff;
-      }
-    }
-  }
-  .content-center-box {
-    text-align: center;
-  }
-  .sep-inline {
-    margin: 5px 0;
-    width: 100%;
-  }
-  .operation-box {
-    float: left;
-    width: 100%;
-    .button-group {
-      margin-right: 10px;
-    }
-    .line {
-      text-align: center;
-    }
-  }
-  .operation-group {
-    padding: 5px 0;
-    .line {
-      text-align: center;
-    }
-  }
-  .tableHeader {
-    background: #f0f0f0;
-  }
-  .page-tag {
-    margin-bottom: 10px;
-  }
-  .admin-main-box {
-    padding: 10px;
-    position: relative;
-    height: 100%;
-    // width: 100%;
-    background: #fff;
-  }
-  .form-box {
-    margin-top: 10px;
-  }
-  .el-pagination {
-    text-align: right;
-    padding-top: 17px;
-  }
-  .tip-text {
-    color: #67c23a;
-  }
-  .button-group {
-    padding-bottom: 5px;
-  }
-}
+@import "../../../src/assets/scss-pc/admin-page.scss";
 </style>
 
 
@@ -86,6 +191,7 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import {
   provinceAndCityData,
   regionData,
@@ -111,41 +217,6 @@ export default {
     "myp-data-page": DataPage // 数据列表组件
   },
   data() {
-    // 不能为空
-    var notNullVerify = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("不能为空!"));
-      } else {
-        callback();
-      }
-    };
-    // 税号
-    var taxNumVerify = (rule, value, callback) => {
-      var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
-      if (!reg.test(value)) {
-        return callback(new Error("税号有误！"));
-      } else {
-        callback();
-      }
-    };
-    // 身份证号
-    var idCardVerify = (rule, value, callback) => {
-      var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/;
-      if (!reg.test(value)) {
-        return callback(new Error("身份证号有误!"));
-      } else {
-        callback();
-      }
-    };
-    // 电话号码
-    var phoneNumVerify = (rule, value, callback) => {
-      var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
-      if (!reg.test(value)) {
-        return callback(new Error("手机号有误!"));
-      } else {
-        callback();
-      }
-    };
     // 日期格式转换成如“2017-12-19”的格式
     var dataHandle = nowDate => {
       var nowDate = new Date(nowDate);
@@ -176,14 +247,21 @@ export default {
       editFormVisible: false, // 编辑框
       transferFormVisible: false,
       batchNetForm: {
+        // 批量上传
+        url: ""
+      },
+      batchTransferForm: {
+        // 批量转移
         url: ""
       },
       addFormRules: {
-        enterpriseName: [{ validator: notNullVerify, trigger: "blur" }],
+        enterpriseName: [
+          { required: true, message: "请输入企业名称", trigger: "blur" }
+        ],
         taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
-        legalPerson: [{ validator: notNullVerify, trigger: "blur" }],
+        legalPerson: [{ required: true, message: "请输入企业法人", trigger: "blur" }],
         idCard: [{ validator: idCardVerify, trigger: "blur" }],
-        linkMan: [{ validator: notNullVerify, trigger: "blur" }],
+        linkMan: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
         phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
       },
       formLabelWidth: "100px",
@@ -191,7 +269,7 @@ export default {
       editForm: {}, // 编辑单个表单
       detailsForm: {}, // 详情单个表单
       transferFormRules: {
-        receiveAgentNo: [{ validator: notNullVerify, trigger: "blur" }]
+        receiveAgentNo: [{ required: true, message: "不能为空", trigger: "blur" }]
       }, // 转移单个规则
       transferForm: {}, // 转移单个表单
       // 查询条件数据
@@ -408,53 +486,63 @@ export default {
           },
           { key: "入网时间", word: "createTime", width: "170" }
         ],
-        operation: [
-          // 操作按钮
-          {
-            text: "详情",
-            cb: rowdata => {
-              this.detailsForm = rowdata;
-              this.detailsFormVisible = true;
+        operation: {
+          width: "120px",
+          options: [
+            // 操作按钮
+            {
+              text: "详情",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.detailsForm = rowdata;
+                this.detailsFormVisible = true;
+              }
+            },
+            {
+              text: "编辑",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.editForm = rowdata;
+                this.editFormVisible = true;
+              }
+            },
+            {
+              text: "转移",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.transferForm = rowdata;
+                this.transferFormVisible = true;
+              }
             }
-          },
-          {
-            text: "编辑",
-            cb: rowdata => {
-              this.editForm = rowdata;
-              this.editFormVisible = true;
-            }
-          },
-          {
-            text: "转移",
-            cb: rowdata => {
-              this.transferForm = rowdata;
-              this.transferFormVisible = true;
-            }
-          }
-          // {
-          //   text: "修改商户产品",
-          //   cb: rowdata => {
-          //     console.log(rowdata);
-          //   }
-          // }
-        ]
+          ]
+        }
       }
     };
   },
 
   methods: {
+    // 重新获取数据
+    reloadData(page, Current) {
+      let page_ = page ? page : 1;
+      let limit_ = Current ? Current : 10;
+      this.$store.commit("pageCount", page_);
+      this.$store.commit("currentPage", limit_);
+      this.tableData.getDataUrl = {
+        url: this.tableData.getDataUrl.url,
+        page: page_,
+        limit: limit_,
+        searchCondition: this.searchCondition
+      };
+    },
     handleBatchTransferSuccess() {
       // 批量转移文件上传成功
       this.$message.success("恭喜您！上传成功");
-      batchNetForm.url = URL.createObjectURL(file.raw);
-      console.log(batchNetForm.url);
+      this.batchTransferForm.url = URL.createObjectURL(file.raw);
     },
     handleBatchNetSuccess(res, file) {
       // 批量入网文件上传成功
       this.$message.success("恭喜您！上传成功");
-      batchNetForm.url = URL.createObjectURL(file.raw);
-      console.log(batchNetForm.url);
-      // this.imageUrl = URL.createObjectURL(file.raw);
+      this.batchNetForm.url = URL.createObjectURL(file.raw);
     },
     beforeBatchNetUpload(file) {
       const extension = file.name.split(".")[1] === "xlsx";
@@ -468,56 +556,9 @@ export default {
       }
       return extension || (extension2 && isLt2M);
     },
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
+
     resetAddForm(formName) {
       this.$refs[formName].resetFields();
-    },
-    // 获取新数据
-    reloadData() {
-      console.log(this.searchCondition);
-      this.tableData.getDataUrl = {
-        url: getCustomers,
-        page: 1,
-        limit: 10,
-        searchCondition: this.searchCondition
-      };
     },
     seachstartHandle() {
       // 开始搜索
@@ -556,13 +597,13 @@ export default {
         }
       });
     },
-    // 批量入网文件提交
+    // 批量入网文件保存
     saveBatchNet() {
-      alert("入网ok");
+      this.$refs.batchnetFile.submit();
     },
     // 批量转移文件提交
     saveBatchTransfer() {
-      alert("转移ok");
+      this.$refs.batchtransferFile.submit();
     },
     editSave(formName) {
       // 编辑内容保存
@@ -577,7 +618,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              this.reloadData(this.storePageCount, this.storeCurrentPage);
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,
@@ -609,12 +650,12 @@ export default {
           }).then(data => {
             if (data.code === "00") {
               this.$message({
-                message: "恭喜你，修改数据成功",
+                message: "恭喜你，转移数据成功",
                 type: "success",
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              this.reloadData(this.storePageCount, this.storeCurrentPage);
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,
@@ -632,10 +673,7 @@ export default {
         }
       });
     },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    },
+
     addDialog() {
       // 新增数据 弹出框
       this.addFormVisible = true;
@@ -652,8 +690,53 @@ export default {
       // 导出
       this.$refs.dataTable.ExportExcel();
       // console.log(this.searchCondition);
+      // this.$router.push("/customer/export?" + this.searchCondition);
       // window.location.href = "/customer/export?" + this.searchCondition;
+    },
+    /**TABLE页交互 START ************************************************************ */
+    // 普通搜索 具备隐藏
+    visiblesomeHandle() {
+      this.searchOptions.forEach(element => {
+        // searchOptions数组里面的corresattr 是索引
+        if (!element.show) {
+          if (element.type == "dateGroup") {
+            // 开始时间 到结束时间组合 特殊处理
+            element.options.forEach(element => {
+              var corresattr = element.corresattr;
+              element.value = "";
+              this.searchCondition[corresattr] = "";
+            });
+          } else {
+            var corresattr = element.corresattr;
+            element.value = "";
+            this.searchCondition[corresattr] = "";
+          }
+        }
+      });
+    },
+    callbackformHandle(cb, data) {
+      // 表单双向绑定 得到输入的内容并返回到本页面
+      cb(data);
+    },
+    resetSearchHandle() {
+      // 重置查询表单
+      this.searchOptions.forEach(element => {
+        if (element.type != "dateGroup") {
+          element.value = "";
+          this.searchCondition[element.corresattr] = "";
+        } else {
+          element.options.forEach(element => {
+            element.value = "";
+            this.searchCondition[element.corresattr] = "";
+          });
+        }
+      });
+    },
+    operationHandle(data, cb) {
+      // 操作按钮回调
+      cb(data);
     }
+    /**END ***********************************************/
   },
   computed: {
     oaIp() {
@@ -661,7 +744,7 @@ export default {
       return this.$store.state.Base.oaIp;
     },
     editFormCustomerFrom() {
-      // 客户来源
+      // 表单内用户来源显示状态客户来源
       if (this.editForm.customerFrom == "OPEN_API") {
         return "第三方";
       } else if (this.editForm.customerFrom == "PLUGIN") {
@@ -669,6 +752,14 @@ export default {
       } else if (this.editForm.customerFrom == "LOCAL") {
         return "后台";
       }
+    },
+    //当前页数
+    storePageCount() {
+      return this.$store.state.dataTable.pageCount;
+    },
+    //每页条数
+    storeCurrentPage() {
+      return this.$store.state.dataTable.currentPage;
     }
   },
   mounted() {}

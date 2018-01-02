@@ -10,8 +10,6 @@ import customerGoods from "./customer/customerGoods";
 import customerInvoiceConfig from "./customer/customerInvoiceConfig";
 import customerProduct from "./customer/customerProduct";
 import customerProductConfigure from "./customer/customerProductConfigure";
-import billCount from "./billmanage/billCount";
-import billRecord from "./billmanage/billRecord";
 import billprofit from "./billprofit/billprofit";
 import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
@@ -20,39 +18,49 @@ import { MenuGet } from "@src/apis"
 
 
 Vue.use(Router)
+console.log(home);
 const router = new Router({
     routes: [
-        login,
         {
             path: "/",
             redirect: "/home"
-        }
-    ]
+        },
+        login]
 })
 
 const asyncRouter = [
     {
         path: '',
         component: layout,
-        children: [
-            home
-        ],
-        meta: {
-            title: '',
-            keepAlive: true,
-            role: ['admin', 'root']
-        },
+        children: []
     },
+    home,
     customerManage,
     customerGoods,
     customerInvoiceConfig,
     customerProduct,
     customerProductConfigure,
-    billprofit,// 开票查询
-    billCount,// 开票统计
-    billRecord,// 开票记录
-
+    billprofit,
+    usermanage,
+    usermenu,
+    userrole
 ]
+// const router = new Router({
+//     routes: [
+//         {
+//             path: "/",
+//             redirect: "/home"
+//         },
+//         login,
+// home,
+// customerManage,
+// billprofit,
+// usermanage,
+// usermenu,
+// userrole
+//     ]
+// });
+
 
 /**
  * 根据异步路由表中的path字段进行匹配，生成需要添加的路由对象
@@ -65,22 +73,12 @@ function routerMatch(permission, asyncRouter) {
         const routers = asyncRouter[0]
         // 创建路由
         function createRouter(permission) {
-            var username = permission.data.username;
-            var menuList = permission.data.menuList;
-            // console.log(asyncRouter)
-            menuList.forEach(item => {
-                // 根据路径匹配到的router对象添加到routers中即可
-                // 因permission数据格式不一定相同，所以不写详细逻辑了
-                for (var i = 0; i < item.child.length; i++) {
-                    asyncRouter.forEach(item2 => {
-                        if (item2.name == item.child[i].menuCode) {
-                            if (routers.children.indexOf(item2) == '-1') {
-                                routers.children.push(item2)
-                            }
-                        }
-                    })
-                }
-            });
+            console.log(permission)
+            asyncRouter.forEach(item => {
+                console.log(item)
+            })
+            // 根据路径匹配到的router对象添加到routers中即可
+            // 因permission数据格式不一定相同，所以不写详细逻辑了
         }
         createRouter(permission)
         resolve([routers])
@@ -88,14 +86,11 @@ function routerMatch(permission, asyncRouter) {
 }
 
 router.beforeEach((to, from, next) => {
-    // console.log(from);
+    console.log(from);
     MenuGet()({}).then(function (res) {
         if (res.code === "00") {
             routerMatch(res, asyncRouter).then(res => {
-                // 将匹配到的新路由添加到现在的router对象中
-                router.addRoutes(res)
-                // // 跳转到对应页面
-                next(to.path)
+
             })
         }
     })

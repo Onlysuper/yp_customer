@@ -30,7 +30,6 @@ const Layout = {
                 if (data.code === "00") {
                     // 管理员信息
                     context.commit('modifyData', data);
-
                 }
             })
         }

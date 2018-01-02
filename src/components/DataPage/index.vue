@@ -3,7 +3,7 @@
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
     <el-table :data="tableData" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
-      <el-table-column fixed type="selection" width="40">
+      <el-table-column v-if="havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
         <template slot-scope="scope">
@@ -18,7 +18,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" :width="tableDataInit.operation.width">
+      <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
         <template slot-scope="scope">
           <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="scope.row[item.stateName]=='TRUE'?item.opposite?true:false:item.opposite?false:true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
         </template>
@@ -56,6 +56,7 @@
 }
 </style>
 <script>
+import qs from "qs";
 import Vue from "vue";
 export default {
   props: ["tableDataInit"],
@@ -73,6 +74,16 @@ export default {
     getDataUrl() {
       // 获取父页面传递的get参数
       return this.tableDataInit.getDataUrl;
+    },
+    summary() {
+      //是否显示合计
+      return true;
+    },
+    havecheck() {
+      // 是否显示选择框
+      return this.tableDataInit.havecheck
+        ? this.tableDataInit.havecheck
+        : false;
     },
     visibleinput() {
       return this.$store.state.dataTable.visibleinput;
@@ -101,6 +112,9 @@ export default {
     };
   },
   methods: {
+    summaryMethod(param) {
+      console.log(param);
+    },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
       this.ifloading = true;
@@ -158,11 +172,14 @@ export default {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);
     },
-    ExportExcel() {
-      window.location.href =
+    // 导出
+    ExportExcel(path) {
+      var exportUrl =
         this.$store.state.Base.oaIp +
-        "/customer/export?" +
-        this.getDataUrl.searchCondition;
+        path +
+        "?" +
+        qs.stringify(this.getDataUrl.searchCondition);
+      window.location.href = exportUrl;
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));

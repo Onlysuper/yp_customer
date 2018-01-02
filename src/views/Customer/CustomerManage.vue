@@ -688,10 +688,7 @@ export default {
     },
     exportDialog() {
       // 导出
-      this.$refs.dataTable.ExportExcel();
-      // console.log(this.searchCondition);
-      // this.$router.push("/customer/export?" + this.searchCondition);
-      // window.location.href = "/customer/export?" + this.searchCondition;
+      this.$refs.dataTable.ExportExcel("/customer/export");
     },
     /**TABLE页交互 START ************************************************************ */
     // 普通搜索 具备隐藏

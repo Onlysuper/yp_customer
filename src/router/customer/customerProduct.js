@@ -4,18 +4,18 @@ import loading from "@src/router/loading"
  * 登录模块
  */
 export default {
-  //商户管理
-  name: 'customerlist',
-  path: '/customerlist',
+  // 商户产品
+  name: 'customerProduct',
+  path: '/customerProduct',
   meta: {
-    title: '商户管理',
+    title: '商户产品',
     keepAlive: true,
     parent: "customer",
     parentname: "商户管理",
-    role: ['admin', 'root']
+    role: ['admin']
   },
   component: r => {
     loading(true);
-    return require.ensure([], () => { loading(false); return r(require("@src/views/customer/customerManage")) }, "customer-manage")
-  }
+    return require.ensure([], () => { loading(false); return r(require("@src/views/customer/customerProduct")) }, "customer-product")
+  },
 }

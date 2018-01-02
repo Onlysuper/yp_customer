@@ -34,6 +34,7 @@ const getBillprofits = () => { return (params) => { return http.get(base.oaIp, "
 **开票统计start
  */
 const getBillcountagents = () => { return (params) => { return http.get(base.oaIp, "/billcountagent/page", params) } }
+const getBillcountSum = () => { return (params) => { return http.get(base.oaIp, "/billcountagent/sum", params) } }
 // end -------------------------------------------------
 
 /**
@@ -206,6 +207,11 @@ export {
     PasswordUpdate,
     orgCodeHandle,
     AgentManageAdd,
+    //开票统计
+    getBillcountagents,
+    getBillcountSum,
+    // 开票记录
+    getBillrecords,
     //商品管理
     getCustomerGoods,
     postAddCustomerGood,

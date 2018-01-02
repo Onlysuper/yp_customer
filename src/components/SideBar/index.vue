@@ -158,6 +158,11 @@ export default {
     handleClose(key, keyPath) {
       // console.log(key, keyPath);
     }
+  },
+  watch: {
+    // $router(val) {
+    //   console.log(val);
+    // }
   }
 };
 </script>

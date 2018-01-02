@@ -1,6 +1,10 @@
 <template>
   <div class="reset-main">
-    <router-view></router-view>
+    <transition>
+      <keep-alive :include="cachedViews">
+        <router-view></router-view>
+      </keep-alive>
+    </transition>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -16,6 +20,13 @@ body {
 <script>
 export default {
   name: "AppMain",
-  computed: {}
+  computed: {
+    cachedViews() {
+      return this.$store.state.tagsView.cachedViews;
+    }
+  },
+  mounted() {
+    console.log(this.cachedViews);
+  }
 };
 </script>

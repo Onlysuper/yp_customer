@@ -57,16 +57,17 @@ export default {
       var self = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var data = this.ruleForm;
+          var data_ = this.ruleForm;
           Login()({
-            username: data.username,
-            password: data.password
+            username: data_.username,
+            password: data_.password
           }).then(function(data) {
             if (data.code === "98") {
               self.$message("登录失败");
             }
             if (data.code === "00") {
               // 登录成功
+              console.log(data_);
               self.$router.push({ path: "/" });
             }
           });

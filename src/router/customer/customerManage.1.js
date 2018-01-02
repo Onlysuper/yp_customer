@@ -8,16 +8,16 @@ export default {
   path: "",
   component: layout,
   children: [{
-    name: "userrole",
-    path: '/role',
+    //商户管理
+    path: '/customerlist',
     meta: {
-      title: '角色管理',
+      title: '商户管理',
       keepAlive: true,
       role: ['admin']
     },
     component: r => {
       loading(true);
-      return require.ensure([], () => { loading(false); return r(require("@src/views/admin/userRole")) }, "user-role")
+      return require.ensure([], () => { loading(false); return r(require("@src/views/customer/customerManage")) }, "customer-manage")
     }
   }]
 }
