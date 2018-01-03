@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '../vuex';
 // 跟路由
 import utils from "@src/common/utils";
 import layout from '@src/views/layout/layout'
@@ -14,13 +13,13 @@ import customerProductConfigure from "./customer/customerProductConfigure";
 import billCount from "./billmanage/billCount";
 import billRecord from "./billmanage/billRecord";
 import billDay from "./billmanage/billDay";
-import billStandard from "./billmanage/billStandard";
 import billprofit from "./billprofit/billprofit";
 import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
-
 import { MenuGet } from "@src/apis"
+
+
 Vue.use(Router)
 const router = new Router({
     routes: [
@@ -53,27 +52,19 @@ const asyncRouter = [
     billprofit,// 开票查询
     billCount,// 开票统计
     billRecord,// 开票记录
-    billDay,// 日开票详情
-    billStandard,//达标详情
-
-    usermanage,// 用户管理
-    usermenu,// 菜单管理
-    userrole,//角色管理
+    billDay// 日开票详情
 
 ]
-// 路由过滤
-function filterRouter(data, asyncRouter) {
+function filterRouter(menuList, asyncRouter) {
     return new Promise((resolve) => {
         const routers = asyncRouter[0]
-        const menuList = data.menuList
         menuList.forEach((item, index) => {
             // 根据路径匹配到的router对象添加到routers中即可
             // 因permission数据格式不一定相同，所以不写详细逻辑了
             for (var i = 0; i < item.child.length; i++) {
                 asyncRouter.forEach(item2 => {
                     if (item2.name == item.child[i].menuCode) {
-                        // meta里面的role角色访问权限
-                        if (routers.children.indexOf(item2) == '-1' && item2.meta.role.indexOf(data.username) != '-1') {
+                        if (routers.children.indexOf(item2) == '-1') {
                             routers.children.push(item2)
                         }
                     }
@@ -97,8 +88,10 @@ function routerMatch(permission, asyncRouter) {
 
         // 创建路由
         function createRouter(permission) {
-            var menuList = permission;
+            var username = permission.data.username;
+            var menuList = permission.data.menuList;
             filterRouter(menuList, asyncRouter).then(routers => {
+                // console.log(routers)
                 resolve(routers)
             })
 
@@ -107,41 +100,21 @@ function routerMatch(permission, asyncRouter) {
 
     })
 }
-store.dispatch('UserMenulistFetch').then(resmenuList => {
-    // 从后台获取菜单列表
-    routerMatch(resmenuList, asyncRouter).then(res => {
-        // 将匹配到的新路由添加到现在的router对象中
-        router.addRoutes(res)
-        // // 跳转到对应页面
-    })
-});
 
-// router.beforeEach((to, from, next) => {
-//     if (to.name != 'login') {
-//         store.dispatch('UserMenulistFetch').then(resmenuList => {
-//             // 从后台获取菜单列表
-//             routerMatch(resmenuList, asyncRouter).then(res => {
-//                 // 将匹配到的新路由添加到现在的router对象中
-//                 let has = 0;
-//                 res[0].children.forEach(item => {
-//                     if (item.name && item.name == to.name) {
-//                         has++
-//                     }
-//                 })
-//                 if (has == 0) {
-//                     console.log(res);
-//                     router.addRoutes(res)
-//                     next()
-//                 } else {
-//                     next()
-//                 }
-//                 // // 跳转到对应页面
-//             })
-//         });
-//         next();
-//     } else {
-//         console.log(11111);
-//         next();
-//     }
-// })
+router.beforeEach((to, from, next) => {
+    // console.log(from);
+    MenuGet()({}).then(function (res) {
+        if (res.code === "00") {
+            routerMatch(res, asyncRouter).then(res => {
+                // 将匹配到的新路由添加到现在的router对象中
+                router.addRoutes(res)
+                console.log(to.path);
+                // // 跳转到对应页面
+                next(to.path)
+            })
+        }
+    })
+    // to.meta.pageTitle && utils.setDocumentTitle(to.meta.pageTitle);
+    next();
+})
 export default router;

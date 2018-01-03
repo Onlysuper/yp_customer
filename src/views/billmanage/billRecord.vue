@@ -10,28 +10,46 @@
     <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
       <div class="detail-content">
         <div class="line-label-box">
-          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
+          <span class="line-label">订单编号:</span>{{detailsForm.orderNo}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">交付状态:</span>{{detailsForm.status?detailsForm.status:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">发票代码:</span>{{detailsForm.invoiceCode?detailsForm.invoiceCode:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">发票号码:</span>{{detailsForm.invoiceNo?detailsForm.invoiceNo:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">含税金额:</span>{{detailsForm.totalTax?detailsForm.totalTax:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">手机号码:</span>{{detailsForm.phoneNo?detailsForm.phoneNo:"??"}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">购方名称:</span>{{detailsForm.enterpriseName?detailsForm.enterpriseName:"??"}}
         </div>
         <div class="line-label-box">
           <span class="line-label">企业税号:</span>{{detailsForm.taxNo?detailsForm.taxNo:"??"}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">企业法人:</span>{{detailsForm.legalPerson?detailsForm.legalPerson:"??"}}
+          <span class="line-label">单位地址:</span>{{detailsForm.enterpriseAddress?detailsForm.enterpriseAddress:"??"}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">身份证:</span>{{detailsForm.idCard?detailsForm.idCard:"??"}}
+          <span class="line-label">开户银行:</span>{{detailsForm.bankName?detailsForm.bankName:"??"}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">联系人:</span>{{detailsForm.linkMan?detailsForm.linkMan:"??"}}
+          <span class="line-label">银行帐号:</span>{{detailsForm.bankAccountNo?detailsForm.bankAccountNo:"??"}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">手机号:</span>{{detailsForm.phoneNo?detailsForm.phoneNo:"??"}}
+          <span class="line-label">公司电话:</span>{{detailsForm.companyPhone?detailsForm.companyPhone:"??"}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户编号:</span>{{detailsForm.agentNo?detailsForm.agentNo:"??"}}
+          <span class="line-label">销方名称:</span>{{detailsForm.bussinessName?detailsForm.bussinessName:"??"}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom?detailsForm.customerFrom:"??"}}
+          <span class="line-label">发票金额:</span>{{detailsForm.billAmount?detailsForm.billAmount:"??"}}
         </div>
       </div>
 
@@ -42,30 +60,48 @@
     <!-- 详情 end -->
     <!-- 编辑 start -->
     <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
-      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+      <el-form size="small" :model="editForm" ref="editForm">
+        <el-form-item v-show="false" label="订单编号" prop="orderNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.orderNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="交付状态" prop="status" :label-width="formLabelWidth">
+          <el-input v-model="editForm.status" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="发票代码" prop="invoiceCode" :label-width="formLabelWidth">
+          <el-input v-model="editForm.invoiceCode" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="发票号码" prop="invoiceNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.invoiceNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="含税金额" prop="totalTax" :label-width="formLabelWidth">
+          <el-input v-model="editForm.totalTax" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="手机号码" prop="phoneNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="购方名称" prop="enterpriseName" :label-width="formLabelWidth">
           <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
           <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-          <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
+        <el-form-item label="单位地址" prop="enterpriseAddress" :label-width="formLabelWidth">
+          <el-input v-model="editForm.enterpriseAddress" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-          <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
+        <el-form-item label="开户银行" prop="bankName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bankName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-          <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
+        <el-form-item label="银行帐号" prop="bankAccountNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bankAccountNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+        <el-form-item label="公司电话" prop="companyPhone" :label-width="formLabelWidth">
+          <el-input v-model="editForm.companyPhone" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
+        <el-form-item label="销方名称" prop="bussinessName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bussinessName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
-          <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
+        <el-form-item label="发票金额" prop="billAmount" :label-width="formLabelWidth">
+          <el-input v-model="editForm.billAmount" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -89,7 +125,7 @@
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
-import { getBillrecords } from "@src/apis";
+import { getBillrecords, postEditBillrecord } from "@src/apis";
 
 export default {
   name: "customermanage",
@@ -120,16 +156,16 @@ export default {
       status: "" // 状态
     };
     return {
-      addFormRules: {
-        enterpriseName: [
-          { required: true, message: "请输入企业名称", trigger: "blur" }
-        ],
-        taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
-        legalPerson: [{ required: true, message: "请输入企业法人", trigger: "blur" }],
-        idCard: [{ validator: idCardVerify, trigger: "blur" }],
-        linkMan: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
-        phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
-      },
+      // addFormRules: {
+      //   enterpriseName: [
+      //     { required: true, message: "请输入企业名称", trigger: "blur" }
+      //   ],
+      //   taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
+      //   legalPerson: [{ required: true, message: "请输入企业法人", trigger: "blur" }],
+      //   idCard: [{ validator: idCardVerify, trigger: "blur" }],
+      //   linkMan: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
+      //   phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
+      // },
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
       formLabelWidth: "100px",
@@ -138,14 +174,6 @@ export default {
       detailsForm: {}, // 详情单个表单
       // 查询条件数据
       searchCondition: searchConditionVar,
-      addForm: {
-        enterpriseName: "",
-        taxNo: "",
-        legalPerson: "",
-        idCard: "",
-        linkMan: "",
-        phoneNo: ""
-      },
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
@@ -272,6 +300,7 @@ export default {
           limit: 10, // 每页条数
           searchCondition: searchConditionVar // 搜索内容
         },
+        havecheck: true, //是否显示输入框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
@@ -287,6 +316,7 @@ export default {
           },
           {
             key: "经营名称",
+            width: "100px",
             word: "bussinessName"
           },
           {
@@ -300,25 +330,74 @@ export default {
             word: "billType",
             status: true,
             type: data => {
-              return {
-                text: data,
-                type: "danger"
-              };
+              if (data == "1") {
+                return {
+                  text: "普票(个人)",
+                  type: "success"
+                };
+              } else if (data == "2") {
+                return {
+                  text: "专票",
+                  type: ""
+                };
+              } else if (data == "3") {
+                return {
+                  text: "电票",
+                  type: "danger"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "danger"
+                };
+              }
             }
           },
           {
             key: "状态",
-            width: "80px",
+            width: "100px",
             word: "status",
             status: true,
             type: data => {
-              return {
-                text: data,
-                type: "danger"
-              };
+              if (data == "SUCCESS") {
+                return {
+                  text: "推送成功",
+                  type: "success"
+                };
+              } else if (data == "BILLING_SUCCESS") {
+                return {
+                  text: "开票成功",
+                  type: ""
+                };
+              } else if (data == "BILLING") {
+                return {
+                  text: "开票中",
+                  type: "danger"
+                };
+              } else if (data == "ORDER") {
+                return {
+                  text: "待开票",
+                  type: "danger"
+                };
+              } else if (data == "BILLING_FAIL") {
+                return {
+                  text: "失败",
+                  type: "danger"
+                };
+              } else if (data == "QUERY_FAIL") {
+                return {
+                  text: "查询失败",
+                  type: "danger"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "danger"
+                };
+              }
             }
           },
-          { key: "税号", word: "taxNo", width: "170" }
+          { key: "税号", word: "taxNo", width: "" }
         ],
         operation: {
           width: "120px",
@@ -336,6 +415,7 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
+                console.log(rowdata);
                 this.editForm = rowdata;
                 this.editFormVisible = true;
               }
@@ -370,8 +450,25 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          let editForm = this.editForm;
           this.resetSearchHandle();
-          postEditCustomer()(this.editForm).then(data => {
+          postEditBillrecord()({
+            billRecordNo: editForm.billRecordNo,
+            orderNo: editForm.orderNo,
+            status: editForm.status,
+            invoiceCode: editForm.invoiceCode,
+            invoiceNo: editForm.invoiceNo,
+            totalTax: editForm.totalTax,
+            phoneNo: editForm.phoneNo,
+            enterpriseName: editForm.phoneNo,
+            taxNo: editForm.taxNo,
+            enterpriseAddress: editForm.enterpriseAddress,
+            bankName: editForm.bankName,
+            bankAccountNo: editForm.bankAccountNo,
+            companyPhone: editForm.companyPhone,
+            bussinessName: editForm.bussinessName,
+            billAmount: editForm.billAmount
+          }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",

@@ -26,12 +26,16 @@ const Layout = {
     },
     actions: {
         UserMenulistFetch(context) { // 获取‘用户信息‘与‘菜单列表‘数据
-            MenuGet()({}).then(function (data) {
-                if (data.code === "00") {
-                    // 管理员信息
-                    context.commit('modifyData', data);
-                }
+            return new Promise((resolve, reject) => {
+                MenuGet()({}).then(function (data) {
+                    if (data.code === "00") {
+                        // 管理员信息
+                        context.commit('modifyData', data);
+                        resolve(data.data)
+                    }
+                })
             })
+
         }
     },
     modules: {

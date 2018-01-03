@@ -1,15 +1,11 @@
 export default {
   state: {
-    visitedViews: [],
+    visitedViews: [{ name: "home", path: "/home", title: "首页" }],
     cachedViews: []
   },
   mutations: {
     ADD_VISITED_VIEWS: (state, view) => {
       if (state.visitedViews.some(v => v.path === view.path)) return
-      // console.log("1:" + view.name);
-      // console.log("2:" + view.path);
-      // console.log(view.meta);
-
       state.visitedViews.push({
         name: view.name,
         path: view.path,

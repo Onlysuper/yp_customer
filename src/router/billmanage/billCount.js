@@ -12,7 +12,7 @@ export default {
     keepAlive: true,
     parent: "bill-mg",
     parentname: "开票管理",
-    role: ['admin']
+    role: ['root', 'admin']
   },
   component: r => {
     loading(true);

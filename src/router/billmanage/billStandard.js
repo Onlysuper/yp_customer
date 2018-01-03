@@ -4,10 +4,10 @@ import loading from "@src/router/loading"
  */
 export default {
   // 商品管理
-  name: 'billrecord',
-  path: '/billrecord',
+  name: 'billcountcustomer',
+  path: '/billcountcustomer',
   meta: {
-    title: '开票记录',
+    title: '达标详情',
     keepAlive: true,
     parent: "bill-mg",
     parentname: "开票管理",
@@ -15,6 +15,6 @@ export default {
   },
   component: r => {
     loading(true);
-    return require.ensure([], () => { loading(false); return r(require("@src/views/billmanage/billRecord")) }, "bill-record")
+    return require.ensure([], () => { loading(false); return r(require("@src/views/billmanage/billStandard")) }, "bill-standard")
   }
 }

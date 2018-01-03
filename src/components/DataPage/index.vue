@@ -81,9 +81,7 @@ export default {
     },
     havecheck() {
       // 是否显示选择框
-      return this.tableDataInit.havecheck
-        ? this.tableDataInit.havecheck
-        : false;
+      return this.tableDataInit.havecheck ? this.tableDataInit.havecheck : true;
     },
     visibleinput() {
       return this.$store.state.dataTable.visibleinput;

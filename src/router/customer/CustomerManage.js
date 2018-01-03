@@ -12,7 +12,7 @@ export default {
     keepAlive: true,
     parent: "customer",
     parentname: "商户管理",
-    role: ['admin', 'root']
+    role: ['root', 'admin']
   },
   component: r => {
     loading(true);

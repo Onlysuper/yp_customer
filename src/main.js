@@ -155,13 +155,14 @@ if (isMobile) {
 
 }
 
+
 var vue = new Vue({
   el: '#app',
   store,
-  created() {
-    // 管理员信息与菜单列表数据初始化
-    store.dispatch('UserMenulistFetch');
-  },
+  // created() {
+  //   管理员信息与菜单列表数据初始化
+  //   store.dispatch('UserMenulistFetch');
+  // },
   router: isMobile ? routerApp : router,
   template: '<App/>',
   components: { App }

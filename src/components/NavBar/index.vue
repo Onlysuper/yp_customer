@@ -5,6 +5,9 @@
     <div @click="isCollapsefn" class="head-l">
       <span :class="[isCollapseicon?'isCollapseicon':'','icon-recycling','collapse-button']"></span>
     </div>
+    <div class="tagbox">
+      <tags-view></tags-view>
+    </div>
     <div class="head-r">
       <div class="hover-back">
         <el-badge :value="200" :max="99" class="item">
@@ -129,7 +132,14 @@
       color: rgba(0, 0, 0, 0.65);
     }
   }
+  .tagbox {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    // align-self: flex-end;
+  }
   .head-r {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     padding-right: 20px;
@@ -166,8 +176,12 @@
 
 <script>
 import { PasswordUpdate } from "@src/apis";
+import TagsView from "@src/components/TagsView";
 export default {
   name: "navbar",
+  components: {
+    TagsView
+  },
   data() {
     var oldPass = (rule, value, callback) => {
       if (!value) {

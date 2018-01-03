@@ -3,7 +3,7 @@
     <side-bar class="layout-sldebar"></side-bar>
     <el-container class="layout-main">
       <nav-bar></nav-bar>
-      <tags-view></tags-view>
+      <!-- <tags-view></tags-view> -->
       <app-main></app-main>
     </el-container>
   </el-container>

@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import moduleLayour from "@src/vuex/Layout/Layout"
-import menuList from "@src/vuex/MenuList/MenuList"
 import DataTable from "@src/vuex/DataTable/DataTable"
 import InputValidation from "@src/vuex/InputValidation/InputValidation"
 import Base from "@src/vuex/Base/Base"
@@ -26,7 +25,7 @@ const store = new Vuex.Store({
     },
     actions: {
         delete() {
-            alert(1)
+            // alert(1)
         }
     },
     modules: {
@@ -35,9 +34,7 @@ const store = new Vuex.Store({
         InputValidation: InputValidation,
         Base: Base,
         tagsView: tagsView,
-        customerGoods,
-        menuList
-
+        customerGoods
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

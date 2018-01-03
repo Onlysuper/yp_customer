@@ -15,11 +15,16 @@
 
         <!-- 日期组合 -->
         <el-form-item class="dateGroup" v-if="item.type=='dateGroup'">
-          <el-date-picker ref="myinput" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date')" type="date" placeholder="开始时间"></el-date-picker>
+          <el-date-picker ref="myinput" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'dateMonth')" type="date" placeholder="开始时间"></el-date-picker>
           <span class="to-line">-</span>
           <el-date-picker ref="myinput" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date')" type="date" placeholder="结束时间"></el-date-picker>
         </el-form-item>
 
+        <!-- 月份的日期 -->
+        <!-- <el-form-item class="dateMonth" v-if="item.type=='dateMonth'"> -->
+        <el-date-picker class="dateMonth" v-if="item.type=='dateMonth'" v-model="item.value" @input="changeInput(item.cb,$event,'dateMonth')" type="month" placeholder="选择月">
+        </el-date-picker>
+        <!-- </el-form-item> -->
       </el-form-item>
       <div class="button-box">
         <el-button size="small" @click="searchStart" type="primary">开始搜索</el-button>
@@ -101,19 +106,29 @@ export default {
     },
     changeInput(cb, event, type) {
       // 表单内容双向绑定 把表单输入的内容交给父页面进行操作
-      var val = "";
-      if (type == "date") {
-        var date = new Date(event);
-        var month = date.getMonth() + 1;
-        month = month * 1 < 10 ? "0" + month : month;
-        var day =
-          date.getDate() * 1 < 10 ? "0" + date.getDate() : date.getDate();
-        date = date.getFullYear() + "-" + month + "-" + day;
-        val = date;
-      } else {
-        val = event;
+
+      if (event) {
+        var val = "";
+        if (type == "date") {
+          var date = new Date(event);
+          var month = date.getMonth() + 1;
+          month = month * 1 < 10 ? "0" + month : month;
+          var day =
+            date.getDate() * 1 < 10 ? "0" + date.getDate() : date.getDate();
+          date = date.getFullYear() + "-" + month + "-" + day;
+          val = date;
+        } else if ((type = "dateMonth")) {
+          var date = new Date(event);
+          var month = date.getMonth() + 1;
+          month = month * 1 < 10 ? "0" + month : month;
+          date = date.getFullYear() + "-" + month;
+          val = date;
+        } else {
+          val = event;
+        }
+        this.$emit("changeform", cb, val);
       }
-      this.$emit("changeform", cb, val);
+      this.$emit("changeform", cb, event);
     },
     searchStart() {
       //交给父页面操作
@@ -145,6 +160,9 @@ export default {
     .form-select {
       width: 100%;
       margin-left: 0;
+    }
+    .dateMonth {
+      width: 240px;
     }
     .el-form-item {
       margin-bottom: 5px;

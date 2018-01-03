@@ -15,6 +15,6 @@ export default {
     keepAlive: true,
     parent: "",
     parentname: "开票查询",
-    role: ['admin']
+    role: ['root', 'admin']
   }
 }

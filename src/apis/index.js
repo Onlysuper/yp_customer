@@ -28,6 +28,7 @@ const AgentManageAdd = () => { return (params) => { return http.post(base.oaIp, 
 **快速开票分润start
  */
 const getBillprofits = () => { return (params) => { return http.get(base.oaIp, "/billprofit/page", params) } }
+const getBillprofitSum = () => { return (params) => { return http.get(base.oaIp, "/billprofit/sum", params) } }
 // end -------------------------------------------------
 
 /**
@@ -41,12 +42,14 @@ const getBillcountSum = () => { return (params) => { return http.get(base.oaIp, 
 **开票记录start
  */
 const getBillrecords = () => { return (params) => { return http.get(base.oaIp, "/billrecord/page", params) } }
+const postEditBillrecord = () => { return (params) => { return http.post(base.oaIp, "/billrecord/update", params) } }
 // end -------------------------------------------------
 
 /**
 **日开票详情start
  */
 const getBillcountdays = () => { return (params) => { return http.get(base.oaIp, "/billcountday/page", params) } }
+const getExportBillcountdays = (search) => { return (params) => { return http.get(base.oaIp, "/billcountday/export?" + search, params) } }
 // end -------------------------------------------------
 
 /**
@@ -207,11 +210,20 @@ export {
     PasswordUpdate,
     orgCodeHandle,
     AgentManageAdd,
+    // 快速开票分润
+    getBillprofits,
+    getBillprofitSum,
     //开票统计
     getBillcountagents,
     getBillcountSum,
     // 开票记录
     getBillrecords,
+    postEditBillrecord,
+    // 日开票详情
+    getBillcountdays,
+    getExportBillcountdays,
+    //达标详情
+    getBillcountcustomers,
     //商品管理
     getCustomerGoods,
     postAddCustomerGood,
