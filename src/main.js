@@ -13,7 +13,6 @@ import mypDirective from './common/directives';
 import mypFilter from './common/filters';
 Vue.use(mypDirective);
 Vue.use(mypFilter);
-
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
 import './assets/scss/theme-change.scss' // 更改皮肤
 /**
@@ -50,6 +49,7 @@ import {
   Footer as eleFooter,
   Upload as eleUpload,
   Tree as eleTree,
+  Cascader as eleCascader,
   MessageBox,
   Message,
   Loading
@@ -85,6 +85,7 @@ Vue.component(eleRow.name, eleRow)
 Vue.component(eleCol.name, eleCol)
 Vue.component(eleUpload.name, eleUpload)
 Vue.component(eleTree.name, eleTree)
+Vue.component(eleCascader.name, eleCascader)
 
 Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }
@@ -159,10 +160,10 @@ if (isMobile) {
 var vue = new Vue({
   el: '#app',
   store,
-  // created() {
-  //   管理员信息与菜单列表数据初始化
-  //   store.dispatch('UserMenulistFetch');
-  // },
+  created() {
+    //管理员信息与菜单列表数据初始化
+    store.dispatch('UserMenulistFetch');
+  },
   router: isMobile ? routerApp : router,
   template: '<App/>',
   components: { App }

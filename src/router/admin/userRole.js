@@ -8,6 +8,8 @@ export default {
   path: '/role',
   meta: {
     title: '角色管理',
+    path: '/role',
+    requiresAuth: true,
     keepAlive: true,
     role: ['root', 'admin']
   },

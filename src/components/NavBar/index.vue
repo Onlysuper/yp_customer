@@ -29,7 +29,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="dialogFormVisiblefn">密码修改</el-dropdown-item>
             <el-dropdown-item @click.native="dialogUserVisiblefn">个人信息</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item @click.native="escloginfn">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -136,7 +136,6 @@
     display: flex;
     height: 100%;
     width: 100%;
-    // align-self: flex-end;
   }
   .head-r {
     flex-shrink: 0;
@@ -240,6 +239,16 @@ export default {
     }
   },
   methods: {
+    escloginfn() {
+      this.$store
+        .dispatch("delOthersViews", {
+          name: "home",
+          path: "/home",
+          title: "首页"
+        })
+        .then(res => {});
+      this.$router.push({ path: "/login" });
+    },
     isCollapsefn() {
       this.$store.commit("SidebarHandle");
     },

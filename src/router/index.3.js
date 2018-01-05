@@ -116,4 +116,65 @@ store.dispatch('UserMenulistFetch').then(resmenuList => {
         // // 跳转到对应页面
     })
 });
+
+// function filterRouter(data, asyncRouter, to) {
+//     return new Promise((resolve) => {
+//         const routers = asyncRouter[0]
+//         const menuList = data.menuList
+//         menuList.forEach((item, index) => {
+//             // 根据路径匹配到的router对象添加到routers中即可
+//             // 因permission数据格式不一定相同，所以不写详细逻辑了
+//             for (var i = 0; i < item.child.length; i++) {
+//                 asyncRouter.forEach(item2 => {
+//                     if (item2.name == item.child[i].menuCode) {
+//                         // meta里面的role角色访问权限
+//                         if (routers.children.indexOf(item2) == '-1' && item2.meta.role.indexOf(data.username) != '-1') {
+//                             if (to.path == item2.path) {
+//                                 routers.children.push(item2)
+//                             }
+
+//                         }
+//                     }
+//                 })
+//             }
+//             if (index == menuList.length - 1) {
+//                 resolve([routers])
+//             }
+//         });
+//     })
+// }
+
+// function routerMatch(permission, asyncRouter, to) {
+//     return new Promise((resolve) => {
+//         // 这里需要获取完整的已经编译好的router对象，不可为空数组，也不能用类router的对象。因为当程序运行到这里时，vue-router已经解析完毕
+//         // 创建路由
+//         function createRouter(permission) {
+//             var menuList = permission;
+//             filterRouter(menuList, asyncRouter, to).then(routers => {
+//                 resolve(routers)
+//             })
+//         }
+//         var rou = createRouter(permission)
+
+//     })
+// }
+// router.beforeEach((to, from, next) => {
+//     if (to.matched.some(record => record.meta.requiresAuth) || to.matched.length == 0) {
+//         if (to.name != 'login') {
+//             store.dispatch('UserMenulistFetch').then(resmenuList => {
+//                 // 从后台获取菜单列表
+//                 routerMatch(resmenuList, asyncRouter, to).then(res => {
+//                     // 将匹配到的新路由添加到现在的router对象中
+//                     router.addRoutes(res)
+//                     // // 跳转到对应页面
+//                 })
+//             });
+//             next();
+//         } else {
+//             next();
+//         }
+//     } else {
+//         next() // 确保一定要调用 next()
+//     }
+// })
 export default router;

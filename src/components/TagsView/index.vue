@@ -2,11 +2,16 @@
   <!--layout 面包屑按钮区域 -->
   <div class="tags-view-container">
     <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
-      <router-link ref='tag' class="tags-view-item" :class="isActive(tag)?'active':''" v-for="tag in Array.from(visitedViews)" :to="tag.path" :key="tag.path">
+      <router-link ref='tag' class="tags-view-item" :class="isActive(tag)?'active':''" v-for="tag in Array.from(visitedViews)" :to="tag.path" :key="tag.path" @contextmenu.prevent.native="openMenu(tag,$event)">
         {{tag.title}}
         <span class='el-icon-close' @click.prevent.stop='closeSelectedTag(tag)'></span>
       </router-link>
     </scroll-pane>
+    <ul class='contextmenu' v-show="visible" :style="{left:left+'px',top:top+'px'}">
+      <li @click="closeSelectedTag(selectedTag)">Close</li>
+      <li @click="closeOthersTags">Close Others</li>
+      <li @click="closeAllTags">Close All</li>
+    </ul>
   </div>
   <!-- 左侧菜单 -->
 </template>
@@ -14,7 +19,7 @@
 <style rel="stylesheet/scss" lang="scss" scoped>
 .tags-view-container {
   width: 100%;
-  align-self: flex-end;
+  align-self: center;
   .tags-view-wrapper {
     background: #fff;
     height: 34px;
@@ -109,7 +114,7 @@ export default {
   data() {
     return {
       visible: false,
-      top: 0,
+      top: 120,
       left: 0,
       selectedTag: {}
     };
@@ -123,6 +128,13 @@ export default {
     $route() {
       this.addViewTags();
       this.moveToCurrentTag();
+    },
+    visible(value) {
+      if (value) {
+        window.addEventListener("click", this.closeMenu);
+      } else {
+        window.removeEventListener("click", this.closeMenu);
+      }
     }
   },
   methods: {
@@ -164,6 +176,25 @@ export default {
           }
         }
       });
+    },
+    closeOthersTags() {
+      this.$router.push(this.selectedTag.path);
+      this.$store.dispatch("delOthersViews", this.selectedTag).then(() => {
+        this.moveToCurrentTag();
+      });
+    },
+    closeAllTags() {
+      this.$store.dispatch("delAllViews");
+      this.$router.push("/");
+    },
+    openMenu(tag, e) {
+      this.visible = true;
+      this.selectedTag = tag;
+      this.left = e.clientX;
+      this.top = e.clientY;
+    },
+    closeMenu() {
+      this.visible = false;
     }
   },
   mounted() {

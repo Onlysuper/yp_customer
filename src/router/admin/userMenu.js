@@ -8,6 +8,8 @@ export default {
   path: '/menu',
   meta: {
     title: '菜单管理',
+    path: '/menu',
+    requiresAuth: true,
     keepAlive: true,
     role: ['root', 'admin']
   },

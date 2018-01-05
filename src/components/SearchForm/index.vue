@@ -15,7 +15,7 @@
 
         <!-- 日期组合 -->
         <el-form-item class="dateGroup" v-if="item.type=='dateGroup'">
-          <el-date-picker ref="myinput" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'dateMonth')" type="date" placeholder="开始时间"></el-date-picker>
+          <el-date-picker ref="myinput" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date')" type="date" placeholder="开始时间"></el-date-picker>
           <span class="to-line">-</span>
           <el-date-picker ref="myinput" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date')" type="date" placeholder="结束时间"></el-date-picker>
         </el-form-item>
@@ -106,7 +106,6 @@ export default {
     },
     changeInput(cb, event, type) {
       // 表单内容双向绑定 把表单输入的内容交给父页面进行操作
-
       if (event) {
         var val = "";
         if (type == "date") {
@@ -117,7 +116,7 @@ export default {
             date.getDate() * 1 < 10 ? "0" + date.getDate() : date.getDate();
           date = date.getFullYear() + "-" + month + "-" + day;
           val = date;
-        } else if ((type = "dateMonth")) {
+        } else if (type == "dateMonth") {
           var date = new Date(event);
           var month = date.getMonth() + 1;
           month = month * 1 < 10 ? "0" + month : month;
@@ -126,9 +125,10 @@ export default {
         } else {
           val = event;
         }
-        this.$emit("changeform", cb, val);
+      } else {
+        val = "";
       }
-      this.$emit("changeform", cb, event);
+      this.$emit("changeform", cb, val);
     },
     searchStart() {
       //交给父页面操作

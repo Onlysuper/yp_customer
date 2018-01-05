@@ -11,14 +11,12 @@
           <span class="sumtext">商户:{{customerSum}}个 返利:{{rebateSum}}元 中间人:{{subsidySum}}元</span>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <style lang='scss' scoped>
-@import "../../../src/assets/scss-pc/admin-page.scss";
 .operation-box {
   .sumtext {
     font-size: 14px;
@@ -31,28 +29,19 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+// table页与搜索页公用功能
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBillprofits, getBillprofitSum } from "@src/apis";
-
 export default {
   name: "billCount",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable],
   data() {
     // 日期格式转换成如“2017-12-19”的格式
-    var dataHandle = nowDate => {
-      var nowDate = new Date(nowDate);
-      var year = nowDate.getFullYear();
-      var month = nowDate.getMonth() + 1;
-      month = month * 1 < 10 ? "0" + month : month;
-      var day = nowDate.getDate();
-      var todayDate = year + "-" + month;
-      return todayDate;
-    };
-    var todayDate = dataHandle(new Date()); // 初始化默认开始查询日期
-    var beforDate = dataHandle(new Date() - 24 * 60 * 60 * 1000); // 初始化默认结束查询日期
-
     var searchConditionVar = {
       customerNo: "", // 商户编号
       enterpriseName: "", // 商户名称
@@ -100,6 +89,7 @@ export default {
           show: true, // 普通搜索显示
           value: todayDate, // 表单默认的内容
           cb: value => {
+            console.log(value);
             // 表单输入之后回调函数
             this.searchCondition.dataTime = value;
           }
@@ -158,12 +148,10 @@ export default {
       ],
 
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getBillprofits, // 初始化数据
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: searchConditionVar // 搜索内容
+          url: getBillprofits // 初始化数据
         },
         summary: {
           is: false
@@ -203,19 +191,7 @@ export default {
   },
 
   methods: {
-    // 重新获取数据
-    reloadData(page, Current) {
-      let page_ = page ? page : 1;
-      let limit_ = Current ? Current : 10;
-      this.$store.commit("pageCount", page_);
-      this.$store.commit("currentPage", limit_);
-      this.tableData.getDataUrl = {
-        url: this.tableData.getDataUrl.url,
-        page: page_,
-        limit: limit_,
-        searchCondition: this.searchCondition
-      };
-    },
+    // 合计
     SumHandle() {
       this.sumLoading = true;
       var searchCondition = this.searchCondition;
@@ -235,73 +211,6 @@ export default {
         }
         this.sumLoading = false;
       });
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
-    },
-
-    exportDialog() {
-      // 导出
-      this.$refs.dataTable.ExportExcel("/billcountagent/export");
-    },
-    /**TABLE页交互 START ************************************************************ */
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    }
-    /**END ***********************************************/
-  },
-  computed: {
-    oaIp() {
-      // nginx配置的路由
-      return this.$store.state.Base.oaIp;
-    },
-    //当前页数
-    storePageCount() {
-      return this.$store.state.dataTable.pageCount;
-    },
-    //每页条数
-    storeCurrentPage() {
-      return this.$store.state.dataTable.currentPage;
     }
   },
   mounted() {

@@ -24,7 +24,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[10, 20,30]" :page-size="pageCount" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="getLimit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
   </div>
@@ -59,15 +59,17 @@
 import qs from "qs";
 import Vue from "vue";
 export default {
-  props: ["tableDataInit"],
+  props: ["tableDataInit", "page", "limit", "search"],
   data() {
     return {
       ifloading: false,
       tableData: [],
       tableHeight: 0, // 表单的高度
-      currentPage: 1, //当前页数
-      pageCount: 10, //每页条数
-      dataCount: 0
+      getUrl: this.tableDataInit.getDataUrl.url, // 请求函数
+      dataCount: 0,
+      getPage: this.page, //当前页数
+      getLimit: this.limit, //每页条数
+      getSearch: this.search // 搜索条件
     };
   },
   computed: {
@@ -85,25 +87,11 @@ export default {
     },
     visibleinput() {
       return this.$store.state.dataTable.visibleinput;
-    },
-    //当前页数
-    storePageCount() {
-      return this.$store.state.dataTable.pageCount;
-    },
-    //每页条数
-    storeCurrentPage() {
-      return this.$store.state.dataTable.currentPage;
     }
   },
   mounted() {
     // 初始化数据
-    this.currentPage = this.getDataUrl.page;
-    this.pageCount = this.getDataUrl.limit;
-    this.postDataInit(
-      this.currentPage,
-      this.pageCount,
-      this.getDataUrl.searchCondition
-    );
+    this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     this.tableSizeHandle();
     window.onresize = () => {
       this.tableSizeHandle();
@@ -116,7 +104,7 @@ export default {
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
       this.ifloading = true;
-      this.getDataUrl.url()({
+      this.getUrl()({
         page: page,
         limit: limit,
         ...searchCondition
@@ -140,24 +128,11 @@ export default {
     },
     handleSizeChange(val) {
       // 改变页数
-      this.pageCount = val;
-      this.$store.commit("currentPage", val);
-
-      this.postDataInit(
-        this.currentPage,
-        this.pageCount,
-        this.getDataUrl.searchCondition
-      );
+      this.$emit("pagelimit", val);
     },
+    // 更改页数
     handleCurrentChange(val) {
-      // 更改每页显示条数
-      this.currentPage = val;
-      this.$store.commit("pageCount", val);
-      this.postDataInit(
-        this.currentPage,
-        this.pageCount,
-        this.getDataUrl.searchCondition
-      );
+      this.$emit("pagecount", val);
     },
     handleLoad() {
       // 操作按钮加载完毕
@@ -173,10 +148,7 @@ export default {
     // 导出
     ExportExcel(path) {
       var exportUrl =
-        this.$store.state.Base.oaIp +
-        path +
-        "?" +
-        qs.stringify(this.getDataUrl.searchCondition);
+        this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
       window.location.href = exportUrl;
     },
     formatJson(filterVal, jsonData) {
@@ -188,22 +160,21 @@ export default {
       // 监听高级搜索与普通搜索模式转变
       this.tableSizeHandle();
     },
-    // 检测父页面搜索数据变化
-    getDataUrl(value) {
-      var getDataUrl = value;
-      this.postDataInit(
-        getDataUrl.page,
-        getDataUrl.limit,
-        getDataUrl.searchCondition
-      );
+    getPage(value) {
+      this.getPage = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
-    //当前页数
-    storePageCount(value) {
-      this.currentPage = value; //当前页数
+    getLimit(value) {
+      this.getLimit = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
-    //每页条数
-    storeCurrentPage(value) {
-      this.pageCount = value; //每页条数
+    getUrl(value) {
+      this.getUrl = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    getSearch() {
+      this.getSearch = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     }
   }
 };

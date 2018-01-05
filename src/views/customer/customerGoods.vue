@@ -10,7 +10,7 @@
           <el-button size="small" @click="importDialog" type="primary" icon="el-icon-download">导入</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
@@ -142,11 +142,13 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-@import "../../../src/assets/scss-pc/admin-page.scss";
+
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+// table页与搜索页公用功能
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
   getCustomerGoods,
   postAddCustomerGood,
@@ -161,6 +163,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -392,12 +395,10 @@ export default {
       ],
 
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getCustomerGoods, // 获取Table列表数据的后台url
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: searchConditionVar // 搜索内容
+          url: getCustomerGoods // 获取Table列表数据的后台url
         },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
@@ -792,19 +793,6 @@ export default {
   },
 
   methods: {
-    // 重新获取数据
-    reloadData(page, Current) {
-      let page_ = page ? page : 1;
-      let limit_ = Current ? Current : 10;
-      this.$store.commit("pageCount", page_);
-      this.$store.commit("currentPage", limit_);
-      this.tableData.getDataUrl = {
-        url: this.tableData.getDataUrl.url,
-        page: page_,
-        limit: limit_,
-        searchCondition: this.searchCondition
-      };
-    },
     importDialog() {
       this.importVisible = true;
     },
@@ -943,70 +931,9 @@ export default {
           });
         }
       });
-    },
-    /**TABLE页交互 START ********************** */
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    }
-    /**END ********************** */
-  },
-  computed: {
-    oaIp() {
-      // nginx配置的路由
-      return this.$store.state.Base.oaIp;
-    },
-    //当前页数
-    storePageCount() {
-      return this.$store.state.dataTable.pageCount;
-    },
-    //每页条数
-    storeCurrentPage() {
-      return this.$store.state.dataTable.currentPage;
     }
   },
+  computed: {},
   mounted() {}
 };
 </script>

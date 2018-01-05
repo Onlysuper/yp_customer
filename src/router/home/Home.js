@@ -7,6 +7,13 @@ import loading from "@src/router/loading"
 export default {
   path: 'home',
   path: "/home",
+  meta: {
+    title: '首页',
+    path: '/home',
+    requiresAuth: true,
+    keepAlive: true,
+    role: ['root', 'admin']
+  },
   component: r => {
     loading(true);
     return require.ensure([], () => { loading(false); return r(require("@src/views/home/home")) }, "home")

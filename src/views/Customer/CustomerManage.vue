@@ -183,7 +183,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-@import "../../../src/assets/scss-pc/admin-page.scss";
+
 </style>
 
 
@@ -525,8 +525,6 @@ export default {
     reloadData(page, Current) {
       let page_ = page ? page : 1;
       let limit_ = Current ? Current : 10;
-      this.$store.commit("pageCount", page_);
-      this.$store.commit("currentPage", limit_);
       this.tableData.getDataUrl = {
         url: this.tableData.getDataUrl.url,
         page: page_,

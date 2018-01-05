@@ -10,14 +10,13 @@
           <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-@import "../../../src/assets/scss-pc/admin-page.scss";
 .operation-box {
   .sumtext {
     font-size: 14px;
@@ -31,7 +30,10 @@
 import qs from "qs";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
-import { getBillcountcustomers } from "@src/apis";
+// table页与搜索页公用功能
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { getBillcountcustomers, getExportcountcustomers } from "@src/apis";
 
 export default {
   name: "billCount",
@@ -39,22 +41,10 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable],
   data() {
-    // 日期格式转换成如“2017-12-19”的格式
-    var dataHandle = nowDate => {
-      var nowDate = new Date(nowDate);
-      var year = nowDate.getFullYear();
-      var month = nowDate.getMonth() + 1;
-      month = month * 1 < 10 ? "0" + month : month;
-      var day = nowDate.getDate();
-      var todayDate = year + "-" + month + "-" + day;
-      return todayDate;
-    };
-    var todayDate = dataHandle(new Date()); // 初始化默认开始查询日期
-    var beforDate = dataHandle(new Date() - 24 * 60 * 60 * 1000); // 初始化默认结束查询日期
-
     var searchConditionVar = {
-      standardTimeBegin: beforDate, // 开始日期
+      standardTimeBegin: yesterday, // 开始日期
       standardTimeEnd: todayDate, // 结束日期
       customerNo: "", // 商户编号
       agentNo: "", // 代理商编号
@@ -183,27 +173,24 @@ export default {
           }
         }
       ],
-
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getBillcountcustomers, // 初始化数据
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: searchConditionVar // 搜索内容
+          url: getBillcountcustomers // 初始化数据
         },
         havecheck: true, //是否显示输入框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "200px",
+            width: "120px",
             sortable: true,
             word: "customerNo"
           },
           {
             key: "企业名称",
-            width: "100px",
+            width: "120px",
             word: "enterpriseName"
           },
           {
@@ -229,7 +216,26 @@ export default {
           {
             key: "达标情况",
             width: "100px",
-            word: "standard"
+            word: "standard",
+            status: true,
+            type: data => {
+              if (data == "TRUE") {
+                return {
+                  text: "已达标",
+                  type: "success"
+                };
+              } else if (data == "FALSE") {
+                return {
+                  text: "未达标",
+                  type: "danger"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "danger"
+                };
+              }
+            }
           },
           {
             key: "达标时间",
@@ -242,90 +248,12 @@ export default {
   },
 
   methods: {
-    // 重新获取数据
-    reloadData(page, Current) {
-      let page_ = page ? page : 1;
-      let limit_ = Current ? Current : 10;
-      this.$store.commit("pageCount", page_);
-      this.$store.commit("currentPage", limit_);
-      this.tableData.getDataUrl = {
-        url: this.tableData.getDataUrl.url,
-        page: page_,
-        limit: limit_,
-        searchCondition: this.searchCondition
-      };
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
-    },
-
     exportDialog() {
       // 导出
-      var searchForm = qs.stringify(this.searchCondition);
-      getExportBillcountdays(searchForm)().then(data => {
-        console.log(data);
-      });
-    },
-    /**TABLE页交互 START ************************************************************ */
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    }
-    /**END ***********************************************/
-  },
-  computed: {
-    oaIp() {
-      // nginx配置的路由
-      return this.$store.state.Base.oaIp;
-    },
-    //当前页数
-    storePageCount() {
-      return this.$store.state.dataTable.pageCount;
-    },
-    //每页条数
-    storeCurrentPage() {
-      return this.$store.state.dataTable.currentPage;
+      this.$refs.dataTable.ExportExcel("/billcountcustomer/export");
     }
   },
+  computed: {},
   mounted() {}
 };
 </script>

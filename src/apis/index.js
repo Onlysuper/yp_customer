@@ -19,10 +19,10 @@ const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/
 const PasswordUpdate = () => { return (params) => { return http.post(base.oaIp, "/user/update/password", params) } }
 
 // 合伙人管理初始化数据
-const AgentManage = () => { return (params) => { return http.get(base.oaIp, "/agent/page", params) } }
-
-//新增
-const AgentManageAdd = () => { return (params) => { return http.post(base.oaIp, "/agent/add", params) } }
+const getAgentManages = () => { return (params) => { return http.get(base.oaIp, "/agent/page", params) } }
+const postAddAgentManage = () => { return (params) => { return http.post(base.oaIp, "/agent/add", params) } }
+const postEditAgentManage = () => { return (params) => { return http.post(base.oaIp, "/agent/update", params) } }
+const getBankList = () => { return (params) => { return http.get(base.oaIp, "/brankbank/list", params) } }
 
 /**
 **快速开票分润start
@@ -62,6 +62,9 @@ const getBillcountcustomers = () => { return (params) => { return http.get(base.
 **产品管理start
  */
 const getProducts = () => { return (params) => { return http.get(base.oaIp, "/product/page", params) } }
+const postAddProduct = () => { return (params) => { return http.post(base.oaIp, "/product/add", params) } }
+const postEditProduct = () => { return (params) => { return http.post(base.oaIp, "/product/update", params) } }
+const postToggleProduct = () => { return (params) => { return http.post(base.oaIp, "/product/updateStatus", params) } }
 // end -------------------------------------------------
 
 /**
@@ -204,12 +207,15 @@ const getBillrecordCharts = () => { return (params) => { return http.get(base.oa
 // end -------------------------------------------------
 
 export {
-    AgentManage,
     Login,
     MenuGet,
     PasswordUpdate,
     orgCodeHandle,
-    AgentManageAdd,
+    // 合伙人管理
+    getAgentManages,
+    postAddAgentManage,
+    postEditAgentManage,
+    getBankList,
     // 快速开票分润
     getBillprofits,
     getBillprofitSum,
@@ -224,6 +230,11 @@ export {
     getExportBillcountdays,
     //达标详情
     getBillcountcustomers,
+    // 产品管理
+    getProducts,
+    postAddProduct,
+    postEditProduct,
+    postToggleProduct,
     //商品管理
     getCustomerGoods,
     postAddCustomerGood,
