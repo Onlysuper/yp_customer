@@ -38,9 +38,9 @@ const mixinDataTable = {
                 }
             });
         },
-        callbackformHandle(cb, data) {
+        callbackformHandle(cb, data1, data2) {
             // 表单双向绑定 得到输入的内容并返回到本页面
-            cb(data);
+            cb(data1, data2);
         },
         resetSearchHandle() {
             // 重置查询表单
@@ -53,6 +53,14 @@ const mixinDataTable = {
                         element.value = "";
                         this.searchCondition[element.corresattr] = "";
                     });
+                }
+            });
+        },
+        resetSomeInputHandle(value) {
+            this.searchOptions.forEach(element => {
+                if (element.type == value) {
+                    element.value = "";
+                    this.searchCondition[element.corresattr] = "";
                 }
             });
         },

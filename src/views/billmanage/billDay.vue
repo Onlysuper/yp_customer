@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @resetSome="resetSomeInputHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -32,6 +32,7 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { websocket } from "@src/common/websocket";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBillcountdays, getExportBillcountdays } from "@src/apis";
 
@@ -41,7 +42,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, websocket],
   data() {
     var searchConditionVar = {
       dataTimeBegin: yesterday, // 开始日期
@@ -51,7 +52,7 @@ export default {
       containChild: "" // 下级
     };
     return {
-      formLabelWidth: "100px",
+      // formLabelWidth: "100px",
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -78,29 +79,19 @@ export default {
             this.searchCondition.agentNo = value;
           }
         },
-
         {
-          type: "dateGroup",
-          label: "选择时间",
+          type: "dateGroup2",
+          label: "选择日期",
+          limit: true, //日期联动
+          limitnum: 7,
           show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "dataTimeBegin",
-              label: "开始时间",
-              value: new Date() - 24 * 60 * 60 * 1000,
-              cb: value => {
-                this.searchCondition.dataTimeBegin = value;
-              }
-            },
-            {
-              corresattr: "dataTimeEnd",
-              lable: "结束时间",
-              value: new Date(),
-              cb: value => {
-                this.searchCondition.dataTimeEnd = value;
-              }
-            }
-          ]
+          value: "",
+          option1: "dataTimeBegin",
+          option2: "dataTimeEnd",
+          cb: (startTime, endTime) => {
+            this.searchCondition.dataTimeBegin = startTime;
+            this.searchCondition.dataTimeEnd = endTime;
+          }
         },
         {
           corresattr: "containChild",
@@ -190,7 +181,9 @@ export default {
     }
   },
   computed: {},
-  mounted() {}
+  mounted() {
+    this.websocketFn();
+  }
 };
 </script>
 
