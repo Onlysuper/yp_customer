@@ -29,7 +29,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
 @import "../../../src/assets/scss-pc/admin-page.scss";
-@import "../../../src/assets/scss-pc/reset.scss";
+// @import "../../../src/assets/scss-pc/reset.scss";
 .layout-page {
   height: 100vh;
   // overflow: hidden;

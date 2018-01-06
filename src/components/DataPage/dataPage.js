@@ -14,6 +14,9 @@ const mixinDataTable = {
             let limit_ = limit ? limit : this.postLimit;
             this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
         },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        },
         // 普通搜索 具备隐藏
         seachstartHandle() {
             // 开始搜索

@@ -14,30 +14,33 @@
     <!-- 新增start -->
     <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item label="业务类型" prop="bussinessType" :label-width="formLabelWidth">
-          <el-select v-model="addForm.bussinessType" placeholder="请选择">
+        <el-form-item v-if="visibleBussinessType" label="业务类型" prop="bussinessType" :label-width="formLabelWidth">
+          <el-select @input="bussinessTypeChange" v-model="addForm.bussinessType" placeholder="请选择">
             <el-option v-for="item in selectOptions.bussinessTypeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="产品名称" prop="productName" :label-width="formLabelWidth">
+        <el-form-item v-if="visibleProductName" label="产品名称" prop="productName" :label-width="formLabelWidth">
           <el-input v-model="addForm.productName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="收费模式" prop="costMode" :label-width="formLabelWidth">
+        <el-form-item v-if="visibleCostMode" label="收费模式" prop="costMode" :label-width="formLabelWidth">
           <el-select v-model="addForm.costMode" placeholder="请选择" @input="costModeChange($event)">
             <el-option v-for="item in selectOptions.costModeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="fixedinput" label="固定值" prop="fixed" :label-width="formLabelWidth">
+        <el-form-item v-if="visibleFixed" label="固定值" prop="fixed" :label-width="formLabelWidth">
           <el-input v-model="addForm.fixed" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="费率" prop="rate" :label-width="formLabelWidth">
+        <el-form-item v-if="visibleRate" label="费率" prop="rate" :label-width="formLabelWidth">
           <el-input v-model="addForm.rate" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-if="visibleEffectiveDay" label="有效天数" prop="effectiveDay" :label-width="formLabelWidth">
+          <el-input v-model="addForm.effectiveDay" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetAddForm('addForm')">重置</el-button>
+        <el-button @click="resetForm('addForm')">重置</el-button>
         <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
@@ -66,6 +69,8 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+// table页与搜索页公用功能
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import {
   getProducts,
@@ -80,8 +85,8 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable],
   data() {
-    // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
       customerNo: "", // 商户编号
       taxNo: "", // 企业税号
@@ -92,8 +97,15 @@ export default {
       customerFrom: "" // 入网来源
     };
     return {
+      /********新增弹出框表单显示 start*********** */
+      visibleBussinessType: true, // 业务类型
+      visibleProductName: true, // 产品名称
+      visibleCostMode: true, // 收费模式
+      visibleRate: true, //费率
+      visibleFixed: false, // 固定成本
+      visibleEffectiveDay: false, // 有效天数
+      /********新增弹出框表单显示 end*********** */
       addFormVisible: false, // 新增框
-      fixedinput: false, // 固定成本
       editFormVisible: false, // 编辑框
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
@@ -109,6 +121,7 @@ export default {
         effectiveDay: ""
       },
       selectOptions: {
+        // 业务类型
         bussinessTypeOptions: [
           {
             value: "AGENT_PROFIT_COST",
@@ -133,21 +146,21 @@ export default {
         ],
         costModeOptions: [
           {
-            value: "FLOAT_RATE",
-            label: "浮动比例"
-          },
-          {
             value: "RATE",
             label: "比例"
-          },
-          {
-            value: "FIXED",
-            label: "固定值"
-          },
-          {
-            value: "FIXED_RATE",
-            label: "比例+固定值"
           }
+          // {
+          //   value: "FIXED",
+          //   label: "固定值"
+          // },
+          // {
+          //   value: "FIXED_RATE",
+          //   label: "比例+固定值"
+          // },
+          // {
+          //   value: "FLOAT_RATE",
+          //   label: "浮动比例"
+          // }
         ]
       },
       addFormRules: {
@@ -157,7 +170,10 @@ export default {
         productName: [{ required: true, message: "请输入产品名称", trigger: "blur" }],
         costMode: [{ required: true, message: "请选择收费模式", trigger: "blur" }],
         fixed: [{ required: true, message: "请输入固定值", trigger: "blur" }],
-        rate: [{ required: true, message: "请输入费率", trigger: "blur" }]
+        rate: [{ required: true, message: "请输入费率", trigger: "blur" }],
+        effectiveDay: [
+          { required: true, message: "请输入输入有效天数", trigger: "blur" }
+        ]
       },
       // 顶部搜索表单信息
       searchOptions: [
@@ -273,8 +289,6 @@ export default {
         }
       ],
       // 列表数据
-      postPage: 1,
-      postLimit: 10,
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
@@ -502,25 +516,74 @@ export default {
   },
 
   methods: {
-    // 重新获取数据
-    reloadData(page, limit) {
-      let page_ = page ? page : this.postPage;
-      let limit_ = limit ? limit : this.postLimit;
-      this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
-    },
-    //收费模式
-    costModeChange(event) {
-      if (event == "FIXED_RATE") {
-        this.fixedinput = true;
+    // 业务类型切换
+    bussinessTypeChange(type) {
+      this.addForm.rate = "";
+      this.addForm.costMode = "";
+      this.addForm.fixed = "";
+      this.effectiveDay = "";
+      if (type == "AGENT_PROFIT_COST") {
+        this.selectOptions.costModeOptions = [
+          {
+            value: "RATE",
+            label: "比例"
+          }
+        ];
+      } else if (type == "SECOND_AGENT_PROFIT_COST") {
+        this.selectOptions.costModeOptions = [
+          {
+            value: "FLOAT_RATE",
+            label: "浮动比例"
+          }
+        ];
+      } else if (type == "CUSTOMER_TRANSACTION_COST") {
+        this.selectOptions.costModeOptions = [
+          {
+            value: "RATE",
+            label: "比例"
+          },
+          {
+            value: "FIXED",
+            label: "固定值"
+          },
+          {
+            value: "FIXED_RATE",
+            label: "比例+固定值"
+          }
+        ];
+      }
+      if (
+        type == "AGENT_PROFIT_COST" ||
+        type == "SECOND_AGENT_PROFIT_COST" ||
+        type == "CUSTOMER_TRANSACTION_COST"
+      ) {
+        this.visibleBussinessType = true; // 业务类型
+        this.visibleProductName = true; // 产品名称
+        this.visibleCostMode = true; // 收费模式
+        this.visibleRate = true; //费率
+        this.visibleFixed = false; // 固定成本
+        this.visibleEffectiveDay = false; // 有效天数
+      } else if (
+        type == "CUSTOMER_QRCODE_BILLING" ||
+        type == "CUSTOMER_ELECTRONIC"
+      ) {
+        this.visibleBussinessType = true; // 业务类型
+        this.visibleProductName = true; // 产品名称
+        this.visibleCostMode = false; // 收费模式
+        this.visibleRate = false; //费率
+        this.visibleFixed = false; // 固定成本
+        this.visibleEffectiveDay = true; // 有效天数
       }
     },
-
-    resetAddForm(formName) {
-      this.$refs[formName].resetFields();
+    //收费模式切换
+    costModeChange(event) {
+      if (event == "FIXED_RATE") {
+        this.visibleFixed = true;
+      }
     },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
+    addDialog() {
+      // 新增数据 弹出框
+      this.addFormVisible = true;
     },
     addSave(formName) {
       // 新增内容保存
@@ -543,7 +606,7 @@ export default {
                 center: true
               });
               this.addFormVisible = false;
-              this.resetAddForm("addForm");
+              this.resetForm("addForm");
               this.reloadData();
             } else if (data.code === "98") {
               this.$message({
@@ -562,7 +625,6 @@ export default {
         }
       });
     },
-
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
@@ -596,65 +658,7 @@ export default {
           });
         }
       });
-    },
-
-    addDialog() {
-      // 新增数据 弹出框
-      this.addFormVisible = true;
-    },
-    /**TABLE页交互 START ************************************************************ */
-
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-    pagelimitHandle(value) {
-      //每页条数改变
-      this.postLimit = value;
-    },
-    pagecountHandle(value) {
-      // 页数改变
-      this.postPage = value;
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
     }
-    /**END ***********************************************/
   },
   computed: {
     oaIp() {

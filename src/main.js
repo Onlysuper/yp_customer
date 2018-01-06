@@ -5,7 +5,8 @@ import router from './router';
 import routerApp from './router-app';
 import store from './vuex';
 import App from './App';
-
+//websocket 监听
+import { websocket } from "@src/common/websocket";
 /**
  * 引入自定义指令 与 过滤器
  */
@@ -50,6 +51,7 @@ import {
   Upload as eleUpload,
   Tree as eleTree,
   Cascader as eleCascader,
+  Notification as eleNotification,
   MessageBox,
   Message,
   Loading
@@ -94,7 +96,7 @@ Vue.prototype.$msgbox = MessageBox
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
-Vue.prototype.$notify = Notification
+Vue.prototype.$notify = eleNotification
 Vue.prototype.$message = Message
 
 
@@ -136,7 +138,7 @@ if (isMobile) {
   require("@src/assets/css/reset.css");
   require("@src/assets/scss/index.scss");
 } else {
-
+  require("@src/assets/scss-pc/reset.scss");
 }
 
 /**
@@ -160,7 +162,9 @@ if (isMobile) {
 var vue = new Vue({
   el: '#app',
   store,
+  mixins: [websocket],
   created() {
+    this.websocketFn();
     //管理员信息与菜单列表数据初始化
     store.dispatch('UserMenulistFetch');
   },
