@@ -9,11 +9,11 @@
           <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
-      <el-form ref="addForm" :model="addForm" :rules="addFormRules" label-width="180px">
+      <el-form size="small" ref="addForm" :model="addForm" :rules="addFormRules" label-width="180px">
         <el-form-item prop="agentName" label="合伙人名称">
           <el-input v-model="addForm.agentName"></el-input>
         </el-form-item>
@@ -48,12 +48,12 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <!-- <el-form-item prop="unionCode" label="选择支行">
+        <el-form-item prop="unionCode" label="选择支行">
           <el-select prop="unionCode" v-model="addForm.shValue" clearable placeholder="请选择">
-            <el-option v-for="item in shOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in selectOptions.branchBankOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
-        </el-form-item> -->
+        </el-form-item>
         <p>开发信息</p>
         <el-form-item prop="isCreateKey" label="是否创建accesskey">
           <el-select prop="isCreateKey" v-model="addForm.isCreateKey" clearable placeholder="请选择">
@@ -66,7 +66,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetAddForm('addForm')">重置</el-button>
+        <el-button @click="resetForm('addForm')">重置</el-button>
         <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
@@ -110,37 +110,30 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+// table页与搜索页公用功能
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { regionData } from "element-china-area-data";
 import { phoneNumVerify } from "@src/common/regexp";
+// 省市区一转三格式
 import { areaOrgcode } from "@src/common/orgcode";
+// 所有可选银行
 import { banks } from "@src/common/bank";
 import {
   getAgentManages,
   postAddAgentManage,
   postEditAgentManage,
-  getBankList,
-  postToggleProduct
+  getBankList
 } from "@src/apis";
 
 export default {
-  name: "customermanage",
+  name: "agentManage",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable],
   data() {
-    // 日期格式转换成如“2017-12-19”的格式
-    var dataHandle = nowDate => {
-      var nowDate = new Date(nowDate);
-      var year = nowDate.getFullYear();
-      var month = nowDate.getMonth() + 1;
-      month = month * 1 < 10 ? "0" + month : month;
-      var day = nowDate.getDate();
-      var todayDate = year + "-" + month + "-" + day;
-      return todayDate;
-    };
-    var todayDate = dataHandle(new Date()); // 初始化默认开始查询日期
-    var beforDate = dataHandle(new Date() - 24 * 60 * 60 * 1000); // 初始化默认结束查询日期
     var searchConditionVar = {
       phoneNo: "", // 手机号
       agentNo: "", // 合伙人编号
@@ -167,6 +160,7 @@ export default {
       searchCondition: searchConditionVar,
       optionsArea: regionData, //省市县插件
       selectOptions: {
+        branchBankOptions: [], // 支行
         isCreateKeyOptions: [
           {
             value: "TRUE",
@@ -232,12 +226,10 @@ export default {
         }
       ],
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getAgentManages, // 初始化数据
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: searchConditionVar // 搜索内容
+          url: getAgentManages // 初始化数据
         },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
@@ -328,21 +320,15 @@ export default {
   },
 
   methods: {
-    // 重新获取数据
-    reloadData(page, Current) {
-      let page_ = page ? page : 1;
-      let limit_ = Current ? Current : 10;
-      this.tableData.getDataUrl = {
-        url: this.tableData.getDataUrl.url,
-        page: page_,
-        limit: limit_,
-        searchCondition: this.searchCondition
-      };
+    addDialog() {
+      // 新增数据 弹出框
+      this.addFormVisible = true;
     },
     handleChangeArea() {},
     bankhandleChangeArea(value) {
+      console.log(value);
       //选择银行区域
-      this.bankCity = value[2];
+      this.bankCity = value[1];
       this.getBankListHandle();
     },
     banksChange(value) {
@@ -351,17 +337,16 @@ export default {
       this.getBankListHandle();
     },
     getBankListHandle() {
-      console.log("bankCode:" + this.bankCode + "bankCity:" + this.bankCity);
-      // 获取支行列表数据
-      getBankList()({
-        bankCode: this.bankCode,
-        cityId: this.bankCity
-      }).then(data => {
-        console.log(data);
-      });
-    },
-    resetAddForm(formName) {
-      this.$refs[formName].resetFields();
+      // console.log("bankCode:" + this.bankCode + "bankCity:" + this.bankCity);
+      // if (this.bankCode && this.bankCity) {
+      //   // 获取支行列表数据
+      //   getBankList()({
+      //     bankCode: this.bankCode,
+      //     cityId: this.bankCity
+      //   }).then(data => {
+      //     console.log(data);
+      //   });
+      // }
     },
     seachstartHandle() {
       // 开始搜索
@@ -402,7 +387,7 @@ export default {
                 center: true
               });
               this.addFormVisible = false;
-              this.resetAddForm("addForm");
+              this.resetForm("addForm");
               this.reloadData();
             } else if (data.code === "98") {
               this.$message({
@@ -465,73 +450,11 @@ export default {
           });
         }
       });
-    },
-
-    addDialog() {
-      // 新增数据 弹出框
-      this.addFormVisible = true;
-    },
-
-    /**TABLE页交互 START ************************************************************ */
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
     }
-    /**END ***********************************************/
   },
   computed: {
     bankOptions() {
       return banks;
-    },
-    oaIp() {
-      // nginx配置的路由
-      return this.$store.state.Base.oaIp;
-    },
-    //当前页数
-    storePageCount() {
-      return this.$store.state.dataTable.pageCount;
-    },
-    //每页条数
-    storeCurrentPage() {
-      return this.$store.state.dataTable.currentPage;
     }
   }
 };

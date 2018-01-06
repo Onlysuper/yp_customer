@@ -18,6 +18,7 @@ import billStandard from "./billmanage/billStandard";
 import billprofit from "./billprofit/billprofit";
 import product from "./product/product";
 import agentManage from "./agent/agentManage";
+import agentTransfer from "./agent/agentTransfer";
 import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
@@ -63,6 +64,8 @@ const asyncRouter = [
     userrole,//角色管理
     product,// 产品管理
     agentManage, //合伙人管理
+    agentTransfer, // 合伙人转移
+
     buriedPoint //埋点管理
 ]
 // 路由过滤

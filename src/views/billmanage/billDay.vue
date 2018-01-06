@@ -32,7 +32,6 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { websocket } from "@src/common/websocket";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBillcountdays, getExportBillcountdays } from "@src/apis";
 
@@ -42,7 +41,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable, websocket],
+  mixins: [mixinDataTable],
   data() {
     var searchConditionVar = {
       dataTimeBegin: yesterday, // 开始日期
@@ -170,19 +169,14 @@ export default {
       // 导出
       var searchForm = qs.stringify(this.searchCondition);
       getExportBillcountdays(searchForm)().then(data => {
-        if (data == "00") {
-          this.$message({
-            message: "已发起导出任务，请耐心等待通知",
-            type: "success",
-            center: true
+        if (data.code == "00") {
+          this.$notify.info({
+            title: "消息",
+            message: "导出任务已发送，请耐心等待通知"
           });
         }
       });
     }
-  },
-  computed: {},
-  mounted() {
-    this.websocketFn();
   }
 };
 </script>
