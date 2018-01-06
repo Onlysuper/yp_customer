@@ -189,7 +189,7 @@ const getVersionControls = () => { return (params) => { return http.get(base.oaI
 // end -------------------------------------------------
 
 /**
-**埋点图标Start
+**埋点图表Start
  */
 const getBurialPointCharts = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
 // end -------------------------------------------------
@@ -197,7 +197,8 @@ const getBurialPointCharts = () => { return (params) => { return http.get(base.o
 /**
 **埋点管理Start
  */
-const getBurialPointManages = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
+const getBurialPointManages = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/page", params) } }
+const getBurialPointTotal = () => { return (params) => { return http.post(base.oaIp, "/operatorlog/total", params) } }
 // end -------------------------------------------------
 
 /**
@@ -278,6 +279,9 @@ export {
     getRolesTreeConfig,
     patchRolesTreeSave,
     patchAddMenuTree,
-    deleteMenuTree
+    deleteMenuTree,
+    // 统计管理
+    getBurialPointManages,
+    getBurialPointTotal
 };
 

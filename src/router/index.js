@@ -21,6 +21,7 @@ import agentManage from "./agent/agentManage";
 import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
+import buriedPoint from "./statistical/buriedPoint";
 
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
@@ -61,8 +62,8 @@ const asyncRouter = [
     usermenu,// 菜单管理
     userrole,//角色管理
     product,// 产品管理
-    agentManage //合伙人管理
-
+    agentManage, //合伙人管理
+    buriedPoint //埋点管理
 ]
 // 路由过滤
 function filterRouter(data, asyncRouter) {
