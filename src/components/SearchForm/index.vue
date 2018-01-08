@@ -207,7 +207,11 @@ export default {
 <style lang="less">
 .search-page {
   min-width: 600px;
+  padding: 0 0 15px 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
   .form-box {
+    margin-top: 5px !important;
     .form-item {
       width: 340px;
       flex-shrink: 1;
@@ -289,7 +293,7 @@ export default {
     }
   }
   .showform-box {
-    margin-top: 0 !important;
+    margin-top: 5px !important;
     display: flex;
     flex-wrap: wrap;
     justify-content: baseline;
