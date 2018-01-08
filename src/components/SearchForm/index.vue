@@ -16,17 +16,17 @@
         </el-select>
 
         <!-- 日期组合 -->
-        <el-form-item class="dateGroup" v-if="item.type=='dateGroup'">
+        <div class="dateGroup" v-if="item.type=='dateGroup'">
           <el-date-picker ref="myinput" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date')" type="date" placeholder="开始时间"></el-date-picker>
           <span class="to-line">-</span>
           <el-date-picker ref="myinput" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date')" type="date" placeholder="结束时间"></el-date-picker>
-        </el-form-item>
+        </div>
 
         <!-- 日期组合2 -->
-        <el-form-item class="dateGroup2" v-if="item.type=='dateGroup2'" label-width="0">
+        <div class="dateGroup2" v-if="item.type=='dateGroup2'" label-width="0">
           <el-date-picker :label="item.label" value-format="yyyy-MM-dd" :picker-options="pickerOptions7" @input="changeDateGroup(item.cb,$event,'nomal',item.limit,item.limitnum,item.type)" :unlink-panels="item.limit?false:true" v-model="item.value" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
-        </el-form-item>
+        </div>
 
         <!-- 月份的日期 -->
         <!-- <el-form-item class="dateMonth" v-if="item.type=='dateMonth'"> -->
@@ -223,72 +223,21 @@ export default {
     .dateMonth {
       width: 240px;
     }
-    .el-form-item {
-      margin-bottom: 5px;
-      .dateGroup2 {
-        background-color: #fff;
-        background-image: none;
-        border-radius: 4px;
-        padding-right: 100px;
-        .to-line {
-          font-size: 14px;
-          color: #d8dce5;
-        }
-
-        .el-form-item__content {
-          width: 240px;
-          display: flex;
-          flex: 1;
-          .enddate-box {
-            .el-input__suffix {
-              right: 17px;
-            }
-            .el-input__prefix {
-              display: none;
-            }
-            input {
-              padding-left: 17px;
-            }
-          }
-          input {
-            padding-right: 0px;
-            border: 0px;
-            background: none;
-          }
-        }
+    .dateGroup,
+    .dateGroup2 {
+      width: 240px;
+      display: flex;
+      background-color: #fff;
+      background-image: none;
+      border-radius: 4px;
+      border: 1px solid #d8dce5;
+      input {
+        padding-right: 0px;
+        border: 0px;
+        background: none;
       }
-      .dateGroup {
-        width: 240px;
-        background-color: #fff;
-        background-image: none;
-        border-radius: 4px;
-        border: 1px solid #d8dce5;
-        .to-line {
-          font-size: 14px;
-          color: #d8dce5;
-        }
-
-        .el-form-item__content {
-          width: 260px;
-          display: flex;
-          flex: 1;
-          .enddate-box {
-            .el-input__suffix {
-              right: 17px;
-            }
-            .el-input__prefix {
-              display: none;
-            }
-            input {
-              padding-left: 17px;
-            }
-          }
-          input {
-            padding-right: 0px;
-            border: 0px;
-            background: none;
-          }
-        }
+      .el-input__suffix {
+        right: 0;
       }
     }
   }
