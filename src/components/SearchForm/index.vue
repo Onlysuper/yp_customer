@@ -160,9 +160,9 @@ export default {
     },
     //日期组合
     changeDateGroup(cb, event, type, limit, limitnum, option1) {
+      if(event){
       var startTime = event[0];
       var endTime = event[1];
-
       if (limit) {
         // var numtime = 3600 * 1000 * 24 * limit;
         var star = new Date(startTime) * 1;
@@ -179,8 +179,10 @@ export default {
           this.$emit("resetSome", option1);
         }
       }
-
-      this.$emit("changeform", cb, startTime, endTime);
+        this.$emit("changeform", cb, startTime, endTime);
+      }else{
+        this.$emit("changeform", cb, "", "");
+      }
     },
     searchStart() {
       //交给父页面操作
@@ -204,7 +206,7 @@ export default {
   }
 };
 </script>
-<style lang="less">
+<style lang="scss">
 .search-page {
   min-width: 600px;
   padding: 0 0 15px 0;
@@ -223,14 +225,18 @@ export default {
     .dateMonth {
       width: 240px;
     }
-    .dateGroup,
+    // .dateGroup,
     .dateGroup2 {
       width: 240px;
       display: flex;
       background-color: #fff;
       background-image: none;
       border-radius: 4px;
-      border: 1px solid #d8dce5;
+      .el-date-editor .el-range__close-icon{
+        position:absolute;
+        top:0;
+        right:3px
+      }
       input {
         padding-right: 0px;
         border: 0px;
@@ -238,6 +244,13 @@ export default {
       }
       .el-input__suffix {
         right: 0;
+      }
+    }
+    .dateGroup {
+      @extend .dateGroup2;
+      border: 1px solid #dcdfe6;
+      .el-date-editor{
+        position:relative
       }
     }
   }

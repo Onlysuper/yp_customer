@@ -19,6 +19,7 @@ import billprofit from "./billprofit/billprofit";
 import product from "./product/product";
 import agentManage from "./agent/agentManage";
 import agentTransfer from "./agent/agentTransfer";
+import empowerManage from "./empower/empowerManage";
 import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
@@ -65,7 +66,7 @@ const asyncRouter = [
     product,// 产品管理
     agentManage, //合伙人管理
     agentTransfer, // 合伙人转移
-
+    empowerManage,// 授权码管理
     buriedPoint //埋点管理
 ]
 // 路由过滤

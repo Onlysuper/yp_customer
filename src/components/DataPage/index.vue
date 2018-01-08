@@ -19,8 +19,21 @@
         </template>
       </el-table-column>
       <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
           <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="scope.row[item.stateName]=='TRUE'?item.opposite?true:false:item.opposite?false:true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
+        </template> -->
+          <template slot-scope="scope">
+          <el-button v-for="(item,index) in tableDataInit.operation.options" 
+          :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true"
+           @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
+            {{item.text}}
+          </el-button>
+                    <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" 
+          :key="index" size="small" type="text" 
+          
+           @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}
+            {{item.visibleFn(scope.row,item.visibleFn)}}
+          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -98,6 +111,10 @@ export default {
     };
   },
   methods: {
+    visibleArrFn(rowdata, cb) {
+      // 点击操作按钮
+      this.$emit("operation", rowdata, cb);
+    },
     summaryMethod(param) {
       console.log(param);
     },

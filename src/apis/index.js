@@ -15,6 +15,8 @@ const Login = () => { return (params) => { return http.post(base.oaIp, "/login",
 // 菜单列表
 const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/data", params) } }
 
+// 用户信息
+const UserGet = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
 // 管理密码修改
 const PasswordUpdate = () => { return (params) => { return http.post(base.oaIp, "/user/update/password", params) } }
 
@@ -132,6 +134,8 @@ const getArantNumExamines = () => { return (params) => { return http.get(base.oa
 **授权码管理start
  */
 const getArantNumManages = () => { return (params) => { return http.get(base.oaIp, "/qrcode/page", params) } }
+const postMakeEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/add", params) } }
+const postMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addScanCodeGunBatch", params) } }
 // end -------------------------------------------------
 
 /**
@@ -210,6 +214,7 @@ const getBillrecordCharts = () => { return (params) => { return http.get(base.oa
 export {
     Login,
     MenuGet,
+    UserGet,
     PasswordUpdate,
     orgCodeHandle,
     // 合伙人管理
@@ -264,6 +269,10 @@ export {
     getRolesTree,
     patchConfigRole,
     deleteUserManage,
+    //授权码管理
+    getArantNumManages,
+    postMakeEmpower,
+    postMakeMateriel,
     // 菜单管理
     getMenuTrees,
     getMenuTreePage,

@@ -1,3 +1,4 @@
+import { todayDate, yesterday } from "@src/common/dateSerialize";
 // 公用table页与search页功能
 const mixinDataTable = {
     data() {
@@ -22,6 +23,7 @@ const mixinDataTable = {
             // 开始搜索
             this.reloadData();
         },
+        // 重置某输入框
         visiblesomeHandle() {
             this.searchOptions.forEach(element => {
                 // searchOptions数组里面的corresattr 是索引
@@ -48,14 +50,18 @@ const mixinDataTable = {
         resetSearchHandle() {
             // 重置查询表单
             this.searchOptions.forEach(element => {
-                if (element.type != "dateGroup") {
+                if (element.type == "dateGroup") {
+                    element.options[0].value = yesterday;
+                    element.options[1].value = todayDate;
+                    this.searchCondition[element.options[0].corresattr] = yesterday;
+                    this.searchCondition[element.options[1].corresattr] = todayDate;
+                } else if (element.type == "dateGroup2") {
+                    element.value = [yesterday, todayDate]
+                    this.searchCondition[element.option1] = yesterday;
+                    this.searchCondition[element.option2] = todayDate;
+                } else {
                     element.value = "";
                     this.searchCondition[element.corresattr] = "";
-                } else {
-                    element.options.forEach(element => {
-                        element.value = "";
-                        this.searchCondition[element.corresattr] = "";
-                    });
                 }
             });
         },
