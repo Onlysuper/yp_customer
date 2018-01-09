@@ -12,6 +12,9 @@ import { websocket } from "@src/common/websocket";
  */
 import mypDirective from './common/directives';
 import mypFilter from './common/filters';
+
+/* Using these kinds of IScroll class for different cases. */
+
 Vue.use(mypDirective);
 Vue.use(mypFilter);
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
