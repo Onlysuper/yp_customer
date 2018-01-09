@@ -22,13 +22,11 @@
         <!-- <template slot-scope="scope">
           <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="scope.row[item.stateName]=='TRUE'?item.opposite?true:false:item.opposite?false:true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
         </template> -->
-          <template slot-scope="scope">
-          <el-button v-for="(item,index) in tableDataInit.operation.options" 
-          :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true"
-           @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
+        <template slot-scope="scope">
+          <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
             {{item.text}}
           </el-button>
-                    <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" 
+          <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" 
           :key="index" size="small" type="text" 
           
            @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}
@@ -75,6 +73,7 @@ export default {
   props: ["tableDataInit", "page", "limit", "search"],
   data() {
     return {
+      dataSuccess: this.tableDataInit.dataSuccess, // 数据家在完成
       ifloading: false,
       tableData: [],
       tableHeight: 0, // 表单的高度
@@ -130,6 +129,7 @@ export default {
           // 数据获取成功
           this.tableData = data.data;
           this.dataCount = data.count;
+          this.dataSuccess = this.$emit("operation", data, this.dataSuccess);
         }
         this.ifloading = false;
       });
@@ -163,9 +163,25 @@ export default {
       this.$emit("operation", rowdata, cb);
     },
     // 导出
-    ExportExcel(path) {
-      var exportUrl =
-        this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
+    ExportExcel(path, param) {
+      var exportUrl = "";
+      if (param) {
+        exportUrl =
+          this.$store.state.Base.oaIp +
+          path +
+          "?" +
+          qs.stringify(param) +
+          "&" +
+          qs.stringify(this.getSearch);
+      } else {
+        exportUrl =
+          this.$store.state.Base.oaIp +
+          path +
+          "?" +
+          qs.stringify(this.getSearch);
+      }
+      // var exportUrl =
+      //   this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
       window.location.href = exportUrl;
     },
     formatJson(filterVal, jsonData) {

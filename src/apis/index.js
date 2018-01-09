@@ -135,7 +135,8 @@ const getArantNumExamines = () => { return (params) => { return http.get(base.oa
  */
 const getArantNumManages = () => { return (params) => { return http.get(base.oaIp, "/qrcode/page", params) } }
 const postMakeEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/add", params) } }
-const postMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addScanCodeGunBatch", params) } }
+const postScanMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addScanCodeGunBatch", params) } }
+const postMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcode/addMaterielBatch", params) } }
 // end -------------------------------------------------
 
 /**
@@ -272,6 +273,7 @@ export {
     //授权码管理
     getArantNumManages,
     postMakeEmpower,
+    postScanMakeMateriel,
     postMakeMateriel,
     // 菜单管理
     getMenuTrees,

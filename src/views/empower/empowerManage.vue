@@ -7,33 +7,32 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="empoverCodeDialog" type="primary" icon="elresetSearchHandle-icon-upload">生成授权码</el-button>
-          <el-button size="small" @click="addMaterielDialog" type="primary" icon="el-icon-upload">物料入库</el-button>
-          <!-- <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button> -->
-          <!-- <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload">批量绑定</el-button> -->
+          <el-button size="small" @click="showDialog('empoverCodeFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">生成授权码</el-button>
+          <el-button size="small" @click="showDialog('addMaterielFormVisible')" type="primary" icon="el-icon-upload">物料入库</el-button>
+          <el-button size="small" @click="showDialog('exportEmpowerCodeVisible')" type="primary" icon="el-icon-upload">导出</el-button>
+          <el-button size="small" @click="showDialog('batchBindVisible')" type="primary" icon="el-icon-upload">批量绑定</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
-     <!-- 生成授权码start -->
+    <!-- 生成授权码start -->
     <el-dialog center title="生成授权码" :visible.sync="empoverCodeFormVisible">
       <el-form size="small" :model="empoverCodeForm" ref="empoverCodeForm" :rules="empoverCodeRules">
         <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
           <el-input v-model="empoverCodeForm.agentNo" auto-complete="off"></el-input>
         </el-form-item>
-         <el-form-item label="数量" prop="qrcodeCount" :label-width="formLabelWidth">
+        <el-form-item label="数量" prop="qrcodeCount" :label-width="formLabelWidth">
           <el-input v-model="empoverCodeForm.qrcodeCount" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
-           <el-radio v-model="empoverCodeForm.serviceMode" label="HX">航信</el-radio>
-           <el-radio v-model="empoverCodeForm.serviceMode" label="YP">易票</el-radio>
-           <el-radio v-model="empoverCodeForm.serviceMode" label="HX_YP">航信_易票</el-radio>
+          <el-radio v-model="empoverCodeForm.serviceMode" label="HX">航信</el-radio>
+          <el-radio v-model="empoverCodeForm.serviceMode" label="YP">易票</el-radio>
+          <el-radio v-model="empoverCodeForm.serviceMode" label="HX_YP">航信_易票</el-radio>
         </el-form-item>
         <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
-          <el-checkbox-group 
-          v-model="empoverCodeForm.supportTypes">
-          <el-checkbox v-for="city in empoverCodeForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
-        </el-checkbox-group>
+          <el-checkbox-group v-model="empoverCodeForm.supportTypes">
+            <el-checkbox v-for="city in empoverCodeForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -42,7 +41,7 @@
       </div>
     </el-dialog>
     <!-- 生成授权码end -->
-     <!-- 物料入库start -->
+    <!-- 物料入库start -->
     <el-dialog center title="物料入库" :visible.sync="addMaterielFormVisible">
       <el-form size="small" :model="addMaterielForm" ref="addMaterielForm" :rules="addMaterielRules">
         <el-form-item label="入库数量" prop="receiptCount" :label-width="formLabelWidth">
@@ -61,8 +60,8 @@
           <el-input v-model="addMaterielForm.qrcodes" auto-complete="off" placeholder="多个二维码请用英文逗号分隔"></el-input>
         </el-form-item>
         <el-form-item v-if="visibleQrNums" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="addMaterielForm.qrcodeStart" controls-position="right" @change=""></el-input-number>
-          <el-input-number v-model="addMaterielForm.qrcodeEnd" controls-position="right" @change=""></el-input-number>
+          <el-input-number v-model="addMaterielForm.qrcodeStart" controls-position="right"></el-input-number>
+          <el-input-number v-model="addMaterielForm.qrcodeEnd" controls-position="right"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -72,6 +71,57 @@
       </div>
     </el-dialog>
     <!-- 生成授权码end -->
+    <!-- 导出start -->
+    <el-dialog center title="导出授权码" :visible.sync="exportEmpowerCodeVisible">
+      <el-form size="small" :model="exportEmpowerCodeForm" ref="exportEmpowerCodeForm" :rules="exportEmpowerCodeRules">
+        <el-form-item label="选择样式" prop="styleType" :label-width="formLabelWidth">
+          <el-select v-model="exportEmpowerCodeForm.styleType" placeholder="请选择">
+            <el-option v-for="item in selectOptions.exportEmpowerCodeOptions" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('exportEmpowerCodeForm')">重置</el-button>
+        <el-button type="primary" @click="exportEmpowerSave('exportEmpowerCodeForm')">保存</el-button>
+      </div>
+    </el-dialog>
+    <!-- 导出end -->
+    <!-- 批量绑定start -->
+    <el-dialog center title="批量绑定" :visible.sync="batchBindVisible">
+      <form>
+        <div class="content-center-box">
+          <div class="sep-inline">
+            <a class="link-Label" :href="oaIp+'/static/template/qrcode-batch-bind.xlsx'">下载绑定模板</a>
+          </div>
+          <!-- <div class="sep-inline">
+            <el-upload :auto-upload="false" ref="batchBindFile" 
+            :action="oaIp+'/qrcode/bindBatchQrCode'" 
+            accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将入网文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+            </el-upload>
+          </div> -->
+          <div class="sep-inline">
+            <el-upload class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
+              <i class="el-icon-upload"></i>
+              <div class="el-upload__text">将入网文件拖到此处，或
+                <em>点击上传</em>
+              </div>
+              <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+            </el-upload>
+          </div>
+        </div>
+      </form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchBindReset">重置</el-button>
+        <el-button type="primary" @click="batchBindSave">提 交</el-button>
+      </span>
+    </el-dialog>
+    <!-- 批量绑定end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -93,7 +143,12 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
-import { getArantNumManages, postMakeEmpower,postMakeMateriel } from "@src/apis";
+import {
+  getArantNumManages,
+  postMakeEmpower,
+  postScanMakeMateriel,
+  postMakeMateriel
+} from "@src/apis";
 
 export default {
   name: "billCount",
@@ -117,42 +172,84 @@ export default {
       materiel: "" // 是否有物料
     };
     return {
-      deviceType:"AUTHCODE",
-      formLabelWidth:"100px",
-      empoverCodeFormVisible:false,// 生成授权吗弹出框
-      addMaterielFormVisible:false, // 物料入库
-      visibleQrcodes:false, // 入库方式
-      visibleQrNums:true,
-      empoverCodeForm:{
-        serviceMode:"HX",
-        supportTypes:["普票","专票"],
-        supportTypesArr:["普票","专票","特殊"]
+      deviceType: "AUTHCODE",
+      formLabelWidth: "100px",
+      qrcodeUrl: "",
+      empoverCodeFormVisible: false, // 生成授权吗弹出框
+      addMaterielFormVisible: false, // 物料入库
+      visibleQrcodes: false, // 入库方式
+      visibleQrNums: true,
+      exportEmpowerCodeVisible: false, // 导出授权码
+      batchBindVisible: false, // 批量绑定
+      fileList: [],
+      exportEmpowerCodeForm: {
+        styleType: ""
       },
-      empoverCodeRules:{
-         agentNo: [{ required: true, message: "请输入合伙人编号", trigger: "blur" }],
-         qrcodeCount: [{ required: true, message: "批次数量不能为空", trigger: "blur" }],
+      exportEmpowerCodeRules: {
+        styleType: [{ required: true, message: "请先选择模版样式", trigger: "blur" }]
       },
-      addMaterielForm:{
-
+      empoverCodeForm: {
+        serviceMode: "HX",
+        supportTypes: ["普票", "专票"],
+        supportTypesArr: ["普票", "专票", "特殊"]
       },
-      addMaterielRules:{
-         qrcodeStart: [{ required: true, message: "号段起始号码不能为空", trigger: "blur" }],
-          qrcodeStart: [{ required: true, message: "号段起始号码不能为空", trigger: "blur" }],
-          migrateType: [{ required: true, message: "请选择入库方式", trigger: "blur" }],
-          receiptCount: [{ required: true, message: "请输入入库数量", trigger: "blur" }],
+      empoverCodeRules: {
+        agentNo: [{ required: true, message: "请输入合伙人编号", trigger: "blur" }],
+        qrcodeCount: [{ required: true, message: "批次数量不能为空", trigger: "blur" }]
+      },
+      addMaterielForm: {},
+      addMaterielRules: {
+        qrcodeStart: [
+          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+        ],
+        qrcodeStart: [
+          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+        ],
+        migrateType: [{ required: true, message: "请选择入库方式", trigger: "blur" }],
+        receiptCount: [{ required: true, message: "请输入入库数量", trigger: "blur" }]
       },
       // formLabelWidth: "100px",
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
-      selectOptions:{
-        addMaterielOptions:[
-           {
+      selectOptions: {
+        addMaterielOptions: [
+          {
             value: "ORDER",
             label: "号段入库"
           },
           {
             value: "OUT_ORDER",
             label: "序号入库"
+          }
+        ],
+        exportEmpowerCodeOptions: [
+          {
+            value: "6",
+            label: "带样式模式（带背景 , 带logo ,带序列号）"
+          },
+          {
+            value: "0",
+            label: "纯黑白模式（不带背景,不带logo,不带序列号）"
+          },
+          {
+            value: "1",
+            label: "纯黑白模式（不带背景,不带logo,带序列号）"
+          },
+          {
+            value: "2",
+            label: "纯黑白模式（不带背景, 带logo,不带序列号）"
+          },
+          {
+            value: "3",
+            label: "纯黑白模式（不带背景, 带logo,带序列号）"
+          },
+          {
+            value: "4",
+            label: "带样式模式（不带背景, 带logo,带序列号）"
+          },
+          {
+            value: "5",
+            label: "带样式模式（不带背景, 带logo,不带序列号)"
           }
         ]
       },
@@ -434,25 +531,25 @@ export default {
             // 操作按钮
             {
               text: "预览",
-             visibleFn: rowdata => {
-                if(rowdata.deviceType=="AUTHCODE"){
-                  return true
-                }else{
+              visibleFn: rowdata => {
+                if (rowdata.deviceType == "AUTHCODE") {
+                  return true;
+                } else {
                   return false;
                 }
               },
               color: "#00c1df",
               cb: rowdata => {
-                this.detailsForm = rowdata;
-                this.detailsFormVisible = true;
+                var msg = this.qrcodeUrl + rowdata.authCode;
+                console.log(msg);
               }
             },
             {
               text: "编辑",
-             visibleFn: rowdata => {
-                if(rowdata.deviceType=="AUTHCODE"){
-                  return true
-                }else{
+              visibleFn: rowdata => {
+                if (rowdata.deviceType == "AUTHCODE") {
+                  return true;
+                } else {
                   return false;
                 }
               },
@@ -468,9 +565,14 @@ export default {
               text: "绑定",
               color: "#67c23a",
               visibleFn: rowdata => {
-                if(rowdata.deviceType=="AUTHCODE"&&rowdata.status == 'TRUE'&&(rowdata.agentNo==this.userBussinessNo||this.userType=='admin')){
-                  return true
-                }else{
+                if (
+                  rowdata.deviceType == "AUTHCODE" &&
+                  rowdata.status == "TRUE" &&
+                  (rowdata.agentNo == this.userBussinessNo ||
+                    this.userType == "admin")
+                ) {
+                  return true;
+                } else {
                   return false;
                 }
               },
@@ -482,15 +584,20 @@ export default {
             {
               stateName: "status",
               opposite: false,
-              visibleFn:rowdata=>{
-                return true
+              visibleFn: rowdata => {
+                return true;
               },
               text: "解绑",
               color: "#F56C6C",
               visibleFn: rowdata => {
-                if(rowdata.deviceType=="AUTHCODE"&&rowdata.status == 'BINDED'&&(rowdata.agentNo==this.userBussinessNo||this.userType=='admin')){
-                  return true
-                }else{
+                if (
+                  rowdata.deviceType == "AUTHCODE" &&
+                  rowdata.status == "BINDED" &&
+                  (rowdata.agentNo == this.userBussinessNo ||
+                    this.userType == "admin")
+                ) {
+                  return true;
+                } else {
                   return false;
                 }
               },
@@ -503,9 +610,16 @@ export default {
               text: "绑定子绑",
               color: "#909399",
               visibleFn: rowdata => {
-                if(rowdata.deviceType=="AUTHCODE"&&rowdata.status == 'BINDED'&&rowdata.parentCode==null||rowdata.parentCode==''&&(rowdata.agentNo==this.userBussinessNo||this.userType=='admin')){
-                  return true
-                }else{
+                if (
+                  (rowdata.deviceType == "AUTHCODE" &&
+                    rowdata.status == "BINDED" &&
+                    rowdata.parentCode == null) ||
+                  (rowdata.parentCode == "" &&
+                    (rowdata.agentNo == this.userBussinessNo ||
+                      this.userType == "admin"))
+                ) {
+                  return true;
+                } else {
                   return false;
                 }
               },
@@ -515,6 +629,10 @@ export default {
               }
             }
           ]
+        },
+        // 数据加载成功
+        dataSuccess: data => {
+          this.qrcodeUrl = data.remark.qrcodeUrl;
         }
       }
     };
@@ -522,121 +640,186 @@ export default {
 
   methods: {
     // 授权码保存
-    empoverCodeSave(formName){
-      this.$refs[formName].validate(valid => {
-          let addForm = this.addForm;
-          if (valid) {
-
-          
-            let empoverCodeForm = this.empoverCodeForm;
-            let supportTypes1=""
-            let supportTypes2=""
-            let supportTypes3=""
-            empoverCodeForm.supportTypes.forEach((element,index) => {
-              if(element=="普票"){
-                supportTypes1=1
-              }else if(element=="专票"){
-                supportTypes2=2
-              }else if(element=="特殊"){
-                supportTypes3=4
-              }
-            });
-            postMakeEmpower()({
-              deviceType:this.deviceType,
-              agentNo:empoverCodeForm.agentNo,
-              qrcodeCount:empoverCodeForm.qrcodeCount,
-              serviceMode:empoverCodeForm.serviceMode,
-              "supportTypes[0]":supportTypes1,
-              "supportTypes[1]":supportTypes2,
-              "supportTypes[2]":supportTypes3
-            }).then(data=>{
-              if (data.code === "00") {
-                this.$message({
-                  message: "恭喜你，已成功生成授权码！",
-                  type: "success",
-                  center: true
-                });
-                this.empoverCodeFormVisible = false;
-                this.resetForm("empoverCodeForm");
-                this.reloadData();
-              }else{
-                this.$message({
-                  message:  data.msg,
-                  type: "warning",
-                  center: true
-                });
-              }
-            })
-        }
-     })
-    },
-    migrateChagen(event){
-      if(event=="ORDER"){ // 号段入库
-      this.visibleQrcodes = false;
-      this.visibleQrNums=true;
-      }else if(event=="OUT_ORDER"){ // 序号入库
-      this.visibleQrcodes = true; 
-      this.visibleQrNums=false;
-      }
-    },
-    // 扫码枪入库保存
-    addMaterielSave(formName){
+    empoverCodeSave(formName) {
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
         if (valid) {
-          postMakeMateriel()().then(data=>{
-              if(data.code=='00'){
-                this.$message({
-                    message: "恭喜你，扫码枪入库成功！",
-                    type: "success",
-                    center: true
-                  });
-              }else{
-                this.$message({
-                    message:  data.msg,
-                    type: "warning",
-                    center: true
-                  });
-              }
-            })
-        }})
-    },
-    // 物资入库保存
-    addSeanMaterielSave(){
-        this.$refs[formName].validate(valid => {
-        let addForm = this.addForm;
-        if (valid) {
-
-        }})
-    },
-    empoverCodeDialog(){
-      // 生成授权码
-      this.empoverCodeFormVisible= true
-    },
-    addMaterielDialog(){
-      this.addMaterielFormVisible= true
-    },
-    empoverCode(){
-
-    },
-    exportDialog() {
-      // 导出
-      var searchForm = qs.stringify(this.searchCondition);
-      getExportBillcountdays(searchForm)().then(data => {
-        if (data.code == "00") {
-          this.$notify.info({
-            title: "消息",
-            message: "导出任务已发送，请耐心等待通知"
+          let empoverCodeForm = this.empoverCodeForm;
+          let supportTypes1 = "";
+          let supportTypes2 = "";
+          let supportTypes3 = "";
+          empoverCodeForm.supportTypes.forEach((element, index) => {
+            if (element == "普票") {
+              supportTypes1 = 1;
+            } else if (element == "专票") {
+              supportTypes2 = 2;
+            } else if (element == "特殊") {
+              supportTypes3 = 4;
+            }
+          });
+          postMakeEmpower()({
+            deviceType: this.deviceType,
+            agentNo: empoverCodeForm.agentNo,
+            qrcodeCount: empoverCodeForm.qrcodeCount,
+            serviceMode: empoverCodeForm.serviceMode,
+            "supportTypes[0]": supportTypes1,
+            "supportTypes[1]": supportTypes2,
+            "supportTypes[2]": supportTypes3
+          }).then(data => {
+            if (data.code === "00") {
+              this.$message({
+                message: "恭喜你，已成功生成授权码！",
+                type: "success",
+                center: true
+              });
+              this.empoverCodeFormVisible = false;
+              this.resetForm("empoverCodeForm");
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
           });
         }
       });
+    },
+    migrateChagen(event) {
+      if (event == "ORDER") {
+        // 号段入库
+        this.visibleQrcodes = false;
+        this.visibleQrNums = true;
+      } else if (event == "OUT_ORDER") {
+        // 序号入库
+        this.visibleQrcodes = true;
+        this.visibleQrNums = false;
+      }
+    },
+    // 扫码枪入库保存
+    addMaterielSave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          postScanMakeMateriel()({
+            receiptCount: thisForm.receiptCount,
+            prefixNo: thisForm.prefixNo,
+            migrateType: thisForm.migrateType,
+            qrcodeStart: thisForm.qrcodeStart,
+            qrcodeEnd: thisForm.qrcodeEnd,
+            qrcodes: thisForm.qrcodes
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                message: "恭喜你，扫码枪入库成功！",
+                type: "success",
+                center: true
+              });
+              this.addMaterielFormVisible = false;
+              this.resetForm("thisForm");
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
+          });
+        }
+      });
+    },
+    // 物资入库保存
+    addSeanMaterielSave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          postMakeMateriel()({
+            receiptCount: thisForm.receiptCount,
+            prefixNo: thisForm.prefixNo,
+            migrateType: thisForm.migrateType,
+            qrcodeStart: thisForm.qrcodeStart,
+            qrcodeEnd: thisForm.qrcodeEnd,
+            qrcodes: thisForm.qrcodes
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                message: "恭喜你，物料入库成功！",
+                type: "success",
+                center: true
+              });
+              this.addMaterielFormVisible = false;
+              this.resetForm(formName);
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
+          });
+        }
+      });
+    },
+    // 导出授权吗保存
+    exportEmpowerSave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$refs.dataTable.ExportExcel("/qrcode/export", {
+            styleType: thisForm.styleType
+          });
+        }
+      });
+    },
+
+    batchBindUploadSuccess(res, file) {
+      // 文件上传成功
+      this.$message.success("恭喜您！上传成功");
+      this.$refs.batchBindFile.clearFiles();
+      this.batchBindVisible = false;
+    },
+    uploadFilleError(response, file, fileList) {
+      this.$message({
+        message: "很抱歉，上传失败！",
+        type: "warning",
+        center: true
+      });
+      this.$refs.batchBindFile.clearFiles();
+    },
+    // 批量绑定
+    batchBindSave() {
+      this.$refs.batchBindFile.submit();
+    },
+    batchBindReset() {
+      this.$refs.batchBindFile.clearFiles();
+    },
+    beforeBindBatchUpload(file) {
+      const extension = file.name.split(".")[1] === "xlsx";
+      const extension2 = file.name.split(".")[1] === "numbers";
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!extension && !extension2) {
+        this.$message.error("上传文件只能是 xlsx,numbers 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传文件图片大小不能超过 10MB!");
+      }
+      return extension || (extension2 && isLt2M);
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
     }
   },
-  computed:{
-    userBussinessNo(){
+  computed: {
+    userBussinessNo() {
       return this.$store.state.moduleLayour.userMessage.userBussinessNo;
     },
-    userType(){
+    userType() {
       return this.$store.state.moduleLayour.userMessage.userType;
     }
   }

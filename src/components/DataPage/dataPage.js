@@ -9,6 +9,9 @@ const mixinDataTable = {
     },
     methods: {
         /**TABLE页交互 START ************************************************************ */
+        showDialog(dialogName) {
+            this[dialogName] = true;
+        },
         // 重新获取数据
         reloadData(page, limit) {
             let page_ = page ? page : this.postPage;
