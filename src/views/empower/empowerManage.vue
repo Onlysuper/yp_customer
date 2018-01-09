@@ -921,39 +921,6 @@ export default {
         this.visibleQrNums = false;
       }
     },
-    // 扫码枪入库保存
-    addMaterielSave(formName) {
-      var thisForm = this[formName];
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          postScanMakeMateriel()({
-            receiptCount: thisForm.receiptCount,
-            prefixNo: thisForm.prefixNo,
-            migrateType: thisForm.migrateType,
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes
-          }).then(data => {
-            if (data.code == "00") {
-              this.$message({
-                message: "恭喜你，扫码枪入库成功！",
-                type: "success",
-                center: true
-              });
-              this.addMaterielFormVisible = false;
-              this.resetForm("thisForm");
-              this.reloadData();
-            } else {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            }
-          });
-        }
-      });
-    },
     // 物料入库保存
     addTorageMaterielSave(formName) {
       var thisForm = this[formName];
@@ -988,39 +955,7 @@ export default {
         }
       });
     },
-    // 物资入库保存
-    addSeanMaterielSave(formName) {
-      var thisForm = this[formName];
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          postMakeMateriel()({
-            receiptCount: thisForm.receiptCount,
-            prefixNo: thisForm.prefixNo,
-            migrateType: thisForm.migrateType,
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes
-          }).then(data => {
-            if (data.code == "00") {
-              this.$message({
-                message: "恭喜你，物料入库成功！",
-                type: "success",
-                center: true
-              });
-              this.addMaterielFormVisible = false;
-              this.resetForm(formName);
-              this.reloadData();
-            } else {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            }
-          });
-        }
-      });
-    },
+
     // 导出授权吗保存
     exportEmpowerSave(formName) {
       var thisForm = this[formName];
