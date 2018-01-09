@@ -54,11 +54,29 @@ import {
   Upload as eleUpload,
   Tree as eleTree,
   Cascader as eleCascader,
+
   Notification as eleNotification,
+
+  Radio as eleRadio,
+  RadioGroup as eleRadioGroup,
+  Radio as eleRadioButton,
+
+  Checkbox as eleCheckbox,
+  CheckboxButton as eleCheckboxButton,
+  CheckboxGroup as eleCheckboxGroup,
+
   MessageBox,
   Message,
   Loading
 } from 'element-ui'
+
+Vue.component(eleRadio.name, eleRadio)
+Vue.component(eleRadioGroup.name, eleRadioGroup)
+Vue.component(eleRadioButton.name, eleRadioButton)
+
+Vue.component(eleCheckbox.name, eleCheckbox)
+Vue.component(eleCheckboxButton.name, eleCheckboxButton)
+Vue.component(eleCheckboxGroup.name, eleCheckboxGroup)
 
 Vue.component(eleButton.name, eleButton)
 Vue.component(eleButtonGroup.name, eleButtonGroup)

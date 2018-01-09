@@ -79,7 +79,7 @@ export default {
             {
               corresattr: "dataTimeBegin",
               label: "开始时间",
-              value: new Date() - 24 * 60 * 60 * 1000,
+              value: yesterday,
               cb: value => {
                 this.searchCondition.dataTimeBegin = value;
               }
@@ -87,7 +87,7 @@ export default {
             {
               corresattr: "dataTimeEnd",
               lable: "结束时间",
-              value: new Date(),
+              value: todayDate,
               cb: value => {
                 this.searchCondition.dataTimeEnd = value;
               }
