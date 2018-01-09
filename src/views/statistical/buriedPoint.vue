@@ -244,7 +244,7 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "创建时间",
-            width: "150px",
+            width: "170px",
             sortable: true,
             word: "createTime"
           },
