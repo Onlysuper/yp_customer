@@ -186,7 +186,8 @@ import {
   getArantNumManages,
   postMakeEmpower,
   postScanMakeMateriel,
-  postMakeMateriel
+  postMakeMateriel,
+  postEditEmpower
 } from "@src/apis";
 
 export default {
@@ -615,16 +616,16 @@ export default {
                 // serviceMode: "HX",
                 // supportTypes: ["普票", "专票"],
                 // supportTypesArr: ["普票", "专票", "特殊"]
-                if (element == "普票") {
-                  supportTypes1 = 1;
-                } else if (element == "专票") {
-                  supportTypes2 = 2;
-                } else if (element == "特殊") {
-                  supportTypes3 = 4;
-                }
-                if (rowdata.supportType == 1) {
-                  thisForm.supportTypes;
-                }
+                // if (element == "普票") {
+                //   supportTypes1 = 1;
+                // } else if (element == "专票") {
+                //   supportTypes2 = 2;
+                // } else if (element == "特殊") {
+                //   supportTypes3 = 4;
+                // }
+                // if (rowdata.supportType == 1) {
+                //   thisForm.supportTypes;
+                // }
                 var thisForm = this.editForm;
                 thisForm.qrcode = rowdata.qrcode;
                 thisForm.authCode = rowdata.authCode;
@@ -635,6 +636,7 @@ export default {
 
                 // thisForm.qrcode = rowdata.qrcode;
                 // thisForm.qrcode = rowdata.qrcode;
+                console.log(rowdata);
                 this.editFormVisible = true;
               }
             },
@@ -853,7 +855,22 @@ export default {
         }
       });
     },
-
+    // 编辑保存
+    editSave(formName) {
+      var thisForm = this[formName];
+      postEditEmpower()({
+        qrcode: thisForm.qrcode,
+        authCode: thisForm.authCode,
+        agentNo: thisForm.agentNo,
+        customerNo: thisForm.customerNo,
+        extensionNum: thisForm.extensionNum,
+        serviceMode: thisForm.serviceMode
+        // "supportTypes[0]":1
+        // "supportTypes[1]":2
+      }).then(data => {
+        console.log(data);
+      });
+    },
     batchBindUploadSuccess(res, file) {
       // 文件上传成功
       this.$message.success("恭喜您！上传成功");

@@ -129,7 +129,9 @@ export default {
           // 数据获取成功
           this.tableData = data.data;
           this.dataCount = data.count;
-          this.dataSuccess = this.$emit("operation", data, this.dataSuccess);
+          if (this.dataSuccess != "" && this.dataSuccess != null) {
+            this.$emit("operation", data, this.dataSuccess);
+          }
         }
         this.ifloading = false;
       });
