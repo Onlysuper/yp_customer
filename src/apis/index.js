@@ -137,6 +137,7 @@ const getArantNumManages = () => { return (params) => { return http.get(base.oaI
 const postMakeEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/add", params) } }
 const postScanMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addScanCodeGunBatch", params) } }
 const postMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcode/addMaterielBatch", params) } }
+const postEditEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/update", params) } }
 // end -------------------------------------------------
 
 /**
@@ -281,6 +282,7 @@ export {
     postMakeEmpower,
     postScanMakeMateriel,
     postMakeMateriel,
+    postEditEmpower,
     // 菜单管理
     getMenuTrees,
     getMenuTreePage,

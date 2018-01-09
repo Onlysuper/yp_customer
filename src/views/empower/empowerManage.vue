@@ -1,6 +1,6 @@
 <template>
   <!-- 开票统计 -->
-  <div class="admin-page">
+  <div class="admin-page empower">
     <div class="admin-main-box">
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @resetSome="resetSomeInputHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
@@ -94,17 +94,6 @@
           <div class="sep-inline">
             <a class="link-Label" :href="oaIp+'/static/template/qrcode-batch-bind.xlsx'">下载绑定模板</a>
           </div>
-          <!-- <div class="sep-inline">
-            <el-upload :auto-upload="false" ref="batchBindFile" 
-            :action="oaIp+'/qrcode/bindBatchQrCode'" 
-            accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将入网文件拖到此处，或
-                <em>点击上传</em>
-              </div>
-              <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
-            </el-upload>
-          </div> -->
           <div class="sep-inline">
             <el-upload class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
               <i class="el-icon-upload"></i>
@@ -122,24 +111,74 @@
       </span>
     </el-dialog>
     <!-- 批量绑定end -->
+    <!-- 预览 start -->
+    <el-dialog ref="qrcodebox" center title="预览" :visible.sync="detailVisible">
+      <el-row id="qrcodeboxchild" ref="qrcodeboxchild" class="qrcodeboxchild">
+      </el-row>
+    </el-dialog>
+    <!-- 预览end -->
+    <!-- 编辑 start -->
+    <el-dialog center title="修改信息" :visible.sync="editFormVisible">
+      <el-form size="small" :model="editForm" ref="editForm" :rules="editFormRules">
+        <el-form-item label="序列号" prop="qrcode" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.qrcode" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="授权码" prop="authCode" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.authCode" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.agentNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="分机号" prop="extensionNum" :label-width="formLabelWidth">
+          <el-input v-model="editForm.extensionNum" auto-complete="off"></el-input>
+        </el-form-item>
+
+        <el-form-item label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
+          <el-radio v-model="editForm.serviceMode" label="HX">航信</el-radio>
+          <el-radio v-model="editForm.serviceMode" label="YP">易票</el-radio>
+          <el-radio v-model="editForm.serviceMode" label="HX_YP">航信_易票</el-radio>
+        </el-form-item>
+        <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
+          <el-checkbox-group v-model="editForm.supportTypes">
+            <el-checkbox v-for="city in editForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('editForm')">重置</el-button>
+        <el-button type="primary" @click="editSave('editForm')">确定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 编辑 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.operation-box {
-  .sumtext {
-    font-size: 14px;
-    padding-left: 10px;
-    line-height: 32px;
-    color: #606266;
+.empower {
+  .operation-box {
+    .sumtext {
+      font-size: 14px;
+      padding-left: 10px;
+      line-height: 32px;
+      color: #606266;
+    }
+  }
+  .qrcodeboxchild {
+    text-align: center;
   }
 }
 </style>
 <script>
+import $ from "jquery";
+import QRCode from "qrcode";
 import qs from "qs";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
@@ -147,7 +186,8 @@ import {
   getArantNumManages,
   postMakeEmpower,
   postScanMakeMateriel,
-  postMakeMateriel
+  postMakeMateriel,
+  postEditEmpower
 } from "@src/apis";
 
 export default {
@@ -178,6 +218,8 @@ export default {
       empoverCodeFormVisible: false, // 生成授权吗弹出框
       addMaterielFormVisible: false, // 物料入库
       visibleQrcodes: false, // 入库方式
+      detailVisible: false, // 预览
+      editFormVisible: false, // 编辑
       visibleQrNums: true,
       exportEmpowerCodeVisible: false, // 导出授权码
       batchBindVisible: false, // 批量绑定
@@ -188,6 +230,7 @@ export default {
       exportEmpowerCodeRules: {
         styleType: [{ required: true, message: "请先选择模版样式", trigger: "blur" }]
       },
+
       empoverCodeForm: {
         serviceMode: "HX",
         supportTypes: ["普票", "专票"],
@@ -196,6 +239,15 @@ export default {
       empoverCodeRules: {
         agentNo: [{ required: true, message: "请输入合伙人编号", trigger: "blur" }],
         qrcodeCount: [{ required: true, message: "批次数量不能为空", trigger: "blur" }]
+      },
+      editForm: {
+        serviceMode: "HX",
+        supportTypes: ["普票", "专票"],
+        supportTypesArr: ["普票", "专票", "特殊"]
+      },
+      editFormRules: {
+        extensionNum: [{ required: true, message: "分机号不能为空", trigger: "blur" }],
+        supportTypes: [{ required: true, message: "请选择支持类型", trigger: "blur" }]
       },
       addMaterielForm: {},
       addMaterielRules: {
@@ -540,8 +592,13 @@ export default {
               },
               color: "#00c1df",
               cb: rowdata => {
-                var msg = this.qrcodeUrl + rowdata.authCode;
-                console.log(msg);
+                let url_ = this.qrcodeUrl + rowdata.authCode;
+                this.detailVisible = true;
+                this.$nextTick(function() {
+                  // DOM 现在更新了
+                  // `this` 绑定到当前实例
+                  this._getQart(url_);
+                });
               }
             },
             {
@@ -555,7 +612,31 @@ export default {
               },
               color: "#e6a23c",
               cb: rowdata => {
-                this.editForm = rowdata;
+                console.log(rowdata);
+                // serviceMode: "HX",
+                // supportTypes: ["普票", "专票"],
+                // supportTypesArr: ["普票", "专票", "特殊"]
+                // if (element == "普票") {
+                //   supportTypes1 = 1;
+                // } else if (element == "专票") {
+                //   supportTypes2 = 2;
+                // } else if (element == "特殊") {
+                //   supportTypes3 = 4;
+                // }
+                // if (rowdata.supportType == 1) {
+                //   thisForm.supportTypes;
+                // }
+                var thisForm = this.editForm;
+                thisForm.qrcode = rowdata.qrcode;
+                thisForm.authCode = rowdata.authCode;
+                thisForm.agentNo = rowdata.agentNo;
+                thisForm.customerNo = rowdata.customerNo;
+                thisForm.extensionNum = rowdata.extensionNum;
+                thisForm.serviceMode = rowdata.serviceMode;
+
+                // thisForm.qrcode = rowdata.qrcode;
+                // thisForm.qrcode = rowdata.qrcode;
+                console.log(rowdata);
                 this.editFormVisible = true;
               }
             },
@@ -774,7 +855,22 @@ export default {
         }
       });
     },
-
+    // 编辑保存
+    editSave(formName) {
+      var thisForm = this[formName];
+      postEditEmpower()({
+        qrcode: thisForm.qrcode,
+        authCode: thisForm.authCode,
+        agentNo: thisForm.agentNo,
+        customerNo: thisForm.customerNo,
+        extensionNum: thisForm.extensionNum,
+        serviceMode: thisForm.serviceMode
+        // "supportTypes[0]":1
+        // "supportTypes[1]":2
+      }).then(data => {
+        console.log(data);
+      });
+    },
     batchBindUploadSuccess(res, file) {
       // 文件上传成功
       this.$message.success("恭喜您！上传成功");
@@ -813,8 +909,20 @@ export default {
     },
     handlePreview(file) {
       console.log(file);
+    },
+    _getQart(value) {
+      var qrcodebox = $(this.$refs.qrcodebox.$el)
+        .find("#qrcodeboxchild")
+        .empty();
+      qrcodebox = qrcodebox[0];
+      // var qrcodebox = this.$refs.qrcodeboxchild;
+      QRCode.toCanvas(value, { errorCorrectionLevel: "H" }, (err, canvas) => {
+        if (err) throw err;
+        qrcodebox.appendChild(canvas);
+      });
     }
   },
+  mounted() {},
   computed: {
     userBussinessNo() {
       return this.$store.state.moduleLayour.userMessage.userBussinessNo;
