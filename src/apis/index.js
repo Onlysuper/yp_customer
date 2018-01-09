@@ -194,6 +194,12 @@ const getVersionControls = () => { return (params) => { return http.get(base.oaI
 // end -------------------------------------------------
 
 /**
+**消息记录Start
+ */
+const getMessages = () => { return (params) => { return http.get(base.oaIp, "/message/page", params) } }
+// end -------------------------------------------------
+
+/**
 **埋点图表Start
  */
 const getBurialPointCharts = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
@@ -291,6 +297,8 @@ export {
     patchRolesTreeSave,
     patchAddMenuTree,
     deleteMenuTree,
+    // 消息管理
+    getMessages,
     // 统计管理
     getBurialPointManages,
     getBurialPointTotal
