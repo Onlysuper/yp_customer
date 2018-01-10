@@ -25,6 +25,7 @@ import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
 import buriedPoint from "./statistical/buriedPoint";
 import messageRecord from "./message/messageRecord";
+import versionManage from "./version/versionManage";
 
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
@@ -69,7 +70,8 @@ const asyncRouter = [
     agentTransfer, // 合伙人转移
     empowerManage,// 授权码管理
     buriedPoint, //埋点管理
-    messageRecord //消息记录
+    messageRecord, //消息记录
+    versionManage //版本管理
 ]
 // 路由过滤
 function filterRouter(data, asyncRouter) {

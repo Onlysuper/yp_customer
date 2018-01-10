@@ -1,16 +1,16 @@
 // import layout from '@src/views/layout/layout'
 import loading from "@src/router/loading"
 /**
- * 统计模块
+ * 消息模块
  */
 export default {
   // 统计管理
   name: 'message-list',
   path: '/message-list',
   meta: {
-    title: '埋点管理',
+    title: '消息记录',
     keepAlive: true,
-    parent: "message_manage",
+    parent: "message",
     parentname: "消息管理",
     role: ['root', 'admin']
   },
