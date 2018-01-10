@@ -6,11 +6,78 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus">上传新版本</el-button>
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="uploadDialogVisible=true">上传新版本</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <!-- 上传新版本start -->
+      <el-dialog center title="上传新版本" :visible.sync="uploadDialogVisible" width="600px">
+        <el-form ref="form" label-width="100px">
+          <el-form-item label="客户端版本">
+            <el-col :span="8">
+              <el-input v-model="clientVersion" placeholder="请输入上传版本号"></el-input>
+            </el-col>
+            <el-col :span="15" :offset="1">
+              <el-input v-model="compatibleVersion" placeholder="如无特殊情况填0">
+                <template slot="prepend">最低兼容版本</template>
+              </el-input>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="客户端类型">
+            <el-col :span="8">
+              <el-select v-model="type" placeholder="请选择">
+                <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="11" :offset="1">
+              是否强制更新
+              <el-switch v-model="isForced" active-value="TRUE" inactive-value="FALSE">
+              </el-switch>
+            </el-col>
+          </el-form-item>
+          <el-form-item label="下载地址">
+            <el-input v-model="url" placeholder="url/客户端类型/版本.扩展名"></el-input>
+          </el-form-item>
+          <el-form-item label="版本描述">
+            <el-input v-model="info" placeholder="请输入版本描述"></el-input>
+          </el-form-item>
+          <el-form-item label="上传文件">
+            <el-upload ref="uploadFile" :before-upload="beforeUploadFile" :on-success="uploadFileSuccess" :on-error="uploadFileError" :action="oaIp+'/versionCommand/add'" :auto-upload="false" :limit="1" accept="file">
+              <el-button type="primary">选择新版本上传
+                <i class="el-icon-upload el-icon--right"></i>
+              </el-button>
+            </el-upload>
+          </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="reset">重置</el-button>
+          <el-button type="primary" @click="upload">提 交</el-button>
+        </span>
+        <!-- <form>
+          <div class="content-center-box">
+            <div>
+              属性方式：
+              <el-input v-model="clientVersion" placeholder="请输入上传的版本号"></el-input>
+            </div>
+            <div class="sep-inline">
+              <el-upload class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将入网文件拖到此处，或
+                  <em>点击上传</em>
+                </div>
+                <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+              </el-upload>
+            </div>
+          </div>
+        </form> 
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="batchBindReset">重置</el-button>
+          <el-button type="primary" @click="upload">提 交</el-button>
+        </span>-->
+      </el-dialog>
+      <!-- 上传新版本end -->
     </div>
   </div>
 </template>
@@ -30,7 +97,7 @@ import {
   setUsingVersion
 } from "@src/apis";
 export default {
-  name: "messageRecord",
+  name: "versionManage",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -42,13 +109,7 @@ export default {
       status: "" // 状态
     };
     return {
-      scanSum: 0,
-      pushSum: 0,
-      netSum: 0,
-      sumLoading: false,
-      formLabelWidth: "100px",
-      jmTotal: "",
-      ptTotal: "",
+      uploadDialogVisible: false, //上传面板是否可见
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -89,7 +150,6 @@ export default {
           }
         }
       ],
-
       // 列表数据
       postSearch: searchConditionVar,
       tableData: {
@@ -242,10 +302,63 @@ export default {
             }
           ]
         }
-      }
+      },
+      // 表单数据
+      type_options: [
+        {
+          label: "RELEASE: 官网版本",
+          value: "RELEASE"
+        },
+        {
+          label: "HOST_C: c++主程序",
+          value: "HOST_C"
+        },
+        {
+          label: "UPDATE_C: c++更新程序",
+          value: "UPDATE_C"
+        },
+        {
+          label: "HOST: c#主程序",
+          value: "HOST"
+        },
+        {
+          label: "UPDATE: c#更新程序",
+          value: "UPDATE"
+        },
+        {
+          label: "HOST_OLD: c#老版本主程序",
+          value: "HOST_OLD"
+        },
+        {
+          label: "DATA_COLLECTION: 数据采集程序",
+          value: "DATA_COLLECTION"
+        }
+      ],
+      isForce_options: [
+        {
+          label: "是",
+          value: "TRUE"
+        },
+        {
+          label: "否",
+          value: "FALSE"
+        }
+      ],
+      clientVersion: "",
+      url: "",
+      type: "",
+      isForced: "FALSE",
+      compatibleVersion: "0",
+      info: ""
     };
   },
-  methods: {},
+  methods: {
+    upload() {},
+    beforeUploadFile() {},
+    uploadFileSuccess() {},
+    uploadFileError() {},
+    reset() {}
+  },
   mounted() {}
 };
 </script>

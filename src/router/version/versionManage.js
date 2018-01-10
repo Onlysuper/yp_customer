@@ -16,6 +16,6 @@ export default {
   },
   component: r => {
     loading(true);
-    return require.ensure([], () => { loading(false); return r(require("@src/views/version/versionManage")) }, "buried-point")
+    return require.ensure([], () => { loading(false); return r(require("@src/views/version/versionManage")) }, "version-manage")
   }
 }
