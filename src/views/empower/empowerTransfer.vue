@@ -71,7 +71,7 @@
           <el-input v-model="payForm.agentNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="上缴方式" prop="migrateType" :label-width="formLabelWidth">
-          <el-select v-model="payForm.migrateType" placeholder="请选择" @change="migrateTypeChange1">
+          <el-select v-model="payForm.migrateType" placeholder="请选择" @change="migrateTypeChange2">
             <el-option v-for="item in selectOptions.migrateType" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -86,7 +86,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('payForm')">重置</el-button>
-        <el-button type="primary" @click="paySave('payForm')">分配</el-button>
+        <el-button type="primary" @click="paySave('payForm')">上缴</el-button>
       </div>
     </el-dialog>
     <!-- 授权码分配 end -->
@@ -128,9 +128,13 @@ export default {
       createTimeEnd: "" //结束日期
     };
     return {
+      formLabelWidth: "100px",
       allotFormVisible: false,
+      payFormVisible: false,
       qrNumsVisible: false, // 号段
       qrcodesVisible: false, // 二维码
+      qrNumsPayVisible: false, // 授权码上缴段号
+      qrcodesPayVisible: false, //授权码上缴二维码
       allotForm: {},
       allotFormRules: {
         deviceType: [{ required: true, message: "请选择设备类型", trigger: "blur" }],
@@ -140,7 +144,13 @@ export default {
         agentNo: [{ required: true, message: "采购单价不能为空", trigger: "blur" }],
         qrcodes: [{ required: true, message: "二维码编号不能为空", trigger: "blur" }]
       },
-      formLabelWidth: "100px",
+      payForm: {},
+      payFormRules: {
+        deviceType: [{ required: true, message: "请选择设备类型", trigger: "blur" }],
+        migrateCount: [{ required: true, message: "请输入转移数量", trigger: "blur" }],
+        migrateType: [{ required: true, message: "请选择上交方式", trigger: "blur" }],
+        qrcodes: [{ required: true, message: "请输入二维码编号", trigger: "blur" }]
+      },
       searchCondition: searchConditionVar,
       selectOptions: {
         deviceType: [
@@ -313,15 +323,9 @@ export default {
           width: "50px",
           options: [
             {
-              // 操作按钮 审核1---------------------
-              text: "审核",
-              ref: "qr_code_reciept_audit_agent",
+              text: "下载",
               visibleFn: rowdata => {
-                if (
-                  rowdata.status == "AUDITING" &&
-                  rowdata.receiptType == "AUTHCODE" &&
-                  this.qr_code_reciept_audit_all == "TRUE"
-                ) {
+                if (rowdata.status == "SUCCESS") {
                   return true;
                 } else {
                   return false;
@@ -329,27 +333,9 @@ export default {
               },
               color: "#00c1df",
               cb: rowdata => {
-                this.checkFormVisible = true;
-              }
-            },
-            {
-              // 操作按钮 审核2---------------------
-              text: "审核",
-              ref: "qr_code_reciept_audit_agent",
-              visibleFn: rowdata => {
-                if (
-                  rowdata.status == "AUDITING" &&
-                  rowdata.receiptType == "SCANCODEGUN" &&
-                  this.qr_code_reciept_audit_all == "TRUE"
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              color: "#00c1df",
-              cb: rowdata => {
-                this.checkFormVisible2 = true;
+                this.$refs.dataTable.ExportExcel(
+                  "/qrcodemigrate/download?receiptNo=" + rowdata.migrateNo
+                );
               }
             }
           ]
@@ -361,7 +347,6 @@ export default {
   },
   methods: {
     migrateTypeChange1(value) {
-      console.log(value);
       if (value == "ORDER") {
         //号段转移
         this.qrNumsVisible = true;
@@ -370,6 +355,17 @@ export default {
         //二维码编号
         this.qrcodesVisible = true;
         this.qrNumsVisible = false;
+      }
+    },
+    migrateTypeChange2(value) {
+      if (value == "ORDER") {
+        //号段转移
+        this.qrNumsPayVisible = true;
+        this.qrcodesPayVisible = false;
+      } else if (value == "OUT_ORDER") {
+        //二维码编号
+        this.qrcodesPayVisible = true;
+        this.qrNumsPayVisible = false;
       }
     },
     // 授权码分配保存
@@ -392,6 +388,39 @@ export default {
               this.$message({
                 type: "success",
                 message: "恭喜您，授权码分配成功!"
+              });
+              this.checkFormVisible = false;
+              this.checkFormVisible2 = false;
+              this.reloadData(this.postPage, this.postLimit);
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+          });
+        }
+      });
+    },
+    // 授权码上缴保存
+    paySave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          postMigrateNumTransfer()({
+            deviceType: "AUTHCODE",
+            migrateCount: thisForm.migrateCount,
+            prefixNo: thisForm.prefixNo,
+            migrateType: thisForm.migrateType,
+            migrateMode: thisForm.migrateMode,
+            qrcodeStart: thisForm.qrcodeStart,
+            qrcodeEnd: thisForm.qrcodeEnd,
+            qrcodes: thisForm.qrcodes
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                type: "success",
+                message: "恭喜您，授权码上缴成功!"
               });
               this.checkFormVisible = false;
               this.checkFormVisible2 = false;

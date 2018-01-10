@@ -158,6 +158,7 @@ const postMigrateNumTransfer = () => { return (params) => { return http.post(bas
 **授权码采购start
  */
 const getArantNumBuybacks = () => { return (params) => { return http.get(base.oaIp, "/qrReciept/page", params) } }
+const postPurchaseArantNum = () => { return (params) => { return http.post(base.oaIp, "/qrReciept", params) } }
 // end -------------------------------------------------
 
 /**
@@ -297,6 +298,7 @@ export {
     postMakeTorageEmpower,
     // 授权码采购
     getArantNumBuybacks,
+    postPurchaseArantNum,
     // 授权码审核
     getArantNumExamines,
     putAdoptArantNumExamine,

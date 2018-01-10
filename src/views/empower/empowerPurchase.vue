@@ -5,82 +5,84 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
+      <div class="operation-box">
+        <el-button-group class="button-group">
+          <el-button size="small" @click="showDialog('purchaseFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">采购授权码</el-button>
+          <el-button size="small" @click="showDialog('scangunFormVisible')" type="primary" icon="el-icon-upload">采购扫码枪</el-button>
+        </el-button-group>
+      </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
-    <!-- 审核下级授权码采购 -->
-    <el-dialog center title="审核授权码采购清单" :visible.sync="checkFormVisible">
-      <el-form size="small" :model="checkForm" ref="checkForm" :rules="checkFormRules">
-        <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="checkForm.receiptNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="服务商编号" prop="agentNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="checkForm.agentNo" auto-complete="off"></el-input>
-        </el-form-item>
+    <!-- 授权码采购  start-->
+    <el-dialog center title="授权码采购" :visible.sync="purchaseFormVisible">
+      <el-form size="small" :model="purchaseForm" ref="purchaseForm" :rules="purchaseFormRules">
         <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="checkForm.qrcodeCount" auto-complete="off"></el-input>
+          <el-input v-model="purchaseForm.qrcodeCount" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="采购单价" prop="price" :label-width="formLabelWidth">
-          <el-input v-model="checkForm.price" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="分发方式" prop="migrateType" :label-width="formLabelWidth">
-          <el-select v-model="checkForm.migrateType" placeholder="请选择" @change="">
-            <el-option v-for="item in selectOptions.checkFormOptions" :key="item.value" :label="item.label" :value="item.value">
+        <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
+          <el-select v-model="purchaseForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
+            <el-option v-for="item in selectOptions.isPrint" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="visibleQrNums" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="checkForm.qrcodeStart" controls-position="right"></el-input-number>
-          <el-input-number v-model="checkForm.qrcodeEnd" controls-position="right"></el-input-number>
-        </el-form-item>
-        <el-form-item label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">
-          <el-input placeholder="多个二维码请用英文逗号分隔" v-model="checkForm.qrcodes" auto-complete="off"></el-input>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('purchaseForm')">重置</el-button>
+        <el-button type="primary" @click="purchaseSave('purchaseForm')">提交</el-button>
+      </div>
+    </el-dialog>
+    <!-- 授权码采购 end -->
+    <!-- 抢购扫码枪  start-->
+    <el-dialog center title="授权码采购" :visible.sync="scangunFormVisible">
+      <el-form size="small" :model="scangunForm" ref="scangunForm" :rules="scangunFormRules">
+        <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="scangunForm.qrcodeCount" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetForm('checkForm')">重置</el-button>
-        <el-button type="primary" @click="checkSave('checkForm')">确定</el-button>
+        <el-button @click="resetForm('scangunForm')">重置</el-button>
+        <el-button type="primary" @click="scangunSave('scangunForm')">提交</el-button>
       </div>
     </el-dialog>
-    <!-- 审核下级授权码采购 end -->
-
-    <!-- 扫码枪采购 start-->
-    <el-dialog center title="审核授权码采购清单" :visible.sync="checkFormVisible2">
-      <el-form size="small" :model="checkForm2" ref="checkForm" :rules="checkFormRules">
-        <el-form-item label="服务商编号" prop="agentNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="checkForm2.agentNo" auto-complete="off"></el-input>
-        </el-form-item>
+    <!-- 抢购扫码枪 end -->
+    <!-- 授权码采购单修改  start-->
+    <el-dialog center title="授权码采购单修改" :visible.sync="editPayFormVisible">
+      <el-form size="small" :model="editPayForm" ref="editPayForm" :rules="editPayFormRules">
         <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="checkForm2.receiptNo" auto-complete="off"></el-input>
+          <el-input :disabled="true" v-model="editPayForm.receiptNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="checkForm2.qrcodeCount" auto-complete="off"></el-input>
+          <el-input v-model="editPayForm.qrcodeCount" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="采购单价" prop="price" :label-width="formLabelWidth">
-          <el-input v-model="checkForm2.price" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="序列号前缀" prop="price" :label-width="formLabelWidth">
-          <el-input v-model="checkForm2.price" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="分发方式" prop="migrateType" :label-width="formLabelWidth">
-          <el-select v-model="checkForm.migrateType" placeholder="请选择" @change="">
-            <el-option v-for="item in selectOptions.checkFormOptions2" :key="item.value" :label="item.label" :value="item.value">
+        <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
+          <el-select v-model="purchaseForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
+            <el-option v-for="item in selectOptions.isPrint" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="visibleQrNums" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number>
-          <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('editPayForm')">重置</el-button>
+        <el-button type="primary" @click="editPaySave('editPayForm')">提交</el-button>
+      </div>
+    </el-dialog>
+    <!-- 授权码采购单修改 end -->
+    <!-- 扫描枪采购单修改  start-->
+    <el-dialog center title="扫描枪采购单修改" :visible.sync="editScangunFormVisible">
+      <el-form size="small" :model="editScangunForm" ref="editScangunForm" :rules="editScangunFormRules">
+        <el-form-item label="采购单号" prop="qrcodeCount" :label-width="formLabelWidth">
+          <el-input disabled v-model="editScangunForm.receiptNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="扫码枪编号" prop="qrcodes" :label-width="formLabelWidth">
-          <el-input placeholder="多个扫码枪请用英文逗号分隔" :disabled="true" v-model="checkForm.qrcodes" auto-complete="off"></el-input>
+        <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
+          <el-input v-model="editScangunForm.qrcodeCount" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetForm('checkForm2')">重置</el-button>
-        <el-button type="primary" @click="checkSave2('checkForm2')">确定</el-button>
+        <el-button @click="resetForm('editScangunForm')">重置</el-button>
+        <el-button type="primary" @click="editScangunSave('editScangunForm')">提交</el-button>
       </div>
     </el-dialog>
-    <!-- 扫码枪采购 end -->
+    <!-- 扫描枪采购单修改 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -101,7 +103,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
-import { getArantNumExamines } from "@src/apis";
+import { getArantNumBuybacks, postPurchaseArantNum } from "@src/apis";
 export default {
   name: "billCount",
   components: {
@@ -119,24 +121,61 @@ export default {
       createTimeEnd: "" //结束日期
     };
     return {
-      checkFormVisible: false,
-      checkFormVisible2: false,
-      visibleQrNums: false,
-      checkFormRules: {},
-      checkForm: {},
-      checkForm2: {},
-      checkFormRules2: {},
-      formLabelWidth: "100px",
+      formLabelWidth: "140px",
+      purchaseFormVisible: false,
+      scangunFormVisible: false,
+      editPayFormVisible: false,
+      editScangunFormVisible: false,
+      purchaseForm: {
+        // 授权码采购表单
+        receiptType: "AUTHCODE"
+      },
+      purchaseFormRules: {
+        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }],
+        isPrint: [{ required: true, message: "请选择是否需要生产水牌", trigger: "blur" }]
+      },
+      scangunForm: {
+        // 扫码枪表单
+        receiptType: "SCANCODEGUN"
+      },
+      scangunFormRules: {
+        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }]
+      },
+      editPayForm: {},
+      editPayFormRules: {},
+      editScangunForm: {},
+      editScangunFormRules: {},
       searchCondition: searchConditionVar,
       selectOptions: {
-        checkFormOptions: [
+        isPrint: [
           {
-            value: "OUT_ORDER",
-            label: "二维码编号"
+            value: "Y",
+            label: "是"
           },
+          {
+            value: "N",
+            label: "否"
+          }
+        ],
+        deviceType: [
+          {
+            value: "AUTHCODE",
+            label: "二维码"
+          },
+          {
+            value: "SCANCODEGUN",
+            label: "扫码枪"
+          }
+        ],
+        // 分配方式
+        migrateType: [
           {
             value: "ORDER",
             label: "号段转移"
+          },
+          {
+            value: "OUT_ORDER",
+            label: "二维码编号"
           }
         ]
       },
@@ -162,6 +201,10 @@ export default {
           value: "",
           options: [
             {
+              value: "",
+              label: "全部"
+            },
+            {
               value: "AUDITING",
               label: "待审核"
             },
@@ -185,6 +228,10 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
+            {
+              value: "",
+              label: "全部"
+            },
             {
               value: "AUTHCODE",
               label: "授权码"
@@ -218,30 +265,49 @@ export default {
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getArantNumExamines // 初始化数据
+          url: getArantNumBuybacks // 初始化数据
         },
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
-            key: "创建时间",
-            width: "150px",
-            word: "createTime"
-          },
-          {
             key: "采购单号",
-            width: "120px",
+            width: "150px",
             word: "receiptNo"
           },
           {
             key: "合伙人编号",
-            width: "120px",
+            width: "150px",
             word: "agentNo"
           },
           {
             key: "数量",
-            width: "80px",
+            width: "120px",
             word: "qrcodeCount"
+          },
+          {
+            key: "设备类型",
+            width: "120px",
+            word: "receiptType",
+            status: true,
+            type: (data, row) => {
+              if (data == "AUTHCODE") {
+                return {
+                  text: "扫码枪",
+                  type: "success"
+                };
+              } else if (data == "SCANCODEGUN") {
+                return {
+                  text: "授权码",
+                  type: ""
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
+              }
+            }
           },
           {
             key: "单价",
@@ -250,7 +316,7 @@ export default {
           },
           {
             key: "状态",
-            width: "100px",
+            width: "120px",
             word: "status",
             status: true,
             type: data => {
@@ -267,7 +333,7 @@ export default {
               } else if (data == "REJECT") {
                 return {
                   text: "拒绝",
-                  type: "warning"
+                  type: "info"
                 };
               } else {
                 return {
@@ -277,52 +343,21 @@ export default {
               }
             }
           },
-
-          {
-            key: "设备类型",
-            width: "100px",
-            word: "receiptType",
-            status: true,
-            type: data => {
-              if (data == "AUTHCODE") {
-                return {
-                  text: "授权码",
-                  type: "success"
-                };
-              } else if (data == "SCANCODEGUN") {
-                return {
-                  text: "扫码枪",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
-            }
-          },
-          {
-            key: "单价",
-            width: "150px",
-            word: "price"
-          },
-
           {
             key: "是否生产水牌",
-            width: "150px",
+            width: "",
             word: "isPrint",
             status: true,
-            type: data => {
+            type: (data, row) => {
               if (data == "N") {
                 return {
-                  text: "否",
+                  text: "是",
                   type: "success"
                 };
               } else if (data == "Y") {
                 return {
-                  text: "是",
-                  type: "warning"
+                  text: "否",
+                  type: "success"
                 };
               } else {
                 return {
@@ -337,14 +372,13 @@ export default {
           width: "50px",
           options: [
             {
-              // 操作按钮 审核1---------------------
-              text: "审核",
-              ref: "qr_code_reciept_audit_agent",
+              text: "下载",
               visibleFn: rowdata => {
                 if (
-                  rowdata.status == "AUDITING" &&
-                  rowdata.receiptType == "AUTHCODE" &&
-                  this.qr_code_reciept_audit_all == "TRUE"
+                  !(
+                    rowdata.status == "AUDITING" || rowdata.status == "REJECT"
+                  ) &&
+                  rowdata.status == "SUCCESS"
                 ) {
                   return true;
                 } else {
@@ -353,27 +387,50 @@ export default {
               },
               color: "#00c1df",
               cb: rowdata => {
-                this.checkFormVisible = true;
+                this.$refs.dataTable.ExportExcel(
+                  "/qrReciept/download?receiptNo=" + rowdata.receiptNo
+                );
               }
             },
             {
-              // 操作按钮 审核2---------------------
-              text: "审核",
-              ref: "qr_code_reciept_audit_agent",
+              // 授权码编辑
+              text: "编辑",
               visibleFn: rowdata => {
                 if (
-                  rowdata.status == "AUDITING" &&
-                  rowdata.receiptType == "SCANCODEGUN" &&
-                  this.qr_code_reciept_audit_all == "TRUE"
+                  (rowdata.status == "AUDITING" ||
+                    rowdata.status == "REJECT") &&
+                  rowdata.receiptType == "SCANCODEGUN"
                 ) {
                   return true;
                 } else {
                   return false;
                 }
               },
-              color: "#00c1df",
+              color: "#67c23a",
               cb: rowdata => {
-                this.checkFormVisible2 = true;
+                this.editPayForm = rowdata;
+                this.editPayFormVisible = true;
+              }
+            },
+            {
+              // 扫码枪编辑
+              text: "编辑",
+              visibleFn: rowdata => {
+                if (
+                  (rowdata.status == "AUDITING" ||
+                    rowdata.status == "REJECT") &&
+                  rowdata.receiptType == "AUTHCODE"
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              color: "#e6a23c",
+              cb: rowdata => {
+                this.editScangunForm = rowdata;
+
+                this.editScangunFormVisible = true;
               }
             }
           ]
@@ -383,8 +440,68 @@ export default {
       }
     };
   },
-  methods: {},
-  mounted() {},
+  methods: {
+    // 授权码采购保存
+    purchaseSave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          postPurchaseArantNum()({
+            qrcodeCount: thisForm.qrcodeCount,
+            receiptType: thisForm.receiptType,
+            isPrint: thisForm.isPrint
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                type: "success",
+                message: "恭喜您，授权码采购成功!"
+              });
+              this.checkFormVisible = false;
+              this.checkFormVisible2 = false;
+              this.reloadData(this.postPage, this.postLimit);
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+          });
+        }
+      });
+    },
+    // 扫码枪采购保存
+    scangunSave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          postPurchaseArantNum()({
+            qrcodeCount: thisForm.qrcodeCount,
+            receiptType: thisForm.receiptType
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                type: "success",
+                message: "恭喜您，扫码枪采购成功!"
+              });
+              this.checkFormVisible = false;
+              this.checkFormVisible2 = false;
+              this.reloadData(this.postPage, this.postLimit);
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+          });
+        }
+      });
+    },
+    // 授权码修改保存
+    editPaySave(formName) {},
+    // 扫码枪修改保存
+    editScangunSave(formName) {},
+    migrateTypeChange1() {}
+  },
   computed: {
     userAll() {
       // 所有的用户信息
