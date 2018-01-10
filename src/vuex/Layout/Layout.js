@@ -3,6 +3,7 @@ import { MenuGet, UserGet } from "@src/apis"
 const Layout = {
     state: {
         userMessage: { // 管理员信息
+            all: "",
             realname: "",
             username: "",
             userBussinessNo: "",
@@ -29,6 +30,7 @@ const Layout = {
         // 登陆用户信息
         userData(state, data) {
             var data = data.data;
+            state.userMessage.all = data;
             state.userMessage.userBussinessNo = data.userBussinessNo // 登录账号
             state.userMessage.userType = data.userType // 登录账号
         }
@@ -37,23 +39,25 @@ const Layout = {
         UserMenulistFetch(context) { // 获取‘用户信息‘与‘菜单列表‘数据
             return new Promise((resolve, reject) => {
                 MenuGet()({}).then(function (data) {
-                    console.log(data);
                     if (data.code === "00") {
                         // 管理员信息
                         context.commit('modifyData', data);
                         resolve(data.data)
                     }
                 })
+            })
+
+        },
+        UserGetFetch(context) {
+            return new Promise((resolve, reject) => {
                 UserGet()({}).then(function (data) {
                     if (data.code === "00") {
                         // 管理员信息
                         context.commit('userData', data);
-
                     }
                 })
             })
-
-        },
+        }
 
     },
     modules: {

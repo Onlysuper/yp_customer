@@ -78,7 +78,7 @@ const getAgents = () => { return (params) => { return http.get(base.oaIp, "/agen
 /**
 **合伙人转移start
  */
-const getPartnerTransferPage = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
+// const getPartnerTransferPage = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
 // end -------------------------------------------------
 
 /**
@@ -128,6 +128,8 @@ const postEditCustomerConfigs = () => { return (params) => { return http.post(ba
 **授权码审核start
  */
 const getArantNumExamines = () => { return (params) => { return http.get(base.oaIp, "/qrReciept/secondpage", params) } }
+const putAdoptArantNumExamine = (path) => { return (params) => { return http.put(base.oaIp, "/qrReciept/aduit/" + path, params) } }
+const putRefuseArantNumExamine = (path) => { return (params) => { return http.put(base.oaIp, "/qrReciept/reject/" + path, params) } }
 // end -------------------------------------------------
 
 /**
@@ -148,10 +150,12 @@ const postMakeTorageEmpower = () => { return (params) => { return http.post(base
 **授权码转移start
  */
 const getArantNumTransfers = () => { return (params) => { return http.get(base.oaIp, "/qrcodemigrate/page", params) } }
+const postMigrateNumTransfer = () => { return (params) => { return http.post(base.oaIp, "/qrcodemigrate/migrate", params) } }
+// const getMigrateNumTransfer = () => { return (params) => { return http.get(base.oaIp, "/qrcodemigrate/migrate", params) } }
 // end -------------------------------------------------
 
 /**
-**授权码回购start
+**授权码采购start
  */
 const getArantNumBuybacks = () => { return (params) => { return http.get(base.oaIp, "/qrReciept/page", params) } }
 // end -------------------------------------------------
@@ -291,6 +295,15 @@ export {
     postUnBindEmpower,
     postBindChildEmpower,
     postMakeTorageEmpower,
+    // 授权码采购
+    getArantNumBuybacks,
+    // 授权码审核
+    getArantNumExamines,
+    putAdoptArantNumExamine,
+    putRefuseArantNumExamine,
+    // 授权码转移
+    getArantNumTransfers,
+    postMigrateNumTransfer,
     // 菜单管理
     getMenuTrees,
     getMenuTreePage,

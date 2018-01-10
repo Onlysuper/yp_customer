@@ -20,6 +20,9 @@ import product from "./product/product";
 import agentManage from "./agent/agentManage";
 import agentTransfer from "./agent/agentTransfer";
 import empowerManage from "./empower/empowerManage";
+import empowerCheck from "./empower/empowerCheck";
+import empowerTransfer from "./empower/empowerTransfer";
+import empowerPurchase from "./empower/empowerPurchase";
 import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
@@ -69,7 +72,10 @@ const asyncRouter = [
     agentTransfer, // 合伙人转移
     empowerManage,// 授权码管理
     buriedPoint, //埋点管理
-    messageRecord //消息记录
+    messageRecord, //消息记录
+    empowerCheck, // 授权码审核
+    empowerTransfer, // 授权码转移
+    empowerPurchase, // 授权码采购
 ]
 // 路由过滤
 function filterRouter(data, asyncRouter) {
