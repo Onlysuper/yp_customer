@@ -138,6 +138,10 @@ const postMakeEmpower = () => { return (params) => { return http.post(base.oaIp,
 const postScanMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addScanCodeGunBatch", params) } }
 const postMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcode/addMaterielBatch", params) } }
 const postEditEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/update", params) } }
+const postBindEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/bind", params) } }
+const postUnBindEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/unbind", params) } }
+const postBindChildEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/bindChildQrcode", params) } }
+const postMakeTorageEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addDeviceBatch", params) } }
 // end -------------------------------------------------
 
 /**
@@ -293,6 +297,10 @@ export {
     postScanMakeMateriel,
     postMakeMateriel,
     postEditEmpower,
+    postBindEmpower,
+    postUnBindEmpower,
+    postBindChildEmpower,
+    postMakeTorageEmpower,
     // 菜单管理
     getMenuTrees,
     getMenuTreePage,

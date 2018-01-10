@@ -44,6 +44,12 @@
     <!-- 物料入库start -->
     <el-dialog center title="物料入库" :visible.sync="addMaterielFormVisible">
       <el-form size="small" :model="addMaterielForm" ref="addMaterielForm" :rules="addMaterielRules">
+        <el-form-item label="入库类型" prop="deviceType" :label-width="formLabelWidth">
+          <el-select v-model="addMaterielForm.deviceType" placeholder="请选择" @change="migrateChagen">
+            <el-option v-for="item in selectOptions.deviceType" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="入库数量" prop="receiptCount" :label-width="formLabelWidth">
           <el-input v-model="addMaterielForm.receiptCount" auto-complete="off"></el-input>
         </el-form-item>
@@ -66,8 +72,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addMaterielForm')">重置</el-button>
-        <el-button type="primary" @click="addMaterielSave('addMaterielForm')">扫码枪入库</el-button>
-        <el-button type="primary" @click="addSeanMaterielSave('addMaterielForm')">物资入库</el-button>
+        <!-- <el-button type="primary" @click="addMaterielSave('addMaterielForm')">扫码枪入库</el-button> -->
+        <el-button type="primary" @click="addTorageMaterielSave('addMaterielForm')">入库</el-button>
       </div>
     </el-dialog>
     <!-- 生成授权码end -->
@@ -143,7 +149,10 @@
         </el-form-item>
         <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="editForm.supportTypes">
-            <el-checkbox v-for="city in editForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
+            <el-checkbox ref="editFormP" @change="nomalCheck" label="普票"></el-checkbox>
+            <el-checkbox ref="editFormZ" label="专票"></el-checkbox>
+            <el-checkbox ref="editFormT" @change="specialCheck" label="特殊"></el-checkbox>
+            <!-- <el-checkbox v-for="city in editForm.supportTypesArr" :label="city.value" :key="'index'+city.value">{{city.value}}</el-checkbox> -->
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -153,6 +162,44 @@
       </div>
     </el-dialog>
     <!-- 编辑 end -->
+    <!-- 绑定 start -->
+    <el-dialog center title="修改信息" :visible.sync="bindFormVisible">
+      <el-form size="small" :model="bindForm" ref="bindForm" :rules="bindFormRules">
+        <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="bindForm.qrcode" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="授权码" prop="authCode" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="bindForm.authCode" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="bindForm.agentNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input v-model="bindForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('bindForm')">重置</el-button>
+        <el-button type="primary" @click="bindFormSave('bindForm')">确定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 绑定end -->
+    <!-- 绑定子码 start -->
+    <el-dialog center title="绑定子码" :visible.sync="bindChildFormVisible">
+      <el-form size="small" :model="bindChildForm" ref="bindChildForm" :rules="bindChildFormRules">
+        <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="bindChildForm.qrcode" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="子码编号" prop="childQrcodes" :label-width="formLabelWidth">
+          <el-input v-model="bindChildForm.childQrcodes" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm('bindForm')">重置</el-button>
+        <el-button type="primary" @click="bindChildFormSave('bindChildForm')">确定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 绑定end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -187,7 +234,11 @@ import {
   postMakeEmpower,
   postScanMakeMateriel,
   postMakeMateriel,
-  postEditEmpower
+  postEditEmpower,
+  postBindEmpower,
+  postUnBindEmpower,
+  postBindChildEmpower,
+  postMakeTorageEmpower
 } from "@src/apis";
 
 export default {
@@ -223,6 +274,25 @@ export default {
       visibleQrNums: true,
       exportEmpowerCodeVisible: false, // 导出授权码
       batchBindVisible: false, // 批量绑定
+      bindFormVisible: false, //绑定
+      bindChildFormVisible: false, // 绑定子码
+      bindChildForm: {
+        authCode: "",
+        qrcode: "",
+        childQrcodes: ""
+      },
+      bindChildFormRules: {
+        childQrcodes: [{ required: true, message: "请输入子码编号", trigger: "blur" }]
+      },
+      bindForm: {
+        qrcode: "",
+        authCode: "",
+        agentNo: "",
+        customerNo: ""
+      },
+      bindFormRules: {
+        customerNo: [{ required: true, message: "请输入合伙人编号", trigger: "blur" }]
+      },
       fileList: [],
       exportEmpowerCodeForm: {
         styleType: ""
@@ -251,6 +321,7 @@ export default {
       },
       addMaterielForm: {},
       addMaterielRules: {
+        deviceType: [{ required: true, message: "入库类型不能为空", trigger: "blur" }],
         qrcodeStart: [
           { required: true, message: "号段起始号码不能为空", trigger: "blur" }
         ],
@@ -264,6 +335,20 @@ export default {
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       selectOptions: {
+        deviceType: [
+          {
+            value: "MATERIEL",
+            label: "物料"
+          },
+          {
+            value: "SCANCODEGUN",
+            label: "扫码枪"
+          },
+          {
+            value: "POS",
+            label: "POS"
+          }
+        ],
         addMaterielOptions: [
           {
             value: "ORDER",
@@ -612,31 +697,25 @@ export default {
               },
               color: "#e6a23c",
               cb: rowdata => {
-                console.log(rowdata);
-                // serviceMode: "HX",
-                // supportTypes: ["普票", "专票"],
-                // supportTypesArr: ["普票", "专票", "特殊"]
-                // if (element == "普票") {
-                //   supportTypes1 = 1;
-                // } else if (element == "专票") {
-                //   supportTypes2 = 2;
-                // } else if (element == "特殊") {
-                //   supportTypes3 = 4;
-                // }
-                // if (rowdata.supportType == 1) {
-                //   thisForm.supportTypes;
-                // }
                 var thisForm = this.editForm;
+                if (rowdata.supportType == "1") {
+                  thisForm.supportTypes = ["普票"];
+                } else if (rowdata.supportType == "2") {
+                  thisForm.supportTypes = ["专票"];
+                } else if (rowdata.supportType == "3") {
+                  thisForm.supportTypes = ["普票", "专票"];
+                } else if (rowdata.supportType == "5") {
+                  thisForm.supportTypes = ["普票", "特殊"];
+                } else if (rowdata.supportType == "7") {
+                  thisForm.supportTypes = ["普票", "专票", "特殊"];
+                }
                 thisForm.qrcode = rowdata.qrcode;
                 thisForm.authCode = rowdata.authCode;
                 thisForm.agentNo = rowdata.agentNo;
                 thisForm.customerNo = rowdata.customerNo;
                 thisForm.extensionNum = rowdata.extensionNum;
                 thisForm.serviceMode = rowdata.serviceMode;
-
-                // thisForm.qrcode = rowdata.qrcode;
-                // thisForm.qrcode = rowdata.qrcode;
-                console.log(rowdata);
+                console.log(rowdata.supportType);
                 this.editFormVisible = true;
               }
             },
@@ -658,8 +737,11 @@ export default {
                 }
               },
               cb: rowdata => {
-                this.editForm = rowdata;
-                this.editFormVisible = true;
+                // this.bindForm = rowdata;
+                // console.log(rowdata);
+                this.bindForm.authCode = rowdata.authCode;
+                this.bindForm.qrcode = rowdata.qrcode;
+                this.bindFormVisible = true;
               }
             },
             {
@@ -683,8 +765,51 @@ export default {
                 }
               },
               cb: rowdata => {
-                this.editForm = rowdata;
-                this.editFormVisible = true;
+                this.$confirm("确定解绑吗?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                })
+                  .then(() => {
+                    postUnBindEmpower()({
+                      createTime: rowdata.createTime,
+                      lastUpdateTime: rowdata.lastUpdateTime,
+                      qrcode: rowdata.qrcode,
+                      parentCode: rowdata.parentCode,
+                      authCode: rowdata.authCode,
+                      deviceType: rowdata.deviceType,
+                      agentNo: rowdata.agentNo,
+                      levelDetail: rowdata.levelDetail,
+                      level: rowdata.level,
+                      customerNo: rowdata.customerNo,
+                      batchNo: rowdata.batchNo,
+                      receiptNo: rowdata.receiptNo,
+                      extensionNum: rowdata.extensionNum,
+                      supportType: rowdata.supportType,
+                      materiel: rowdata.materiel,
+                      serviceMode: rowdata.serviceMode,
+                      status: rowdata.status
+                    }).then(data => {
+                      if (data.code == "00") {
+                        this.$message({
+                          type: "success",
+                          message: "解绑成功!"
+                        });
+                        this.reloadData(this.postPage, this.postLimit);
+                      } else {
+                        this.$message({
+                          type: "warning",
+                          message: data.msg
+                        });
+                      }
+                    });
+                  })
+                  .catch(() => {
+                    this.$message({
+                      type: "info",
+                      message: "已取消操作"
+                    });
+                  });
               }
             },
             {
@@ -705,8 +830,8 @@ export default {
                 }
               },
               cb: rowdata => {
-                this.editForm = rowdata;
-                this.editFormVisible = true;
+                this.bindChildForm = rowdata;
+                this.bindChildFormVisible = true;
               }
             }
           ]
@@ -720,6 +845,24 @@ export default {
   },
 
   methods: {
+    specialCheck(value) {
+      var have = this.editForm.supportTypes.indexOf("普票");
+      if (value) {
+        if (have == "-1") {
+          this.editForm.supportTypes.push("普票");
+        }
+      } else {
+        this.editForm.supportTypes.pop();
+      }
+    },
+    nomalCheck(value) {
+      if (!value) {
+        var have = this.editForm.supportTypes.indexOf("特殊");
+        if (have != "-1") {
+          this.editForm.supportTypes.push("普票");
+        }
+      }
+    },
     // 授权码保存
     empoverCodeSave(formName) {
       this.$refs[formName].validate(valid => {
@@ -778,45 +921,13 @@ export default {
         this.visibleQrNums = false;
       }
     },
-    // 扫码枪入库保存
-    addMaterielSave(formName) {
+    // 物料入库保存
+    addTorageMaterielSave(formName) {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
-          postScanMakeMateriel()({
-            receiptCount: thisForm.receiptCount,
-            prefixNo: thisForm.prefixNo,
-            migrateType: thisForm.migrateType,
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes
-          }).then(data => {
-            if (data.code == "00") {
-              this.$message({
-                message: "恭喜你，扫码枪入库成功！",
-                type: "success",
-                center: true
-              });
-              this.addMaterielFormVisible = false;
-              this.resetForm("thisForm");
-              this.reloadData();
-            } else {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            }
-          });
-        }
-      });
-    },
-    // 物资入库保存
-    addSeanMaterielSave(formName) {
-      var thisForm = this[formName];
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          postMakeMateriel()({
+          postMakeTorageEmpower()({
+            deviceType: thisForm.deviceType,
             receiptCount: thisForm.receiptCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
@@ -844,6 +955,7 @@ export default {
         }
       });
     },
+
     // 导出授权吗保存
     exportEmpowerSave(formName) {
       var thisForm = this[formName];
@@ -858,17 +970,111 @@ export default {
     // 编辑保存
     editSave(formName) {
       var thisForm = this[formName];
-      postEditEmpower()({
-        qrcode: thisForm.qrcode,
-        authCode: thisForm.authCode,
-        agentNo: thisForm.agentNo,
-        customerNo: thisForm.customerNo,
-        extensionNum: thisForm.extensionNum,
-        serviceMode: thisForm.serviceMode
-        // "supportTypes[0]":1
-        // "supportTypes[1]":2
-      }).then(data => {
-        console.log(data);
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let supportTypes1 = "";
+          let supportTypes2 = "";
+          let supportTypes3 = "";
+          thisForm.supportTypes.forEach((element, index) => {
+            if (element == "普票") {
+              supportTypes1 = 1;
+            } else if (element == "专票") {
+              supportTypes2 = 2;
+            } else if (element == "特殊") {
+              supportTypes3 = 4;
+            }
+          });
+          postEditEmpower()({
+            qrcode: thisForm.qrcode,
+            authCode: thisForm.authCode,
+            agentNo: thisForm.agentNo,
+            customerNo: thisForm.customerNo,
+            extensionNum: thisForm.extensionNum,
+            serviceMode: thisForm.serviceMode,
+            "supportTypes[0]": supportTypes1,
+            "supportTypes[1]": supportTypes2,
+            "supportTypes[2]": supportTypes3
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                message: "恭喜你，修改成功！",
+                type: "success",
+                center: true
+              });
+              this.editFormVisible = false;
+              this.resetForm(formName);
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
+          });
+        }
+      });
+    },
+    bindFormSave(formName) {
+      // 绑定start
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          postBindEmpower()({
+            qrcode: thisForm.qrcode,
+            authCode: thisForm.authCode,
+            agentNo: thisForm.agentNo,
+            customerNo: thisForm.customerNo
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                message: "恭喜你，绑定成功！",
+                type: "success",
+                center: true
+              });
+              this.bindFormVisible = false;
+              this.resetForm(formName);
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
+          });
+        }
+      });
+    },
+    // 保存子码
+    bindChildFormSave(formName) {
+      // 绑定start
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          postBindChildEmpower()({
+            authCode: thisForm.authCode,
+            qrcode: thisForm.qrcode,
+            childQrcodes: thisForm.childQrcodes
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                message: "恭喜你，绑定成功！",
+                type: "success",
+                center: true
+              });
+              this.bindFormVisible = false;
+              this.resetForm(formName);
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
+          });
+        }
       });
     },
     batchBindUploadSuccess(res, file) {
