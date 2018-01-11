@@ -55,7 +55,7 @@
           <el-input v-model="editPayForm.qrcodeCount" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
-          <el-select v-model="purchaseForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
+          <el-select v-model="editPayForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
             <el-option v-for="item in selectOptions.isPrint" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
@@ -70,7 +70,7 @@
     <!-- 扫描枪采购单修改  start-->
     <el-dialog center title="扫描枪采购单修改" :visible.sync="editScangunFormVisible">
       <el-form size="small" :model="editScangunForm" ref="editScangunForm" :rules="editScangunFormRules">
-        <el-form-item label="采购单号" prop="qrcodeCount" :label-width="formLabelWidth">
+        <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
           <el-input disabled v-model="editScangunForm.receiptNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
@@ -103,7 +103,11 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
-import { getArantNumBuybacks, postPurchaseArantNum } from "@src/apis";
+import {
+  getArantNumBuybacks,
+  postPurchaseArantNum,
+  patchPurchaseArantNum
+} from "@src/apis";
 export default {
   name: "billCount",
   components: {
@@ -142,9 +146,14 @@ export default {
         qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }]
       },
       editPayForm: {},
-      editPayFormRules: {},
+      editPayFormRules: {
+        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }],
+        isPrint: [{ required: true, message: "请选择是否生成水牌", trigger: "blur" }]
+      },
       editScangunForm: {},
-      editScangunFormRules: {},
+      editScangunFormRules: {
+        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }]
+      },
       searchCondition: searchConditionVar,
       selectOptions: {
         isPrint: [
@@ -497,9 +506,58 @@ export default {
       });
     },
     // 授权码修改保存
-    editPaySave(formName) {},
+    editPaySave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          patchPurchaseArantNum()({
+            receiptNo: thisForm.receiptNo,
+            qrcodeCount: thisForm.qrcodeCount,
+            isPrint: thisForm.isPrint
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                type: "success",
+                message: "恭喜您，授权码修改保存成功!"
+              });
+              this.editPayFormVisible = false;
+              this.reloadData();
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+          });
+        }
+      });
+    },
     // 扫码枪修改保存
-    editScangunSave(formName) {},
+    editScangunSave(formName) {
+      var thisForm = this[formName];
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          patchPurchaseArantNum()({
+            receiptNo: thisForm.receiptNo,
+            qrcodeCount: thisForm.qrcodeCount
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                type: "success",
+                message: "恭喜您，扫码枪修改保存成功!"
+              });
+              this.editScangunFormVisible = false;
+              this.reloadData();
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+          });
+        }
+      });
+    },
     migrateTypeChange1() {}
   },
   computed: {

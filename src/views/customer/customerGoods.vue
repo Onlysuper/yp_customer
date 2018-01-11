@@ -616,7 +616,14 @@ export default {
               stateName: "defaultType",
               opposite: false,
               text: "设为默认",
-              color: "#00c1df",
+              color: "#67c23a",
+              visibleFn: rowdata => {
+                if (rowdata.defaultType == "FALSE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.$confirm("确定继续本次操作吗?", "提示", {
                   confirmButtonText: "确定",
@@ -671,7 +678,14 @@ export default {
               stateName: "defaultType", // 有哪个属性决定可见
               opposite: true, // 与以上属性是否相反
               text: "取消默认",
-              color: "#00c1df",
+              visibleFn: rowdata => {
+                if (rowdata.defaultType == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              color: "#e6a23c",
               cb: rowdata => {
                 this.$confirm("确定继续本次操作吗?", "提示", {
                   confirmButtonText: "确定",
@@ -738,7 +752,7 @@ export default {
             },
             {
               text: "删除",
-              color: "#00c1df",
+              color: "#909399",
               cb: rowdata => {
                 this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
                   confirmButtonText: "确定",
