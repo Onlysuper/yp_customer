@@ -73,11 +73,12 @@ const asyncRouter = [
     agentTransfer, // 合伙人转移
     empowerManage,// 授权码管理
     buriedPoint, //埋点管理
-    messageRecord //消息记录
+    messageRecord, //消息记录
     empowerCheck, // 授权码审核
     empowerTransfer, // 授权码转移
     empowerPurchase, // 授权码采购]
     versionManage //版本管理
+];
 // 路由过滤
 function filterRouter(data, asyncRouter) {
     return new Promise((resolve) => {
