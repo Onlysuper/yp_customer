@@ -211,6 +211,16 @@ const getMessages = () => { return (params) => { return http.get(base.oaIp, "/me
 // end -------------------------------------------------
 
 /**
+**版本管理Start
+ */
+const postVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/add", params) } }
+const patchVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/update", params) } }
+const getVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/page", params) } }
+const getOldVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/queryOldClientVersions", params) } }
+const setUsingVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/startUsing", params) } }
+// end -------------------------------------------------
+
+/**
 **埋点图表Start
  */
 const getBurialPointCharts = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
@@ -326,6 +336,12 @@ export {
     deleteMenuTree,
     // 消息管理
     getMessages,
+    // 版本控制
+    postVersion,
+    patchVersion,
+    getVersions,
+    getOldVersions,
+    setUsingVersion,
     // 统计管理
     getBurialPointManages,
     getBurialPointTotal

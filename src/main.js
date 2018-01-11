@@ -56,7 +56,7 @@ import {
   Cascader as eleCascader,
 
   Notification as eleNotification,
-
+  Switch as eleSwitch,
   Radio as eleRadio,
   RadioGroup as eleRadioGroup,
   Radio as eleRadioButton,
@@ -70,6 +70,7 @@ import {
   Loading
 } from 'element-ui'
 
+Vue.component(eleSwitch.name, eleSwitch)
 Vue.component(eleRadio.name, eleRadio)
 Vue.component(eleRadioGroup.name, eleRadioGroup)
 Vue.component(eleRadioButton.name, eleRadioButton)
