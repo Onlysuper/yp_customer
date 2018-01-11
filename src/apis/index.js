@@ -198,21 +198,22 @@ const patchRolesTreeSave = () => { return (params) => { return http.patch(base.o
 // end -------------------------------------------------
 
 /**
-**版本控制Start
- */
-const getVersionControls = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/page", params) } }
-// end -------------------------------------------------
-
-/**
-**消息记录Start
+ **消息记录Start
  */
 const getMessages = () => { return (params) => { return http.get(base.oaIp, "/message/page", params) } }
 // end -------------------------------------------------
 
 /**
+ **商户版本管理Start
+ */
+// end -------------------------------------------------
+const postCustomerVersion = () => { return (params) => { return http.post(base.oaIp, "/customerpluginversion/add", params) } }
+const patchCustomerVersion = () => { return (params) => { return http.post(base.oaIp, "/customerpluginversion/updateVersion", params) } }
+const getCustomerVersions = () => { return (params) => { return http.get(base.oaIp, "/customerpluginversion/page", params) } }
+
+/**
 **版本管理Start
  */
-const postVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/add", params) } }
 const patchVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/update", params) } }
 const getVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/page", params) } }
 const getOldVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/queryOldClientVersions", params) } }
@@ -268,7 +269,7 @@ export {
     postAddProduct,
     postEditProduct,
     postToggleProduct,
-    //商品管理
+    // 商品管理
     getCustomerGoods,
     postAddCustomerGood,
     postEditCustomerGood,
@@ -277,26 +278,26 @@ export {
     postCancelDefaultCustomerGood,
     // 商户产品
     getCustomerProducts,
-    //商户管理
+    // 商户管理
     getCustomers,
     postAddCustomer,
     postEditCustomer,
     postUploadFile,
     transferCustomer,
     perfectCustomer,
-    //开票配置
+    // 开票配置
     getCustomerConfigs,
     postAddCustomerConfigs,
     postEditCustomerConfigs,
 
-    //用户管理
+    // 用户管理
     getUserManages,
     postAddUser,
     patchEditUser,
     getRolesTree,
     patchConfigRole,
     deleteUserManage,
-    //授权码管理
+    // 授权码管理
     getArantNumManages,
     postMakeEmpower,
     postScanMakeMateriel,
@@ -334,6 +335,10 @@ export {
     deleteMenuTree,
     // 消息管理
     getMessages,
+    // 商户版本
+    postCustomerVersion,
+    patchCustomerVersion,
+    getCustomerVersions,
     // 版本控制
     postVersion,
     patchVersion,

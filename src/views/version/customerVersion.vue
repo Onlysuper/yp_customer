@@ -1,73 +1,49 @@
 <template>
-  <!-- 版本管理 -->
+  <!-- 商户升级管理 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;uploadDialogVisible = true">上传新版本</el-button>
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;dialogVisible = true">新增升级商户</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
-      <!-- 上传新版本start -->
-      <el-dialog center title="上传新版本" :visible.sync="uploadDialogVisible" width="600px" @close="dialogClosed">
+      <!-- 新增版本start -->
+      <el-dialog center title="新增升级商户" :visible.sync="dialogVisible" width="600px" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
           <el-row>
-            <el-col :span="12">
-              <el-form-item label="客户端版本" prop="clientVersion">
-                <el-input v-model="form.clientVersion" placeholder="请输入上传版本号"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item label="最低兼容版本" prop="compatibleVersion">
-                <el-input v-model="form.compatibleVersion" placeholder="如无特殊情况填0">
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="客户端类型" prop="type">
+            <el-col :span="11">
+              <el-form-item label="版本类型" prop="type">
                 <el-select v-model="form.type" placeholder="请选择">
                   <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="10">
-              <el-form-item label="是否强制更新">
-                <el-switch v-model="form.isForced" active-value="TRUE" inactive-value="FALSE">
-                </el-switch>
+            <el-col :span="11">
+              <el-form-item label="升级状态" prop="status">
+                <el-select v-model="form.status" placeholder="请选择">
+                  <el-option v-for="item in status_options" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="22">
-              <el-form-item label="下载地址" prop="url">
-                <el-input v-model="form.url" placeholder="url/客户端类型/版本.扩展名"></el-input>
+              <el-form-item label="商户编号" prop="customerNo">
+                <el-input v-if="isUpdate" readonly v-model="form.customerNo" type="textarea" placeholder="多个商户编号请用英文逗号分开"></el-input>
+                <el-input v-if="!isUpdate" v-model="form.customerNo" type="textarea" placeholder="多个商户编号请用英文逗号分开"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="22">
-              <el-form-item label="版本描述" prop="info">
-                <el-input v-model="form.info" placeholder="请输入版本描述"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-form-item label="上传文件" v-if="!isUpdate">
-            <el-upload ref="uploadFile" :data="form" :before-upload="beforeUploadFile" :on-success="uploadFileSuccess" :on-error="uploadFileError" :action="oaIp+'/versionCommand/add'" :auto-upload="false" :limit="1" accept="file" :with-credentials="true">
-              <el-button type="primary">选择新版本上传
-                <i class="el-icon-upload el-icon--right"></i>
-              </el-button>
-            </el-upload>
-          </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="reset">重置</el-button>
-          <el-button type="primary" @click="upload" v-if="!isUpdate">提 交</el-button>
+          <el-button type="primary" @click="submit" v-if="!isUpdate">提 交</el-button>
           <el-button type="primary" @click="update" v-if="isUpdate">修 改</el-button>
         </span>
       </el-dialog>
@@ -84,13 +60,12 @@ import DataPage from "@src/components/DataPage";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import {
-  patchVersion,
-  getVersions,
-  getOldVersions,
-  setUsingVersion
+  postCustomerVersion,
+  patchCustomerVersion,
+  getCustomerVersions
 } from "@src/apis";
 export default {
-  name: "versionManage",
+  name: "customerVersion",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -98,32 +73,44 @@ export default {
   mixins: [mixinDataTable],
   data() {
     var searchConditionVar = {
-      clientVersion: "", // 客户端版本号
+      customerNo: "", // 商户编号
+      version: "", // 客户端版本号
       status: "" // 状态
     };
     return {
-      uploadDialogVisible: false, //上传面板是否可见
+      dialogVisible: false, //上传面板是否可见
       isUpdate: true,
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
-          corresattr: "clientVersion",
+          corresattr: "customerNo",
+          type: "text", // 表单类型
+          label: "商户编号", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.customerNo = value;
+          }
+        },
+        {
+          corresattr: "version",
           type: "text", // 表单类型
           label: "版本号", // 输入框前面的文字
           show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
-            this.searchCondition.clientVersion = value;
+            this.searchCondition.version = value;
           }
         },
         {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: true, // 普通搜索显示
+          show: false,
           value: "",
           options: [
             {
@@ -132,11 +119,15 @@ export default {
             },
             {
               value: "TRUE",
-              label: "开启"
+              label: "允许升级"
             },
             {
               value: "FALSE",
-              label: "未开启"
+              label: "不允许升级"
+            },
+            {
+              value: "SUCCESS",
+              label: "升级成功"
             }
           ],
           cb: value => {
@@ -148,7 +139,7 @@ export default {
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getVersions // 初始化数据
+          url: getCustomerVersions // 初始化数据
         },
         summary: {
           is: false
@@ -157,20 +148,20 @@ export default {
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
-            key: "上传时间",
+            key: "创建时间",
             width: "170px",
             sortable: true,
             word: "createTime"
           },
           {
-            key: "版本号",
-            width: "100px",
-            word: "clientVersion"
+            key: "商户编号",
+            width: "150px",
+            word: "customerNo"
           },
           {
-            key: "兼容版本",
-            width: "80px",
-            word: "compatibleVersion"
+            key: "版本号",
+            width: "100px",
+            word: "version"
           },
           {
             key: "版本类型",
@@ -223,89 +214,46 @@ export default {
             }
           },
           {
-            key: "强制更新",
-            width: "80px",
-            word: "isForced",
-            status: true,
-            type: data => {
-              switch (data) {
-                case "TRUE":
-                  return {
-                    text: "是",
-                    type: "success"
-                  };
-                default:
-                  return {
-                    text: "否",
-                    type: "info"
-                  };
-              }
-            }
-          },
-          {
             key: "状态",
-            width: "100px",
+            width: "130px",
             word: "status",
             status: true,
             type: data => {
               switch (data) {
                 case "TRUE":
                   return {
-                    text: "开启",
+                    text: "允许升级",
+                    type: ""
+                  };
+                case "SUCCESS":
+                  return {
+                    text: "升级成功",
                     type: "success"
                   };
                 default:
                   return {
-                    text: "未开启",
+                    text: "不允许升级",
                     type: "warning"
                   };
               }
             }
           },
           {
-            key: "下载地址",
+            key: "更新时间",
             width: "",
-            word: "url"
+            sortable: true,
+            word: "lastUpdateTime"
           }
         ],
         operation: {
-          width: "100px",
+          width: "80px",
           options: [
             {
               text: "编辑",
               color: "#3685FD",
               cb: rowdata => {
-                this.uploadDialogVisible = true;
+                this.dialogVisible = true;
                 this.form = { ...rowdata };
-              }
-            },
-            {
-              text: "启用",
-              color: "#3685FD",
-              visibleFn: rowdata => {
-                if (rowdata.status === "TRUE") {
-                  return false;
-                } else {
-                  return true;
-                }
-              },
-              cb: rowdata => {
-                this.$confirm("确认执行当前操作?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                }).then(() => {
-                  setUsingVersion()({
-                    clientVersion: rowdata.clientVersion,
-                    type: rowdata.type
-                  }).then(data => {
-                    this.reloadData();
-                    this.$message({
-                      type: "success",
-                      message: "启用成功!"
-                    });
-                  });
-                });
               }
             }
           ]
@@ -342,60 +290,35 @@ export default {
           value: "DATA_COLLECTION"
         }
       ],
-      isForce_options: [
+      status_options: [
         {
-          label: "是",
+          label: "允许升级",
           value: "TRUE"
         },
         {
-          label: "否",
+          label: "不允许升级",
           value: "FALSE"
         }
       ],
       form: {
-        clientVersion: "",
-        url: "",
+        customerNo: "",
         type: "",
-        isForced: "FALSE",
-        compatibleVersion: "0",
-        info: ""
+        status: ""
       },
       file: "",
       validateRules: {
-        clientVersion: [
-          { required: true, message: "请输入上传客户端版本号", trigger: "blur" }
-        ],
-        url: [{ required: true, message: "请输入上传版本的下载地址", trigger: "blur" }],
-        type: [{ required: true, message: "请输入客户端类型", trigger: "blur" }],
-        compatibleVersion: [
-          { required: true, message: "请输入最低兼容版本", trigger: "blur" }
-        ],
-        info: [{ required: true, message: "请输入版本描述", trigger: "blur" }],
-        file: [{ required: true, message: "请选择上传文件", trigger: "blur" }]
+        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
+        type: [{ required: true, message: "请选择客户端类型", trigger: "blur" }],
+        status: [{ required: true, message: "请选择状态", trigger: "blur" }]
       }
     };
   },
   methods: {
-    upload() {
+    submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          console.log(this.$refs.uploadFile);
-          if (this.$refs.uploadFile.uploadFiles.length === 0) {
-            this.$message({
-              type: "danger", //warning
-              message: "请选择上传文件!"
-            });
-            return;
-          }
-          this.$refs.uploadFile.submit();
-        }
-      });
-    },
-    update() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-          patchVersion()(this.form).then(data => {
-            this.uploadDialogVisible = false;
+          postCustomerVersion()(this.form).then(data => {
+            this.dialogVisible = false;
             this.reloadData();
             this.$message({
               type: "success",
@@ -405,28 +328,39 @@ export default {
         }
       });
     },
-    beforeUploadFile() {},
-    uploadFileSuccess() {
+    update() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          patchCustomerVersion()(this.form).then(data => {
+            this.dialogVisible = false;
+            this.reloadData();
+            this.$message({
+              type: "success",
+              message: "修改成功!"
+            });
+          });
+        }
+      });
+    },
+    beforesubmitFile() {},
+    submitFileSuccess() {
       this.$message({
         type: "success",
         message: "上传成功!"
       });
-      this.uploadDialogVisible = false;
+      this.dialogVisible = false;
       this.reloadData();
     },
-    uploadFileError(err, file, fileList) {
+    submitFileError(err, file, fileList) {
       this.$message({
         type: "danger",
         message: "上传失败!" + err
       });
     },
     reset() {
-      this.form.clientVersion = "";
-      this.form.url = "";
+      this.form.status = "";
+      this.form.customerNo = "";
       this.form.type = "";
-      this.form.isForced = "FALSE";
-      this.form.compatibleVersion = "0";
-      this.form.info = "";
     },
     dialogClosed() {
       this.isUpdate = true;
