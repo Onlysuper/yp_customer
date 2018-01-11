@@ -4,16 +4,16 @@ import loading from "@src/router/loading"
  */
 export default {
   // 商品管理
-  name: 'qrcode',
-  path: '/qrcode',
+  name: 'qr_code_migrate',
+  path: '/qr_code_migrate',
   meta: {
-    title: '授权码审核',
+    title: '授权码转移',
     keepAlive: true,
     parent: "",
     parentname: "授权码管理",
     role: ['root', 'admin']
   },
   component: r => {
-    return require.ensure([], () => { return r(require("@src/views/empower/empowerManage")) }, "empower-manage")
+    return require.ensure([], () => { return r(require("@src/views/empower/empowerTransfer")) }, "empower-transfer")
   }
 }

@@ -189,6 +189,7 @@ var vue = new Vue({
     this.websocketFn();
     //管理员信息与菜单列表数据初始化
     store.dispatch('UserMenulistFetch');
+    store.dispatch('UserGetFetch');
   },
   router: isMobile ? routerApp : router,
   template: '<App/>',

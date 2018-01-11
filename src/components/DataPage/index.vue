@@ -7,7 +7,7 @@
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
         <template slot-scope="scope">
-          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property]).text?true:false" :type="item.type(scope.row[scope.column.property]).type?item.type(scope.row[scope.column.property]).type:''" close-transition> {{item.type(scope.row[scope.column.property]).text}}</el-tag>
+          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{item.type(scope.row[scope.column.property],scope.row).text}}</el-tag>
           <el-popover v-else trigger="click" placement="top">
             <p>{{ scope.row[scope.column.property]}}</p>
             <div slot="reference" class="name-wrapper">
@@ -23,7 +23,7 @@
           <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="scope.row[item.stateName]=='TRUE'?item.opposite?true:false:item.opposite?false:true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
         </template> -->
         <template slot-scope="scope">
-          <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
+          <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
             {{item.text}}
           </el-button>
           <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" 
@@ -67,6 +67,7 @@
 }
 </style>
 <script>
+import $ from "jquery";
 import qs from "qs";
 import Vue from "vue";
 export default {
@@ -84,31 +85,7 @@ export default {
       getSearch: this.search // 搜索条件
     };
   },
-  computed: {
-    getDataUrl() {
-      // 获取父页面传递的get参数
-      return this.tableDataInit.getDataUrl;
-    },
-    summary() {
-      //是否显示合计
-      return true;
-    },
-    havecheck() {
-      // 是否显示选择框
-      return this.tableDataInit.havecheck ? this.tableDataInit.havecheck : true;
-    },
-    visibleinput() {
-      return this.$store.state.dataTable.visibleinput;
-    }
-  },
-  mounted() {
-    // 初始化数据
-    this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    this.tableSizeHandle();
-    window.onresize = () => {
-      this.tableSizeHandle();
-    };
-  },
+
   methods: {
     visibleArrFn(rowdata, cb) {
       // 点击操作按钮
@@ -210,6 +187,35 @@ export default {
     getSearch() {
       this.getSearch = value;
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    }
+  },
+  mounted() {
+    // 初始化数据
+    this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    this.tableSizeHandle();
+    window.onresize = () => {
+      this.tableSizeHandle();
+    };
+  },
+  computed: {
+    userAll() {
+      // 所有的用户信息
+      return this.$store.state.moduleLayour.userMessage.all;
+    },
+    getDataUrl() {
+      // 获取父页面传递的get参数
+      return this.tableDataInit.getDataUrl;
+    },
+    summary() {
+      //是否显示合计
+      return true;
+    },
+    havecheck() {
+      // 是否显示选择框
+      return this.tableDataInit.havecheck ? this.tableDataInit.havecheck : true;
+    },
+    visibleinput() {
+      return this.$store.state.dataTable.visibleinput;
     }
   }
 };
