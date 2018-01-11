@@ -28,6 +28,7 @@ import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
 import buriedPoint from "./statistical/buriedPoint";
 import messageRecord from "./message/messageRecord";
+import customerVersion from "./version/customerVersion";
 import versionManage from "./version/versionManage";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
@@ -71,7 +72,8 @@ const asyncRouter = [
     messageRecord, //消息记录
     empowerCheck, // 授权码审核
     empowerTransfer, // 授权码转移
-    empowerPurchase, // 授权码采购]
+    empowerPurchase, // 授权码采购
+    customerVersion, // 商户版本
     versionManage //版本管理
 ];
 // 路由过滤
