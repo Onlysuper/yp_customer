@@ -101,7 +101,7 @@
             <a class="link-Label" :href="oaIp+'/static/template/qrcode-batch-bind.xlsx'">下载绑定模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
+            <el-upload :with-credentials="true" class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将入网文件拖到此处，或
                 <em>点击上传</em>

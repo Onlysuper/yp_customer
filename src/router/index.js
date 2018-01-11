@@ -28,32 +28,28 @@ import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
 import buriedPoint from "./statistical/buriedPoint";
 import messageRecord from "./message/messageRecord";
-
-import { MenuGet } from "@src/apis"
+import { MenuGet, UserGet } from "@src/apis"
+// import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
     routes: [
-        login,
         {
-            path: "/",
-            redirect: "/home"
-        }
+            path: 'home',
+            component: layout,
+            children: [
+                home
+            ],
+            meta: {
+                title: '',
+                keepAlive: true,
+                role: ['admin', 'root']
+            },
+        },
+        login
     ]
 })
 
 const asyncRouter = [
-    {
-        path: '',
-        component: layout,
-        children: [
-            home
-        ],
-        meta: {
-            title: '',
-            keepAlive: true,
-            role: ['admin', 'root']
-        },
-    },
     customerManage,
     customerGoods,
     customerInvoiceConfig,
@@ -78,55 +74,59 @@ const asyncRouter = [
     empowerPurchase, // 授权码采购
 ]
 // 路由过滤
-function filterRouter(data, asyncRouter) {
-    return new Promise((resolve) => {
-        const routers = asyncRouter[0]
-        const menuList = data.menuList
-        menuList.forEach((item, index) => {
-            // 根据路径匹配到的router对象添加到routers中即可
-            // 因permission数据格式不一定相同，所以不写详细逻辑了
-            for (var i = 0; i < item.child.length; i++) {
-                asyncRouter.forEach(item2 => {
-                    if (item2.name == item.child[i].menuCode) {
-                        // meta里面的role角色访问权限
-                        if (routers.children.indexOf(item2) == '-1' && item2.meta.role.indexOf(data.username) != '-1') {
-                            routers.children.push(item2)
-                        }
-                    }
-                })
-            }
-            if (index == menuList.length - 1) {
-                resolve([routers])
-            }
-        });
-    })
-}
 
+
+function filterRouter(data, asyncRouter, back) {
+    const menuList = data.menuList
+    const thisrouter = []
+    menuList.forEach((item, index) => {
+        // 根据路径匹配到的router对象添加到routers中即可
+        // 因permission数据格式不一定相同，所以不写详细逻辑了
+        var has = 0;
+        for (var i = 0; i < item.child.length; i++) {
+            asyncRouter.forEach((item2, index) => {
+                if (item2.path.replace(/\//, "") == item.child[i].menuCode) {
+                    thisrouter.push(item2)
+                }
+            })
+        }
+        if (index == menuList.length - 1 && thisrouter.length != 0) {
+            back(thisrouter)
+        }
+    });
+}
 /**
  * 根据异步路由表中的path字段进行匹配，生成需要添加的路由对象
  * @param {array} permission 权限列表（菜单列表）
  * @param {array} asyncRouter 异步路由对象
  */
-function routerMatch(permission, asyncRouter) {
-    return new Promise((resolve) => {
-        // 这里需要获取完整的已经编译好的router对象，不可为空数组，也不能用类router的对象。因为当程序运行到这里时，vue-router已经解析完毕
-        // 创建路由
-        function createRouter(permission) {
-            var menuList = permission;
-            filterRouter(menuList, asyncRouter).then(routers => {
-                resolve(routers)
-            })
-        }
-        var rou = createRouter(permission)
-
+function routerMatch(permission, asyncRouter, path, back) {
+    var menuList = permission;
+    filterRouter(menuList, asyncRouter, path, (thisrouter) => {
+        back(thisrouter);
     })
 }
+
 store.dispatch('UserMenulistFetch').then(resmenuList => {
-    // 从后台获取菜单列表
-    routerMatch(resmenuList, asyncRouter).then(res => {
-        // 将匹配到的新路由添加到现在的router对象中
-        router.addRoutes(res)
-        // // 跳转到对应页面
+    routerMatch(resmenuList, asyncRouter, (thisrouter) => {
+        let rou = [{
+            path: '',
+            component: layout,
+            children: thisrouter,
+            meta: {
+                title: '',
+                keepAlive: true,
+                role: ['admin', 'root']
+            },
+        }]
+        router.addRoutes(rou)
     })
-});
+})
+router.beforeEach((to, redirect, next) => {
+    if (to.path == "/") {
+        next('/home')
+    } else {
+        next()
+    }
+})
 export default router;
