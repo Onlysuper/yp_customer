@@ -211,7 +211,7 @@ const postVersion = () => { return (params) => { return http.post(base.oaIp, "/v
 const patchVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/update", params) } }
 const getVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/page", params) } }
 const getOldVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/queryOldClientVersions", params) } }
-const setUsingVersion = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/startUsing", params) } }
+const setUsingVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/startUsing", params) } }
 // end -------------------------------------------------
 
 /**

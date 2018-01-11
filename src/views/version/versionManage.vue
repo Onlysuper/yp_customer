@@ -6,45 +6,59 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="uploadDialogVisible=true">上传新版本</el-button>
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;uploadDialogVisible = true">上传新版本</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 上传新版本start -->
-      <el-dialog center title="上传新版本" :visible.sync="uploadDialogVisible" width="600px">
-        <el-form ref="form" label-width="100px">
-          <el-form-item label="客户端版本">
-            <el-col :span="8">
-              <el-input v-model="clientVersion" placeholder="请输入上传版本号"></el-input>
+      <el-dialog center title="上传新版本" :visible.sync="uploadDialogVisible" width="600px" @close="dialogClosed">
+        <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="客户端版本" prop="clientVersion">
+                <el-input v-model="form.clientVersion" placeholder="请输入上传版本号"></el-input>
+              </el-form-item>
             </el-col>
-            <el-col :span="15" :offset="1">
-              <el-input v-model="compatibleVersion" placeholder="如无特殊情况填0">
-                <template slot="prepend">最低兼容版本</template>
-              </el-input>
+            <el-col :span="10">
+              <el-form-item label="最低兼容版本" prop="compatibleVersion">
+                <el-input v-model="form.compatibleVersion" placeholder="如无特殊情况填0">
+                </el-input>
+              </el-form-item>
             </el-col>
-          </el-form-item>
-          <el-form-item label="客户端类型">
-            <el-col :span="8">
-              <el-select v-model="type" placeholder="请选择">
-                <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="客户端类型" prop="type">
+                <el-select v-model="form.type" placeholder="请选择">
+                  <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
             </el-col>
-            <el-col :span="11" :offset="1">
-              是否强制更新
-              <el-switch v-model="isForced" active-value="TRUE" inactive-value="FALSE">
-              </el-switch>
+            <el-col :span="10">
+              <el-form-item label="是否强制更新">
+                <el-switch v-model="form.isForced" active-value="TRUE" inactive-value="FALSE">
+                </el-switch>
+              </el-form-item>
             </el-col>
-          </el-form-item>
-          <el-form-item label="下载地址">
-            <el-input v-model="url" placeholder="url/客户端类型/版本.扩展名"></el-input>
-          </el-form-item>
-          <el-form-item label="版本描述">
-            <el-input v-model="info" placeholder="请输入版本描述"></el-input>
-          </el-form-item>
-          <el-form-item label="上传文件">
-            <el-upload ref="uploadFile" :before-upload="beforeUploadFile" :on-success="uploadFileSuccess" :on-error="uploadFileError" :action="oaIp+'/versionCommand/add'" :auto-upload="false" :limit="1" accept="file">
+          </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="下载地址" prop="url">
+                <el-input v-model="form.url" placeholder="url/客户端类型/版本.扩展名"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="22">
+              <el-form-item label="版本描述" prop="info">
+                <el-input v-model="form.info" placeholder="请输入版本描述"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item label="上传文件" v-if="!isUpdate">
+            <el-upload ref="uploadFile" :data="form" :before-upload="beforeUploadFile" :on-success="uploadFileSuccess" :on-error="uploadFileError" :action="oaIp+'/versionCommand/add'" :auto-upload="false" :limit="1" accept="file" :with-credentials="true">
               <el-button type="primary">选择新版本上传
                 <i class="el-icon-upload el-icon--right"></i>
               </el-button>
@@ -53,29 +67,9 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="reset">重置</el-button>
-          <el-button type="primary" @click="upload">提 交</el-button>
+          <el-button type="primary" @click="upload" v-if="!isUpdate">提 交</el-button>
+          <el-button type="primary" @click="update" v-if="isUpdate">修 改</el-button>
         </span>
-        <!-- <form>
-          <div class="content-center-box">
-            <div>
-              属性方式：
-              <el-input v-model="clientVersion" placeholder="请输入上传的版本号"></el-input>
-            </div>
-            <div class="sep-inline">
-              <el-upload class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">将入网文件拖到此处，或
-                  <em>点击上传</em>
-                </div>
-                <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
-              </el-upload>
-            </div>
-          </div>
-        </form> 
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="batchBindReset">重置</el-button>
-          <el-button type="primary" @click="upload">提 交</el-button>
-        </span>-->
       </el-dialog>
       <!-- 上传新版本end -->
     </div>
@@ -110,6 +104,7 @@ export default {
     };
     return {
       uploadDialogVisible: false, //上传面板是否可见
+      isUpdate: true,
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -281,8 +276,8 @@ export default {
               text: "编辑",
               color: "#3685FD",
               cb: rowdata => {
-                /* this.editForm = rowdata;
-                this.editFormVisible = true; */
+                this.uploadDialogVisible = true;
+                this.form = { ...rowdata };
               }
             },
             {
@@ -296,8 +291,22 @@ export default {
                 }
               },
               cb: rowdata => {
-                /* this.editForm = rowdata;
-                this.editFormVisible = true; */
+                this.$confirm("确认执行当前操作?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                }).then(() => {
+                  setUsingVersion()({
+                    clientVersion: rowdata.clientVersion,
+                    type: rowdata.type
+                  }).then(data => {
+                    this.reloadData();
+                    this.$message({
+                      type: "success",
+                      message: "启用成功!"
+                    });
+                  });
+                });
               }
             }
           ]
@@ -344,20 +353,85 @@ export default {
           value: "FALSE"
         }
       ],
-      clientVersion: "",
-      url: "",
-      type: "",
-      isForced: "FALSE",
-      compatibleVersion: "0",
-      info: ""
+      form: {
+        clientVersion: "",
+        url: "",
+        type: "",
+        isForced: "FALSE",
+        compatibleVersion: "0",
+        info: ""
+      },
+      file: "",
+      validateRules: {
+        clientVersion: [
+          { required: true, message: "请输入上传客户端版本号", trigger: "blur" }
+        ],
+        url: [{ required: true, message: "请输入上传版本的下载地址", trigger: "blur" }],
+        type: [{ required: true, message: "请输入客户端类型", trigger: "blur" }],
+        compatibleVersion: [
+          { required: true, message: "请输入最低兼容版本", trigger: "blur" }
+        ],
+        info: [{ required: true, message: "请输入版本描述", trigger: "blur" }],
+        file: [{ required: true, message: "请选择上传文件", trigger: "blur" }]
+      }
     };
   },
   methods: {
-    upload() {},
+    upload() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          console.log(this.$refs.uploadFile);
+          if (this.$refs.uploadFile.uploadFiles.length === 0) {
+            this.$message({
+              type: "danger", //warning
+              message: "请选择上传文件!"
+            });
+            return;
+          }
+          this.$refs.uploadFile.submit();
+        }
+      });
+    },
+    update() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          patchVersion()(this.form).then(data => {
+            this.uploadDialogVisible = false;
+            this.reloadData();
+            this.$message({
+              type: "success",
+              message: "修改成功!"
+            });
+          });
+        }
+      });
+    },
     beforeUploadFile() {},
-    uploadFileSuccess() {},
-    uploadFileError() {},
-    reset() {}
+    uploadFileSuccess() {
+      this.$message({
+        type: "success",
+        message: "上传成功!"
+      });
+      this.uploadDialogVisible = false;
+      this.reloadData();
+    },
+    uploadFileError(err, file, fileList) {
+      this.$message({
+        type: "danger",
+        message: "上传失败!" + err
+      });
+    },
+    reset() {
+      this.form.clientVersion = "";
+      this.form.url = "";
+      this.form.type = "";
+      this.form.isForced = "FALSE";
+      this.form.compatibleVersion = "0";
+      this.form.info = "";
+    },
+    dialogClosed() {
+      this.isUpdate = true;
+    }
   },
   mounted() {}
 };
