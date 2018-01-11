@@ -14,88 +14,102 @@
     <!-- 新增start -->
     <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
 
-      <el-form size="small" ref="addForm" :model="addForm" :rules="addFormRules" label-width="100px">
-        <p class="dialog-title">基本信息</p>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item prop="agentName" label="合伙人名称">
-                <el-input v-model="addForm.agentName"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item prop="phoneNo" label="手机号">
-                <el-input prop="phoneNo" v-model="addForm.phoneNo"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item prop="linkMan" label="联系人">
-                <el-input prop="linkMan" v-model="addForm.linkMan"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item prop="fixedPhone" label="固定电话">
-                <el-input prop="fixedPhone" v-model="addForm.fixedPhone"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <p class="dialog-title">结算信息</p>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item prop="agentArea" label="经营区域">
-                <el-cascader :options="optionsArea" v-model="addForm.agentArea" @change="handleChangeArea">
-                </el-cascader>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item prop="accountName" label="收款人">
-                <el-input v-model="addForm.accountName"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+      <el-form class="fieldset-box" size="small" ref="addForm" :model="addForm" :rules="addFormRules" label-width="100px">
+        <fieldset>
+          <legend>结算信息</legend>
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item prop="agentName" label="合伙人名称">
+                  <el-input v-model="addForm.agentName"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple-light">
+                <el-form-item prop="phoneNo" label="手机号">
+                  <el-input prop="phoneNo" v-model="addForm.phoneNo"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item prop="linkMan" label="联系人">
+                  <el-input prop="linkMan" v-model="addForm.linkMan"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple-light">
+                <el-form-item prop="fixedPhone" label="固定电话">
+                  <el-input prop="fixedPhone" v-model="addForm.fixedPhone"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+        </fieldset>
+        <fieldset>
+          <legend>结算信息</legend>
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item prop="accountNo" label="对公账户">
+                  <el-input v-model="addForm.accountNo"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple-light">
+                <el-form-item prop="accountName" label="收款人">
+                  <el-input v-model="addForm.accountName"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-form-item class="full-width" prop="agentArea" label="经营区域">
+            <el-cascader :options="optionsArea" v-model="addForm.agentArea" @change="handleChangeArea">
+            </el-cascader>
+          </el-form-item>
 
-        <el-form-item prop="accountNo" label="对公账户">
-          <el-input v-model="addForm.accountNo"></el-input>
-        </el-form-item>
-        <el-form-item class="full-width" prop="bankagentArea" label="银行地区">
-          <el-cascader :options="optionsArea" v-model="addForm.bankArea" @change="bankhandleChangeArea">
-          </el-cascader>
-        </el-form-item>
-        <el-form-item class="full-width" prop="bankCode" label="所属银行">
-          <el-select prop="bankCode" v-model="addForm.bankCode" clearable placeholder="请选择" @input="banksChange">
-            <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item class="full-width" prop="unionCode" label="选择支行">
-          <el-select prop="unionCode" v-model="addForm.shValue" clearable placeholder="请选择">
-            <el-option v-for="item in selectOptions.branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <p class="dialog-title">开发信息</p>
-        <el-form-item prop="isCreateKey" label="是否创建accesskey">
-          <el-select prop="isCreateKey" v-model="addForm.isCreateKey" clearable placeholder="请选择">
-            <el-option v-for="item in selectOptions.isCreateKeyOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item prop="redirectUrl" label="回掉地址">
-          <el-input v-model="addForm.redirectUrl"></el-input>
-        </el-form-item>
+          <el-form-item class="full-width" prop="bankagentArea" label="银行地区">
+            <el-cascader :options="optionsArea" v-model="addForm.bankArea" @change="bankhandleChangeArea">
+            </el-cascader>
+          </el-form-item>
+          <el-form-item class="full-width" prop="bankCode" label="所属银行">
+            <el-select prop="bankCode" v-model="addForm.bankCode" clearable placeholder="请选择" @input="banksChange">
+              <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item class="full-width" prop="unionCode" label="选择支行">
+            <el-select prop="unionCode" v-model="addForm.shValue" clearable placeholder="请选择">
+              <el-option v-for="item in selectOptions.branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </fieldset>
+        <fieldset>
+          <legend>开发信息
+            <span class="small">（开发能力的第三方合伙人入网的必填选项，无需开发合伙人不填）</span>
+          </legend>
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item prop="redirectUrl" label="回掉地址">
+                  <el-input v-model="addForm.redirectUrl"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label-width="150px" prop="isCreateKey" label="是否创建accesskey">
+                <el-switch active-value="TRUE" inactive-value="FALSE" v-model="addForm.isCreateKey">
+                </el-switch>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </fieldset>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
@@ -116,7 +130,7 @@
         <el-form-item label="手机号">
           <el-input :disabled="true" v-model="editForm.phoneNo"></el-input>
         </el-form-item>
-        <el-form-item label="经营区域">
+        <el-form-item class="full-width" label="经营区域">
           <el-cascader :options="optionsArea" v-model="editForm.agentArea" @change="handleChangeArea">
           </el-cascader>
         </el-form-item>
@@ -137,6 +151,23 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
+.fieldset-box {
+  fieldset {
+    border: 1px solid #eee;
+    border-left: 0;
+    border-right: 0;
+    margin-top: 16px;
+    padding: 8px;
+    legend {
+      font-size: 14px;
+      .small {
+        font-size: 12px;
+        color: #67c23a;
+      }
+    }
+  }
+}
+
 .full-width {
   width: 100%;
   .el-cascader {
@@ -145,6 +176,18 @@
   .el-select {
     width: 100%;
   }
+}
+.dialog-title {
+  background: rgba(0, 193, 223, 0.1);
+  height: 30px;
+  line-height: 30px;
+  text-indent: 10px;
+  margin-bottom: 10px;
+}
+.tip-text {
+  font-size: 12px;
+  line-height: 18px;
+  color: #67c23a;
 }
 </style>
 <script>
@@ -324,7 +367,7 @@ export default {
             // 操作按钮
             {
               text: "编辑",
-              color: "#00c1df",
+              color: "#e6a23c",
               cb: rowdata => {
                 console.log(rowdata);
                 // console.log(areaOrgcode(rowdata.agentArea));
@@ -332,27 +375,27 @@ export default {
                 this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
                 this.editFormVisible = true;
               }
-            },
-            {
-              text: "删除",
-              color: "#00c1df",
-              cb: rowdata => {
-                this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                })
-                  .then(() => {
-                    alert("确定删除");
-                  })
-                  .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
-                  });
-              }
             }
+            // {
+            //   text: "删除",
+            //   color: "#f56c6c",
+            //   cb: rowdata => {
+            //     this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
+            //       confirmButtonText: "确定",
+            //       cancelButtonText: "取消",
+            //       type: "warning"
+            //     })
+            //       .then(() => {
+            //         alert("确定删除");
+            //       })
+            //       .catch(() => {
+            //         this.$message({
+            //           type: "info",
+            //           message: "已取消操作"
+            //         });
+            //       });
+            //   }
+            // }
           ]
         }
       }

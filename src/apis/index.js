@@ -78,7 +78,8 @@ const getAgents = () => { return (params) => { return http.get(base.oaIp, "/agen
 /**
 **合伙人转移start
  */
-// const getPartnerTransferPage = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
+const getPartnerTransfer = () => { return (params) => { return http.get(base.oaIp, "/agent/transfer", params) } }
+const getTransferBranchoffice = () => { return (params) => { return http.get(base.oaIp, "/agent/transferBranchoffice", params) } }
 // end -------------------------------------------------
 
 /**
@@ -344,6 +345,9 @@ export {
     setUsingVersion,
     // 统计管理
     getBurialPointManages,
-    getBurialPointTotal
+    getBurialPointTotal,
+    // 合伙人转移
+    getPartnerTransfer,
+    getTransferBranchoffice
 };
 

@@ -67,10 +67,8 @@
         <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
           <el-input v-model="importForm.customerNo" auto-complete="off"></el-input>
         </el-form-item>
-      </el-form>
-      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
-        <el-form-item label="商品文件" prop="customerNo" :label-width="formLabelWidth">
-          <el-upload :data="{customerNo:importForm.customerNo}" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
+        <el-form-item label="商品文件" :label-width="formLabelWidth">
+          <el-upload :with-credentials="true" :data="importForm" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
@@ -353,7 +351,9 @@ export default {
         discountType: ""
       }, // 编辑单个表单
       editFormRules: {}, // 编辑单个规则
-      importFormRules: {},
+      importFormRules: {
+        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }]
+      },
       batchNetForm: {
         // 批量上传
         url: ""
@@ -821,7 +821,6 @@ export default {
         type: "success",
         center: true
       });
-      this.importDialog();
       this.importVisible = false;
     },
     // 导入失败
@@ -841,7 +840,11 @@ export default {
       this.$refs[formName].resetFields();
       this.$refs[uploadName].clearFiles();
     },
-    importSave() {
+    importSave(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+        }
+      });
       // 确定导入
       this.$refs.upload.submit();
     },
