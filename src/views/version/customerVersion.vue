@@ -6,17 +6,18 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;dialogVisible = true">新增升级商户</el-button>
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isBatchUpdate = false;isUpdate = false;dialogVisible = true">新增升级商户</el-button>
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">修改升级商户</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 新增版本start -->
-      <el-dialog center title="新增升级商户" :visible.sync="dialogVisible" width="600px" @close="dialogClosed">
+      <el-dialog center :title="getDialogTitle()" :visible.sync="dialogVisible" width="600px" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
           <el-row>
             <el-col :span="11">
-              <el-form-item label="版本类型" prop="type">
+              <el-form-item label="版本类型" prop="type" v-if="!isUpdate">
                 <el-select v-model="form.type" placeholder="请选择">
                   <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
@@ -43,7 +44,8 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="reset">重置</el-button>
-          <el-button type="primary" @click="submit" v-if="!isUpdate">提 交</el-button>
+          <el-button type="primary" @click="submit" v-if="!isUpdate && !isBatchUpdate">提 交</el-button>
+          <el-button type="primary" @click="update" v-if="isBatchUpdate">批量修改</el-button>
           <el-button type="primary" @click="update" v-if="isUpdate">修 改</el-button>
         </span>
       </el-dialog>
@@ -80,6 +82,7 @@ export default {
     return {
       dialogVisible: false, //上传面板是否可见
       isUpdate: true,
+      isBatchUpdate: false,
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -314,6 +317,13 @@ export default {
     };
   },
   methods: {
+    getDialogTitle() {
+      if (this.isBatchUpdate || this.isUpdate) {
+        return "修改升级商户";
+      } else {
+        return "新增升级商户";
+      }
+    },
     submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
@@ -364,6 +374,7 @@ export default {
     },
     dialogClosed() {
       this.isUpdate = true;
+      this.isBatchUpdate = false;
     }
   },
   mounted() {}
