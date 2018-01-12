@@ -17,18 +17,39 @@
     <!-- 新增start -->
     <el-dialog center title="新增商户" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-          <el-input v-model="addForm.enterpriseName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.taxNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-          <el-input v-model="addForm.legalPerson" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-          <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+                <el-input v-model="addForm.enterpriseName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.taxNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
+                <el-input v-model="addForm.legalPerson" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
+                <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
         <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
           <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
         </el-form-item>
@@ -191,6 +212,7 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
@@ -219,7 +241,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinsPc, mixinDataTable],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号

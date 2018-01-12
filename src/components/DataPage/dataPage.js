@@ -95,6 +95,9 @@ const mixinDataTable = {
             // nginx配置的路由
             return this.$store.state.Base.oaIp;
         }
+    },
+    mounted() {
+        this.$store.commit("initSearchVisibleFn");
     }
 }
 export {

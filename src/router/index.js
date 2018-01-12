@@ -38,7 +38,8 @@ const router = new Router({
             path: 'home',
             component: layout,
             children: [
-                home
+                home,
+
             ],
             meta: {
                 title: '',

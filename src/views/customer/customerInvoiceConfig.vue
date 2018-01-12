@@ -95,6 +95,7 @@
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
@@ -108,7 +109,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinsPc, mixinDataTable],
   data() {
     var searchConditionVar = {
       customerNo: "" // 商户编号

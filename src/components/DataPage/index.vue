@@ -215,7 +215,7 @@ export default {
       return this.tableDataInit.havecheck ? this.tableDataInit.havecheck : true;
     },
     visibleinput() {
-      return this.$store.state.dataTable.visibleinput;
+      return this.$store.state.topSearch.visibleinput;
     }
   }
 };
