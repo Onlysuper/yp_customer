@@ -1,29 +1,30 @@
 <template>
   <!-- layout 左侧菜单区域 -->
   <div class="aside-box">
-    <div class="logo-box">
+    <div class="logo-box" ref="logoBox">
       <div class="img-box">
         <img :src="require('@src/assets/images/logo.png')" alt="">
       </div>
       <h1 v-show="!isCollapse" class="home-title">易票运营系统v1.0</h1>
     </div>
-    <el-menu :unique-opened="true" text-color="#fff" :router="isrouter" default-active="1-1" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-      <el-submenu v-for="(item, index) in menuList" :index="index+'item1'" :key="index">
-        <template slot="title">
-          <i :class="'icon icon-'+item.menuCode">
-            <span class="path1"></span>
-            <span class="path2"></span>
-          </i>
-          <span slot="title">{{item.menuName}}</span>
-        </template>
-        <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="'/'+item2.menuCode">
-          {{item2.menuName}}
-        </el-menu-item>
-      </el-submenu>
-    </el-menu>
+    <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
+      <el-menu :unique-opened="true" text-color="#fff" :router="isrouter" default-active="1-1" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+        <el-submenu v-for="(item, index) in menuList" :index="index+'item1'" :key="index">
+          <template slot="title">
+            <i :class="'icon icon-'+item.menuCode">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+            <span slot="title">{{item.menuName}}</span>
+          </template>
+          <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="'/'+item2.menuCode">
+            {{item2.menuName}}
+          </el-menu-item>
+        </el-submenu>
+      </el-menu>
+    </iscroll-view>
   </div>
   <!-- 左侧菜单 -->
-
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
@@ -37,9 +38,20 @@
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
   height: 100%;
+  width: 225px;
   position: relative;
   z-index: 11;
   flex-shrink: 0;
+  .scroll-view {
+    /* -- Attention: This line is extremely important in chrome 55+! -- */
+    touch-action: none;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    top: 55px;
+    bottom: 0;
+    left: 0;
+  }
   /*重置样式 start*/
   .el-dropdown-link {
     cursor: pointer;
@@ -132,14 +144,26 @@
 </style>
 
 <script>
+import Vue from "vue";
+import IScrollView from "vue-iscroll-view";
+import IScroll from "iscroll";
+Vue.use(IScrollView, IScroll);
+
 import "@src/assets/icons/style.css";
 import { MenuGet, PasswordUpdate } from "@src/apis";
+
 export default {
   name: "pc",
   data() {
     //密码修改表单内容
     return {
-      isrouter: true // 开启路由
+      isrouter: true, // 开启路由
+      iscrollOptions: {
+        scrollbars: true,
+        mouseWheel: true,
+        useTransform: true, //CSS转化
+        useTransition: true //CSS过渡
+      }
     };
   },
   computed: {
@@ -150,14 +174,26 @@ export default {
       return this.$store.state.moduleLayour.menuList;
     }
   },
-  mounted() {},
+  mounted() {
+    this.resetScrollViewHeight();
+  },
   methods: {
     handleOpen(key, keyPath) {
-      // console.log(key, keyPath);
+      this.resetScrollViewHeight();
     },
     handleClose(key, keyPath) {
-      // console.log(key, keyPath);
+      this.resetScrollViewHeight();
+    },
+    resetScrollViewHeight() {
+      setTimeout(() => {
+        this.$refs.iscroll.refresh();
+      }, 500);
     }
+  },
+  watch: {
+    // $router(val) {
+    //   console.log(val);
+    // }
   }
 };
 </script>

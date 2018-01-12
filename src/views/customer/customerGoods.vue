@@ -10,45 +10,86 @@
           <el-button size="small" @click="importDialog" type="primary" icon="el-icon-download">导入</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item label="商品编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-select v-model="addForm.unionNo" placeholder="请选择">
-            <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-input v-model="addForm.goodsName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
-          <el-input v-model="addForm.model" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
-          <el-input v-model="addForm.unit" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
-          <el-input v-model="addForm.unitPrice" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-select v-model="addForm.taxRate" placeholder="请选择">
-            <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
-          <el-select v-model="addForm.enjoyDiscount" placeholder="请选择">
-            <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="商品编码" prop="unionNo" :label-width="formLabelWidth">
+                <el-select v-model="addForm.unionNo" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+                <el-input v-model="addForm.goodsName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
+                <el-select v-model="addForm.taxRate" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
+                <el-input v-model="addForm.unit" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
+                <el-input v-model="addForm.unitPrice" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
+                <el-input v-model="addForm.model" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
+                <el-select v-model="addForm.enjoyDiscount" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-form-item class="full-width" label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
           <el-select v-model="addForm.discountType" placeholder="请选择">
             <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -67,10 +108,8 @@
         <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
           <el-input v-model="importForm.customerNo" auto-complete="off"></el-input>
         </el-form-item>
-      </el-form>
-      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
-        <el-form-item label="商品文件" prop="customerNo" :label-width="formLabelWidth">
-          <el-upload :data="{customerNo:importForm.customerNo}" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
+        <el-form-item label="商品文件" :label-width="formLabelWidth">
+          <el-upload :with-credentials="true" :data="importForm" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
@@ -88,48 +127,99 @@
     <!-- 编辑start -->
     <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-select v-model="editForm.unionNo" placeholder="请选择">
-            <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
-          <el-input v-model="editForm.model" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
-          <el-input v-model="editForm.unit" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
-          <el-input v-model="editForm.unitPrice" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-select v-model="editForm.taxRate" placeholder="请选择">
-            <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
-          <el-select v-model="editForm.enjoyDiscount" placeholder="请选择">
-            <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
-          <el-select v-model="editForm.discountType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
+                <el-select v-model="editForm.unionNo" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+                <el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
+                <el-select v-model="editForm.taxRate" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
+                <el-input v-model="editForm.unit" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
+                <el-input v-model="editForm.unitPrice" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
+                <el-input v-model="editForm.model" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
+                <el-select v-model="editForm.enjoyDiscount" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
+                <el-select v-model="editForm.discountType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('editForm')">重置</el-button>
@@ -142,83 +232,22 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.admin-page {
-  position: relative;
-  background: #eff2f5;
-  padding: 10px;
-  .detail-content {
-    .line-label-box {
-      padding: 4px 0;
-      .line-label {
-        min-width: 100px;
-        display: inline-block;
-        padding: 0 10px;
-      }
-      &:nth-child(odd) {
-        background-color: rgba(0, 193, 223, 0.1);
-      }
-      &:nth-child(even) {
-        background-color: #fff;
-      }
-    }
-  }
-  .content-center-box {
-    text-align: center;
-  }
-  .sep-inline {
-    margin: 5px 0;
+.full-width {
+  width: 100%;
+  .el-cascader {
     width: 100%;
   }
-  .operation-box {
-    float: left;
+  .el-select {
     width: 100%;
-    .button-group {
-      margin-right: 10px;
-    }
-    .line {
-      text-align: center;
-    }
-  }
-  .operation-group {
-    padding: 5px 0;
-    .line {
-      text-align: center;
-    }
-  }
-  .tableHeader {
-    background: #f0f0f0;
-  }
-  .page-tag {
-    margin-bottom: 10px;
-  }
-  .admin-main-box {
-    padding: 10px;
-    position: relative;
-    height: 100%;
-    // width: 100%;
-    background: #fff;
-  }
-  .form-box {
-    margin-top: 10px;
-  }
-  .el-pagination {
-    text-align: right;
-    padding-top: 17px;
-  }
-  .tip-text {
-    color: #67c23a;
-  }
-  .button-group {
-    padding-bottom: 5px;
   }
 }
 </style>
-
-
-
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
+// table页与搜索页公用功能
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
   getCustomerGoods,
   postAddCustomerGood,
@@ -233,6 +262,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinsPc, mixinDataTable],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -382,27 +412,34 @@ export default {
           }
         ]
       },
-      addFormVisible: false, // 新增框
-      importVisible: false,
+
       addFormRules: {
         unionNo: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
         customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
         goodsName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
         taxRate: [{ required: true, message: "税率为必选项", trigger: "blur" }]
       },
+      // 查询条件数据
+      searchCondition: searchConditionVar,
+      formLabelWidth: "100px",
+      addFormVisible: false, // 新增框
+      importVisible: false,
+      batchNetFormVisible: false, // 批量入网框
+      editFormVisible: false, // 编辑框
+      addForm: {
+        unionNo: "",
+        customerNo: "",
+        goodsName: "",
+        model: "",
+        unit: "",
+        unitPrice: "",
+        taxRate: "",
+        enjoyDiscount: "",
+        discountType: ""
+      },
       importForm: {
         customerNo: ""
       },
-      importFormRules: {},
-      batchNetFormVisible: false, // 批量入网框
-      editFormVisible: false, // 编辑框
-      batchNetForm: {
-        // 批量上传
-        url: ""
-      },
-
-      formLabelWidth: "100px",
-      editFormRules: {}, // 编辑单个规则
       editForm: {
         unionNo: "",
         customerNo: "",
@@ -414,19 +451,13 @@ export default {
         enjoyDiscount: "",
         discountType: ""
       }, // 编辑单个表单
-      detailsForm: {}, // 详情单个表单
-      // 查询条件数据
-      searchCondition: searchConditionVar,
-      addForm: {
-        unionNo: "",
-        customerNo: "",
-        goodsName: "",
-        model: "",
-        unit: "",
-        unitPrice: "",
-        taxRate: "",
-        enjoyDiscount: "",
-        discountType: ""
+      editFormRules: {}, // 编辑单个规则
+      importFormRules: {
+        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }]
+      },
+      batchNetForm: {
+        // 批量上传
+        url: ""
       },
       // 顶部搜索表单信息
       searchOptions: [
@@ -465,12 +496,10 @@ export default {
       ],
 
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getCustomerGoods, // 初始化数据
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: searchConditionVar // 搜索内容
+          url: getCustomerGoods // 获取Table列表数据的后台url
         },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
@@ -498,7 +527,7 @@ export default {
             type: data => {
               return {
                 text: data * 100 + "%",
-                type: "info"
+                type: ""
               };
             }
           },
@@ -511,12 +540,12 @@ export default {
               if (data == "0") {
                 return {
                   text: "正常税率",
-                  type: "info"
+                  type: ""
                 };
               } else if (data == "1") {
                 return {
                   text: "免税",
-                  type: "info"
+                  type: "success"
                 };
               } else if (data == "2") {
                 return {
@@ -526,7 +555,7 @@ export default {
               } else if (data == "3") {
                 return {
                   text: "普通零税率",
-                  type: "info"
+                  type: "warning"
                 };
               } else {
                 return {
@@ -545,7 +574,7 @@ export default {
               if (data == "10") {
                 return {
                   text: "不使用优惠政策",
-                  type: "info"
+                  type: ""
                 };
               } else if (data == "11") {
                 return {
@@ -555,7 +584,7 @@ export default {
               } else if (data == "12") {
                 return {
                   text: "免税",
-                  type: "info"
+                  type: "warning"
                 };
               } else if (data == "13") {
                 return {
@@ -649,7 +678,7 @@ export default {
               if (data == "TRUE") {
                 return {
                   text: "是",
-                  type: "info"
+                  type: "success"
                 };
               } else if (data == "FALSE") {
                 return {
@@ -659,7 +688,7 @@ export default {
               } else {
                 return {
                   text: data,
-                  type: "info"
+                  type: ""
                 };
               }
             }
@@ -688,7 +717,14 @@ export default {
               stateName: "defaultType",
               opposite: false,
               text: "设为默认",
-              color: "#00c1df",
+              color: "#67c23a",
+              visibleFn: rowdata => {
+                if (rowdata.defaultType == "FALSE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.$confirm("确定继续本次操作吗?", "提示", {
                   confirmButtonText: "确定",
@@ -719,7 +755,10 @@ export default {
                           type: "success",
                           message: "操作成功!"
                         });
-                        this.reloadData();
+                        this.reloadData(
+                          this.storePageCount,
+                          this.storeCurrentPage
+                        );
                       } else {
                         this.$message({
                           type: "warning",
@@ -740,7 +779,14 @@ export default {
               stateName: "defaultType", // 有哪个属性决定可见
               opposite: true, // 与以上属性是否相反
               text: "取消默认",
-              color: "#00c1df",
+              visibleFn: rowdata => {
+                if (rowdata.defaultType == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              color: "#e6a23c",
               cb: rowdata => {
                 this.$confirm("确定继续本次操作吗?", "提示", {
                   confirmButtonText: "确定",
@@ -771,7 +817,10 @@ export default {
                           type: "success",
                           message: "操作成功!"
                         });
-                        this.reloadData();
+                        this.reloadData(
+                          this.storePageCount,
+                          this.storeCurrentPage
+                        );
                       } else {
                         this.$message({
                           type: "warning",
@@ -804,7 +853,7 @@ export default {
             },
             {
               text: "删除",
-              color: "#00c1df",
+              color: "#909399",
               cb: rowdata => {
                 this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
                   confirmButtonText: "确定",
@@ -873,7 +922,6 @@ export default {
         type: "success",
         center: true
       });
-      this.importDialog();
       this.importVisible = false;
     },
     // 导入失败
@@ -893,11 +941,16 @@ export default {
       this.$refs[formName].resetFields();
       this.$refs[uploadName].clearFiles();
     },
-    importSave() {
+    importSave(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+        }
+      });
       // 确定导入
       this.$refs.upload.submit();
     },
     beforeUpload(file) {
+      // console.log(file);
       const extension = file.name.split(".")[1] === "xlsx";
       const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
@@ -908,58 +961,6 @@ export default {
         this.$message.error("上传文件图片大小不能超过 10MB!");
       }
       return extension || (extension2 && isLt2M);
-    },
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-
-    // 获取新数据
-    reloadData() {
-      this.tableData.getDataUrl = {
-        url: getCustomerGoods,
-        page: 1,
-        limit: 10,
-        searchCondition: this.searchCondition
-      };
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
     },
     // 新增保存
     addSave(formName) {
@@ -1031,7 +1032,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              this.reloadData(this.storePageCount, this.storeCurrentPage);
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,
@@ -1049,28 +1050,9 @@ export default {
           });
         }
       });
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
     }
   },
-  computed: {
-    oaIp() {
-      // nginx配置的路由
-      return this.$store.state.Base.oaIp;
-    },
-    editFormCustomerFrom() {
-      // 表单内用户来源显示状态客户来源
-      if (this.editForm.customerFrom == "OPEN_API") {
-        return "第三方";
-      } else if (this.editForm.customerFrom == "PLUGIN") {
-        return "插件";
-      } else if (this.editForm.customerFrom == "LOCAL") {
-        return "后台";
-      }
-    }
-  },
+  computed: {},
   mounted() {}
 };
 </script>

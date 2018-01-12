@@ -4,17 +4,17 @@ import loading from "@src/router/loading"
  * 登录模块
  */
 export default {
-  name: "usermenu",
-  path: "/menu",
-  component: layout,
-  children: [{
-    path: '/menu',
-    component: r => {
-      loading(true);
-      return require.ensure([], () => { loading(false); return r(require("@src/views/admin/userMenu")) }, "user-menu")
-    }
-  }],
+  name: "menu",
+  path: '/menu',
   meta: {
-    pageTitle: "菜单管理"
+    title: '菜单管理',
+    path: '/menu',
+    requiresAuth: true,
+    keepAlive: true,
+    role: ['root', 'admin']
+  },
+  component: r => {
+    loading(true);
+    return require.ensure([], () => { loading(false); return r(require("@src/views/admin/userMenu")) }, "user-menu")
   }
 }

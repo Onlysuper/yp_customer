@@ -1,7 +1,12 @@
 <template>
   <!-- layout 内容展示区域 -->
   <div class="reset-main">
-    <router-view></router-view>
+    <!-- <transition> -->
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <!-- </transition> -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -17,6 +22,14 @@ body {
 <script>
 export default {
   name: "AppMain",
-  computed: {}
+  computed: {
+    cachedViews() {
+      // return this.$store.state.tagsView.cachedViews;
+    }
+  },
+  mounted() {
+    // console.log(cachedViews);
+    // console.log(this.cachedViews);
+  }
 };
 </script>

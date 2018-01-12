@@ -3,11 +3,11 @@
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
     <el-table :data="tableData" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
-      <el-table-column fixed type="selection" width="40">
+      <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
         <template slot-scope="scope">
-          <el-tag v-if="item.status" :type="item.type(scope.row[scope.column.property]).type" close-transition> {{item.type(scope.row[scope.column.property]).text}}</el-tag>
+          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{item.type(scope.row[scope.column.property],scope.row).text}}</el-tag>
           <el-popover v-else trigger="click" placement="top">
             <p>{{ scope.row[scope.column.property]}}</p>
             <div slot="reference" class="name-wrapper">
@@ -18,13 +18,24 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column fixed="right" label="操作" :width="tableDataInit.operation.width">
-        <template slot-scope="scope">
+      <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
+        <!-- <template slot-scope="scope">
           <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="scope.row[item.stateName]=='TRUE'?item.opposite?true:false:item.opposite?false:true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
+        </template> -->
+        <template slot-scope="scope">
+          <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
+            {{item.text}}
+          </el-button>
+          <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" 
+          :key="index" size="small" type="text" 
+          
+           @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}
+            {{item.visibleFn(scope.row,item.visibleFn)}}
+          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[10, 20,30]" :page-size="pageCount" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="getLimit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
   </div>
@@ -56,47 +67,37 @@
 }
 </style>
 <script>
+import $ from "jquery";
+import qs from "qs";
 import Vue from "vue";
 export default {
-  props: ["tableDataInit"],
+  props: ["tableDataInit", "page", "limit", "search"],
   data() {
     return {
+      dataSuccess: this.tableDataInit.dataSuccess, // 数据家在完成
       ifloading: false,
       tableData: [],
       tableHeight: 0, // 表单的高度
-      currentPage: 1, //当前页数
-      pageCount: 10, //每页条数
-      dataCount: 0
+      getUrl: this.tableDataInit.getDataUrl.url, // 请求函数
+      dataCount: 0,
+      getPage: this.page, //当前页数
+      getLimit: this.limit, //每页条数
+      getSearch: this.search // 搜索条件
     };
   },
-  computed: {
-    getDataUrl() {
-      // 获取父页面传递的get参数
-      return this.tableDataInit.getDataUrl;
-    },
-    visibleinput() {
-      return this.$store.state.dataTable.visibleinput;
-    }
-  },
-  mounted() {
-    // 初始化数据
-    this.currentPage = this.getDataUrl.page;
-    this.pageCount = this.getDataUrl.limit;
-    this.postDataInit(
-      this.currentPage,
-      this.pageCount,
-      this.getDataUrl.searchCondition
-    );
-    this.tableSizeHandle();
-    window.onresize = () => {
-      this.tableSizeHandle();
-    };
-  },
+
   methods: {
+    visibleArrFn(rowdata, cb) {
+      // 点击操作按钮
+      this.$emit("operation", rowdata, cb);
+    },
+    summaryMethod(param) {
+      console.log(param);
+    },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
       this.ifloading = true;
-      this.getDataUrl.url()({
+      this.getUrl()({
         page: page,
         limit: limit,
         ...searchCondition
@@ -105,6 +106,9 @@ export default {
           // 数据获取成功
           this.tableData = data.data;
           this.dataCount = data.count;
+          if (this.dataSuccess != "" && this.dataSuccess != null) {
+            this.$emit("operation", data, this.dataSuccess);
+          }
         }
         this.ifloading = false;
       });
@@ -120,21 +124,11 @@ export default {
     },
     handleSizeChange(val) {
       // 改变页数
-      this.pageCount = val;
-      this.postDataInit(
-        this.currentPage,
-        this.pageCount,
-        this.getDataUrl.searchCondition
-      );
+      this.$emit("pagelimit", val);
     },
+    // 更改页数
     handleCurrentChange(val) {
-      // 更改每页显示条数
-      this.currentPage = val;
-      this.postDataInit(
-        this.currentPage,
-        this.pageCount,
-        this.getDataUrl.searchCondition
-      );
+      this.$emit("pagecount", val);
     },
     handleLoad() {
       // 操作按钮加载完毕
@@ -147,11 +141,27 @@ export default {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);
     },
-    ExportExcel() {
-      window.location.href =
-        this.$store.state.Base.oaIp +
-        "/customer/export?" +
-        this.getDataUrl.searchCondition;
+    // 导出
+    ExportExcel(path, param) {
+      var exportUrl = "";
+      if (param) {
+        exportUrl =
+          this.$store.state.Base.oaIp +
+          path +
+          "?" +
+          qs.stringify(param) +
+          "&" +
+          qs.stringify(this.getSearch);
+      } else {
+        exportUrl =
+          this.$store.state.Base.oaIp +
+          path +
+          "?" +
+          qs.stringify(this.getSearch);
+      }
+      // var exportUrl =
+      //   this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
+      window.location.href = exportUrl;
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
@@ -162,14 +172,50 @@ export default {
       // 监听高级搜索与普通搜索模式转变
       this.tableSizeHandle();
     },
-    // 检测父页面搜索数据变化
-    getDataUrl(value) {
-      var getDataUrl = value;
-      this.postDataInit(
-        getDataUrl.page,
-        getDataUrl.limit,
-        getDataUrl.searchCondition
-      );
+    getPage(value) {
+      this.getPage = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    getLimit(value) {
+      this.getLimit = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    getUrl(value) {
+      this.getUrl = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    getSearch() {
+      this.getSearch = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    }
+  },
+  mounted() {
+    // 初始化数据
+    this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    this.tableSizeHandle();
+    window.onresize = () => {
+      this.tableSizeHandle();
+    };
+  },
+  computed: {
+    userAll() {
+      // 所有的用户信息
+      return this.$store.state.moduleLayour.userMessage.all;
+    },
+    getDataUrl() {
+      // 获取父页面传递的get参数
+      return this.tableDataInit.getDataUrl;
+    },
+    summary() {
+      //是否显示合计
+      return true;
+    },
+    havecheck() {
+      // 是否显示选择框
+      return this.tableDataInit.havecheck ? this.tableDataInit.havecheck : true;
+    },
+    visibleinput() {
+      return this.$store.state.topSearch.visibleinput;
     }
   }
 };

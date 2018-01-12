@@ -5,16 +5,16 @@ import loading from "@src/router/loading"
  */
 export default {
   name: "billprofit",
-  path: "/billprofit",
-  component: layout,
-  children: [{
-    path: '/billprofit',
-    component: r => {
-      loading(true);
-      return require.ensure([], () => { loading(false); return r(require("@src/views/billprofit/billprofit")) }, "billprofit")
-    }
-  }],
+  path: '/billprofit',
+  component: r => {
+    loading(true);
+    return require.ensure([], () => { loading(false); return r(require("@src/views/billprofit/billprofit")) }, "billprofit")
+  },
   meta: {
-    pageTitle: "快速开票分润"
+    title: '快速开票分润',
+    keepAlive: true,
+    parent: "",
+    parentname: "开票查询",
+    role: ['root', 'admin']
   }
 }

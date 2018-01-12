@@ -3,7 +3,7 @@
     <side-bar class="layout-sldebar"></side-bar>
     <el-container class="layout-main">
       <nav-bar></nav-bar>
-      <tags-view></tags-view>
+      <!-- <tags-view></tags-view> -->
       <app-main></app-main>
     </el-container>
   </el-container>
@@ -27,7 +27,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
+<style lang='scss'>
+@import "../../../src/assets/scss-pc/admin-page.scss";
+// @import "../../../src/assets/scss-pc/reset.scss";
 .layout-page {
   height: 100vh;
   // overflow: hidden;

@@ -15,14 +15,16 @@ const Login = () => { return (params) => { return http.post(base.oaIp, "/login",
 // 菜单列表
 const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/data", params) } }
 
+// 用户信息
+const UserGet = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
 // 管理密码修改
 const PasswordUpdate = () => { return (params) => { return http.post(base.oaIp, "/user/update/password", params) } }
 
 // 合伙人管理初始化数据
-const AgentManage = () => { return (params) => { return http.get(base.oaIp, "/agent/page", params) } }
-
-//新增
-const AgentManageAdd = () => { return (params) => { return http.post(base.oaIp, "/agent/add", params) } }
+const getAgentManages = () => { return (params) => { return http.get(base.oaIp, "/agent/page", params) } }
+const postAddAgentManage = () => { return (params) => { return http.post(base.oaIp, "/agent/add", params) } }
+const postEditAgentManage = () => { return (params) => { return http.post(base.oaIp, "/agent/update", params) } }
+const getBankList = () => { return (params) => { return http.get(base.oaIp, "/brankbank/list", params) } }
 
 /**
 **快速开票分润start
@@ -35,18 +37,21 @@ const getBillprofitSum = () => { return (params) => { return http.get(base.oaIp,
 **开票统计start
  */
 const getBillcountagents = () => { return (params) => { return http.get(base.oaIp, "/billcountagent/page", params) } }
+const getBillcountSum = () => { return (params) => { return http.get(base.oaIp, "/billcountagent/sum", params) } }
 // end -------------------------------------------------
 
 /**
 **开票记录start
  */
 const getBillrecords = () => { return (params) => { return http.get(base.oaIp, "/billrecord/page", params) } }
+const postEditBillrecord = () => { return (params) => { return http.post(base.oaIp, "/billrecord/update", params) } }
 // end -------------------------------------------------
 
 /**
 **日开票详情start
  */
 const getBillcountdays = () => { return (params) => { return http.get(base.oaIp, "/billcountday/page", params) } }
+const getExportBillcountdays = (search) => { return (params) => { return http.get(base.oaIp, "/billcountday/export?" + search, params) } }
 // end -------------------------------------------------
 
 /**
@@ -59,6 +64,9 @@ const getBillcountcustomers = () => { return (params) => { return http.get(base.
 **产品管理start
  */
 const getProducts = () => { return (params) => { return http.get(base.oaIp, "/product/page", params) } }
+const postAddProduct = () => { return (params) => { return http.post(base.oaIp, "/product/add", params) } }
+const postEditProduct = () => { return (params) => { return http.post(base.oaIp, "/product/update", params) } }
+const postToggleProduct = () => { return (params) => { return http.post(base.oaIp, "/product/updateStatus", params) } }
 // end -------------------------------------------------
 
 /**
@@ -70,7 +78,8 @@ const getAgents = () => { return (params) => { return http.get(base.oaIp, "/agen
 /**
 **合伙人转移start
  */
-const getPartnerTransferPage = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
+const getPartnerTransfer = () => { return (params) => { return http.get(base.oaIp, "/agent/transfer", params) } }
+const getTransferBranchoffice = () => { return (params) => { return http.get(base.oaIp, "/agent/transferBranchoffice", params) } }
 // end -------------------------------------------------
 
 /**
@@ -89,7 +98,12 @@ const postDeleteCustomerGood = (path) => { return (params) => { return http.post
 const postDefaultCustomerGood = (path) => { return (params) => { return http.post(base.oaIp, "/customerGoods/configDefault/" + path, params) } }
 const postCancelDefaultCustomerGood = (path) => { return (params) => { return http.post(base.oaIp, "/customerGoods/cancelDefault/" + path, params) } }
 // end -------------------------------------------------
-
+/**
+**商户产品start
+*/
+const getCustomerProducts = () => { return (params) => { return http.get(base.oaIp, "/userproduct/customerProductPage", params) } }
+const getCheckCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/query/checkCustomerProduct", params) } }
+// end -------------------------------------------------
 /**
 **商户管理 start
  */
@@ -116,24 +130,38 @@ const postEditCustomerConfigs = () => { return (params) => { return http.post(ba
 **授权码审核start
  */
 const getArantNumExamines = () => { return (params) => { return http.get(base.oaIp, "/qrReciept/secondpage", params) } }
+const putAdoptArantNumExamine = (path) => { return (params) => { return http.put(base.oaIp, "/qrReciept/aduit/" + path, params) } }
+const putRefuseArantNumExamine = (path) => { return (params) => { return http.put(base.oaIp, "/qrReciept/reject/" + path, params) } }
 // end -------------------------------------------------
 
 /**
 **授权码管理start
  */
 const getArantNumManages = () => { return (params) => { return http.get(base.oaIp, "/qrcode/page", params) } }
+const postMakeEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/add", params) } }
+const postScanMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addScanCodeGunBatch", params) } }
+const postMakeMateriel = () => { return (params) => { return http.post(base.oaIp, "/qrcode/addMaterielBatch", params) } }
+const postEditEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/update", params) } }
+const postBindEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/bind", params) } }
+const postUnBindEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/unbind", params) } }
+const postBindChildEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcode/bindChildQrcode", params) } }
+const postMakeTorageEmpower = () => { return (params) => { return http.post(base.oaIp, "/qrcodebatch/addDeviceBatch", params) } }
 // end -------------------------------------------------
 
 /**
 **授权码转移start
  */
 const getArantNumTransfers = () => { return (params) => { return http.get(base.oaIp, "/qrcodemigrate/page", params) } }
+const postMigrateNumTransfer = () => { return (params) => { return http.post(base.oaIp, "/qrcodemigrate/migrate", params) } }
+// const getMigrateNumTransfer = () => { return (params) => { return http.get(base.oaIp, "/qrcodemigrate/migrate", params) } }
 // end -------------------------------------------------
 
 /**
-**授权码回购start
+**授权码采购start
  */
 const getArantNumBuybacks = () => { return (params) => { return http.get(base.oaIp, "/qrReciept/page", params) } }
+const postPurchaseArantNum = () => { return (params) => { return http.post(base.oaIp, "/qrReciept", params) } }
+const patchPurchaseArantNum = () => { return (params) => { return http.patch(base.oaIp, "/qrReciept", params) } }
 // end -------------------------------------------------
 
 /**
@@ -173,13 +201,30 @@ const patchRolesTreeSave = () => { return (params) => { return http.patch(base.o
 // end -------------------------------------------------
 
 /**
-**版本控制Start
+ **消息记录Start
  */
-const getVersionControls = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/page", params) } }
+const getMessages = () => { return (params) => { return http.get(base.oaIp, "/message/page", params) } }
 // end -------------------------------------------------
 
 /**
-**埋点图标Start
+ **商户版本管理Start
+ */
+// end -------------------------------------------------
+const postCustomerVersion = () => { return (params) => { return http.post(base.oaIp, "/customerpluginversion/add", params) } }
+const patchCustomerVersion = () => { return (params) => { return http.post(base.oaIp, "/customerpluginversion/updateVersion", params) } }
+const getCustomerVersions = () => { return (params) => { return http.get(base.oaIp, "/customerpluginversion/page", params) } }
+
+/**
+**版本管理Start
+ */
+const patchVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/update", params) } }
+const getVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/page", params) } }
+const getOldVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/queryOldClientVersions", params) } }
+const setUsingVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/startUsing", params) } }
+// end -------------------------------------------------
+
+/**
+**埋点图表Start
  */
 const getBurialPointCharts = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
 // end -------------------------------------------------
@@ -187,7 +232,8 @@ const getBurialPointCharts = () => { return (params) => { return http.get(base.o
 /**
 **埋点管理Start
  */
-const getBurialPointManages = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
+const getBurialPointManages = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/page", params) } }
+const getBurialPointTotal = () => { return (params) => { return http.post(base.oaIp, "/operatorlog/total", params) } }
 // end -------------------------------------------------
 
 /**
@@ -197,41 +243,85 @@ const getBillrecordCharts = () => { return (params) => { return http.get(base.oa
 // end -------------------------------------------------
 
 export {
-    AgentManage,
     Login,
     MenuGet,
+    UserGet,
     PasswordUpdate,
     orgCodeHandle,
-    AgentManageAdd,
-    //快速分润查询
+    // 合伙人管理
+    getAgentManages,
+    postAddAgentManage,
+    postEditAgentManage,
+    getBankList,
+    // 快速开票分润
     getBillprofits,
     getBillprofitSum,
-    //商品管理
+    //开票统计
+    getBillcountagents,
+    getBillcountSum,
+    // 开票记录
+    getBillrecords,
+    postEditBillrecord,
+    // 日开票详情
+    getBillcountdays,
+    getExportBillcountdays,
+    //达标详情
+    getBillcountcustomers,
+    // 产品管理
+    getProducts,
+    postAddProduct,
+    postEditProduct,
+    postToggleProduct,
+    // 商品管理
     getCustomerGoods,
     postAddCustomerGood,
     postEditCustomerGood,
     postDeleteCustomerGood,
     postDefaultCustomerGood,
     postCancelDefaultCustomerGood,
-    //商户管理
+    // 商户产品
+    getCustomerProducts,
+    getCheckCustomerProduct,
+    // 商户管理
     getCustomers,
     postAddCustomer,
     postEditCustomer,
     postUploadFile,
     transferCustomer,
     perfectCustomer,
-    //开票配置
+    // 开票配置
     getCustomerConfigs,
     postAddCustomerConfigs,
     postEditCustomerConfigs,
 
-    //用户管理
+    // 用户管理
     getUserManages,
     postAddUser,
     patchEditUser,
     getRolesTree,
     patchConfigRole,
     deleteUserManage,
+    // 授权码管理
+    getArantNumManages,
+    postMakeEmpower,
+    postScanMakeMateriel,
+    postMakeMateriel,
+    postEditEmpower,
+    postBindEmpower,
+    postUnBindEmpower,
+    postBindChildEmpower,
+    postMakeTorageEmpower,
+    // 授权码采购
+    getArantNumBuybacks,
+    postPurchaseArantNum,
+    patchPurchaseArantNum,
+    // 授权码审核
+    getArantNumExamines,
+    putAdoptArantNumExamine,
+    putRefuseArantNumExamine,
+    // 授权码转移
+    getArantNumTransfers,
+    postMigrateNumTransfer,
     // 菜单管理
     getMenuTrees,
     getMenuTreePage,
@@ -247,6 +337,24 @@ export {
     getRolesTreeConfig,
     patchRolesTreeSave,
     patchAddMenuTree,
-    deleteMenuTree
+    deleteMenuTree,
+    // 消息管理
+    getMessages,
+    // 商户版本
+    postCustomerVersion,
+    patchCustomerVersion,
+    getCustomerVersions,
+    // 版本控制
+    postVersion,
+    patchVersion,
+    getVersions,
+    getOldVersions,
+    setUsingVersion,
+    // 统计管理
+    getBurialPointManages,
+    getBurialPointTotal,
+    // 合伙人转移
+    getPartnerTransfer,
+    getTransferBranchoffice
 };
 
