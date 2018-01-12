@@ -115,6 +115,9 @@ export default {
     },
     // 表格大小
     tableSizeHandle() {
+      // console.log(document.querySelector(".form-box").clientHeight);
+      // console.log(document.querySelector(".form-box").clientHeight);
+
       if (document.querySelector(".form-box")) {
         var serchboxHeight = document.querySelector(".form-box").clientHeight;
         this.tableHeight = document.body.clientHeight - serchboxHeight - 175;

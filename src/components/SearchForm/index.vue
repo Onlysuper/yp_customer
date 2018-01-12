@@ -209,9 +209,11 @@ export default {
 <style lang="scss">
 .search-page {
   min-width: 600px;
-  padding: 0 0 15px 0;
+  padding: 10px 0 10px 0;
   margin-bottom: 15px;
   border-bottom: 1px solid #eee;
+  flex: 1;
+  flex-shrink: 0;
   .form-box {
     margin-top: 5px !important;
     .form-item {

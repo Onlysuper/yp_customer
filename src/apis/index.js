@@ -282,13 +282,13 @@ export {
     // 商户产品
     getCustomerProducts,
     getCheckCustomerProduct,
+    perfectCustomer,
     // 商户管理
     getCustomers,
     postAddCustomer,
     postEditCustomer,
     postUploadFile,
     transferCustomer,
-    perfectCustomer,
     // 开票配置
     getCustomerConfigs,
     postAddCustomerConfigs,

@@ -38,7 +38,7 @@
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
   height: 100%;
-  width: 225px;
+  // width: 225px;
   position: relative;
   z-index: 11;
   flex-shrink: 0;

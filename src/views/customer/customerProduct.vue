@@ -39,7 +39,7 @@
             <el-col :span="12">
               <div class="grid-content bg-purple">
                 <el-form-item label="商户名称" prop="enterpriseName" :label-width="formLabelWidth">
-                  <el-input v-model="addForm.enterpriseName" auto-complete="off"></el-input>
+                  <el-input :disabled="true" v-model="addForm.enterpriseName" auto-complete="off"></el-input>
                 </el-form-item>
               </div>
             </el-col>
@@ -125,32 +125,9 @@
       </div>
     </el-dialog>
     <!-- 新增end -->
-    <!-- 导入 start -->
-    <el-dialog center title="导入商户信息" :visible.sync="importVisible">
-      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="importForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
-        <el-form-item label="商品文件" prop="customerNo" :label-width="formLabelWidth">
-          <el-upload :data="{customerNo:importForm.customerNo}" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="resetImportForm('upload','importForm')">重置</el-button>
-        <el-button type="primary" @click="importSave('importForm')">确定导入</el-button>
-      </div>
-    </el-dialog>
-    <!-- 导入 end -->
+
     <!-- 编辑start -->
-    <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
+    <el-dialog center title="修改商户信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
           <el-select v-model="editForm.unionNo" placeholder="请选择">
@@ -212,7 +189,11 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { phoneNumVerify } from "@src/common/regexp";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { getCustomerProducts, getCheckCustomerProduct } from "@src/apis";
+import {
+  getCustomerProducts,
+  getCheckCustomerProduct,
+  perfectCustomer
+} from "@src/apis";
 export default {
   name: "customergoods",
   components: {
@@ -407,10 +388,13 @@ export default {
       addFormRules: {
         customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
         featureType: [{ required: true, message: "请选择商品类型", trigger: "blur" }],
+        agentArea: [{ required: true, message: "请选择经营区域", trigger: "blur" }],
         bussinessAddress: [
           { required: true, message: "请填写经营地址", trigger: "blur" }
         ],
-        bussinessPhone: [{ validator: phoneNumVerify, trigger: "blur" }],
+        bussinessPhone: [
+          { required: true, validator: phoneNumVerify, trigger: "blur" }
+        ],
         bussinessName: [
           { required: true, message: "请输入经营名称", trigger: "blur" }
         ],
@@ -824,18 +808,22 @@ export default {
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
-        let addForm = this.addForm;
+        let thisForm = this.addForm;
         if (valid) {
-          postAddCustomerGood()({
-            unionNo: addForm.unionNo,
-            customerNo: addForm.customerNo,
-            goodsName: addForm.goodsName,
-            model: addForm.model,
-            unit: addForm.unit,
-            unitPrice: addForm.unitPrice,
-            taxRate: addForm.taxRate,
-            enjoyDiscount: addForm.enjoyDiscount,
-            discountType: addForm.discountType
+          perfectCustomer()({
+            customerNo: thisForm.customerNo,
+            featureType: thisForm.featureType,
+            enterpriseName: thisForm.enterpriseName,
+            province: thisForm.agentArea[0],
+            city: thisForm.agentArea[1],
+            orgCode: thisForm.agentArea[2],
+            bussinessAddress: thisForm.bussinessAddress,
+            bussinessPhone: thisForm.bussinessPhone,
+            bussinessName: thisForm.bussinessName,
+            registMoney: thisForm.registMoney,
+            bankCode: thisForm.bankCode,
+            bankAccountNo: thisForm.bankAccountNo,
+            mounthCount: thisForm.mounthCount
           }).then(data => {
             if (data.code === "00") {
               this.$message({
