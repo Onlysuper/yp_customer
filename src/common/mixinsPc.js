@@ -3,14 +3,18 @@ import { todayDate, yesterday } from "@src/common/dateSerialize";
 const mixinsPc = {
 
   methods: {
-    /**TABLE页交互 START ************************************************************ */
     showDialog(dialogName) {
+      // 打开dialog框
       this[dialogName] = true;
     },
     resetForm(formName) {
+      // 重置表单
       this.$refs[formName].resetFields();
+    },
+    mounted() {
+      // 顶部搜索初始化为普通搜索
+      this.$store.commit("initSearchVisibleFn");
     }
-    /**END ***********************************************/
   },
   computed: {
     oaIp() {

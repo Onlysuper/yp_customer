@@ -15,40 +15,81 @@
     <!-- 新增start -->
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item label="商品编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-select v-model="addForm.unionNo" placeholder="请选择">
-            <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-input v-model="addForm.goodsName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
-          <el-input v-model="addForm.model" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
-          <el-input v-model="addForm.unit" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
-          <el-input v-model="addForm.unitPrice" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-select v-model="addForm.taxRate" placeholder="请选择">
-            <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
-          <el-select v-model="addForm.enjoyDiscount" placeholder="请选择">
-            <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="商品编码" prop="unionNo" :label-width="formLabelWidth">
+                <el-select v-model="addForm.unionNo" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+                <el-input v-model="addForm.goodsName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
+                <el-select v-model="addForm.taxRate" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
+                <el-input v-model="addForm.unit" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
+                <el-input v-model="addForm.unitPrice" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
+                <el-input v-model="addForm.model" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
+                <el-select v-model="addForm.enjoyDiscount" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-form-item class="full-width" label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
           <el-select v-model="addForm.discountType" placeholder="请选择">
             <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -86,48 +127,99 @@
     <!-- 编辑start -->
     <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-select v-model="editForm.unionNo" placeholder="请选择">
-            <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
-          <el-input v-model="editForm.model" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
-          <el-input v-model="editForm.unit" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
-          <el-input v-model="editForm.unitPrice" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-select v-model="editForm.taxRate" placeholder="请选择">
-            <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
-          <el-select v-model="editForm.enjoyDiscount" placeholder="请选择">
-            <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
-          <el-select v-model="editForm.discountType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
+                <el-select v-model="editForm.unionNo" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+                <el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
+                <el-select v-model="editForm.taxRate" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
+                <el-input v-model="editForm.unit" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
+                <el-input v-model="editForm.unitPrice" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
+                <el-input v-model="editForm.model" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
+                <el-select v-model="editForm.enjoyDiscount" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
+                <el-select v-model="editForm.discountType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('editForm')">重置</el-button>
@@ -140,11 +232,20 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-
+.full-width {
+  width: 100%;
+  .el-cascader {
+    width: 100%;
+  }
+  .el-select {
+    width: 100%;
+  }
+}
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
@@ -161,7 +262,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinsPc, mixinDataTable],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -849,6 +950,7 @@ export default {
       this.$refs.upload.submit();
     },
     beforeUpload(file) {
+      // console.log(file);
       const extension = file.name.split(".")[1] === "xlsx";
       const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;

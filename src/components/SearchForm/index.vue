@@ -106,7 +106,7 @@ export default {
   },
   computed: {
     visibleinput() {
-      return this.$store.state.dataTable.visibleinput;
+      return this.$store.state.topSearch.visibleinput;
     },
     visibleSenior() {
       //隐藏高级搜索
@@ -160,27 +160,27 @@ export default {
     },
     //日期组合
     changeDateGroup(cb, event, type, limit, limitnum, option1) {
-      if(event){
-      var startTime = event[0];
-      var endTime = event[1];
-      if (limit) {
-        // var numtime = 3600 * 1000 * 24 * limit;
-        var star = new Date(startTime) * 1;
-        var end = new Date(endTime) * 1;
-        var days = (end - star) / (3600 * 1000 * 24);
-        if (days > limitnum) {
-          this.$message({
-            message: "时间间隔最多为" + limitnum + "天，请重新选择时间段",
-            type: "",
-            center: true
-          });
-          startTime = "";
-          endTime = "";
-          this.$emit("resetSome", option1);
+      if (event) {
+        var startTime = event[0];
+        var endTime = event[1];
+        if (limit) {
+          // var numtime = 3600 * 1000 * 24 * limit;
+          var star = new Date(startTime) * 1;
+          var end = new Date(endTime) * 1;
+          var days = (end - star) / (3600 * 1000 * 24);
+          if (days > limitnum) {
+            this.$message({
+              message: "时间间隔最多为" + limitnum + "天，请重新选择时间段",
+              type: "",
+              center: true
+            });
+            startTime = "";
+            endTime = "";
+            this.$emit("resetSome", option1);
+          }
         }
-      }
         this.$emit("changeform", cb, startTime, endTime);
-      }else{
+      } else {
         this.$emit("changeform", cb, "", "");
       }
     },
@@ -209,9 +209,11 @@ export default {
 <style lang="scss">
 .search-page {
   min-width: 600px;
-  padding: 0 0 15px 0;
+  padding: 10px 0 10px 0;
   margin-bottom: 15px;
   border-bottom: 1px solid #eee;
+  flex: 1;
+  flex-shrink: 0;
   .form-box {
     margin-top: 5px !important;
     .form-item {
@@ -232,10 +234,10 @@ export default {
       background-color: #fff;
       background-image: none;
       border-radius: 4px;
-      .el-date-editor .el-range__close-icon{
-        position:absolute;
-        top:0;
-        right:3px
+      .el-date-editor .el-range__close-icon {
+        position: absolute;
+        top: 0;
+        right: 3px;
       }
       input {
         padding-right: 0px;
@@ -249,8 +251,8 @@ export default {
     .dateGroup {
       @extend .dateGroup2;
       border: 1px solid #dcdfe6;
-      .el-date-editor{
-        position:relative
+      .el-date-editor {
+        position: relative;
       }
     }
   }

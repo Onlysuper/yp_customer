@@ -102,6 +102,7 @@ const postCancelDefaultCustomerGood = (path) => { return (params) => { return ht
 **商户产品start
 */
 const getCustomerProducts = () => { return (params) => { return http.get(base.oaIp, "/userproduct/customerProductPage", params) } }
+const getCheckCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/query/checkCustomerProduct", params) } }
 // end -------------------------------------------------
 /**
 **商户管理 start
@@ -280,13 +281,14 @@ export {
     postCancelDefaultCustomerGood,
     // 商户产品
     getCustomerProducts,
+    getCheckCustomerProduct,
+    perfectCustomer,
     // 商户管理
     getCustomers,
     postAddCustomer,
     postEditCustomer,
     postUploadFile,
     transferCustomer,
-    perfectCustomer,
     // 开票配置
     getCustomerConfigs,
     postAddCustomerConfigs,

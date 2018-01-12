@@ -7,86 +7,127 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
-          <el-button size="small" @click="importDialog" type="primary" icon="el-icon-download">导入</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
+    <el-dialog center title="新增产品开通" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item label="商品编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-select v-model="addForm.unionNo" placeholder="请选择">
-            <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-input v-model="addForm.goodsName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
-          <el-input v-model="addForm.model" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
-          <el-input v-model="addForm.unit" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
-          <el-input v-model="addForm.unitPrice" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-select v-model="addForm.taxRate" placeholder="请选择">
-            <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
-          <el-select v-model="addForm.enjoyDiscount" placeholder="请选择">
-            <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
-          <el-select v-model="addForm.discountType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.customerNo" @blur="customerInputBlur" @input="customerInputChange"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12" v-if="addFeatureTypeVisible">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="产品类型" prop="featureType" :label-width="formLabelWidth">
+                <el-select @change="featureTypeChange" v-model="addForm.featureType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.featureType" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <!-- 新增隐藏start -->
+        <template v-if="electronicVisible">
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item label="商户名称" prop="enterpriseName" :label-width="formLabelWidth">
+                  <el-input :disabled="true" v-model="addForm.enterpriseName" auto-complete="off"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple-light">
+                <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
+                  <el-input v-model="addForm.bussinessName" auto-complete="off"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item class="full-width" prop="agentArea" label="经营区域" :label-width="formLabelWidth">
+                  <el-cascader :options="optionsArea" v-model="addForm.agentArea" @change="handleChangeArea">
+                  </el-cascader>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple-light">
+                <el-form-item label="经营地址" prop="bussinessAddress" :label-width="formLabelWidth">
+                  <el-input v-model="addForm.bussinessAddress" auto-complete="off"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item label="注册资金" prop="registMoney" :label-width="formLabelWidth">
+                  <el-input v-model="addForm.registMoney" auto-complete="off"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple-light">
+                <el-form-item label="联系电话" prop="bussinessPhone" :label-width="formLabelWidth">
+                  <el-input v-model="addForm.bussinessPhone" auto-complete="off"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <div class="grid-content bg-purple">
+                <el-form-item label="开户银行" prop="bankCode" :label-width="formLabelWidth">
+                  <el-input v-model="addForm.bankCode" auto-complete="off"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+            <el-col :span="12">
+              <div class="grid-content bg-purple-light">
+                <el-form-item label="银行卡号" prop="bankAccountNo" :label-width="formLabelWidth">
+                  <el-input v-model="addForm.bankAccountNo" auto-complete="off"></el-input>
+                </el-form-item>
+              </div>
+            </el-col>
+          </el-row>
+          <el-form-item label="月开票量" prop="mounthCount" :label-width="formLabelWidth">
+            <el-input v-model="addForm.mounthCount" auto-complete="off"></el-input>
+          </el-form-item>
+        </template>
+        <template v-if="wechatVisible">
+          微信开通暂不支持
+        </template>
+        <template v-if="alipayVisible">
+          支付宝开通暂不支持
+        </template>
+        <template v-if="T0Visible">
+          T0开通暂不支持
+        </template>
+        <template v-if="T1Visible">
+          T1开通暂不支持
+        </template>
+        <!-- 新增隐藏end -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确定</el-button>
+        <el-button type="primary" @click="addSave('addForm')" :disabled="addSubmitBut">提交</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
-    <!-- 导入 start -->
-    <el-dialog center title="导入商户信息" :visible.sync="importVisible">
-      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="importForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <el-form size="small" :model="importForm" ref="importForm" :rules="importFormRules">
-        <el-form-item label="商品文件" prop="customerNo" :label-width="formLabelWidth">
-          <el-upload :data="{customerNo:importForm.customerNo}" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将文件拖到此处，或
-              <em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="resetImportForm('upload','importForm')">重置</el-button>
-        <el-button type="primary" @click="importSave('importForm')">确定导入</el-button>
-      </div>
-    </el-dialog>
-    <!-- 导入 end -->
+
     <!-- 编辑start -->
-    <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
+    <el-dialog center title="修改商户信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
           <el-select v-model="editForm.unionNo" placeholder="请选择">
@@ -141,18 +182,25 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+import { regionData } from "element-china-area-data";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
+import { phoneNumVerify } from "@src/common/regexp";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { getCustomerProducts } from "@src/apis";
+import {
+  getCustomerProducts,
+  getCheckCustomerProduct,
+  perfectCustomer
+} from "@src/apis";
 export default {
   name: "customergoods",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -160,7 +208,40 @@ export default {
       goodsName: "" // 商品名称
     };
     return {
+      addFeatureTypeVisible: false, //新增的产品类型默认隐藏
+      addSubmitBut: true, // 新增提交按钮不可点击
+      optionsArea: regionData, //省市县插件
+
+      electronicVisible: false, // 电票开通
+      wechatVisible: false, //  微信开通暂不支持
+      alipayVisible: false, //  支付宝开通暂不支持
+      T0Visible: false, //   T0开通暂不支持
+      T1Visible: false, //  T1开通暂不支持
+
       selectOptions: {
+        featureType: [
+          // 产品类型
+          {
+            value: "ELECTRONIC",
+            label: "电子发票"
+          },
+          {
+            value: "WECHAT_COST",
+            label: "微信支付"
+          },
+          {
+            value: "ALIPAY_COST",
+            label: "支付宝支付"
+          },
+          {
+            value: "T0_CASH_COST",
+            label: "T0提现"
+          },
+          {
+            value: "T1_CASH_COST",
+            label: "T1提现"
+          }
+        ],
         unionNumOptions: [
           {
             value: "3070402000000000000",
@@ -305,10 +386,24 @@ export default {
       addFormVisible: false, // 新增框
       importVisible: false,
       addFormRules: {
-        unionNo: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
         customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
-        goodsName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
-        taxRate: [{ required: true, message: "税率为必选项", trigger: "blur" }]
+        featureType: [{ required: true, message: "请选择商品类型", trigger: "blur" }],
+        agentArea: [{ required: true, message: "请选择经营区域", trigger: "blur" }],
+        bussinessAddress: [
+          { required: true, message: "请填写经营地址", trigger: "blur" }
+        ],
+        bussinessPhone: [
+          { required: true, validator: phoneNumVerify, trigger: "blur" }
+        ],
+        bussinessName: [
+          { required: true, message: "请输入经营名称", trigger: "blur" }
+        ],
+        registMoney: [{ required: true, message: "请输入注册资金", trigger: "blur" }],
+        bankCode: [{ required: true, message: "请填写开户银行", trigger: "blur" }],
+        bankAccountNo: [
+          { required: true, message: "请填写银行卡号", trigger: "blur" }
+        ],
+        mounthCount: [{ required: true, message: "请填写月开票量", trigger: "blur" }]
       },
       importForm: {
         customerNo: ""
@@ -426,7 +521,46 @@ export default {
           {
             key: "产品类型",
             width: "100px",
-            word: "featureType"
+            word: "featureType",
+            status: true,
+            type: data => {
+              if (data == "QRCODE_BILLING") {
+                return {
+                  text: "快速开票",
+                  type: "success"
+                };
+              } else if (data == "ELECTRONIC") {
+                return {
+                  text: "电子发票",
+                  type: "warning"
+                };
+              } else if (data == "WECHAT_COST") {
+                return {
+                  text: "微信支付",
+                  type: "success"
+                };
+              } else if (data == "ALIPAY_COST") {
+                return {
+                  text: "支付宝支付",
+                  type: ""
+                };
+              } else if (data == "T0_CASH_COST") {
+                return {
+                  text: "T0提现",
+                  type: ""
+                };
+              } else if (data == "T1_CASH_COST") {
+                return {
+                  text: "T1提现",
+                  type: "info"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
+              }
+            }
           },
           {
             key: "费率",
@@ -454,7 +588,7 @@ export default {
           },
           {
             key: "封顶",
-            width: "130px",
+            width: "80px",
             word: "capped",
             status: true,
             type: data => {
@@ -478,123 +612,18 @@ export default {
           },
           {
             key: "开始有效期",
-            width: "100px",
+            width: "150px",
             word: "effectiveBegin"
           },
           {
             key: "结束有效期",
-            width: "100px",
+            width: "",
             word: "effectiveEnd"
           }
         ],
         operation: {
-          width: "150px",
+          width: "50px",
           options: [
-            // 操作按钮
-            {
-              stateName: "defaultType",
-              opposite: false,
-              text: "设为默认",
-              color: "#00c1df",
-              cb: rowdata => {
-                this.$confirm("确定继续本次操作吗?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                })
-                  .then(() => {
-                    postDefaultCustomerGood(rowdata.goodsNo)({
-                      createTime: rowdata.createTime,
-                      lastUpdateTime: rowdata.lastUpdateTime,
-                      customerNo: rowdata.customerNo,
-                      goodsNo: rowdata.goodsNo,
-                      model: rowdata.model,
-                      unit: rowdata.unit,
-                      unitPrice: rowdata.unitPrice,
-                      taxRate: rowdata.taxRate,
-                      status: rowdata.status,
-                      enjoyDiscount: rowdata.enjoyDiscount,
-                      discountType: rowdata.discountType,
-                      remark: rowdata.remark,
-                      goodsName: rowdata.goodsName,
-                      unionNo: rowdata.unionNo,
-                      defaultType: rowdata.defaultType,
-                      goodsType: rowdata.goodsType
-                    }).then(data => {
-                      if (data.code == "00") {
-                        this.$message({
-                          type: "success",
-                          message: "操作成功!"
-                        });
-                        this.reloadData();
-                      } else {
-                        this.$message({
-                          type: "warning",
-                          message: data.msg
-                        });
-                      }
-                    });
-                  })
-                  .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
-                  });
-              }
-            },
-            {
-              stateName: "defaultType", // 有哪个属性决定可见
-              opposite: true, // 与以上属性是否相反
-              text: "取消默认",
-              color: "#00c1df",
-              cb: rowdata => {
-                this.$confirm("确定继续本次操作吗?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                })
-                  .then(() => {
-                    postCancelDefaultCustomerGood(rowdata.goodsNo)({
-                      createTime: rowdata.createTime,
-                      lastUpdateTime: rowdata.lastUpdateTime,
-                      customerNo: rowdata.customerNo,
-                      goodsNo: rowdata.goodsNo,
-                      model: rowdata.model,
-                      unit: rowdata.unit,
-                      unitPrice: rowdata.unitPrice,
-                      taxRate: rowdata.taxRate,
-                      status: rowdata.status,
-                      enjoyDiscount: rowdata.enjoyDiscount,
-                      discountType: rowdata.discountType,
-                      remark: rowdata.remark,
-                      goodsName: rowdata.goodsName,
-                      unionNo: rowdata.unionNo,
-                      defaultType: rowdata.defaultType,
-                      goodsType: rowdata.goodsType
-                    }).then(data => {
-                      if (data.code == "00") {
-                        this.$message({
-                          type: "success",
-                          message: "操作成功!"
-                        });
-                        this.reloadData();
-                      } else {
-                        this.$message({
-                          type: "warning",
-                          message: data.msg
-                        });
-                      }
-                    });
-                  })
-                  .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
-                  });
-              }
-            },
             {
               text: "编辑",
               color: "#00c1df",
@@ -608,56 +637,6 @@ export default {
                 this.editForm = rowdata;
                 this.editFormVisible = true;
               }
-            },
-            {
-              text: "删除",
-              color: "#00c1df",
-              cb: rowdata => {
-                this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                })
-                  .then(() => {
-                    postDeleteCustomerGood(rowdata.goodsNo)({
-                      createTime: rowdata.createTime,
-                      lastUpdateTime: rowdata.lastUpdateTime,
-                      customerNo: rowdata.customerNo,
-                      goodsNo: rowdata.goodsNo,
-                      model: rowdata.model,
-                      unit: rowdata.unit,
-                      unitPrice: rowdata.unitPrice,
-                      taxRate: rowdata.taxRate,
-                      status: rowdata.status,
-                      enjoyDiscount: rowdata.enjoyDiscount,
-                      discountType: rowdata.discountType,
-                      remark: rowdata.remark,
-                      goodsName: rowdata.goodsName,
-                      unionNo: rowdata.unionNo,
-                      defaultType: rowdata.defaultType,
-                      goodsType: rowdata.goodsType
-                    }).then(data => {
-                      if (data.code == "00") {
-                        this.$message({
-                          type: "success",
-                          message: "删除成功!"
-                        });
-                        this.reloadData();
-                      } else {
-                        this.$message({
-                          type: "warning",
-                          message: data.msg
-                        });
-                      }
-                    });
-                  })
-                  .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消删除"
-                    });
-                  });
-              }
             }
           ]
         }
@@ -666,6 +645,115 @@ export default {
   },
 
   methods: {
+    addVisibleAll(featureType) {
+      if ("ELECTRONIC" == featureType) {
+        this.electronicVisible = true; // 电票开通
+        this.wechatVisible = false; //  微信开通暂不支持
+        this.alipayVisible = false; //  支付宝开通暂不支持
+        this.T0Visible = false; //   T0开通暂不支持
+        this.T1Visible = false; //  T1开通暂不支持
+        this.addSubmitBut = false; // 可提交
+      } else if ("WECHAT_COST" == featureType) {
+        this.electronicVisible = false; // 电票开通
+        this.wechatVisible = true; //  微信开通暂不支持
+        this.alipayVisible = false; //  支付宝开通暂不支持
+        this.T0Visible = false; //   T0开通暂不支持
+        this.T1Visible = false; //  T1开通暂不支持
+        this.addSubmitBut = true; //不可提交
+      } else if ("ALIPAY_COST" == featureType) {
+        this.electronicVisible = false; // 电票开通
+        this.wechatVisible = false; //  微信开通暂不支持
+        this.alipayVisible = true; //  支付宝开通暂不支持
+        this.T0Visible = false; //   T0开通暂不支持
+        this.T1Visible = false; //  T1开通暂不支持
+        this.addSubmitBut = true; //不可提交
+      } else if ("T0_CASH_COST" == featureType) {
+        this.electronicVisible = false; // 电票开通
+        this.wechatVisible = false; //  微信开通暂不支持
+        this.alipayVisible = false; //  支付宝开通暂不支持
+        this.T0Visible = true; //   T0开通暂不支持
+        this.T1Visible = false; //  T1开通暂不支持
+        this.addSubmitBut = true; //不可提交
+      } else if ("T1_CASH_COST" == featureType) {
+        this.electronicVisible = false; // 电票开通
+        this.wechatVisible = false; //  微信开通暂不支持
+        this.alipayVisible = false; //  支付宝开通暂不支持
+        this.T0Visible = false; //   T0开通暂不支持
+        this.T1Visible = true; //  T1开通暂不支持
+        this.addSubmitBut = true; //不可提交
+      }
+    },
+    addHideAll() {
+      this.electronicVisible = false; // 电票开通
+      this.wechatVisible = false; //  微信开通暂不支持
+      this.alipayVisible = false; //  支付宝开通暂不支持
+      this.T0Visible = false; //   T0开通暂不支持
+      this.T1Visible = false; //  T1开通暂不支持
+      this.addSubmitBut = true; //不可提交
+    },
+    getCheckCustomerProductFn(customerNo, featureType) {
+      // 获取新增商户的数据
+      getCheckCustomerProduct()({
+        customerNo: customerNo,
+        featureType: featureType
+      }).then(data => {
+        if (data.code == "00") {
+          this.addVisibleAll(featureType);
+          if (featureType == "ELECTRONIC") {
+            var data = data.data;
+            this.addForm.enterpriseName = data.enterpriseName;
+            this.addForm.bussinessAddress = data.bussinessAddress;
+            this.addForm.bussinessName = data.bussinessName;
+            this.addForm.bussinessPhone = data.bussinessPhone;
+          } else {
+            this.$message({
+              message: "暂不支持本业务！",
+              type: "warning",
+              center: true
+            });
+            this.addHideAll();
+          }
+        } else {
+          this.$message({
+            message: data.msg,
+            type: "warning",
+            center: true
+          });
+          // this.resetForm("addForm");
+          this.addHideAll();
+        }
+      });
+    },
+    addFeatureTypeVisbleFn(value) {
+      if (value != "") {
+        this.addFeatureTypeVisible = true;
+      } else {
+        this.addFeatureTypeVisible = false;
+      }
+    },
+    handleChangeArea(value) {
+      // 省市区选择
+    },
+    customerInputBlur() {
+      // add商户编号失去焦点
+      let customerNo = this.addForm.customerNo;
+      let featureType = this.addForm.featureType;
+      this.addFeatureTypeVisbleFn(customerNo);
+      if (featureType != "" && featureType != undefined) {
+        this.getCheckCustomerProductFn(customerNo, featureType);
+      }
+    },
+    customerInputChange(value) {
+      // add商户编号值发生改变
+      this.addFeatureTypeVisbleFn(value);
+    },
+    featureTypeChange(value) {
+      // add产品类型改变
+      let customerNo = this.addForm.customerNo;
+      let featureType = value;
+      this.getCheckCustomerProductFn(customerNo, featureType);
+    },
+
     importDialog() {
       this.importVisible = true;
     },
@@ -720,18 +808,22 @@ export default {
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
-        let addForm = this.addForm;
+        let thisForm = this.addForm;
         if (valid) {
-          postAddCustomerGood()({
-            unionNo: addForm.unionNo,
-            customerNo: addForm.customerNo,
-            goodsName: addForm.goodsName,
-            model: addForm.model,
-            unit: addForm.unit,
-            unitPrice: addForm.unitPrice,
-            taxRate: addForm.taxRate,
-            enjoyDiscount: addForm.enjoyDiscount,
-            discountType: addForm.discountType
+          perfectCustomer()({
+            customerNo: thisForm.customerNo,
+            featureType: thisForm.featureType,
+            enterpriseName: thisForm.enterpriseName,
+            province: thisForm.agentArea[0],
+            city: thisForm.agentArea[1],
+            orgCode: thisForm.agentArea[2],
+            bussinessAddress: thisForm.bussinessAddress,
+            bussinessPhone: thisForm.bussinessPhone,
+            bussinessName: thisForm.bussinessName,
+            registMoney: thisForm.registMoney,
+            bankCode: thisForm.bankCode,
+            bankAccountNo: thisForm.bankAccountNo,
+            mounthCount: thisForm.mounthCount
           }).then(data => {
             if (data.code === "00") {
               this.$message({
