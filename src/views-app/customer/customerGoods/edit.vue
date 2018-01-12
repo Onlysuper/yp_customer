@@ -101,12 +101,12 @@ export default {
         ADD: "添加",
         EDIT: "修改"
       },
-      customerNo: this.$route.params["customerNo"]
+      goodsNo: this.$route.params["goodsNo"]
     };
   },
   created() {
     this.pageType == "EDIT" &&
-      this.getGood(this.customerNo).then(good => {
+      this.getGood(this.goodsNo).then(good => {
         this.good = Object.assign(this.good, good);
       });
   },

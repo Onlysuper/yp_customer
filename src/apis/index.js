@@ -28,6 +28,7 @@ const AgentManageAdd = () => { return (params) => { return http.post(base.oaIp, 
 **快速开票分润start
  */
 const getBillprofits = () => { return (params) => { return http.get(base.oaIp, "/billprofit/page", params) } }
+const getBillprofitSum = () => { return (params) => { return http.get(base.oaIp, "/billprofit/sum", params) } }
 // end -------------------------------------------------
 
 /**
@@ -202,6 +203,9 @@ export {
     PasswordUpdate,
     orgCodeHandle,
     AgentManageAdd,
+    //快速分润查询
+    getBillprofits,
+    getBillprofitSum,
     //商品管理
     getCustomerGoods,
     postAddCustomerGood,

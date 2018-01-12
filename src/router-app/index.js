@@ -4,6 +4,8 @@ import Router from 'vue-router';
 import login from "./login";
 import home from "./home/home";
 import customer from "./customer";
+import profit from "./profit";
+
 
 
 Vue.use(Router)
@@ -17,6 +19,7 @@ const router = new Router({
         login,
         home,
         customer,
+        profit
     ]
 });
 

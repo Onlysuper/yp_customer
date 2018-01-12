@@ -4,7 +4,7 @@
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" size="small" type="danger" @click="queryResult">查询</mt-button>
     </mt-header>
-    <div class="pading">
+    <div class="search-page">
       <view-radius>
         <input-wrapper>
           <component class="border-bottom-1px" ref="configDate" :is="item.type" :config="item" v-for="(item,index) in config" @showDate="showDate" :key="index"></component>
@@ -49,7 +49,7 @@ const MypDate = Vue.extend({
   },
   data() {
     return {
-      value: utils.formatDate(this.config.defaultValue, "yyyy-MM-dd")
+      value: this.config.defaultValue
     };
   },
   watch: {
@@ -58,7 +58,7 @@ const MypDate = Vue.extend({
     }
   },
   mounted() {
-    this.config.cb(utils.formatDate(this.config.defaultValue, "yyyy-MM-dd"));
+    // this.config.cb(this.config.defaultValue);
   },
   methods: {
     showDate($this) {
@@ -170,31 +170,32 @@ export default {
 
 <style lang="scss">
 @import "../../assets/scss/base.scss";
-.search-panel-page {
+.search-page {
   width: 100%;
   height: 100%;
-  .pading {
-    // margin-top: 20*$rem;
-    padding: 30*$rem 20*$rem;
-    .input-box {
-      border: 1px solid #eee;
-      .input-wrapper {
-        display: flex;
-        box-sizing: border-box;
-        align-items: center;
-        i {
-          padding-left: 10px;
-        }
-        .mint-field {
-          width: 100%;
-          background: none;
-        }
+  // margin-top: 20*$rem;
+  padding: 30*$rem 20*$rem;
+  box-sizing: border-box;
+  background-color: #fff;
+  .input-box {
+    border: 1px solid #eee;
+    .input-wrapper {
+      display: flex;
+      box-sizing: border-box;
+      align-items: center;
+      i {
+        padding-left: 10px;
+      }
+      .mint-field {
+        width: 100%;
+        background: none;
       }
     }
-    .mintui-search {
-      color: #ccc;
-    }
-  } //公共
+  }
+  .mintui-search {
+    color: #ccc;
+  }
+  //公共
   .item {
     margin-top: 30*$rem;
   }

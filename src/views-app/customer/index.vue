@@ -12,6 +12,7 @@ export default {
   name: "app",
   created() {
     this.$store.commit("INIT_GOODS_STORE");
+    this.$store.commit("PROFITBILLING_INIT");
   }
 };
 </script>

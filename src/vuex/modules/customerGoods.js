@@ -71,7 +71,7 @@ export default {
   },
   actions: {
     getGood({ commit, dispatch, getters, rootGetters, rootState, state }, goodsNo) {
-      return state.list.find(item => item.goodsNo == goodsNo)
+      return state.list.find(item => item.goodsNo == goodsNo);
     },
     updataGood({ commit, dispatch, getters, rootGetters, rootState, state }, good) {
       return postEditCustomerGood()({
@@ -88,6 +88,7 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           Toast("修改成功");
+
           commit("UPDATA_GOOD", good);
           return true;
         } else {
@@ -111,6 +112,7 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           Toast("添加成功");
+
           commit("ADD_GOOD", good);
           return true;
         } else {
@@ -123,6 +125,7 @@ export default {
       postDeleteCustomerGood(good.goodsNo)({ customerNo: good.customerNo }).then(data => {
         if (data.code == "00") {
           Toast("删除成功");
+
           commit("DELETE_GOOD", good);
         } else {
           Toast(data.msg);
