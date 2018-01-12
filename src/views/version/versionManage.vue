@@ -12,7 +12,7 @@
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 上传新版本start -->
-      <el-dialog center title="上传新版本" :visible.sync="uploadDialogVisible" width="600px" @close="dialogClosed">
+      <el-dialog center :title="getDialogTitle()" :visible.sync="uploadDialogVisible" width="600px" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
           <el-row>
             <el-col :span="12">
@@ -376,6 +376,9 @@ export default {
     };
   },
   methods: {
+    getDialogTitle() {
+      return this.isUpdate ? "修改上传版本" : "上传新版本";
+    },
     upload() {
       this.$refs["form"].validate(valid => {
         if (valid) {
