@@ -96,6 +96,7 @@ export default {
     },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
+      console.log("开始查询了" + searchCondition + "--" + limit + "-" + page);
       this.ifloading = true;
       this.getUrl()({
         page: page,

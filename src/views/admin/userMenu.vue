@@ -133,11 +133,10 @@
 <style lang='scss' scoped>
 @import "../../common/zTree/css/metroStyle/metroStyle.css";
 </style>
-
-
-
 <script>
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
   getMenuTrees,
   getMenuTreePage,
@@ -156,6 +155,7 @@ export default {
   components: {
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var httpMethodOptions = [
       {
@@ -618,15 +618,6 @@ export default {
       }
       return false;
     },
-    // 更新数据
-    reloadData(searchCondition) {
-      this.tableData.getDataUrl = {
-        url: getMenuTreePage, // 初始化数据
-        page: 1, // 当前页数
-        limit: 10, // 每页条数
-        searchCondition: searchCondition
-      };
-    },
     // 加载树列表
     rootTreeload(node, resolve) {
       getMenuTrees()({
@@ -634,14 +625,6 @@ export default {
       }).then(data => {
         console.log(data);
       });
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    },
-    resetForm(formName) {
-      console.log(this.$refs[formName]);
-      // this.$refs[formName].resetFields();
     }
   },
   computed: {

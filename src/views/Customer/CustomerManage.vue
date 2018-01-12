@@ -6,9 +6,10 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
-          <el-button size="small" @click="batchNetDialog" type="primary" icon="el-icon-upload">批量入网</el-button>
-          <el-button size="small" @click="batchTransferDialog" type="primary" icon="el-icon-sort">批量转移</el-button>
+          <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button size="small" @click="showDialog('batchNetFormVisible')" type="primary" icon="el-icon-upload">批量入网</el-button>
+          <el-button size="small" @click="showDialog('batchTransferFormVisible')" type="primary" icon="el-icon-sort">批量转移</el-button>
+          <el-button size="small" @click="showDialog('electronicOpenFormVisible')" type="primary" icon="el-icon-sort">商户电票开通</el-button>
           <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
@@ -49,16 +50,25 @@
             </div>
           </el-col>
         </el-row>
-
-        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-          <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.phoneNo" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
+                <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.phoneNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetAddForm('addForm')">重置</el-button>
+        <el-button @click="resetForm('addForm')">重置</el-button>
         <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
@@ -71,7 +81,7 @@
             <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
+            <el-upload :with-credentials="false" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将入网文件拖到此处，或
                 <em>点击上传</em>
@@ -94,7 +104,7 @@
           <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
         </div>
         <div class="sep-inline">
-          <el-upload ref="batchtransferFile" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
+          <el-upload :with-credentials="false" ref="batchtransferFile" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将需要转移的文件拖到此处，或
               <em>点击上传</em>
@@ -109,6 +119,28 @@
       </span>
     </el-dialog>
     <!-- 批量转移 end -->
+    <!-- 商户电票开通start -->
+    <el-dialog title="商户批量开通电票" center :visible.sync="electronicOpenFormVisible" width="500px">
+      <div class="content-center-box">
+        <div class="sep-inline">
+          <a class="link-Label" :href="oaIp+'/static/template/electronicOpen-2007.xlsx'">下载点票开通模板</a>
+        </div>
+        <div class="sep-inline">
+          <el-upload :with-credentials="false" ref="electronicOpenFile" :auto-upload="false" :action="oaIp+'/customer/electronicOpen'" class="upload-demo" drag :on-success="handleElectronicOpenSuccess" :before-upload="beforeBatchNetUpload">
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">将需要转移的文件拖到此处，或
+              <em>点击上传</em>
+            </div>
+            <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+          </el-upload>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="electronicOpenFormVisible = false">关 闭</el-button>
+        <el-button type="primary" @click="saveElectronicOpen">提 交</el-button>
+      </span>
+    </el-dialog>
+    <!-- 商户电票开通 end -->
     <!-- 详情 start -->
     <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
       <div class="detail-content">
@@ -258,6 +290,7 @@ export default {
       batchTransferFormVisible: false, // 批量转移模板
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
+      electronicOpenFormVisible: false, // 批量开通电票
       transferFormVisible: false,
       batchNetForm: {
         // 批量上传
@@ -532,36 +565,6 @@ export default {
   },
 
   methods: {
-    handleBatchTransferSuccess() {
-      // 批量转移文件上传成功
-      this.$message.success("恭喜您！上传成功");
-      this.batchTransferForm.url = URL.createObjectURL(file.raw);
-    },
-    handleBatchNetSuccess(res, file) {
-      // 批量入网文件上传成功
-      this.$message.success("恭喜您！上传成功");
-      this.batchNetForm.url = URL.createObjectURL(file.raw);
-    },
-    beforeBatchNetUpload(file) {
-      const extension = file.name.split(".")[1] === "xlsx";
-      const extension2 = file.name.split(".")[1] === "numbers";
-      const isLt2M = file.size / 1024 / 1024 < 10;
-      if (!extension && !extension2) {
-        this.$message.error("上传文件只能是 xlsx,numbers 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传文件图片大小不能超过 10MB!");
-      }
-      return extension || (extension2 && isLt2M);
-    },
-
-    resetAddForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
-    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
@@ -575,7 +578,7 @@ export default {
                 center: true
               });
               this.addFormVisible = false;
-              this.resetAddForm("addForm");
+              this.resetForm("addForm");
               this.reloadData();
             } else if (data.code === "98") {
               this.$message({
@@ -602,6 +605,25 @@ export default {
     // 批量转移文件提交
     saveBatchTransfer() {
       this.$refs.batchtransferFile.submit();
+    },
+    // 批量开通点票
+    saveElectronicOpen() {
+      this.$refs.electronicOpenFile.submit();
+    },
+    handleBatchTransferSuccess() {
+      // 批量转移文件上传成功
+      this.$message.success("恭喜您！上传成功");
+      this.batchTransferFormVisible = false;
+    },
+    handleBatchNetSuccess(res, file) {
+      // 批量入网文件上传成功
+      this.$message.success("恭喜您！上传成功");
+      this.batchNetFormVisible = false;
+    },
+    // 批量开通电票成功
+    handleElectronicOpenSuccess() {
+      this.$message.success("恭喜您！上传成功");
+      this.electronicOpenFormVisible = false;
     },
     editSave(formName) {
       // 编辑内容保存
@@ -671,18 +693,17 @@ export default {
         }
       });
     },
-
-    addDialog() {
-      // 新增数据 弹出框
-      this.addFormVisible = true;
-    },
-    batchNetDialog() {
-      // 批量入网 弹出框
-      this.batchNetFormVisible = true;
-    },
-    batchTransferDialog() {
-      // 批量转移 弹出框
-      this.batchTransferFormVisible = true;
+    beforeBatchNetUpload(file) {
+      const extension = file.name.split(".")[1] === "xlsx";
+      const extension2 = file.name.split(".")[1] === "numbers";
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!extension && !extension2) {
+        this.$message.error("上传文件只能是 xlsx,numbers 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传文件图片大小不能超过 10MB!");
+      }
+      return extension || (extension2 && isLt2M);
     },
     exportDialog() {
       // 导出

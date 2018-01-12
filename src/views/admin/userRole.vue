@@ -69,6 +69,8 @@
 
 <script>
 import SearchForm from "@src/components/SearchForm";
+import { mixinsPc } from "@src/common/mixinsPc";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import DataPage from "@src/components/DataPage";
 import $ from "jquery";
 import "@src/common/zTree/js/jquery.ztree.all.min.js";
@@ -87,15 +89,8 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable, mixinsPc],
   data() {
-    // 不能为空
-    var notNullVerify = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("不能为空!"));
-      } else {
-        callback();
-      }
-    };
     var searchConditionVar = {
       // 默认搜索条件
       roleName: "", // 角色名称
@@ -137,8 +132,8 @@ export default {
         label: "privilegeName"
       },
       addFormRules: {
-        roleName: [{ validator: notNullVerify, trigger: "blur" }],
-        roleCode: [{ validator: notNullVerify, trigger: "blur" }]
+        roleName: [{ required: true, message: "请输入内容", trigger: "blur" }],
+        roleCode: [{ required: true, message: "请输入内容", trigger: "blur" }]
       },
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
