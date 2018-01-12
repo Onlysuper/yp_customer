@@ -113,6 +113,7 @@ function routerMatch(permission, asyncRouter, path, back) {
 
 store.dispatch('UserMenulistFetch').then(resmenuList => {
     routerMatch(resmenuList, asyncRouter, (thisrouter) => {
+        console.log(resmenuList)
         let rou = [{
             path: '',
             component: layout,

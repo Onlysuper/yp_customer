@@ -120,9 +120,9 @@ export default {
 
       if (document.querySelector(".form-box")) {
         var serchboxHeight = document.querySelector(".form-box").clientHeight;
-        this.tableHeight = document.body.clientHeight - serchboxHeight - 175;
+        this.tableHeight = document.body.clientHeight - serchboxHeight - 300;
       } else {
-        this.tableHeight = document.body.clientHeight - 175;
+        this.tableHeight = document.body.clientHeight - 300;
       }
     },
     handleSizeChange(val) {
