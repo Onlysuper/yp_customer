@@ -34,7 +34,8 @@ const store = new Vuex.Store({
         InputValidation: InputValidation,
         Base: Base,
         tagsView: tagsView,
-        customerGoods
+        customerGoods,
+        profitBilling
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

@@ -126,6 +126,7 @@ store.dispatch('UserMenulistFetch').then(resmenuList => {
         router.addRoutes(rou)
     })
 })
+
 router.beforeEach((to, redirect, next) => {
     if (to.path == "/") {
         next('/home')
