@@ -1,6 +1,7 @@
+let homeTag = { name: "home", path: "/home", title: "首页" }
 export default {
   state: {
-    visitedViews: [{ name: "home", path: "/home", title: "首页" }],
+    visitedViews: [homeTag],
     cachedViews: []
   },
   mutations: {
@@ -33,8 +34,14 @@ export default {
     DEL_OTHERS_VIEWS: (state, view) => {
       for (const [i, v] of state.visitedViews.entries()) {
         if (v.path === view.path) {
-          state.visitedViews = state.visitedViews.slice(i, i + 1)
-          break
+          if (v.name == "home") {
+            state.visitedViews = state.visitedViews.slice(i, i + 1)
+          } else {
+            state.visitedViews = state.visitedViews.slice(i, i + 1)
+            state.visitedViews.unshift(homeTag);
+            break
+          }
+
         }
       }
       for (const i of state.cachedViews) {
@@ -46,8 +53,8 @@ export default {
       }
     },
     DEL_ALL_VIEWS: (state) => {
-      state.visitedViews = []
-      state.cachedViews = []
+      state.visitedViews = [homeTag],
+        state.cachedViews = []
     }
   },
   actions: {

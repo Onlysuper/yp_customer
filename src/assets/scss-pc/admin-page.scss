@@ -6,7 +6,8 @@
   display: flex;
   flex-direction: column;
   .tablelist-box{
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x:hidden
   }
   .detail-content {
     .line-label-box {

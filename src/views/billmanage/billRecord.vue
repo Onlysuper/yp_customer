@@ -1,4 +1,5 @@
 <template>
+  <!-- 开票记录 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -272,12 +273,12 @@ export default {
         getDataUrl: {
           url: getBillrecords // 初始化数据
         },
-        havecheck: true, //是否显示输入框
+        havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "开票时间",
-            width: "150px",
+            width: "180px",
             sortable: true,
             word: "createTime"
           },

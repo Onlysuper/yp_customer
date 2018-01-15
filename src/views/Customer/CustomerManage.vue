@@ -13,7 +13,7 @@
           <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增商户" :visible.sync="addFormVisible">
@@ -238,9 +238,6 @@
 <style lang='scss' scoped>
 
 </style>
-
-
-
 <script>
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
@@ -453,7 +450,7 @@ export default {
           },
           {
             key: "企业名称",
-            width: "100px",
+            width: "120px",
             word: "enterpriseName"
           },
           {
@@ -638,7 +635,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData(this.storePageCount, this.storeCurrentPage);
+              this.reloadData();
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,
@@ -675,7 +672,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData(this.storePageCount, this.storeCurrentPage);
+              this.reloadData();
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,

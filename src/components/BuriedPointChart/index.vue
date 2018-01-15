@@ -12,6 +12,7 @@
 .chart-box {
   height: 100%;
   // background: #eee;
+  overflow: auto;
   width: 100%;
   display: flex;
   text-align: center;
@@ -154,7 +155,7 @@ export default {
     tableSizeHandle() {
       this.$nextTick(() => {
         let pageHeight = $(".admin-page").height();
-        let formHeight = $(".form-box").height();
+        let formHeight = $(".search-page").height();
         this.chartHeight = pageHeight - formHeight - 120 + "px";
       });
     },

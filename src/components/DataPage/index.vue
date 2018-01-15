@@ -35,6 +35,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
@@ -42,6 +43,16 @@
 </template>
 <style lang="scss">
 .tablelist-box {
+  .scroll-view {
+    /* -- Attention: This line is extremely important in chrome 55+! -- */
+    touch-action: none;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    top: 55px;
+    bottom: 0;
+    left: 0;
+  }
   .tableHeader {
     background: #f0f0f0;
     th {
@@ -59,7 +70,7 @@
   .inline-text {
     display: inline-block;
     vertical-align: middle;
-    max-width: 170px;
+    max-width: 100%;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -67,6 +78,9 @@
 }
 </style>
 <script>
+// import IScrollView from "vue-iscroll-view";
+// import IScroll from "iscroll";
+// Vue.use(IScrollView, IScroll);
 import $ from "jquery";
 import qs from "qs";
 import Vue from "vue";
@@ -74,6 +88,12 @@ export default {
   props: ["tableDataInit", "page", "limit", "search"],
   data() {
     return {
+      // iscrollOptions: {
+      //   scrollbars: true,
+      //   mouseWheel: true,
+      //   useTransform: true, //CSS转化
+      //   useTransition: true //CSS过渡
+      // },
       dataSuccess: this.tableDataInit.dataSuccess, // 数据家在完成
       ifloading: false,
       tableData: [],
@@ -96,7 +116,8 @@ export default {
     },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
-      console.log("开始查询了" + searchCondition + "--" + limit + "-" + page);
+      // console.log(JSON.stringify({ aa: searchCondition }));
+      // console.log("开始查询了" + searchCondition + "--" + limit + "-" + page);
       this.ifloading = true;
       this.getUrl()({
         page: page,
@@ -116,13 +137,16 @@ export default {
     },
     // 表格大小
     tableSizeHandle() {
-      let pageHeight = $(".admin-page").height();
-      let formHeight = $(".form-box").height();
-      this.tableHeight = pageHeight - formHeight - 120;
+      this.$nextTick(() => {
+        let pageHeight = $(".admin-page").outerHeight(true);
+        let formHeight = $(".search-page").outerHeight(true);
+        this.tableHeight = pageHeight - formHeight - 120;
+      });
     },
     handleSizeChange(val) {
       // 改变页数
       this.$emit("pagelimit", val);
+      this.tableSizeHandle();
     },
     // 更改页数
     handleCurrentChange(val) {
