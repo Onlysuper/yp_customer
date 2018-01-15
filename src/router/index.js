@@ -27,6 +27,8 @@ import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
 import buriedPoint from "./statistical/buriedPoint";
+import buriedBillChart from "./statistical/buriedBillChart";
+import buriedPointChart from "./statistical/buriedPointChart";
 import messageRecord from "./message/messageRecord";
 import customerVersion from "./version/customerVersion";
 import versionManage from "./version/versionManage";
@@ -70,6 +72,8 @@ const asyncRouter = [
     agentTransfer, // 合伙人转移
     empowerManage,// 授权码管理
     buriedPoint, //埋点管理
+    buriedBillChart, //埋点管理
+    buriedPointChart, //埋点管理
     messageRecord, //消息记录
     empowerCheck, // 授权码审核
     empowerTransfer, // 授权码转移

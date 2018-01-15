@@ -35,7 +35,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="getLimit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
   </div>
@@ -80,9 +80,9 @@ export default {
       tableHeight: 0, // 表单的高度
       getUrl: this.tableDataInit.getDataUrl.url, // 请求函数
       dataCount: 0,
-      getPage: this.page, //当前页数
-      getLimit: this.limit, //每页条数
-      getSearch: this.search // 搜索条件
+      getSearch: this.search,
+      getPage: this.page,
+      getLimit: this.limit // 搜索条件
     };
   },
 
@@ -92,11 +92,10 @@ export default {
       this.$emit("operation", rowdata, cb);
     },
     summaryMethod(param) {
-      console.log(param);
+      // console.log(param);
     },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
-      console.log(JSON.stringify({ AA: searchCondition }));
       console.log("开始查询了" + searchCondition + "--" + limit + "-" + page);
       this.ifloading = true;
       this.getUrl()({
@@ -117,15 +116,9 @@ export default {
     },
     // 表格大小
     tableSizeHandle() {
-      // console.log(document.querySelector(".form-box").clientHeight);
-      // console.log(document.querySelector(".form-box").clientHeight);
-
-      if (document.querySelector(".form-box")) {
-        var serchboxHeight = document.querySelector(".form-box").clientHeight;
-        this.tableHeight = document.body.clientHeight - serchboxHeight - 300;
-      } else {
-        this.tableHeight = document.body.clientHeight - 300;
-      }
+      let pageHeight = $(".admin-page").height();
+      let formHeight = $(".form-box").height();
+      this.tableHeight = pageHeight - formHeight - 120;
     },
     handleSizeChange(val) {
       // 改变页数
@@ -172,6 +165,7 @@ export default {
       return jsonData.map(v => filterVal.map(j => v[j]));
     }
   },
+
   watch: {
     visibleinput(val) {
       // 监听高级搜索与普通搜索模式转变
@@ -181,8 +175,9 @@ export default {
       this.getPage = value;
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
-    getLimit(value) {
+    limit(value) {
       this.getLimit = value;
+      console.log(11111);
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
     getUrl(value) {

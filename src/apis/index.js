@@ -227,7 +227,7 @@ const setUsingVersion = () => { return (params) => { return http.post(base.oaIp,
 /**
 **埋点图表Start
  */
-const getBurialPointCharts = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
+const postBurialPointCharts = () => { return (params) => { return http.post(base.oaIp, "/operatorlog/chart", params) } }
 // end -------------------------------------------------
 
 /**
@@ -357,6 +357,8 @@ export {
     getBurialPointTotal,
     // 合伙人转移
     getPartnerTransfer,
-    getTransferBranchoffice
+    getTransferBranchoffice,
+    // 埋点图表
+    postBurialPointCharts
 };
 
