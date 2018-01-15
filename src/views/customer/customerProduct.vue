@@ -388,7 +388,7 @@ export default {
           },
           {
             key: "产品类型",
-            width: "100px",
+            width: "130px",
             word: "featureType",
             status: true,
             type: data => {
@@ -432,15 +432,15 @@ export default {
           },
           {
             key: "费率",
-            width: "80px",
-            word: "rate",
-            status: true,
-            type: data => {
-              return {
-                text: data * 100 + "%",
-                type: "info"
-              };
-            }
+            width: "100px",
+            word: "rate"
+            // status: true,
+            // type: data => {
+            //   return {
+            //     text: data,
+            //     type: "info"
+            //   };
+            // }
           },
           {
             key: "单笔",
