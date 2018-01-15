@@ -13,9 +13,10 @@ const mixinDataTable = {
             this[dialogName] = true;
         },
         // 重新获取数据
-        reloadData(page, limit) {
+        reloadData(page, limit, search) {
             let page_ = page ? page : this.postPage;
             let limit_ = limit ? limit : this.postLimit;
+            console.log("page:" + page_ + "limit:" + limit_ + "search:" + this.postSearch)
             this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
         },
         resetForm(formName) {

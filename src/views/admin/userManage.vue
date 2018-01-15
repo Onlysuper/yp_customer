@@ -9,7 +9,7 @@
           <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增用户" :visible.sync="addFormVisible">
@@ -197,9 +197,8 @@ export default {
           }
         }
       ],
-
-      postSearch: searchConditionVar,
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
           url: getUserManages // 初始化数据
@@ -295,6 +294,11 @@ export default {
               }
             }
           ]
+        },
+        // 数据加载成功
+        dataSuccess: data => {
+          console.log("数据加载完成");
+          console.log(data);
         }
       }
     };
