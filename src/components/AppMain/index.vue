@@ -16,7 +16,7 @@ body {
 }
 .reset-main {
   display: flex;
-  overflow: auto;
+  overflow: hidden;
   position: relative;
   height: 100%;
   width: 100%;

@@ -68,7 +68,7 @@ export default {
               label: "开始时间",
               value: new Date() - 24 * 60 * 60 * 1000,
               cb: value => {
-                this.searchCondition.dataTimeBegin = value;
+                this.searchCondition.standardTimeBegin = value;
               }
             },
             {
@@ -76,7 +76,7 @@ export default {
               lable: "结束时间",
               value: new Date(),
               cb: value => {
-                this.searchCondition.dataTimeEnd = value;
+                this.searchCondition.standardTimeEnd = value;
               }
             }
           ]
@@ -179,7 +179,7 @@ export default {
         getDataUrl: {
           url: getBillcountcustomers // 初始化数据
         },
-        havecheck: true, //是否显示输入框
+        havecheck: false, //是否显示输入框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {

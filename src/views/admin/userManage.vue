@@ -208,17 +208,18 @@ export default {
           {
             key: "用户名称",
             sortable: true,
-            word: "realname"
+            word: "realname",
+            width: "250px"
           },
           {
             key: "用户登录名",
-            width: "100px",
+            width: "180px",
             word: "username"
           },
           {
             key: "状态",
             word: "status",
-            width: "80px",
+            width: "",
             status: true,
             type: data => {
               if (data == "TRUE") {

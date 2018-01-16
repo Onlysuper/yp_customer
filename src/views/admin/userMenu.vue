@@ -1,6 +1,6 @@
 <template>
   <div class="admin-page">
-    <div class="admin-main-box">
+    <div class="admin-main-box tree-table-box">
       <div class="tree-box">
         <!-- <el-tree :props="dataTreeProps" render-after-expand="true" @node-click="treeClick" :load="rootTreeload" lazy show-checkbox> -->
         <div class="zTreeDemoBackground left">
@@ -131,6 +131,17 @@
 
 <style lang='scss' scoped>
 @import "../../common/zTree/css/metroStyle/metroStyle.css";
+.tree-table-box {
+  display: flex;
+  flex-direction: row;
+  .tree-box {
+    flex-shrink: 0;
+  }
+  .table-box {
+    flex-shrink: 1;
+    width: 100%;
+  }
+}
 </style>
 <script>
 import DataPage from "@src/components/DataPage";
@@ -271,22 +282,23 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "功能",
-            width: "100px",
+            width: "130px",
             sortable: true,
             word: "functionName"
           },
           {
             key: "功能编号",
-            width: "100px",
+            width: "170px",
             word: "functionCode"
           },
           {
             key: "url",
-            word: "url"
+            word: "url",
+            width: "170px"
           },
           {
             key: "请求方法",
-            width: "100px",
+            width: "",
             word: "httpMethod"
           }
         ],

@@ -6,7 +6,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="showDiablog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -198,17 +198,18 @@ export default {
           {
             key: "角色名称",
             sortable: true,
+            width: "180px",
             word: "roleName"
           },
           {
             key: "角色编号",
-            width: "100px",
+            width: "180px",
             word: "roleCode"
           },
           {
             key: "状态",
             word: "status",
-            width: "80px",
+            width: "",
             status: true,
             type: data => {
               if (data == "TRUE") {
