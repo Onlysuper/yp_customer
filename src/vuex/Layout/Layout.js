@@ -35,13 +35,13 @@ const Layout = {
             state.userMessage.userType = data.userType // 登录账号
         },
         clearUser(state) {
-            // state.userMessage = { // 管理员信息
-            //     all: "",
-            //     realname: "",
-            //     username: "",
-            //     userBussinessNo: "",
-            //     userType: ""
-            // }
+            state.userMessage = { // 管理员信息
+                all: "",
+                realname: "",
+                username: "",
+                userBussinessNo: "",
+                userType: ""
+            }
         }
     },
     actions: {

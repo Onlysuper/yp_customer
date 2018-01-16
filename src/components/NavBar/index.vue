@@ -262,8 +262,7 @@ export default {
           })
           .then(res => {});
         // 清空用户信息
-        // this.$store.commit("clearUser");
-        // this.$router.go(0);
+        this.$store.commit("clearUser");
         this.$router.push({ path: "/login" });
       });
     },
