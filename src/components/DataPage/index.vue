@@ -43,6 +43,10 @@
 </template>
 <style lang="scss">
 .tablelist-box {
+  .el-pagination {
+    text-align: right;
+    padding-top: 8px;
+  }
   .scroll-view {
     /* -- Attention: This line is extremely important in chrome 55+! -- */
     touch-action: none;

@@ -333,14 +333,8 @@ export default {
             }
           },
           {
-            key: "单价",
-            width: "150px",
-            word: "price"
-          },
-
-          {
             key: "是否生产水牌",
-            width: "",
+            width: "120px",
             word: "isPrint",
             status: true,
             type: data => {
@@ -361,6 +355,11 @@ export default {
                 };
               }
             }
+          },
+          {
+            key: "单价",
+            width: "",
+            word: "price"
           }
         ],
         operation: {

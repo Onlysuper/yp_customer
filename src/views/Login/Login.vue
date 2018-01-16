@@ -12,7 +12,7 @@
         </header>
         <!-- form start -->
         <div class="login-form">
-          {{$store.state.moduleLayour.userMessage}}
+          <!-- {{$store.state.moduleLayour.userMessage}} -->
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="top" label-width="100px" class="demo-ruleForm form-r">
             <el-form-item prop="username">
               <el-input class="input-reset" v-model="ruleForm.username" prefix-icon placeholder="请输入易票账号/手机号"></el-input>
@@ -70,6 +70,10 @@ export default {
             }
             if (data.code === "00") {
               // 登录成功
+              // 重新获取菜单列表
+              self.$store.dispatch("UserMenulistFetch");
+              // 重新获取用户权限
+              self.$store.dispatch("UserGetFetch");
               self.$router.push({ path: "/" });
             }
           });

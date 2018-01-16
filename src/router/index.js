@@ -49,6 +49,7 @@ const router = new Router({
                 role: ['admin', 'root']
             },
         },
+        { path: '/', redirect: home },
         login
     ]
 })
@@ -93,7 +94,7 @@ function filterRouter(data, asyncRouter, back) {
         var has = 0;
         for (var i = 0; i < item.child.length; i++) {
             asyncRouter.forEach((item2, index) => {
-                if (item2.path.replace(/\//, "") == item.child[i].menuCode && item2.meta.role.indexOf(data.username != "-1")) {
+                if (item2.path.replace(/\//, "") == item.child[i].menuCode && (item2.meta.role.indexOf(data.username) != "-1" || item2.meta.role.indexOf("*") != "-1")) {
                     thisrouter.push(item2)
                 }
             })
@@ -131,16 +132,8 @@ store.dispatch('UserMenulistFetch').then(resmenuList => {
     })
 })
 router.beforeEach((to, redirect, next) => {
-    // if (!sessionStorage.getItem('accessToken')) {
-    //     next({
-    //         path: '/login',
-    //         query: { redirect: to.fullPath }
-    //     })
-    // } else {
-    //     next()
-    // }   
-    if (to.path == "/") {
-        next('/home')
+    if (to.matched.length == "0") {
+        next('/login')
     } else {
         next()
     }
