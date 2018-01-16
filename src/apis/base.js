@@ -11,7 +11,7 @@ export default {
 function getUrl() {
     switch (process.env.NODE_ENV) {
         case "development":
-            return "http://192.168.8.103:8090/tm";
+            return "http://192.168.100.161:8090/tm";
         case "productionTest":
             return "http://tm.yeepiao.com";
         case "production":
