@@ -21,7 +21,7 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+              <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
                 <el-input v-model="addForm.enterpriseName" auto-complete="off"></el-input>
               </el-form-item>
             </div>
@@ -176,32 +176,72 @@
     </el-dialog>
     <!-- 详情 end -->
     <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
+    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="600px">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-          <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-          <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-          <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-          <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
-          <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+                <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
+                <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
+                <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
+                <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
+                <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>

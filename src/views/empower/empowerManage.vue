@@ -7,10 +7,10 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="showDialog('empoverCodeFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">生成授权码</el-button>
-          <el-button size="small" @click="showDialog('addMaterielFormVisible')" type="primary" icon="el-icon-upload">物料入库</el-button>
-          <el-button size="small" @click="showDialog('exportEmpowerCodeVisible')" type="primary" icon="el-icon-upload">导出</el-button>
-          <el-button size="small" @click="showDialog('batchBindVisible')" type="primary" icon="el-icon-upload">批量绑定</el-button>
+          <el-button size="small" @click="showDialog('empoverCodeFormVisible')" type="primary" icon="el-icon-tickets">生成授权码</el-button>
+          <el-button size="small" @click="showDialog('addMaterielFormVisible')" type="primary" icon="el-icon-sort-down">物料入库</el-button>
+          <el-button size="small" @click="showDialog('exportEmpowerCodeVisible')" type="primary" icon="el-icon-sort-up">导出</el-button>
+          <el-button size="small" @click="showDialog('batchBindVisible')" type="primary" icon="el-icon-sort">批量绑定</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -18,12 +18,23 @@
     <!-- 生成授权码start -->
     <el-dialog center title="生成授权码" :visible.sync="empoverCodeFormVisible">
       <el-form size="small" :model="empoverCodeForm" ref="empoverCodeForm" :rules="empoverCodeRules">
-        <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
-          <el-input v-model="empoverCodeForm.agentNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="数量" prop="qrcodeCount" :label-width="formLabelWidth">
-          <el-input v-model="empoverCodeForm.qrcodeCount" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
+                <el-input v-model="empoverCodeForm.agentNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="数量" prop="qrcodeCount" :label-width="formLabelWidth">
+                <el-input v-model="empoverCodeForm.qrcodeCount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
         <el-form-item label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
           <el-radio v-model="empoverCodeForm.serviceMode" label="HX">航信</el-radio>
           <el-radio v-model="empoverCodeForm.serviceMode" label="YP">易票</el-radio>
@@ -44,29 +55,51 @@
     <!-- 物料入库start -->
     <el-dialog center title="物料入库" :visible.sync="addMaterielFormVisible">
       <el-form size="small" :model="addMaterielForm" ref="addMaterielForm" :rules="addMaterielRules">
-        <el-form-item label="入库类型" prop="deviceType" :label-width="formLabelWidth">
-          <el-select v-model="addMaterielForm.deviceType" placeholder="请选择" @change="migrateChagen">
-            <el-option v-for="item in selectOptions.deviceType" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="入库数量" prop="receiptCount" :label-width="formLabelWidth">
-          <el-input v-model="addMaterielForm.receiptCount" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
-          <el-input v-model="addMaterielForm.prefixNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="入库方式" prop="migrateType" :label-width="formLabelWidth">
-          <el-select v-model="addMaterielForm.migrateType" placeholder="请选择" @change="migrateChagen">
-            <el-option v-for="item in selectOptions.addMaterielOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="入库类型" prop="deviceType" :label-width="formLabelWidth">
+                <el-select v-model="addMaterielForm.deviceType" placeholder="请选择" @change="migrateChagen">
+                  <el-option v-for="item in selectOptions.deviceType" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="入库数量" prop="receiptCount" :label-width="formLabelWidth">
+                <el-input v-model="addMaterielForm.receiptCount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="入库方式" prop="migrateType" :label-width="formLabelWidth">
+                <el-select v-model="addMaterielForm.migrateType" placeholder="请选择" @change="migrateChagen">
+                  <el-option v-for="item in selectOptions.addMaterielOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
+                <el-input v-model="addMaterielForm.prefixNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
         <el-form-item v-if="visibleQrcodes" label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input v-model="addMaterielForm.qrcodes" auto-complete="off" placeholder="多个二维码请用英文逗号分隔"></el-input>
         </el-form-item>
         <el-form-item v-if="visibleQrNums" label="号段" prop="" :label-width="formLabelWidth">
           <el-input-number v-model="addMaterielForm.qrcodeStart" controls-position="right"></el-input-number>
+          -
           <el-input-number v-model="addMaterielForm.qrcodeEnd" controls-position="right"></el-input-number>
         </el-form-item>
       </el-form>
@@ -80,7 +113,7 @@
     <!-- 导出start -->
     <el-dialog center title="导出授权码" :visible.sync="exportEmpowerCodeVisible">
       <el-form size="small" :model="exportEmpowerCodeForm" ref="exportEmpowerCodeForm" :rules="exportEmpowerCodeRules">
-        <el-form-item label="选择样式" prop="styleType" :label-width="formLabelWidth">
+        <el-form-item class="full-width" label="选择样式" prop="styleType" :label-width="formLabelWidth">
           <el-select v-model="exportEmpowerCodeForm.styleType" placeholder="请选择">
             <el-option v-for="item in selectOptions.exportEmpowerCodeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -118,7 +151,7 @@
     </el-dialog>
     <!-- 批量绑定end -->
     <!-- 预览 start -->
-    <el-dialog ref="qrcodebox" center title="预览" :visible.sync="detailVisible">
+    <el-dialog ref="qrcodebox" center title="预览" :visible.sync="detailVisible" width="300px">
       <el-row id="qrcodeboxchild" ref="qrcodeboxchild" class="qrcodeboxchild">
       </el-row>
     </el-dialog>
@@ -126,18 +159,39 @@
     <!-- 编辑 start -->
     <el-dialog center title="修改信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="editFormRules">
-        <el-form-item label="序列号" prop="qrcode" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.qrcode" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="授权码" prop="authCode" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.authCode" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.agentNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="序列号" prop="qrcode" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.qrcode" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="授权码" prop="authCode" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.authCode" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.agentNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
         <el-form-item label="分机号" prop="extensionNum" :label-width="formLabelWidth">
           <el-input v-model="editForm.extensionNum" auto-complete="off"></el-input>
         </el-form-item>

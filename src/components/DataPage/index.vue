@@ -2,7 +2,7 @@
   <!-- 表格与分页展示区域 -->
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table :data="tableData" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
+    <el-table :stripe="true" :data="tableData" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
@@ -60,8 +60,13 @@
     }
   }
 
-  .el-table td {
-    padding: 3px 0;
+  .el-table {
+    td {
+      padding: 3px 0;
+    }
+    .cell {
+      line-height: 30px;
+    }
   }
   .el-popover p {
     padding: 0px !important;

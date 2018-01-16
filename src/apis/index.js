@@ -11,6 +11,7 @@ import orgCodeHandle from "./orgcode";
  */
 // 用户登录
 const Login = () => { return (params) => { return http.post(base.oaIp, "/login", params) } }
+const Logout = () => { return (params) => { return http.get(base.oaIp, "/logout", params) } }
 
 // 菜单列表
 const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/data", params) } }
@@ -245,6 +246,7 @@ const getBillrecordCharts = () => { return (params) => { return http.get(base.oa
 
 export {
     Login,
+    Logout,
     MenuGet,
     UserGet,
     PasswordUpdate,

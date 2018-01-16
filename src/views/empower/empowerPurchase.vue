@@ -16,15 +16,29 @@
     <!-- 授权码采购  start-->
     <el-dialog center title="授权码采购" :visible.sync="purchaseFormVisible">
       <el-form size="small" :model="purchaseForm" ref="purchaseForm" :rules="purchaseFormRules">
-        <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
-          <el-input v-model="purchaseForm.qrcodeCount" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
-          <el-select v-model="purchaseForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
-            <el-option v-for="item in selectOptions.isPrint" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
+                <el-input v-model="purchaseForm.qrcodeCount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+
+              <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
+                <el-switch v-model="purchaseForm.isPrint" active-value="Y" inactive-value="N" active-text="" inactive-text="">
+                </el-switch>
+                <!-- <el-select v-model="purchaseForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
+                  <el-option v-for="item in selectOptions.isPrint" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select> -->
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('purchaseForm')">重置</el-button>
@@ -51,15 +65,28 @@
         <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editPayForm.receiptNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
-          <el-input v-model="editPayForm.qrcodeCount" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
-          <el-select v-model="editPayForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
+                <el-input v-model="editPayForm.qrcodeCount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
+                <el-switch v-model="editPayForm.isPrint" active-value="Y" inactive-value="N" active-text="" inactive-text="">
+                </el-switch>
+                <!-- <el-select v-model="editPayForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
             <el-option v-for="item in selectOptions.isPrint" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
-          </el-select>
-        </el-form-item>
+          </el-select> -->
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('editPayForm')">重置</el-button>

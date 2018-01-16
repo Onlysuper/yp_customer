@@ -14,7 +14,7 @@
     <!-- 新增start -->
     <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item v-if="visibleBussinessType" label="业务类型" prop="bussinessType" :label-width="formLabelWidth">
+        <el-form-item class="full-width" v-if="visibleBussinessType" label="业务类型" prop="bussinessType" :label-width="formLabelWidth">
           <el-select @input="bussinessTypeChange" v-model="addForm.bussinessType" placeholder="请选择">
             <el-option v-for="item in selectOptions.bussinessTypeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -23,7 +23,7 @@
         <el-form-item v-if="visibleProductName" label="产品名称" prop="productName" :label-width="formLabelWidth">
           <el-input v-model="addForm.productName" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item v-if="visibleCostMode" label="收费模式" prop="costMode" :label-width="formLabelWidth">
+        <el-form-item class="full-width" v-if="visibleCostMode" label="收费模式" prop="costMode" :label-width="formLabelWidth">
           <el-select v-model="addForm.costMode" placeholder="请选择" @input="costModeChange($event)">
             <el-option v-for="item in selectOptions.costModeOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -437,6 +437,13 @@ export default {
               opposite: false,
               text: "启用",
               color: "#67c23a",
+              visibleFn: rowdata => {
+                if (rowdata.status == "FALSE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 // postToggleProduct
                 this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
@@ -476,6 +483,13 @@ export default {
               opposite: true,
               text: "禁用",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (rowdata.status == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.$confirm("该操作将禁用该产品，确定继续吗?", "提示", {
                   confirmButtonText: "确定",

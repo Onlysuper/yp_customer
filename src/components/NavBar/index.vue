@@ -174,7 +174,7 @@
 </style>
 
 <script>
-import { PasswordUpdate } from "@src/apis";
+import { PasswordUpdate, Logout } from "@src/apis";
 import TagsView from "@src/components/TagsView";
 export default {
   name: "navbar",
@@ -240,14 +240,19 @@ export default {
   },
   methods: {
     escloginfn() {
-      this.$store
-        .dispatch("delOthersViews", {
-          name: "home",
-          path: "/home",
-          title: "首页"
-        })
-        .then(res => {});
-      this.$router.push({ path: "/login" });
+      Logout()().then(data => {
+        // 删除面包屑
+        this.$store
+          .dispatch("delOthersViews", {
+            name: "home",
+            path: "/home",
+            title: "首页"
+          })
+          .then(res => {});
+        // 清空用户信息
+        // this.$store.commit("clearUser");
+        this.$router.push({ path: "/login" });
+      });
     },
     isCollapsefn() {
       this.$store.commit("SidebarHandle");

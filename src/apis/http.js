@@ -100,9 +100,9 @@ export default {
             baseURL: baseURL,
             params: params,
             timeout: 10000,
-            // headers: {
-            //           "X-requested-With": "XMLHttpRequest"
-            // }
+            headers: {
+                "X-requested-With": "XMLHttpRequest"
+            }
         }).then(function (response) {
             return checkStatus(response)
         }).then(function (response) {

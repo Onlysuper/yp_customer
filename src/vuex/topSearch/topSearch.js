@@ -7,7 +7,6 @@ const topSearch = {
     },
     mutations: {
         initSearchVisibleFn(state) {
-            console.log('vuex search 初始化')
             state.visibleinput = false
         },
         visibleinputHandle(state) { // 高级搜索与普通搜索转变

@@ -12,6 +12,7 @@
         </header>
         <!-- form start -->
         <div class="login-form">
+          {{$store.state.moduleLayour.userMessage}}
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="top" label-width="100px" class="demo-ruleForm form-r">
             <el-form-item prop="username">
               <el-input class="input-reset" v-model="ruleForm.username" prefix-icon placeholder="请输入易票账号/手机号"></el-input>
@@ -31,9 +32,11 @@
       <p> © 2016-2017 yeepiao.com 版权所有</p>
     </el-footer>
   </div>
-</template>
 
+</template>
 <script>
+// import $ from "@src/common/jquery.min.js";
+import $ from "jquery";
 import { Login } from "@src/apis";
 export default {
   name: "Login",
@@ -67,7 +70,6 @@ export default {
             }
             if (data.code === "00") {
               // 登录成功
-              console.log(data_);
               self.$router.push({ path: "/" });
             }
           });

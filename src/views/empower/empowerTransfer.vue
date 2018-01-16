@@ -16,22 +16,42 @@
     <!-- 授权码分配  start-->
     <el-dialog center title="授权码分配" :visible.sync="allotFormVisible">
       <el-form size="small" :model="allotForm" ref="allotForm" :rules="allotFormRules">
-        <el-form-item label="设备类型" prop="deviceType" :label-width="formLabelWidth">
-          <el-select v-model="allotForm.deviceType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.deviceType" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
-          <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
-          <el-input v-model="allotForm.prefixNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
-          <el-input v-model="allotForm.agentNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="分配方式" prop="migrateType" :label-width="formLabelWidth">
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="设备类型" prop="deviceType" :label-width="formLabelWidth">
+                <el-select v-model="allotForm.deviceType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.deviceType" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
+                <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
+                <el-input v-model="allotForm.prefixNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
+                <el-input v-model="allotForm.agentNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-form-item class="full-width" label="分配方式" prop="migrateType" :label-width="formLabelWidth">
           <el-select v-model="allotForm.migrateType" placeholder="请选择" @change="migrateTypeChange1">
             <el-option v-for="item in selectOptions.migrateType" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -39,6 +59,7 @@
         </el-form-item>
         <el-form-item v-if="qrNumsVisible" label="号段" prop="" :label-width="formLabelWidth">
           <el-input-number v-model="allotForm.qrcodeStart" controls-position="right"></el-input-number>
+          -
           <el-input-number v-model="allotForm.qrcodeEnd" controls-position="right"></el-input-number>
         </el-form-item>
         <el-form-item v-if="qrcodesVisible" label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">
@@ -55,22 +76,42 @@
     <!-- 授权码分配  start-->
     <el-dialog center title="授权码上缴" :visible.sync="payFormVisible">
       <el-form size="small" :model="payForm" ref="payForm" :rules="payFormRules">
-        <el-form-item label="设备类型" prop="deviceType" :label-width="formLabelWidth">
-          <el-select v-model="payForm.deviceType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.deviceType" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
-          <el-input v-model="payForm.migrateCount" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
-          <el-input v-model="payForm.prefixNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
-          <el-input v-model="payForm.agentNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="上缴方式" prop="migrateType" :label-width="formLabelWidth">
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="设备类型" prop="deviceType" :label-width="formLabelWidth">
+                <el-select v-model="payForm.deviceType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.deviceType" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
+                <el-input v-model="payForm.migrateCount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
+                <el-input v-model="payForm.prefixNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
+                <el-input v-model="payForm.agentNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-form-item class="full-width" label="上缴方式" prop="migrateType" :label-width="formLabelWidth">
           <el-select v-model="payForm.migrateType" placeholder="请选择" @change="migrateTypeChange2">
             <el-option v-for="item in selectOptions.migrateType" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -78,6 +119,7 @@
         </el-form-item>
         <el-form-item v-if="qrNumsPayVisible" label="号段" prop="" :label-width="formLabelWidth">
           <el-input-number v-model="payForm.qrcodeStart" controls-position="right"></el-input-number>
+          -
           <el-input-number v-model="payForm.qrcodeEnd" controls-position="right"></el-input-number>
         </el-form-item>
         <el-form-item v-if="qrcodesPayVisible" label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">

@@ -17,7 +17,7 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+              <el-form-item class="full-width" label="商户编号" prop="customerNo" :label-width="formLabelWidth">
                 <el-input v-model="addForm.customerNo" @blur="customerInputBlur" @input="customerInputChange"></el-input>
               </el-form-item>
             </div>
