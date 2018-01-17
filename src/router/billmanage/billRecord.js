@@ -9,6 +9,7 @@ export default {
   meta: {
     title: '开票记录',
     keepAlive: true,
+    requiresAuth: true,
     parent: "bill-mg",
     parentname: "开票管理",
     role: ['root', 'admin']

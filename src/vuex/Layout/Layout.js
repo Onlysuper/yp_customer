@@ -57,7 +57,7 @@ const Layout = {
             })
 
         },
-        UserGetFetch(context) {
+        UserGetFetch(context) { // 获取用户按钮权限数据信息
             return new Promise((resolve, reject) => {
                 UserGet()({}).then(function (data) {
                     if (data.code === "00") {

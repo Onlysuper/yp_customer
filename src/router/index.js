@@ -115,25 +115,33 @@ function routerMatch(permission, asyncRouter, path, back) {
         back(thisrouter);
     })
 }
-
-store.dispatch('UserMenulistFetch').then(resmenuList => {
-    routerMatch(resmenuList, asyncRouter, (thisrouter) => {
-        let rou = [{
-            path: '',
-            component: layout,
-            children: thisrouter,
-            meta: {
-                title: '',
-                keepAlive: true,
-                role: ['admin', 'root']
-            },
-        }]
-        router.addRoutes(rou)
-    })
-})
 router.beforeEach((to, redirect, next) => {
-    if (to.matched.length == "0") {
-        next('/login')
+    // console.log(to)
+    // console.log(to.matched)
+    // console.log(to.matched.some(record => record.meta.requiresAuth))
+    if (to.path == "/login") {
+        next()
+    } else if (to.path == "/home") {
+        store.dispatch('UserMenulistFetch').then()
+        next()
+    } else if (to.matched.length == 0 || !to.matched.some(record => record.meta.requiresAuth)) {
+        store.dispatch('UserMenulistFetch').then(resmenuList => {
+            routerMatch(resmenuList, asyncRouter, (thisrouter) => {
+                let rou = [{
+                    path: '',
+                    component: layout,
+                    children: thisrouter,
+                    meta: {
+                        title: '',
+                        keepAlive: true,
+                        role: ['admin', 'root']
+                    },
+                }]
+                router.addRoutes(rou)
+                console.log(88888)
+                next({ ...to, replace: true })
+            })
+        })
     } else {
         next()
     }

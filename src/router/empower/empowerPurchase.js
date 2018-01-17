@@ -9,6 +9,7 @@ export default {
   meta: {
     title: '授权码采购',
     keepAlive: true,
+    requiresAuth: true,
     parent: "",
     parentname: "授权码管理",
     role: ['root', 'admin']

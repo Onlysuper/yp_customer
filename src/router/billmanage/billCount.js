@@ -9,6 +9,7 @@ export default {
   path: '/billcountagent',
   meta: {
     title: '开票统计',
+    requiresAuth: true,
     keepAlive: true,
     parent: "bill-mg",
     parentname: "开票管理",

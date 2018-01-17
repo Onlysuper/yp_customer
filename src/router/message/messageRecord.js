@@ -10,6 +10,7 @@ export default {
   meta: {
     title: '消息记录',
     keepAlive: true,
+    requiresAuth: true,
     parent: "message",
     parentname: "消息管理",
     role: ['root', 'admin']

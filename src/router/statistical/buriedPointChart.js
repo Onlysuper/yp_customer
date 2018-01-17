@@ -10,6 +10,7 @@ export default {
   meta: {
     title: '埋点图表',
     keepAlive: true,
+    requiresAuth: true,
     parent: "statistical_manage",
     parentname: "统计管理",
     role: ['root', 'admin']

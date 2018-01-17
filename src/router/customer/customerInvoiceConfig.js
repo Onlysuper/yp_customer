@@ -10,6 +10,7 @@ export default {
   meta: {
     title: '开票配置',
     keepAlive: true,
+    requiresAuth: true,
     parent: "customer",
     parentname: "商户管理",
     role: ['root', 'admin']

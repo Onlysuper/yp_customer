@@ -9,6 +9,7 @@ export default {
   meta: {
     title: '产品管理',
     keepAlive: true,
+    requiresAuth: true,
     parent: "product",
     parentname: "我的产品",
     role: ['root', 'admin']

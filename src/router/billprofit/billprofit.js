@@ -13,6 +13,7 @@ export default {
   meta: {
     title: '快速开票分润',
     keepAlive: true,
+    requiresAuth: true,
     parent: "",
     parentname: "开票查询",
     role: ['root', 'admin']

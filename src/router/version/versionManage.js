@@ -10,6 +10,7 @@ export default {
   meta: {
     title: '版本管理',
     keepAlive: true,
+    requiresAuth: true,
     parent: "versionManager",
     parentname: "版本控制",
     role: ['root', 'admin']

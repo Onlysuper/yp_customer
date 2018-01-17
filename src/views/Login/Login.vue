@@ -71,9 +71,9 @@ export default {
             if (data.code === "00") {
               // 登录成功
               // 重新获取菜单列表
-              self.$store.dispatch("UserMenulistFetch");
-              // 重新获取用户权限
-              self.$store.dispatch("UserGetFetch");
+              // self.$store.dispatch("UserMenulistFetch");
+              // // 重新获取用户权限
+              // self.$store.dispatch("UserGetFetch");
               self.$router.push({ path: "/" });
             }
           });
