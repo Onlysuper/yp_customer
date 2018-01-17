@@ -263,6 +263,7 @@ export default {
           .then(res => {});
         // 清空用户信息
         localStorage.setItem("isLogin", "0");
+        location.reload();
         // this.$store.commit("clearMenuList");
         this.$router.push({ path: "/login" });
       });
