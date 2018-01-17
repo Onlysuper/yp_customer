@@ -14,9 +14,6 @@ export default {
       //定义各种图标类型
       menuIcon: {
         "bill-mg": "icon-admin"
-      },
-      urls: {
-        customer: "../customer"
       }
     };
   },
@@ -27,7 +24,7 @@ export default {
     toUrl(menuCode, index) {
       console.log(menuCode);
       this.$router.push({
-        path: this.urls[menuCode],
+        name: menuCode,
         query: { menuIndex: index }
       });
     }

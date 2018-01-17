@@ -1,14 +1,14 @@
 
 import loading from "../loading"
-import App from "@src/views-app/customer";
+import Layout from "@src/views-app/customer";
 /**
  * 我的商户
  */
 export default {
-  name: "myCustomer",
+  name: "customer",
   path: "/customer",
   redirect: "/customer/productConfig",
-  component: App,
+  component: Layout,
   meta: {
     // keepAlive: true
   },
@@ -41,7 +41,7 @@ export default {
     //商品管理--编辑
     {
       name: "goodsEdit",
-      path: 'goods/edit/:customerNo',
+      path: 'goods/edit/:goodsNo',
       component: r => {
         return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-edit-app")
       },

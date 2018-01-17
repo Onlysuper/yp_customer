@@ -181,6 +181,7 @@ if (isMobile) {
 }
 
 
+
 var vue = new Vue({
   el: '#app',
   store,

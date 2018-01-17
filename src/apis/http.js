@@ -49,7 +49,7 @@ function checkStatus(response) {
     }
 }
 function checkCode(res) {
-    //如果code异常（这里已经包括网络错误，服务器错误，后端抛出的错误）,可以弹出一个错误提示，告诉用户
+
     if (res.status === -404) {
         Indicator.close();
         return {
@@ -57,18 +57,13 @@ function checkCode(res) {
             resultMsg: res.msg
         };
     }
-    //这里判断后端是否抛出了错误
-    // if (res.data && (!res.data.success)) {
-    //           alert(res.data.resultMsg)
-    // }
-    // alert(res.data.resultCode)
-    //  if (res.data.resultCode === "01") {
-    //       router.replace({ path: "/login", query: { redirect: "/home" } });
-    //       return {
-    //            resultCode: "-1",
-    //            resultMsg: "请重新登录！"
-    //       };
-    //  }
+    if (res.data.code === "01") {
+        router.replace({ path: "/login" });
+        return {
+            resultCode: "-1",
+            resultMsg: "请重新登录！"
+        };
+    }
     //直接返回data中的数据
     return res.data;
 }

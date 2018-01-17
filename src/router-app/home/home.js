@@ -16,7 +16,7 @@ export default {
       return require.ensure([], () => { loading(false); return r(require("@src/views-app/home")) }, "home-app")
     },
     meta: {
-      pageTitle: "易票"
+      pageTitle: "易票运营系统"
 
     }
   }]

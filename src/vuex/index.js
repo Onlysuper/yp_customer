@@ -6,7 +6,7 @@ import topSearch from "@src/vuex/topSearch/topSearch"
 import Base from "@src/vuex/Base/Base"
 import tagsView from "@src/vuex/TagsView/tagsView"
 
-import { customerGoods } from "./modules";
+import { customerGoods, profitBilling } from "./modules";
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -34,7 +34,8 @@ const store = new Vuex.Store({
         // InputValidation: InputValidation,
         Base: Base,
         tagsView: tagsView,
-        customerGoods
+        customerGoods,
+        profitBilling
     }
 })
 console.warn("Vuex严格模式：" + store.strict)
