@@ -5,6 +5,7 @@ import store from '../vuex';
 import utils from "@src/common/utils";
 import layout from '@src/views/layout/layout'
 import login from "./login/login";
+import error from "./error/error";
 import home from "./home/home";
 import customerManage from "./customer/customerManage";
 import customerGoods from "./customer/customerGoods";
@@ -38,7 +39,8 @@ const router = new Router({
     routes: [
 
         { path: '/', redirect: home },
-        login
+        login,
+        error
     ]
 })
 
@@ -113,6 +115,7 @@ router.beforeEach((to, redirect, next) => {
         if (to.path == "/login") {
             next('/home')
         } else if (menuList.length == '0') {
+            store.dispatch('UserGetFetch');
             store.dispatch('UserMenulistFetch').then(resmenuList => {
                 routerMatch(resmenuList, asyncRouter, (thisrouter) => {
                     thisrouter.push(
@@ -128,6 +131,10 @@ router.beforeEach((to, redirect, next) => {
                             role: ['admin', 'root']
                         },
                     }]
+                    rou.push({
+                        path: "*",
+                        redirect: "/error"
+                    })
                     router.addRoutes(rou)
                     // console.log(thisrouter);
                     next({ ...to, replace: true })

@@ -2,7 +2,7 @@
   <!-- 表格与分页展示区域 -->
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table :stripe="true" :data="tableData" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
+    <el-table :stripe="true" :data="tableData" class="__scrollStyle__" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
@@ -66,7 +66,7 @@
 
   .el-table {
     td {
-      padding: 3px 0;
+      // padding: 3px 0;
     }
     .cell {
       line-height: 30px;
@@ -84,6 +84,23 @@
     white-space: nowrap;
     overflow: hidden;
   }
+}
+
+.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: #f5f5f5;
+}
+/*定义滚动条的轨道，内阴影及圆角*/
+.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-track {
+  // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+  border-radius: 0.2rem;
+  background-color: #f5f5f5;
+}
+/*定义滑块，内阴影及圆角*/
+.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 0.2rem;
+  // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  // background-color: #00c1df;
 }
 </style>
 <script>
