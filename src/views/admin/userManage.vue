@@ -6,10 +6,10 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增用户" :visible.sync="addFormVisible">
@@ -69,12 +69,12 @@
 
 </style>
 
-
-
 <script>
 import axios from "axios";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
   getUserManages,
   postAddUser,
@@ -90,15 +90,8 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable, mixinsPc],
   data() {
-    // 不能为空
-    var notNullVerify = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("不能为空!"));
-      } else {
-        callback();
-      }
-    };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -134,8 +127,8 @@ export default {
         label: "roleName"
       },
       addFormRules: {
-        realname: [{ validator: notNullVerify, trigger: "blur" }],
-        username: [{ validator: notNullVerify, trigger: "blur" }],
+        realname: [{ required: true, message: "请输入用户名称", trigger: "blur" }],
+        username: [{ required: true, message: "请输入登陆名", trigger: "blur" }],
         password: [{ validator: validatePass, trigger: "blur" }],
         repassword: [{ validator: validatePass2, trigger: "blur" }]
       },
@@ -145,8 +138,7 @@ export default {
       roleForm: {
         username: ""
       }, // 设置角色表单
-      // 查询条件数据
-      searchCondition: searchConditionVar,
+
       addForm: {
         realname: "", // 用户名
         username: "", // 登录名
@@ -154,6 +146,8 @@ export default {
         repassword: "" //确认登录密码
       },
       // 顶部搜索表单信息
+      // 查询条件数据
+      searchCondition: searchConditionVar,
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
@@ -203,31 +197,29 @@ export default {
           }
         }
       ],
-
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getUserManages, // 初始化数据
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: searchConditionVar // 搜索内容
+          url: getUserManages // 初始化数据
         },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "用户名称",
             sortable: true,
-            word: "realname"
+            word: "realname",
+            width: "250px"
           },
           {
             key: "用户登录名",
-            width: "100px",
+            width: "180px",
             word: "username"
           },
           {
             key: "状态",
             word: "status",
-            width: "80px",
+            width: "",
             status: true,
             type: data => {
               if (data == "TRUE") {
@@ -303,67 +295,17 @@ export default {
               }
             }
           ]
+        },
+        // 数据加载成功
+        dataSuccess: data => {
+          console.log("数据加载完成");
+          console.log(data);
         }
       }
     };
   },
 
   methods: {
-    // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-    resetAddForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    // 获取新数据
-    reloadData() {
-      console.log(this.searchCondition);
-      this.tableData.getDataUrl = {
-        url: getUserManages,
-        page: 1,
-        limit: 10,
-        searchCondition: this.searchCondition
-      };
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
-    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
@@ -403,21 +345,9 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // {
-          //   realname: this.editForm.realname,
-          //   username: this.editForm.username
-          // }
-          // this.resetSearchHandle();
           let fmdate = new FormData();
           fmdate.append("realname", this.editForm.realname);
           fmdate.append("username", this.editForm.username);
-          console.log(axios);
-
-          // axios.fetch("http://192.168.100.229:8090/tm/user", {
-          //   realname: this.editForm.realname,
-          //   username: this.editForm.username
-          // });
-          // return;
           patchEditUser()({
             realname: this.editForm.realname,
             username: this.editForm.username
@@ -461,22 +391,9 @@ export default {
       }).then(data => {
         console.log(data);
       });
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    },
-    addDialog() {
-      // 新增数据 弹出框
-      this.addFormVisible = true;
     }
   },
-  computed: {
-    oaIp() {
-      // nginx配置的路由
-      return this.$store.state.Base.oaIp;
-    }
-  },
+  computed: {},
   mounted() {}
 };
 </script>

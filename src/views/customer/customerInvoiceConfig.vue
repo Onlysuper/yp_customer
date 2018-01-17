@@ -14,30 +14,60 @@
     <!-- 新增start -->
     <el-dialog center title="新增开票配置" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="设备类型" prop="deviceType" :label-width="formLabelWidth">
-          <el-select v-model="addForm.deviceType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.deviceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="客户端类型" prop="clientType" :label-width="formLabelWidth">
-          <el-select v-model="addForm.clientType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.clientTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="设备编号" prop="deviceNo" :label-width="formLabelWidth">
-          <el-input v-model="addForm.deviceNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
-          <el-input v-model="addForm.receiveMan" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="开票人" prop="invoiceMan" :label-width="formLabelWidth">
-          <el-input v-model="addForm.invoiceMan" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="设备类型" prop="deviceType" :label-width="formLabelWidth">
+                <el-select v-model="addForm.deviceType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.deviceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="客户端类型" prop="clientType" :label-width="formLabelWidth">
+                <el-select v-model="addForm.clientType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.clientTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="设备编号" prop="deviceNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.deviceNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
+                <el-input v-model="addForm.receiveMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="开票人" prop="invoiceMan" :label-width="formLabelWidth">
+                <el-input v-model="addForm.invoiceMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
         <el-form-item label="复核人" prop="checkMan" :label-width="formLabelWidth">
           <el-input v-model="addForm.checkMan" auto-complete="off"></el-input>
         </el-form-item>
@@ -51,30 +81,60 @@
     <!-- 编辑start -->
     <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="设备类型" prop="deviceType" :label-width="formLabelWidth">
-          <el-select v-model="editForm.deviceType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.deviceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="客户端类型" prop="clientType" :label-width="formLabelWidth">
-          <el-select v-model="editForm.clientType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.clientTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="设备编号" prop="deviceNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.deviceNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
-          <el-input v-model="editForm.receiveMan" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="开票人" prop="invoiceMan" :label-width="formLabelWidth">
-          <el-input v-model="editForm.invoiceMan" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="full-width" label="设备类型" prop="deviceType" :label-width="formLabelWidth">
+                <el-select v-model="editForm.deviceType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.deviceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item class="full-width" label="客户端类型" prop="clientType" :label-width="formLabelWidth">
+                <el-select v-model="editForm.clientType" placeholder="请选择">
+                  <el-option v-for="item in selectOptions.clientTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="设备编号" prop="deviceNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.deviceNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
+                <el-input v-model="editForm.receiveMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="开票人" prop="invoiceMan" :label-width="formLabelWidth">
+                <el-input v-model="editForm.invoiceMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
         <el-form-item label="复核人" prop="checkMan" :label-width="formLabelWidth">
           <el-input v-model="editForm.checkMan" auto-complete="off"></el-input>
         </el-form-item>

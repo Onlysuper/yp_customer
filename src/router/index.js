@@ -27,6 +27,8 @@ import usermanage from "./admin/userManage";
 import usermenu from "./admin/userMenu";
 import userrole from "./admin/userRole";
 import buriedPoint from "./statistical/buriedPoint";
+import buriedBillChart from "./statistical/buriedBillChart";
+import buriedPointChart from "./statistical/buriedPointChart";
 import messageRecord from "./message/messageRecord";
 import customerVersion from "./version/customerVersion";
 import versionManage from "./version/versionManage";
@@ -47,6 +49,7 @@ const router = new Router({
                 role: ['admin', 'root']
             },
         },
+        { path: '/', redirect: home },
         login
     ]
 })
@@ -70,6 +73,8 @@ const asyncRouter = [
     agentTransfer, // 合伙人转移
     empowerManage,// 授权码管理
     buriedPoint, //埋点管理
+    buriedBillChart, //埋点管理
+    buriedPointChart, //埋点管理
     messageRecord, //消息记录
     empowerCheck, // 授权码审核
     empowerTransfer, // 授权码转移
@@ -89,7 +94,7 @@ function filterRouter(data, asyncRouter, back) {
         var has = 0;
         for (var i = 0; i < item.child.length; i++) {
             asyncRouter.forEach((item2, index) => {
-                if (item2.path.replace(/\//, "") == item.child[i].menuCode) {
+                if (item2.path.replace(/\//, "") == item.child[i].menuCode && (item2.meta.role.indexOf(data.username) != "-1" || item2.meta.role.indexOf("*") != "-1")) {
                     thisrouter.push(item2)
                 }
             })
@@ -128,8 +133,8 @@ store.dispatch('UserMenulistFetch').then(resmenuList => {
 })
 
 router.beforeEach((to, redirect, next) => {
-    if (to.path == "/") {
-        next('/home')
+    if (to.matched.length == "0") {
+        next('/login')
     } else {
         next()
     }

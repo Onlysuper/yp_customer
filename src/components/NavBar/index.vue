@@ -29,7 +29,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="dialogFormVisiblefn">密码修改</el-dropdown-item>
             <el-dropdown-item @click.native="dialogUserVisiblefn">个人信息</el-dropdown-item>
-            <el-dropdown-item @click.native="escloginfn">退出</el-dropdown-item>
+            <el-dropdown-item :show-timeout="100" divided @click.native="escloginfn">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -103,6 +103,7 @@
     padding: 0 5px;
     min-width: 50px;
     &:hover {
+      outline: none;
       .my-transition(background);
       background: rgba(0, 193, 223, 0.2);
       cursor: pointer;
@@ -153,16 +154,27 @@
       margin-right: 10px;
       display: inline-block;
       vertical-align: middle;
+      outline: none;
+      &:focus,
+      &:hover {
+        outline: none;
+      }
       img {
         width: 30px;
         height: 30px;
         border-radius: 100%;
+        outline: none;
+        &:focus,
+        &:hover {
+          outline: none;
+        }
       }
     }
     .user-text {
       display: inline-block;
       vertical-align: middle;
     }
+
     // float: right;
   }
 }
@@ -174,7 +186,7 @@
 </style>
 
 <script>
-import { PasswordUpdate } from "@src/apis";
+import { PasswordUpdate, Logout } from "@src/apis";
 import TagsView from "@src/components/TagsView";
 export default {
   name: "navbar",
@@ -240,14 +252,19 @@ export default {
   },
   methods: {
     escloginfn() {
-      this.$store
-        .dispatch("delOthersViews", {
-          name: "home",
-          path: "/home",
-          title: "首页"
-        })
-        .then(res => {});
-      this.$router.push({ path: "/login" });
+      Logout()().then(data => {
+        // 删除面包屑
+        this.$store
+          .dispatch("delOthersViews", {
+            name: "home",
+            path: "/home",
+            title: "首页"
+          })
+          .then(res => {});
+        // 清空用户信息
+        this.$store.commit("clearUser");
+        this.$router.push({ path: "/login" });
+      });
     },
     isCollapsefn() {
       this.$store.commit("SidebarHandle");

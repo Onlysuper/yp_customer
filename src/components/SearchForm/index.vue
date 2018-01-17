@@ -209,9 +209,14 @@ export default {
 <style lang="scss">
 .search-page {
   min-width: 600px;
-  padding: 0 0 15px 0;
-  margin-bottom: 15px;
+  padding: 0;
+  margin-bottom: 10px;
   border-bottom: 1px solid #eee;
+  flex: 1;
+  flex-shrink: 0;
+  .el-form-item--small.el-form-item {
+    margin-bottom: 10px;
+  }
   .form-box {
     margin-top: 5px !important;
     .form-item {
@@ -260,10 +265,11 @@ export default {
     flex-wrap: wrap;
     justify-content: baseline;
     .el-form-item {
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     .button-box {
+      padding: 5px 5px 10px 5px;
       width: 100%;
       text-align: right;
     }

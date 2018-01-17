@@ -1,6 +1,6 @@
 <template>
   <div class="admin-page">
-    <div class="admin-main-box">
+    <div class="admin-main-box tree-table-box">
       <div class="tree-box">
         <!-- <el-tree :props="dataTreeProps" render-after-expand="true" @node-click="treeClick" :load="rootTreeload" lazy show-checkbox> -->
         <div class="zTreeDemoBackground left">
@@ -11,7 +11,7 @@
         <el-button-group class="button-group">
           <el-button class="mybutton" @click="addFuncDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
-        <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+        <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       </div>
     </div>
     <!-- 新增功能 start -->
@@ -85,15 +85,14 @@
         <el-form-item label="菜单编号" prop="menuCode" :label-width="formLabelWidth">
           <el-input v-model="addForm.menuCode" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item v-if="!addForm.isParent" label="菜单url" prop="url" :label-width="formLabelWidth">
+        <el-form-item label="是否有下级菜单">
+          <el-switch v-model="addForm.isParent" active-value="TRUE" inactive-value="FALSE" active-text="是" inactive-text="否">
+          </el-switch>
+        </el-form-item>
+        <el-form-item v-if="(addForm.isParent=='TRUE'?true:false)" label="菜单url" prop="url" :label-width="formLabelWidth">
           <el-input v-model="addForm.url" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="是否有下级菜单">
-          <el-select prop="isParent" v-model="addForm.isParent" placeholder="是否有下级菜单">
-            <el-option v-for="item in addForm.addOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
@@ -132,12 +131,22 @@
 
 <style lang='scss' scoped>
 @import "../../common/zTree/css/metroStyle/metroStyle.css";
+.tree-table-box {
+  display: flex;
+  flex-direction: row;
+  .tree-box {
+    flex-shrink: 0;
+  }
+  .table-box {
+    flex-shrink: 1;
+    width: 100%;
+  }
+}
 </style>
-
-
-
 <script>
 import DataPage from "@src/components/DataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
   getMenuTrees,
   getMenuTreePage,
@@ -156,7 +165,12 @@ export default {
   components: {
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable, mixinsPc],
   data() {
+    var searchConditionVar = {
+      // 查询条件
+      menuCode: ""
+    };
     var httpMethodOptions = [
       {
         value: "GET",
@@ -258,33 +272,33 @@ export default {
       addFormRules: {},
       formLabelWidth: "100px",
       // 列表数据
+      postSearch: searchConditionVar,
+      searchCondition: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getMenuTreePage, // 初始化数据
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: ""
+          url: getMenuTreePage // 初始化数据
         },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "功能",
-            width: "100px",
+            width: "130px",
             sortable: true,
             word: "functionName"
           },
           {
             key: "功能编号",
-            width: "100px",
+            width: "170px",
             word: "functionCode"
           },
           {
             key: "url",
-            word: "url"
+            word: "url",
+            width: "170px"
           },
           {
             key: "请求方法",
-            width: "100px",
+            width: "",
             word: "httpMethod"
           }
         ],
@@ -317,9 +331,10 @@ export default {
                         message: "删除成功!"
                       });
                       // 更新数据
-                      this.reloadData({
+                      this.postSearch = {
                         menuCode: this.functionMenu.menuCode
-                      });
+                      };
+                      this.reloadData();
                     } else {
                       this.$message({
                         type: "warning",
@@ -371,9 +386,11 @@ export default {
             message: "恭喜您，功能更改成功!"
           });
           // 更新数据
-          this.reloadData({
+          this.postSearch = {
+            // 查询条件
             menuCode: this.functionMenu.menuCode
-          });
+          };
+          this.reloadData();
           this.editFuncFormVisible = false;
         } else {
           this.$message({
@@ -427,9 +444,10 @@ export default {
             message: "恭喜您，添加功能成功!"
           });
           // 更新数据
-          this.reloadData({
+          this.postSearch = {
             menuCode: this.functionMenu.menuCode
-          });
+          };
+          this.reloadData();
           this.addFuncFormVisible = false;
         } else {
           this.$message({
@@ -610,22 +628,14 @@ export default {
         this.functionMenu = treeNode; // 同步当前所点击的菜单menuCode
         this.menuFunctionParentNode = treeNode;
         // 更新数据
-        this.reloadData({
+        this.postSearch = {
           menuCode: this.functionMenu.menuCode
-        });
+        };
+        this.reloadData();
         // 显示表格
         this.tableVisible = true;
       }
       return false;
-    },
-    // 更新数据
-    reloadData(searchCondition) {
-      this.tableData.getDataUrl = {
-        url: getMenuTreePage, // 初始化数据
-        page: 1, // 当前页数
-        limit: 10, // 每页条数
-        searchCondition: searchCondition
-      };
     },
     // 加载树列表
     rootTreeload(node, resolve) {
@@ -634,14 +644,6 @@ export default {
       }).then(data => {
         console.log(data);
       });
-    },
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    },
-    resetForm(formName) {
-      console.log(this.$refs[formName]);
-      // this.$refs[formName].resetFields();
     }
   },
   computed: {

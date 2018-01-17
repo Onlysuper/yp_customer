@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import moduleLayour from "@src/vuex/Layout/Layout"
 import topSearch from "@src/vuex/topSearch/topSearch"
-import InputValidation from "@src/vuex/InputValidation/InputValidation"
+// import InputValidation from "@src/vuex/InputValidation/InputValidation"
 import Base from "@src/vuex/Base/Base"
 import tagsView from "@src/vuex/TagsView/tagsView"
 
@@ -31,7 +31,7 @@ const store = new Vuex.Store({
     modules: {
         moduleLayour: moduleLayour,
         topSearch: topSearch,
-        InputValidation: InputValidation,
+        // InputValidation: InputValidation,
         Base: Base,
         tagsView: tagsView,
         customerGoods,

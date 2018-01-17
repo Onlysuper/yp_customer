@@ -255,7 +255,7 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "创建时间",
-            width: "150px",
+            width: "180px",
             word: "createTime"
           },
           {
@@ -333,14 +333,8 @@ export default {
             }
           },
           {
-            key: "单价",
-            width: "150px",
-            word: "price"
-          },
-
-          {
             key: "是否生产水牌",
-            width: "150px",
+            width: "120px",
             word: "isPrint",
             status: true,
             type: data => {
@@ -361,6 +355,11 @@ export default {
                 };
               }
             }
+          },
+          {
+            key: "单价",
+            width: "",
+            word: "price"
           }
         ],
         operation: {

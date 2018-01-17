@@ -11,6 +11,7 @@ import orgCodeHandle from "./orgcode";
  */
 // 用户登录
 const Login = () => { return (params) => { return http.post(base.oaIp, "/login", params) } }
+const Logout = () => { return (params) => { return http.get(base.oaIp, "/logout", params) } }
 
 // 菜单列表
 const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/data", params) } }
@@ -103,6 +104,7 @@ const postCancelDefaultCustomerGood = (path) => { return (params) => { return ht
 */
 const getCustomerProducts = () => { return (params) => { return http.get(base.oaIp, "/userproduct/customerProductPage", params) } }
 const getCheckCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/query/checkCustomerProduct", params) } }
+const getQueryCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomer", params) } }
 // end -------------------------------------------------
 /**
 **商户管理 start
@@ -226,7 +228,7 @@ const setUsingVersion = () => { return (params) => { return http.post(base.oaIp,
 /**
 **埋点图表Start
  */
-const getBurialPointCharts = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/chart", params) } }
+const postBurialPointCharts = () => { return (params) => { return http.post(base.oaIp, "/operatorlog/chart", params) } }
 // end -------------------------------------------------
 
 /**
@@ -244,6 +246,7 @@ const getBillrecordCharts = () => { return (params) => { return http.get(base.oa
 
 export {
     Login,
+    Logout,
     MenuGet,
     UserGet,
     PasswordUpdate,
@@ -282,13 +285,14 @@ export {
     // 商户产品
     getCustomerProducts,
     getCheckCustomerProduct,
+    getQueryCustomerProduct,
+    perfectCustomer,
     // 商户管理
     getCustomers,
     postAddCustomer,
     postEditCustomer,
     postUploadFile,
     transferCustomer,
-    perfectCustomer,
     // 开票配置
     getCustomerConfigs,
     postAddCustomerConfigs,
@@ -355,6 +359,8 @@ export {
     getBurialPointTotal,
     // 合伙人转移
     getPartnerTransfer,
-    getTransferBranchoffice
+    getTransferBranchoffice,
+    // 埋点图表
+    postBurialPointCharts
 };
 

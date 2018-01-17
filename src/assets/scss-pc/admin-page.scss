@@ -2,6 +2,13 @@
 .admin-page {
   position: relative;
   // background: #eff2f5;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .tablelist-box{
+    overflow-y: auto;
+    overflow-x:hidden
+  }
   .detail-content {
     .line-label-box {
       padding: 4px 0;
@@ -50,17 +57,16 @@
   .admin-main-box {
     padding: 10px;
     position: relative;
-    height: 100%;
+    // height: 100%;
     // width: 100%;
     background: #fff;
+    display: flex;
+    flex-direction: column
   }
   .form-box {
     margin-top: 10px;
   }
-  .el-pagination {
-    text-align: right;
-    padding-top: 17px;
-  }
+
   .tip-text {
     color: #67c23a;
   }

@@ -15,8 +15,11 @@ body {
   margin: 0;
 }
 .reset-main {
+  display: flex;
+  overflow: hidden;
   position: relative;
   height: 100%;
+  width: 100%;
 }
 </style>
 <script>

@@ -6,10 +6,10 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
-      <myp-data-page ref="dataTable" :tableDataInit="tableData" @operation="operationHandle"></myp-data-page>
+      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增角色" :visible.sync="addFormVisible">
@@ -22,7 +22,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetAddForm('addForm')">重置</el-button>
+        <el-button @click="resetForm('addForm')">重置</el-button>
         <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
@@ -64,11 +64,10 @@
 <style lang='scss' scoped>
 @import "../../common/zTree/css/metroStyle/metroStyle.css";
 </style>
-
-
-
 <script>
 import SearchForm from "@src/components/SearchForm";
+import { mixinsPc } from "@src/common/mixinsPc";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import DataPage from "@src/components/DataPage";
 import $ from "jquery";
 import "@src/common/zTree/js/jquery.ztree.all.min.js";
@@ -87,15 +86,8 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
+  mixins: [mixinDataTable, mixinsPc],
   data() {
-    // 不能为空
-    var notNullVerify = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("不能为空!"));
-      } else {
-        callback();
-      }
-    };
     var searchConditionVar = {
       // 默认搜索条件
       roleName: "", // 角色名称
@@ -137,8 +129,8 @@ export default {
         label: "privilegeName"
       },
       addFormRules: {
-        roleName: [{ validator: notNullVerify, trigger: "blur" }],
-        roleCode: [{ validator: notNullVerify, trigger: "blur" }]
+        roleName: [{ required: true, message: "请输入内容", trigger: "blur" }],
+        roleCode: [{ required: true, message: "请输入内容", trigger: "blur" }]
       },
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
@@ -194,31 +186,30 @@ export default {
           }
         }
       ],
-
+      searchCondition: searchConditionVar, // 搜索内容
       // 列表数据
+      postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getRoleManages, // 初始化数据
-          page: 1, // 当前页数
-          limit: 10, // 每页条数
-          searchCondition: searchConditionVar // 搜索内容
+          url: getRoleManages // 初始化数据
         },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "角色名称",
             sortable: true,
+            width: "180px",
             word: "roleName"
           },
           {
             key: "角色编号",
-            width: "100px",
+            width: "180px",
             word: "roleCode"
           },
           {
             key: "状态",
             word: "status",
-            width: "80px",
+            width: "",
             status: true,
             type: data => {
               if (data == "TRUE") {
@@ -332,40 +323,6 @@ export default {
         }
       });
     },
-    callbackformHandle(cb, data) {
-      // 表单双向绑定 得到输入的内容并返回到本页面
-      cb(data);
-    },
-    resetSearchHandle() {
-      // 重置查询表单
-      this.searchOptions.forEach(element => {
-        if (element.type != "dateGroup") {
-          element.value = "";
-          this.searchCondition[element.corresattr] = "";
-        } else {
-          element.options.forEach(element => {
-            element.value = "";
-            this.searchCondition[element.corresattr] = "";
-          });
-        }
-      });
-    },
-    resetAddForm(formName) {
-      this.$refs[formName].resetFields();
-    },
-    // 获取新数据
-    reloadData() {
-      this.tableData.getDataUrl = {
-        url: getRoleManages,
-        page: 1,
-        limit: 10,
-        searchCondition: this.searchCondition
-      };
-    },
-    seachstartHandle() {
-      // 开始搜索
-      this.reloadData();
-    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
@@ -378,7 +335,7 @@ export default {
                 center: true
               });
               this.addFormVisible = false;
-              this.resetAddForm("addForm");
+              this.resetForm("addForm");
               this.reloadData();
             } else if (data.code === "98") {
               this.$message({
@@ -501,23 +458,9 @@ export default {
           }
         });
       }
-    },
-
-    operationHandle(data, cb) {
-      // 操作按钮回调
-      cb(data);
-    },
-    addDialog() {
-      // 新增数据 弹出框
-      this.addFormVisible = true;
     }
   },
-  computed: {
-    oaIp() {
-      // nginx配置的路由
-      return this.$store.state.Base.oaIp;
-    }
-  },
+  computed: {},
   mounted() {}
 };
 </script>
