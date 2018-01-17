@@ -66,7 +66,7 @@ export default {
             {
               corresattr: "standardTimeBegin",
               label: "开始时间",
-              value: new Date() - 24 * 60 * 60 * 1000,
+              value: todayDate,
               cb: value => {
                 this.searchCondition.standardTimeBegin = value;
               }
@@ -74,7 +74,7 @@ export default {
             {
               corresattr: "standardTimeEnd",
               lable: "结束时间",
-              value: new Date(),
+              value: todayDate,
               cb: value => {
                 this.searchCondition.standardTimeEnd = value;
               }

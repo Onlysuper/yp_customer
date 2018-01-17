@@ -45,7 +45,7 @@
   .scroll-view {
     /* -- Attention: This line is extremely important in chrome 55+! -- */
     touch-action: none;
-    overflow: hidden;
+    // overflow: auto;
     position: absolute;
     width: 100%;
     top: 55px;
@@ -108,6 +108,7 @@
   .aside-box {
     .logo-box {
       height: 54px;
+      min-width: 70px;
       overflow: hidden;
       display: flex;
       box-sizing: border-box;

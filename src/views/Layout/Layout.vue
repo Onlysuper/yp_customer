@@ -32,6 +32,7 @@ export default {
 // @import "../../../src/assets/scss-pc/reset.scss";
 .layout-page {
   height: 100vh;
+  overflow: hidden;
   // overflow: hidden;
   .layout-main {
     flex-direction: column;

@@ -84,9 +84,10 @@ export default {
           limit: true, //日期联动
           limitnum: 7,
           show: true, // 普通搜索显示
-          value: "",
+          // value: "",
           option1: "dataTimeBegin",
           option2: "dataTimeEnd",
+          value: [yesterday, todayDate],
           cb: (startTime, endTime) => {
             this.searchCondition.dataTimeBegin = startTime;
             this.searchCondition.dataTimeEnd = endTime;
