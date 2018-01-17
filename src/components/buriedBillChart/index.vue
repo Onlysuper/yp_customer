@@ -151,7 +151,12 @@ export default {
         let operationHeight = $(".operation-box").outerHeight(true) || 0;
         let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
         this.chartHeight =
-          pageHeight - formHeight - operationHeight - paginationHeight - 20;
+          pageHeight -
+          formHeight -
+          operationHeight -
+          paginationHeight -
+          20 +
+          "px";
       });
     }
   },

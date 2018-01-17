@@ -17,14 +17,14 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+              <el-form-item class="full-width" label="商户编号" prop="customerNo" :label-width="formLabelWidth">
                 <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="设备类型" prop="deviceType" :label-width="formLabelWidth">
+              <el-form-item class="full-width" label="设备类型" prop="deviceType" :label-width="formLabelWidth">
                 <el-select v-model="addForm.deviceType" placeholder="请选择">
                   <el-option v-for="item in selectOptions.deviceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
@@ -36,7 +36,7 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="客户端类型" prop="clientType" :label-width="formLabelWidth">
+              <el-form-item class="full-width" label="客户端类型" prop="clientType" :label-width="formLabelWidth">
                 <el-select v-model="addForm.clientType" placeholder="请选择">
                   <el-option v-for="item in selectOptions.clientTypeOptions" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
@@ -181,10 +181,18 @@ export default {
       searchCondition: searchConditionVar,
       formLabelWidth: "100px",
       addFormRules: {
-        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
-        deviceType: [{ required: true, message: "请选择设备类型", trigger: "blur" }],
-        deviceNo: [{ required: true, message: "请输入设备编号", trigger: "blur" }],
-        invoiceMan: [{ required: true, message: "请输入开票人", trigger: "blur" }]
+        customerNo: [
+          { required: true, message: "请输入商户编号", trigger: "blur" }
+        ],
+        deviceType: [
+          { required: true, message: "请选择设备类型", trigger: "blur" }
+        ],
+        deviceNo: [
+          { required: true, message: "请输入设备编号", trigger: "blur" }
+        ],
+        invoiceMan: [
+          { required: true, message: "请输入开票人", trigger: "blur" }
+        ]
       },
       editFormRules: {}, // 编辑单个规则
       editForm: {
