@@ -34,14 +34,15 @@ const Layout = {
             state.userMessage.userBussinessNo = data.userBussinessNo // 登录账号
             state.userMessage.userType = data.userType // 登录账号
         },
-        clearUser(state) {
-            state.userMessage = { // 管理员信息
-                all: "",
-                realname: "",
-                username: "",
-                userBussinessNo: "",
-                userType: ""
-            }
+        clearMenuList(state) { // 清空左侧菜单
+            state.menuList = []
+            // state.userMessage = { // 管理员信息
+            //     all: "",
+            //     realname: "",
+            //     username: "",
+            //     userBussinessNo: "",
+            //     userType: ""
+            // }
         }
     },
     actions: {

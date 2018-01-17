@@ -36,19 +36,7 @@ import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
     routes: [
-        {
-            path: 'home',
-            component: layout,
-            children: [
-                home,
 
-            ],
-            meta: {
-                title: '',
-                keepAlive: true,
-                role: ['admin', 'root']
-            },
-        },
         { path: '/', redirect: home },
         login
     ]
@@ -109,24 +97,28 @@ function filterRouter(data, asyncRouter, back) {
  * @param {array} permission 权限列表（菜单列表）
  * @param {array} asyncRouter 异步路由对象
  */
-function routerMatch(permission, asyncRouter, path, back) {
+function routerMatch(permission, asyncRouter, back) {
     var menuList = permission;
-    filterRouter(menuList, asyncRouter, path, (thisrouter) => {
+    filterRouter(menuList, asyncRouter, (thisrouter) => {
         back(thisrouter);
     })
 }
 router.beforeEach((to, redirect, next) => {
     // console.log(to)
-    // console.log(to.matched)
-    // console.log(to.matched.some(record => record.meta.requiresAuth))
+    console.log(to.matched)
+    let menuList = store.state.moduleLayour.menuList;
+    console.log(to.matched.some(record => record.meta.requiresAuth))
+    console.log(menuList);
     if (to.path == "/login") {
         next()
-    } else if (to.path == "/home") {
-        store.dispatch('UserMenulistFetch').then()
-        next()
-    } else if (to.matched.length == 0 || !to.matched.some(record => record.meta.requiresAuth)) {
+    }
+    // else if (to.matched.length == 0 || !to.matched.some(record => record.meta.requiresAuth)) {
+    else if (menuList.length == '0') {
         store.dispatch('UserMenulistFetch').then(resmenuList => {
             routerMatch(resmenuList, asyncRouter, (thisrouter) => {
+                thisrouter.push(
+                    home
+                )
                 let rou = [{
                     path: '',
                     component: layout,
@@ -138,8 +130,9 @@ router.beforeEach((to, redirect, next) => {
                     },
                 }]
                 router.addRoutes(rou)
-                console.log(88888)
+                console.log(thisrouter);
                 next({ ...to, replace: true })
+                // next()
             })
         })
     } else {

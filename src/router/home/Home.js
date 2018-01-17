@@ -10,7 +10,7 @@ export default {
   meta: {
     title: '首页',
     path: '/home',
-    // requiresAuth: true,
+    requiresAuth: true,
     keepAlive: true,
     role: ['root', 'admin']
   },

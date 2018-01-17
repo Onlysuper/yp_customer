@@ -262,7 +262,7 @@ export default {
           })
           .then(res => {});
         // 清空用户信息
-        this.$store.commit("clearUser");
+        this.$store.commit("clearMenuList");
         this.$router.push({ path: "/login" });
       });
     },
