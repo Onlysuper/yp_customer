@@ -1,7 +1,7 @@
 
 import http from "./http";
 import base from "./base";
-import orgCodeHandle from "./orgcode";
+// import orgCodeHandle from "./orgcode";
 // console.log(orgCodeHandle);
 
 /**
@@ -250,7 +250,7 @@ export {
     MenuGet,
     UserGet,
     PasswordUpdate,
-    orgCodeHandle,
+    // orgCodeHandle,
     // 合伙人管理
     getAgentManages,
     postAddAgentManage,

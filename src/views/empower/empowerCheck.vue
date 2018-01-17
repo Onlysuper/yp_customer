@@ -131,8 +131,12 @@ export default {
       qrNumsVisible: false,
       qrcodesVisible: false,
       checkFormRules: {
-        price: [{ required: true, message: "采购单价不能为空", trigger: "blur" }],
-        migrateType: [{ required: true, message: "请选择开发方式", trigger: "blur" }]
+        price: [
+          { required: true, message: "采购单价不能为空", trigger: "blur" }
+        ],
+        migrateType: [
+          { required: true, message: "请选择开发方式", trigger: "blur" }
+        ]
       },
       checkForm: {},
 
@@ -141,8 +145,12 @@ export default {
       qrNumsVisible2: false,
       qrcodesVisible2: false,
       checkFormRules2: {
-        price: [{ required: true, message: "采购单价不能为空", trigger: "blur" }],
-        migrateType: [{ required: true, message: "请选择开发方式", trigger: "blur" }]
+        price: [
+          { required: true, message: "采购单价不能为空", trigger: "blur" }
+        ],
+        migrateType: [
+          { required: true, message: "请选择开发方式", trigger: "blur" }
+        ]
       },
       checkForm2: {},
 
@@ -367,11 +375,12 @@ export default {
           options: [
             {
               /**
- * 审核授权码采购
- */
+               * 审核授权码采购
+               */
               text: "审核",
               ref: "qr_code_reciept_audit_agent",
               visibleFn: rowdata => {
+                console.log(this.qr_code_reciept_audit_all);
                 if (
                   rowdata.status == "AUDITING" &&
                   rowdata.receiptType == "AUTHCODE" &&
@@ -395,8 +404,8 @@ export default {
             },
             {
               /**
- * 审核扫码枪采购
- */
+               * 审核扫码枪采购
+               */
               text: "审核",
               ref: "qr_code_reciept_audit_agent",
               visibleFn: rowdata => {
@@ -522,8 +531,8 @@ export default {
       }
     },
     /**
- * 审核授权码采购
- */
+     * 审核授权码采购
+     */
     isShowDistributeType(isShow) {
       if (!isShow) {
         this.migrateTypeVisible = false;
@@ -536,8 +545,8 @@ export default {
       }
     },
     /**
- * 审核扫码枪采购
- */
+     * 审核扫码枪采购
+     */
     showScancodegunOrderDiv(isOrder) {
       if (isOrder) {
         this.qrNumsVisible2 = true;
