@@ -58,6 +58,7 @@ function checkCode(res) {
         };
     }
     if (res.data.code === "01") {
+        localStorage.setItem("isLogin", "0");
         router.replace({ path: "/login" });
         return {
             resultCode: "-1",

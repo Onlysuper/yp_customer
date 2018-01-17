@@ -105,38 +105,48 @@ function routerMatch(permission, asyncRouter, back) {
 }
 router.beforeEach((to, redirect, next) => {
     // console.log(to)
-    console.log(to.matched)
+    // console.log(to.matched)
+    // console.log(to.matched.some(record => record.meta.requiresAuth))
     let menuList = store.state.moduleLayour.menuList;
-    console.log(to.matched.some(record => record.meta.requiresAuth))
-    console.log(menuList);
-    if (to.path == "/login") {
-        next()
-    }
-    // else if (to.matched.length == 0 || !to.matched.some(record => record.meta.requiresAuth)) {
-    else if (menuList.length == '0') {
-        store.dispatch('UserMenulistFetch').then(resmenuList => {
-            routerMatch(resmenuList, asyncRouter, (thisrouter) => {
-                thisrouter.push(
-                    home
-                )
-                let rou = [{
-                    path: '',
-                    component: layout,
-                    children: thisrouter,
-                    meta: {
-                        title: '',
-                        keepAlive: true,
-                        role: ['admin', 'root']
-                    },
-                }]
-                router.addRoutes(rou)
-                console.log(thisrouter);
-                next({ ...to, replace: true })
-                // next()
+    console.log(menuList.some(record => record));
+    if (localStorage.getItem("isLogin") == "100") {
+        if (to.path == "/login") {
+            next('/home')
+        } else if (menuList.length == '0') {
+            store.dispatch('UserMenulistFetch').then(resmenuList => {
+                routerMatch(resmenuList, asyncRouter, (thisrouter) => {
+                    thisrouter.push(
+                        home
+                    )
+                    let rou = [{
+                        path: '',
+                        component: layout,
+                        children: thisrouter,
+                        meta: {
+                            title: '',
+                            keepAlive: true,
+                            role: ['admin', 'root']
+                        },
+                    }]
+                    router.addRoutes(rou)
+                    // console.log(thisrouter);
+                    next({ ...to, replace: true })
+                    // next()
+                })
             })
-        })
+        } else {
+            next()
+        }
     } else {
-        next()
+        if (to.path == "/login") {
+            next()
+        } else {
+            next("/login")
+        }
     }
+
+    // else if (to.matched.length == 0 || !to.matched.some(record => record.meta.requiresAuth)) {
+    // else if (!menuList.some(record => record)) {
+
 })
 export default router;

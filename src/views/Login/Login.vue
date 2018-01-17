@@ -74,6 +74,7 @@ export default {
               // self.$store.dispatch("UserMenulistFetch");
               // // 重新获取用户权限
               // self.$store.dispatch("UserGetFetch");
+              localStorage.setItem("isLogin", "100");
               self.$router.push({ path: "/" });
             }
           });
