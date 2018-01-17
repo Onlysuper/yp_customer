@@ -15,7 +15,7 @@
         </el-badge>
       </div>
       <div class="hover-back">
-        <el-dropdown>
+        <el-dropdown trigger="click" :show-timeout="0" :hide-timeout="0">
           <span class="el-dropdown-link">
             <div class="user-img">
               <img :src="require('@src/assets/images/logo.png')" alt="">
@@ -102,6 +102,22 @@
     vertical-align: middle;
     padding: 0 5px;
     min-width: 50px;
+    .el-dropdown-link {
+      outline: none;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .user-img {
+        flex: 1;
+        flex-shrink: 0;
+      }
+      .user-text {
+        flex: 1;
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+    }
     &:hover {
       outline: none;
       .my-transition(background);

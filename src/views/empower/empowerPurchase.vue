@@ -105,7 +105,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetForm('editScangunForm')">重置</el-button>
+        <el-button @click="this.editScangunFormVisible = false">重置</el-button>
         <el-button type="primary" @click="editScangunSave('editScangunForm')">提交</el-button>
       </div>
     </el-dialog>

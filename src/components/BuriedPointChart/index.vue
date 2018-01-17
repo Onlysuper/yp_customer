@@ -154,9 +154,17 @@ export default {
     },
     tableSizeHandle() {
       this.$nextTick(() => {
-        let pageHeight = $(".admin-page").height();
-        let formHeight = $(".search-page").height();
-        this.chartHeight = pageHeight - formHeight - 120 + "px";
+        let pageHeight = $(".admin-page").outerHeight(true) || 0;
+        let formHeight = $(".search-page").outerHeight(true) || 0;
+        let operationHeight = $(".operation-box").outerHeight(true) || 0;
+        let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
+        this.chartHeight =
+          pageHeight -
+          formHeight -
+          operationHeight -
+          paginationHeight -
+          20 +
+          "px";
       });
     },
     // 表格大小

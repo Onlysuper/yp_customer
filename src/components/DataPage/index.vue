@@ -60,13 +60,17 @@
   .tableHeader {
     background: #f0f0f0;
     th {
-      padding: 4px 0;
+      padding: 5px 0;
+      color: #000;
+      color: rgba(0, 0, 0, 0.75);
     }
   }
 
   .el-table {
+    color: #000;
+    color: rgba(0, 0, 0, 0.65);
     td {
-      // padding: 3px 0;
+      padding: 5px 0;
     }
     .cell {
       line-height: 30px;
@@ -164,9 +168,12 @@ export default {
     // 表格大小
     tableSizeHandle() {
       this.$nextTick(() => {
-        let pageHeight = $(".admin-page").outerHeight(true);
-        let formHeight = $(".search-page").outerHeight(true);
-        this.tableHeight = pageHeight - formHeight - 120;
+        let pageHeight = $(".admin-page").outerHeight(true) || 0;
+        let formHeight = $(".search-page").outerHeight(true) || 0;
+        let operationHeight = $(".operation-box").outerHeight(true) || 0;
+        let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
+        this.tableHeight =
+          pageHeight - formHeight - operationHeight - paginationHeight - 20;
       });
     },
     handleSizeChange(val) {

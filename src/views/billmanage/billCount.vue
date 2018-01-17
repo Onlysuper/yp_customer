@@ -7,7 +7,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
+          <el-button v-if="billcountagent_export=='TRUE'?true:false" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
           <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
           <span class="sumtext">扫码次数:{{scanSum}} 推送次数:{{pushSum}} 入网商户:{{netSum}}</span>
         </el-button-group>
@@ -180,6 +180,12 @@ export default {
     exportDialog() {
       // 导出
       this.$refs.dataTable.ExportExcel("/billcountagent/export");
+    }
+  },
+  computed: {
+    billcountagent_export() {
+      return this.$store.state.moduleLayour.userMessage.all
+        .billcountagent_export;
     }
   },
   mounted() {

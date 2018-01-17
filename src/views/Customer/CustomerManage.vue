@@ -342,9 +342,13 @@ export default {
           { required: true, message: "请输入企业名称", trigger: "blur" }
         ],
         taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
-        legalPerson: [{ required: true, message: "请输入企业法人", trigger: "blur" }],
+        legalPerson: [
+          { required: true, message: "请输入企业法人", trigger: "blur" }
+        ],
         idCard: [{ validator: idCardVerify, trigger: "blur" }],
-        linkMan: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
+        linkMan: [
+          { required: true, message: "请输入联系人姓名", trigger: "blur" }
+        ],
         phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
       },
       formLabelWidth: "100px",
@@ -352,7 +356,9 @@ export default {
       editForm: {}, // 编辑单个表单
       detailsForm: {}, // 详情单个表单
       transferFormRules: {
-        receiveAgentNo: [{ required: true, message: "不能为空", trigger: "blur" }]
+        receiveAgentNo: [
+          { required: true, message: "不能为空", trigger: "blur" }
+        ]
       }, // 转移单个规则
       transferForm: {}, // 转移单个表单
       // 查询条件数据
@@ -407,7 +413,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: new Date() - 24 * 60 * 60 * 1000,
+              value: todayDate,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
               }
