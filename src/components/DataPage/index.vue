@@ -61,11 +61,14 @@
     background: #f0f0f0;
     th {
       padding: 5px 0;
+      color: #000;
+      color: rgba(0, 0, 0, 0.75);
     }
   }
 
   .el-table {
     color: #000;
+    color: rgba(0, 0, 0, 0.65);
     td {
       padding: 5px 0;
     }
