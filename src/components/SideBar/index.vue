@@ -28,11 +28,6 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-.el-menu-vertical:not(.el-menu--collapse) {
-  width: 220px;
-  min-height: 400px;
-  position: relative;
-}
 .my-transition(@attr) {
   transition: @attr 0.8s;
   -moz-transition: @attr 0.8s;
@@ -76,6 +71,17 @@
     }
     .icon {
       font-size: 24px;
+    }
+  }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    width: 220px;
+    min-height: 400px;
+    position: relative;
+  }
+  .icon-statistical_manage {
+    &::before {
+      display: inline-block;
+      transform: translateX(2px);
     }
   }
   .el-submenu__title:hover {
@@ -207,7 +213,6 @@ export default {
   },
   watch: {
     isCollapse(value) {
-      this.defaultOpeneds = ["bill-mg", "/billrecord"];
       if (value) {
         // 菜单横向收缩
       } else {
