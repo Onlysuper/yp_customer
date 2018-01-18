@@ -2,7 +2,7 @@
   <!-- 表格与分页展示区域 -->
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table :stripe="true" :data="tableData" class="__scrollStyle__" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" style="width: 100%" show-overflow-tooltip="true">
+    <el-table :stripe="true" :data="tableData" class="__scrollStyle__" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
@@ -57,20 +57,24 @@
     bottom: 0;
     left: 0;
   }
+  .el-table__fixed-right-patch {
+    background: #f0f0f0;
+  }
   .tableHeader {
     background: #f0f0f0;
     th {
-      padding: 5px 0;
+      background: none;
+      padding: 2px 0;
       color: #000;
-      color: rgba(0, 0, 0, 0.75);
+      color: rgba(0, 0, 0, 0.85);
     }
   }
 
   .el-table {
     color: #000;
-    color: rgba(0, 0, 0, 0.65);
+    // color: rgba(0, 0, 0, 0.65);
     td {
-      padding: 5px 0;
+      padding: 7px 0;
     }
     .cell {
       line-height: 30px;

@@ -110,7 +110,6 @@ router.beforeEach((to, redirect, next) => {
     // console.log(to.matched)
     // console.log(to.matched.some(record => record.meta.requiresAuth))
     let menuList = store.state.moduleLayour.menuList;
-    console.log(menuList.some(record => record));
     if (localStorage.getItem("isLogin") == "100") {
         if (to.path == "/login") {
             next('/home')
