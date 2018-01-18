@@ -21,7 +21,7 @@
               <el-input class="input-reset" v-model="ruleForm.password" placeholder="请输入密码" type="password"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button @click="submitForm('ruleForm')" size="medium" type="danger" class="login-button">登录</el-button>
+              <el-button @click="submitForm('ruleForm')" :loading="loading" size="medium" type="danger" class="login-button">登录</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -42,6 +42,7 @@ export default {
   name: "Login",
   data() {
     return {
+      loading: false,
       ruleForm: {
         username: "",
         password: ""
@@ -51,35 +52,38 @@ export default {
           { required: true, message: "请输入易票账号/手机号", trigger: "blur" },
           { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
         ],
-        password: [{ required: true, message: "请选择活动区域", trigger: "change" }]
+        password: [
+          { required: true, message: "请选择活动区域", trigger: "change" }
+        ]
       }
     };
   },
   methods: {
     submitForm(formName) {
-      var self = this;
       this.$refs[formName].validate(valid => {
         if (valid) {
           var data_ = this.ruleForm;
+          this.loading = true;
           Login()({
             username: data_.username,
             password: data_.password
-          }).then(function(data) {
+          }).then(data => {
+            this.loading = false;
             if (data.code === "98") {
-              self.$message("登录失败");
+              this.$message("登录失败");
             }
             if (data.code === "00") {
               // 登录成功
               // 重新获取菜单列表
-              // self.$store.dispatch("UserMenulistFetch");
+              // this.$store.dispatch("UserMenulistFetch");
               // // 重新获取用户权限
-              // self.$store.dispatch("UserGetFetch");
+              // this.$store.dispatch("UserGetFetch");
               localStorage.setItem("isLogin", "100");
-              self.$router.push({ path: "/" });
+              this.$router.push({ path: "/" });
             }
           });
         } else {
-          self.$message.error("登录出错");
+          this.$message.error("登录出错");
           return false;
         }
       });
