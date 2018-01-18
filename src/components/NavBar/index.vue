@@ -14,6 +14,7 @@
           <span class="icon-news"></span>
         </el-badge>
       </div>
+
       <div class="hover-back">
         <el-dropdown trigger="click" :show-timeout="0" :hide-timeout="0">
           <span class="el-dropdown-link">
@@ -36,6 +37,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
+      <!-- <i class="el-icon-rank" @click="fullPageHandle($event)" title="全屏显示"></i> -->
     </div>
     <!-- 管理员信息弹出框 -->
     <el-dialog title="管理员信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="200px">
@@ -219,6 +221,7 @@
 </style>
 
 <script>
+import $ from "jquery";
 import { PasswordUpdate, Logout } from "@src/apis";
 import TagsView from "@src/components/TagsView";
 export default {
@@ -340,7 +343,8 @@ export default {
     resetFormfn(formName) {
       this.$refs[formName].resetFields();
       this.dialogFormVisible = false;
-    }
+    },
+    fullPageHandle(element) {}
   }
 };
 </script>

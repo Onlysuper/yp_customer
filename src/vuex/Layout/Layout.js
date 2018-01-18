@@ -53,6 +53,8 @@ const Layout = {
                         // 管理员信息
                         context.commit('modifyData', data);
                         resolve(data.data)
+                    } else {
+                        resolve({ msg: "请求超时" })
                     }
                 })
             })
