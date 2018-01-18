@@ -12,8 +12,8 @@
       <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
         <template slot="title">
           <i :class="'icon icon-'+item.menuCode">
-            <span class="path1"></span>
-            <span class="path2"></span>
+            <!-- <span class="path1"></span>
+            <span class="path2"></span> -->
           </i>
           <span slot="title">{{item.menuName}}</span>
         </template>
@@ -27,7 +27,7 @@
   <!-- 左侧菜单 -->
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
+<style lang='less' scoped>
 .my-transition(@attr) {
   transition: @attr 0.8s;
   -moz-transition: @attr 0.8s;

@@ -26,10 +26,13 @@
               <i class="el-icon-arrow-down el-icon--right"></i>
             </div>
           </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="dialogFormVisiblefn">密码修改</el-dropdown-item>
+          <el-dropdown-menu class="dropdown-menu" slot="dropdown">
+            <el-dropdown-item @click.native="dialogFormVisiblefn">
+              <!-- <i :class="'icon icon-qr_code_manage'"></i> -->
+              密码修改
+            </el-dropdown-item>
             <el-dropdown-item @click.native="dialogUserVisiblefn">个人信息</el-dropdown-item>
-            <el-dropdown-item :show-timeout="100" divided @click.native="escloginfn">退出</el-dropdown-item>
+            <el-dropdown-item class="esc-item" :show-timeout="100" divided @click.native="escloginfn">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -102,6 +105,15 @@
     vertical-align: middle;
     padding: 0 5px;
     min-width: 50px;
+    .dropdown-menu {
+      .el-dropdown-menu__item {
+        white-space: nowrap;
+        line-height: 30px;
+      }
+      .el-dropdown-menu__item .esc-item {
+        margin-top: 0px !important;
+      }
+    }
     .el-dropdown {
       height: 100%;
       display: flex;
