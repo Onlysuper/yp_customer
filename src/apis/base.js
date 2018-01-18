@@ -15,6 +15,6 @@ function getUrl() {
         case "productionTest":
             return "http://tm.yeepiao.com";
         case "production":
-            return "http://m.yeepiao.com";
+            return "https://m.yeepiao.com";
     }
 }

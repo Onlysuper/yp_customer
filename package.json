@@ -23,6 +23,7 @@
     "pubsub-js": "^1.5.7",
     "qrcode": "^1.2.0",
     "sass-loader": "^6.0.6",
+    "screenfull": "^3.3.2",
     "vue": "^2.5.2",
     "vue-iscroll-view": "^1.0.3",
     "vue-router": "^2.8.1",

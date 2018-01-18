@@ -9,7 +9,9 @@
       <tags-view></tags-view>
     </div>
     <div class="head-r">
-      <div class="hover-back">
+      <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
+      <!-- <theme-picker class="theme-picker"></theme-picker> -->
+      <div title="信息" class="hover-back">
         <el-badge :value="200" :max="99" class="item">
           <span class="icon-news"></span>
         </el-badge>
@@ -29,7 +31,6 @@
           </span>
           <el-dropdown-menu class="dropdown-menu" slot="dropdown">
             <el-dropdown-item @click.native="dialogFormVisiblefn">
-              <!-- <i :class="'icon icon-qr_code_manage'"></i> -->
               密码修改
             </el-dropdown-item>
             <el-dropdown-item @click.native="dialogUserVisiblefn">个人信息</el-dropdown-item>
@@ -37,7 +38,7 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <!-- <i class="el-icon-rank" @click="fullPageHandle($event)" title="全屏显示"></i> -->
+
     </div>
     <!-- 管理员信息弹出框 -->
     <el-dialog title="管理员信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="200px">
@@ -99,6 +100,18 @@
   box-sizing: border-box;
   flex-shrink: 0;
   height: 54px !important;
+  .theme-picker {
+    margin-right: 10px;
+  }
+  .fullpage-icont {
+    font-size: 25px;
+    transform: rotate(45deg);
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  .color-picker {
+    display: inline-block;
+  }
   .hover-back {
     height: 100%;
     display: flex;
@@ -222,12 +235,15 @@
 
 <script>
 import $ from "jquery";
+import screenfull from "screenfull";
 import { PasswordUpdate, Logout } from "@src/apis";
 import TagsView from "@src/components/TagsView";
+import ThemePicker from "@src/components/ThemePicker";
 export default {
   name: "navbar",
   components: {
-    TagsView
+    TagsView,
+    ThemePicker
   },
   data() {
     var oldPass = (rule, value, callback) => {
@@ -258,6 +274,7 @@ export default {
       }
     };
     return {
+      defaultPickerColor: "#00c1df",
       realname: "",
       dialogUserVisible: false, //管理员信息弹出框
       dialogFormVisible: false, // 密码修改窗口显示
@@ -344,7 +361,18 @@ export default {
       this.$refs[formName].resetFields();
       this.dialogFormVisible = false;
     },
-    fullPageHandle(element) {}
+    // 全屏幕显示
+    fullPageHandle(element) {
+      if (!screenfull.enabled) {
+        this.$message({
+          message: "很抱歉，您的浏览器不支持次功能",
+          type: "warning"
+        });
+        return false;
+      }
+      screenfull.toggle();
+      this.$store.commit("changeFullScreen");
+    }
   }
 };
 </script>

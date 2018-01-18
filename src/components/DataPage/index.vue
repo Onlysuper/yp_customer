@@ -19,23 +19,13 @@
         </template>
       </el-table-column>
       <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
-        <!-- <template slot-scope="scope">
-          <el-button v-for="(item,index) in tableDataInit.operation.options" :key="index" size="small" type="text" v-if="scope.row[item.stateName]=='TRUE'?item.opposite?true:false:item.opposite?false:true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}</el-button>
-        </template> -->
         <template slot-scope="scope">
           <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
             {{item.text}}
           </el-button>
-          <!-- <el-button v-for="(item,index) in tableDataInit.operation.options" 
-          :key="index" size="small" type="text" 
-          
-           @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">{{item.text}}
-            {{item.visibleFn(scope.row,item.visibleFn)}}
-          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
-
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
@@ -227,29 +217,6 @@ export default {
     }
   },
 
-  watch: {
-    visibleinput(val) {
-      // 监听高级搜索与普通搜索模式转变
-      this.tableSizeHandle();
-    },
-    getPage(value) {
-      this.getPage = value;
-      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    },
-    limit(value) {
-      this.getLimit = value;
-      console.log(11111);
-      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    },
-    getUrl(value) {
-      this.getUrl = value;
-      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    },
-    getSearch() {
-      this.getSearch = value;
-      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    }
-  },
   mounted() {
     // 初始化数据
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
@@ -277,6 +244,36 @@ export default {
     },
     visibleinput() {
       return this.$store.state.topSearch.visibleinput;
+    },
+    fullScreen() {
+      return this.$store.state.fullScreen.isFullscreen;
+    }
+  },
+  watch: {
+    visibleinput(val) {
+      // 监听高级搜索与普通搜索模式转变
+      this.tableSizeHandle();
+    },
+    getPage(value) {
+      this.getPage = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    limit(value) {
+      this.getLimit = value;
+      console.log(11111);
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    getUrl(value) {
+      this.getUrl = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    getSearch() {
+      this.getSearch = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    fullScreen(value) {
+      // 全屏切换
+      this.tableSizeHandle();
     }
   }
 };

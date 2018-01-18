@@ -1,29 +1,5 @@
 <template>
-  <!-- layout 左侧菜单区域 -->
-  <!-- <div> -->
-  <iscroll-view class="scroll-view aside-box" ref="iscroll" :options="iscrollOptions">
-    <el-menu class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
-      <div class="logo-box" ref="logoBox">
-        <div class="img-box">
-          <img :src="require('@src/assets/images/logoSmall.png')" alt="">
-        </div>
-        <h1 v-show="!isCollapse" class="home-title">
-          <router-link to="/home">易票运营系统v1.0</router-link>
-        </h1>
-      </div>
-      <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
-        <template slot="title">
-          <i :class="'icon icon-'+item.menuCode"></i>
-          <span slot="title">{{item.menuName}}</span>
-        </template>
-        <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
-          {{item2.menuName}}
-        </el-menu-item>
-      </el-submenu>
-    </el-menu>
-  </iscroll-view>
-  <!-- </div> -->
-  <!-- 左侧菜单 -->
+  <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
@@ -170,7 +146,6 @@ import { MenuGet, PasswordUpdate } from "@src/apis";
 
 export default {
   name: "pc",
-  components: {},
   data() {
     //密码修改表单内容
     return {
