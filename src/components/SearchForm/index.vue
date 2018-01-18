@@ -59,6 +59,7 @@ export default {
   },
   data() {
     return {
+      visibleinput: false,
       pickerOptions7: {
         shortcuts: [
           {
@@ -105,9 +106,9 @@ export default {
     };
   },
   computed: {
-    visibleinput() {
-      return this.$store.state.topSearch.visibleinput;
-    },
+    // visibleinput() {
+    //   return this.$store.state.topSearch.visibleinput;
+    // },
     visibleSenior() {
       //隐藏高级搜索
       var showlen = 0;
@@ -125,12 +126,20 @@ export default {
   },
   mounted() {},
   methods: {
+    // initSearchVisibleFn(state) {
+    //   state.visibleinput = false;
+    // },
+    visibleinputHandle() {
+      // 高级搜索与普通搜索转变
+      this.visibleinput = !this.visibleinput;
+    },
     changeInput2(value) {
       console.log(value);
     },
     advancSeachfn() {
       // 高级搜索与普通搜索转换
-      this.$store.commit("visibleinputHandle");
+      // this.$store.commit("visibleinputHandle");
+      this.visibleinputHandle();
     },
     changeInput(cb, event, type) {
       // 表单内容双向绑定 把表单输入的内容交给父页面进行操作
