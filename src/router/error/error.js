@@ -15,6 +15,14 @@ export default {
         pageTitle: "404"
       },
       component: r => require.ensure([], () => { return r(require("@src/views/error/404")) }, "error")
+    },
+    {
+      name: "test",
+      path: "test",
+      meta: {
+        pageTitle: "测试"
+      },
+      component: r => require.ensure([], () => { return r(require("@src/views/error/test")) }, "error")
     }
   ]
 }

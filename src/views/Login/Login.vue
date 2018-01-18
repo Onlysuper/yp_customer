@@ -79,7 +79,8 @@ export default {
               // // 重新获取用户权限
               // this.$store.dispatch("UserGetFetch");
               localStorage.setItem("isLogin", "100");
-              this.$router.push({ path: "/" });
+              // this.$router.push({ path: "/" });
+              location.reload();
             }
           });
         } else {
