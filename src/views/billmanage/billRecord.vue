@@ -336,18 +336,18 @@ export default {
             type: data => {
               if (data == "1") {
                 return {
-                  text: "普票(个人)",
+                  text: "普票",
                   type: "success"
                 };
               } else if (data == "2") {
                 return {
                   text: "专票",
-                  type: ""
+                  type: "danger"
                 };
               } else if (data == "3") {
                 return {
-                  text: "电票",
-                  type: "danger"
+                  text: "普票(个人)",
+                  type: ""
                 };
               } else {
                 return {

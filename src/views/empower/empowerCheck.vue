@@ -381,6 +381,7 @@ export default {
               ref: "qr_code_reciept_audit_agent",
               visibleFn: rowdata => {
                 console.log(this.qr_code_reciept_audit_all);
+
                 if (
                   rowdata.status == "AUDITING" &&
                   rowdata.receiptType == "AUTHCODE" &&

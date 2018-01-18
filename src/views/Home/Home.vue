@@ -1,14 +1,15 @@
 <template>
   <div class="welcome-page">
     <div class="welcome">
-      <h2>WELCOME >></h2>
-      <p>欢迎使用易票运营系统v1.0</p>
+      <h2>欢迎使用易票运营系统</h2>
+      <ul>
+        <li>数据实时统计</li>
+        <li>功能更加全面</li>
+        <li>操作更加便捷</li>
+      </ul>
     </div>
-    <div class="main">
-      <p class="slogen-text">让用户更轻松</p>
-      <div class="slogen-img">
-        <img :src="require('@src/assets/images/Home2.png')" alt="">
-      </div>
+    <div class="img-box">
+      <img :src="require('@src/assets/images/homeSlogen.png')" alt="">
     </div>
   </div>
 </template>
@@ -35,55 +36,42 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
+<style lang='scss'>
 .welcome-page {
-  // padding: 20px;
-  overflow: hidden;
-  background: #fff;
-  height: 100%;
+  padding: 40px;
+  position: relative;
+  width: 100%;
   .welcome {
-    padding: 0 20px;
     h2 {
+      color: #00c1df;
       font-size: 32px;
-      font-weight: 400;
-      color: #ff5959;
-      background-image: -webkit-gradient(
-        linear,
-        0 0,
-        120 120,
-        from(rgba(255, 90, 90, 1)),
-        to(rgba(255, 89, 80, 0.5))
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      white-space: nowrap;
+      font-weight: normal;
+      padding: 20px 0;
     }
-    p {
-      font-size: 18px;
-      white-space: nowrap;
+    ul {
+      li {
+        list-style: none;
+        line-height: 30px;
+        color: #333333;
+        &::before {
+          content: "";
+          display: inline-block;
+          width: 10px;
+          height: 10px;
+          margin-right: 10px;
+          border-radius: 100%;
+          background: #00c1df;
+        }
+      }
     }
   }
-  .main {
-    width: 100%;
-    bottom: 0px;
-    // overflow: hidden;
-    left: 0;
+  .img-box {
     position: absolute;
-    text-align: center;
-    .slogen-text {
-      font-size: 42px;
-      font-weight: 900;
-      margin-bottom: 20px;
-      color: #ff5959;
-      letter-spacing: 8px;
-      text-shadow: 0px 0px 8px rgba(105, 105, 105, 0.5);
-      white-space: nowrap;
-    }
-    .slogen-img {
-      // margin-bottom: -10px;
+    bottom: 20px;
+    right: 20px;
+    width: 40%;
+    img {
       width: 100%;
-      height: 380px;
-      overflow: hidden;
     }
   }
 }
