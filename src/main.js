@@ -191,7 +191,7 @@ var vue = new Vue({
     //管理员信息与菜单列表数据初始化
     // store.dispatch('UserMenulistFetch');
     // 获取管理员信息
-    store.dispatch('UserGetFetch');
+    // store.dispatch('UserGetFetch');
   },
   router: isMobile ? routerApp : router,
   template: '<App/>',
