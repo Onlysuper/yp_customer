@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page">
+  <div class="login-page" @keyup.enter="enterHandle">
     <div class="login-main">
       <div class="content-box">
         <header class="header">
@@ -86,6 +86,11 @@ export default {
           this.$message.error("登录出错");
           return false;
         }
+      });
+    },
+    enterHandle() {
+      this.$nextTick(() => {
+        $(".login-button").click();
       });
     },
     resetForm(formName) {

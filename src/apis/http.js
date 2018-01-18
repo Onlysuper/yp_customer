@@ -49,7 +49,6 @@ function checkStatus(response) {
     }
 }
 function checkCode(res) {
-
     if (res.status === -404) {
         Indicator.close();
         return {
