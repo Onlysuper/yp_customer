@@ -104,7 +104,7 @@
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-thumb {
   border-radius: 0.2rem;
   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  // background-color: #00c1df;
+  background-color: #c6c6c6;
 }
 </style>
 <script>
