@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page" @keyup.enter="enterHandle">
+  <div class="login-page">
     <div class="login-main">
       <div class="content-box">
         <header class="header">
@@ -55,6 +55,14 @@ export default {
         password: [
           { required: true, message: "请选择活动区域", trigger: "change" }
         ]
+      }
+    };
+  },
+  mounted() {
+    document.onkeydown = event => {
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+      if (e && e.keyCode == 13) {
+        this.submitForm("ruleForm");
       }
     };
   },
