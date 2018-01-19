@@ -10,7 +10,7 @@
     </div>
     <div class="head-r">
       <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
-      <!-- <theme-picker class="theme-picker"></theme-picker> -->
+      <theme-picker class="theme-picker"></theme-picker>
       <div title="信息" class="hover-back">
         <el-badge :value="200" :max="99" class="item">
           <span class="icon-news"></span>
@@ -96,6 +96,18 @@
     }
   }
 }
+.dropdown-menu {
+  .el-dropdown-menu__item {
+    white-space: nowrap;
+    line-height: 30px;
+  }
+  .el-dropdown-menu__item--divided:before {
+    height: 1px;
+  }
+  .esc-item {
+    margin-top: 0px !important;
+  }
+}
 .my-header {
   z-index: 10;
   background-color: #fff;
@@ -131,15 +143,7 @@
     vertical-align: middle;
     padding: 0 5px;
     min-width: 50px;
-    .dropdown-menu {
-      .el-dropdown-menu__item {
-        white-space: nowrap;
-        line-height: 30px;
-      }
-      .el-dropdown-menu__item .esc-item {
-        margin-top: 0px !important;
-      }
-    }
+
     .el-dropdown {
       height: 100%;
       display: flex;
