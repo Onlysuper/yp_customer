@@ -78,22 +78,24 @@ const asyncRouter = [
 function filterRouter(data, asyncRouter, back) {
     const menuList = data.menuList
     const thisrouter = []
+    if (menuList.length > 0) {
+        menuList.forEach((item, index) => {
+            // 根据路径匹配到的router对象添加到routers中即可
+            // 因permission数据格式不一定相同，所以不写详细逻辑了
+            var has = 0;
+            for (var i = 0; i < item.child.length; i++) {
+                asyncRouter.forEach((item2, index) => {
+                    if (item2.path.replace(/\//, "") == item.child[i].menuCode && (item2.meta.role.indexOf(data.username) != "-1" || item2.meta.role.indexOf("*") != "-1")) {
+                        thisrouter.push(item2)
+                    }
+                })
+            }
+            if (index == menuList.length - 1 && thisrouter.length != 0) {
+                back(thisrouter)
+            }
+        });
+    }
 
-    menuList.forEach((item, index) => {
-        // 根据路径匹配到的router对象添加到routers中即可
-        // 因permission数据格式不一定相同，所以不写详细逻辑了
-        var has = 0;
-        for (var i = 0; i < item.child.length; i++) {
-            asyncRouter.forEach((item2, index) => {
-                if (item2.path.replace(/\//, "") == item.child[i].menuCode && (item2.meta.role.indexOf(data.username) != "-1" || item2.meta.role.indexOf("*") != "-1")) {
-                    thisrouter.push(item2)
-                }
-            })
-        }
-        if (index == menuList.length - 1 && thisrouter.length != 0) {
-            back(thisrouter)
-        }
-    });
 }
 /**
  * 根据异步路由表中的path字段进行匹配，生成需要添加的路由对象

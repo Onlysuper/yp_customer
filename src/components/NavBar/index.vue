@@ -10,7 +10,7 @@
     </div>
     <div class="head-r">
       <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
-      <theme-picker class="theme-picker"></theme-picker>
+      <!-- <theme-picker class="theme-picker"></theme-picker> -->
       <div title="信息" class="hover-back">
         <el-badge :value="200" :max="99" class="item">
           <span class="icon-news"></span>
