@@ -13,7 +13,7 @@ function getUrl() {
         case "development":
             return "http://192.168.100.135:8090/tm";
         case "productionTest":
-            return "http://tm.yeepiao.com";
+            return "http://192.168.100.135:8090/tm";
         case "production":
             return "https://m.yeepiao.com";
     }
