@@ -31,6 +31,8 @@ axios.interceptors.response.use(function (response) {
     // Indicator.close();
     return response;
 }, function (error) {
+    Toast("请求失败，请检查网络！");
+
     return Promise.resolve(error.response);
 })
 
