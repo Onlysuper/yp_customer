@@ -36,7 +36,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='scss'>
+<style lang='scss' scoped>
 .welcome-page {
   padding: 40px;
   position: relative;

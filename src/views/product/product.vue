@@ -64,7 +64,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-@import "../../../src/assets/scss-pc/admin-page.scss";
+
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -167,8 +167,12 @@ export default {
         bussinessType: [
           { required: true, message: "请选择业务类型", trigger: "blur" }
         ],
-        productName: [{ required: true, message: "请输入产品名称", trigger: "blur" }],
-        costMode: [{ required: true, message: "请选择收费模式", trigger: "blur" }],
+        productName: [
+          { required: true, message: "请输入产品名称", trigger: "blur" }
+        ],
+        costMode: [
+          { required: true, message: "请选择收费模式", trigger: "blur" }
+        ],
         fixed: [{ required: true, message: "请输入固定值", trigger: "blur" }],
         rate: [{ required: true, message: "请输入费率", trigger: "blur" }],
         effectiveDay: [

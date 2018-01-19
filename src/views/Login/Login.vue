@@ -106,10 +106,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
-@default-color: #333; // 字体颜色
-@center-width: 280px; // 表单宽度
-
+<style lang='scss'>
+$default-color: #333; // 字体颜色
+$center-width: 280px; // 表单宽度
 .login-page {
   position: absolute;
   height: 100%;
@@ -118,7 +117,7 @@ export default {
   left: 0;
   background: url(../../assets/images/LoginBack.png) no-repeat center;
   background-size: cover;
-  color: @default-color;
+  color: $default-color;
   display: flex;
   flex: 1;
   box-sizing: border-box;
@@ -142,13 +141,14 @@ export default {
     }
   }
   .slogen-box {
+    margin-top: 20px;
     text-align: center;
     img {
       width: 220px;
     }
   }
   .form-r {
-    width: @center-width;
+    width: $center-width;
     margin: 0 auto;
   }
   .login-footer {
@@ -183,12 +183,12 @@ export default {
     padding: 10px 0;
   }
   .input-reset {
-    border-bottom: 1px solid @default-color;
+    border-bottom: 1px solid $default-color;
     input {
       background: transparent;
       outline: none;
       border: 0px;
-      color: @default-color;
+      color: $default-color;
       padding: 0;
       font-size: 18px;
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -199,7 +199,7 @@ export default {
       &::-webkit-input-placeholder {
         /* WebKit browsers */
         font-size: 18px;
-        color: @default-color;
+        color: $default-color;
       }
       &:-moz-placeholder {
         /* Mozilla Firefox 4 to 18 */
