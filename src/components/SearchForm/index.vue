@@ -18,14 +18,14 @@
 
         <!-- 日期组合 -->
         <div class="dateGroup" v-if="item.type=='dateGroup'">
-          <el-date-picker ref="myinput" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date')" type="date" placeholder="开始时间"></el-date-picker>
+          <el-date-picker id="dateGroup" ref="myinput" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date')" type="date" placeholder="开始时间"></el-date-picker>
           <span class="to-line">-</span>
-          <el-date-picker ref="myinput" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date')" type="date" placeholder="结束时间"></el-date-picker>
+          <el-date-picker id="dateGroup1" ref="myinput" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date')" type="date" placeholder="结束时间"></el-date-picker>
         </div>
 
         <!-- 日期组合2 -->
         <div class="dateGroup2" v-if="item.type=='dateGroup2'" label-width="0">
-          <el-date-picker :label="item.label" value-format="yyyy-MM-dd" :picker-options="pickerOptions7" @input="changeDateGroup(item.cb,$event,'nomal',item.limit,item.limitnum,item.type)" :unlink-panels="item.limit?false:true" v-model="item.value" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker id="dateGroup2" :label="item.label" value-format="yyyy-MM-dd" :picker-options="pickerOptions7" @input="changeDateGroup(item.cb,$event,'nomal',item.limit,item.limitnum,item.type)" :unlink-panels="item.limit?false:true" v-model="item.value" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </div>
 

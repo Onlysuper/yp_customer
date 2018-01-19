@@ -38,37 +38,36 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-
+      <!-- 管理员信息弹出框 -->
+      <el-dialog center title="管理员信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="280px">
+        <div class="detail-content">
+          <div class="line-label-box">
+            <span class="line-label">名称:</span> {{userMsg.realname}}
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">登录账号:</span> {{userMsg.username}}
+          </div>
+        </div>
+      </el-dialog>
+      <!-- 修改管理员密码 start -->
+      <el-dialog center title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="450px">
+        <el-form :model="resetPwform" ref="resetPwform" :rules="passwordRules">
+          <el-form-item label="旧密码" prop="oldPassword" :label-width="formLabelWidth">
+            <el-input id="oldPassword" type="password" v-model="resetPwform.oldPassword" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码" prop="password" :label-width="formLabelWidth">
+            <el-input type="password" v-model="resetPwform.password" auto-complete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="确认密码" prop="repassword" :label-width="formLabelWidth">
+            <el-input type="password" v-model="resetPwform.repassword" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="resetFormfn('resetPwform')">取 消</el-button>
+          <el-button type="primary" @click="submitFormfn('resetPwform')">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
-    <!-- 管理员信息弹出框 -->
-    <el-dialog center title="管理员信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="280px">
-      <div class="detail-content">
-        <div class="line-label-box">
-          <span class="line-label">名称:</span> {{userMsg.realname}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">登录账号:</span> {{userMsg.username}}
-        </div>
-      </div>
-    </el-dialog>
-    <!-- 修改管理员密码 start -->
-    <el-dialog center title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="450px">
-      <el-form :model="resetPwform" ref="resetPwform" :rules="passwordRules">
-        <el-form-item label="旧密码" prop="oldPassword" :label-width="formLabelWidth">
-          <el-input type="password" v-model="resetPwform.oldPassword" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="新密码" prop="password" :label-width="formLabelWidth">
-          <el-input type="password" v-model="resetPwform.password" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="repassword" :label-width="formLabelWidth">
-          <el-input type="password" v-model="resetPwform.repassword" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="resetFormfn('resetPwform')">取 消</el-button>
-        <el-button type="primary" @click="submitFormfn('resetPwform')">确 定</el-button>
-      </div>
-    </el-dialog>
     <!-- 修改管理员密码 end -->
   </el-header>
 </template>
