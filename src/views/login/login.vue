@@ -52,7 +52,7 @@ export default {
       rules: {
         username: [
           { required: true, message: "请输入易票账号/手机号", trigger: "blur" },
-          { min: 3, max: 20, message: "长度在 3 到 10 个字符", trigger: "blur" }
+          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
         ],
         password: [
           { required: true, message: "请选择活动区域", trigger: "change" }

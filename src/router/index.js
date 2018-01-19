@@ -85,7 +85,8 @@ function filterRouter(data, asyncRouter, back) {
             var has = 0;
             for (var i = 0; i < item.child.length; i++) {
                 asyncRouter.forEach((item2, index) => {
-                    if (item2.path.replace(/\//, "") == item.child[i].menuCode && (item2.meta.role.indexOf(data.username) != "-1" || item2.meta.role.indexOf("*") != "-1")) {
+                    // if (item2.path.replace(/\//, "") == item.child[i].menuCode && (item2.meta.role.indexOf(data.username) != "-1" || item2.meta.role.indexOf("*") != "-1")) {
+                    if (item2.path.replace(/\//, "") == item.child[i].menuCode) {
                         thisrouter.push(item2)
                     }
                 })
