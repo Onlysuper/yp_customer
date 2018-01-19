@@ -159,27 +159,39 @@ import validator from "@src/common/validator";
  */
 import "@src/assets/icons/style.css";
 if (isMobile) {
-  // require("@src/assets/css/reset.css");
-  // require("@src/assets/scss/index.scss");
+  require("@src/assets/css/reset.css");
+  require("@src/assets/scss/index.scss");
+
+  // import mintui from "mint-ui";
+  var mintui = require("mint-ui");
+  Vue.use(mintui);
+
+  var FullPage = require("@src/components-app/FullPage");
+  Vue.component(FullPage.name, FullPage);
+  var FullPagePopup = require("@src/components-app/FullPagePopup");
+  Vue.component(FullPagePopup.name, FullPagePopup);
+  var MypCell = require("@src/components-app/MypCell");
+  Vue.component(MypCell.name, MypCell);
+  var MypCellPannel = require("@src/components-app/MypCellPannel");
+  Vue.component(MypCellPannel.name, MypCellPannel);
+  var MypLoadmoreApi = require("@src/components-app/MypLoadmoreApi");
+  Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
+  var InputWrapper = require("@src/components-app/InputWrapper");
+  Vue.component(InputWrapper.name, InputWrapper);
+  var ViewRadius = require("@src/components-app/ViewRadius");
+  Vue.component(ViewRadius.name, ViewRadius);
+  var MypTr = require("@src/components-app/MypTr");
+  Vue.component(MypTr.name, MypTr);
+
+  document.body.style.height = document.documentElement.clientHeight + "px";
+  window.onresize = function () {
+    document.body.style.height = document.documentElement.clientHeight + "px";
+  }
+  Vue.prototype.Toast = mintui.Toast;
+  Vue.prototype.MessageBox = mintui.MessageBox;
+  Vue.prototype.validator = validator;
 } else {
   require("@src/assets/scss-pc/reset.scss");
-}
-
-/**
- *这里写 pc 与 移动端 的特殊处理
- */
-if (isMobile) {
-  //这段代码 暂时写在这里
-  // document.body.style.height = document.documentElement.clientHeight + "px";
-  // window.onresize = function () {
-  //   document.body.style.height = document.documentElement.clientHeight + "px";
-  // }
-  // Vue.prototype.Toast = mintui.Toast;
-  // Vue.prototype.MessageBox = mintui.MessageBox;
-  // Vue.prototype.validator = validator;
-
-} else {
-
 }
 
 
@@ -191,7 +203,7 @@ var vue = new Vue({
   created() {
     this.websocketFn();
   },
-  router: router,
+  router: isMobile ? routerApp : router,
   template: '<App/>',
   components: { App }
 })

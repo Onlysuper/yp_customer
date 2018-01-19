@@ -10,8 +10,8 @@ function resolve(dir) {
 module.exports = {
   entry: {
     app: './src/main.js',
-    vendor: ['vue', 'axios']
-    /* mintUI: ['mint-ui'] */
+    vendor: ['vue', 'vuex', 'vue-router'],
+    lib: ['jquery', 'iscroll', 'axios', 'qs'],
   },
   output: {
     path: config.build.assetsRoot,
