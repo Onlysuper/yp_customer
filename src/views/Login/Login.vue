@@ -79,16 +79,12 @@ export default {
             this.loading = false;
             if (data.code === "98") {
               this.$message("登录失败");
-            }
-            if (data.code === "00") {
+            } else if (data.code === "00") {
               // 登录成功
-              // 重新获取菜单列表
-              // this.$store.dispatch("UserMenulistFetch");
-              // // 重新获取用户权限
-              // this.$store.dispatch("UserGetFetch");
               localStorage.setItem("isLogin", "100");
-              // this.$router.push({ path: "/" });
               location.reload();
+            } else {
+              this.$message.error("登录出错,请稍后重试");
             }
           });
         } else {

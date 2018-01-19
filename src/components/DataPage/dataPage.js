@@ -8,6 +8,17 @@ const mixinDataTable = {
         }
     },
     methods: {
+        // 表格大小
+        tableSizeHandle() {
+            this.$nextTick(() => {
+                let pageHeight = $(".admin-page").outerHeight(true) || 0;
+                let formHeight = $(".search-page").outerHeight(true) || 0;
+                let operationHeight = $(".operation-box").outerHeight(true) || 0;
+                let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
+                this.tableHeight =
+                    pageHeight - formHeight - operationHeight - paginationHeight - 20;
+            });
+        },
         /**TABLE页交互 START ************************************************************ */
         showDialog(dialogName) {
             this[dialogName] = true;
@@ -17,6 +28,7 @@ const mixinDataTable = {
             let page_ = page ? page : this.postPage;
             let limit_ = limit ? limit : this.postLimit;
             this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
+            this.tableSizeHandle();
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();

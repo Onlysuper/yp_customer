@@ -260,7 +260,7 @@ export default {
     },
     limit(value) {
       this.getLimit = value;
-      console.log(11111);
+      console.log(this.getLimit);
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
     getUrl(value) {

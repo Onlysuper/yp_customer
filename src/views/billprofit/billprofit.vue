@@ -110,8 +110,12 @@ export default {
           type: "select",
           label: "是否有下级",
           show: false, // 普通搜索显示
-          value: "",
+          value: "全部",
           options: [
+            {
+              value: "",
+              label: "全部"
+            },
             {
               value: "TRUE",
               label: "包含下级"
