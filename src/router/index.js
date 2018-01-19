@@ -78,6 +78,7 @@ const asyncRouter = [
 function filterRouter(data, asyncRouter, back) {
     const menuList = data.menuList
     const thisrouter = []
+
     menuList.forEach((item, index) => {
         // 根据路径匹配到的router对象添加到routers中即可
         // 因permission数据格式不一定相同，所以不写详细逻辑了
@@ -106,14 +107,11 @@ function routerMatch(permission, asyncRouter, back) {
     })
 }
 router.beforeEach((to, redirect, next) => {
-    // console.log(to)
-    // console.log(to.matched)
-    // console.log(to.matched.some(record => record.meta.requiresAuth))
     let menuList = store.state.moduleLayour.menuList;
     if (localStorage.getItem("isLogin") == "100") {
         if (to.path == "/login") {
             next('/home')
-        } else if (menuList.length == '0') {
+        } else if (!menuList.some((r) => r)) {
             document.body.className = "document-loading";
             store.dispatch('UserGetFetch');
             store.dispatch('UserMenulistFetch').then(resmenuList => {
