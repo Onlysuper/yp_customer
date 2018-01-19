@@ -1,7 +1,6 @@
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 // 公用table页与search页功能
 const mixinsPc = {
-
   methods: {
     showDialog(dialogName) {
       // 打开dialog框
@@ -13,7 +12,7 @@ const mixinsPc = {
     },
     mounted() {
       // 顶部搜索初始化为普通搜索
-      // this.$store.commit("initSearchVisibleFn");
+      this.$store.commit("initSearchVisibleFn");
     }
   },
   computed: {

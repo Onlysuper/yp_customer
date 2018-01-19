@@ -129,9 +129,6 @@ export default {
   },
   mounted() {},
   methods: {
-    // initSearchVisibleFn(state) {
-    //   state.visibleinput = false;
-    // },
     visibleinputHandle() {
       // 高级搜索与普通搜索转变
       this.visibleinput = !this.visibleinput;
@@ -141,7 +138,7 @@ export default {
     },
     advancSeachfn() {
       // 高级搜索与普通搜索转换
-      // this.$store.commit("visibleinputHandle");
+      this.$store.commit("visibleinputHandle");
       this.visibleinputHandle();
     },
     changeInput(cb, event, type) {
