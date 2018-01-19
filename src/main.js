@@ -18,7 +18,7 @@ import mypFilter from './common/filters';
 Vue.use(mypDirective);
 Vue.use(mypFilter);
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
-import './assets/scss/theme-change.scss' // 更改皮肤
+import './assets/scss-pc/theme-change.scss' // 更改皮肤
 /**
  * 引入element-ui所需组件
  */
