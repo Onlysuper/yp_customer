@@ -79,14 +79,14 @@
   </el-header>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
+<style lang='scss' scoped>
 /*重置样式*/
-.my-transition(@attr) {
-  transition: @attr 0.8s;
-  -moz-transition: @attr 0.8s;
-  -webkit-transition: @attr 0.8s;
-  -o-transition: @attr 0.8s;
-}
+@mixin my-transition($attr,$section) {
+  transition: $attr $section;
+  -moz-transition: $attr $section;
+  -webkit-transition: $attr $section;
+  -o-transition: $attr $section;
+} //声明一个带有参数$radius的混合宏
 .my-header {
   z-index: 10;
   background-color: #fff;
@@ -152,7 +152,7 @@
 
     &:hover {
       outline: none;
-      .my-transition(background);
+      @include my-transition(background,0.8s);
       background: rgba(0, 193, 223, 0.2);
       cursor: pointer;
     }
@@ -172,7 +172,7 @@
       transform: rotate(180deg); /* Safari 和 Chrome */
     }
     &:hover {
-      .my-transition(background);
+      @include my-transition(background,0.8s);
       background: rgba(0, 193, 223, 0.2);
       cursor: pointer;
     }
