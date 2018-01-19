@@ -1,7 +1,7 @@
 <template>
   <div class="welcome-page">
     <div class="welcome">
-      <h2>欢迎使用易票运营系统</h2>
+      <h2>欢迎使用易票管理系统</h2>
       <ul>
         <li>数据实时统计</li>
         <li>功能更加全面</li>

@@ -8,7 +8,7 @@
           <img :src="require('@src/assets/images/logoSmall.png')" alt="">
         </div>
         <h1 v-show="!isCollapse" class="home-title">
-          <router-link to="/home">易票运营系统v1.0</router-link>
+          <router-link to="/home">易票管理系统v1.0</router-link>
         </h1>
       </div>
       <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
