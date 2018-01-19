@@ -1,12 +1,14 @@
 <template>
-  <el-container class="layout-page">
-    <side-bar class="layout-sldebar"></side-bar>
-    <el-container class="layout-main">
-      <nav-bar></nav-bar>
-      <!-- <tags-view></tags-view> -->
-      <app-main></app-main>
+  <transition name="layout-fade">
+    <el-container class="layout-page">
+      <side-bar class="layout-sldebar"></side-bar>
+      <el-container class="layout-main">
+        <nav-bar></nav-bar>
+        <!-- <tags-view></tags-view> -->
+        <app-main></app-main>
+      </el-container>
     </el-container>
-  </el-container>
+  </transition>
 </template>
 <script>
 import NavBar from "@src/components/NavBar";
@@ -37,5 +39,13 @@ export default {
   .layout-main {
     flex-direction: column;
   }
+}
+.layout-fade-enter-active,
+.layout-fade-leave-active {
+  transition: opacity 0.5s;
+}
+.layout-fade-enter,
+.layout-fade-leave-to {
+  opacity: 0;
 }
 </style>

@@ -67,6 +67,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       filename: config.build.index,
       template: './src/index.html',
       inject: true,
+      favicon: './favicon.ico',
       // 压缩的方式
       minify: {
         removeComments: true,
