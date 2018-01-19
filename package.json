@@ -20,10 +20,8 @@
     "jquery-mousewheel": "^3.1.13",
     "lrz": "^4.9.40",
     "mint-ui": "^2.2.9",
-    "node-sass": "^4.7.2",
     "pubsub-js": "^1.5.7",
     "qrcode": "^1.2.0",
-    "sass-loader": "^6.0.6",
     "screenfull": "^3.3.2",
     "vue": "^2.5.2",
     "vue-iscroll-view": "^1.0.3",
@@ -31,6 +29,8 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "sass-loader": "^6.0.6",
+    "node-sass": "^4.7.2",
     "autoprefixer": "^6.7.6",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
