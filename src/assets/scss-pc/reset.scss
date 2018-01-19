@@ -7,6 +7,29 @@ html,body{
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
 }
+.document-loading::after{
+  content: "";
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left:0;
+  top: 0;
+  background-image: url(../images/loading2.gif);
+  background-repeat: no-repeat;
+  // background-color: #66ceff;
+  background-color: #FFF;
+  background-position:center;
+  opacity: 1;
+  transition: all 0.5s;
+  z-index: -100;
+}
+
+.document-loading-top::after{
+  top: -100px;
+  opacity: 0;
+}
+
 a{
   text-decoration: none
 }

@@ -114,6 +114,7 @@ router.beforeEach((to, redirect, next) => {
         if (to.path == "/login") {
             next('/home')
         } else if (menuList.length == '0') {
+            document.body.className = "document-loading";
             store.dispatch('UserGetFetch');
             store.dispatch('UserMenulistFetch').then(resmenuList => {
                 routerMatch(resmenuList, asyncRouter, (thisrouter) => {
@@ -134,9 +135,13 @@ router.beforeEach((to, redirect, next) => {
                         path: "*",
                         redirect: "/error"
                     })
+                    document.body.className = document.body.className + " document-loading-top";
                     router.addRoutes(rou)
                     // console.log(thisrouter);
-                    next({ ...to, replace: true })
+                    setTimeout(() => {
+                        next({ ...to, replace: true })
+                        document.body.className = "";
+                    }, 500)
                     // next()
                 })
             })
