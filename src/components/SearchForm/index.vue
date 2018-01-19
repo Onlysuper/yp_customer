@@ -1,5 +1,6 @@
 <template>
   <!-- 表单数据搜索区域 -->
+
   <div class="search-page">
 
     <!-- Form 表单编写 start -->
@@ -42,7 +43,9 @@
       </div>
     </el-form>
     <!-- Form end -->
+
   </div>
+
 </template>
 <script>
 import Vue from "vue";
