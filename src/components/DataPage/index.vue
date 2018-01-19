@@ -50,6 +50,7 @@
   .el-table__fixed-right-patch {
     background: #f0f0f0;
   }
+
   .tableHeader {
     background: #f0f0f0;
     th {
@@ -59,7 +60,6 @@
       color: rgba(0, 0, 0, 0.85);
     }
   }
-
   .el-table {
     color: #000;
     // color: rgba(0, 0, 0, 0.65);
@@ -84,6 +84,54 @@
   }
 }
 
+@media only screen and (min-width: 900px) {
+  .tablelist-box .tableHeader th {
+    padding: 2px 0;
+  }
+  .tablelist-box .el-table td {
+    padding: 3px 0 !important;
+  }
+}
+@media only screen and (min-width: 1024px) {
+  .tablelist-box .tableHeader th {
+    padding: 3px 0;
+  }
+  .tablelist-box .el-table td {
+    padding: 4px 0 !important;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  .tablelist-box .tableHeader th {
+    padding: 5px 0;
+  }
+  .tablelist-box .el-table td {
+    padding: 7px 0 !important;
+  }
+}
+@media only screen and (min-width: 1440px) {
+  .tablelist-box .tableHeader th {
+    padding: 6px 0;
+  }
+  .tablelist-box .el-table td {
+    padding: 8px 0 !important;
+  }
+}
+@media only screen and (min-width: 1680px) {
+  .tablelist-box .tableHeader th {
+    padding: 7px 0;
+  }
+  .tablelist-box .el-table td {
+    padding: 10px 0 !important;
+  }
+}
+@media only screen and (min-width: 1920px) {
+  .tablelist-box .tableHeader th {
+    padding: 10px 0;
+  }
+  .tablelist-box .el-table td {
+    padding: 12px 0 !important;
+  }
+}
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
   width: 0.5rem;
   background-color: #f5f5f5;
