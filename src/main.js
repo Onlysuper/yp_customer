@@ -6,7 +6,7 @@ import routerApp from './router-app';
 import store from './vuex';
 import App from './App';
 //websocket 监听
-import { websocket } from "@src/common/websocket";
+// import { websocket } from "@src/common/websocket";
 /**
  * 引入自定义指令 与 过滤器
  */
@@ -199,9 +199,9 @@ if (isMobile) {
 var vue = new Vue({
   el: '#app',
   store,
-  mixins: [websocket],
+  // mixins: [websocket],
   created() {
-    this.websocketFn();
+    // this.websocketFn();
   },
   router: isMobile ? routerApp : router,
   template: '<App/>',

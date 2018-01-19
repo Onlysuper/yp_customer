@@ -15,15 +15,20 @@ import NavBar from "@src/components/NavBar";
 import SideBar from "@src/components/SideBar";
 import AppMain from "@src/components/AppMain";
 import TagsView from "@src/components/TagsView";
+import { websocket } from "@src/common/websocket";
 // import { NavBar, SideBar, AppMain } from "@src/views/layout/components";
 
 export default {
   name: "layout",
+  mixins: [websocket],
   components: {
     NavBar,
     SideBar,
     AppMain,
     TagsView
+  },
+  mounted() {
+    this.websocketFn();
   }
 };
 </script>

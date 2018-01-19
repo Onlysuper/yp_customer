@@ -84,7 +84,7 @@
   }
 }
 
-@media only screen and (min-width: 900px) {
+@media only screen and (min-device-height: 600px) {
   .tablelist-box .tableHeader th {
     padding: 2px 0;
   }
@@ -92,7 +92,7 @@
     padding: 3px 0 !important;
   }
 }
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-device-height: 700px) {
   .tablelist-box .tableHeader th {
     padding: 3px 0;
   }
@@ -100,7 +100,15 @@
     padding: 4px 0 !important;
   }
 }
-@media only screen and (min-width: 1280px) {
+@media only screen and (min-device-height: 768px) {
+  .tablelist-box .tableHeader th {
+    padding: 3px 0;
+  }
+  .tablelist-box .el-table td {
+    padding: 4px 0 !important;
+  }
+}
+@media only screen and (min-device-height: 820px) {
   .tablelist-box .tableHeader th {
     padding: 5px 0;
   }
@@ -108,7 +116,7 @@
     padding: 7px 0 !important;
   }
 }
-@media only screen and (min-width: 1440px) {
+@media only screen and (min-device-height: 900px) {
   .tablelist-box .tableHeader th {
     padding: 6px 0;
   }
@@ -116,7 +124,7 @@
     padding: 8px 0 !important;
   }
 }
-@media only screen and (min-width: 1680px) {
+@media only screen and (min-device-height: 1000px) {
   .tablelist-box .tableHeader th {
     padding: 7px 0;
   }
@@ -124,7 +132,7 @@
     padding: 10px 0 !important;
   }
 }
-@media only screen and (min-width: 1920px) {
+@media only screen and (min-device-height: 1200px) {
   .tablelist-box .tableHeader th {
     padding: 10px 0;
   }

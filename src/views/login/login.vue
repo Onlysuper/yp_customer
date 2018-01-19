@@ -36,6 +36,8 @@
 </template>
 <script>
 // import $ from "@src/common/jquery.min.js";
+//websocket 监听
+
 import $ from "jquery";
 import { Login } from "@src/apis";
 export default {
