@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import moduleLayour from "@src/vuex/layout/layout"
 import topSearch from "@src/vuex/topSearch/topSearch"
 import Base from "@src/vuex/base/base"
-import tagsView from "@src/vuex/TagsView/tagsView"
+import tagsView from "@src/vuex/tagsView/tagsView"
 import fullScreen from "@src/vuex/fullScreen/fullScreen"
 
 import { customerGoods, profitBilling } from "./modules";
