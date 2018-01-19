@@ -41,24 +41,18 @@
 
     </div>
     <!-- 管理员信息弹出框 -->
-    <el-dialog title="管理员信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="200px">
-      <el-row :gutter="20">
-        <el-col :span="12">
-          名称:
-        </el-col>
-        <el-col :span="12">
-          {{userMsg.realname}}
-        </el-col>
-        <el-col :span="12">
-          登录账号:
-        </el-col>
-        <el-col :span="12">
-          {{userMsg.username}}
-        </el-col>
-      </el-row>
+    <el-dialog center title="管理员信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="280px">
+      <div class="detail-content">
+        <div class="line-label-box">
+          <span class="line-label">名称:</span> {{userMsg.realname}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">登录账号:</span> {{userMsg.username}}
+        </div>
+      </div>
     </el-dialog>
     <!-- 修改管理员密码 start -->
-    <el-dialog title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody">
+    <el-dialog center title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="450px">
       <el-form :model="resetPwform" ref="resetPwform" :rules="passwordRules">
         <el-form-item label="旧密码" prop="oldPassword" :label-width="formLabelWidth">
           <el-input type="password" v-model="resetPwform.oldPassword" auto-complete="off"></el-input>
@@ -87,6 +81,22 @@
   -webkit-transition: $attr $section;
   -o-transition: $attr $section;
 } //声明一个带有参数$radius的混合宏
+.detail-content {
+  .line-label-box {
+    padding: 4px 2px;
+    .line-label {
+      min-width: 100px;
+      display: inline-block;
+      padding: 0 10px;
+    }
+    &:nth-child(odd) {
+      background-color: rgba(0, 193, 223, 0.1);
+    }
+    &:nth-child(even) {
+      background-color: #fff;
+    }
+  }
+}
 .my-header {
   z-index: 10;
   background-color: #fff;
@@ -100,9 +110,11 @@
   box-sizing: border-box;
   flex-shrink: 0;
   height: 54px !important;
+
   .theme-picker {
     margin-right: 10px;
   }
+
   .fullpage-icont {
     font-size: 25px;
     transform: rotate(45deg);
@@ -281,7 +293,7 @@ export default {
       ifmodalclose: false, // 点击modal是否关闭
       ifmodal: true, //弹出框是否需要遮罩
       ifappendbody: true,
-      formLabelWidth: "100px", //密码修改窗口大小
+      formLabelWidth: "80px", //密码修改窗口大小
       resetPwform: {
         oldPassword: "", // 旧密码
         password: "", //新密码

@@ -35,7 +35,6 @@ export default {
 .layout-page {
   height: 100vh;
   overflow: hidden;
-  // overflow: hidden;
   .layout-main {
     flex-direction: column;
   }
