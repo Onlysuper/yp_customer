@@ -6,7 +6,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button v-if="adminFilter('role_add')" class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -238,6 +238,13 @@ export default {
             {
               color: "#67C23A",
               text: "编辑",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.role_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.editForm = rowdata;
                 this.editFormVisible = true;
@@ -246,6 +253,13 @@ export default {
             {
               text: "配置权限",
               color: "#E6A23C",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.role_privilege_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.roleForm = rowdata;
                 if (this.zTreeObj != null) {
@@ -263,6 +277,13 @@ export default {
             {
               text: "删除",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.role_delete == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.$confirm("此操作将删除该条管理员数据, 是否继续?", "提示", {
                   confirmButtonText: "确定",

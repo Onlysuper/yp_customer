@@ -253,6 +253,7 @@ export default {
           options: [
             {
               text: "编辑",
+
               color: "#3685FD",
               cb: rowdata => {
                 this.dialogVisible = true;
@@ -310,8 +311,12 @@ export default {
       },
       file: "",
       validateRules: {
-        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
-        type: [{ required: true, message: "请选择客户端类型", trigger: "blur" }],
+        customerNo: [
+          { required: true, message: "请输入商户编号", trigger: "blur" }
+        ],
+        type: [
+          { required: true, message: "请选择客户端类型", trigger: "blur" }
+        ],
         status: [{ required: true, message: "请选择状态", trigger: "blur" }]
       }
     };

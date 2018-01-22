@@ -55,7 +55,7 @@ const Layout = {
                         context.commit('modifyData', data);
                         resolve(data.data)
                     } else {
-                        resolve({ msg: "请求超时" })
+                        resolve({})
                     }
                 })
             })

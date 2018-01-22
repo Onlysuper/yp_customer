@@ -6,7 +6,7 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;uploadDialogVisible = true">上传新版本</el-button>
+          <el-button v-if="adminFilter('agent_add')" class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;uploadDialogVisible = true">上传新版本</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
@@ -82,6 +82,7 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import {
   patchVersion,
@@ -95,7 +96,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       clientVersion: "", // 客户端版本号
@@ -274,6 +275,13 @@ export default {
             {
               text: "编辑",
               color: "#3685FD",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.agent_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.uploadDialogVisible = true;
                 this.form = { ...rowdata };
@@ -281,6 +289,13 @@ export default {
             },
             {
               text: "启用",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.agent_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               color: "#3685FD",
               visibleFn: rowdata => {
                 if (rowdata.status === "TRUE") {
@@ -365,8 +380,16 @@ export default {
         clientVersion: [
           { required: true, message: "请输入上传客户端版本号", trigger: "blur" }
         ],
-        url: [{ required: true, message: "请输入上传版本的下载地址", trigger: "blur" }],
-        type: [{ required: true, message: "请输入客户端类型", trigger: "blur" }],
+        url: [
+          {
+            required: true,
+            message: "请输入上传版本的下载地址",
+            trigger: "blur"
+          }
+        ],
+        type: [
+          { required: true, message: "请输入客户端类型", trigger: "blur" }
+        ],
         compatibleVersion: [
           { required: true, message: "请输入最低兼容版本", trigger: "blur" }
         ],
