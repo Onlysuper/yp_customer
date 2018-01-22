@@ -1,14 +1,15 @@
 
 import loading from "../loading"
-import Layout from "@src/views-app/customer";
+import App from "@src/App";
+import keepAlive from "@src/views-app/keepAlive";
 /**
  * 我的商户
  */
 export default {
   name: "customer",
-  path: "/customer",
-  redirect: "/customer/productConfig",
-  component: Layout,
+  path: "/",
+  redirect: "/productConfig",
+  component: keepAlive,
   meta: {
     // keepAlive: true
   },
@@ -26,42 +27,51 @@ export default {
         keepAlive: true
       }
     },
-    //商品管理
+
     {
       name: "customerGoods",
       path: 'goods',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods")) }, "customer-app")
-      },
-      meta: {
-        pageTitle: "商品管理",
-        keepAlive: true
-      }
+      redirect: "goods/index",
+      component: App,
+      children: [
+
+        //商品管理
+        {
+          name: "customerGoods",
+          path: 'index',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "商品管理",
+            keepAlive: true
+          }
+        },
+        //商品管理--编辑
+        {
+          name: "goodsEdit",
+          path: 'edit/:goodsNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-edit-app")
+          },
+          meta: {
+            pageTitle: "商品"
+          }
+        },
+        //商品管理--搜索
+        {
+          name: "goodsSearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/search")) }, "customer-edit-app")
+          },
+          meta: {
+            pageTitle: "商品搜索"
+          }
+        },
+      ]
     },
-    //商品管理--编辑
-    {
-      name: "goodsEdit",
-      path: 'goods/edit/:goodsNo',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-edit-app")
-      },
-      meta: {
-        pageTitle: "商品",
-        keepAlive: false
-      }
-    },
-    //商品管理--搜索
-    {
-      name: "goodsSearch",
-      path: 'goods/search',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/search")) }, "customer-edit-app")
-      },
-      meta: {
-        pageTitle: "商品搜索",
-        keepAlive: false
-      }
-    },
+
     //商户产品
     {
       name: "customerProduct",

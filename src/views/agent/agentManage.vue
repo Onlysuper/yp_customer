@@ -6,14 +6,13 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button v-if="adminFilter('agent_add')" class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
-
+    <el-dialog :modal-append-to-body="false" :append-to-body="false" center title="新增合伙人" :visible.sync="addFormVisible">
       <el-form class="fieldset-box" size="small" ref="addForm" :model="addForm" :rules="addFormRules" label-width="100px">
         <fieldset>
           <legend>结算信息</legend>
@@ -51,7 +50,7 @@
           </el-row>
         </fieldset>
         <fieldset>
-          <legend>结算信息</legend>
+          <legend>基本信息</legend>
           <el-row>
             <el-col :span="12">
               <div class="grid-content bg-purple">
@@ -97,7 +96,7 @@
           <el-row>
             <el-col :span="12">
               <div class="grid-content bg-purple">
-                <el-form-item prop="redirectUrl" label="回掉地址">
+                <el-form-item prop="redirectUrl" label="回调地址">
                   <el-input v-model="addForm.redirectUrl"></el-input>
                 </el-form-item>
               </div>
@@ -119,7 +118,7 @@
     <!-- 新增end -->
 
     <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
+    <el-dialog title="编辑合伙人信息" center :visible.sync="editFormVisible" width="500px">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules" label-width="90px">
         <el-form-item prop="" label="合伙人名称">
           <el-input :disabled="true" v-model="editForm.agentName"></el-input>
@@ -158,6 +157,7 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { regionData } from "element-china-area-data";
 import { phoneNumVerify } from "@src/common/regexp";
@@ -169,6 +169,7 @@ import {
   getAgentManages,
   postAddAgentManage,
   postEditAgentManage,
+  postDeleteAgent,
   getBankList
 } from "@src/apis";
 
@@ -178,7 +179,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       phoneNo: "", // 手机号
@@ -232,9 +233,15 @@ export default {
         dqValue: "" // 商户电票
       },
       addFormRules: {
-        agentName: [{ required: true, message: "请输入合伙人名称", trigger: "blur" }],
-        phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }],
-        agentArea: [{ required: true, message: "请选择经营区域", trigger: "blur" }]
+        agentName: [
+          { required: true, message: "请输入合伙人名称", trigger: "blur" }
+        ],
+        phoneNo: [
+          { required: true, validator: phoneNumVerify, trigger: "blur" }
+        ],
+        agentArea: [
+          { required: true, message: "请选择经营区域", trigger: "blur" }
+        ]
       },
       // 顶部搜索表单信息
       searchOptions: [
@@ -331,6 +338,13 @@ export default {
             {
               text: "编辑",
               color: "#e6a23c",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.agent_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 console.log(rowdata);
                 // console.log(areaOrgcode(rowdata.agentArea));
@@ -340,24 +354,44 @@ export default {
               }
             }
             // {
-            //   text: "删除",
-            //   color: "#f56c6c",
-            //   cb: rowdata => {
-            //     this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
-            //       confirmButtonText: "确定",
-            //       cancelButtonText: "取消",
-            //       type: "warning"
-            //     })
-            //       .then(() => {
-            //         alert("确定删除");
-            //       })
-            //       .catch(() => {
-            //         this.$message({
-            //           type: "info",
-            //           message: "已取消操作"
-            //         });
-            //       });
+            // text: "删除",
+            // color: "#f56c6c",
+            // visibleFn: rowdata => {
+            //   if (this.adminOperationAll.agent_delete == "TRUE") {
+            //     return true;
+            //   } else {
+            //     return false;
             //   }
+            // }
+            // 以下功能已作废
+            // cb: rowdata => {
+            //   console.log(rowdata.agentNo);
+            //   this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
+            //     confirmButtonText: "确定",
+            //     cancelButtonText: "取消",
+            //     type: "warning"
+            //   })
+            //     .then(() => {
+            //       postDeleteAgent()({
+            //         agentNo: rowdata.agentNo
+            //       }).then(data => {
+            //         if (data == "00") {
+            //           this.$message({
+            //             message: "删除成功！",
+            //             type: "success",
+            //             center: true
+            //           });
+            //           this.reloadData();
+            //         }
+            //       });
+            //     })
+            //     .catch(() => {
+            //       this.$message({
+            //         type: "info",
+            //         message: "已取消操作"
+            //       });
+            //     });
+            // }
             // }
           ]
         }
@@ -383,7 +417,9 @@ export default {
       this.getBankListHandle();
     },
     getBankListHandle() {
+      // 获取支行
       console.log("bankCode:" + this.bankCode + "bankCity:" + this.bankCity);
+      this.addForm.shValue = "";
       if (this.bankCode && this.bankCity) {
         // 获取支行列表数据
         getBankList()({
@@ -405,26 +441,30 @@ export default {
           var addForm = this.addForm;
           this.resetSearchHandle();
           postAddAgentManage()({
-            agentName: addForm.agentName,
-            linkMan: addForm.linkMan,
-            phoneNo: addForm.phoneNo,
-            fixedPhone: addForm.fixedPhone,
-            province: addForm.agentArea[0],
-            city: addForm.agentArea[1],
-            orgCode: addForm.agentArea[2],
-            accountName: addForm.accountName,
-            accountNo: addForm.accountNo,
-            accountType: addForm.accountType,
-            provinceId: addForm.bankArea[0],
-            cityId: addForm.bankArea[2],
-            bankOrgCode: addForm.bankArea[3],
-            bankCode: addForm.bankOrgCode,
-            unionCode: addForm.unionCode,
-            isCreateKey: addForm.isCreateKey,
-            redirectUrl: addForm.redirectUrl,
-            subsidy: addForm.subsidy,
-            intermediary: addForm.intermediary,
-            rebate: addForm.rebate
+            agentName: addForm.agentName || "",
+            linkMan: addForm.linkMan || "",
+            phoneNo: addForm.phoneNo || "",
+            fixedPhone: addForm.fixedPhone || "",
+            province: addForm.agentArea[0] || "",
+            city: addForm.agentArea[1] || "",
+            orgCode:
+              addForm.agentArea[2] ||
+              addForm.agentArea[1] ||
+              addForm.agentArea[0] ||
+              "",
+            accountName: addForm.accountName || "",
+            accountNo: addForm.accountNo || "",
+            accountType: addForm.accountType || "",
+            provinceId: addForm.bankArea[0] || "",
+            cityId: addForm.bankArea[2] || "",
+            bankOrgCode: addForm.bankArea[3] || "",
+            bankCode: addForm.bankOrgCode || "",
+            unionCode: addForm.unionCode || "",
+            isCreateKey: addForm.isCreateKey || "",
+            redirectUrl: addForm.redirectUrl || "",
+            subsidy: addForm.subsidy || "",
+            intermediary: addForm.intermediary || "",
+            rebate: addForm.rebate || ""
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -442,8 +482,9 @@ export default {
                 center: true
               });
             } else {
+              console.log(data);
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });
@@ -460,16 +501,20 @@ export default {
         if (valid) {
           var editForm = this.editForm;
           postEditAgentManage()({
-            agentName: editForm.agentName,
-            agentNo: editForm.agentNo,
-            phoneNo: editForm.phoneNo,
-            province: editForm.agentArea[0],
-            city: editForm.agentArea[1],
-            orgCode: editForm.agentArea[2],
-            redirectUrl: editForm.redirectUrl,
-            subsidy: editForm.subsidy,
-            intermediary: editForm.intermediary,
-            rebate: editForm.rebate
+            agentName: editForm.agentName || "",
+            agentNo: editForm.agentNo || "",
+            phoneNo: editForm.phoneNo || "",
+            province: editForm.agentArea[0] || "",
+            city: editForm.agentArea[1] || "",
+            orgCode:
+              editForm.agentArea[2] ||
+              editForm.agentArea[1] ||
+              editForm.agentArea[0] ||
+              "",
+            redirectUrl: editForm.redirectUrl || "",
+            subsidy: editForm.subsidy || "",
+            intermediary: editForm.intermediary || "",
+            rebate: editForm.rebate || ""
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -487,7 +532,7 @@ export default {
               });
             } else {
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });

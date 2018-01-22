@@ -45,6 +45,9 @@ export default {
       api: getBillprofits
     };
   },
+  created() {
+    this.$store.commit("PROFITBILLING_INIT");
+  },
   computed: {
     ...mapState({
       list: state => state.profitBilling.list,

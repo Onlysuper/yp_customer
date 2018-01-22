@@ -150,6 +150,7 @@
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
+import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
@@ -161,7 +162,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -201,7 +202,7 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           cb: value => {
-            this.searchCondition.taxNo = value;
+            this.searchCondition.authCode = value;
           }
         },
 
@@ -254,7 +255,7 @@ export default {
             }
           ],
           cb: value => {
-            this.searchCondition.customerFrom = value;
+            this.searchCondition.invoiceType = value;
           }
         },
         {
@@ -294,7 +295,7 @@ export default {
             }
           ],
           cb: value => {
-            this.searchCondition.customerFrom = value;
+            this.searchCondition.status = value;
           }
         }
       ],

@@ -1,5 +1,5 @@
 <template>
-  <!-- 开票统计 -->
+  <!-- 达标详情 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -7,7 +7,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
+          <el-button v-if="adminFilter('billcountcustomer_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -31,6 +31,7 @@ import qs from "qs";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
+import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBillcountcustomers, getExportcountcustomers } from "@src/apis";
@@ -41,7 +42,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       standardTimeBegin: yesterday, // 开始日期

@@ -1,4 +1,5 @@
 <template>
+  <!-- 商户产品 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -285,9 +286,15 @@ export default {
       },
       addFormVisible: false, // 新增框
       addFormRules: {
-        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
-        featureType: [{ required: true, message: "请选择商品类型", trigger: "blur" }],
-        agentArea: [{ required: true, message: "请选择经营区域", trigger: "blur" }],
+        customerNo: [
+          { required: true, message: "请输入商户编号", trigger: "blur" }
+        ],
+        featureType: [
+          { required: true, message: "请选择商品类型", trigger: "blur" }
+        ],
+        agentArea: [
+          { required: true, message: "请选择经营区域", trigger: "blur" }
+        ],
         bussinessAddress: [
           { required: true, message: "请填写经营地址", trigger: "blur" }
         ],
@@ -300,12 +307,18 @@ export default {
         bussinessName: [
           { required: true, message: "请输入经营名称", trigger: "blur" }
         ],
-        registMoney: [{ required: true, message: "请输入注册资金", trigger: "blur" }],
-        bankCode: [{ required: true, message: "请填写开户银行", trigger: "blur" }],
+        registMoney: [
+          { required: true, message: "请输入注册资金", trigger: "blur" }
+        ],
+        bankCode: [
+          { required: true, message: "请填写开户银行", trigger: "blur" }
+        ],
         bankAccountNo: [
           { required: true, message: "请填写银行卡号", trigger: "blur" }
         ],
-        mounthCount: [{ required: true, message: "请填写月开票量", trigger: "blur" }]
+        mounthCount: [
+          { required: true, message: "请填写月开票量", trigger: "blur" }
+        ]
       },
       editFormRules: {}, // 编辑单个规则
       editForm: {}, // 编辑单个表单

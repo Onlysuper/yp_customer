@@ -7,7 +7,7 @@ export default {
   name: 'qrcode',
   path: '/qrcode',
   meta: {
-    title: '授权码审核',
+    title: '授权码管理',
     keepAlive: true,
     requiresAuth: true,
     parent: "",

@@ -7,8 +7,8 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button v-if="billcountagent_export=='TRUE'?true:false" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
-          <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
+          <el-button v-if="adminFilter('billcountagent_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
+          <el-button v-if="adminFilter('billcountagent_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
           <span class="sumtext">扫码次数:{{scanSum}} 推送次数:{{pushSum}} 入网商户:{{netSum}}</span>
         </el-button-group>
       </div>
@@ -32,6 +32,7 @@
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
+import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBillcountagents, getBillcountSum } from "@src/apis";
@@ -41,7 +42,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       dataTimeBegin: yesterday, // 开始日期

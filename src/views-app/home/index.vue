@@ -1,7 +1,9 @@
 <template>
   <full-page>
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
-      <mt-button slot="right" :disabled="false" type="danger">消息</mt-button>
+      <mt-button slot="right" :disabled="false" type="danger">
+        <i class="icon-news"></i>
+      </mt-button>
     </mt-header>
     <mt-tab-container class="page-tabbar-container" v-model="selected">
       <mt-tab-container-item id="首页">
@@ -40,16 +42,16 @@ export default {
     };
   },
   watch: {
-    // selected(tabText) {
-    //   if (tabText == "首页") {
-    //     document.querySelector(".full-main").scrollTop = 200;
-    //     console.log(tabText);
-    //   } else if (tabText == "业务") {
-    //     document.querySelector(".full-main").scrollTop = 10;
-    //   } else if (tabText == "我的") {
-    //     document.querySelector(".full-main").scrollTop = 110;
-    //   }
-    // }
+    selected(tabText) {
+      if (tabText == "首页") {
+        document.querySelector(".full-main").scrollTop = 200;
+        console.log(tabText);
+      } else if (tabText == "业务") {
+        document.querySelector(".full-main").scrollTop = 10;
+      } else if (tabText == "我的") {
+        document.querySelector(".full-main").scrollTop = 110;
+      }
+    }
   }
 };
 </script>

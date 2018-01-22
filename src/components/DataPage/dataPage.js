@@ -108,6 +108,10 @@ const mixinDataTable = {
         oaIp() {
             // nginx配置的路由
             return this.$store.state.Base.oaIp;
+        },
+        adminOperationAll() {
+            // 用户按钮权限
+            return this.$store.state.moduleLayour.userMessage.all;
         }
     },
     mounted() {

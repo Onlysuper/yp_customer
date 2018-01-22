@@ -1,6 +1,7 @@
 
 import loading from "../loading"
-import Layout from "@src/views-app/customer";
+import App from "@src/App";
+import keepAlive from "@src/views-app/keepAlive";
 /**
  * 分润查询
  */
@@ -8,38 +9,43 @@ import Layout from "@src/views-app/customer";
 
 export default {
   name: "profit",
-  path: "/profit",
-  redirect: "/profit/profitBilling",
-  component: Layout,
+  path: "/",
+  redirect: "/profitBilling",
+  component: App,
   meta: {
     // keepAlive: true
   },
   children: [
-    //快速开票分润
     {
       name: "billprofit",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
-      path: 'profitBilling',
-      component: r => {
-        loading(true);
-        return require.ensure([], () => { loading(false); return r(require("@src/views-app/profit/profitBilling")) }, "profit-app")
-      },
-      meta: {
-        pageTitle: "快速开票分润",
-        keepAlive: true
-      }
+      path: "profitBilling",
+      redirect: "profitBilling/index",
+      component: keepAlive,
+      children: [
+        //快速开票分润
+        {
+          path: 'index',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/profit/profitBilling")) }, "profit-app")
+          },
+          meta: {
+            pageTitle: "快速开票分润",
+            keepAlive: true
+          }
+        },
+        //快速开票分润--搜索
+        {
+          name: "profitBillingSearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/profit/profitBilling/search")) }, "profit-app")
+          },
+          meta: {
+            pageTitle: "搜索",
+            // keepAlive: true
+          }
+        },
+      ]
     },
-    //快速开票分润--搜索
-    {
-      name: "profitBillingSearch",
-      path: 'profitBilling/search',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/profit/profitBilling/search")) }, "profit-app")
-      },
-      meta: {
-        pageTitle: "搜索",
-        // keepAlive: true
-      }
-    },
-
   ]
 }

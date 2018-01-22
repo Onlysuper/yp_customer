@@ -6,7 +6,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button v-if="adminFilter('product_add')" class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -70,6 +70,7 @@
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
+import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import {
@@ -85,7 +86,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -431,6 +432,13 @@ export default {
             {
               text: "编辑",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.product_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.editForm = rowdata;
                 this.editFormVisible = true;
@@ -442,7 +450,10 @@ export default {
               text: "启用",
               color: "#67c23a",
               visibleFn: rowdata => {
-                if (rowdata.status == "FALSE") {
+                if (
+                  this.adminOperationAll.product_true == "TRUE" &&
+                  rowdata.status == "FALSE"
+                ) {
                   return true;
                 } else {
                   return false;
@@ -488,7 +499,10 @@ export default {
               text: "禁用",
               color: "#00c1df",
               visibleFn: rowdata => {
-                if (rowdata.status == "TRUE") {
+                if (
+                  this.adminOperationAll.product_false == "TRUE" &&
+                  rowdata.status == "TRUE"
+                ) {
                   return true;
                 } else {
                   return false;

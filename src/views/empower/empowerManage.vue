@@ -7,10 +7,10 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="showDialog('empoverCodeFormVisible')" type="primary" icon="el-icon-tickets">生成授权码</el-button>
-          <el-button size="small" @click="showDialog('addMaterielFormVisible')" type="primary" icon="el-icon-sort-down">物料入库</el-button>
-          <el-button size="small" @click="showDialog('exportEmpowerCodeVisible')" type="primary" icon="el-icon-sort-up">导出</el-button>
-          <el-button size="small" @click="showDialog('batchBindVisible')" type="primary" icon="el-icon-sort">批量绑定</el-button>
+          <el-button v-if="adminFilter('qrcodebatch_add')" size="small" @click="showDialog('empoverCodeFormVisible')" type="primary" icon="el-icon-tickets">生成授权码</el-button>
+          <el-button v-if="adminFilter('materiel_add')" size="small" @click="showDialog('addMaterielFormVisible')" type="primary" icon="el-icon-sort-down">物料入库</el-button>
+          <el-button v-if="adminFilter('qrcode_export')" size="small" @click="showDialog('exportEmpowerCodeVisible')" type="primary" icon="el-icon-sort-up">导出</el-button>
+          <el-button v-if="adminFilter('bind_batch_qrcode')" size="small" @click="showDialog('batchBindVisible')" type="primary" icon="el-icon-sort">批量绑定</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -282,6 +282,7 @@ import DataPage from "@src/components/DataPage";
 
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import {
   getArantNumManages,
@@ -301,7 +302,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       createTimeStart: yesterday, // 开始日期
@@ -336,7 +337,9 @@ export default {
         childQrcodes: ""
       },
       bindChildFormRules: {
-        childQrcodes: [{ required: true, message: "请输入子码编号", trigger: "blur" }]
+        childQrcodes: [
+          { required: true, message: "请输入子码编号", trigger: "blur" }
+        ]
       },
       bindForm: {
         qrcode: "",
@@ -345,14 +348,18 @@ export default {
         customerNo: ""
       },
       bindFormRules: {
-        customerNo: [{ required: true, message: "请输入合伙人编号", trigger: "blur" }]
+        customerNo: [
+          { required: true, message: "请输入合伙人编号", trigger: "blur" }
+        ]
       },
       fileList: [],
       exportEmpowerCodeForm: {
         styleType: ""
       },
       exportEmpowerCodeRules: {
-        styleType: [{ required: true, message: "请先选择模版样式", trigger: "blur" }]
+        styleType: [
+          { required: true, message: "请先选择模版样式", trigger: "blur" }
+        ]
       },
 
       empoverCodeForm: {
@@ -361,8 +368,12 @@ export default {
         supportTypesArr: ["普票", "专票", "特殊"]
       },
       empoverCodeRules: {
-        agentNo: [{ required: true, message: "请输入合伙人编号", trigger: "blur" }],
-        qrcodeCount: [{ required: true, message: "批次数量不能为空", trigger: "blur" }]
+        agentNo: [
+          { required: true, message: "请输入合伙人编号", trigger: "blur" }
+        ],
+        qrcodeCount: [
+          { required: true, message: "批次数量不能为空", trigger: "blur" }
+        ]
       },
       editForm: {
         serviceMode: "HX",
@@ -370,20 +381,30 @@ export default {
         supportTypesArr: ["普票", "专票", "特殊"]
       },
       editFormRules: {
-        extensionNum: [{ required: true, message: "分机号不能为空", trigger: "blur" }],
-        supportTypes: [{ required: true, message: "请选择支持类型", trigger: "blur" }]
+        extensionNum: [
+          { required: true, message: "分机号不能为空", trigger: "blur" }
+        ],
+        supportTypes: [
+          { required: true, message: "请选择支持类型", trigger: "blur" }
+        ]
       },
       addMaterielForm: {},
       addMaterielRules: {
-        deviceType: [{ required: true, message: "入库类型不能为空", trigger: "blur" }],
-        qrcodeStart: [
-          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+        deviceType: [
+          { required: true, message: "入库类型不能为空", trigger: "blur" }
         ],
         qrcodeStart: [
           { required: true, message: "号段起始号码不能为空", trigger: "blur" }
         ],
-        migrateType: [{ required: true, message: "请选择入库方式", trigger: "blur" }],
-        receiptCount: [{ required: true, message: "请输入入库数量", trigger: "blur" }]
+        qrcodeStart: [
+          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+        ],
+        migrateType: [
+          { required: true, message: "请选择入库方式", trigger: "blur" }
+        ],
+        receiptCount: [
+          { required: true, message: "请输入入库数量", trigger: "blur" }
+        ]
       },
       // formLabelWidth: "100px",
       searchCondition: searchConditionVar,
@@ -780,6 +801,7 @@ export default {
               color: "#67c23a",
               visibleFn: rowdata => {
                 if (
+                  this.adminOperationAll.qrcode_bind == "TRUE" &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "TRUE" &&
                   (rowdata.agentNo == this.userBussinessNo ||
@@ -808,6 +830,7 @@ export default {
               color: "#F56C6C",
               visibleFn: rowdata => {
                 if (
+                  this.adminOperationAll.qrcode_unbind == "TRUE" &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "BINDED" &&
                   (rowdata.agentNo == this.userBussinessNo ||
@@ -871,9 +894,10 @@ export default {
               color: "#909399",
               visibleFn: rowdata => {
                 if (
-                  (rowdata.deviceType == "AUTHCODE" &&
-                    rowdata.status == "BINDED" &&
-                    rowdata.parentCode == null) ||
+                  (this.adminOperationAll.qrcode_bind_child == "TRUE" &&
+                    (rowdata.deviceType == "AUTHCODE" &&
+                      rowdata.status == "BINDED" &&
+                      rowdata.parentCode == null)) ||
                   (rowdata.parentCode == "" &&
                     (rowdata.agentNo == this.userBussinessNo ||
                       this.userType == "admin"))
@@ -1184,12 +1208,12 @@ export default {
   },
   mounted() {},
   computed: {
-    userBussinessNo() {
-      return this.$store.state.moduleLayour.userMessage.userBussinessNo;
-    },
-    userType() {
-      return this.$store.state.moduleLayour.userMessage.userType;
-    }
+    // userBussinessNo() {
+    //   return this.$store.state.moduleLayour.userMessage.userBussinessNo;
+    // },
+    // userType() {
+    //   return this.$store.state.moduleLayour.userMessage.userType;
+    // }
   }
 };
 </script>

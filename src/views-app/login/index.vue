@@ -46,7 +46,8 @@ export default {
         }
         if (data.code === "00") {
           // 登录成功
-          this.$router.push({ path: "/" });
+          localStorage.setItem("isLogin", "100");
+          location.reload();
         }
       });
     }

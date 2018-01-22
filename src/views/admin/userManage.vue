@@ -6,7 +6,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button v-if="adminFilter('user_add')" class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -127,8 +127,12 @@ export default {
         label: "roleName"
       },
       addFormRules: {
-        realname: [{ required: true, message: "请输入用户名称", trigger: "blur" }],
-        username: [{ required: true, message: "请输入登陆名", trigger: "blur" }],
+        realname: [
+          { required: true, message: "请输入用户名称", trigger: "blur" }
+        ],
+        username: [
+          { required: true, message: "请输入登陆名", trigger: "blur" }
+        ],
         password: [{ validator: validatePass, trigger: "blur" }],
         repassword: [{ validator: validatePass2, trigger: "blur" }]
       },
@@ -248,6 +252,13 @@ export default {
             {
               color: "#67C23A",
               text: "编辑",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.user_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.editForm = rowdata;
                 this.editFormVisible = true;
@@ -256,6 +267,13 @@ export default {
             {
               text: "配置角色",
               color: "#E6A23C",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.user_role_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.roleForm = rowdata;
                 getRolesTree()({ username: rowdata.username }).then(data => {
@@ -268,6 +286,13 @@ export default {
             {
               text: "删除",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.user_delete == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.$confirm("此操作将删除该条管理员数据, 是否继续?", "提示", {
                   confirmButtonText: "确定",

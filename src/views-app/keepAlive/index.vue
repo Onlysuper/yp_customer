@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div class="keep-alive">
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
@@ -8,11 +8,9 @@
 </template>
 
 <script>
-export default {
-  name: "app"
-};
+export default {};
 </script>
 
-<style lang="scss">
+<style>
 
 </style>

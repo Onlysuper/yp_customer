@@ -22,7 +22,7 @@ const websocket = {
     websocketFn() {
       if ('WebSocket' in window) {
         var hostname = "tm.yeepiao.com/";
-        this.ws = new WebSocket("ws://" + hostname + "/notify");
+        this.ws = new WebSocket("wss://" + hostname + "/notify");
       }
       else {
         alert('Not support websocket');

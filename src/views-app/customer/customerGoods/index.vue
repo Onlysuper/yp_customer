@@ -1,5 +1,5 @@
 <template>
-  <full-page class="" ref="FullPage">
+  <full-page class="page" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'goodsSearch'})">搜索</mt-button>
@@ -57,6 +57,9 @@ export default {
       actions: []
     };
   },
+  created() {
+    this.$store.commit("INIT_GOODS_STORE");
+  },
   computed: {
     ...mapState({
       list: state => state.customerGoods.list,
@@ -85,7 +88,7 @@ export default {
     },
     toUrl(type, goodsNo) {
       this.$router.push({
-        path: "./goods/edit/" + goodsNo,
+        path: "./edit/" + goodsNo,
         query: { type: type }
       });
     },

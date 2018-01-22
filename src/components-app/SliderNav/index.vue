@@ -1,7 +1,7 @@
 <template>
   <div class="myp-slider-nav">
     <ul>
-      <li v-for="(item,index) in munes" :key="index" @click="handleClick(item)" :class="item.menuCode == menuCode?'active':''">{{item.menuName}}</li>
+      <li v-for="(item,index) in munes" :key="index" @click="handleClick(item)" :class="item.menuCode == $route.name?'active':''">{{item.menuName}}</li>
     </ul>
   </div>
 </template>

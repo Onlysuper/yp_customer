@@ -20,7 +20,6 @@ axios.interceptors.request.use(function (config) {
     //  } else {
     //       config.headers.common['token'] = localStorage.getItem("token") || "";
     //  }
-
     return config;
 }, function (error) {
     return Promise.reject(error);

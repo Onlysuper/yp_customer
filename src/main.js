@@ -5,13 +5,10 @@ import router from './router';
 import routerApp from './router-app';
 import store from './vuex';
 import App from './App';
-//websocket 监听
-// import { websocket } from "@src/common/websocket";
-/**
- * 引入自定义指令 与 过滤器
- */
+
 import mypDirective from './common/directives';
 import mypFilter from './common/filters';
+import validator from "@src/common/validator";
 
 /* Using these kinds of IScroll class for different cases. */
 
@@ -19,9 +16,15 @@ Vue.use(mypDirective);
 Vue.use(mypFilter);
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
 import './assets/scss-pc/theme-change.scss' // 更改皮肤
+
 /**
- * 引入element-ui所需组件
+ * 引入全局css
  */
+import "@src/assets/icons/style.css";
+import "@src/assets/css/reset.css";
+import "@src/assets/scss-pc/reset.scss";
+import "@src/assets/scss/index.scss";
+
 import {
   Button as eleButton,
   Row as eleRow,
@@ -115,86 +118,45 @@ Vue.component(eleColorPicker.name, eleColorPicker)
 
 Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }
-Vue.prototype.$loading = Loading.service
-Vue.prototype.$msgbox = MessageBox
-Vue.prototype.$alert = MessageBox.alert
-Vue.prototype.$confirm = MessageBox.confirm
-Vue.prototype.$prompt = MessageBox.prompt
-Vue.prototype.$notify = eleNotification
-Vue.prototype.$message = Message
 
 
+import mintui from "mint-ui";
+Vue.use(mintui);
 
+Vue.prototype.$loading = Loading.service;
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$prompt = MessageBox.prompt;
+Vue.prototype.$notify = eleNotification;
+Vue.prototype.$message = Message;
+Vue.prototype.Toast = mintui.Toast;
+Vue.prototype.MessageBox = mintui.MessageBox;
+Vue.prototype.validator = validator;
 
+import FullPage from "@src/components-app/FullPage";
+Vue.component(FullPage.name, FullPage);
+import FullPagePopup from "@src/components-app/FullPagePopup";
+Vue.component(FullPagePopup.name, FullPagePopup);
+import MypCell from "@src/components-app/MypCell";
+Vue.component(MypCell.name, MypCell);
+import MypCellPannel from "@src/components-app/MypCellPannel";
+Vue.component(MypCellPannel.name, MypCellPannel);
+import MypLoadmoreApi from "@src/components-app/MypLoadmoreApi";
+Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
+import InputWrapper from "@src/components-app/InputWrapper";
+Vue.component(InputWrapper.name, InputWrapper);
+import ViewRadius from "@src/components-app/ViewRadius";
+Vue.component(ViewRadius.name, ViewRadius);
+import MypTr from "@src/components-app/MypTr";
+Vue.component(MypTr.name, MypTr);
 
-/**
- * 引入mint-ui所需组件
- */
-// import mintui from "mint-ui";
-// Vue.use(mintui);
-import validator from "@src/common/validator";
-
-/**
- * 全局注册移动端自定义组件
- */
-// import FullPage from "@src/components-app/FullPage";
-// Vue.component(FullPage.name, FullPage);
-// import FullPagePopup from "@src/components-app/FullPagePopup";
-// Vue.component(FullPagePopup.name, FullPagePopup);
-// import MypCell from "@src/components-app/MypCell";
-// Vue.component(MypCell.name, MypCell);
-// import MypCellPannel from "@src/components-app/MypCellPannel";
-// Vue.component(MypCellPannel.name, MypCellPannel);
-// import MypLoadmoreApi from "@src/components-app/MypLoadmoreApi";
-// Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
-// import InputWrapper from "@src/components-app/InputWrapper";
-// Vue.component(InputWrapper.name, InputWrapper);
-// import ViewRadius from "@src/components-app/ViewRadius";
-// Vue.component(ViewRadius.name, ViewRadius);
-// import MypTr from "@src/components-app/MypTr";
-// Vue.component(MypTr.name, MypTr);
-
-/**
- * 引入全局css
- */
-import "@src/assets/icons/style.css";
 if (isMobile) {
-  require("@src/assets/css/reset.css");
-  require("@src/assets/scss/index.scss");
-
-  // import mintui from "mint-ui";
-  var mintui = require("mint-ui");
-  Vue.use(mintui);
-
-  var FullPage = require("@src/components-app/FullPage");
-  Vue.component(FullPage.name, FullPage);
-  var FullPagePopup = require("@src/components-app/FullPagePopup");
-  Vue.component(FullPagePopup.name, FullPagePopup);
-  var MypCell = require("@src/components-app/MypCell");
-  Vue.component(MypCell.name, MypCell);
-  var MypCellPannel = require("@src/components-app/MypCellPannel");
-  Vue.component(MypCellPannel.name, MypCellPannel);
-  var MypLoadmoreApi = require("@src/components-app/MypLoadmoreApi");
-  Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
-  var InputWrapper = require("@src/components-app/InputWrapper");
-  Vue.component(InputWrapper.name, InputWrapper);
-  var ViewRadius = require("@src/components-app/ViewRadius");
-  Vue.component(ViewRadius.name, ViewRadius);
-  var MypTr = require("@src/components-app/MypTr");
-  Vue.component(MypTr.name, MypTr);
-
   document.body.style.height = document.documentElement.clientHeight + "px";
   window.onresize = function () {
     document.body.style.height = document.documentElement.clientHeight + "px";
   }
-  Vue.prototype.Toast = mintui.Toast;
-  Vue.prototype.MessageBox = mintui.MessageBox;
-  Vue.prototype.validator = validator;
-} else {
-  require("@src/assets/scss-pc/reset.scss");
 }
-
-
 
 var vue = new Vue({
   el: '#app',
