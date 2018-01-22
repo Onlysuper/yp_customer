@@ -12,8 +12,7 @@
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
-
+    <el-dialog :modal-append-to-body="false" :append-to-body="false" center title="新增产品模板" :visible.sync="addFormVisible">
       <el-form class="fieldset-box" size="small" ref="addForm" :model="addForm" :rules="addFormRules" label-width="100px">
         <fieldset>
           <legend>结算信息</legend>
@@ -51,7 +50,7 @@
           </el-row>
         </fieldset>
         <fieldset>
-          <legend>结算信息</legend>
+          <legend>基本信息</legend>
           <el-row>
             <el-col :span="12">
               <div class="grid-content bg-purple">
@@ -97,7 +96,7 @@
           <el-row>
             <el-col :span="12">
               <div class="grid-content bg-purple">
-                <el-form-item prop="redirectUrl" label="回掉地址">
+                <el-form-item prop="redirectUrl" label="回调地址">
                   <el-input v-model="addForm.redirectUrl"></el-input>
                 </el-form-item>
               </div>
@@ -389,7 +388,9 @@ export default {
       this.getBankListHandle();
     },
     getBankListHandle() {
+      // 获取支行
       console.log("bankCode:" + this.bankCode + "bankCity:" + this.bankCity);
+      this.addForm.shValue = "";
       if (this.bankCode && this.bankCity) {
         // 获取支行列表数据
         getBankList()({
@@ -448,8 +449,9 @@ export default {
                 center: true
               });
             } else {
+              console.log(data);
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });
@@ -493,7 +495,7 @@ export default {
               });
             } else {
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });

@@ -201,7 +201,7 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           cb: value => {
-            this.searchCondition.taxNo = value;
+            this.searchCondition.authCode = value;
           }
         },
 
@@ -254,7 +254,7 @@ export default {
             }
           ],
           cb: value => {
-            this.searchCondition.customerFrom = value;
+            this.searchCondition.invoiceType = value;
           }
         },
         {
@@ -294,7 +294,7 @@ export default {
             }
           ],
           cb: value => {
-            this.searchCondition.customerFrom = value;
+            this.searchCondition.status = value;
           }
         }
       ],
