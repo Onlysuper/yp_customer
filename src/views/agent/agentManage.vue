@@ -232,9 +232,15 @@ export default {
         dqValue: "" // 商户电票
       },
       addFormRules: {
-        agentName: [{ required: true, message: "请输入合伙人名称", trigger: "blur" }],
-        phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }],
-        agentArea: [{ required: true, message: "请选择经营区域", trigger: "blur" }]
+        agentName: [
+          { required: true, message: "请输入合伙人名称", trigger: "blur" }
+        ],
+        phoneNo: [
+          { required: true, validator: phoneNumVerify, trigger: "blur" }
+        ],
+        agentArea: [
+          { required: true, message: "请选择经营区域", trigger: "blur" }
+        ]
       },
       // 顶部搜索表单信息
       searchOptions: [
@@ -405,26 +411,26 @@ export default {
           var addForm = this.addForm;
           this.resetSearchHandle();
           postAddAgentManage()({
-            agentName: addForm.agentName,
-            linkMan: addForm.linkMan,
-            phoneNo: addForm.phoneNo,
-            fixedPhone: addForm.fixedPhone,
-            province: addForm.agentArea[0],
-            city: addForm.agentArea[1],
-            orgCode: addForm.agentArea[2],
-            accountName: addForm.accountName,
-            accountNo: addForm.accountNo,
-            accountType: addForm.accountType,
-            provinceId: addForm.bankArea[0],
-            cityId: addForm.bankArea[2],
-            bankOrgCode: addForm.bankArea[3],
-            bankCode: addForm.bankOrgCode,
-            unionCode: addForm.unionCode,
-            isCreateKey: addForm.isCreateKey,
-            redirectUrl: addForm.redirectUrl,
-            subsidy: addForm.subsidy,
-            intermediary: addForm.intermediary,
-            rebate: addForm.rebate
+            agentName: addForm.agentName || "",
+            linkMan: addForm.linkMan || "",
+            phoneNo: addForm.phoneNo || "",
+            fixedPhone: addForm.fixedPhone || "",
+            province: addForm.agentArea[0] || "",
+            city: addForm.agentArea[1] || "",
+            orgCode: addForm.agentArea[2] || "",
+            accountName: addForm.accountName || "",
+            accountNo: addForm.accountNo || "",
+            accountType: addForm.accountType || "",
+            provinceId: addForm.bankArea[0] || "",
+            cityId: addForm.bankArea[2] || "",
+            bankOrgCode: addForm.bankArea[3] || "",
+            bankCode: addForm.bankOrgCode || "",
+            unionCode: addForm.unionCode || "",
+            isCreateKey: addForm.isCreateKey || "",
+            redirectUrl: addForm.redirectUrl || "",
+            subsidy: addForm.subsidy || "",
+            intermediary: addForm.intermediary || "",
+            rebate: addForm.rebate || ""
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -460,16 +466,16 @@ export default {
         if (valid) {
           var editForm = this.editForm;
           postEditAgentManage()({
-            agentName: editForm.agentName,
-            agentNo: editForm.agentNo,
-            phoneNo: editForm.phoneNo,
-            province: editForm.agentArea[0],
-            city: editForm.agentArea[1],
-            orgCode: editForm.agentArea[2],
-            redirectUrl: editForm.redirectUrl,
-            subsidy: editForm.subsidy,
-            intermediary: editForm.intermediary,
-            rebate: editForm.rebate
+            agentName: editForm.agentName || "",
+            agentNo: editForm.agentNo || "",
+            phoneNo: editForm.phoneNo || "",
+            province: editForm.agentArea[0] || "",
+            city: editForm.agentArea[1] || "",
+            orgCode: editForm.agentArea[2] || "",
+            redirectUrl: editForm.redirectUrl || "",
+            subsidy: editForm.subsidy || "",
+            intermediary: editForm.intermediary || "",
+            rebate: editForm.rebate || ""
           }).then(data => {
             if (data.code === "00") {
               this.$message({

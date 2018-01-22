@@ -19,6 +19,7 @@ Vue.use(mypDirective);
 Vue.use(mypFilter);
 // import 'element-ui/lib/theme-chalk/index.css' // 默认的皮肤
 import './assets/scss-pc/theme-change.scss' // 更改皮肤
+import "@src/assets/icons/style.css"; // 图标
 /**
  * 引入element-ui所需组件
  */
@@ -157,8 +158,9 @@ import validator from "@src/common/validator";
 /**
  * 引入全局css
  */
-import "@src/assets/icons/style.css";
+
 if (isMobile) {
+  require("mint-ui/lib/style.css");
   require("@src/assets/css/reset.css");
   require("@src/assets/scss/index.scss");
 
