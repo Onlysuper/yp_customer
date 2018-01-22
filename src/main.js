@@ -157,7 +157,7 @@ if (isMobile) {
     document.body.style.height = document.documentElement.clientHeight + "px";
   }
 }
-
+console.log()
 var vue = new Vue({
   el: '#app',
   store,
