@@ -330,6 +330,9 @@ export default {
     fullScreen(value) {
       // 全屏切换
       this.tableSizeHandle();
+    },
+    $route(to, from) {
+      this.tableSizeHandle();
     }
   }
 };

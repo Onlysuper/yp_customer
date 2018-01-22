@@ -12,7 +12,7 @@
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog :modal-append-to-body="false" :append-to-body="false" center title="新增产品模板" :visible.sync="addFormVisible">
+    <el-dialog :modal-append-to-body="false" :append-to-body="false" center title="新增合伙人" :visible.sync="addFormVisible">
       <el-form class="fieldset-box" size="small" ref="addForm" :model="addForm" :rules="addFormRules" label-width="100px">
         <fieldset>
           <legend>结算信息</legend>
@@ -118,7 +118,7 @@
     <!-- 新增end -->
 
     <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
+    <el-dialog title="编辑合伙人信息" center :visible.sync="editFormVisible" width="500px">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules" label-width="90px">
         <el-form-item prop="" label="合伙人名称">
           <el-input :disabled="true" v-model="editForm.agentName"></el-input>
@@ -169,6 +169,7 @@ import {
   getAgentManages,
   postAddAgentManage,
   postEditAgentManage,
+  postDeleteAgent,
   getBankList
 } from "@src/apis";
 
@@ -337,6 +338,13 @@ export default {
             {
               text: "编辑",
               color: "#e6a23c",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.agent_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 console.log(rowdata);
                 // console.log(areaOrgcode(rowdata.agentArea));
@@ -345,6 +353,46 @@ export default {
                 this.editFormVisible = true;
               }
             }
+            // {
+            // text: "删除",
+            // color: "#f56c6c",
+            // visibleFn: rowdata => {
+            //   if (this.adminOperationAll.agent_delete == "TRUE") {
+            //     return true;
+            //   } else {
+            //     return false;
+            //   }
+            // }
+            // 以下功能已作废
+            // cb: rowdata => {
+            //   console.log(rowdata.agentNo);
+            //   this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
+            //     confirmButtonText: "确定",
+            //     cancelButtonText: "取消",
+            //     type: "warning"
+            //   })
+            //     .then(() => {
+            //       postDeleteAgent()({
+            //         agentNo: rowdata.agentNo
+            //       }).then(data => {
+            //         if (data == "00") {
+            //           this.$message({
+            //             message: "删除成功！",
+            //             type: "success",
+            //             center: true
+            //           });
+            //           this.reloadData();
+            //         }
+            //       });
+            //     })
+            //     .catch(() => {
+            //       this.$message({
+            //         type: "info",
+            //         message: "已取消操作"
+            //       });
+            //     });
+            // }
+            // }
           ]
         }
       }

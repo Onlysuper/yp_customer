@@ -101,6 +101,7 @@ import $ from "jquery";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
+import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import {
@@ -378,14 +379,11 @@ export default {
                * 审核授权码采购
                */
               text: "审核",
-              ref: "qr_code_reciept_audit_agent",
               visibleFn: rowdata => {
-                console.log(this.qr_code_reciept_audit_all);
-
                 if (
+                  this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
                   rowdata.status == "AUDITING" &&
-                  rowdata.receiptType == "AUTHCODE" &&
-                  this.qr_code_reciept_audit_all == "TRUE"
+                  rowdata.receiptType == "AUTHCODE"
                 ) {
                   return true;
                 } else {
@@ -411,9 +409,9 @@ export default {
               ref: "qr_code_reciept_audit_agent",
               visibleFn: rowdata => {
                 if (
+                  this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
                   rowdata.status == "AUDITING" &&
-                  rowdata.receiptType == "SCANCODEGUN" &&
-                  this.qr_code_reciept_audit_all == "TRUE"
+                  rowdata.receiptType == "SCANCODEGUN"
                 ) {
                   return true;
                 } else {
@@ -566,18 +564,6 @@ export default {
     userAll() {
       // 所有的用户信息
       return this.$store.state.moduleLayour.userMessage.all;
-    },
-    qr_code_reciept_audit_agent() {
-      return this.$store.state.moduleLayour.userMessage.all
-        .qr_code_reciept_audit_agent;
-    },
-    qr_code_reciept_audit_admin() {
-      return this.$store.state.moduleLayour.userMessage.all
-        .qr_code_reciept_audit_admin;
-    },
-    qr_code_reciept_audit_all() {
-      return this.$store.state.moduleLayour.userMessage.all
-        .qr_code_reciept_audit_all;
     }
   }
 };
