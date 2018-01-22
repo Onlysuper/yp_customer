@@ -15,7 +15,7 @@
           <input type="text" v-model="ruleForm.username" placeholder="请输入易票帐号/手机号">
           <input type="password" v-model="ruleForm.password" placeholder="请输入密码">
           <!-- 按钮 -->
-          <mt-button class="spacing-80" type="danger" @click="submitForm" size="large">登录</mt-button>
+          <mt-button class="spacing-80 login-button" type="danger" @click="submitForm" size="large">登录</mt-button>
         </div>
       </div>
     </div>
@@ -72,6 +72,18 @@ $default-color: #333; // 字体颜色
   flex: 1;
   box-sizing: border-box;
   flex-direction: column;
+  .login-button {
+    width: 100%;
+    margin-top: 15px;
+    height: 40px;
+    font-size: 18px;
+    border-radius: 20px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+    background: #e60012;
+    color: #fff;
+    margin-top: 4rem;
+  }
   .login-main {
     padding: 0px;
     position: relative;

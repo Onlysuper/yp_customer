@@ -1,111 +1,113 @@
-// 表格数据样式
-.admin-page {
-  position: relative;
-  // background: #eff2f5;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  .tablelist-box{
-    overflow-y: auto;
-    overflow-x:hidden
-  }
-  .detail-content {
-    .line-label-box {
-      padding: 4px 0;
-      .line-label {
-        min-width: 100px;
-        display: inline-block;
-        padding: 0 10px;
-      }
-      &:nth-child(odd) {
-        background-color: rgba(0, 193, 223, 0.1);
-      }
-      &:nth-child(even) {
-        background-color: #fff;
-      }
-    }
-  }
-  .content-center-box {
-    text-align: center;
-  }
-  .sep-inline {
-    margin: 5px 0;
-    width: 100%;
-  }
-  .operation-box {
-    float: left;
-    width: 100%;
-    .button-group {
-      margin-right: 10px;
-    }
-    .line {
-      text-align: center;
-    }
-  }
-  .operation-group {
-    padding: 5px 0;
-    .line {
-      text-align: center;
-    }
-  }
-  .page-tag {
-    margin-bottom: 10px;
-  }
-  .admin-main-box {
-    padding: 10px;
+@media screen and (min-width: 500px) {
+  // 表格数据样式
+  .admin-page {
     position: relative;
-    // height: 100%;
-    // width: 100%;
-    background: #fff;
+    // background: #eff2f5;
+    width: 100%;
     display: flex;
-    flex-direction: column
-  }
-  .form-box {
-    margin-top: 10px;
-  }
+    flex-direction: column;
+    .tablelist-box{
+      overflow-y: auto;
+      overflow-x:hidden
+    }
+    .detail-content {
+      .line-label-box {
+        padding: 4px 0;
+        .line-label {
+          min-width: 100px;
+          display: inline-block;
+          padding: 0 10px;
+        }
+        &:nth-child(odd) {
+          background-color: rgba(0, 193, 223, 0.1);
+        }
+        &:nth-child(even) {
+          background-color: #fff;
+        }
+      }
+    }
+    .content-center-box {
+      text-align: center;
+    }
+    .sep-inline {
+      margin: 5px 0;
+      width: 100%;
+    }
+    .operation-box {
+      float: left;
+      width: 100%;
+      .button-group {
+        margin-right: 10px;
+      }
+      .line {
+        text-align: center;
+      }
+    }
+    .operation-group {
+      padding: 5px 0;
+      .line {
+        text-align: center;
+      }
+    }
+    .page-tag {
+      margin-bottom: 10px;
+    }
+    .admin-main-box {
+      padding: 10px;
+      position: relative;
+      // height: 100%;
+      // width: 100%;
+      background: #fff;
+      display: flex;
+      flex-direction: column
+    }
+    .form-box {
+      margin-top: 10px;
+    }
 
-  .tip-text {
-    color: #67c23a;
-  }
-  .button-group {
-    padding-bottom: 5px;
-  }
+    .tip-text {
+      color: #67c23a;
+    }
+    .button-group {
+      padding-bottom: 5px;
+    }
 
-  .fieldset-box {
-  fieldset {
-    border: 1px solid #eee;
-    border-left: 0;
-    border-right: 0;
-    margin-top: 16px;
-    padding: 8px;
-    legend {
-      font-size: 14px;
-      .small {
-        font-size: 12px;
-        color: #67c23a;
+    .fieldset-box {
+    fieldset {
+      border: 1px solid #eee;
+      border-left: 0;
+      border-right: 0;
+      margin-top: 16px;
+      padding: 8px;
+      legend {
+        font-size: 14px;
+        .small {
+          font-size: 12px;
+          color: #67c23a;
+        }
       }
     }
   }
-}
-  .full-width {
-    width: 100%;
-    .el-cascader {
+    .full-width {
       width: 100%;
+      .el-cascader {
+        width: 100%;
+      }
+      .el-select {
+        width: 100%;
+      }
     }
-    .el-select {
-      width: 100%;
+    .dialog-title {
+      background: rgba(0, 193, 223, 0.1);
+      height: 30px;
+      line-height: 30px;
+      text-indent: 10px;
+      margin-bottom: 10px;
     }
-  }
-  .dialog-title {
-    background: rgba(0, 193, 223, 0.1);
-    height: 30px;
-    line-height: 30px;
-    text-indent: 10px;
-    margin-bottom: 10px;
-  }
-  .tip-text {
-    font-size: 12px;
-    line-height: 18px;
-    color: #67c23a;
+    .tip-text {
+      font-size: 12px;
+      line-height: 18px;
+      color: #67c23a;
+    }
   }
 }
