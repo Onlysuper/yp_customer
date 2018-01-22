@@ -30,6 +30,7 @@ const Layout = {
         userData(state, data) {
             var data = data.data;
             state.userMessage.all = data;
+            console.log(state.userMessage.all);
             state.userMessage.userBussinessNo = data.userBussinessNo // 登录账号
             state.userMessage.userType = data.userType // 登录账号
         },
