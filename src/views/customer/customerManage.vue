@@ -6,11 +6,11 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
-          <el-button size="small" @click="showDialog('batchNetFormVisible')" type="primary" icon="el-icon-upload">批量入网</el-button>
-          <el-button size="small" @click="showDialog('batchTransferFormVisible')" type="primary" icon="el-icon-sort">批量转移</el-button>
-          <el-button size="small" @click="showDialog('electronicOpenFormVisible')" type="primary" icon="el-icon-sort">商户电票开通</el-button>
-          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
+          <el-button v-if="adminFilter('customer_add')" class="mybutton" @click="showDialog('addFormVisible')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button v-if="adminFilter('customer_incomeBatch')" size="small" @click="showDialog('batchNetFormVisible')" type="primary" icon="el-icon-upload">批量入网</el-button>
+          <el-button v-if="adminFilter('customer_transBatch')" size="small" @click="showDialog('batchTransferFormVisible')" type="primary" icon="el-icon-sort">批量转移</el-button>
+          <el-button v-if="adminFilter('customer_electronicOpen')" size="small" @click="showDialog('electronicOpenFormVisible')" type="primary" icon="el-icon-sort">商户电票开通</el-button>
+          <el-button v-if="adminFilter('customer_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -580,6 +580,13 @@ export default {
             {
               text: "详情",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.customer_detail == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.detailsForm = rowdata;
                 this.detailsFormVisible = true;
@@ -587,6 +594,17 @@ export default {
             },
             {
               text: "编辑",
+              visibleFn: rowdata => {
+                if (
+                  this.adminOperationAll.customer_edit == "TRUE" &&
+                  (rowdata.agentNo == this.userBussinessNo ||
+                    this.userType == "admin")
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               color: "#00c1df",
               cb: rowdata => {
                 this.editForm = rowdata;
@@ -595,6 +613,13 @@ export default {
             },
             {
               text: "转移",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.customer_transfer == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               color: "#00c1df",
               cb: rowdata => {
                 this.transferForm = rowdata;
@@ -738,15 +763,16 @@ export default {
     },
     beforeBatchNetUpload(file) {
       const extension = file.name.split(".")[1] === "xlsx";
-      const extension2 = file.name.split(".")[1] === "numbers";
+      // const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
       if (!extension && !extension2) {
         this.$message.error("上传文件只能是 xlsx,numbers 格式!");
       }
-      if (!isLt2M) {
-        this.$message.error("上传文件图片大小不能超过 10MB!");
-      }
-      return extension || (extension2 && isLt2M);
+      // if (!isLt2M) {
+      //   this.$message.error("上传文件图片大小不能超过 10MB!");
+      // }
+      // return extension || (extension2 && isLt2M);
+      return extension;
     },
     exportDialog() {
       // 导出

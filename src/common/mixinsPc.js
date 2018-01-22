@@ -29,7 +29,12 @@ const mixinsPc = {
       // nginx配置的路由
       return this.$store.state.Base.oaIp;
     },
-
+    userBussinessNo() {
+      return this.$store.state.moduleLayour.userMessage.userBussinessNo;
+    },
+    userType() {
+      return this.$store.state.moduleLayour.userMessage.userType;
+    }
   }
 }
 export {
