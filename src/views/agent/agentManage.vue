@@ -345,26 +345,6 @@ export default {
                 this.editFormVisible = true;
               }
             }
-            // {
-            //   text: "删除",
-            //   color: "#f56c6c",
-            //   cb: rowdata => {
-            //     this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
-            //       confirmButtonText: "确定",
-            //       cancelButtonText: "取消",
-            //       type: "warning"
-            //     })
-            //       .then(() => {
-            //         alert("确定删除");
-            //       })
-            //       .catch(() => {
-            //         this.$message({
-            //           type: "info",
-            //           message: "已取消操作"
-            //         });
-            //       });
-            //   }
-            // }
           ]
         }
       }
@@ -419,7 +399,11 @@ export default {
             fixedPhone: addForm.fixedPhone || "",
             province: addForm.agentArea[0] || "",
             city: addForm.agentArea[1] || "",
-            orgCode: addForm.agentArea[2] || "",
+            orgCode:
+              addForm.agentArea[2] ||
+              addForm.agentArea[1] ||
+              addForm.agentArea[0] ||
+              "",
             accountName: addForm.accountName || "",
             accountNo: addForm.accountNo || "",
             accountType: addForm.accountType || "",
@@ -474,7 +458,11 @@ export default {
             phoneNo: editForm.phoneNo || "",
             province: editForm.agentArea[0] || "",
             city: editForm.agentArea[1] || "",
-            orgCode: editForm.agentArea[2] || "",
+            orgCode:
+              editForm.agentArea[2] ||
+              editForm.agentArea[1] ||
+              editForm.agentArea[0] ||
+              "",
             redirectUrl: editForm.redirectUrl || "",
             subsidy: editForm.subsidy || "",
             intermediary: editForm.intermediary || "",
