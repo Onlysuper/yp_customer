@@ -1,4 +1,5 @@
 <template>
+  <!-- 商户管理 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->

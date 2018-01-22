@@ -1,4 +1,5 @@
 <template>
+  <!-- 开票配置 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->

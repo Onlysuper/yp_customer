@@ -1,4 +1,5 @@
 <template>
+  <!-- 商品管理 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -414,9 +415,15 @@ export default {
       },
 
       addFormRules: {
-        unionNo: [{ required: true, message: "请输入活动名称", trigger: "blur" }],
-        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }],
-        goodsName: [{ required: true, message: "请输入商品名称", trigger: "blur" }],
+        unionNo: [
+          { required: true, message: "请输入活动名称", trigger: "blur" }
+        ],
+        customerNo: [
+          { required: true, message: "请输入商户编号", trigger: "blur" }
+        ],
+        goodsName: [
+          { required: true, message: "请输入商品名称", trigger: "blur" }
+        ],
         taxRate: [{ required: true, message: "税率为必选项", trigger: "blur" }]
       },
       // 查询条件数据
@@ -453,7 +460,9 @@ export default {
       }, // 编辑单个表单
       editFormRules: {}, // 编辑单个规则
       importFormRules: {
-        customerNo: [{ required: true, message: "请输入商户编号", trigger: "blur" }]
+        customerNo: [
+          { required: true, message: "请输入商户编号", trigger: "blur" }
+        ]
       },
       batchNetForm: {
         // 批量上传

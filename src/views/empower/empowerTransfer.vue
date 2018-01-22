@@ -7,8 +7,8 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="showDialog('allotFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">授权码分配</el-button>
-          <el-button size="small" @click="showDialog('payFormVisible')" type="primary" icon="el-icon-upload">授权码上缴</el-button>
+          <el-button v-if="adminFilter('qr_code_migrate_distribute')" size="small" @click="showDialog('allotFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">授权码分配</el-button>
+          <el-button v-if="adminFilter('qr_code_migrate_recover')" size="small" @click="showDialog('payFormVisible')" type="primary" icon="el-icon-upload">授权码上缴</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -151,6 +151,7 @@ import $ from "jquery";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
+import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getArantNumTransfers, postMigrateNumTransfer } from "@src/apis";
@@ -160,7 +161,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
@@ -179,19 +180,39 @@ export default {
       qrcodesPayVisible: false, //授权码上缴二维码
       allotForm: {},
       allotFormRules: {
-        deviceType: [{ required: true, message: "请选择设备类型", trigger: "blur" }],
-        migrateCount: [{ required: true, message: "请输入转移数量", trigger: "blur" }],
-        migrateType: [{ required: true, message: "请选择分配方式", trigger: "blur" }],
-        price: [{ required: true, message: "请输入二维码编号", trigger: "blur" }],
-        agentNo: [{ required: true, message: "采购单价不能为空", trigger: "blur" }],
-        qrcodes: [{ required: true, message: "二维码编号不能为空", trigger: "blur" }]
+        deviceType: [
+          { required: true, message: "请选择设备类型", trigger: "blur" }
+        ],
+        migrateCount: [
+          { required: true, message: "请输入转移数量", trigger: "blur" }
+        ],
+        migrateType: [
+          { required: true, message: "请选择分配方式", trigger: "blur" }
+        ],
+        price: [
+          { required: true, message: "请输入二维码编号", trigger: "blur" }
+        ],
+        agentNo: [
+          { required: true, message: "采购单价不能为空", trigger: "blur" }
+        ],
+        qrcodes: [
+          { required: true, message: "二维码编号不能为空", trigger: "blur" }
+        ]
       },
       payForm: {},
       payFormRules: {
-        deviceType: [{ required: true, message: "请选择设备类型", trigger: "blur" }],
-        migrateCount: [{ required: true, message: "请输入转移数量", trigger: "blur" }],
-        migrateType: [{ required: true, message: "请选择上交方式", trigger: "blur" }],
-        qrcodes: [{ required: true, message: "请输入二维码编号", trigger: "blur" }]
+        deviceType: [
+          { required: true, message: "请选择设备类型", trigger: "blur" }
+        ],
+        migrateCount: [
+          { required: true, message: "请输入转移数量", trigger: "blur" }
+        ],
+        migrateType: [
+          { required: true, message: "请选择上交方式", trigger: "blur" }
+        ],
+        qrcodes: [
+          { required: true, message: "请输入二维码编号", trigger: "blur" }
+        ]
       },
       searchCondition: searchConditionVar,
       selectOptions: {

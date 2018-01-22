@@ -1,5 +1,5 @@
 <template>
-  <!-- 开票统计 -->
+  <!-- 授权码采购 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -7,8 +7,8 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="showDialog('purchaseFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">采购授权码</el-button>
-          <el-button size="small" @click="showDialog('scangunFormVisible')" type="primary" icon="el-icon-upload">采购扫码枪</el-button>
+          <el-button v-if="adminFilter('qr_code_reciept_add')" size="small" @click="showDialog('purchaseFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">采购授权码</el-button>
+          <el-button v-if="adminFilter('qr_code_reciept_add')" size="small" @click="showDialog('scangunFormVisible')" type="primary" icon="el-icon-upload">采购扫码枪</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -129,6 +129,7 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import {
   getArantNumBuybacks,
@@ -141,7 +142,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
@@ -162,24 +163,36 @@ export default {
         receiptType: "AUTHCODE"
       },
       purchaseFormRules: {
-        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }],
-        isPrint: [{ required: true, message: "请选择是否需要生产水牌", trigger: "blur" }]
+        qrcodeCount: [
+          { required: true, message: "请输入申请数量", trigger: "blur" }
+        ],
+        isPrint: [
+          { required: true, message: "请选择是否需要生产水牌", trigger: "blur" }
+        ]
       },
       scangunForm: {
         // 扫码枪表单
         receiptType: "SCANCODEGUN"
       },
       scangunFormRules: {
-        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }]
+        qrcodeCount: [
+          { required: true, message: "请输入申请数量", trigger: "blur" }
+        ]
       },
       editPayForm: {},
       editPayFormRules: {
-        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }],
-        isPrint: [{ required: true, message: "请选择是否生成水牌", trigger: "blur" }]
+        qrcodeCount: [
+          { required: true, message: "请输入申请数量", trigger: "blur" }
+        ],
+        isPrint: [
+          { required: true, message: "请选择是否生成水牌", trigger: "blur" }
+        ]
       },
       editScangunForm: {},
       editScangunFormRules: {
-        qrcodeCount: [{ required: true, message: "请输入申请数量", trigger: "blur" }]
+        qrcodeCount: [
+          { required: true, message: "请输入申请数量", trigger: "blur" }
+        ]
       },
       searchCondition: searchConditionVar,
       selectOptions: {
@@ -433,6 +446,7 @@ export default {
               text: "编辑",
               visibleFn: rowdata => {
                 if (
+                  this.adminOperationAll.qr_code_reciept_edit == "TRUE" &&
                   (rowdata.status == "AUDITING" ||
                     rowdata.status == "REJECT") &&
                   rowdata.receiptType == "SCANCODEGUN"
@@ -453,6 +467,7 @@ export default {
               text: "编辑",
               visibleFn: rowdata => {
                 if (
+                  this.adminOperationAll.qr_code_reciept_edit == "TRUE" &&
                   (rowdata.status == "AUDITING" ||
                     rowdata.status == "REJECT") &&
                   rowdata.receiptType == "AUTHCODE"
