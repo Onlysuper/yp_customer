@@ -1,5 +1,4 @@
 <template>
-  <!-- 开票统计 -->
   <full-page class="page" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
