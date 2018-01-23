@@ -3,31 +3,22 @@
     <mt-header slot="header" :title="$route.meta.pageTitle">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'goodsSearch'})">搜索</mt-button>
-      <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button>
+      <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-      <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.goodsName">
-
+      <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
         <!-- 常用按钮 -->
-        <div slot="btn" @click="toUrl('EDIT',item.goodsNo)">编辑</div>
-
-        <!-- 状态 -->
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.taxRate | handleTaxRate}}</mt-badge>
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.discountType | handleDiscountType}}</mt-badge>
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.enjoyDiscount | handleEnjoyDiscount}}</mt-badge>
-        <mt-badge v-if="item.defaultType == 'TRUE'" slot="badge" class="g-min-badge" size="small" type="error">{{item.defaultType | handleDefaultType}}</mt-badge>
-
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
-            <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
-            <myp-tr title="商品编号">{{item.goodsNo}}</myp-tr>
-            <myp-tr title="商品单价">{{item.unitPrice || "--"}}/{{item.unit || "--"}}</myp-tr>
-            <myp-tr title="规格型号">{{item.model}}</myp-tr>
+            <!-- <myp-tr title="日期">{{item.dataTime}}</myp-tr> -->
+            <myp-tr title="扫码次数">{{item.scan}}</myp-tr>
+            <myp-tr title="推送次数">{{item.billSuccess}}</myp-tr>
+            <myp-tr title="入网商户">{{item.register}}</myp-tr>
+            <myp-tr title="活跃商户">{{item.active}}</myp-tr>
           </table>
           <!-- 更多操作 -->
-          <div slot="right" @click="operation(item)">更多</div>
         </myp-cell>
 
       </myp-cell-pannel>
@@ -40,7 +31,7 @@
 
 <script>
 import SliderNav from "@src/components-app/SliderNav";
-import { getCustomerGoods } from "@src/apis";
+import { getBillcountagents } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
 export default {
@@ -52,7 +43,7 @@ export default {
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
-      api: getCustomerGoods,
+      api: getBillcountagents,
       sheetVisible: false,
       actions: []
     };

@@ -24,7 +24,8 @@ export default {
       },
       meta: {
         pageTitle: "产品配置",
-        keepAlive: true
+        keepAlive: true,
+        menuCode: "billcountagent"
       }
     },
   ]

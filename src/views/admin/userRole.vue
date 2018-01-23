@@ -269,8 +269,8 @@ export default {
                 getRolesTreeConfig()({
                   roleCode: rowdata.roleCode
                 }).then(data => {
-                  this.zTreeInit($("#roleTree"), data, this.setting);
                   this.configRoleFormVisible = true;
+                  this.zTreeInit($("#roleTree"), data, this.setting);
                 });
               }
             },
