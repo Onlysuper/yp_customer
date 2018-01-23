@@ -13,6 +13,16 @@ mypDirective.install = function (Vue, options) {
         }
     })
 
+    Vue.directive('readonly-ios', {
+        // 当绑定元素插入到 DOM 中。
+        inserted: function (el, fn, fn1) {
+            // 聚焦元素
+            let input = el.querySelector("input");
+            input.onfocus = function () {
+                this.blur();
+            }
+        }
+    })
     Vue.directive('to-click', {
         // 当绑定元素插入到 DOM 中。
         inserted: function (el, fn, fn1) {

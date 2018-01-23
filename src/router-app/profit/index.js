@@ -24,6 +24,7 @@ export default {
       children: [
         //快速开票分润
         {
+          name: "billprofit",
           path: 'index',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/profit/profitBilling")) }, "profit-app")

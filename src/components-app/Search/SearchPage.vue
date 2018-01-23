@@ -1,5 +1,5 @@
 <template>
-  <full-page>
+  <full-page class="page">
     <mt-header slot="header" :title="title+'查询'" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" size="small" type="danger" @click="queryResult">查询</mt-button>
@@ -65,7 +65,7 @@ const MypDate = Vue.extend({
       this.$emit("showDate", this);
     }
   },
-  template: `<div @click="showDate(this)"><mt-field :label="config.title" :readonly=true :placeholder="'请输入'+config.title" v-model="value"></mt-field></div>`
+  template: `<mt-field @click.native="showDate(this)" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请输入'+config.title" v-model="value"></mt-field>`
 });
 const MypChekList = Vue.extend({
   name: "myp-chek-list",

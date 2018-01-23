@@ -30,7 +30,7 @@ axios.interceptors.response.use(function (response) {
     // Indicator.close();
     return response;
 }, function (error) {
-    Toast("请求失败，请检查网络！");
+    Toast("服务器异常！请稍候再试");
 
     return Promise.resolve(error.response);
 })
