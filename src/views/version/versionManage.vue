@@ -58,7 +58,7 @@
             </el-col>
           </el-row>
           <el-form-item label="上传文件" v-if="!isUpdate">
-            <el-upload ref="uploadFile" :data="form" :before-upload="beforeUploadFile" :on-success="uploadFileSuccess" :on-error="uploadFileError" :action="oaIp+'/versionCommand/add'" :auto-upload="false" :limit="1" accept="file" :with-credentials="true">
+            <el-upload ref="uploadFile" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" :data="form" :before-upload="beforeUploadFile" :on-success="uploadFileSuccess" :on-error="uploadFileError" :action="oaIp+'/versionCommand/add'" :auto-upload="false" accept="file">
               <el-button type="primary">选择新版本上传
                 <i class="el-icon-upload el-icon--right"></i>
               </el-button>
@@ -432,11 +432,17 @@ export default {
       });
     },
     beforeUploadFile() {},
-    uploadFileSuccess() {
-      this.$message({
-        type: "success",
-        message: "上传成功!"
-      });
+    uploadFileSuccess(res, file, fileList) {
+      if (res.data == "00") {
+        this.$message({
+          message: "恭喜你，导入成功",
+          type: "success",
+          center: true
+        });
+      } else {
+        this.$message.warning(res.msg);
+      }
+      this.$refs["uploadFile"].clearFiles();
       this.uploadDialogVisible = false;
       this.reloadData();
     },
@@ -456,6 +462,11 @@ export default {
     },
     dialogClosed() {
       this.isUpdate = true;
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前共选择了 ${files.length + fileList.length} 个文件,超出限定个数。`
+      );
     }
   },
   mounted() {}
