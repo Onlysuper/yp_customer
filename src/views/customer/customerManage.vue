@@ -681,13 +681,22 @@ export default {
     saveElectronicOpen() {
       this.$refs.electronicOpenFile.submit();
     },
-    handleBatchTransferSuccess() {
+    handleBatchTransferSuccess(res, file) {
       // 批量转移文件上传成功
       if (res.data == "00") {
         this.batchTransferFormVisible = false;
+      } else if (res.data == "98") {
+        this.$message({
+          message: "新增数据存在失败",
+          type: "warning"
+        });
       } else {
-        this.$message.warning(res.msg);
+        this.$message({
+          message: "上传失败",
+          type: "warning"
+        });
       }
+      this.reloadData();
       this.$message.success("恭喜您！上传成功");
       this.$refs["batchtransferFile"].clearFiles();
     },
@@ -695,19 +704,37 @@ export default {
       // 批量入网文件上传成功
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
+      } else if (res.data == "98") {
+        this.$message({
+          message: "新增数据存在失败",
+          type: "warning"
+        });
       } else {
-        this.$message.warning(res.msg);
+        this.$message({
+          message: "上传失败",
+          type: "warning"
+        });
       }
+      this.reloadData();
       this.$refs["batchnetFile"].clearFiles();
       this.batchNetFormVisible = false;
     },
     // 批量开通电票成功
-    handleElectronicOpenSuccess() {
+    handleElectronicOpenSuccess(res, file) {
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
+      } else if (res.data == "98") {
+        this.$message({
+          message: "新增数据存在失败",
+          type: "warning"
+        });
       } else {
-        this.$message.warning(res.msg);
+        this.$message({
+          message: "上传失败",
+          type: "warning"
+        });
       }
+      this.reloadData();
       this.$refs["electronicOpenFile"].clearFiles();
       this.electronicOpenFormVisible = false;
     },

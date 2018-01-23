@@ -5,6 +5,7 @@
         <i class="icon-news"></i>
       </mt-button>
     </mt-header>
+
     <mt-tab-container class="page-tabbar-container" v-model="selected">
       <mt-tab-container-item id="首页">
         <content-home/>
@@ -16,6 +17,7 @@
         <content-my/>
       </mt-tab-container-item>
     </mt-tab-container>
+
     <mt-tabbar slot="tabar" class="g-b-c tabbar no-absolute" v-model="selected">
       <mt-tab-item id="首页">
         <i slot="icon" class="icon-admin tab-icon-center"></i>首页

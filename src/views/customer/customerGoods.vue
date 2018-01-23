@@ -932,9 +932,18 @@ export default {
           type: "success",
           center: true
         });
+      } else if (res.data == "98") {
+        this.$message({
+          message: "新增数据存在失败",
+          type: "warning"
+        });
       } else {
-        this.$message.warning(res.msg);
+        this.$message({
+          message: "上传失败",
+          type: "warning"
+        });
       }
+      this.reloadData();
       this.$refs["upload"].clearFiles();
       this.importVisible = false;
     },

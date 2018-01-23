@@ -8,7 +8,7 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('qr_code_reciept_add')" size="small" @click="showDialog('purchaseFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">采购授权码</el-button>
-          <el-button v-if="adminFilter('qr_code_reciept_add')" size="small" @click="showDialog('scangunFormVisible')" type="primary" icon="el-icon-upload">采购扫码枪</el-button>
+          <el-button v-if="adminFilter('qr_code_reciept_add')" size="small" @click="showDialog('scangunFormVisible')" type="primary">采购扫码枪</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -47,10 +47,10 @@
     </el-dialog>
     <!-- 授权码采购 end -->
     <!-- 抢购扫码枪  start-->
-    <el-dialog center title="授权码采购" :visible.sync="scangunFormVisible">
+    <el-dialog center title="抢购扫码枪" :visible.sync="scangunFormVisible">
       <el-form size="small" :model="scangunForm" ref="scangunForm" :rules="scangunFormRules">
         <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="scangunForm.qrcodeCount" auto-complete="off"></el-input>
+          <el-input v-model="scangunForm.qrcodeCount" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -507,9 +507,9 @@ export default {
                 type: "success",
                 message: "恭喜您，授权码采购成功!"
               });
-              this.checkFormVisible = false;
-              this.checkFormVisible2 = false;
-              this.reloadData(this.postPage, this.postLimit);
+              // this.checkFormVisible = false;
+              this.purchaseFormVisible = false;
+              this.reloadData();
             } else {
               this.$message({
                 type: "warning",
@@ -534,8 +534,7 @@ export default {
                 type: "success",
                 message: "恭喜您，扫码枪采购成功!"
               });
-              this.checkFormVisible = false;
-              this.checkFormVisible2 = false;
+              this.scangunFormVisible = false;
               this.reloadData(this.postPage, this.postLimit);
             } else {
               this.$message({

@@ -122,8 +122,8 @@ export default {
       receiptNo: "", // 采购单号
       status: "", // 状态
       receiptType: "", //设备类型
-      createTimeStart: "", //开始日期
-      createTimeEnd: "" //结束日期
+      createTimeStart: yesterday, // 开始日期
+      createTimeEnd: todayDate // 结束日期
     };
     return {
       // 授权码
@@ -238,19 +238,42 @@ export default {
           }
         },
         {
-          type: "dateGroup2",
-          label: "选择日期",
-          limit: false, //日期联动
-          limitnum: 7,
+          type: "dateGroup",
+          label: "选择时间",
           show: true, // 普通搜索显示
-          value: [yesterday, todayDate],
-          option1: "createTimeStart",
-          option2: "createTimeEnd",
-          cb: (startTime, endTime) => {
-            this.searchCondition.createTimeStart = startTime;
-            this.searchCondition.createTimeEnd = endTime;
-          }
+          options: [
+            {
+              corresattr: "createTimeStart",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
+            },
+            {
+              corresattr: "createTimeEnd",
+              lable: "结束时间",
+              value: new Date(),
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
+            }
+          ]
         }
+        // {
+        //   type: "dateGroup2",
+        //   label: "选择日期",
+        //   limit: false, //日期联动
+        //   limitnum: 7,
+        //   show: true, // 普通搜索显示
+        //   value: [yesterday, todayDate],
+        //   option1: "createTimeStart",
+        //   option2: "createTimeEnd",
+        //   cb: (startTime, endTime) => {
+        //     this.searchCondition.createTimeStart = startTime;
+        //     this.searchCondition.createTimeEnd = endTime;
+        //   }
+        // }
       ],
 
       // 列表数据

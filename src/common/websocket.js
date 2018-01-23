@@ -22,10 +22,10 @@ const websocket = {
     websocketFn() {
       if ('WebSocket' in window) {
         var hostname = "tm.yeepiao.com/";
-        this.ws = new WebSocket("wss://" + hostname + "/notify");
+        this.ws = new WebSocket("ws://" + hostname + "/notify");
       }
       else {
-        alert('Not support websocket');
+        eachOf.log('Not support websocket');
       }
 
       //连接发生错误的回调方法

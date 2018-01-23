@@ -6,7 +6,7 @@ import login from "./login";
 import home from "./home/home";
 import customer from "./customer";
 import profit from "./profit";
-import agent from "./agent";
+import billmanage from "./billmanage";
 
 Vue.use(Router)
 
@@ -23,8 +23,8 @@ const router = new Router({
 
 const asyncRoutes = [
     customer,
-    profit,
-    agent
+    billmanage,
+    profit
 ]
 
 
@@ -81,6 +81,7 @@ router.beforeEach((to, from, next) => {
             store.dispatch('UserMenulistFetch').then(resmenuList => {
                 if (resmenuList.menuList) {
                     let asyncNewRoutes = filterRouter(resmenuList.menuList, asyncRoutes);
+                    console.log(asyncNewRoutes);
                     asyncNewRoutes.push(home)
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })
