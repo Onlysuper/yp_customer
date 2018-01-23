@@ -21,6 +21,7 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBurialPointManages, getBurialPointTotal } from "@src/apis";
 export default {
@@ -29,7 +30,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -67,20 +68,25 @@ export default {
           type: "dateGroup",
           label: "选择时间",
           show: true, // 普通搜索显示
+          value: "",
           options: [
             {
+              clearable: false,
               corresattr: "createTimeStart",
               label: "开始时间",
               value: yesterday,
               cb: value => {
+                // this.searchOptions[1].options[0].value = value;
                 this.searchCondition.createTimeStart = value;
               }
             },
             {
+              clearable: false,
               corresattr: "createTimeEnd",
               lable: "结束时间",
               value: todayDate,
               cb: value => {
+                // this.searchOptions[1].options[1].value = value;
                 this.searchCondition.createTimeEnd = value;
               }
             }
@@ -303,6 +309,26 @@ export default {
             word: "remark"
           }
         ]
+        // operation: {
+        //   width: "100px",
+        //   options: [
+        //     {
+        //       text: "详情",
+        //       color: "#3685FD",
+        //       visibleFn: rowdata => {
+        //         if (this.adminOperationAll.customer_detail == "TRUE") {
+        //           return true;
+        //         } else {
+        //           return false;
+        //         }
+        //       },
+        //       cb: rowdata => {
+        //         // this.uploadDialogVisible = true;
+        //         // this.form = { ...rowdata };
+        //       }
+        //     }
+        //   ]
+        // }
       }
     };
   },

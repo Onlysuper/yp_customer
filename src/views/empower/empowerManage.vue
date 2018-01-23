@@ -134,7 +134,7 @@
             <a class="link-Label" :href="oaIp+'/static/template/qrcode-batch-bind.xlsx'">下载绑定模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload :with-credentials="true" class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
+            <el-upload :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false" accept="file" drag>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将入网文件拖到此处，或
                 <em>点击上传</em>
@@ -413,7 +413,7 @@ export default {
         deviceType: [
           {
             value: "MATERIEL",
-            label: "物料"
+            label: "二维码水牌/贴牌"
           },
           {
             value: "SCANCODEGUN",
@@ -1157,7 +1157,11 @@ export default {
     },
     batchBindUploadSuccess(res, file) {
       // 文件上传成功
-      this.$message.success("恭喜您！上传成功");
+      if (res.data == "00") {
+        this.$message.success("恭喜您！上传成功");
+      } else {
+        this.$message.warning(res.msg);
+      }
       this.$refs.batchBindFile.clearFiles();
       this.batchBindVisible = false;
     },
@@ -1193,6 +1197,11 @@ export default {
     },
     handlePreview(file) {
       console.log(file);
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前共选择了 ${files.length + fileList.length} 个文件,超出限定个数。`
+      );
     },
     _getQart(value) {
       var qrcodebox = $(this.$refs.qrcodebox.$el)

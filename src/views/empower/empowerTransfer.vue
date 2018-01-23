@@ -73,7 +73,7 @@
     </el-dialog>
     <!-- 授权码分配 end -->
 
-    <!-- 授权码分配  start-->
+    <!-- 授权码上缴  start-->
     <el-dialog center title="授权码上缴" :visible.sync="payFormVisible">
       <el-form size="small" :model="payForm" ref="payForm" :rules="payFormRules">
         <el-row>

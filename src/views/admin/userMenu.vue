@@ -309,6 +309,13 @@ export default {
             {
               text: "编辑",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.menu_function_edit == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 this.editFuncForm = rowdata;
                 this.editFuncForm.menuName = this.functionMenu.menuName;
@@ -317,6 +324,13 @@ export default {
             },
             {
               text: "删除",
+              visibleFn: rowdata => {
+                if (this.adminOperationAll.menu_function_delete == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
                 console.log(rowdata.functionCode);
                 this.$confirm("此操作将永久删除该功能, 是否继续?", "提示", {

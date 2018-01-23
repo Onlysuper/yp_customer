@@ -82,7 +82,7 @@
             <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload :with-credentials="false" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
+            <el-upload :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将入网文件拖到此处，或
                 <em>点击上传</em>
@@ -105,7 +105,7 @@
           <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
         </div>
         <div class="sep-inline">
-          <el-upload :with-credentials="false" ref="batchtransferFile" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
+          <el-upload :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' ref="batchtransferFile" :limit="1" :on-exceed="handleExceed" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将需要转移的文件拖到此处，或
               <em>点击上传</em>
@@ -127,7 +127,7 @@
           <a class="link-Label" :href="oaIp+'/static/template/electronicOpen-2007.xlsx'">下载点票开通模板</a>
         </div>
         <div class="sep-inline">
-          <el-upload :with-credentials="false" ref="electronicOpenFile" :auto-upload="false" :action="oaIp+'/customer/electronicOpen'" class="upload-demo" drag :on-success="handleElectronicOpenSuccess" :before-upload="beforeBatchNetUpload">
+          <el-upload :limit="1" :on-exceed="handleExceed" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' ref="electronicOpenFile" :auto-upload="false" :action="oaIp+'/customer/electronicOpen'" class="upload-demo" drag :on-success="handleElectronicOpenSuccess" :before-upload="beforeBatchNetUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将需要转移的文件拖到此处，或
               <em>点击上传</em>
@@ -323,6 +323,7 @@ export default {
       customerFrom: "" // 入网来源
     };
     return {
+      fileList: [],
       addFormVisible: false, // 新增框
       batchNetFormVisible: false, // 批量入网框
       batchTransferFormVisible: false, // 批量转移模板
@@ -448,7 +449,7 @@ export default {
           options: [
             {
               value: "",
-              label: "请选择"
+              label: "全部"
             },
             {
               value: "插件",
@@ -669,6 +670,7 @@ export default {
     },
     // 批量入网文件保存
     saveBatchNet() {
+      console.log(this.$refs.batchnetFile);
       this.$refs.batchnetFile.submit();
     },
     // 批量转移文件提交
@@ -681,17 +683,32 @@ export default {
     },
     handleBatchTransferSuccess() {
       // 批量转移文件上传成功
+      if (res.data == "00") {
+        this.batchTransferFormVisible = false;
+      } else {
+        this.$message.warning(res.msg);
+      }
       this.$message.success("恭喜您！上传成功");
-      this.batchTransferFormVisible = false;
+      this.$refs["batchtransferFile"].clearFiles();
     },
     handleBatchNetSuccess(res, file) {
       // 批量入网文件上传成功
-      this.$message.success("恭喜您！上传成功");
+      if (res.data == "00") {
+        this.$message.success("恭喜您！上传成功");
+      } else {
+        this.$message.warning(res.msg);
+      }
+      this.$refs["batchnetFile"].clearFiles();
       this.batchNetFormVisible = false;
     },
     // 批量开通电票成功
     handleElectronicOpenSuccess() {
-      this.$message.success("恭喜您！上传成功");
+      if (res.data == "00") {
+        this.$message.success("恭喜您！上传成功");
+      } else {
+        this.$message.warning(res.msg);
+      }
+      this.$refs["electronicOpenFile"].clearFiles();
       this.electronicOpenFormVisible = false;
     },
     editSave(formName) {
@@ -775,9 +792,21 @@ export default {
       // return extension || (extension2 && isLt2M);
       return extension;
     },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
     exportDialog() {
       // 导出
       this.$refs.dataTable.ExportExcel("/customer/export");
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前共选择了 ${files.length +
+          fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
+      );
     }
   },
   computed: {

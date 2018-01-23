@@ -30,9 +30,8 @@ const Layout = {
         userData(state, data) {
             var data = data.data;
             state.userMessage.all = data;
-            console.log(state.userMessage.all);
-            state.userMessage.userBussinessNo = data.userBussinessNo // 登录账号
-            state.userMessage.userType = data.userType // 登录账号
+            // state.userMessage.userBussinessNo = data.userBussinessNo // 登录账号
+            // state.userMessage.userType = data.userType // 登录账号
         },
         clearMenuList(state) { // 清空左侧菜单
             state.menuList = []
@@ -55,7 +54,7 @@ const Layout = {
                         context.commit('modifyData', data);
                         resolve(data.data)
                     } else {
-                        resolve({ msg: "请求超时" })
+                        resolve({})
                     }
                 })
             })

@@ -243,6 +243,7 @@ export default {
   },
   computed: {
     userMsg() {
+      // console.log(this.$store.state.moduleLayour.userMessage);
       return this.$store.state.moduleLayour.userMessage;
     }
   },

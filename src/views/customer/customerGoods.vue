@@ -110,7 +110,7 @@
           <el-input v-model="importForm.customerNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="商品文件" :label-width="formLabelWidth">
-          <el-upload :with-credentials="true" :data="importForm" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
+          <el-upload :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" :data="importForm" :before-upload="beforeUpload" :on-success="uploadSuccess" :on-error="uploadError" :auto-upload="false" ref="upload" class="upload-demo" drag :action="oaIp+'/customerGoods/importGoods'">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或
               <em>点击上传</em>
@@ -925,13 +925,24 @@ export default {
       this.addFormVisible = true;
     },
     // 导入成功
-    uploadSuccess(response, file, fileList) {
-      this.$message({
-        message: "恭喜你，导入成功",
-        type: "success",
-        center: true
-      });
+    uploadSuccess(res, file, fileList) {
+      if (res.data == "00") {
+        this.$message({
+          message: "恭喜你，导入成功",
+          type: "success",
+          center: true
+        });
+      } else {
+        this.$message.warning(res.msg);
+      }
+      this.$refs["upload"].clearFiles();
       this.importVisible = false;
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前共选择了 ${files.length +
+          fileList.length} 个文件,超出限定个数。可删除下方上传列表`
+      );
     },
     // 导入失败
     uploadError(err, file, fileList) {
@@ -941,6 +952,7 @@ export default {
         center: true
       });
       this.importDialog();
+      this.$refs["upload"].clearFiles();
       this.importVisible = false;
     },
     resetForm(formName) {
@@ -953,10 +965,10 @@ export default {
     importSave(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
+          // 确定导入
+          this.$refs.upload.submit();
         }
       });
-      // 确定导入
-      this.$refs.upload.submit();
     },
     beforeUpload(file) {
       // console.log(file);
