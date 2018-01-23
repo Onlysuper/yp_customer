@@ -82,7 +82,7 @@
             <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload :data="testData" :file-list="fileList" :on-preview="handlePreview" :on-remove="handleRemove" :with-credentials="false" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
+            <el-upload :data="testData" :limit="1" :on-exceed="handleExceed" :on-preview="handlePreview" :on-remove="handleRemove" :with-credentials="false" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将入网文件拖到此处，或
                 <em>点击上传</em>
@@ -687,6 +687,7 @@ export default {
     handleBatchTransferSuccess() {
       // 批量转移文件上传成功
       this.$message.success("恭喜您！上传成功");
+      this.$refs["batchtransferFile"].clearFiles();
       this.batchTransferFormVisible = false;
     },
     handleBatchNetSuccess(res, file) {
@@ -789,6 +790,14 @@ export default {
     exportDialog() {
       // 导出
       this.$refs.dataTable.ExportExcel("/customer/export");
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 1 个文件，本次选择了 ${
+          files.length
+        } 个文件，共选择了 ${files.length +
+          fileList.length} 个文件。可删除下方上传列表，再重新选择上传`
+      );
     }
   },
   computed: {
