@@ -24,7 +24,8 @@ export default {
       },
       meta: {
         pageTitle: "产品配置",
-        keepAlive: true
+        keepAlive: true,
+        menuCode: "agent-customer-product"
       }
     },
 
@@ -37,14 +38,14 @@ export default {
 
         //商品管理
         {
-          name: "customerGoods",
           path: 'index',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods")) }, "customer-app")
           },
           meta: {
             pageTitle: "商品管理",
-            keepAlive: true
+            keepAlive: true,
+            menuCode: "customerGoods"
           }
         },
         //商品管理--编辑
@@ -81,7 +82,8 @@ export default {
       },
       meta: {
         pageTitle: "商户产品",
-        keepAlive: true
+        keepAlive: true,
+        menuCode: "customerProduct"
       },
     },
     //商户管理
@@ -93,7 +95,8 @@ export default {
       },
       meta: {
         pageTitle: "商户管理",
-        keepAlive: true
+        keepAlive: true,
+        menuCode: "customerlist"
       },
     },
     //开票配置
@@ -105,7 +108,8 @@ export default {
       },
       meta: {
         pageTitle: "开票配置",
-        keepAlive: true
+        keepAlive: true,
+        menuCode: "customerInvoiceConfig"
       }
     }
   ]

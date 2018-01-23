@@ -24,14 +24,14 @@ export default {
       children: [
         //快速开票分润
         {
-          name: "billprofit",
           path: 'index',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/profit/profitBilling")) }, "profit-app")
           },
           meta: {
             pageTitle: "快速开票分润",
-            keepAlive: true
+            keepAlive: true,
+            menuCode: "billprofit",
           }
         },
         //快速开票分润--搜索
