@@ -82,7 +82,7 @@
             <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload :with-credentials="false" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" accept="file" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
+            <el-upload :data="testData" :file-list="fileList" :on-preview="handlePreview" :on-remove="handleRemove" :with-credentials="false" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">将入网文件拖到此处，或
                 <em>点击上传</em>
@@ -323,6 +323,10 @@ export default {
       customerFrom: "" // 入网来源
     };
     return {
+      testData: {
+        name: "laomeng"
+      },
+      fileList: [],
       addFormVisible: false, // 新增框
       batchNetFormVisible: false, // 批量入网框
       batchTransferFormVisible: false, // 批量转移模板
@@ -448,7 +452,7 @@ export default {
           options: [
             {
               value: "",
-              label: "请选择"
+              label: "全部"
             },
             {
               value: "插件",
@@ -669,6 +673,7 @@ export default {
     },
     // 批量入网文件保存
     saveBatchNet() {
+      console.log(this.$refs.batchnetFile);
       this.$refs.batchnetFile.submit();
     },
     // 批量转移文件提交
@@ -774,6 +779,12 @@ export default {
       // }
       // return extension || (extension2 && isLt2M);
       return extension;
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
     },
     exportDialog() {
       // 导出

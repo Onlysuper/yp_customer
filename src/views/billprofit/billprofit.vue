@@ -138,6 +138,10 @@ export default {
           value: "",
           options: [
             {
+              value: "",
+              label: "全部"
+            },
+            {
               value: "TRUE",
               label: "已结算"
             },
@@ -187,8 +191,32 @@ export default {
           },
           {
             key: "中间人(元)",
-            width: "",
+            width: "100px",
             word: "rebate"
+          },
+          {
+            key: "结算状态",
+            width: "",
+            word: "status",
+            status: true,
+            type: data => {
+              if (data === "TRUE") {
+                return {
+                  text: "已结算",
+                  type: "success"
+                };
+              } else if (data === "FALSE") {
+                return {
+                  text: "未结算",
+                  type: "info"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
+              }
+            }
           }
         ]
       }

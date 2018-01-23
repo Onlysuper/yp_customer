@@ -68,20 +68,25 @@ export default {
           type: "dateGroup",
           label: "选择时间",
           show: true, // 普通搜索显示
+          value: "",
           options: [
             {
+              clearable: false,
               corresattr: "createTimeStart",
               label: "开始时间",
               value: yesterday,
               cb: value => {
+                // this.searchOptions[1].options[0].value = value;
                 this.searchCondition.createTimeStart = value;
               }
             },
             {
+              clearable: false,
               corresattr: "createTimeEnd",
               lable: "结束时间",
               value: todayDate,
               cb: value => {
+                // this.searchOptions[1].options[1].value = value;
                 this.searchCondition.createTimeEnd = value;
               }
             }
