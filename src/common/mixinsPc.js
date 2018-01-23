@@ -30,10 +30,10 @@ const mixinsPc = {
       return this.$store.state.Base.oaIp;
     },
     userBussinessNo() {
-      return this.$store.state.moduleLayour.userMessage.userBussinessNo;
+      return this.$store.state.moduleLayour.userMessage.all.userBussinessNo;
     },
     userType() {
-      return this.$store.state.moduleLayour.userMessage.userType;
+      return this.$store.state.moduleLayour.userMessage.all.userType;
     }
   }
 }
