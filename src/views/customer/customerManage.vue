@@ -696,6 +696,7 @@ export default {
           type: "warning"
         });
       }
+      this.reloadData();
       this.$message.success("恭喜您！上传成功");
       this.$refs["batchtransferFile"].clearFiles();
     },
@@ -714,6 +715,7 @@ export default {
           type: "warning"
         });
       }
+      this.reloadData();
       this.$refs["batchnetFile"].clearFiles();
       this.batchNetFormVisible = false;
     },
@@ -732,6 +734,7 @@ export default {
           type: "warning"
         });
       }
+      this.reloadData();
       this.$refs["electronicOpenFile"].clearFiles();
       this.electronicOpenFormVisible = false;
     },
