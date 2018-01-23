@@ -81,6 +81,7 @@ router.beforeEach((to, from, next) => {
             store.dispatch('UserMenulistFetch').then(resmenuList => {
                 if (resmenuList.menuList) {
                     let asyncNewRoutes = filterRouter(resmenuList.menuList, asyncRoutes);
+                    console.log(asyncNewRoutes);
                     asyncNewRoutes.push(home)
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })

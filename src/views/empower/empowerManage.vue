@@ -412,6 +412,10 @@ export default {
       selectOptions: {
         deviceType: [
           {
+            value: "",
+            label: "全部"
+          },
+          {
             value: "MATERIEL",
             label: "二维码水牌/贴牌"
           },
@@ -479,19 +483,42 @@ export default {
           }
         },
         {
-          type: "dateGroup2",
-          label: "选择日期",
-          limit: false, //日期联动
-          limitnum: 7,
+          type: "dateGroup",
+          label: "选择时间",
           show: true, // 普通搜索显示
-          value: [yesterday, todayDate],
-          option1: "createTimeStart",
-          option2: "createTimeEnd",
-          cb: (startTime, endTime) => {
-            this.searchCondition.createTimeStart = startTime;
-            this.searchCondition.createTimeEnd = endTime;
-          }
+          options: [
+            {
+              corresattr: "createTimeStart",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
+            },
+            {
+              corresattr: "createTimeEnd",
+              lable: "结束时间",
+              value: new Date(),
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
+            }
+          ]
         },
+        // {
+        //   type: "dateGroup2",
+        //   label: "选择日期",
+        //   limit: false, //日期联动
+        //   limitnum: 7,
+        //   show: true, // 普通搜索显示
+        //   value: [yesterday, todayDate],
+        //   option1: "createTimeStart",
+        //   option2: "createTimeEnd",
+        //   cb: (startTime, endTime) => {
+        //     this.searchCondition.createTimeStart = startTime;
+        //     this.searchCondition.createTimeEnd = endTime;
+        //   }
+        // },
         {
           corresattr: "agentNo",
           type: "text", // 表单类型
@@ -555,6 +582,10 @@ export default {
           value: "",
           options: [
             {
+              value: "",
+              label: "全部"
+            },
+            {
               value: "BINDED",
               label: "已绑定"
             },
@@ -579,6 +610,10 @@ export default {
           value: "",
           options: [
             {
+              value: "",
+              label: "全部"
+            },
+            {
               value: "AUTHCODE",
               label: "授权码"
             },
@@ -598,6 +633,10 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
+            {
+              value: "",
+              label: "全部"
+            },
             {
               value: "TRUE",
               label: "有物料"
