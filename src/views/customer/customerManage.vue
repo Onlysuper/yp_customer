@@ -681,7 +681,7 @@ export default {
     saveElectronicOpen() {
       this.$refs.electronicOpenFile.submit();
     },
-    handleBatchTransferSuccess() {
+    handleBatchTransferSuccess(res, file) {
       // 批量转移文件上传成功
       if (res.data == "00") {
         this.batchTransferFormVisible = false;
@@ -720,7 +720,7 @@ export default {
       this.batchNetFormVisible = false;
     },
     // 批量开通电票成功
-    handleElectronicOpenSuccess() {
+    handleElectronicOpenSuccess(res, file) {
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
       } else if (res.data == "98") {
