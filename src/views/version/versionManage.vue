@@ -439,12 +439,20 @@ export default {
           type: "success",
           center: true
         });
+      } else if (res.data == "98") {
+        this.$message({
+          message: "新增数据存在失败",
+          type: "warning"
+        });
       } else {
-        this.$message.warning(res.msg);
+        this.$message({
+          message: "上传失败",
+          type: "warning"
+        });
       }
+      this.reloadData();
       this.$refs["uploadFile"].clearFiles();
       this.uploadDialogVisible = false;
-      this.reloadData();
     },
     uploadFileError(err, file, fileList) {
       this.$message({

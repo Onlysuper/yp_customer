@@ -1170,6 +1170,7 @@ export default {
           type: "warning"
         });
       }
+      this.reloadData();
       this.$refs.batchBindFile.clearFiles();
       this.batchBindVisible = false;
     },

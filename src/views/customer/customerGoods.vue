@@ -943,6 +943,7 @@ export default {
           type: "warning"
         });
       }
+      this.reloadData();
       this.$refs["upload"].clearFiles();
       this.importVisible = false;
     },
