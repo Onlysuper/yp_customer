@@ -6,6 +6,9 @@
         <li>数据实时统计</li>
         <li>功能更加全面</li>
         <li>操作更加便捷</li>
+        <li v-if="downloadPower">
+          <a target="_blank" class="docUrl" :href="docUrl">操作手册下载</a>
+        </li>
       </ul>
     </div>
     <div class="img-box">
@@ -14,22 +17,43 @@
   </div>
 </template>
 <script>
+import { getVersion } from "@src/apis";
 export default {
   name: "pc",
   data() {
     return {
       menuList: "", // 菜单数据
       isrouter: true, // 开启路由
-      isCollapse: false // 菜单收起
+      isCollapse: false, // 菜单收起
+      docUrl: "" // 操作手册下载地址
     };
   },
-  mounted() {},
+  mounted() {
+    this.downloadPower();
+    this.downloadDoc();
+  },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
       console.log(key, keyPath);
+    },
+    downloadPower() {
+      var power = this.$store.state.moduleLayour.userMessage.userAdmin;
+      console.log(this.$store.state.moduleLayour.userMessage);
+      return "root,admin,operator,branchOffice,agent".indexOf(power) >= 0;
+    },
+    downloadDoc() {
+      getVersion()({
+        clientVersion: "",
+        status: "TRUE",
+        type: "MANUAL"
+      }).then(d => {
+        if (d.code === "00" && d.data && d.data.url) {
+          this.docUrl = d.data.url;
+        }
+      });
     }
   }
 };
@@ -61,6 +85,10 @@ export default {
           margin-right: 10px;
           border-radius: 100%;
           background: #00c1df;
+        }
+        .docUrl {
+          color: red;
+          text-decoration: underline;
         }
       }
     }

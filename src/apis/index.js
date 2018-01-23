@@ -221,6 +221,7 @@ const getCustomerVersions = () => { return (params) => { return http.get(base.oa
 **版本管理Start
  */
 const patchVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/update", params) } }
+const getVersion = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/query", params) } }
 const getVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/page", params) } }
 const getOldVersions = () => { return (params) => { return http.get(base.oaIp, "/versionCommand/queryOldClientVersions", params) } }
 const setUsingVersion = () => { return (params) => { return http.post(base.oaIp, "/versionCommand/startUsing", params) } }
@@ -353,6 +354,7 @@ export {
     // 版本控制
     postVersion,
     patchVersion,
+    getVersion,
     getVersions,
     getOldVersions,
     setUsingVersion,
