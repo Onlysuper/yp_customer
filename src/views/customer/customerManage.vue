@@ -105,7 +105,7 @@
           <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
         </div>
         <div class="sep-inline">
-          <el-upload :with-credentials="false" ref="batchtransferFile" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
+          <el-upload :with-credentials="false" ref="batchtransferFile" :limit="1" :on-exceed="handleExceed" :auto-upload="false" :action="oaIp+'/customer/transBatch'" class="upload-demo" drag :on-success="handleBatchTransferSuccess" :before-upload="beforeBatchNetUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将需要转移的文件拖到此处，或
               <em>点击上传</em>
@@ -127,7 +127,7 @@
           <a class="link-Label" :href="oaIp+'/static/template/electronicOpen-2007.xlsx'">下载点票开通模板</a>
         </div>
         <div class="sep-inline">
-          <el-upload :with-credentials="false" ref="electronicOpenFile" :auto-upload="false" :action="oaIp+'/customer/electronicOpen'" class="upload-demo" drag :on-success="handleElectronicOpenSuccess" :before-upload="beforeBatchNetUpload">
+          <el-upload :limit="1" :on-exceed="handleExceed" :with-credentials="false" ref="electronicOpenFile" :auto-upload="false" :action="oaIp+'/customer/electronicOpen'" class="upload-demo" drag :on-success="handleElectronicOpenSuccess" :before-upload="beforeBatchNetUpload">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将需要转移的文件拖到此处，或
               <em>点击上传</em>
@@ -692,11 +692,13 @@ export default {
     },
     handleBatchNetSuccess(res, file) {
       // 批量入网文件上传成功
+      this.$refs["batchnetFile"].clearFiles();
       this.$message.success("恭喜您！上传成功");
       this.batchNetFormVisible = false;
     },
     // 批量开通电票成功
     handleElectronicOpenSuccess() {
+      this.$refs["electronicOpenFile"].clearFiles();
       this.$message.success("恭喜您！上传成功");
       this.electronicOpenFormVisible = false;
     },
@@ -793,10 +795,8 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 1 个文件，本次选择了 ${
-          files.length
-        } 个文件，共选择了 ${files.length +
-          fileList.length} 个文件。可删除下方上传列表，再重新选择上传`
+        `当前共选择了 ${files.length +
+          fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
       );
     }
   },
