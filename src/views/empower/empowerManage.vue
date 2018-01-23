@@ -1159,8 +1159,16 @@ export default {
       // 文件上传成功
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
+      } else if (res.data == "98") {
+        this.$message({
+          message: "新增数据存在失败",
+          type: "warning"
+        });
       } else {
-        this.$message.warning(res.msg);
+        this.$message({
+          message: "上传失败",
+          type: "warning"
+        });
       }
       this.$refs.batchBindFile.clearFiles();
       this.batchBindVisible = false;

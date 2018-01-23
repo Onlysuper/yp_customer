@@ -6,6 +6,7 @@ import login from "./login";
 import home from "./home/home";
 import customer from "./customer";
 import profit from "./profit";
+import billmanage from "./billmanage";
 
 Vue.use(Router)
 
@@ -22,6 +23,7 @@ const router = new Router({
 
 const asyncRoutes = [
     customer,
+    billmanage,
     profit
 ]
 
