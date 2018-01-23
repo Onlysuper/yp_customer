@@ -25,12 +25,12 @@ export default {
       menuList: "", // 菜单数据
       isrouter: true, // 开启路由
       isCollapse: false, // 菜单收起
-      docUrl: "" // 操作手册下载地址
+      docUrl: "", // 操作手册下载地址
+      downloadPower: false
     };
   },
   mounted() {
-    this.downloadPower();
-    this.downloadDoc();
+    this.checkDownloadPower();
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -39,12 +39,15 @@ export default {
     handleClose(key, keyPath) {
       console.log(key, keyPath);
     },
-    downloadPower() {
-      var power = this.$store.state.moduleLayour.userMessage.userAdmin;
-      console.log(this.$store.state.moduleLayour.userMessage);
-      return "root,admin,operator,branchOffice,agent".indexOf(power) >= 0;
+    checkDownloadPower() {
+      var power = this.$store.state.moduleLayour.userMessage.all.userType;
+      var flag = "root,admin,operator,branchOffice,agent".indexOf(power) >= 0;
+      if (flag) {
+        this.downloadDoc();
+      }
     },
     downloadDoc() {
+      this.downloadPower = true;
       getVersion()({
         clientVersion: "",
         status: "TRUE",
