@@ -16,7 +16,7 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate } from "@src/common/dateSerialize";
 import { getMessages } from "@src/apis";
 export default {
   name: "messageRecord",
@@ -30,7 +30,7 @@ export default {
       sendBusinessNo: "", // 发送方
       receiveBusinessNo: "", // 接收方
       status: "", // 消息状态
-      createTimeStart: yesterday, // 开始时间
+      createTimeStart: todayDate, // 开始时间
       createTimeEnd: todayDate // 结束时间
     };
     return {
@@ -64,7 +64,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: yesterday,
+              value: todayDate,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
               }

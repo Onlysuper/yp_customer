@@ -8,10 +8,12 @@ let dateSerialize = nowDate => {
     return todayDate;
 };
 let todayDate = dateSerialize(new Date()); // 初始化默认开始查询日期
-// let yesterday = dateSerialize(new Date() - 24 * 60 * 60 * 1000); // 初始化默认结束查询日期
-let yesterday = dateSerialize(new Date()); // 初始化默认结束查询日期
+let yesterday = dateSerialize(new Date() - 24 * 60 * 60 * 1000); // 初始化默认结束查询日期
+let eightday = dateSerialize(new Date() - 8 * (24 * 60 * 60 * 1000)); // 8天前
+// let yesterday = dateSerialize(new Date()); // 初始化默认结束查询日期
 export {
     dateSerialize,
     todayDate,
-    yesterday
+    yesterday,
+    eightday
 }

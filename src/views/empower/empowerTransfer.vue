@@ -153,7 +153,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate } from "@src/common/dateSerialize";
 import { getArantNumTransfers, postMigrateNumTransfer } from "@src/apis";
 export default {
   name: "billCount",
@@ -282,7 +282,7 @@ export default {
           limit: false, //日期联动
           limitnum: 7,
           show: true, // 普通搜索显示
-          value: [yesterday, todayDate],
+          value: [todayDate, todayDate],
           option1: "createTimeStart",
           option2: "createTimeEnd",
           cb: (startTime, endTime) => {

@@ -72,7 +72,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate } from "@src/common/dateSerialize";
 import {
   getProducts,
   postAddProduct,
@@ -92,7 +92,7 @@ export default {
       customerNo: "", // 商户编号
       taxNo: "", // 企业税号
       enterpriseName: "", // 企业名称
-      createTimeStart: yesterday, // 开始时间
+      createTimeStart: todayDate, // 开始时间
       createTimeEnd: todayDate, // 结束时间
       agentNo: "", // 合伙人编号
       customerFrom: "" // 入网来源

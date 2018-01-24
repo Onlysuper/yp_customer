@@ -83,7 +83,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate } from "@src/common/dateSerialize";
 import {
   patchVersion,
   getVersions,

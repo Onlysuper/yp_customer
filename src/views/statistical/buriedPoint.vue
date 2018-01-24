@@ -22,7 +22,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate } from "@src/common/dateSerialize";
 import { getBurialPointManages, getBurialPointTotal } from "@src/apis";
 export default {
   name: "buriedPoint",
@@ -38,7 +38,7 @@ export default {
       version: "", // 版本号
       actionId: "", // 操作类型
       userId: "", // 授权码
-      createTimeStart: yesterday, // 开始时间
+      createTimeStart: todayDate, // 开始时间
       createTimeEnd: todayDate // 结束时间
     };
     return {
@@ -74,7 +74,7 @@ export default {
               clearable: false,
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: yesterday,
+              value: todayDate,
               cb: value => {
                 // this.searchOptions[1].options[0].value = value;
                 this.searchCondition.createTimeStart = value;

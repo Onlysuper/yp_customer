@@ -45,7 +45,7 @@ export default {
   mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
-      dataTimeBegin: yesterday, // 开始日期
+      dataTimeBegin: todayDate, // 开始日期
       dataTimeEnd: todayDate, // 结束日期
       customerNo: "", // 商户编号
       agentNo: "", // 代理商编号
@@ -88,7 +88,7 @@ export default {
           // value: "",
           option1: "dataTimeBegin",
           option2: "dataTimeEnd",
-          value: [yesterday, todayDate],
+          value: [todayDate, todayDate],
           cb: (startTime, endTime) => {
             this.searchCondition.dataTimeBegin = startTime;
             this.searchCondition.dataTimeEnd = endTime;

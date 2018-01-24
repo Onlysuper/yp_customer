@@ -55,13 +55,13 @@ const mixinDataTable = {
             // 重置查询表单
             this.searchOptions.forEach(element => {
                 if (element.type == "dateGroup") {
-                    element.options[0].value = yesterday;
+                    element.options[0].value = todayDate;
                     element.options[1].value = todayDate;
-                    this.searchCondition[element.options[0].corresattr] = yesterday;
+                    this.searchCondition[element.options[0].corresattr] = todayDate;
                     this.searchCondition[element.options[1].corresattr] = todayDate;
                 } else if (element.type == "dateGroup2") {
-                    element.value = [yesterday, todayDate]
-                    this.searchCondition[element.option1] = yesterday;
+                    element.value = [todayDate, todayDate]
+                    this.searchCondition[element.option1] = todayDate;
                     this.searchCondition[element.option2] = todayDate;
                 } else {
                     element.value = "";

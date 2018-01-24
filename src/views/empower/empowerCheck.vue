@@ -103,7 +103,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate } from "@src/common/dateSerialize";
 import {
   getArantNumExamines,
   putAdoptArantNumExamine,
@@ -122,7 +122,7 @@ export default {
       receiptNo: "", // 采购单号
       status: "", // 状态
       receiptType: "", //设备类型
-      createTimeStart: yesterday, // 开始日期
+      createTimeStart: todayDate, // 开始日期
       createTimeEnd: todayDate // 结束日期
     };
     return {

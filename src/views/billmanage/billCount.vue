@@ -34,7 +34,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
 import { getBillcountagents, getBillcountSum } from "@src/apis";
 export default {
   name: "billCount",
@@ -45,8 +45,8 @@ export default {
   mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
-      dataTimeBegin: yesterday, // 开始日期
-      dataTimeEnd: todayDate, // 结束日期
+      dataTimeBegin: eightday, // 开始日期
+      dataTimeEnd: yesterday, // 结束日期
       agentNo: "", // 合伙人编号
       containChild: "" // 下级
     };
@@ -80,7 +80,7 @@ export default {
             {
               corresattr: "dataTimeBegin",
               label: "开始时间",
-              value: yesterday,
+              value: eightday,
               cb: value => {
                 this.searchCondition.dataTimeBegin = value;
               }
@@ -88,7 +88,7 @@ export default {
             {
               corresattr: "dataTimeEnd",
               lable: "结束时间",
-              value: todayDate,
+              value: yesterday,
               cb: value => {
                 this.searchCondition.dataTimeEnd = value;
               }

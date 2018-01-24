@@ -168,7 +168,7 @@ export default {
       customerNo: "", // 商户编号
       authCode: "", // 授权码
       invoiceType: "", // 开票类型
-      createTimeStart: yesterday, // 开始时间
+      createTimeStart: todayDate, // 开始时间
       createTimeEnd: todayDate, // 结束时间
       status: "" // 状态
     };
