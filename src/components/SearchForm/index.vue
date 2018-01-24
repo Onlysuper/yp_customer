@@ -25,7 +25,7 @@
 
         <!-- 日期组合2 -->
         <div class="dateGroup2" v-if="item.type=='dateGroup2'" label-width="0">
-          <el-date-picker id="dateGroup2" :label="item.label" value-format="yyyy-MM-dd" :picker-options="pickerOptions7" @input="changeDateGroup(item.cb,$event,'nomal',item.limit,item.limitnum,item.type)" :unlink-panels="item.limit?false:true" v-model="item.value" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+          <el-date-picker :editable="false" :clearable="item.clearablee==false?item.clearablee:true" id="dateGroup2" :label="item.label" value-format="yyyy-MM-dd" :picker-options="pickerOptions7" @input="changeDateGroup(item.cb,$event,'nomal',item.limit,item.limitnum,item.type)" :unlink-panels="item.limit?false:true" v-model="item.value" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
           </el-date-picker>
         </div>
 
