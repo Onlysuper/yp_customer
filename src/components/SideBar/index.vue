@@ -2,7 +2,7 @@
   <!-- layout 左侧菜单区域 -->
   <!-- <div> -->
   <iscroll-view class="scroll-view aside-box" ref="iscroll" :options="iscrollOptions">
-    <el-menu class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+    <el-menu show-timeout="50" hide-timeout="50" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
       <div class="logo-box" ref="logoBox">
         <div class="img-box">
           <img :src="require('@src/assets/images/logoSmall.png')" alt="">

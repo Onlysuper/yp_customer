@@ -18,15 +18,33 @@ export default {
     {
       name: "billcountagent",
       path: '/billcountagent',
-      component: r => {
-        loading(true);
-        return require.ensure([], () => { loading(false); return r(require("@src/views-app/billmanage/billCount")) }, "bill-count-agent")
-      },
-      meta: {
-        pageTitle: "产品配置",
-        keepAlive: true,
-        menuCode: "billcountagent"
-      }
+      redirect: "/billcountagent/index",
+      component: App,
+      children: [
+        //开票统计主页面
+        {
+          path: 'index',
+          component: r => {
+            loading(true);
+            return require.ensure([], () => { loading(false); return r(require("@src/views-app/billmanage/billCount")) }, "bill-count-agent")
+          },
+          meta: {
+            pageTitle: "开票统计",
+            keepAlive: true,
+            menuCode: "billcountagent"
+          }
+        },
+        {
+          name: "billCountSearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/billmanage/billCount/search")) }, "bill-count-search")
+          },
+          meta: {
+            pageTitle: "开票统计搜索"
+          }
+        },
+      ]
     },
   ]
 }

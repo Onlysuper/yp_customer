@@ -21,7 +21,7 @@
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 管理员信息弹出框 -->
-    <el-dialog center title="管理员信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="280px">
+    <el-dialog center title="用户信息" :visible.sync="dialogUserVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="280px">
       <div class="detail-content">
         <div class="line-label-box">
           <span class="line-label">名称:</span> {{userMsg.realname}}

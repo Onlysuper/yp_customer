@@ -2,7 +2,7 @@
   <full-page class="page" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'goodsSearch'})">搜索</mt-button>
+      <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billCountSearch'})">搜索</mt-button>
       <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
