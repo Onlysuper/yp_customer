@@ -79,9 +79,12 @@ export default {
             password: data_.password
           }).then(data => {
             this.loading = false;
-            if (data.code === "98") {
-              this.$message("登录失败");
-            } else if (data.code === "00") {
+            if (data.code == "98") {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            } else if (data.code == "00") {
               // 登录成功
               localStorage.setItem("isLogin", "100");
               location.reload();

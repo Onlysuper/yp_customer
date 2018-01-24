@@ -29,6 +29,29 @@ export default {
           this.$store.commit("SEARCH_GOOD", { agentNo: value });
         }
       });
+      //  dataTimeBegin: eightday, // 开始日期
+      // dataTimeEnd: yesterday, // 结束日期
+      this.searchConfig.push({
+        title: "开始日期",
+        type: "myp-date",
+        defaultValue: this.searchQuery.dataTimeBegin,
+        cb: value => {
+          console.log(value);
+          this.$store.commit("PROFITBILLING_SET_SEARCH", {
+            dataTimeBegin: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "结束日期",
+        type: "myp-date",
+        defaultValue: this.searchQuery.dataTimeEnd,
+        cb: value => {
+          this.$store.commit("PROFITBILLING_SET_SEARCH", {
+            dataTimeEnd: value
+          });
+        }
+      });
     });
   },
   methods: {
