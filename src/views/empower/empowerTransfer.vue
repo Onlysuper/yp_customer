@@ -8,7 +8,7 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('qr_code_migrate_distribute')" size="small" @click="showDialog('allotFormVisible')" type="primary" icon="elresetSearchHandle-icon-upload">授权码分配</el-button>
-          <el-button v-if="adminFilter('qr_code_migrate_recover')" size="small" @click="showDialog('payFormVisible')" type="primary" icon="el-icon-upload">授权码上缴</el-button>
+          <el-button v-if="adminFilter('qr_code_migrate_recover')" size="small" @click="showDialog('payFormVisible')" type="primary" icon="">授权码上缴</el-button>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -57,12 +57,17 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="qrNumsVisible" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="allotForm.qrcodeStart" controls-position="right"></el-input-number>
-          -
-          <el-input-number v-model="allotForm.qrcodeEnd" controls-position="right"></el-input-number>
-        </el-form-item>
-        <el-form-item v-if="qrcodesVisible" label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsVisible" label="号段开始" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="allotForm.qrcodeStart" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsVisible" label="号段结束" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="allotForm.qrcodeEnd" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input placeholder="多个二维码请用英文逗号分隔" v-model="allotForm.qrcodes" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -117,12 +122,17 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="qrNumsPayVisible" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="payForm.qrcodeStart" controls-position="right"></el-input-number>
-          -
-          <el-input-number v-model="payForm.qrcodeEnd" controls-position="right"></el-input-number>
-        </el-form-item>
-        <el-form-item v-if="qrcodesPayVisible" label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsPayVisible" label="号段开始" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="payForm.qrcodeStart" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsPayVisible" label="号段结束" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="payForm.qrcodeEnd" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-form-item v-if="qrcodesPayVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input placeholder="多个二维码请用英文逗号分隔" v-model="payForm.qrcodes" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -144,6 +154,9 @@
     line-height: 32px;
     color: #606266;
   }
+}
+.centertext {
+  text-align: center;
 }
 </style>
 <script>
@@ -171,7 +184,7 @@ export default {
       createTimeEnd: "" //结束日期
     };
     return {
-      formLabelWidth: "100px",
+      formLabelWidth: "110px",
       allotFormVisible: false,
       payFormVisible: false,
       qrNumsVisible: false, // 号段
@@ -230,11 +243,11 @@ export default {
         migrateType: [
           {
             value: "ORDER",
-            label: "号段转移"
+            label: "授权码号段转移"
           },
           {
             value: "OUT_ORDER",
-            label: "二维码编号"
+            label: "授权码序列号"
           }
         ]
       },
@@ -441,7 +454,7 @@ export default {
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode: thisForm.migrateMode,
+            migrateMode: "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes,
@@ -475,7 +488,7 @@ export default {
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode: thisForm.migrateMode,
+            migrateMode: "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
