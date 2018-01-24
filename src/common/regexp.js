@@ -1,6 +1,7 @@
 // 税号
 const taxNumVerify = (rule, value, callback) => {
-    var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
+    var reg = /^[A-Z0-9]{15,20}$/;
+    // var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
     if (!reg.test(value)) {
         return callback(new Error("税号有误！"));
     } else {
