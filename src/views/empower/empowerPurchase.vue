@@ -76,7 +76,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="是否需要生产水牌" prop="isPrint" :label-width="formLabelWidth">
-                <el-switch v-model="editPayForm.isPrint" active-value="Y" inactive-value="N" active-text="" inactive-text="">
+                <el-switch v-model="editPayForm.isPrint" active-value="Y" inactive-value="N">
                 </el-switch>
                 <!-- <el-select v-model="editPayForm.isPrint" placeholder="请选择" @change="migrateTypeChange1">
             <el-option v-for="item in selectOptions.isPrint" :key="item.value" :label="item.label" :value="item.value">
@@ -196,16 +196,16 @@ export default {
       },
       searchCondition: searchConditionVar,
       selectOptions: {
-        isPrint: [
-          {
-            value: "Y",
-            label: "是"
-          },
-          {
-            value: "N",
-            label: "否"
-          }
-        ],
+        // isPrint: [
+        //   {
+        //     value: "Y",
+        //     label: "是"
+        //   },
+        //   {
+        //     value: "N",
+        //     label: "否"
+        //   }
+        // ],
         deviceType: [
           {
             value: "AUTHCODE",
@@ -398,15 +398,15 @@ export default {
             word: "isPrint",
             status: true,
             type: (data, row) => {
-              if (data == "N") {
+              if (data == "Y") {
                 return {
                   text: "是",
                   type: "success"
                 };
-              } else if (data == "Y") {
+              } else if (data == "N") {
                 return {
                   text: "否",
-                  type: "success"
+                  type: "info"
                 };
               } else {
                 return {

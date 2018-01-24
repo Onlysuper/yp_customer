@@ -24,7 +24,6 @@
       </myp-cell-pannel>
     </myp-loadmore-api>
 
-    <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </full-page>
 
 </template>
@@ -44,7 +43,6 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getBillcountagents,
-      sheetVisible: false,
       actions: []
     };
   },
@@ -71,7 +69,7 @@ export default {
     this.$refs.MypLoadmoreApi.load();
   },
   methods: {
-    ...mapActions(["deleteGood", "setDefaultGood", "cancelDefaultGood"]),
+    ...mapActions(["cancelDefaultGood"]),
     watchDataList(watchDataList) {
       this.$store.commit("SET_GOODS", watchDataList);
       this.$store.commit("IS_SEARCH_GOOD", false);
@@ -81,38 +79,6 @@ export default {
       this.$router.push({
         path: "./edit/" + goodsNo,
         query: { type: type }
-      });
-    },
-    operation(customer) {
-      this.sheetVisible = true;
-      this._customer = customer;
-      this.actions = [
-        {
-          name: this._customer.defaultType == "TRUE" ? "取消默认" : "设为默认",
-          defaultType: this._customer.defaultType,
-          method: this.setDefault
-        },
-        {
-          name: "删除",
-          method: this.remove
-        }
-      ];
-    },
-    remove() {
-      this.MessageBox.confirm("确定删除吗?").then(action => {
-        if (confirm) this.deleteGood(this._customer);
-      });
-    },
-    setDefault(obj) {
-      this.MessageBox.confirm("确定当前操作吗?").then(action => {
-        if (confirm) {
-          //defaultType = TRUE(执行取消默认) FALSE(执行设置默认)
-          if (obj.defaultType == "TRUE") {
-            this.cancelDefaultGood(this._customer);
-          } else {
-            this.setDefaultGood(this._customer);
-          }
-        }
       });
     }
   },
