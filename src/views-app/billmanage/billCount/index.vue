@@ -47,14 +47,14 @@ export default {
     };
   },
   created() {
-    this.$store.commit("INIT_GOODS_STORE");
+    this.$store.commit("BILLCOUNT_SEARCH_INIT");
   },
   computed: {
     ...mapState({
-      list: state => state.customerGoods.list,
-      searchQuery: state => state.customerGoods.searchQuery,
-      isSearch: state => state.customerGoods.isSearch,
-      isAdd: state => state.customerGoods.isAdd
+      list: state => state.billCount.list,
+      searchQuery: state => state.billCount.searchQuery,
+      isSearch: state => state.billCount.isSearch,
+      isAdd: state => state.billCount.isAdd
     })
   },
   watch: {
@@ -71,15 +71,9 @@ export default {
   methods: {
     ...mapActions(["cancelDefaultGood"]),
     watchDataList(watchDataList) {
-      this.$store.commit("SET_GOODS", watchDataList);
-      this.$store.commit("IS_SEARCH_GOOD", false);
-      this.$store.commit("IS_RELOAD_GOOD", false);
-    },
-    toUrl(type, goodsNo) {
-      this.$router.push({
-        path: "./edit/" + goodsNo,
-        query: { type: type }
-      });
+      this.$store.commit("BILLCOUNT_SEARCH_INIT_list", watchDataList);
+      this.$store.commit("BILLCOUNT_SEARCH", false);
+      this.$store.commit("BILLCOUNT_ADD", false);
     }
   },
   activated() {

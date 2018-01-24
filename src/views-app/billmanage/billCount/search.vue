@@ -27,18 +27,16 @@ export default {
         type: "myp-text",
         defaultValue: this.searchQuery.agentNo,
         cb: value => {
-          this.$store.commit("SEARCH_GOOD", { agentNo: value });
+          this.$store.commit("BILLCOUNT_SEARCH_QUERY", { agentNo: value });
         }
       });
-      //  dataTimeBegin: eightday, // 开始日期
-      // dataTimeEnd: yesterday, // 结束日期
       this.searchConfig.push({
         title: "开始日期",
         type: "myp-date",
         defaultValue: this.searchQuery.dataTimeBegin,
         cb: value => {
           console.log(value);
-          this.$store.commit("PROFITBILLING_SET_SEARCH", {
+          this.$store.commit("BILLCOUNT_SEARCH_QUERY", {
             dataTimeBegin: value
           });
         }
@@ -48,7 +46,7 @@ export default {
         type: "myp-date",
         defaultValue: this.searchQuery.dataTimeEnd,
         cb: value => {
-          this.$store.commit("PROFITBILLING_SET_SEARCH", {
+          this.$store.commit("BILLCOUNT_SEARCH_QUERY", {
             dataTimeEnd: value
           });
         }
@@ -56,8 +54,9 @@ export default {
     });
   },
   methods: {
+    // 点击查询按钮
     searchPanelResult() {
-      this.$store.commit("IS_SEARCH_GOOD", true);
+      this.$store.commit("BILLCOUNT_SEARCH", true);
       this.$router.back();
     }
   }
