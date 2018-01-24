@@ -7,7 +7,7 @@ export default (flag) => {
                 location.reload();
             }
             loading.close();
-        }, 5000);
+        }, 3000);
     }
     // let loading = eleLoading.service({ text: "加载中..." });
     // if (flag) {
