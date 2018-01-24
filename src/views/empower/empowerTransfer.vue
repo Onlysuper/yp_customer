@@ -454,7 +454,10 @@ export default {
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode: "DOWNWARD_MIGRATE",
+            migrateMode:
+              userAll.userType == "admin"
+                ? "OPERATOR_MIGRATE"
+                : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes,
@@ -488,7 +491,10 @@ export default {
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode: "DOWNWARD_MIGRATE",
+            migrateMode:
+              userAll.userType == "admin"
+                ? "OPERATOR_MIGRATE"
+                : "UPWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
