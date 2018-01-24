@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.customerGoods.searchQuery
-      // isSearch: state => state.customerGoods.isSearch
+      searchQuery: state => state.billCount.searchQuery
+      // isSearch: state => state.billCount.isSearch
     })
   },
   mounted() {
