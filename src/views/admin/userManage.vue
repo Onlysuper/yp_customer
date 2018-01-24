@@ -52,11 +52,14 @@
     <!-- 编辑 end -->
     <!-- 配置角色 start -->
     <el-dialog title="修改用户信息" center :visible.sync="configRoleFormVisible" width="500px">
-      <el-tree :data="roleData" ref="roleConfigtree" :props="propsRoleData" lazy show-checkbox>
-      </el-tree>
+      <!-- <el-tree :data="roleData" ref="roleConfigtree" :props="propsRoleData" lazy show-checkbox>
+      </el-tree> -->
+      <div class="zTreeDemoBackground left">
+        <ul id="roleTree" class="ztree"></ul>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="configRoleFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="configRoleSave(roleForm.username)">保 存</el-button>
+        <el-button type="primary" @click="configRoleSave(roleForm)">保 存</el-button>
       </div>
     </el-dialog>
     <!-- 配置角色 end -->
@@ -66,10 +69,12 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-
+@import "../../common/zTree/css/metroStyle/metroStyle.css";
 </style>
 
 <script>
+import $ from "jquery";
+import "@src/common/zTree/js/jquery.ztree.all.min.js";
 import axios from "axios";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
@@ -118,6 +123,27 @@ export default {
       status: "" // 状态
     };
     return {
+      zTreeObj: "",
+      setting: {
+        check: {
+          enable: true
+        },
+        data: {
+          simpleData: {
+            enable: true,
+            idKey: "roleCode",
+            pIdKey: "parentCode",
+            url: "xUrl"
+          },
+          keep: {
+            leaf: false,
+            parent: true
+          },
+          key: {
+            name: "roleName"
+          }
+        }
+      },
       addFormVisible: false, // 新增框
       editFormVisible: false, // 编辑框
       configRoleFormVisible: false, // 配置角色框
@@ -276,11 +302,22 @@ export default {
               },
               cb: rowdata => {
                 this.roleForm = rowdata;
-                getRolesTree()({ username: rowdata.username }).then(data => {
-                  this.roleData = data;
+                this.configRoleFormVisible = true;
+                this.$nextTick(() => {
+                  if (this.zTreeObj != null) {
+                    $.fn.zTree.destroy("roleTree");
+                    this.zTreeObj = null;
+                  }
+                  getRolesTree()({ username: rowdata.username }).then(data => {
+                    this.$nextTick(() => {
+                      this._roleTree(data);
+                    });
+                  });
                 });
 
-                this.configRoleFormVisible = true;
+                // getRolesTree()({ username: rowdata.username }).then(data => {
+                //   this.roleData = data;
+                // });
               }
             },
             {
@@ -331,6 +368,17 @@ export default {
   },
 
   methods: {
+    _roleTree(data) {
+      this.zTreeInit($("#roleTree"), data, this.setting);
+    },
+    zTreeInit(element, zNodes, setting) {
+      this.zTreeObj = $.fn.zTree.init(element, setting, zNodes);
+      this.zTreeObj.expandAll(true);
+    },
+    zTreeOnClick(event, treeId, treeNode) {
+      this.zTreeObj.expandNode(treeNode, null, null, null);
+      return false;
+    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
@@ -356,7 +404,7 @@ export default {
               });
             } else {
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });
@@ -393,7 +441,7 @@ export default {
               });
             } else {
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });
@@ -403,19 +451,88 @@ export default {
         }
       });
     },
-    configRoleSave(username) {
+    configRoleSave(roleForm) {
       // 配置角色保存
-      let checkRole = this.$refs.roleConfigtree.getCheckedNodes();
-      let roleCodes = checkRole.map((item, index, input) => {
-        return item.roleCode;
-      });
+      let roleCode = roleForm.roleCode;
+      let nodes = this.zTreeObj.getChangeCheckedNodes();
+      if (nodes.length == 0) {
+        this.$message({
+          message: "请勾选或取消菜单权限",
+          type: "warning",
+          center: true
+        });
+        return false;
+      }
+      let addRoleCodes = "";
+      let deleteRoleCodes = "";
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i][this.zTreeObj.setting.data.key.checked] == true) {
+          addRoleCodes += nodes[i].roleCode + ",";
+        } else {
+          deleteRoleCodes += nodes[i].roleCode + ",";
+        }
+      }
       patchConfigRole()({
-        username: username,
-        addRoleCodes: roleCodes.toString(),
-        deleteRoleCodes: ""
+        username: roleForm.username,
+        addRoleCodes: addRoleCodes,
+        deleteRoleCodes: deleteRoleCodes
       }).then(data => {
-        console.log(data);
+        if (data.code == "00") {
+          this.$message({
+            message: "恭喜你，角色配置成功",
+            type: "success",
+            center: true
+          });
+          this.configRoleFormVisible = false;
+          this.reloadData();
+        } else {
+          this.$message({
+            message: data.msg,
+            type: "warning",
+            center: true
+          });
+        }
+        if (data.code == "00") {
+          this.$message({
+            message: "恭喜你，角色配置成功",
+            type: "success",
+            center: true
+          });
+          this.configRoleFormVisible = false;
+          this.reloadData();
+        } else {
+          this.$message({
+            message: data.msg,
+            type: "warning",
+            center: true
+          });
+        }
       });
+      // let checkRole = this.$refs.roleConfigtree.getCheckedNodes();
+      // let roleCodes = checkRole.map((item, index, input) => {
+      //   return item.roleCode;
+      // });
+      // patchConfigRole()({
+      //   username: username,
+      //   addRoleCodes: roleCodes.toString(),
+      //   deleteRoleCodes: ""
+      // }).then(data => {
+      //   if (data.code == "00") {
+      //     this.$message({
+      //       message: "恭喜你，角色配置成功",
+      //       type: "success",
+      //       center: true
+      //     });
+      //     this.configRoleFormVisible = false;
+      //     this.reloadData();
+      //   } else {
+      //     this.$message({
+      //       message: data.msg,
+      //       type: "warning",
+      //       center: true
+      //     });
+      //   }
+      // });
     }
   },
   computed: {},

@@ -45,8 +45,7 @@
     </el-dialog>
     <!-- 编辑 end -->
     <!-- 配置权限 start -->
-    <el-dialog title="修改角色信息" center :visible.sync="configRoleFormVisible" width="500px">
-      <!-- <el-tree ref="roletree" :data="roleDatas" :props="propsRoleData" :check-strictly="checkStrictly" node-key="id" show-checkbox :default-checked-keys="roleDatasCheck" @check-change="roleChangeHandle" default-expand-all></el-tree> -->
+    <el-dialog ref="roleTreebox" title="修改角色信息" center :visible.sync="configRoleFormVisible" width="500px">
       <div class="zTreeDemoBackground left">
         <ul id="roleTree" class="ztree"></ul>
       </div>
@@ -262,15 +261,19 @@ export default {
               },
               cb: rowdata => {
                 this.roleForm = rowdata;
-                if (this.zTreeObj != null) {
-                  $.fn.zTree.destroy("roleTree");
-                  this.zTreeObj = null;
-                }
-                getRolesTreeConfig()({
-                  roleCode: rowdata.roleCode
-                }).then(data => {
-                  this.configRoleFormVisible = true;
-                  this.zTreeInit($("#roleTree"), data, this.setting);
+                this.configRoleFormVisible = true;
+                this.$nextTick(() => {
+                  if (this.zTreeObj != null) {
+                    $.fn.zTree.destroy("roleTree");
+                    this.zTreeObj = null;
+                  }
+                  getRolesTreeConfig()({
+                    roleCode: rowdata.roleCode
+                  }).then(data => {
+                    this.$nextTick(() => {
+                      this._roleTree(data);
+                    });
+                  });
                 });
               }
             },
@@ -316,6 +319,9 @@ export default {
   },
 
   methods: {
+    _roleTree(data) {
+      this.zTreeInit($("#roleTree"), data, this.setting);
+    },
     zTreeInit(element, zNodes, setting) {
       this.zTreeObj = $.fn.zTree.init(element, setting, zNodes);
       this.zTreeObj.expandAll(true);
@@ -482,7 +488,12 @@ export default {
     }
   },
   computed: {},
-  mounted() {}
+  mounted() {
+    this.$nextTick(() => {
+      // var roleTree = this.$refs;
+      // console.log(roleTree);
+    });
+  }
 };
 </script>
 
