@@ -144,6 +144,10 @@
   width: 0.5rem;
   background-color: #f5f5f5;
 }
+.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar:horizontal {
+  height: 0.5rem;
+  background-color: #f5f5f5;
+}
 /*定义滚动条的轨道，内阴影及圆角*/
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-track {
   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
@@ -158,9 +162,6 @@
 }
 </style>
 <script>
-// import IScrollView from "vue-iscroll-view";
-// import IScroll from "iscroll";
-// Vue.use(IScrollView, IScroll);
 import $ from "jquery";
 import qs from "qs";
 import Vue from "vue";
