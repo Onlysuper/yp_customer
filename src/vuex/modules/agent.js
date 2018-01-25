@@ -1,5 +1,5 @@
 
-import { getBillprofitSum } from "@src/apis";
+import { postEditAgentManage, postAddAgentManage, } from "@src/apis";
 import { Toast } from "mint-ui";
 
 import utils from "@src/common/utils";
@@ -37,21 +37,44 @@ export default {
     ["AGENT_IS_SEARCH"](state, flag) {
       state.isSearch = flag;
     },
+    //修改操作
+    ["AGENT_UP_DATA"](state, newAgent) {
+      state.list = state.list.map(item => {
+        if (item.agentNo == newAgent.agentNo)
+          return newAgent;
+        else
+          return item;
+      })
+    }
   },
   actions: {
     //查找合伙人信息
-    findAgentInfo({ commit, dispatch, getters, rootGetters, rootState, state }, goodsNo) {
-      return state.list.find(item => item.goodsNo == goodsNo);
+    findAgentInfo({ commit, dispatch, getters, rootGetters, rootState, state }, agentNo) {
+      return state.list.find(item => item.agentNo == agentNo);
     },
 
     //添加合伙人
-    addAgent({ commit, dispatch, getters, rootGetters, rootState, state }) {
-
+    addAgent({ commit, dispatch, getters, rootGetters, rootState, state }, agent) {
+      return postAddAgentManage()(agent).then(data => {
+        if (data.code == "00") {
+          return true;
+        } else {
+          Toast(data.msg);
+        }
+      })
     },
 
     //编辑合伙人
-    editAgent({ commit, dispatch, getters, rootGetters, rootState, state }) {
-
+    editAgent({ commit, dispatch, getters, rootGetters, rootState, state }, newAgent) {
+      return postEditAgentManage()(newAgent).then(data => {
+        if (data.code == "00") {
+          Toast("修改成功");
+          commit("AGENT_UP_DATA", newAgent);
+          return true;
+        } else {
+          Toast(data.msg);
+        }
+      })
     },
   }
 };

@@ -150,6 +150,9 @@ import ViewRadius from "@src/components-app/ViewRadius";
 Vue.component(ViewRadius.name, ViewRadius);
 import MypTr from "@src/components-app/MypTr";
 Vue.component(MypTr.name, MypTr);
+import SliderNav from "@src/components-app/SliderNav";
+Vue.component(SliderNav.name, SliderNav);
+
 
 if (isMobile) {
   document.body.style.height = document.documentElement.clientHeight + "px";

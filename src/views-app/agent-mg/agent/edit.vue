@@ -4,89 +4,73 @@
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
-    <view-radius>
-      <input-wrapper>
-        <mt-field type="text" label="合伙人名称" placeholder="请输入合伙人名称" v-model="good.customerNo"></mt-field>
-        <mt-field type="text" label="合伙人编号" placeholder="请输入合伙人编号" v-model="good.goodsName"></mt-field>
-        <mt-field type="tel" label="手机号" placeholder="请输入手机号" v-model="good.model"></mt-field>
-        <mt-field type="text" label="经营区域" placeholder="请选择地区" v-model="good.unit"></mt-field>
-        <mt-field type="text" label="回调地址" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
-      </input-wrapper>
-    </view-radius>
+    <input-wrapper>
+      <mt-field type="text" label="合伙人名称" v-model="agent.agentName" :disabled="true" placeholder="请输入合伙人名称"></mt-field>
+      <mt-field type="text" label="合伙人编号" v-model="agent.agentNo" :disabled="true" placeholder="请输入合伙人编号"></mt-field>
+      <mt-field type="tel" label="手机号" v-model="agent.phoneNo" :disabled="true" placeholder="请输入手机号"></mt-field>
+      <mt-field type="text" label="经营区域" v-model="city.resultAddr" @click.native="cityVisible = true" v-readonly-ios :readonly="true" placeholder="请选择地区">
+        <i class="icon-admin"></i>
+      </mt-field>
+      <mt-field type="textarea" label="回调地址" v-model="agent.redirectUrl" placeholder="请输入内容"></mt-field>
+    </input-wrapper>
+    <city-picher ref="CityPicher" v-model="cityVisible" :resultCallback="resultCallback"></city-picher>
   </full-page>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
-
+import CityPicher from "@src/components-app/CityPicher";
 export default {
-  components: {},
+  components: { CityPicher },
   data() {
     return {
       btnDisabled: false,
-      good: {
-        unionNo: "3070401000000000000",
-        taxRate: "0",
-        enjoyDiscount: "0",
-        discountType: "10"
-      },
-      goodsNo: this.$route.params["goodsNo"]
+      cityVisible: false,
+      agent: {},
+      city: {},
+      agentNo: this.$route.params["agentNo"]
     };
   },
   created() {
-    this.getGood(this.goodsNo).then(good => {
-      this.good = Object.assign(this.good, good);
+    this.findAgentInfo(this.agentNo).then(agent => {
+      this.agent = { ...this.agent, ...agent };
+      //回显地区
+      this.resultCallback(this.$refs.CityPicher.findCity(this.agent.orgCode));
     });
   },
   methods: {
-    ...mapActions(["getGood", "updataGood", "addGood"]),
+    ...mapActions(["findAgentInfo", "editAgent"]),
 
+    //地区选择回调函数
+    resultCallback(obj) {
+      this.city = obj;
+    },
+
+    //处理地区编码
+    handleCityCode(orgCode) {
+      let cityCode = {};
+      cityCode["province"] = orgCode.slice(0, 2) + "0000";
+      cityCode["city"] = orgCode.slice(0, 4) + "00";
+      cityCode["orgCode"] = orgCode;
+      return cityCode;
+    },
+
+    //提交表单
     save() {
-      if (!this.validator.isEmpty(this.good.customerNo)) {
-        this.MessageBox.alert("商户编号不能为空");
-        return;
-      }
-      if (!this.validator.isEmpty(this.good.unionNo)) {
-        this.MessageBox.alert("请选择商品");
-        return;
-      }
-      if (!this.validator.isEmpty(this.good.goodsName)) {
-        this.MessageBox.alert("商品名称不能为空！");
-        return;
-      }
-      if (!this.validator.isEmpty(this.good.model)) {
-        this.MessageBox.alert("规格型号不能为空！");
-        return;
-      }
-      if (!this.validator.isEmpty(this.good.unit)) {
-        this.MessageBox.alert("单位不能为空！");
-        return;
-      }
-      if (!this.validator.isEmpty(this.good.unitPrice)) {
-        this.MessageBox.alert("含税单价不能为空！");
-        return;
-      }
-      if (
-        !this.validator.isEmpty(this.good.taxRate) &&
-        this.good.taxRate != "0"
-      ) {
-        this.MessageBox.alert("请选择税率！");
-        return;
-      }
-      if (!this.validator.isEmpty(this.good.enjoyDiscount)) {
-        this.MessageBox.alert("请选择享受优惠！");
-        return;
-      }
-      if (!this.validator.isEmpty(this.good.discountType)) {
-        this.MessageBox.alert("请选择优惠类型！");
+      if (!this.validator.isEmpty(this.city.resultAddr)) {
+        this.MessageBox.alert("请选择经营地区！");
         return;
       }
 
+      let newAgent = {
+        ...this.agent,
+        ...this.handleCityCode(this.city.resultCode)
+      };
+      // return;
       this.btnDisabled = true;
-      this.addGood(this.good).then(flag => {
+      this.editAgent(newAgent).then(flag => {
         this.btnDisabled = false;
         if (flag) {
-          this.$store.commit("IS_RELOAD_GOOD", true);
           this.$router.back();
         }
       });

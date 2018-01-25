@@ -1,5 +1,5 @@
 <template>
-  <full-page-popup v-model="popupVisible" class="search-bank-branch-page" title="支行搜索">
+  <full-page-popup v-model="popupVisible" position="bottom" class="search-bank-branch-page" title="支行搜索">
     <div class="bank-list" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
       <ul class="scroll-wrapper" v-infinite-scroll="loadMore" :infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
         <li class="item" @click="confirm(item)" v-for="(item,index) in bankList" :key="index">
@@ -17,7 +17,7 @@
 </template>
 
 <style lang="scss">
-@import '../../assets/scss/base.scss';
+@import "../../assets/scss/base.scss";
 .search-bank-branch-page {
   width: 100%;
   height: 100%;
@@ -46,18 +46,18 @@
 </style>
 
 <script>
-import Vue from "vue";
 import { InfiniteScroll, Toast } from "mint-ui";
-import FullPage from "@src/containers/FullPage";
-import { branchbankQuery } from "@src/apis";
-
-Vue.use(InfiniteScroll);
+import FullPagePopup from "../FullPagePopup";
 export default {
-  components: { FullPage },
+  components: { FullPagePopup },
   props: {
     value: {
       type: Boolean,
       default: false
+    },
+    api: {
+      type: Function,
+      default: () => {}
     },
     queryKey: {
       type: Object,
@@ -106,9 +106,9 @@ export default {
       if (this.disabled || this.loading || !this.popupVisible) return;
       this.loading = true;
       setTimeout(() => {
-        branchbankQuery()(this.query).then(data => {
+        this.api()(this.query).then(data => {
           this.loading = false;
-          if (data.resultCode === "0") {
+          if (data.code === "00") {
             this.bankList = this.bankList.concat(data.data);
             this.query.page = this.query.page + 1;
             this.isAllLoad(data.data);

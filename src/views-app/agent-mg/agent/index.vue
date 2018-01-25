@@ -29,13 +29,11 @@
 </template>
 
 <script>
-import SliderNav from "@src/components-app/SliderNav";
 import { scrollBehavior } from "@src/common/mixins";
 import { getAgentManages } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 export default {
   mixins: [scrollBehavior],
-  components: { SliderNav },
   data() {
     return {
       munes: this.$store.state.moduleLayour.menuList[

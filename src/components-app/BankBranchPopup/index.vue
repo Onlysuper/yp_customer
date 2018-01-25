@@ -1,30 +1,27 @@
 <template>
-  <full-page-popup v-model="popupVisible" class="bank-branch-page" title="选择支行">
+  <full-page-popup v-model="popupVisible" position="bottom" class="bank-branch-page" title="选择支行">
     <div class="pading">
       <view-radius>
         <input-wrapper>
-          <mt-field :value="bankName.value" label="开户银行" type="text" state="" :readonly="true" placeholder=""></mt-field>
+          <mt-field :value="bank.value" label="开户银行" type="text" state="" :readonly="true" placeholder=""></mt-field>
         </input-wrapper>
         <input-wrapper>
-          <div @click="openCity">
-            <mt-field :value="bankAddr.resultAddr" label="开户地区" type="text" state="" :readonly="true" placeholder="">
-              <i class="mintui-arrow_down"></i>
-            </mt-field>
-          </div>
-        </input-wrapper>
-        <input-wrapper>
-          <mt-field v-model="keyVal" label="关键字" type="text" state="" :readonly="false" placeholder="">
+          <mt-field :value="bankAddr.resultAddr" @click.native="cityVisible = true" label="开户地区" type="text" state="" v-readonly-ios :readonly="true" placeholder="">
+            <i class="mintui-arrow_down"></i>
           </mt-field>
         </input-wrapper>
+        <!-- <input-wrapper>
+          <mt-field v-model="keyVal" label="关键字" type="text" state="" :readonly="false" placeholder=""></mt-field>
+        </input-wrapper> -->
       </view-radius>
-      <div class="btn">
-        <mt-button size="large" type="danger" :disabled="queryBankDisabled" @click="queryBank">查询</mt-button>
-      </div>
+      <br>
+      <mt-button size="large" type="danger" :disabled="queryBankDisabled" @click="queryBank">查询</mt-button>
+      <city-picher ref="CityPicher" v-model="cityVisible" :resultCallback="resultCallback"></city-picher>
     </div>
   </full-page-popup>
 </template>
 <style lang="scss">
-@import '../../assets/scss/base.scss';
+@import "../../assets/scss/base.scss";
 .bank-branch-page {
   width: 100%;
   height: 100%;
@@ -35,13 +32,14 @@
 }
 </style>
 <script>
-import PubSub from "pubsub-js";
-import FullPage from "@src/containers/FullPage";
-import InputWrapper from "@src/containers/InputWrapper";
-import ViewRadius from "@src/containers/ViewRadius";
+import CityPicher from "../CityPicher";
+import FullPagePopup from "../FullPagePopup";
+import InputWrapper from "../InputWrapper";
+import ViewRadius from "../ViewRadius";
 export default {
   components: {
-    FullPage,
+    CityPicher,
+    FullPagePopup,
     InputWrapper,
     ViewRadius
   },
@@ -50,7 +48,7 @@ export default {
       type: Boolean,
       default: false
     },
-    bankName: {
+    bank: {
       type: Object,
       default: {}
     }
@@ -58,6 +56,7 @@ export default {
   data() {
     return {
       popupVisible: false,
+      cityVisible: false,
       bankAddr: {
         resultAddr: "",
         resultCode: ""
@@ -85,16 +84,14 @@ export default {
     }
   },
   methods: {
-    openCity() {
-      PubSub.publish("OPEN_CITY", data => {
-        this.bankAddr = data;
-      });
+    resultCallback(city) {
+      this.bankAddr = city;
     },
     queryBank() {
       this.query = {
-        bankCode: this.bankName.key, //		是	银行编号
-        branchName: this.keyVal, //		是	支行名称(模糊查询)
-        district: this.bankAddr.resultCode //		是	区县编码
+        bankCode: this.bank.key, //		是	银行编号
+        orgCode: this.bankAddr.resultCode, //		是	区县编码
+        key: this.keyVal //		是	支行名称(模糊查询)
       };
       this.$emit("bankbranchresult", this.query);
     }
