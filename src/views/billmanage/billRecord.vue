@@ -324,11 +324,7 @@ export default {
             width: "100px",
             word: "bussinessName"
           },
-          {
-            key: "企业名称",
-            width: "100px",
-            word: "enterpriseName"
-          },
+
           {
             key: "开票类型",
             width: "100px",
@@ -401,6 +397,11 @@ export default {
                 };
               }
             }
+          },
+          {
+            key: "购票方企业名称",
+            width: "180px",
+            word: "enterpriseName"
           },
           { key: "税号", word: "taxNo", width: "" }
         ],

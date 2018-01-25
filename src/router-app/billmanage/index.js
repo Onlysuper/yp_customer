@@ -78,5 +78,69 @@ export default {
         },
       ]
     },
+    //日开票详情
+    {
+      name: "billcount_day",
+      path: '/billcount_day',
+      redirect: "/billcount_day/index",
+      component: App,
+      children: [
+        //日开票详情主页面
+        {
+          path: 'index',
+          component: r => {
+            loading(true);
+            return require.ensure([], () => { loading(false); return r(require("@src/views-app/billmanage/billDay")) }, "bill-day")
+          },
+          meta: {
+            pageTitle: "日开票详情",
+            keepAlive: true,
+            menuCode: "billcount_day"
+          }
+        },
+        {
+          name: "billDaySearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/billmanage/billDay/search")) }, "bill-day-search")
+          },
+          meta: {
+            pageTitle: "开票记录搜索"
+          }
+        },
+      ]
+    },
+    //达标详情
+    {
+      name: "billcountcustomer",
+      path: '/billcountcustomer',
+      redirect: "/billcountcustomer/index",
+      component: App,
+      children: [
+        //日开票详情主页面
+        {
+          path: 'index',
+          component: r => {
+            loading(true);
+            return require.ensure([], () => { loading(false); return r(require("@src/views-app/billmanage/billStandard")) }, "bill-standard")
+          },
+          meta: {
+            pageTitle: "达标详情",
+            keepAlive: true,
+            menuCode: "billcountcustomer"
+          }
+        },
+        {
+          name: "billStandardSearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/billmanage/billStandard/search")) }, "bill-standard-search")
+          },
+          meta: {
+            pageTitle: "达标详情搜索"
+          }
+        },
+      ]
+    }
   ]
 }
