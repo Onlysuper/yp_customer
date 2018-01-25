@@ -42,8 +42,6 @@ export default {
     },
     //合计
     ["BILLCOUNT_SUM"](state, data) {
-      console.log('111111111')
-      console.log(data);
       state.sumData = data;
     },
   },
