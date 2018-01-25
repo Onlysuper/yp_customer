@@ -9,6 +9,12 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
+          <!-- 状态 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerCheckStatus}}</mt-badge>
+          <!-- 生产水牌 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
+          <!-- 设备类型 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->
@@ -19,9 +25,6 @@
               <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
               <myp-tr title="数量">{{item.qrcodeCount}}</myp-tr>
               <myp-tr title="单价">{{item.price}}</myp-tr>
-              <myp-tr title="状态">{{item.status}}</myp-tr>
-              <myp-tr title="设备类型">{{item.receiptType}}</myp-tr>
-              <myp-tr title="是否生产水牌">{{item.isPrint}}</myp-tr>
               <myp-tr title="单价">{{item.price}}</myp-tr>
             </table>
             <!-- 更多操作 -->

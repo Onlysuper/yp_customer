@@ -33,6 +33,27 @@ export default {
         }
       });
       this.searchConfig.push({
+        title: "开始日期",
+        type: "myp-date",
+        defaultValue: this.searchQuery.createTimeStart,
+        cb: value => {
+          console.log(value);
+          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
+            createTimeStart: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "结束日期",
+        type: "myp-date",
+        defaultValue: this.searchQuery.createTimeEnd,
+        cb: value => {
+          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
+            createTimeEnd: value
+          });
+        }
+      });
+      this.searchConfig.push({
         title: "状态",
         type: "myp-radio-list",
         defaultValue: this.searchQuery.status,
@@ -81,27 +102,6 @@ export default {
         cb: value => {
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
             receiptType: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "开始日期",
-        type: "myp-date",
-        defaultValue: this.searchQuery.createTimeStart,
-        cb: value => {
-          console.log(value);
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
-            createTimeStart: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "结束日期",
-        type: "myp-date",
-        defaultValue: this.searchQuery.createTimeEnd,
-        cb: value => {
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
-            createTimeEnd: value
           });
         }
       });
