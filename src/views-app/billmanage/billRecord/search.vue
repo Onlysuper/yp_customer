@@ -59,6 +59,74 @@ export default {
           });
         }
       });
+      this.searchConfig.push({
+        title: "开票类型",
+        type: "myp-radio-list",
+        defaultValue: this.searchQuery.billType,
+        options: [
+          {
+            label: "全部",
+            value: ""
+          },
+          {
+            label: "普票",
+            value: "1"
+          },
+          {
+            label: "专票",
+            value: "2"
+          },
+          {
+            label: "电票",
+            value: "3"
+          }
+        ],
+        cb: value => {
+          this.$store.commit("BILLRECORD_SEARCH_QUERY", {
+            billType: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "状态",
+        type: "myp-radio-list",
+        defaultValue: this.searchQuery.status,
+        options: [
+          {
+            label: "全部",
+            value: ""
+          },
+          {
+            label: "推送成功",
+            value: "SUCCESS"
+          },
+          {
+            label: "开票成功",
+            value: "BILLING_SUCCESS"
+          },
+          {
+            label: "开票中",
+            value: "BILLING3"
+          },
+          {
+            label: "待开票",
+            value: "ORDER"
+          },
+          {
+            label: "失败",
+            value: "BILLING_FAIL"
+          },
+          {
+            label: "查询失败",
+            value: "QUERY_FAIL"
+          }
+        ],
+        cb: value => {
+          this.$store.commit("BILLRECORD_SEARCH_QUERY", {
+            status: value
+          });
+        }
+      });
     });
   },
   methods: {

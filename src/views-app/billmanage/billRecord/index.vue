@@ -8,7 +8,7 @@
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-      {{list}}
+
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
         <!-- 常用按钮 -->
         <myp-cell class="list-item">
@@ -75,7 +75,7 @@ export default {
   methods: {
     // ...mapActions(["cancelDefaultGood"]),
     watchDataList(watchDataList) {
-      this.$store.commit("BILLRECORD_SEARCH_INIT", watchDataList);
+      this.$store.commit("BILLRECORD_SEARCH_LIST", watchDataList);
       this.$store.commit("BILLRECORD_SEARCH", false);
       this.$store.commit("BILLRECORD_ADD", false);
     }

@@ -19,7 +19,7 @@ export default {
       console.info("开票记录数据加载完成");
     },
     //设置商品列表
-    ["BILLRECORD_SEARCH_INIT_list"](state, datas) {
+    ["BILLRECORD_SEARCH_LIST"](state, datas) {
       state.list = datas || [];
     },
     //设置搜索条件

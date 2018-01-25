@@ -239,7 +239,7 @@ export default {
           options: [
             {
               value: "",
-              label: "请选择"
+              label: "所有"
             },
             {
               value: "1",
