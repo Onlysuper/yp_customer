@@ -14,43 +14,43 @@
           <span class="line-label">订单编号:</span>{{detailsForm.orderNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">交付状态:</span>{{detailsForm.status?detailsForm.status:"??"}}
+          <span class="line-label">交付状态:</span>{{detailsForm.status}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">发票代码:</span>{{detailsForm.invoiceCode?detailsForm.invoiceCode:"??"}}
+          <span class="line-label">发票代码:</span>{{detailsForm.invoiceCode}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">发票号码:</span>{{detailsForm.invoiceNo?detailsForm.invoiceNo:"??"}}
+          <span class="line-label">发票号码:</span>{{detailsForm.invoiceNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">含税金额:</span>{{detailsForm.totalTax?detailsForm.totalTax:"??"}}
+          <span class="line-label">含税金额:</span>{{detailsForm.totalTax}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">手机号码:</span>{{detailsForm.phoneNo?detailsForm.phoneNo:"??"}}
+          <span class="line-label">手机号码:</span>{{detailsForm.phoneNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">购方名称:</span>{{detailsForm.enterpriseName?detailsForm.enterpriseName:"??"}}
+          <span class="line-label">购方名称:</span>{{detailsForm.enterpriseName}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">企业税号:</span>{{detailsForm.taxNo?detailsForm.taxNo:"??"}}
+          <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">单位地址:</span>{{detailsForm.enterpriseAddress?detailsForm.enterpriseAddress:"??"}}
+          <span class="line-label">单位地址:</span>{{detailsForm.enterpriseAddress}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">开户银行:</span>{{detailsForm.bankName?detailsForm.bankName:"??"}}
+          <span class="line-label">开户银行:</span>{{detailsForm.bankName}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">银行帐号:</span>{{detailsForm.bankAccountNo?detailsForm.bankAccountNo:"??"}}
+          <span class="line-label">银行帐号:</span>{{detailsForm.bankAccountNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">公司电话:</span>{{detailsForm.companyPhone?detailsForm.companyPhone:"??"}}
+          <span class="line-label">公司电话:</span>{{detailsForm.companyPhone}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">销方名称:</span>{{detailsForm.bussinessName?detailsForm.bussinessName:"??"}}
+          <span class="line-label">销方名称:</span>{{detailsForm.bussinessName}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">发票金额:</span>{{detailsForm.billAmount?detailsForm.billAmount:"??"}}
+          <span class="line-label">发票金额:</span>{{detailsForm.billAmount}}
         </div>
       </div>
 
