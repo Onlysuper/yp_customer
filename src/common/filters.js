@@ -71,6 +71,21 @@ mypFilters.install = function (Vue, options) {
     })
 
     /**
+   * 达标详情-达标状态
+   */
+    Vue.filter('billStandard', function (value) {
+        switch (value) {
+            case "TRUE":
+                value = "已达标";
+                break;
+            case "FALSE":
+                value = "未达标";
+                break;
+        }
+        return value;
+    })
+
+    /**
      * 状态
      */
     Vue.filter('handleStatus', function (value) {

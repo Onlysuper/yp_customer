@@ -1,10 +1,11 @@
 
-import { } from "@src/apis";
+import { getBillcountSum } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
     list: [],
     searchQuery: {}, //搜索条件
+    sumData: {},
     isSearch: false,//是否搜索操作，便于刷新
   },
   getters: {
@@ -15,6 +16,11 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {};
+      state.sumData = {
+        scan: 0,
+        billSuccess: 0,
+        register: 0
+      }
       console.info("初始化开票统计完成");
     },
     //设置商品列表
@@ -34,7 +40,24 @@ export default {
     ["BILLCOUNT_ADD"](state, flag) {
       state.isAdd = flag;
     },
+    //合计
+    ["BILLCOUNT_SUM"](state, data) {
+      console.log('111111111')
+      console.log(data);
+      state.sumData = data;
+    },
   },
   actions: {
+    // 合计
+    getBillcountSum({ commit, dispatch, getters, rootGetters, rootState, state }) {
+      return getBillcountSum()({ ...state.searchQuery }).then(data => {
+        if (data.code == "00") {
+          commit("BILLCOUNT_SUM", data.data);
+          return true;
+        } else {
+          Toast(data.msg);
+        }
+      })
+    }
   }
 };
