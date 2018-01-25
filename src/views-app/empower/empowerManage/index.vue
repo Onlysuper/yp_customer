@@ -5,7 +5,6 @@
       <mt-header slot="header" :title="$route.meta.pageTitle">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billCountSearch'})">搜索</mt-button>
-        <mt-button slot="right" :disabled="false" type="danger" @click="sum">合计</mt-button>
       </mt-header>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
@@ -26,37 +25,34 @@
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
-    <sum ref="sum"></sum>
   </div>
 </template>
 <script>
 import SliderNav from "@src/components-app/SliderNav";
-import { getBillcountagents } from "@src/apis";
+import { getArantNumManages } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
-import sum from "./sum";
 export default {
   mixins: [scrollBehavior],
-  components: { SliderNav, sum },
+  components: { SliderNav },
   data() {
     return {
       munes: this.$store.state.moduleLayour.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
-      api: getBillcountagents,
+      api: getArantNumManages,
       actions: []
     };
   },
   created() {
-    this.$store.commit("BILLCOUNT_SEARCH_INIT");
+    this.$store.commit("QRCODE_SEARCH_INIT");
   },
   computed: {
     ...mapState({
       list: state => state.empowerManage.list,
       searchQuery: state => state.empowerManage.searchQuery,
-      isSearch: state => state.empowerManage.isSearch,
-      sumData: state => state.empowerManage.sumData
+      isSearch: state => state.empowerManage.isSearch
     })
   },
   watch: {
@@ -68,15 +64,9 @@ export default {
     this.$refs.MypLoadmoreApi.load();
   },
   methods: {
-    ...mapActions(["getBillcountSum"]),
     watchDataList(watchDataList) {
-      this.$store.commit("BILLCOUNT_SEARCH_INIT_list", watchDataList);
-      this.$store.commit("BILLCOUNT_SEARCH", false);
-    },
-    sum() {
-      this.getBillcountSum().then(isSuccess => {
-        isSuccess && this.$refs.sum.open(this.sumData);
-      });
+      this.$store.commit("QRCODE_SEARCH_LIST", watchDataList);
+      this.$store.commit("QRCODE_SEARCH", false);
     }
   },
   activated() {
