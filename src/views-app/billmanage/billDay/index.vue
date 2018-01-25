@@ -8,7 +8,6 @@
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
         <!-- 状态 -->
         <!-- <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | billType}}</mt-badge> -->
@@ -71,7 +70,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.MypLoadmoreApi.load();
+    this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   methods: {
     // ...mapActions(["cancelDefaultGood"]),

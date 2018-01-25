@@ -1,6 +1,7 @@
 
 // 日开票详情
 import { } from "@src/apis";
+import { eightday, yesterday } from "@src/common/dateSerialize";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -15,7 +16,10 @@ export default {
     ["BILLDAY_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
-      state.searchQuery = {};
+      state.searchQuery = {
+        dataTimeBegin: eightday,
+        dataTimeEnd: yesterday,
+      };
       console.info("日开票记录数据加载完成");
     },
     //设置商品列表
