@@ -1,5 +1,5 @@
 <template>
-  <!-- 开票统计 -->
+  <!-- 授权码审核 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -28,11 +28,17 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="qrNumsVisible" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="checkForm.qrcodeStart" controls-position="right"></el-input-number>
-          <el-input-number v-model="checkForm.qrcodeEnd" controls-position="right"></el-input-number>
-        </el-form-item>
-        <el-form-item v-if="qrcodesVisible" label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsVisible" label="号段开始" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="checkForm.qrcodeStart" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsVisible" label="号段结束" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="checkForm.qrcodeEnd" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input placeholder="多个二维码请用英文逗号分隔" v-model="checkForm.qrcodes" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
@@ -64,14 +70,20 @@
         </el-form-item>
         <el-form-item label="分发方式" prop="migrateType" :label-width="formLabelWidth">
           <el-select v-model="checkForm2.migrateType" placeholder="请选择" @change="migrateTypeChange2">
-            <el-option v-for="item in selectOptions.checkFormOptions2" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in selectOptions.checkFormOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item v-if="qrNumsVisible2" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number>
-          <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number>
-        </el-form-item>
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsVisible2" label="号段开始" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="11">
+          <el-form-item v-if="qrNumsVisible2" label="号段结束" prop="" :label-width="formLabelWidth">
+            <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number>
+          </el-form-item>
+        </el-col>
         <el-form-item v-if="qrcodesVisible2" label="扫码枪编号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input placeholder="多个扫码枪请用英文逗号分隔" v-model="checkForm.qrcodes" auto-complete="off"></el-input>
         </el-form-item>
@@ -161,21 +173,11 @@ export default {
         checkFormOptions: [
           {
             value: "OUT_ORDER",
-            label: "二维码编号"
+            label: "授权码序列号"
           },
           {
             value: "ORDER",
-            label: "号段转移"
-          }
-        ],
-        checkFormOptions2: [
-          {
-            value: "OUT_ORDER",
-            label: "二维码编号"
-          },
-          {
-            value: "ORDER",
-            label: "号段转移"
+            label: "授权码号段转移"
           }
         ]
       },
@@ -260,20 +262,6 @@ export default {
             }
           ]
         }
-        // {
-        //   type: "dateGroup2",
-        //   label: "选择日期",
-        //   limit: false, //日期联动
-        //   limitnum: 7,
-        //   show: true, // 普通搜索显示
-        //   value: [yesterday, todayDate],
-        //   option1: "createTimeStart",
-        //   option2: "createTimeEnd",
-        //   cb: (startTime, endTime) => {
-        //     this.searchCondition.createTimeStart = startTime;
-        //     this.searchCondition.createTimeEnd = endTime;
-        //   }
-        // }
       ],
 
       // 列表数据

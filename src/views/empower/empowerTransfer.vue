@@ -455,7 +455,7 @@ export default {
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
             migrateMode:
-              userAll.userType == "admin"
+              this.userAll.userType == "admin"
                 ? "OPERATOR_MIGRATE"
                 : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
@@ -492,7 +492,7 @@ export default {
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
             migrateMode:
-              userAll.userType == "admin"
+              this.userAll.userType == "admin"
                 ? "OPERATOR_MIGRATE"
                 : "UPWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
