@@ -10,7 +10,9 @@
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
 
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
-        <!-- 常用按钮 -->
+        <!-- 状态 -->
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | billStatus}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | billType}}</mt-badge>
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
@@ -18,8 +20,6 @@
             <myp-tr title="开票时间">{{item.createTime}}</myp-tr>
             <myp-tr title="商户号">{{item.customerNo}}</myp-tr>
             <myp-tr title="经营名称">{{item.bussinessName}}</myp-tr>
-            <myp-tr title="开票类型">{{item.billType}}</myp-tr>
-            <myp-tr title="状态">{{item.status}}</myp-tr>
             <!-- <myp-tr title="企业名称">{{item.enterpriseName}}</myp-tr> -->
           </table>
           <!-- 更多操作 -->

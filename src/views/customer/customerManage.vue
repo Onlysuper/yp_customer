@@ -517,7 +517,7 @@ export default {
           },
           {
             key: "来源",
-            width: "80px",
+            width: "120px",
             word: "customerFrom",
             status: true,
             type: data => {
@@ -536,14 +536,24 @@ export default {
                   text: "后台",
                   type: ""
                 };
-              } else if (data == null || data == "") {
+              } else if (data == "SCAN_CODE") {
                 return {
-                  text: "未知",
-                  type: "info"
+                  text: "扫码",
+                  type: ""
+                };
+              } else if (data == "OFFICAL_ACCOUNT") {
+                return {
+                  text: "公众号",
+                  type: ""
+                };
+              } else if (data == "SLIENT") {
+                return {
+                  text: "静默",
+                  type: ""
                 };
               } else {
                 return {
-                  text: "未定义",
+                  text: data,
                   type: "info"
                 };
               }

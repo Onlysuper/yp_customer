@@ -26,6 +26,49 @@ mypFilters.install = function (Vue, options) {
         }
         return "来源" + value;
     })
+    /**
+     * 开票记录状态
+     */
+    Vue.filter('billStatus', function (value) {
+        switch (value) {
+            case "SUCCESS":
+                value = "推送成功";
+                break;
+            case "BILLING_SUCCESS":
+                value = "开票成功";
+                break;
+            case "BILLING":
+                value = "开票中";
+                break;
+            case "ORDER":
+                value = "待开票";
+                break;
+            case "BILLING_FAIL":
+                value = "失败";
+                break;
+            case "QUERY_FAIL":
+                value = "查询失败";
+                break;
+        }
+        return value;
+    })
+    /**
+    * 开票记录-开票类型
+    */
+    Vue.filter('billType', function (value) {
+        switch (value) {
+            case 1:
+                value = "普票";
+                break;
+            case 2:
+                value = "专票";
+                break;
+            case 3:
+                value = "普票(个人)";
+                break;
+        }
+        return value;
+    })
 
     /**
      * 状态
