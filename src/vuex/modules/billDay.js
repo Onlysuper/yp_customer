@@ -16,7 +16,7 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {};
-      console.info("开票记录数据加载完成");
+      console.info("日开票记录数据加载完成");
     },
     //设置商品列表
     ["BILLDAY_SEARCH_LIST"](state, datas) {

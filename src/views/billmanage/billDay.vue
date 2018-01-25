@@ -128,28 +128,28 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "时间",
-            width: "160px",
+            width: "",
             sortable: true,
             word: "dataTime"
           },
           {
             key: "商户编号",
-            width: "150px",
+            width: "",
             word: "customerNo"
           },
           {
             key: "企业名称",
-            width: "100px",
+            width: "",
             word: "enterpriseName"
           },
           {
             key: "合伙人编号",
-            width: "150px",
+            width: "",
             word: "agentNo"
           },
           {
             key: "扫码次数",
-            width: "100px",
+            width: "",
             word: "scan"
           },
           {

@@ -131,23 +131,23 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "日期",
-            width: "200px",
+            width: "",
             sortable: true,
             word: "dataTime"
           },
           {
             key: "扫码次数",
-            width: "100px",
+            width: "",
             word: "scan"
           },
           {
             key: "推送次数",
-            width: "100px",
+            width: "",
             word: "billSuccess"
           },
           {
             key: "入网商户",
-            width: "100px",
+            width: "",
             word: "register"
           },
           {

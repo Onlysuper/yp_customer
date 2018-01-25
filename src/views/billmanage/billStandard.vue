@@ -185,33 +185,33 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "120px",
+            width: "",
             sortable: true,
             word: "customerNo"
           },
           {
             key: "企业名称",
-            width: "120px",
+            width: "",
             word: "enterpriseName"
           },
           {
             key: "合伙人编号",
-            width: "100px",
+            width: "",
             word: "agentNo"
           },
           {
             key: "RCS",
-            width: "100px",
+            width: "",
             word: "realFlag"
           },
           {
             key: "推送次数",
-            width: "100px",
+            width: "",
             word: "billSuccess"
           },
           {
             key: "在线时长(天)",
-            width: "100px",
+            width: "",
             word: "online"
           },
           {

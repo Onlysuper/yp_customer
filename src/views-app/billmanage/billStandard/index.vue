@@ -10,17 +10,17 @@
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
 
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
-        <!-- 状态 -->
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | billStatus}}</mt-badge>
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | billType}}</mt-badge>
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
-            <!-- <myp-tr title="日期">{{item.dataTime}}</myp-tr> -->
-            <myp-tr title="开票时间">{{item.createTime}}</myp-tr>
-            <myp-tr title="商户号">{{item.customerNo}}</myp-tr>
-            <myp-tr title="经营名称">{{item.bussinessName}}</myp-tr>
+            <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
             <!-- <myp-tr title="企业名称">{{item.enterpriseName}}</myp-tr> -->
+            <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
+            <myp-tr title="RCS">{{item.realFlag}}</myp-tr>
+            <myp-tr title="推送次数">{{item.billSuccess}}</myp-tr>
+            <myp-tr title="在线时长(天)">{{item.online}}</myp-tr>
+            <myp-tr title="达标情况">{{item.standard}}</myp-tr>
+            <myp-tr title="达标时间">{{item.standardTime}}</myp-tr>
           </table>
           <!-- 更多操作 -->
         </myp-cell>

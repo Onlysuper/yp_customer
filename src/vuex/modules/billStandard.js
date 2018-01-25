@@ -16,7 +16,7 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {};
-      console.info("开票记录数据加载完成");
+      console.info("达标详情数据加载完成");
     },
     //设置商品列表
     ["BILLSTANDARD_SEARCH_LIST"](state, datas) {
