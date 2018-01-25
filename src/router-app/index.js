@@ -9,6 +9,10 @@ import profit from "./profit";
 import billmanage from "./billmanage";
 import empower from "./empower";
 
+
+
+import agent from "./agent";
+
 Vue.use(Router)
 
 const router = new Router({
@@ -26,7 +30,9 @@ const asyncRoutes = [
     customer,
     billmanage,
     profit,
-    empower
+    empower,
+
+    agent
 ]
 
 

@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  name: "slider-nav",
   props: {
     munes: {
       type: Array,

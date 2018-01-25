@@ -1,18 +1,17 @@
 <template>
   <div class="cityPicher-container" :value="value" v-show="visible">
-    <div class="city-picher-mask" ref="cityPicherMask" @click="cityPicherContainer">
-      <div class="city-picher">
-        <mt-picker :slots="addressSlots" @change="onAddressChange" :visible-item-count="5" :showToolbar="true">请选择</mt-picker>
-        <div class="okBtn">
-          <mt-button size="large" :disabled="false">确定</mt-button>
-        </div>
+    <div class="city-picher" @touchmove.prevent>
+      <mt-picker :slots="addressSlots" @change="onAddressChange" :visible-item-count="5" :showToolbar="true">请选择</mt-picker>
+      <div class="okBtn" @touchmove.prevent>
+        <mt-button size="large" @click="cityPicherContainer" :disabled="false">确定</mt-button>
       </div>
     </div>
+    <div class="city-picher-mask" @touchmove.prevent @click="visible = false"></div>
   </div>
 </template>
 
 <style lang="scss">
-@import '../../assets/scss/base.scss';
+@import "../../assets/scss/base.scss";
 .cityPicher-container {
   .city-picher-mask {
     position: fixed;
@@ -21,29 +20,34 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
+  }
+  .city-picher {
+    // .absoluteCenter();
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 600*$rem;
+    height: 270px;
+    left: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.9);
+    color: #fff;
+    border-radius: 10*$rem;
+    border: 1px solid #ccc;
+    padding: 20*$rem;
     z-index: 9999;
-    .city-picher {
-      .absoluteCenter();
-      width: 600*$rem;
-      height: 270px;
-      left: 0;
-      top: 0;
-      background: rgba(255, 255, 255, 0.9);
-      color: #fff;
-      border-radius: 10*$rem;
-      border: 1px solid #ccc;
-      padding: 20*$rem;
-
-      /*重写mint-ui标题样式*/
-      .picker-toolbar {
-        text-align: center;
-        line-height: 40px;
-        color: #343434;
-        font-size: 20px;
-      }
-      .okBtn {
-        margin: 20*$rem 0;
-      }
+    /*重写mint-ui标题样式*/
+    .picker-toolbar {
+      text-align: center;
+      line-height: 40px;
+      color: #343434;
+      font-size: 20px;
+    }
+    .okBtn {
+      margin: 20*$rem 0;
     }
   }
 }
@@ -55,7 +59,7 @@ import json from "./org.json";
 export default {
   name: "CityPicher",
   props: {
-    myCityPicherChange: {
+    resultCallback: {
       type: Function,
       default: function() {
         console.info("请传入回调函数");
@@ -131,9 +135,9 @@ export default {
       }, 100);
     });
 
-    this.$refs.cityPicherMask.ontouchmove = e => {
-      return false;
-    };
+    // this.$refs.cityPicherMask.ontouchmove = e => {
+    //   return false;
+    // };
     if (this.value) {
       this.visible = true;
     }
@@ -142,7 +146,7 @@ export default {
     cityPicherContainer() {
       this.visible = false;
       //最终区县代码
-      this.myCityPicherChange({
+      this.resultCallback({
         resultAddr: `${this.sheng}-${this.shi}-${this.xian}`,
         resultCode: json[this.sheng][this.shi][this.xian]
       });
@@ -158,17 +162,25 @@ export default {
           json[this.sheng][this.shi] &&
             picker.setSlotValues(2, Object.keys(json[this.sheng][this.shi]));
           if (this.xian) {
-            // //最终区县代码
-            // this.myCityPicherChange({
-            //           resultAddr: `${sheng}-${shi}-${xian}`,
-            //           resultCode: json[sheng][shi][xian]
-            // });
           }
         }
       }
+    },
+    findCity(key) {
+      if (!key) return this.result;
+      for (var sheng in json) {
+        for (var shi in json[sheng]) {
+          for (var xian in json[sheng][shi]) {
+            if (json[sheng][shi][xian] == key) {
+              this.result.resultAddr = `${sheng}-${shi}-${xian}`;
+              this.result.resultCode = key;
+              return this.result;
+            }
+          }
+        }
+      }
+      return this.result;
     }
   }
 };
 </script>
-
-
