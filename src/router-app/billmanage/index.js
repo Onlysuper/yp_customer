@@ -46,5 +46,37 @@ export default {
         },
       ]
     },
+    //开票记录
+    {
+      name: "billrecord",
+      path: '/billrecord',
+      redirect: "/billrecord/index",
+      component: App,
+      children: [
+        //开票记录主页面
+        {
+          path: 'index',
+          component: r => {
+            loading(true);
+            return require.ensure([], () => { loading(false); return r(require("@src/views-app/billmanage/billRecord")) }, "bill-billrecord")
+          },
+          meta: {
+            pageTitle: "开票记录",
+            keepAlive: true,
+            menuCode: "billrecord"
+          }
+        },
+        {
+          name: "billRecordSearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/billmanage/billRecord/search")) }, "bill-record-search")
+          },
+          meta: {
+            pageTitle: "开票记录搜索"
+          }
+        },
+      ]
+    },
   ]
 }

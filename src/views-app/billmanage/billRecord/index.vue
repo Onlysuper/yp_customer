@@ -1,23 +1,26 @@
 <template>
-  <!-- 开票统计 -->
+  <!-- 开票记录 -->
   <full-page class="page" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billCountSearch'})">搜索</mt-button>
+      <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billRecordSearch'})">搜索</mt-button>
       <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-      <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
+      {{list}}
+      <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
         <!-- 常用按钮 -->
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
             <!-- <myp-tr title="日期">{{item.dataTime}}</myp-tr> -->
-            <myp-tr title="扫码次数">{{item.scan}}</myp-tr>
-            <myp-tr title="推送次数">{{item.billSuccess}}</myp-tr>
-            <myp-tr title="入网商户">{{item.register}}</myp-tr>
-            <myp-tr title="活跃商户">{{item.active}}</myp-tr>
+            <myp-tr title="开票时间">{{item.createTime}}</myp-tr>
+            <myp-tr title="商户号">{{item.customerNo}}</myp-tr>
+            <myp-tr title="经营名称">{{item.bussinessName}}</myp-tr>
+            <myp-tr title="开票类型">{{item.billType}}</myp-tr>
+            <myp-tr title="状态">{{item.status}}</myp-tr>
+            <!-- <myp-tr title="企业名称">{{item.enterpriseName}}</myp-tr> -->
           </table>
           <!-- 更多操作 -->
         </myp-cell>
@@ -31,7 +34,7 @@
 
 <script>
 import SliderNav from "@src/components-app/SliderNav";
-import { getBillcountagents } from "@src/apis";
+import { getBillrecords } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
 export default {
@@ -43,19 +46,19 @@ export default {
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
-      api: getBillcountagents,
+      api: getBillrecords,
       actions: []
     };
   },
   created() {
-    this.$store.commit("BILLCOUNT_SEARCH_INIT");
+    this.$store.commit("BILLRECORD_SEARCH_INIT");
   },
   computed: {
     ...mapState({
-      list: state => state.billCount.list,
-      searchQuery: state => state.billCount.searchQuery,
-      isSearch: state => state.billCount.isSearch,
-      isAdd: state => state.billCount.isAdd
+      list: state => state.billRecord.list,
+      searchQuery: state => state.billRecord.searchQuery,
+      isSearch: state => state.billRecord.isSearch,
+      isAdd: state => state.billRecord.isAdd
     })
   },
   watch: {
@@ -72,9 +75,9 @@ export default {
   methods: {
     // ...mapActions(["cancelDefaultGood"]),
     watchDataList(watchDataList) {
-      this.$store.commit("BILLCOUNT_SEARCH_INIT_list", watchDataList);
-      this.$store.commit("BILLCOUNT_SEARCH", false);
-      this.$store.commit("BILLCOUNT_ADD", false);
+      this.$store.commit("BILLRECORD_SEARCH_INIT", watchDataList);
+      this.$store.commit("BILLRECORD_SEARCH", false);
+      this.$store.commit("BILLRECORD_ADD", false);
     }
   },
   activated() {
