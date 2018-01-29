@@ -102,6 +102,7 @@ export default {
             }
           ]
         },
+        // 以下注释不要删除了
         // {
         //   type: "dateGroup2",
         //   label: "选择日期",

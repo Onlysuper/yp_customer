@@ -28,11 +28,13 @@
               <myp-tr title="单价">{{item.price}}</myp-tr>
             </table>
             <!-- 更多操作 -->
+            <div slot="right" @click="operation(item)">更多</div>
           </myp-cell>
-
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
+    <!-- 更多操作 -->
+    <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
 </template>
 <script>
@@ -45,11 +47,13 @@ export default {
   components: { SliderNav },
   data() {
     return {
+      sheetVisible: false,
       munes: this.$store.state.moduleLayour.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
       api: getArantNumExamines,
+      allData: "",
       actions: []
     };
   },
@@ -75,6 +79,21 @@ export default {
     watchDataList(watchDataList) {
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH", false);
+    },
+    operation(allData) {
+      // this.sheetVisible = true;
+      // this.allData = allData;
+      // this.actions = [
+      //   {
+      //     name: this._customer.defaultType == "TRUE" ? "取消默认" : "设为默认",
+      //     defaultType: this._customer.defaultType,
+      //     method: this.setDefault
+      //   },
+      //   {
+      //     name: "删除",
+      //     method: this.remove
+      //   }
+      // ];
     }
   },
   activated() {
