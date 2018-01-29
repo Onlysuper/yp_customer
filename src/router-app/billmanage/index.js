@@ -73,7 +73,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/billmanage/billRecord/edit")) }, "bill-record-app")
           },
           meta: {
-            pageTitle: "开票记录编辑"
+            pageTitle: "开票记录"
           }
         },
         {

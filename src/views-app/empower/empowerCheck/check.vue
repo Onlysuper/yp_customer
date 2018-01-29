@@ -1,117 +1,95 @@
 <template>
-  <div>
-    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
-  </div>
+  <full-page class="page">
+    <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+      <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
+    </mt-header>
+    <view-radius>
+      <input-wrapper>
+        <!-- 审核授权码采购清单 -->
+        <template v-if="pageType == 'AUTHCHECK'">
+          <mt-field type="text" :disabled="true" label="购方名称" placeholder="请输入购方名称" v-model="unitData.enterpriseName"></mt-field>
+          <mt-field type="text" label="采购单号" placeholder="请输入采购单号" v-model="unitData.receiptNo"></mt-field>
+          <mt-field type="text" label="服务商编号" placeholder="请输入服务商编号" v-model="unitData.agentNo"></mt-field>
+          <mt-field type="text" label="申请数量" placeholder="请输入申请数量" v-model="unitData.qrcodeCount"></mt-field>
+          <mt-field type="text" label="采购单价" placeholder="请输入采购单价" v-model="unitData.price"></mt-field>
+          <div @click="openMigratePicker">
+            <mt-field type="text" label="分发方式" placeholder="请选择分发方式" :value="unitData.migrateType | handleTaxRate" :disabled="true" :disableClear="true" :readonly="true">
+              <i class="icon-admin"></i>
+            </mt-field>
+          </div>
+        </template>
+        <!--扫码枪审核-->
+        <template v-if="pageType == 'SCANCHECK'">
+          <mt-field type="text" :disabled="true" label="购方名称" placeholder="请输入购方名称" v-model="unitData.enterpriseName"></mt-field>
+          <mt-field type="text" label="采购单号" placeholder="请输入采购单号" v-model="unitData.receiptNo"></mt-field>
+          <mt-field type="text" label="服务商编号" placeholder="请输入服务商编号" v-model="unitData.agentNo"></mt-field>
+          <mt-field type="text" label="申请数量" placeholder="请输入申请数量" v-model="unitData.qrcodeCount"></mt-field>
+          <mt-field type="text" label="采购单价" placeholder="请输入采购单价" v-model="unitData.price"></mt-field>
+          <div @click="openMigratePicker">
+            <mt-field type="text" label="分发方式" placeholder="请选择分发方式" :value="unitData.migrateType | handleTaxRate" :disabled="true" :disableClear="true" :readonly="true">
+              <i class="icon-admin"></i>
+            </mt-field>
+          </div>
+        </template>
+      </input-wrapper>
+    </view-radius>
+    <migrate-picker ref="MigratePicker">
+    </migrate-picker>
+  </full-page>
 </template>
 
 <script>
-import SearchPage from "@src/components-app/Search/SearchPage";
-import { mapState } from "vuex";
+import MigratePicker from "@src/components-app/SelectPicker/MigratePicker";
+import { mapState, mapActions } from "vuex";
 export default {
-  components: { SearchPage },
+  components: { MigratePicker },
   data() {
     return {
-      searchVisible: true,
-      searchConfig: []
+      btnDisabled: false,
+      unitData: {
+        enterpriseName: "",
+        taxNo: "",
+        enterpriseAddress: "",
+        bankName: "",
+        bankAccountNo: "",
+        companyPhone: "",
+        bussinessName: "",
+        billAmount: ""
+      },
+      pageType: this.$route.query["type"] || "ADD",
+      pageTitle: {
+        AUTHCHECK: "审核授权码采购清单",
+        SCANCHECK: "扫码枪审核"
+      },
+      receiptNo: this.$route.params["receiptNo"]
     };
   },
-  computed: {
-    ...mapState({
-      searchQuery: state => state.billCount.searchQuery
-    })
-  },
   mounted() {
-    this.$nextTick(() => {
-      this.searchConfig.push({
-        title: "采购单号",
-        type: "myp-text",
-        defaultValue: this.searchQuery.receiptNo,
-        cb: value => {
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
-            receiptNo: value
-          });
-        }
+    this.pageType == "AUTHCHECK" &&
+      this.getUnit(this.receiptNo).then(data => {
+        this.unitData = Object.assign(this.unitData, data);
       });
-      this.searchConfig.push({
-        title: "开始日期",
-        type: "myp-date",
-        defaultValue: this.searchQuery.createTimeStart,
-        cb: value => {
-          console.log(value);
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
-            createTimeStart: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "结束日期",
-        type: "myp-date",
-        defaultValue: this.searchQuery.createTimeEnd,
-        cb: value => {
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
-            createTimeEnd: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "状态",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.status,
-        options: [
-          {
-            label: "全部",
-            value: ""
-          },
-          {
-            label: "待审核",
-            value: "AUDITING"
-          },
-          {
-            label: "审核通过",
-            value: "SUCCESS"
-          },
-          {
-            label: "拒绝",
-            value: "REJECT"
-          }
-        ],
-        cb: value => {
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
-            status: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "设备类型",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.receiptType,
-        options: [
-          {
-            label: "全部",
-            value: ""
-          },
-          {
-            label: "授权码",
-            value: "AUTHCODE"
-          },
-          {
-            label: "扫码枪",
-            value: "SCANCODEGUN"
-          }
-        ],
-        cb: value => {
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
-            receiptType: value
-          });
-        }
-      });
-    });
   },
   methods: {
-    // 点击查询按钮
-    searchPanelResult() {
-      this.$store.commit("QRCODERECIEPTAUDIT_SEARCH", true);
-      this.$router.back();
+    ...mapActions(["getUnit", "updataUnit"]),
+    save() {
+      this.btnDisabled = true;
+      if (this.pageType == "AUTHCHECK") {
+        this.updataUnit(this.unitData).then(flag => {
+          this.btnDisabled = false;
+          if (flag) this.$router.back({ query: { d: 11 } });
+        });
+      } else if (this.pageType == "SCANCHECK") {
+        this.updataUnit(this.unitData).then(flag => {
+          this.btnDisabled = false;
+          if (flag) this.$router.back({ query: { d: 11 } });
+        });
+      }
+    },
+    // 选择分发方式
+    openMigratePicker() {
+      this.$refs.MigratePicker.open();
     }
   }
 };

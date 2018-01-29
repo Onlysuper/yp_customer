@@ -43,6 +43,16 @@ export default {
             pageTitle: "授权码审核搜索"
           }
         },
+        {
+          name: "billEdit",
+          path: 'check/:receiptNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerCheck/check")) }, "empower-check-check")
+          },
+          meta: {
+            pageTitle: "开票记录"
+          }
+        },
       ]
     },
     // 授权码管理

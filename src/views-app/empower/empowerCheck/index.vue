@@ -65,7 +65,11 @@ export default {
       list: state => state.empowerCheck.list,
       searchQuery: state => state.empowerCheck.searchQuery,
       isSearch: state => state.empowerCheck.isSearch
-    })
+    }),
+    adminOperationAll() {
+      // 用户按钮权限
+      return this.$store.state.moduleLayour.userMessage.all;
+    }
   },
   watch: {
     isSearch(flag) {
@@ -80,30 +84,43 @@ export default {
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH", false);
     },
-    operation(allData) {
+    operation(rowdata) {
       this.sheetVisible = true;
-      this.allData = allData;
-      //  this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
-      //             rowdata.status == "AUDITING" &&
-      //             rowdata.receiptType == "SCANCODEGUN"
-
-      // this.actions = [
-      //   {
-      //     name: this.allData.defaultType == "TRUE" ? "取消默认" : "设为默认",
-      //     defaultType: this.allData.defaultType,
-      //     method: this.setDefault
-      //   },
-      //   {
-      //     name: "删除",
-      //     method: this.remove
-      //   }
-      // ];
-    }
-  },
-  computed: {
-    adminOperationAll() {
-      // 用户按钮权限
-      return this.$store.state.moduleLayour.userMessage.all;
+      this.rowdata = rowdata;
+      let checkBut = {};
+      if (
+        this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+        rowdata.status == "AUDITING" &&
+        rowdata.receiptType == "AUTHCODE"
+      ) {
+        //审核授权码采购
+        checkBut.name = "审核";
+        checkBut.method = this.authcodeFn;
+        this.actions = [checkBut];
+      } else if (
+        this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+        rowdata.status == "AUDITING" &&
+        rowdata.receiptType == "SCANCODEGUN"
+      ) {
+        //审核扫码枪采购
+        checkBut.name = "审核";
+        checkBut.method = this.scanFn;
+        this.actions = [checkBut];
+      }
+    },
+    toUrl(type, itemId) {
+      this.$router.push({
+        path: "./check/" + itemId,
+        query: { type: type }
+      });
+    },
+    // 授权码审核
+    authcodeFn() {
+      this.toUrl("AUTHCHECK", this.rowdata.receiptNo);
+    },
+    // 扫码枪审核
+    scanFn() {
+      this.toUrl("SCANCHECK", this.rowdata.receiptNo);
     }
   },
   activated() {
