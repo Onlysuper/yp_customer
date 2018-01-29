@@ -84,7 +84,57 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
-
+    /**
+  * 授权码审核-是否生产水牌
+  */
+    Vue.filter('empowerCheckIsPrint', function (value) {
+        switch (value) {
+            case "N":
+                value = "否";
+                break;
+            case "Y":
+                value = "是";
+                break;
+            case "" || null:
+                value = "未知";
+                break;
+        }
+        return "生产水牌 " + value;
+    })
+    /**
+* 授权码审核-状态
+*/
+    Vue.filter('empowerCheckStatus', function (value) {
+        switch (value) {
+            case "SUCCESS":
+                value = "审核通过";
+                break;
+            case "AUDITING":
+                value = "待审核";
+                break;
+            case "REJECT":
+                value = "拒绝";
+                break;
+        }
+        return value;
+    })
+    /**
+* 授权码审核-设备类型
+*/
+    Vue.filter('empowerCheckReceiptType', function (value) {
+        switch (value) {
+            case "AUTHCODE":
+                value = "授权码";
+                break;
+            case "SCANCODEGUN":
+                value = "扫码枪";
+                break;
+            case "":
+                value = "未知设备";
+                break;
+        }
+        return value;
+    })
     /**
      * 状态
      */

@@ -7,6 +7,7 @@ import home from "./home/home";
 import customer from "./customer";
 import profit from "./profit";
 import billmanage from "./billmanage";
+import empower from "./empower";
 
 
 
@@ -31,6 +32,7 @@ const asyncRoutes = [
     customer,
     billmanage,
     profit,
+    empower,
 
     agent
 ]

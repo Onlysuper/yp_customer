@@ -5,6 +5,10 @@ import billCount from "./billCount";
 import billRecord from "./billRecord";
 import billDay from "./billDay";
 import billStandard from "./billStandard";
+import empowerCheck from "./empowerCheck";
+import empowerManage from "./empowerManage";
+import empowerPurchase from "./empowerPurchase";
+import empowerTransfer from "./empowerTransfer";
 
 
 export {
@@ -14,5 +18,9 @@ export {
   billCount,
   billRecord,
   billDay,
-  billStandard
+  billStandard,
+  empowerCheck,
+  empowerManage,
+  empowerPurchase,
+  empowerTransfer
 };

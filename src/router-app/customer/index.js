@@ -3,7 +3,7 @@ import loading from "../loading"
 import App from "@src/App";
 import keepAlive from "@src/views-app/keepAlive";
 /**
- * 我的商户
+ * 开票管理
  */
 export default {
   name: "customer",
