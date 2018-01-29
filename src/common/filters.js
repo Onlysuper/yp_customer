@@ -101,6 +101,21 @@ mypFilters.install = function (Vue, options) {
         }
         return "生产水牌 " + value;
     })
+    Vue.filter('migrateType', function (value) {
+        switch (value) {
+            case "OUT_ORDER":
+                value = "授权码序列号";
+                break;
+            case "ORDER":
+                value = "授权码序列号转移";
+                break;
+            case "" || null:
+                value = "未知";
+                break;
+        }
+        return value;
+    })
+
     /**
 * 授权码审核-状态
 */

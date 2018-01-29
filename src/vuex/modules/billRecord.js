@@ -44,7 +44,7 @@ export default {
     getUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
       return state.list.find(item => item.billRecordNo == itemId);
     },
-    updataUnit({ commit, dispatch, getters, rootGetters, rootState, state }, editForm) {
+    upBillRecord({ commit, dispatch, getters, rootGetters, rootState, state }, editForm) {
       return postEditBillrecord()({
         billRecordNo: editForm.billRecordNo,
         orderNo: editForm.orderNo,

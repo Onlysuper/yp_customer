@@ -1,6 +1,6 @@
 
 // 授权码审核
-import { } from "@src/apis";
+import { putAdoptArantNumExamine, putRefuseArantNumExamine } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -30,8 +30,65 @@ export default {
     //是否开始搜索
     ["QRCODERECIEPTAUDIT_SEARCH"](state, flag) {
       state.isSearch = flag;
+    },
+    ["QRCODERECIEPTAUDIT_UPDATA"](state, data) {
+      state.list = state.list.map(item => {
+        if (data.receiptNo == item.receiptNo) return data;
+        else return item;
+      })
     }
   },
   actions: {
+    // 数据列表中获取当前编辑得数据
+    getEmpowerCheckUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
+      return state.list.find(item => item.receiptNo == itemId);
+    },
+    // 审核通过
+    adoptEmpowerCheck({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      return putAdoptArantNumExamine()({
+        receiptNo: thisForm.receiptNo,
+        receiptType: thisForm.receiptType,
+        agentNo: thisForm.agentNo,
+        qrcodeCount: thisForm.qrcodeCount,
+        price: thisForm.price,
+        migrateType: thisForm.migrateType,
+        qrcodeStart: thisForm.qrcodeStart,
+        qrcodeEnd: thisForm.qrcodeEnd,
+        qrcodes: thisForm.qrcodes
+      }).then(data => {
+        if (data.code == "00") {
+          commit("QRCODERECIEPTAUDIT_UPDATA", thisForm);
+          Toast("修改成功");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
+      })
+    },
+    // 拒绝通过
+    refuseEmpowerCheck({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      return putRefuseArantNumExamine()({
+        agentNo: thisForm.agentNo,
+        receiptNo: thisForm.receiptNo,
+        receiptType: thisForm.receiptType,
+        qrcodeCount: thisForm.qrcodeCount,
+        price: thisForm.price,
+        prefixNo: thisForm.prefixNo,
+        migrateType: thisForm.migrateType,
+        qrcodeStart: thisForm.qrcodeStart,
+        qrcodeEnd: thisForm.qrcodeEnd,
+        qrcodes: thisForm.qrcodes
+      }).then(data => {
+        if (data.code == "00") {
+          commit("QRCODERECIEPTAUDIT_UPDATA", thisForm);
+          Toast("修改成功");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
+      })
+    }
   }
 };

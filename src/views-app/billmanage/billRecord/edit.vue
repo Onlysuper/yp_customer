@@ -57,18 +57,18 @@ export default {
       billRecordNo: this.$route.params["billRecordNo"]
     };
   },
-  mounted() {
+  created() {
     this.pageType == "EDIT" &&
       this.getUnit(this.billRecordNo).then(data => {
         this.unitData = Object.assign(this.unitData, data);
       });
   },
   methods: {
-    ...mapActions(["getUnit", "updataUnit"]),
+    ...mapActions(["getUnit", "upBillRecord"]),
     save() {
       this.btnDisabled = true;
       if (this.pageType == "EDIT") {
-        this.updataUnit(this.unitData).then(flag => {
+        this.upBillRecord(this.unitData).then(flag => {
           this.btnDisabled = false;
           if (flag) this.$router.back({ query: { d: 11 } });
         });
