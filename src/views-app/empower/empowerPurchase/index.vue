@@ -4,22 +4,34 @@
     <full-page class="page" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billCountSearch'})">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
+        <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">采购</mt-button>
       </mt-header>
+      <!-- actions操作 -->
+      <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
+      <!-- 导航组件 -->
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
+
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
           <!-- 常用按钮 -->
+          <div slot="btn" @click="edit(item)">编辑</div>
+
+          <!-- 状态 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerCheckStatus}}</mt-badge>
+          <!-- 生产水牌 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="error">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
+          <!-- 设备类型 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
+
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
-              <!-- <myp-tr title="日期">{{item.dataTime}}</myp-tr> -->
-              <myp-tr title="扫码次数">{{item.scan}}</myp-tr>
-              <myp-tr title="推送次数">{{item.billSuccess}}</myp-tr>
-              <myp-tr title="入网商户">{{item.register}}</myp-tr>
-              <myp-tr title="活跃商户">{{item.active}}</myp-tr>
+              <myp-tr title="采购单号">{{item.receiptNo}}</myp-tr>
+              <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
+              <myp-tr title="数量">{{item.qrcodeCount}}</myp-tr>
+              <myp-tr title="单价">{{item.price || '--'}}</myp-tr>
             </table>
-            <!-- 更多操作 -->
           </myp-cell>
 
         </myp-cell-pannel>
@@ -29,20 +41,33 @@
 </template>
 <script>
 import SliderNav from "@src/components-app/SliderNav";
-import { getArantNumManages } from "@src/apis";
+import { getArantNumBuybacks } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
+import MypPopupActions from "@src/components-app/MypPopupActions";
 export default {
   mixins: [scrollBehavior],
-  components: { SliderNav },
+  components: { SliderNav, MypPopupActions },
   data() {
     return {
       munes: this.$store.state.moduleLayour.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
-      api: getArantNumManages,
-      actions: []
+      api: getArantNumBuybacks,
+      popupActionsVisible: false,
+      popupActions: [
+        {
+          name: "采购授权码",
+          icon: "icon-admin",
+          method: this.add
+        },
+        {
+          name: "采购扫码枪",
+          icon: "icon-admin",
+          method: this.add
+        }
+      ]
     };
   },
   created() {
@@ -61,7 +86,7 @@ export default {
     }
   },
   mounted() {
-    this.$refs.MypLoadmoreApi.load();
+    this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   methods: {
     watchDataList(watchDataList) {

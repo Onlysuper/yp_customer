@@ -1,5 +1,6 @@
 
-// 授权码审核
+// 授权码采购
+
 import { } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
@@ -15,8 +16,14 @@ export default {
     ["QRCODERECIEPT_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
-      state.searchQuery = {};
-      console.info("授权码审核数据加载完成");
+      state.searchQuery = {
+        receiptNo: "",
+        status: "",
+        receiptType: "AUTHCODE",
+        createTimeStart: "",
+        createTimeEnd: "",
+      };
+      console.info("授权码采购数据加载完成");
     },
     //设置商品列表
     ["QRCODERECIEPT_SEARCH_LIST"](state, datas) {

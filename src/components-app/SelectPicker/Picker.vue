@@ -2,7 +2,7 @@
   <div class="select-container" :value="value" v-show="visible">
     <div class="select-picher-mask" ref="selectPicherMask" @click="cityPicherContainer">
       <div class="select-picher">
-        <mt-picker :slots="slots" @change="onAddressChange" :visibleItemCount="5" :itemHeight="36" :showToolbar="true">请选择</mt-picker>
+        <mt-picker :slots="slots" valueKey="name" @change="onAddressChange" :visibleItemCount="5" :itemHeight="36" :showToolbar="true">请选择</mt-picker>
         <div class="okBtn">
           <mt-button size="large" :disabled="false" @click="okBtn">确定</mt-button>
         </div>
@@ -34,6 +34,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
     .select-picher {
       position: absolute;
       left: 0;
@@ -72,6 +73,10 @@ export default {
         return ["选项一", "选项二"];
       }
     },
+    defaultIndex: {
+      type: Number,
+      default: 0
+    },
     cb: {
       type: Function,
       default: () => {}
@@ -84,7 +89,7 @@ export default {
       slots: [
         {
           flex: 1,
-          defaultIndex: 1,
+          defaultIndex: 0,
           //当值为对象数组时 [{ name: 1, age: 2 }] 需要在valueKey属性指定key用来显示
           values: this.slotsActions, // 把省的集合赋给第一个
           className: "slot1",
@@ -109,7 +114,7 @@ export default {
     if (this.value) {
       this.visible = true;
     }
-    this.slots[0].defaultIndex = 0;
+    this.slots[0].defaultIndex = this.defaultIndex;
   },
   methods: {
     cityPicherContainer() {

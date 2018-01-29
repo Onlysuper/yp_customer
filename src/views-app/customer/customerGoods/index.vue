@@ -1,6 +1,6 @@
 <template>
   <full-page class="page" ref="FullPage">
-    <mt-header slot="header" :title="$route.meta.pageTitle">
+    <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'goodsSearch'})">搜索</mt-button>
       <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button>
@@ -53,6 +53,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getCustomerGoods,
+      count: 0,
       sheetVisible: false,
       actions: []
     };
@@ -81,7 +82,8 @@ export default {
   },
   methods: {
     ...mapActions(["deleteGood", "setDefaultGood", "cancelDefaultGood"]),
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count, pageNum) {
+      this.count = count;
       this.$store.commit("SET_GOODS", watchDataList);
       this.$store.commit("IS_SEARCH_GOOD", false);
       this.$store.commit("IS_RELOAD_GOOD", false);

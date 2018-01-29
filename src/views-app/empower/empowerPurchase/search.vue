@@ -17,37 +17,75 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.billCount.searchQuery
+      searchQuery: state => state.empowerPurchase.searchQuery
     })
   },
   mounted() {
     this.$nextTick(() => {
       this.searchConfig.push({
-        title: "合伙人编号",
+        title: "采购单号",
         type: "myp-text",
-        defaultValue: this.searchQuery.agentNo,
+        defaultValue: this.searchQuery.receiptNo,
         cb: value => {
-          this.$store.commit("BILLCOUNT_SEARCH_QUERY", { agentNo: value });
+          this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
+            receiptNo: value
+          });
+        }
+      });
+      // this.searchConfig.push({
+      //   title: "状态",
+      //   type: "myp-select",
+      //   defaultValue: this.searchQuery.status,
+      //   values: [
+      //     { name: "全部", code: "" },
+      //     { name: "待审核", code: "AUDITING" },
+      //     { name: "审核通过", code: "SUCCESS" },
+      //     { name: "审核通过", code: "SUCCESS" },
+      //     { name: "审核通过", code: "SUCCESS" },
+      //     { name: "审核通过", code: "SUCCESS" },
+      //     { name: "审核通过", code: "SUCCESS" },
+      //     { name: "审核通过", code: "SUCCESS" },
+      //     { name: "拒绝", code: "REJECT" }
+      //   ],
+      //   cb: value => {
+      //     this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
+      //       status: value
+      //     });
+      //   }
+      // });
+      this.searchConfig.push({
+        title: "设备类型",
+        type: "myp-select",
+        defaultValue: this.searchQuery.receiptType,
+        values: [
+          { name: "全部", code: "" },
+          { name: "授权码", code: "AUTHCODE" },
+          { name: "扫码枪", code: "SCANCODEGUN" }
+        ],
+        cb: value => {
+          this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
+            receiptType: value
+          });
         }
       });
       this.searchConfig.push({
         title: "开始日期",
         type: "myp-date",
-        defaultValue: this.searchQuery.dataTimeBegin,
+        defaultValue: this.searchQuery.createTimeStart,
         cb: value => {
           console.log(value);
-          this.$store.commit("BILLCOUNT_SEARCH_QUERY", {
-            dataTimeBegin: value
+          this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
+            createTimeStart: value
           });
         }
       });
       this.searchConfig.push({
         title: "结束日期",
         type: "myp-date",
-        defaultValue: this.searchQuery.dataTimeEnd,
+        defaultValue: this.searchQuery.createTimeEnd,
         cb: value => {
-          this.$store.commit("BILLCOUNT_SEARCH_QUERY", {
-            dataTimeEnd: value
+          this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
+            createTimeEnd: value
           });
         }
       });
@@ -56,7 +94,7 @@ export default {
   methods: {
     // 点击查询按钮
     searchPanelResult() {
-      this.$store.commit("BILLCOUNT_SEARCH", true);
+      this.$store.commit("QRCODERECIEPT_SEARCH", true);
       this.$router.back();
     }
   }

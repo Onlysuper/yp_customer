@@ -33,13 +33,14 @@ export default {
   },
   watch: {
     list(list) {
-      this.$emit("watchDataList", list);
+      this.$emit("watchDataList", list, this.count, this.loadQuery.page);
     }
   },
   data() {
     return {
       wrapperHeight: "",
       list: [],
+      count: 0,
       //指定loadQuery条件
       loadQuery: {},
       loadMoreConfig: {
@@ -76,6 +77,7 @@ export default {
     loadData(query) {
       return this.api()(query).then(data => {
         if (data.code === "00") {
+          this.count = data.count;
           return data.data || [];
         } else {
           Toast(data.msg);
