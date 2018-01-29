@@ -36,20 +36,20 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24">
+          <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
                 <el-input v-model="allotForm.prefixNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
-          <!-- <el-col :span="12">
+          <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
                 <el-input v-model="allotForm.agentNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
-          </el-col> -->
+          </el-col>
         </el-row>
         <el-form-item class="full-width" label="分配方式" prop="migrateType" :label-width="formLabelWidth">
           <el-select v-model="allotForm.migrateType" placeholder="请选择" @change="migrateTypeChange1">

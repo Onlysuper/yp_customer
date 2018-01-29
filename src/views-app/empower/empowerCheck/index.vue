@@ -81,12 +81,16 @@ export default {
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH", false);
     },
     operation(allData) {
-      // this.sheetVisible = true;
-      // this.allData = allData;
+      this.sheetVisible = true;
+      this.allData = allData;
+      //  this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+      //             rowdata.status == "AUDITING" &&
+      //             rowdata.receiptType == "SCANCODEGUN"
+
       // this.actions = [
       //   {
-      //     name: this._customer.defaultType == "TRUE" ? "取消默认" : "设为默认",
-      //     defaultType: this._customer.defaultType,
+      //     name: this.allData.defaultType == "TRUE" ? "取消默认" : "设为默认",
+      //     defaultType: this.allData.defaultType,
       //     method: this.setDefault
       //   },
       //   {
@@ -94,6 +98,12 @@ export default {
       //     method: this.remove
       //   }
       // ];
+    }
+  },
+  computed: {
+    adminOperationAll() {
+      // 用户按钮权限
+      return this.$store.state.moduleLayour.userMessage.all;
     }
   },
   activated() {
