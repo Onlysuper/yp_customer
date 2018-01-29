@@ -6,8 +6,8 @@
       </mt-button>
     </mt-header>
 
-    <mt-tab-container class="page-tabbar-container" v-model="selected">
-      <mt-tab-container-item id="首页">
+    <mt-tab-container class="page-tabbar-container page" v-model="selected">
+      <mt-tab-container-item id="首页" class="page">
         <content-home/>
       </mt-tab-container-item>
       <mt-tab-container-item id="业务">

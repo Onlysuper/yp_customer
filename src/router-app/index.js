@@ -11,6 +11,7 @@ import billmanage from "./billmanage";
 
 
 import agent from "./agent";
+import error from "./error";
 
 Vue.use(Router)
 
@@ -20,7 +21,8 @@ const router = new Router({
             path: "/",
             redirect: "/home",
         },
-        login
+        login,
+        error
     ]
 });
 
@@ -88,7 +90,11 @@ router.beforeEach((to, from, next) => {
                 if (resmenuList.menuList) {
                     let asyncNewRoutes = filterRouter(resmenuList.menuList, asyncRoutes);
                     console.log(asyncNewRoutes);
-                    asyncNewRoutes.push(home)
+                    asyncNewRoutes.push(home);
+                    asyncNewRoutes.push({
+                        path: "*",
+                        redirect: "/error",
+                    });
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })
                 }

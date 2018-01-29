@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p>首页</p>
+  <div class="page home">
+    <img class="img" :src="require('@src/assets/images/homeSlogen.png')" alt="">
   </div>
 </template>
 
@@ -8,6 +8,13 @@
 export default {};
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.home {
+  background: #fff;
+}
+.img {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 </style>
