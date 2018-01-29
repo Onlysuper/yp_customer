@@ -4,24 +4,31 @@
 
 <script>
 //税率
-let taxJson = {
-  授权码序列号: "OUT_ORDER",
-  授权码号段转移: "ORDER"
-};
+let taxJson = [
+  {
+    name: "授权码序列号",
+    code: "OUT_ORDER"
+  },
+  {
+    name: "授权码号段转移",
+    code: "ORDER"
+  }
+];
+
 import Picker from "../Picker";
 export default {
   components: { Picker },
   data() {
     return {
       visible: false,
-      taxActions: Object.keys(taxJson)
+      taxActions: taxJson
     };
   },
   methods: {
     taxSelectCallBack(result) {
       this.$emit("change", {
-        name: result,
-        value: taxJson[result]
+        name: result.name,
+        value: result.code
       });
     },
     open() {
