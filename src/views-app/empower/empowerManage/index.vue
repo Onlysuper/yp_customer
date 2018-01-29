@@ -4,7 +4,7 @@
     <full-page class="page" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billCountSearch'})">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'empowerManageSearch'})">搜索</mt-button>
       </mt-header>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
@@ -14,10 +14,16 @@
             <!-- 详情 -->
             <table>
               <!-- <myp-tr title="日期">{{item.dataTime}}</myp-tr> -->
-              <myp-tr title="扫码次数">{{item.scan}}</myp-tr>
-              <myp-tr title="推送次数">{{item.billSuccess}}</myp-tr>
-              <myp-tr title="入网商户">{{item.register}}</myp-tr>
-              <myp-tr title="活跃商户">{{item.active}}</myp-tr>
+              <myp-tr title="批次号">{{item.batchNo}}</myp-tr>
+              <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
+              <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
+              <myp-tr title="序列号">{{item.qrcode}}</myp-tr>
+              <myp-tr title="授权码">{{item.authCode}}</myp-tr>
+              <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
+              <myp-tr title="设备类型">{{item.deviceType}}</myp-tr>
+              <myp-tr title="状态">{{item.status}}</myp-tr>
+              <myp-tr title="是否有物料">{{item.materiel}}</myp-tr>
+              <myp-tr title="上级授权码">{{item.parentCode}}</myp-tr>
             </table>
             <!-- 更多操作 -->
           </myp-cell>

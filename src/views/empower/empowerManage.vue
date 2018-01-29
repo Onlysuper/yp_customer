@@ -506,30 +506,16 @@ export default {
           ]
         },
         // {
-        //   type: "dateGroup2",
-        //   label: "选择日期",
-        //   limit: false, //日期联动
-        //   limitnum: 7,
-        //   show: true, // 普通搜索显示
-        //   value: [yesterday, todayDate],
-        //   option1: "createTimeStart",
-        //   option2: "createTimeEnd",
-        //   cb: (startTime, endTime) => {
-        //     this.searchCondition.createTimeStart = startTime;
-        //     this.searchCondition.createTimeEnd = endTime;
+        //   corresattr: "agentNo",
+        //   type: "text", // 表单类型
+        //   label: "合伙人编号", // 输入框前面的文字
+        //   show: false, // 普通搜索显示
+        //   value: "", // 表单默认的内容
+        //   cb: value => {
+        //     // 表单输入之后回调函数
+        //     this.searchCondition.agentNo = value;
         //   }
         // },
-        {
-          corresattr: "agentNo",
-          type: "text", // 表单类型
-          label: "合伙人编号", // 输入框前面的文字
-          show: false, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.agentNo = value;
-          }
-        },
         {
           corresattr: "agentNo",
           type: "text", // 表单类型
