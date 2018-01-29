@@ -12,7 +12,6 @@ import empower from "./empower";
 
 
 import agent from "./agent";
-import error from "./error";
 
 Vue.use(Router)
 
@@ -22,8 +21,7 @@ const router = new Router({
             path: "/",
             redirect: "/home",
         },
-        login,
-        error
+        login
     ]
 });
 
@@ -92,11 +90,7 @@ router.beforeEach((to, from, next) => {
                 if (resmenuList.menuList) {
                     let asyncNewRoutes = filterRouter(resmenuList.menuList, asyncRoutes);
                     console.log(asyncNewRoutes);
-                    asyncNewRoutes.push(home);
-                    asyncNewRoutes.push({
-                        path: "*",
-                        redirect: "/error",
-                    });
+                    asyncNewRoutes.push(home)
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })
                 }

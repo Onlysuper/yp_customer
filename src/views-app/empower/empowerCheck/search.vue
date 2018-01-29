@@ -76,7 +76,7 @@ export default {
           }
         ],
         cb: value => {
-          this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
+          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
             status: value
           });
         }
@@ -100,7 +100,7 @@ export default {
           }
         ],
         cb: value => {
-          this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
+          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
             receiptType: value
           });
         }

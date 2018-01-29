@@ -80,21 +80,45 @@ export default {
           }
         },
         {
-          type: "dateGroup2",
-          label: "选择日期",
-          limit: true, //日期联动
-          limitnum: 7,
+          type: "dateGroup",
+          label: "选择时间",
           show: true, // 普通搜索显示
-          clearablee: false,
-          // value: "",
-          option1: "dataTimeBegin",
-          option2: "dataTimeEnd",
-          value: [todayDate, todayDate],
-          cb: (startTime, endTime) => {
-            this.searchCondition.dataTimeBegin = startTime;
-            this.searchCondition.dataTimeEnd = endTime;
-          }
+          options: [
+            {
+              corresattr: "dataTimeBegin",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.dataTimeBegin = value;
+              }
+            },
+            {
+              corresattr: "dataTimeEnd",
+              lable: "结束时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.dataTimeEnd = value;
+              }
+            }
+          ]
         },
+        // 以下注释不要删除了
+        // {
+        //   type: "dateGroup2",
+        //   label: "选择日期",
+        //   limit: true, //日期联动
+        //   limitnum: 7,
+        //   show: true, // 普通搜索显示
+        //   clearablee: false,
+        //   // value: "",
+        //   option1: "dataTimeBegin",
+        //   option2: "dataTimeEnd",
+        //   value: [todayDate, todayDate],
+        //   cb: (startTime, endTime) => {
+        //     this.searchCondition.dataTimeBegin = startTime;
+        //     this.searchCondition.dataTimeEnd = endTime;
+        //   }
+        // },
         {
           corresattr: "containChild",
           type: "select",

@@ -22,6 +22,7 @@
         <el-form-item label="采购单价" prop="price" :label-width="formLabelWidth">
           <el-input v-model="checkForm.price" auto-complete="off"></el-input>
         </el-form-item>
+
         <el-form-item v-if="migrateTypeVisible" label="分发方式" prop="migrateType" :label-width="formLabelWidth">
           <el-select v-model="checkForm.migrateType" placeholder="请选择" @change="migrateTypeChange1">
             <el-option v-for="item in selectOptions.checkFormOptions" :key="item.value" :label="item.label" :value="item.value">

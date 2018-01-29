@@ -408,7 +408,7 @@ export default {
     bankhandleChangeArea(value) {
       console.log(value);
       //选择银行区域
-      this.bankCity = value[1];
+      this.bankCity = value[2] || value[1] || value[0];
       this.getBankListHandle();
     },
     banksChange(value) {

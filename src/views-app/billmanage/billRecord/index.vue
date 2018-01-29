@@ -10,6 +10,8 @@
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
 
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
+        <!-- 常用按钮 -->
+        <div slot="btn" @click="toUrl('EDIT',item.billRecordNo)">编辑</div>
         <!-- 状态 -->
         <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | billStatus}}</mt-badge>
         <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | billType}}</mt-badge>
@@ -57,8 +59,7 @@ export default {
     ...mapState({
       list: state => state.billRecord.list,
       searchQuery: state => state.billRecord.searchQuery,
-      isSearch: state => state.billRecord.isSearch,
-      isAdd: state => state.billRecord.isAdd
+      isSearch: state => state.billRecord.isSearch
     })
   },
   watch: {
@@ -73,11 +74,15 @@ export default {
     this.$refs.MypLoadmoreApi.load();
   },
   methods: {
-    // ...mapActions(["cancelDefaultGood"]),
+    toUrl(type, billRecordNo) {
+      this.$router.push({
+        path: "./edit/" + billRecordNo,
+        query: { type: type }
+      });
+    },
     watchDataList(watchDataList) {
       this.$store.commit("BILLRECORD_SEARCH_LIST", watchDataList);
       this.$store.commit("BILLRECORD_SEARCH", false);
-      this.$store.commit("BILLRECORD_ADD", false);
     }
   },
   activated() {

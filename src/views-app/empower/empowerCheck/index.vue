@@ -28,11 +28,13 @@
               <myp-tr title="单价">{{item.price}}</myp-tr>
             </table>
             <!-- 更多操作 -->
+            <div slot="right" @click="operation(item)">更多</div>
           </myp-cell>
-
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
+    <!-- 更多操作 -->
+    <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
 </template>
 <script>
@@ -45,11 +47,13 @@ export default {
   components: { SliderNav },
   data() {
     return {
+      sheetVisible: false,
       munes: this.$store.state.moduleLayour.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
       api: getArantNumExamines,
+      allData: "",
       actions: []
     };
   },
@@ -61,7 +65,11 @@ export default {
       list: state => state.empowerCheck.list,
       searchQuery: state => state.empowerCheck.searchQuery,
       isSearch: state => state.empowerCheck.isSearch
-    })
+    }),
+    adminOperationAll() {
+      // 用户按钮权限
+      return this.$store.state.moduleLayour.userMessage.all;
+    }
   },
   watch: {
     isSearch(flag) {
@@ -75,6 +83,44 @@ export default {
     watchDataList(watchDataList) {
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH", false);
+    },
+    operation(rowdata) {
+      this.sheetVisible = true;
+      this.rowdata = rowdata;
+      let checkBut = {};
+      if (
+        this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+        rowdata.status == "AUDITING" &&
+        rowdata.receiptType == "AUTHCODE"
+      ) {
+        //审核授权码采购
+        checkBut.name = "审核";
+        checkBut.method = this.authcodeFn;
+        this.actions = [checkBut];
+      } else if (
+        this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+        rowdata.status == "AUDITING" &&
+        rowdata.receiptType == "SCANCODEGUN"
+      ) {
+        //审核扫码枪采购
+        checkBut.name = "审核";
+        checkBut.method = this.scanFn;
+        this.actions = [checkBut];
+      }
+    },
+    toUrl(type, itemId) {
+      this.$router.push({
+        path: "./check/" + itemId,
+        query: { type: type }
+      });
+    },
+    // 授权码审核
+    authcodeFn() {
+      this.toUrl("AUTHCHECK", this.rowdata.receiptNo);
+    },
+    // 扫码枪审核
+    scanFn() {
+      this.toUrl("SCANCHECK", this.rowdata.receiptNo);
     }
   },
   activated() {
