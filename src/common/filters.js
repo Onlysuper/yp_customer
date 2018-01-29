@@ -134,6 +134,38 @@ mypFilters.install = function (Vue, options) {
         return value;
     })
     /**
+* 授权码管理-状态
+*/
+    Vue.filter('empowerManageStatus', function (value) {
+        switch (value) {
+            case "BINDED":
+                value = "已绑定";
+                break;
+            case "TRUE":
+                value = "未绑定";
+                break;
+            case "FALSE":
+                value = "无效";
+                break;
+        }
+        return value;
+    })
+    /**
+* 授权码管理-是否有物料
+*/
+    Vue.filter('empowerManageMateriel', function (value) {
+        switch (value) {
+            case "TRUE":
+                value = "有物料";
+                break;
+            case "FALSE":
+                value = "无物料";
+                break;
+        }
+        return value;
+    })
+
+    /**
 * 授权码审核-设备类型
 */
     Vue.filter('empowerCheckReceiptType', function (value) {

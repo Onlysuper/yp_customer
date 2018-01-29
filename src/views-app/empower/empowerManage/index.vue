@@ -9,6 +9,10 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
+          <!-- 状态 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerManageStatus}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.materiel | empowerManageMateriel}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.deviceType | empowerCheckReceiptType}}</mt-badge>
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->
@@ -20,9 +24,9 @@
               <myp-tr title="序列号">{{item.qrcode}}</myp-tr>
               <myp-tr title="授权码">{{item.authCode}}</myp-tr>
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
-              <myp-tr title="设备类型">{{item.deviceType}}</myp-tr>
-              <myp-tr title="状态">{{item.status}}</myp-tr>
-              <myp-tr title="是否有物料">{{item.materiel}}</myp-tr>
+              <!-- <myp-tr title="设备类型">{{item.deviceType}}</myp-tr> -->
+              <!-- <myp-tr title="状态">{{item.status}}</myp-tr> -->
+              <!-- <myp-tr title="是否有物料">{{item.materiel}}</myp-tr> -->
               <myp-tr title="上级授权码">{{item.parentCode}}</myp-tr>
             </table>
             <!-- 更多操作 -->
