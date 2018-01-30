@@ -11,7 +11,7 @@ const mixinDataTable = {
         // 表格大小
         tableSizeHandle() {
             this.$nextTick(() => {
-                let pageHeight = $(".admin-page").outerHeight(true) || 0;
+                let pageHeight = $(".tablelist-box").outerHeight(true) || 0;
                 let formHeight = $(".search-page").outerHeight(true) || 0;
                 let operationHeight = $(".operation-box").outerHeight(true) || 0;
                 let paginationHeight = $(".el-pagination").outerHeight(true) || 0;

@@ -355,6 +355,10 @@ export default {
         {
           label: "DATA_COLLECTION: 数据采集程序",
           value: "DATA_COLLECTION"
+        },
+        {
+          label: "MANUAL: 其他",
+          value: "MANUAL"
         }
       ],
       isForce_options: [
@@ -433,20 +437,15 @@ export default {
     },
     beforeUploadFile() {},
     uploadFileSuccess(res, file, fileList) {
-      if (res.data == "00") {
+      if (res.code == "00") {
         this.$message({
           message: "恭喜你，导入成功",
           type: "success",
           center: true
         });
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
-          message: "上传失败",
+          message: res.msg,
           type: "warning"
         });
       }
