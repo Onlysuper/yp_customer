@@ -9,11 +9,8 @@ import App from "@src/App";
 export default {
   name: "error",
   path: "/error",
-  redirect: "error/404",
   component: App,
-  meta: {
-    // keepAlive: true
-  },
+  redirect: () => "/" + this.a.children[0].path,
   children: [
     {
       name: "404",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode

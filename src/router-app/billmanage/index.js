@@ -7,18 +7,15 @@ import keepAlive from "@src/views-app/keepAlive";
  */
 export default {
   name: "bill-mg",
-  path: "/bill-mg",
-  redirect: "/billcountagent",
+  path: "/",
   component: keepAlive,
-  meta: {
-    // keepAlive: true
-  },
+  redirect: () => "/" + this.a.children[0].path,
   children: [
     //开票统计
     {
       name: "billcountagent",
-      path: '/billcountagent',
-      redirect: "/billcountagent/index",
+      path: 'billcountagent',
+      redirect: "billcountagent/index",
       component: App,
       children: [
         //开票统计主页面
@@ -49,8 +46,8 @@ export default {
     //开票记录
     {
       name: "billrecord",
-      path: '/billrecord',
-      redirect: "/billrecord/index",
+      path: 'billrecord',
+      redirect: "billrecord/index",
       component: App,
       children: [
         //开票记录主页面
@@ -91,8 +88,8 @@ export default {
     //日开票详情
     {
       name: "billcount_day",
-      path: '/billcount_day',
-      redirect: "/billcount_day/index",
+      path: 'billcount_day',
+      redirect: "billcount_day/index",
       component: App,
       children: [
         //日开票详情主页面
@@ -123,8 +120,8 @@ export default {
     //达标详情
     {
       name: "billcountcustomer",
-      path: '/billcountcustomer',
-      redirect: "/billcountcustomer/index",
+      path: 'billcountcustomer',
+      redirect: "billcountcustomer/index",
       component: App,
       children: [
         //日开票详情主页面

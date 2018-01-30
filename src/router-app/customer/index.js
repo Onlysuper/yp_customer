@@ -8,15 +8,8 @@ import keepAlive from "@src/views-app/keepAlive";
 export default {
   name: "customer",
   path: "/",
-  redirect: () => "/" + this.a.children[0].path,
   component: keepAlive,
-  // beforeEnter: (to, from, next) => {
-  //   console.log(this.a.children[0])
-  //   // next(this.a.children[0].path);
-  // },
-  meta: {
-    // keepAlive: true
-  },
+  redirect: () => "/" + this.a.children[0].path,
   children: [
     //产品配置
     {
@@ -32,15 +25,13 @@ export default {
         menuCode: "agent-customer-product"
       }
     },
-
+    //商品管理
     {
       name: "customerGoods",
       path: 'goods',
       redirect: "goods/index",
       component: App,
       children: [
-
-        //商品管理
         {
           path: 'index',
           component: r => {
@@ -76,7 +67,6 @@ export default {
         },
       ]
     },
-
     //商户产品
     {
       name: "customerProduct",

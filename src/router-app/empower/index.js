@@ -7,18 +7,15 @@ import keepAlive from "@src/views-app/keepAlive";
  */
 export default {
   name: "qr_code_manage",
-  path: "qr_code_manage",
-  redirect: "/qr_code_reciept_audit",
+  path: "/",
   component: keepAlive,
-  meta: {
-    // keepAlive: true
-  },
+  redirect: () => "/" + this.a.children[0].path,
   children: [
     //授权码审核
     {
       name: "qr_code_reciept_audit",
-      path: '/qr_code_reciept_audit',
-      redirect: "/qr_code_reciept_audit/index",
+      path: 'qr_code_reciept_audit',
+      redirect: "qr_code_reciept_audit/index",
       component: App,
       children: [
         {
@@ -58,8 +55,8 @@ export default {
     // 授权码管理
     {
       name: "qrcode",
-      path: '/qrcode',
-      redirect: "/qrcode/index",
+      path: 'qrcode',
+      redirect: "qrcode/index",
       component: App,
       children: [
         {
@@ -111,8 +108,8 @@ export default {
     // 授权码转移
     {
       name: "qr_code_migrate",
-      path: '/qr_code_migrate',
-      redirect: "/qr_code_migrate/index",
+      path: 'qr_code_migrate',
+      redirect: "qr_code_migrate/index",
       component: App,
       children: [
         {
@@ -142,8 +139,8 @@ export default {
     // 授权码采购
     {
       name: "qr_code_reciept",
-      path: '/qr_code_reciept',
-      redirect: "/qr_code_reciept/index",
+      path: 'qr_code_reciept',
+      redirect: "qr_code_reciept/index",
       component: App,
       children: [
         {
