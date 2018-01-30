@@ -355,6 +355,10 @@ export default {
         {
           label: "DATA_COLLECTION: 数据采集程序",
           value: "DATA_COLLECTION"
+        },
+        {
+          label: "MANUAL: 其他",
+          value: "MANUAL"
         }
       ],
       isForce_options: [
