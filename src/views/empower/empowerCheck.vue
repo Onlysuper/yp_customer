@@ -376,12 +376,12 @@ export default {
                 };
               }
             }
-          },
-          {
-            key: "单价",
-            width: "",
-            word: "price"
           }
+          // {
+          //   key: "单价",
+          //   width: "",
+          //   word: "price"
+          // }
         ],
         operation: {
           width: "50px",

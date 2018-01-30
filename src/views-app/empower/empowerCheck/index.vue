@@ -28,7 +28,8 @@
               <myp-tr title="单价">{{item.price}}</myp-tr>
             </table>
             <!-- 更多操作 -->
-            <div slot="right" @click="operation(item)">更多</div>
+            <div v-if='adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+        item.status == "AUDITING"&&(item.receiptType == "AUTHCODE"||item.receiptType == "SCANCODEGUN")' slot="right" @click="operation(item)">更多</div>
           </myp-cell>
         </myp-cell-pannel>
       </myp-loadmore-api>

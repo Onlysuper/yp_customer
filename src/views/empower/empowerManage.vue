@@ -829,8 +829,8 @@ export default {
                   this.adminOperationAll.qrcode_bind == "TRUE" &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "TRUE" &&
-                  (rowdata.agentNo == this.userBussinessNo ||
-                    this.userType == "admin")
+                  (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+                    this.adminOperationAll.userType == "admin")
                 ) {
                   return true;
                 } else {
@@ -858,8 +858,8 @@ export default {
                   this.adminOperationAll.qrcode_unbind == "TRUE" &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "BINDED" &&
-                  (rowdata.agentNo == this.userBussinessNo ||
-                    this.userType == "admin")
+                  (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+                    this.adminOperationAll.userType == "admin")
                 ) {
                   return true;
                 } else {
@@ -924,8 +924,9 @@ export default {
                       rowdata.status == "BINDED" &&
                       rowdata.parentCode == null)) ||
                   (rowdata.parentCode == "" &&
-                    (rowdata.agentNo == this.userBussinessNo ||
-                      this.userType == "admin"))
+                    (rowdata.agentNo ==
+                      this.adminOperationAll.userBussinessNo ||
+                      this.adminOperationAll.userType == "admin"))
                 ) {
                   return true;
                 } else {
