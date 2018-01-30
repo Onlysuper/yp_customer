@@ -209,7 +209,7 @@ export default {
             } else if (data.resultCode == "-404") {
               this.$message({
                 showClose: true,
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning"
               });
             } else {

@@ -94,14 +94,21 @@
           </el-col>
         </el-row>
 
-        <el-form-item v-if="visibleQrcodes" label="二维码编号" prop="qrcodes" :label-width="formLabelWidth">
+        <el-form-item v-if="visibleQrcodes" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input v-model="addMaterielForm.qrcodes" auto-complete="off" placeholder="多个二维码请用英文逗号分隔"></el-input>
         </el-form-item>
-        <el-form-item v-if="visibleQrNums" label="号段" prop="" :label-width="formLabelWidth">
-          <el-input-number v-model="addMaterielForm.qrcodeStart" controls-position="right"></el-input-number>
-          -
-          <el-input-number v-model="addMaterielForm.qrcodeEnd" controls-position="right"></el-input-number>
-        </el-form-item>
+        <el-col :span="11">
+          <el-form-item v-if="visibleQrNums" label="号段开始" prop="" :label-width="formLabelWidth">
+            <el-input v-model="addMaterielForm.qrcodeStart" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="addMaterielForm.qrcodeStart" controls-position="right"></el-input-number> -->
+          </el-form-item>
+        </el-col>
+        <el-col :span="11">
+          <el-form-item v-if="visibleQrNums" label="号段结束" prop="" :label-width="formLabelWidth">
+            <el-input v-model="addMaterielForm.qrcodeEnd" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="addMaterielForm.qrcodeEnd" controls-position="right"></el-input-number> -->
+          </el-form-item>
+        </el-col>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addMaterielForm')">重置</el-button>
@@ -829,8 +836,8 @@ export default {
                   this.adminOperationAll.qrcode_bind == "TRUE" &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "TRUE" &&
-                  (rowdata.agentNo == this.userBussinessNo ||
-                    this.userType == "admin")
+                  (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+                    this.adminOperationAll.userType == "admin")
                 ) {
                   return true;
                 } else {
@@ -858,8 +865,8 @@ export default {
                   this.adminOperationAll.qrcode_unbind == "TRUE" &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "BINDED" &&
-                  (rowdata.agentNo == this.userBussinessNo ||
-                    this.userType == "admin")
+                  (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+                    this.adminOperationAll.userType == "admin")
                 ) {
                   return true;
                 } else {
@@ -924,8 +931,9 @@ export default {
                       rowdata.status == "BINDED" &&
                       rowdata.parentCode == null)) ||
                   (rowdata.parentCode == "" &&
-                    (rowdata.agentNo == this.userBussinessNo ||
-                      this.userType == "admin"))
+                    (rowdata.agentNo ==
+                      this.adminOperationAll.userBussinessNo ||
+                      this.adminOperationAll.userType == "admin"))
                 ) {
                   return true;
                 } else {
@@ -1184,14 +1192,9 @@ export default {
       // 文件上传成功
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
-          message: "上传失败",
+          message: res.msg,
           type: "warning"
         });
       }

@@ -54,7 +54,7 @@ function checkCode(res) {
         Indicator.close();
         return {
             resultCode: res.status,
-            resultMsg: res.msg
+            msg: res.msg
         };
     }
     if (res.data.code === "01") {
@@ -62,7 +62,7 @@ function checkCode(res) {
         router.replace({ path: "/login" });
         return {
             resultCode: "-1",
-            resultMsg: "请重新登录！"
+            msg: "请重新登录！"
         };
     }
     //直接返回data中的数据
