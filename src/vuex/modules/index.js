@@ -11,6 +11,10 @@ import empowerPurchase from "./empowerPurchase";
 import empowerTransfer from "./empowerTransfer";
 
 
+
+import customerProduct from "./customerProduct";
+
+
 export {
   customerGoods,
   profitBilling,
@@ -22,5 +26,8 @@ export {
   empowerCheck,
   empowerManage,
   empowerPurchase,
-  empowerTransfer
+  empowerTransfer,
+
+
+  customerProduct
 };

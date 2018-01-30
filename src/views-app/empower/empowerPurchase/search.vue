@@ -32,27 +32,22 @@ export default {
           });
         }
       });
-      // this.searchConfig.push({
-      //   title: "状态",
-      //   type: "myp-select",
-      //   defaultValue: this.searchQuery.status,
-      //   values: [
-      //     { name: "全部", code: "" },
-      //     { name: "待审核", code: "AUDITING" },
-      //     { name: "审核通过", code: "SUCCESS" },
-      //     { name: "审核通过", code: "SUCCESS" },
-      //     { name: "审核通过", code: "SUCCESS" },
-      //     { name: "审核通过", code: "SUCCESS" },
-      //     { name: "审核通过", code: "SUCCESS" },
-      //     { name: "审核通过", code: "SUCCESS" },
-      //     { name: "拒绝", code: "REJECT" }
-      //   ],
-      //   cb: value => {
-      //     this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
-      //       status: value
-      //     });
-      //   }
-      // });
+      this.searchConfig.push({
+        title: "状态",
+        type: "myp-select",
+        defaultValue: this.searchQuery.status,
+        values: [
+          { name: "全部", code: "" },
+          { name: "待审核", code: "AUDITING" },
+          { name: "审核通过", code: "SUCCESS" },
+          { name: "拒绝", code: "REJECT" }
+        ],
+        cb: value => {
+          this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
+            status: value
+          });
+        }
+      });
       this.searchConfig.push({
         title: "设备类型",
         type: "myp-select",

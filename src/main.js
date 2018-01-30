@@ -122,6 +122,7 @@ Vue.use(Loading.directive)
 
 import mintui from "mint-ui";
 Vue.use(mintui);
+import utils from "@src/common/utils";
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;
@@ -133,6 +134,7 @@ Vue.prototype.$message = Message;
 Vue.prototype.Toast = mintui.Toast;
 Vue.prototype.MessageBox = mintui.MessageBox;
 Vue.prototype.validator = validator;
+Vue.prototype.utils = utils;
 
 import FullPage from "@src/components-app/FullPage";
 Vue.component(FullPage.name, FullPage);
