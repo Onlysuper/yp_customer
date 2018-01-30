@@ -479,6 +479,30 @@ export default {
           cb: value => {
             this.searchCondition.customerFrom = value;
           }
+        },
+        {
+          corresattr: "containChild",
+          type: "select",
+          label: "是否包含下级",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "TRUE",
+              label: "包含下级"
+            },
+            {
+              value: "FALSE",
+              label: "不包含下级"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.containChild = value;
+          }
         }
       ],
 

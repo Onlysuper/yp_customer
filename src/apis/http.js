@@ -57,14 +57,14 @@ function checkCode(res) {
             msg: res.msg
         };
     }
-    // if (res.data.code === "01") {
-    //     localStorage.setItem("isLogin", "0");
-    //     router.replace({ path: "/login" });
-    //     return {
-    //         resultCode: "-1",
-    //         msg: "请重新登录！"
-    //     };
-    // }
+    if (res.data.code === "01") {
+        localStorage.setItem("isLogin", "0");
+        router.replace({ path: "/login" });
+        return {
+            resultCode: "-1",
+            msg: "请重新登录！"
+        };
+    }
     //直接返回data中的数据
     return res.data;
 }
