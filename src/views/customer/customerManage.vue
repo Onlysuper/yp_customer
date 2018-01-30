@@ -149,25 +149,25 @@
           <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">企业税号:</span>{{detailsForm.taxNo?detailsForm.taxNo:"??"}}
+          <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">企业法人:</span>{{detailsForm.legalPerson?detailsForm.legalPerson:"??"}}
+          <span class="line-label">企业法人:</span>{{detailsForm.legalPerson}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">身份证:</span>{{detailsForm.idCard?detailsForm.idCard:"??"}}
+          <span class="line-label">身份证:</span>{{detailsForm.idCard}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">联系人:</span>{{detailsForm.linkMan?detailsForm.linkMan:"??"}}
+          <span class="line-label">联系人:</span>{{detailsForm.linkMan}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">手机号:</span>{{detailsForm.phoneNo?detailsForm.phoneNo:"??"}}
+          <span class="line-label">手机号:</span>{{detailsForm.phoneNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户编号:</span>{{detailsForm.agentNo?detailsForm.agentNo:"??"}}
+          <span class="line-label">商户编号:</span>{{detailsForm.agentNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom?detailsForm.customerFrom:"??"}}
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom}}
         </div>
       </div>
 
