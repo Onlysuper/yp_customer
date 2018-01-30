@@ -182,8 +182,8 @@ export default {
     var searchConditionVar = {
       migrateNo: "", // 转移单号
       migrateMode: "", // 转移类型
-      createTimeStart: "", //开始日期
-      createTimeEnd: "" //结束日期
+      createTimeStart: todayDate, //开始日期
+      createTimeEnd: todayDate //结束日期
     };
     return {
       formLabelWidth: "110px",
