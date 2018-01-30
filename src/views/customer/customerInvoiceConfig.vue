@@ -385,15 +385,9 @@ export default {
               this.addFormVisible = false;
               this.resetForm("addForm");
               this.reloadData();
-            } else if (data.code === "98") {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
             } else {
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });
@@ -427,15 +421,9 @@ export default {
               });
               this.editFormVisible = false;
               this.reloadData(this.storePageCount, this.storeCurrentPage);
-            } else if (data.code === "98") {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
             } else {
               this.$message({
-                message: data.resultMsg,
+                message: data.msg,
                 type: "warning",
                 center: true
               });

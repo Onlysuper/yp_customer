@@ -59,12 +59,14 @@
         </el-form-item>
         <el-col :span="11">
           <el-form-item v-if="qrNumsVisible" label="号段开始" prop="" :label-width="formLabelWidth">
-            <el-input-number v-model="allotForm.qrcodeStart" controls-position="right"></el-input-number>
+            <el-input v-model="allotForm.qrcodeStart" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="allotForm.qrcodeStart" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-col :span="11">
           <el-form-item v-if="qrNumsVisible" label="号段结束" prop="" :label-width="formLabelWidth">
-            <el-input-number v-model="allotForm.qrcodeEnd" controls-position="right"></el-input-number>
+            <el-input v-model="allotForm.qrcodeEnd" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="allotForm.qrcodeEnd" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">

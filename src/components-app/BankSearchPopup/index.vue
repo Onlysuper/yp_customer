@@ -113,7 +113,7 @@ export default {
             this.query.page = this.query.page + 1;
             this.isAllLoad(data.data);
           } else {
-            Toast(data.resultMsg);
+            Toast(data.msg);
           }
         });
       }, 500);
