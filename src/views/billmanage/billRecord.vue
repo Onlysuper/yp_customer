@@ -8,49 +8,93 @@
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详情 start -->
-    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
+    <el-dialog title="详情" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
-        <div class="line-label-box">
-          <span class="line-label">订单编号:</span>{{detailsForm.orderNo}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">交付状态:</span>{{detailsForm.status}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">发票代码:</span>{{detailsForm.invoiceCode}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">发票号码:</span>{{detailsForm.invoiceNo}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">含税金额:</span>{{detailsForm.totalTax}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">手机号码:</span>{{detailsForm.phoneNo}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">购方名称:</span>{{detailsForm.enterpriseName}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">单位地址:</span>{{detailsForm.enterpriseAddress}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">开户银行:</span>{{detailsForm.bankName}}
-        </div>
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">订单编号:</span>
+              <span class="line-label-last">{{detailsForm.orderNo}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">交付状态:</span>
+              <span class="line-label-last">{{detailsForm.status}}</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">发票代码:</span>
+              <span class="line-label-last">{{detailsForm.invoiceCode}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">发票号码:</span>
+              <span class="line-label-last">{{detailsForm.invoiceNo}}</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">含税金额:</span>
+              <span class="line-label-last">{{detailsForm.totalTax}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">手机号码:</span>
+              <span class="line-label-last">{{detailsForm.phoneNo}}</span>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">购方名称:</span>
+              <span class="line-label-last">{{detailsForm.enterpriseName}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">企业税号:</span>
+              <span class="line-label-last">{{detailsForm.taxNo}}</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">公司电话:</span>
+              <span class="line-label-last">{{detailsForm.companyPhone}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">销方名称:</span>
+              <span class="line-label-last">{{detailsForm.bussinessName}}</span>
+            </div>
+          </el-col>
+        </el-row>
         <div class="line-label-box">
           <span class="line-label">银行帐号:</span>{{detailsForm.bankAccountNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">公司电话:</span>{{detailsForm.companyPhone}}
+          <span class="line-label">开户银行:</span>
+          <span class="line-label-last">{{detailsForm.bankName}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">销方名称:</span>{{detailsForm.bussinessName}}
+          <span class="line-label">单位地址:</span>
+          <span class="line-label-last">{{detailsForm.enterpriseAddress}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">发票金额:</span>{{detailsForm.billAmount}}
+          <span class="line-label">发票金额:</span>
+          <span class="line-label-last">{{detailsForm.billAmount}}</span>
         </div>
       </div>
 

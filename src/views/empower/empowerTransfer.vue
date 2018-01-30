@@ -58,13 +58,13 @@
           </el-select>
         </el-form-item>
         <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible" label="号段开始" prop="" :label-width="formLabelWidth">
+          <el-form-item v-if="qrNumsVisible" label="号段开始" prop="qrcodeStart" :label-width="formLabelWidth">
             <el-input v-model="allotForm.qrcodeStart" auto-complete="off"></el-input>
             <!-- <el-input-number v-model="allotForm.qrcodeStart" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible" label="号段结束" prop="" :label-width="formLabelWidth">
+          <el-form-item v-if="qrNumsVisible" label="号段结束" prop="qrcodeEnd" :label-width="formLabelWidth">
             <el-input v-model="allotForm.qrcodeEnd" auto-complete="off"></el-input>
             <!-- <el-input-number v-model="allotForm.qrcodeEnd" controls-position="right"></el-input-number> -->
           </el-form-item>
@@ -125,12 +125,12 @@
           </el-select>
         </el-form-item>
         <el-col :span="11">
-          <el-form-item v-if="qrNumsPayVisible" label="号段开始" prop="" :label-width="formLabelWidth">
+          <el-form-item v-if="qrNumsPayVisible" label="号段开始" prop="qrcodeStart" :label-width="formLabelWidth">
             <el-input-number v-model="payForm.qrcodeStart" controls-position="right"></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="11">
-          <el-form-item v-if="qrNumsPayVisible" label="号段结束" prop="" :label-width="formLabelWidth">
+          <el-form-item v-if="qrNumsPayVisible" label="号段结束" prop="qrcodeEnd" :label-width="formLabelWidth">
             <el-input-number v-model="payForm.qrcodeEnd" controls-position="right"></el-input-number>
           </el-form-item>
         </el-col>
@@ -182,8 +182,8 @@ export default {
     var searchConditionVar = {
       migrateNo: "", // 转移单号
       migrateMode: "", // 转移类型
-      createTimeStart: "", //开始日期
-      createTimeEnd: "" //结束日期
+      createTimeStart: todayDate, //开始日期
+      createTimeEnd: todayDate //结束日期
     };
     return {
       formLabelWidth: "110px",
@@ -210,6 +210,12 @@ export default {
         agentNo: [
           { required: true, message: "采购单价不能为空", trigger: "blur" }
         ],
+        qrcodeStart: [
+          { required: true, message: "开始号段不能为空", trigger: "blur" }
+        ],
+        qrcodeEnd: [
+          { required: true, message: "结束号段不能为空", trigger: "blur" }
+        ],
         qrcodes: [
           { required: true, message: "二维码编号不能为空", trigger: "blur" }
         ]
@@ -223,7 +229,13 @@ export default {
           { required: true, message: "请输入转移数量", trigger: "blur" }
         ],
         migrateType: [
-          { required: true, message: "请选择上交方式", trigger: "blur" }
+          { required: true, message: "请选择上缴方式", trigger: "blur" }
+        ],
+        qrcodeStart: [
+          { required: true, message: "开始号段不能为空", trigger: "blur" }
+        ],
+        qrcodeEnd: [
+          { required: true, message: "结束号段不能为空", trigger: "blur" }
         ],
         qrcodes: [
           { required: true, message: "请输入二维码编号", trigger: "blur" }
@@ -292,19 +304,42 @@ export default {
           }
         },
         {
-          type: "dateGroup2",
-          label: "选择日期",
-          limit: false, //日期联动
-          limitnum: 7,
+          type: "dateGroup",
+          label: "选择时间",
           show: true, // 普通搜索显示
-          value: [todayDate, todayDate],
-          option1: "createTimeStart",
-          option2: "createTimeEnd",
-          cb: (startTime, endTime) => {
-            this.searchCondition.createTimeStart = startTime;
-            this.searchCondition.createTimeEnd = endTime;
-          }
+          options: [
+            {
+              corresattr: "dataTimeBegin",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
+            },
+            {
+              corresattr: "dataTimeEnd",
+              lable: "结束时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
+            }
+          ]
         }
+        // {
+        //   type: "dateGroup2",
+        //   label: "选择日期",
+        //   limit: false, //日期联动
+        //   limitnum: 7,
+        //   show: true, // 普通搜索显示
+        //   value: [todayDate, todayDate],
+        //   option1: "createTimeStart",
+        //   option2: "createTimeEnd",
+        //   cb: (startTime, endTime) => {
+        //     this.searchCondition.createTimeStart = startTime;
+        //     this.searchCondition.createTimeEnd = endTime;
+        //   }
+        // }
       ],
 
       // 列表数据
@@ -412,7 +447,8 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.$refs.dataTable.ExportExcel(
-                  "/qrcodemigrate/download?receiptNo=" + rowdata.migrateNo
+                  "/qrcodemigrate/download?receiptNo=" + rowdata.migrateNo,
+                  "download"
                 );
               }
             }

@@ -6,23 +6,19 @@ import keepAlive from "@src/views-app/keepAlive";
  * 分润查询
  */
 
-
 export default {
   name: "profit",
   path: "/",
-  redirect: "/profitBilling",
   component: App,
-  meta: {
-    // keepAlive: true
-  },
+  redirect: () => "/" + this.a.children[0].path,
   children: [
+    //快速开票分润
     {
       name: "billprofit",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
       path: "profitBilling",
       redirect: "profitBilling/index",
       component: keepAlive,
       children: [
-        //快速开票分润
         {
           path: 'index',
           component: r => {
@@ -34,7 +30,6 @@ export default {
             menuCode: "billprofit",
           }
         },
-        //快速开票分润--搜索
         {
           name: "profitBillingSearch",
           path: 'search',

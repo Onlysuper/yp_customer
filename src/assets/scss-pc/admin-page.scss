@@ -13,10 +13,16 @@
     .detail-content {
       .line-label-box {
         padding: 4px 0;
+        display: flex;
         .line-label {
           min-width: 100px;
-          display: inline-block;
+          word-break: break-all;
           padding: 0 10px;
+        }
+        .line-label-last{
+            min-width: 100px;
+          word-break: break-all;
+          padding: 0;
         }
         &:nth-child(odd) {
           background-color: rgba(0, 193, 223, 0.1);

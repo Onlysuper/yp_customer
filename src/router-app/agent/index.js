@@ -10,8 +10,8 @@ import keepAlive from "@src/views-app/keepAlive";
 export default {
   name: "agent-mg",
   path: "/",
-  redirect: "/agent",
   component: keepAlive,
+  redirect: () => "/" + this.a.children[0].path,
   children: [
     //合伙人管理
     {

@@ -255,14 +255,8 @@ export default {
     // 导出
     ExportExcel(path, param) {
       var exportUrl = "";
-      if (param) {
-        exportUrl =
-          this.$store.state.Base.oaIp +
-          path +
-          "?" +
-          qs.stringify(param) +
-          "&" +
-          qs.stringify(this.getSearch);
+      if (param == "download") {
+        exportUrl = this.$store.state.Base.oaIp + path;
       } else {
         exportUrl =
           this.$store.state.Base.oaIp +
@@ -270,6 +264,8 @@ export default {
           "?" +
           qs.stringify(this.getSearch);
       }
+      console.log(this.getSearch);
+      // console.log(exportUrl);
       // var exportUrl =
       //   this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
       window.location.href = exportUrl;
