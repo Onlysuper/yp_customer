@@ -1,14 +1,24 @@
 @media screen and (min-width: 500px) {
   // 表格数据样式
+  body{
+    overflow: hidden;
+  }
   .admin-page {
     position: relative;
     // background: #eff2f5;
     width: 100%;
+    height:90%;
     display: flex;
     flex-direction: column;
+    // background: red;
     .tablelist-box{
-      overflow-y: auto;
-      overflow-x:hidden
+      display: flex;
+    flex-direction: column;
+     height:100%;
+    //  background: red;
+      // overflow-y: auto;
+      // overflow-x:hidden
+      overflow: hidden
     }
     .detail-content {
       .line-label-box {
