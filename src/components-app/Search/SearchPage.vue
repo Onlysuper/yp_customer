@@ -4,7 +4,7 @@
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" size="small" type="danger" @click="queryResult">查询</mt-button>
     </mt-header>
-    <div class="search-page" @touchmove.prevent>
+    <div class="search-component" @touchmove.prevent>
       <view-radius>
         <input-wrapper>
           <component class="border-bottom-1px" ref="configDate" :is="item.type" :config="item" v-for="(item,index) in config" @openPicker="openPicker" @showDate="showDate" :key="index"></component>
@@ -292,7 +292,7 @@ export default {
 
 <style lang="scss">
 @import "../../assets/scss/base.scss";
-.search-page {
+.search-component {
   width: 100%;
   height: 100%;
   // margin-top: 20*$rem;
