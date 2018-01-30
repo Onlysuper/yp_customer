@@ -9,6 +9,10 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
+          <!-- 状态 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerManageStatus}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.materiel | empowerManageMateriel}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.deviceType | empowerCheckReceiptType}}</mt-badge>
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->
@@ -20,17 +24,17 @@
               <myp-tr title="序列号">{{item.qrcode}}</myp-tr>
               <myp-tr title="授权码">{{item.authCode}}</myp-tr>
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
-              <myp-tr title="设备类型">{{item.deviceType}}</myp-tr>
-              <myp-tr title="状态">{{item.status}}</myp-tr>
-              <myp-tr title="是否有物料">{{item.materiel}}</myp-tr>
               <myp-tr title="上级授权码">{{item.parentCode}}</myp-tr>
             </table>
             <!-- 更多操作 -->
+            <div slot="right" @click="operation(item)">更多</div>
           </myp-cell>
 
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
+    <!-- 更多操作 -->
+    <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
 </template>
 <script>
@@ -48,7 +52,8 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getArantNumManages,
-      actions: []
+      actions: [],
+      sheetVisible: false
     };
   },
   created() {
@@ -59,7 +64,11 @@ export default {
       list: state => state.empowerManage.list,
       searchQuery: state => state.empowerManage.searchQuery,
       isSearch: state => state.empowerManage.isSearch
-    })
+    }),
+    adminOperationAll() {
+      // 用户按钮权限
+      return this.$store.state.moduleLayour.userMessage.all;
+    }
   },
   watch: {
     isSearch(flag) {
@@ -73,10 +82,102 @@ export default {
     watchDataList(watchDataList) {
       this.$store.commit("QRCODE_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODE_SEARCH", false);
+    },
+
+    // 操作按钮
+    operation(rowdata) {
+      this.sheetVisible = true;
+      this.rowdata = rowdata;
+      let arr_ = [];
+      if (rowdata.deviceType == "AUTHCODE") {
+        let showbut = {
+          name: "预览",
+          method: this.previewFn
+        };
+        let editbut = {
+          name: "编辑",
+          method: this.editFn
+        };
+        arr_ = arr_.map(item => item);
+        arr_.push(showbut, editbut);
+        this.actions = arr_;
+        if (
+          this.adminOperationAll.qrcode_bind == "TRUE" &&
+          (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+            this.adminOperationAll.userType == "admin")
+        ) {
+          if (rowdata.status == "TRUE") {
+            let bindbut = {
+              name: "绑定",
+              method: this.bindFn
+            };
+            arr_ = arr_.map(item => item);
+            arr_.push(bindbut);
+            this.actions = arr_;
+          } else if (rowdata.status == "BINDED") {
+            let unbindbut = {
+              name: "解绑",
+              method: this.unbindFn
+            };
+            arr_ = arr_.map(item => item);
+            arr_.push(unbindbut);
+          }
+        }
+      }
+      if (
+        (this.adminOperationAll.qrcode_bind_child == "TRUE" &&
+          (rowdata.deviceType == "AUTHCODE" &&
+            rowdata.status == "BINDED" &&
+            rowdata.parentCode == null)) ||
+        (rowdata.parentCode == "" &&
+          (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+            this.adminOperationAll.userType == "admin"))
+      ) {
+        let childbindbut = {
+          name: "绑定子绑",
+          method: this.childbindFn
+        };
+        arr_ = arr_.map(item => item);
+        arr_.push(childbindbut);
+      }
+      this.actions = arr_;
+    },
+    toUrl(type, itemId) {
+      if (type == "PREVIEW") {
+        this.$router.push({
+          path: "./preview/" + itemId,
+          query: { type: type }
+        });
+      } else if (type == "EDIT") {
+        this.$router.push({
+          path: "./edit/" + itemId,
+          query: { type: type }
+        });
+      }
+    },
+    previewFn() {
+      // 预览
+      this.toUrl("PREVIEW", this.rowdata.receiptNo);
+    },
+    editFn() {
+      // 编辑
+      this.toUrl("EDIT", this.rowdata.receiptNo);
+    },
+    bindFn() {
+      // 绑定
+      this.toUrl("BIND", this.rowdata.receiptNo);
+    },
+    unbindFn() {
+      // 解绑
+      this.toUrl("UNBIND", this.rowdata.receiptNo);
+    },
+    childbindFn() {
+      // 绑定子绑
+      this.toUrl("BINDCHILD", this.rowdata.receiptNo);
+    },
+    activated() {
+      this.routeMenuCode = this.$route.name;
     }
-  },
-  activated() {
-    this.routeMenuCode = this.$route.name;
   }
 };
 </script>

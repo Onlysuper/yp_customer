@@ -2,6 +2,8 @@
 
 //心跳包
 import $ from "jquery"
+// import oaIp from "@/src/apis"
+// console.log(oaIp)
 //无刷新下载文件
 function downloadFile(url) {
   if (typeof (downloadFile.iframe) == "undefined") {
@@ -15,14 +17,24 @@ function downloadFile(url) {
 const websocket = {
   data() {
     return {
-      ws: ''
+      ws: 'eeeee'
     }
   },
   methods: {
     websocketFn() {
       if ('WebSocket' in window) {
-        var hostname = "tm.yeepiao.com/";
-        this.ws = new WebSocket("ws://" + hostname + "/notify");
+        var hostname = "tm.yeepiao.com";
+        if (process.env.NODE_ENV == "productionTest") {
+          hostname = "tm.yeepiao.com";
+        } else if (process.env.NODE_ENV == "production") {
+          hostname = "m.yeepiao.com";
+        }
+        if (location.protocol == "https:") {
+          this.ws = new WebSocket("wss://" + hostname + "/notify");
+        } else {
+          this.ws = new WebSocket("ws://" + hostname + "/notify");
+        }
+        console.log("myws:" + this.ws);
       }
       else {
         eachOf.log('Not support websocket');
@@ -30,14 +42,14 @@ const websocket = {
 
       //连接发生错误的回调方法
       this.ws.onerror = (event) => {
-        // console.log("websocket连接发生错误");
-        console.log(event);
+        console.log("websocket连接发生错误");
+        // console.log(event);
       };
 
       this.ws.onopen = () => {
-        // console.log("websockt链接成功")
+        console.log("websockt链接成功")
         setInterval(() => {
-          // console.log("heart")
+          console.log("heart")
           this.ws.send("heart");
         }, 5000)
       }

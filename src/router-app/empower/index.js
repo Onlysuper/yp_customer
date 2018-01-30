@@ -84,6 +84,28 @@ export default {
             pageTitle: "授权码管理"
           }
         },
+        {
+          // 预览
+          name: "empowerManagePreview",
+          path: 'preview/:receiptNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/preview")) }, "empower-manage-preview")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
+        {
+          // 编辑
+          name: "empowerManageEdit",
+          path: 'edit/:receiptNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/edit")) }, "empower-manage-edit")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
       ]
     },
     // 授权码转移

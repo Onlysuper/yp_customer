@@ -31,12 +31,14 @@
         </el-form-item>
         <el-col :span="11">
           <el-form-item v-if="qrNumsVisible" label="号段开始" prop="" :label-width="formLabelWidth">
-            <el-input-number v-model="checkForm.qrcodeStart" controls-position="right"></el-input-number>
+            <el-input v-model="checkForm.qrcodeStart" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="checkForm.qrcodeStart" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-col :span="11">
           <el-form-item v-if="qrNumsVisible" label="号段结束" prop="" :label-width="formLabelWidth">
-            <el-input-number v-model="checkForm.qrcodeEnd" controls-position="right"></el-input-number>
+            <el-input v-model="checkForm.qrcodeEnd" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="checkForm.qrcodeEnd" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
@@ -77,12 +79,14 @@
         </el-form-item>
         <el-col :span="11">
           <el-form-item v-if="qrNumsVisible2" label="号段开始" prop="" :label-width="formLabelWidth">
-            <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number>
+            <el-input v-model="checkForm2.qrcodeStart" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-col :span="11">
           <el-form-item v-if="qrNumsVisible2" label="号段结束" prop="" :label-width="formLabelWidth">
-            <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number>
+            <el-input v-model="checkForm2.qrcodeEnd" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-form-item v-if="qrcodesVisible2" label="扫码枪编号" prop="qrcodes" :label-width="formLabelWidth">
@@ -355,7 +359,7 @@ export default {
           },
           {
             key: "是否生产水牌",
-            width: "120px",
+            width: "",
             word: "isPrint",
             status: true,
             type: data => {
@@ -376,12 +380,12 @@ export default {
                 };
               }
             }
-          },
-          {
-            key: "单价",
-            width: "",
-            word: "price"
           }
+          // {
+          //   key: "单价",
+          //   width: "",
+          //   word: "price"
+          // }
         ],
         operation: {
           width: "50px",
