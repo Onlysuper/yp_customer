@@ -7,7 +7,7 @@ import keepAlive from "@src/views-app/keepAlive";
  */
 export default {
   name: "bill-mg",
-  path: "/bill-mg",
+  path: "/",
   redirect: "/billcountagent",
   component: keepAlive,
   meta: {
@@ -17,8 +17,8 @@ export default {
     //开票统计
     {
       name: "billcountagent",
-      path: '/billcountagent',
-      redirect: "/billcountagent/index",
+      path: 'billcountagent',
+      redirect: "billcountagent/index",
       component: App,
       children: [
         //开票统计主页面

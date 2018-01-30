@@ -437,7 +437,8 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.$refs.dataTable.ExportExcel(
-                  "/qrReciept/download?receiptNo=" + rowdata.receiptNo
+                  "/qrReciept/download?receiptNo=" + rowdata.receiptNo,
+                  "download"
                 );
               }
             },

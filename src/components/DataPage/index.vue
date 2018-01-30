@@ -264,23 +264,8 @@ export default {
           "?" +
           qs.stringify(this.getSearch);
       }
-
-      // if (param) {
-      //   exportUrl =
-      //     this.$store.state.Base.oaIp +
-      //     path +
-      //     "?" +
-      //     qs.stringify(param) +
-      //     "&" +
-      //     qs.stringify(this.getSearch);
-      // } else {
-      //   exportUrl =
-      //     this.$store.state.Base.oaIp +
-      //     path +
-      //     "?" +
-      //     qs.stringify(this.getSearch);
-      // }
-      console.log(exportUrl);
+      console.log(this.getSearch);
+      // console.log(exportUrl);
       // var exportUrl =
       //   this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
       window.location.href = exportUrl;

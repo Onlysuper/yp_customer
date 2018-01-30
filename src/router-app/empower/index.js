@@ -8,7 +8,7 @@ import keepAlive from "@src/views-app/keepAlive";
 export default {
   name: "qr_code_manage",
   path: "qr_code_manage",
-  redirect: "/qr_code_reciept_audit",
+  redirect: () => "/" + this.a.children[0].path,
   component: keepAlive,
   meta: {
     // keepAlive: true
