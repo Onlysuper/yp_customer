@@ -23,11 +23,11 @@ const websocket = {
   methods: {
     websocketFn() {
       if ('WebSocket' in window) {
-        var hostname = "tm.yeepiao.com/";
+        var hostname = "tm.yeepiao.com";
         if (process.env.NODE_ENV == "productionTest") {
-          hostname = "tm.yeepiao.com/";
+          hostname = "tm.yeepiao.com";
         } else if (process.env.NODE_ENV == "production") {
-          hostname = "m.yeepiao.com/";
+          hostname = "m.yeepiao.com";
         }
         if (location.protocol == "https:") {
           this.ws = new WebSocket("wss://" + hostname + "/notify");
@@ -82,7 +82,7 @@ const websocket = {
   beforeDestroy() {
     //销毁之前，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
     console.log('已断开websocket链接')
-    // this.websocket.close();
+    this.websocket.close();
   }
 }
 export {
