@@ -8,8 +8,12 @@ import keepAlive from "@src/views-app/keepAlive";
 export default {
   name: "customer",
   path: "/",
-  redirect: "/productConfig",
+  redirect: () => "/" + this.a.children[0].path,
   component: keepAlive,
+  // beforeEnter: (to, from, next) => {
+  //   console.log(this.a.children[0])
+  //   // next(this.a.children[0].path);
+  // },
   meta: {
     // keepAlive: true
   },
