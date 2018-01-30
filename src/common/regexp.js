@@ -2,7 +2,7 @@
 const taxNumVerify = (rule, value, callback) => {
     var reg = /^[A-Z0-9]{15,20}$/;
     // var reg = /^[A-Z0-9]{15}$|^[A-Z0-9]{17}$|^[A-Z0-9]{18}$|^[A-Z0-9]{20}$/;
-    if (value != "" && !reg.test(value)) {
+    if (!valule && !reg.test(value)) {
         return callback(new Error("税号有误！"));
     } else {
         callback();
@@ -22,7 +22,7 @@ const idCardVerify = (rule, value, callback) => {
 // 电话号码
 const phoneNumVerify = (rule, value, callback) => {
     var reg = /^0?1[3|4|5|7|8][0-9]\d{8}$/;
-    if (value != "" && !reg.test(value)) {
+    if (!valule && !reg.test(value)) {
         return callback(new Error("手机号有误!"));
     } else {
         callback();
