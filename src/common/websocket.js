@@ -23,11 +23,11 @@ const websocket = {
   methods: {
     websocketFn() {
       if ('WebSocket' in window) {
-        var hostname = "tm.yeepiao.com/";
+        var hostname = "tm.yeepiao.com";
         if (process.env.NODE_ENV == "productionTest") {
-          hostname = "tm.yeepiao.com/";
+          hostname = "tm.yeepiao.com";
         } else if (process.env.NODE_ENV == "production") {
-          hostname = "m.yeepiao.com/";
+          hostname = "m.yeepiao.com";
         }
         if (location.protocol == "https:") {
           this.ws = new WebSocket("wss://" + hostname + "/notify");
