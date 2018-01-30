@@ -320,7 +320,8 @@ export default {
       createTimeStart: todayDate, // 开始时间
       createTimeEnd: todayDate, // 结束时间
       agentNo: "", // 合伙人编号
-      customerFrom: "" // 入网来源
+      customerFrom: "", // 入网来源
+      containChild: "TRUE"
     };
     return {
       fileList: [],
@@ -485,12 +486,12 @@ export default {
           type: "select",
           label: "是否包含下级",
           show: false, // 普通搜索显示
-          value: "",
+          value: "TRUE",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
+            // {
+            //   value: "",
+            //   label: "全部"
+            // },
             {
               value: "TRUE",
               label: "包含下级"
