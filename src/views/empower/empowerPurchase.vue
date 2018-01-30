@@ -149,8 +149,8 @@ export default {
       receiptNo: "", // 采购单号
       status: "", // 状态
       receiptType: "", //设备类型
-      createTimeStart: "", //开始日期
-      createTimeEnd: "" //结束日期
+      createTimeStart: todayDate, //开始日期
+      createTimeEnd: todayDate //结束日期
     };
     return {
       formLabelWidth: "140px",
@@ -437,7 +437,8 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.$refs.dataTable.ExportExcel(
-                  "/qrReciept/download?receiptNo=" + rowdata.receiptNo
+                  "/qrReciept/download?receiptNo=" + rowdata.receiptNo,
+                  "download"
                 );
               }
             },
