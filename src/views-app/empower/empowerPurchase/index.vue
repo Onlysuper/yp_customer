@@ -1,0 +1,105 @@
+<template>
+  <!-- 开票统计 -->
+  <div class="page">
+    <full-page class="page" ref="FullPage">
+      <mt-header slot="header" :title="$route.meta.pageTitle">
+        <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
+        <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">采购</mt-button>
+      </mt-header>
+      <!-- actions操作 -->
+      <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
+      <!-- 导航组件 -->
+      <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
+
+      <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
+        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
+          <!-- 常用按钮 -->
+          <div slot="btn" @click="edit(item)">编辑</div>
+
+          <!-- 状态 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerCheckStatus}}</mt-badge>
+          <!-- 生产水牌 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="error">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
+          <!-- 设备类型 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
+
+          <myp-cell class="list-item">
+            <!-- 详情 -->
+            <table>
+              <myp-tr title="采购单号">{{item.receiptNo}}</myp-tr>
+              <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
+              <myp-tr title="数量">{{item.qrcodeCount}}</myp-tr>
+              <myp-tr title="单价">{{item.price || '--'}}</myp-tr>
+            </table>
+          </myp-cell>
+
+        </myp-cell-pannel>
+      </myp-loadmore-api>
+    </full-page>
+  </div>
+</template>
+<script>
+import SliderNav from "@src/components-app/SliderNav";
+import { getArantNumBuybacks } from "@src/apis";
+import { mapState, mapActions } from "vuex";
+import { scrollBehavior } from "@src/common/mixins";
+import MypPopupActions from "@src/components-app/MypPopupActions";
+export default {
+  mixins: [scrollBehavior],
+  components: { SliderNav, MypPopupActions },
+  data() {
+    return {
+      munes: this.$store.state.moduleLayour.menuList[
+        this.$route.query["menuIndex"]
+      ].child,
+      routeMenuCode: "",
+      api: getArantNumBuybacks,
+      popupActionsVisible: false,
+      popupActions: [
+        {
+          name: "采购授权码",
+          icon: "icon-admin",
+          method: this.add
+        },
+        {
+          name: "采购扫码枪",
+          icon: "icon-admin",
+          method: this.add
+        }
+      ]
+    };
+  },
+  created() {
+    this.$store.commit("QRCODERECIEPT_SEARCH_INIT");
+  },
+  computed: {
+    ...mapState({
+      list: state => state.empowerPurchase.list,
+      searchQuery: state => state.empowerPurchase.searchQuery,
+      isSearch: state => state.empowerPurchase.isSearch
+    })
+  },
+  watch: {
+    isSearch(flag) {
+      flag && this.$refs.MypLoadmoreApi.load(this.searchQuery);
+    }
+  },
+  mounted() {
+    this.$refs.MypLoadmoreApi.load(this.searchQuery);
+  },
+  methods: {
+    watchDataList(watchDataList) {
+      this.$store.commit("QRCODERECIEPT_SEARCH_LIST", watchDataList);
+      this.$store.commit("QRCODERECIEPT_SEARCH", false);
+    }
+  },
+  activated() {
+    this.routeMenuCode = this.$route.name;
+  }
+};
+</script>
+
+<style>
+
+</style>
