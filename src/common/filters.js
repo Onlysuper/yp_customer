@@ -316,6 +316,34 @@ mypFilters.install = function (Vue, options) {
         return value;
     })
 
+    /**
+     * 商户产品类型
+     */
+    Vue.filter('handleFeatureType', function (value) {
+        switch (value) {
+            case "T0_CASH_COST":
+                value = "T0提现";
+                break;
+            case "T1_CASH_COST":
+                value = "T1提现";
+                break;
+            case "ELECTRONIC":
+                value = "电子发票";
+                break;
+            case "QRCODE_BILLING":
+                value = "快速开票";
+                break;
+            case "WECHAT_COST":
+                value = "微信支付";
+                break;
+            case "ALIPAY_COST":
+                value = "支付宝支付";
+                break;
+            default:
+                value = "未知";
+        }
+        return value;
+    })
     // 3. 添加实例方法
     //Vue.prototype.$myMethod = ...
 }

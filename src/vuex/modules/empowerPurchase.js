@@ -3,6 +3,7 @@
 
 import { } from "@src/apis";
 import { Toast } from "mint-ui";
+import utils from "@src/common/utils";
 export default {
   state: {
     list: [],
@@ -19,9 +20,9 @@ export default {
       state.searchQuery = {
         receiptNo: "",
         status: "",
-        receiptType: "AUTHCODE",
-        createTimeStart: "",
-        createTimeEnd: "",
+        receiptType: "",
+        createTimeStart: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        createTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
       };
       console.info("授权码采购数据加载完成");
     },
