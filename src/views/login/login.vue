@@ -55,7 +55,7 @@ export default {
           { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
         ],
         password: [
-          { required: true, message: "请选择活动区域", trigger: "change" }
+          { required: true, message: "请输入有效密码", trigger: "change" }
         ]
       }
     };
