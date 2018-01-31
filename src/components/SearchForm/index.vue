@@ -299,12 +299,13 @@ export default {
   }
   /*高级搜索样式start*/
   .showform-box {
-    width: 100%;
     overflow: hidden;
     margin-top: 5px !important;
     display: flex;
+    flex: 1;
     flex-wrap: wrap;
     justify-content: baseline;
+    background: red;
     .el-form-item {
       margin-bottom: 5px;
     }
@@ -322,8 +323,9 @@ export default {
 
   /*普通样式start*/
   .visibleform-box {
+    background: blue;
     display: flex;
-    width: 100%;
+    flex: 1;
     .form-item {
       float: left;
     }
@@ -331,7 +333,7 @@ export default {
       float: right;
     }
     .button-box {
-      width: 100%;
+      flex: 1;
       button {
         margin: 0 10px;
       }
