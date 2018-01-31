@@ -44,8 +44,13 @@ const Layout = {
             //     userType: ""
             // }
         },
+        //移动端使用的路由
         asyncNewRoutes(state, asyncNewRoutes) {
             state.menuListApp = asyncNewRoutes || [];
+        },
+        //移动端路由对应的菜单
+        setMenuList(state, menuList) {
+            state.menuList = menuList;
         }
     },
     actions: {
