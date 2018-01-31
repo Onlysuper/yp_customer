@@ -279,128 +279,130 @@ export default {
 };
 </script>
 <style lang="scss">
-.search-page {
-  min-width: 600px;
-  padding: 0;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  display: block;
-  &::after {
-    content: "";
-    display: block;
-    clear: both;
-  }
-  .el-form-item--small.el-form-item {
+@media screen and (min-width: 500px) {
+  .search-page {
+    min-width: 600px;
+    padding: 0;
     margin-bottom: 10px;
-  }
-  .form-box {
-    margin-top: 5px !important;
-    .form-item {
-      width: 340px;
-      flex-shrink: 0;
+    border-bottom: 1px solid #eee;
+    display: block;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
     }
-    .form-select {
-      width: 100%;
-      margin-left: 0;
+    .el-form-item--small.el-form-item {
+      margin-bottom: 10px;
     }
-    .dateMonth {
-      width: 240px;
-    }
-    // .dateGroup,
-    .dateGroup2 {
-      width: 240px;
-      display: flex;
-      background-color: #fff;
-      background-image: none;
-      border-radius: 4px;
-      .el-date-editor .el-range__close-icon {
-        position: absolute;
-        top: 0;
-        right: 3px;
+    .form-box {
+      margin-top: 5px !important;
+      .form-item {
+        width: 340px;
+        flex-shrink: 0;
       }
-      input {
-        padding-right: 0px;
-        border: 0px;
-        background: none;
+      .form-select {
+        width: 100%;
+        margin-left: 0;
       }
-      .el-input__suffix {
-        right: 0;
+      .dateMonth {
+        width: 240px;
       }
-    }
-    .dateGroup {
-      @extend .dateGroup2;
-      border: 1px solid #dcdfe6;
-      .el-date-editor {
-        position: relative;
+      // .dateGroup,
+      .dateGroup2 {
+        width: 240px;
+        display: flex;
+        background-color: #fff;
+        background-image: none;
+        border-radius: 4px;
+        .el-date-editor .el-range__close-icon {
+          position: absolute;
+          top: 0;
+          right: 3px;
+        }
+        input {
+          padding-right: 0px;
+          border: 0px;
+          background: none;
+        }
+        .el-input__suffix {
+          right: 0;
+        }
       }
+      .dateGroup {
+        @extend .dateGroup2;
+        border: 1px solid #dcdfe6;
+        .el-date-editor {
+          position: relative;
+        }
+      }
+      // .dateGroup {
+      //   width: 240px;
+      //   display: flex;
+      //   background-color: #fff;
+      //   background-image: none;
+      //   border-radius: 4px;
+      //   .el-date-editor .el-range__close-icon {
+      //     position: absolute;
+      //     top: 0;
+      //     right: 3px;
+      //   }
+      //   input {
+      //     padding-right: 0px;
+      //     border: 0px;
+      //     background: none;
+      //   }
+      //   .el-input__suffix {
+      //     right: 0;
+      //   }
+      //   border: 1px solid #dcdfe6;
+      //   .el-date-editor {
+      //     position: relative;
+      //   }
+      // }
     }
-    // .dateGroup {
-    //   width: 240px;
-    //   display: flex;
-    //   background-color: #fff;
-    //   background-image: none;
-    //   border-radius: 4px;
-    //   .el-date-editor .el-range__close-icon {
-    //     position: absolute;
-    //     top: 0;
-    //     right: 3px;
-    //   }
-    //   input {
-    //     padding-right: 0px;
-    //     border: 0px;
-    //     background: none;
-    //   }
-    //   .el-input__suffix {
-    //     right: 0;
-    //   }
-    //   border: 1px solid #dcdfe6;
-    //   .el-date-editor {
-    //     position: relative;
-    //   }
-    // }
-  }
-  .seach-mode {
-    font-size: 14px;
-    color: #f74f52;
-    font-weight: bold;
-    i {
-      font-weight: bold;
-    }
-  }
-  /*高级搜索样式start*/
-  .showform-box {
-    overflow: hidden;
-    margin-top: 5px !important;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: baseline;
-    .el-form-item {
-      margin-bottom: 5px;
-    }
-
-    .button-box {
-      display: flex;
-      justify-content: flex-end;
-      padding: 5px 5px 10px 5px;
-      width: 100%;
-      overflow: hidden;
-    }
-  }
-  /*高级搜索样式end*/
-
-  /*普通样式start*/
-  .visibleform-box {
-    display: flex;
     .seach-mode {
-      float: right;
-    }
-    .button-box {
-      flex: 1;
-      button {
-        margin: 0 10px;
+      font-size: 14px;
+      color: #f74f52;
+      font-weight: bold;
+      i {
+        font-weight: bold;
       }
     }
+    /*高级搜索样式start*/
+    .showform-box {
+      overflow: hidden;
+      margin-top: 5px !important;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: baseline;
+      .el-form-item {
+        margin-bottom: 5px;
+      }
+
+      .button-box {
+        display: flex;
+        justify-content: flex-end;
+        padding: 5px 5px 10px 5px;
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+    /*高级搜索样式end*/
+
+    /*普通样式start*/
+    .visibleform-box {
+      display: flex;
+      .seach-mode {
+        float: right;
+      }
+      .button-box {
+        flex: 1;
+        button {
+          margin: 0 10px;
+        }
+      }
+    }
+    /*普通搜索样式end*/
   }
-  /*普通搜索样式end*/
 }
 </style>
