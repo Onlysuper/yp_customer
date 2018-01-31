@@ -42,7 +42,7 @@
         <!-- 解绑 -->
         <template v-if="pageType == 'UNBIND'">
         </template>
-        <!-- 绑定子绑 -->
+        <!-- 绑定子码 -->
         <template v-if="pageType == 'BINDCHILD'">
         </template>
       </input-wrapper>

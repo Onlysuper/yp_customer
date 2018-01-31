@@ -134,7 +134,7 @@ export default {
             this.adminOperationAll.userType == "admin"))
       ) {
         let childbindbut = {
-          name: "绑定子绑",
+          name: "绑定子码",
           method: this.childbindFn
         };
         arr_ = arr_.map(item => item);
@@ -172,7 +172,7 @@ export default {
       this.toUrl("UNBIND", this.rowdata.receiptNo);
     },
     childbindFn() {
-      // 绑定子绑
+      // 绑定子码
       this.toUrl("BINDCHILD", this.rowdata.receiptNo);
     },
     activated() {

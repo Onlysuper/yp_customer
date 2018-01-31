@@ -943,7 +943,7 @@ export default {
               }
             },
             {
-              text: "绑定子绑",
+              text: "绑定子码",
               color: "#909399",
               visibleFn: rowdata => {
                 if (
