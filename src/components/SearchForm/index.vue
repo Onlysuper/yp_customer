@@ -241,10 +241,11 @@ export default {
   padding: 0;
   margin-bottom: 10px;
   border-bottom: 1px solid #eee;
-  flex: 1;
-  flex-shrink: 0;
-  display: flex;
-  overflow: hidden;
+  display: block;
+  // flex: 1;
+  // flex-shrink: 0;
+  // display: flex;
+  // overflow: hidden;
   &::after {
     content: "";
     display: block;
@@ -257,7 +258,7 @@ export default {
     margin-top: 5px !important;
     .form-item {
       width: 340px;
-      flex-shrink: 1;
+      flex-shrink: 0;
     }
     .form-select {
       width: 100%;
@@ -308,7 +309,7 @@ export default {
     overflow: hidden;
     margin-top: 5px !important;
     display: flex;
-    flex: 1;
+    // flex: 1;
     flex-wrap: wrap;
     justify-content: baseline;
     background: red;
@@ -331,10 +332,9 @@ export default {
   .visibleform-box {
     background: blue;
     display: flex;
-    flex: 1;
-    .form-item {
-      float: left;
-    }
+    // .form-item {
+    //   float: left;
+    // }
     .seach-mode {
       float: right;
     }
