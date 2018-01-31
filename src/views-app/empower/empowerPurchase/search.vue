@@ -32,6 +32,7 @@ export default {
           });
         }
       });
+
       this.searchConfig.push({
         title: "状态",
         type: "myp-select",
@@ -48,6 +49,7 @@ export default {
           });
         }
       });
+
       this.searchConfig.push({
         title: "设备类型",
         type: "myp-select",
@@ -63,17 +65,18 @@ export default {
           });
         }
       });
+
       this.searchConfig.push({
         title: "开始日期",
         type: "myp-date",
         defaultValue: this.searchQuery.createTimeStart,
         cb: value => {
-          console.log(value);
           this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
             createTimeStart: value
           });
         }
       });
+
       this.searchConfig.push({
         title: "结束日期",
         type: "myp-date",
