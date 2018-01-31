@@ -137,7 +137,14 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    document.onkeydown = event => {
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+      if (e && e.keyCode == 13) {
+        this.searchStart();
+      }
+    };
+  },
   methods: {
     visibleinputHandle() {
       // 高级搜索与普通搜索转变
@@ -236,6 +243,7 @@ export default {
   border-bottom: 1px solid #eee;
   flex: 1;
   flex-shrink: 0;
+  display: flex;
   .el-form-item--small.el-form-item {
     margin-bottom: 10px;
   }
@@ -281,7 +289,18 @@ export default {
       }
     }
   }
+  .seach-mode {
+    font-size: 14px;
+    color: #f74f52;
+    font-weight: bold;
+    i {
+      font-weight: bold;
+    }
+  }
+  /*高级搜索样式start*/
   .showform-box {
+    width: 100%;
+    overflow: hidden;
     margin-top: 5px !important;
     display: flex;
     flex-wrap: wrap;
@@ -291,21 +310,20 @@ export default {
     }
 
     .button-box {
+      display: flex;
+      justify-content: flex-end;
       padding: 5px 5px 10px 5px;
       width: 100%;
       text-align: right;
+      overflow: hidden;
     }
   }
-  .seach-mode {
-    font-size: 14px;
-    color: #f74f52;
-    font-weight: bold;
-    i {
-      font-weight: bold;
-    }
-  }
+  /*高级搜索样式end*/
+
+  /*普通样式start*/
   .visibleform-box {
-    display: block;
+    display: flex;
+    width: 100%;
     .form-item {
       float: left;
     }
@@ -313,10 +331,12 @@ export default {
       float: right;
     }
     .button-box {
+      width: 100%;
       button {
         margin: 0 10px;
       }
     }
   }
+  /*普通搜索样式end*/
 }
 </style>
