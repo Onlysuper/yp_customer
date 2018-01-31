@@ -309,10 +309,8 @@ export default {
     overflow: hidden;
     margin-top: 5px !important;
     display: flex;
-    // flex: 1;
     flex-wrap: wrap;
     justify-content: baseline;
-    background: red;
     .el-form-item {
       margin-bottom: 5px;
     }
@@ -330,11 +328,7 @@ export default {
 
   /*普通样式start*/
   .visibleform-box {
-    background: blue;
     display: flex;
-    // .form-item {
-    //   float: left;
-    // }
     .seach-mode {
       float: right;
     }
