@@ -17,7 +17,7 @@ import BuriedPointChart from "@src/components/buriedBillChart";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/buriedBillChart/chartPage";
 import { todayDate } from "@src/common/dateSerialize";
-import { postBurialPointCharts, getBurialPointTotal } from "@src/apis";
+import { getBillrecordCharts, getBurialPointTotal } from "@src/apis";
 export default {
   name: "buriedPoint",
   components: {
@@ -85,7 +85,7 @@ export default {
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: postBurialPointCharts // 初始化数据
+          url: getBillrecordCharts // 初始化数据
         }
       }
     };
