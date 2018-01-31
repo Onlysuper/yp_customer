@@ -9,6 +9,10 @@ export default {
   data() {
     return {
       visible: false,
+      value: {
+        name: "授权码序列号",
+        code: "OUT_ORDER"
+      },
       taxActions: [
         {
           name: "授权码序列号",
@@ -23,10 +27,11 @@ export default {
   },
   methods: {
     taxSelectCallBack(result) {
-      this.$emit("change", {
-        name: result.name,
-        value: result.code
-      });
+      console.log(result);
+      // this.$emit("change", {
+      //   name: result.name,
+      //   value: result.code
+      // });
     },
     open() {
       this.visible = true;

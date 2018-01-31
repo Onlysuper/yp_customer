@@ -13,10 +13,9 @@
           <mt-field type="text" :disabled="true" label="服务商编号" placeholder="请输入服务商编号" v-model="unitData.agentNo"></mt-field>
           <mt-field type="text" :disabled="true" label="申请数量" placeholder="请输入申请数量" v-model="unitData.qrcodeCount"></mt-field>
           <mt-field type="text" label="采购单价" placeholder="请输入采购单价" v-model="unitData.price"></mt-field>
-          <div @click="openMigratePicker">
-            <mt-field type="text" label="分发方式" placeholder="请选择分发方式" :value="unitData.migrateType | migrateType">
-            </mt-field>
-          </div>
+          <mt-field @click.native="$refs.MigratePicker.open" type="text" label="分发方式" placeholder="请选择分发方式" :value="migratePickerModle.name" v-readonly-ios :readonly="true" :disableClear="true">
+            <i class="icon-admin"></i>
+          </mt-field>
           <mt-field type="text" v-if="qrNumsVisible" label="号段开始" placeholder="请输入号段" v-model="unitData.qrcodeStart"></mt-field>
           <mt-field type="text" v-if="qrNumsVisible" label="号段结束" placeholder="请输入号段" v-model="unitData.qrcodeEnd"></mt-field>
           <mt-field type="text" v-if="qrcodesVisible" label="授权码序列号" placeholder="请输入授权码序列号" v-model="unitData.qrcodes"></mt-field>
@@ -28,31 +27,31 @@
           <mt-field type="text" label="申请数量" placeholder="请输入申请数量" v-model="unitData.qrcodeCount"></mt-field>
           <mt-field type="text" label="采购单价" placeholder="请输入采购单价" v-model="unitData.price"></mt-field>
           <mt-field type="text" label="序列号前缀" placeholder="请输入序列号前缀" v-model="unitData.prefixNo"></mt-field>
-          <div @click="openMigratePicker">
-            <mt-field type="text" label="分发方式" placeholder="请选择分发方式" :value="unitData.migrateType">
-            </mt-field>
-          </div>
+
+          <mt-field @click.native="$refs.MigratePicker.open" type="text" label="分发方式" placeholder="请选择分发方式" :value="migratePickerModle.migrateType" v-readonly-ios :readonly="true" :disableClear="true">
+            <i class="icon-admin"></i>
+          </mt-field>
           <mt-field type="text" v-if="qrNumsVisible" label="号段开始" placeholder="请输入号段" v-model="unitData.qrcodeStart"></mt-field>
           <mt-field type="text" v-if="qrNumsVisible" label="号段结束" placeholder="请输入号段" v-model="unitData.qrcodeEnd"></mt-field>
           <mt-field type="text" v-if="qrcodesVisible" label="授权码序列号" placeholder="请输入授权码序列号" v-model="unitData.qrcodes"></mt-field>
         </template>
       </input-wrapper>
     </view-radius>
-    <migrate-picker ref="MigratePicker" @change="openMigratePickerChange">
-    </migrate-picker>
+    <picker ref="MigratePicker" v-model="migratePickerModle" :slotsActions="migrateTaxActions" @confirm="openMigratePickerChange"></picker>
   </full-page>
 </template>
 
 <script>
-import MigratePicker from "@src/components-app/SelectPicker/MigratePicker";
+import Picker from "@src/components-app/SelectPicker/Picker";
 import { mapState, mapActions } from "vuex";
 export default {
-  components: { MigratePicker },
+  components: { Picker },
   data() {
     return {
       btnDisabled: false,
       qrNumsVisible: false,
       qrcodesVisible: false,
+      migratePickerModle: {},
       unitData: {
         receiptNo: "",
         agentNo: "",
@@ -64,6 +63,16 @@ export default {
         qrcodeEnd: "",
         qrcodes: ""
       },
+      migrateTaxActions: [
+        {
+          name: "授权码序列号",
+          code: "OUT_ORDER"
+        },
+        {
+          name: "授权码号段转移",
+          code: "ORDER"
+        }
+      ],
       pageType: this.$route.query["type"] || "ADD",
       pageTitle: {
         AUTHCHECK: "审核授权码采购清单",
@@ -122,15 +131,9 @@ export default {
     },
     // 分发方式选择结构
     openMigratePickerChange(obj) {
-      if (obj.value == "ORDER") {
-        //号段转移
-        this.qrNumsVisible = true;
-        this.qrcodesVisible = false;
-      } else if (obj.value == "OUT_ORDER") {
-        this.qrcodesVisible = true;
-        this.qrNumsVisible = false;
-      }
-      this.unitData.migrateType = obj.value;
+      this.migratePickerModle = obj;
+      this.unitData.migrateType = obj.code;
+      console.log(this.migratePickerModle);
     }
   }
 };
