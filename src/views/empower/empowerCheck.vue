@@ -285,22 +285,22 @@ export default {
           },
           {
             key: "采购单号",
-            width: "120px",
+            width: "",
             word: "receiptNo"
           },
           {
             key: "合伙人编号",
-            width: "120px",
+            width: "",
             word: "agentNo"
           },
           {
             key: "数量",
-            width: "80px",
+            width: "",
             word: "qrcodeCount"
           },
           {
             key: "单价",
-            width: "80px",
+            width: "",
             word: "price"
           },
           {
@@ -359,7 +359,7 @@ export default {
           },
           {
             key: "是否生产水牌",
-            width: "",
+            width: "120px",
             word: "isPrint",
             status: true,
             type: data => {

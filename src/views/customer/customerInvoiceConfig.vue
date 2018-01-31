@@ -316,17 +316,17 @@ export default {
           },
           {
             key: "设备编号",
-            width: "100px",
+            width: "",
             word: "deviceNo"
           },
           {
             key: "收款人",
-            width: "100px",
+            width: "",
             word: "receiveMan"
           },
           {
             key: "开票人",
-            width: "100px",
+            width: "",
             word: "invoiceMan"
           },
           {

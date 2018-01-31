@@ -703,7 +703,7 @@ export default {
           },
           {
             key: "创建时间",
-            width: "100px",
+            width: "170px",
             word: "createTime"
           },
           {

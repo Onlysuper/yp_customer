@@ -197,12 +197,12 @@ export default {
           {
             key: "角色名称",
             sortable: true,
-            width: "180px",
+            width: "",
             word: "roleName"
           },
           {
             key: "角色编号",
-            width: "180px",
+            width: "",
             word: "roleCode"
           },
           {

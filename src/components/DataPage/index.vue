@@ -165,8 +165,10 @@
 import $ from "jquery";
 import qs from "qs";
 import Vue from "vue";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 export default {
   props: ["tableDataInit", "page", "limit", "search"],
+  mixins: [mixinDataTable],
   data() {
     return {
       // iscrollOptions: {
@@ -219,17 +221,6 @@ export default {
           });
         }
         this.ifloading = false;
-      });
-    },
-    // 表格大小
-    tableSizeHandle() {
-      this.$nextTick(() => {
-        // let pageHeight = $(".admin-main-box").outerHeight(true) || 0;
-        // let formHeight = $(".search-page").outerHeight(true) || 0;
-        // let operationHeight = $(".operation-box").outerHeight(true) || 0;
-        // let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-        // this.tableHeight =
-        //   pageHeight - formHeight - operationHeight - paginationHeight - 20;
       });
     },
     handleSizeChange(val) {
