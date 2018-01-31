@@ -224,12 +224,12 @@ export default {
     // 表格大小
     tableSizeHandle() {
       this.$nextTick(() => {
-        let pageHeight = $(".admin-page").outerHeight(true) || 0;
-        let formHeight = $(".search-page").outerHeight(true) || 0;
-        let operationHeight = $(".operation-box").outerHeight(true) || 0;
-        let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-        this.tableHeight =
-          pageHeight - formHeight - operationHeight - paginationHeight - 20;
+        // let pageHeight = $(".admin-main-box").outerHeight(true) || 0;
+        // let formHeight = $(".search-page").outerHeight(true) || 0;
+        // let operationHeight = $(".operation-box").outerHeight(true) || 0;
+        // let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
+        // this.tableHeight =
+        //   pageHeight - formHeight - operationHeight - paginationHeight - 20;
       });
     },
     handleSizeChange(val) {
