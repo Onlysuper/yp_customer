@@ -2,7 +2,18 @@
   <!-- 表单数据搜索区域 -->
 
   <div class="search-page">
-
+    <template>
+      <div class="block">
+        <span class="demonstration">默认</span>
+        <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+        </el-date-picker>
+      </div>
+      <div class="block">
+        <span class="demonstration">带快捷选项</span>
+        <el-date-picker v-model="value2" align="right" type="date" placeholder="选择日期" :picker-options="pickerOptions1">
+        </el-date-picker>
+      </div>
+    </template>
     <!-- Form 表单编写 start -->
     <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px">
       <el-form-item class="form-item" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput">
@@ -38,7 +49,16 @@
       <div class="button-box">
         <el-button size="small" @click="searchStart" type="primary">开始搜索</el-button>
         <el-button size="small" @click="resetInput('searchform')">重置</el-button>
-        <el-button size="small" v-if="visibleSenior" class="seach-mode" @click="advancSeachfn()" type="text">{{visibleinput?"普通搜索":"高级搜索"}}</el-button>
+        <el-button size="small" v-if="visibleSenior" class="seach-mode" @click="advancSeachfn()" type="text">
+          <template v-if="visibleinput">
+            普通搜索
+            <i class="el-icon-arrow-up"></i>
+          </template>
+          <template v-if="!visibleinput">
+            高级搜索
+            <i class="el-icon-arrow-down"></i>
+          </template>
+        </el-button>
 
       </div>
     </el-form>
@@ -63,6 +83,38 @@ export default {
   },
   data() {
     return {
+      pickerOptions1: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "今天",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            }
+          },
+          {
+            text: "昨天",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            }
+          },
+          {
+            text: "一周前",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            }
+          }
+        ]
+      },
+      value1: "",
+      value2: "",
+
       visibleinput: false,
       pickerOptions7: {
         shortcuts: [
@@ -128,7 +180,14 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    document.onkeydown = event => {
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+      if (e && e.keyCode == 13) {
+        this.searchStart();
+      }
+    };
+  },
   methods: {
     visibleinputHandle() {
       // 高级搜索与普通搜索转变
@@ -220,86 +279,130 @@ export default {
 };
 </script>
 <style lang="scss">
-.search-page {
-  min-width: 600px;
-  padding: 0;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  flex: 1;
-  flex-shrink: 0;
-  .el-form-item--small.el-form-item {
+@media screen and (min-width: 500px) {
+  .search-page {
+    min-width: 600px;
+    padding: 0;
     margin-bottom: 10px;
-  }
-  .form-box {
-    margin-top: 5px !important;
-    .form-item {
-      width: 340px;
-      flex-shrink: 1;
-    }
-    .form-select {
-      width: 100%;
-      margin-left: 0;
-    }
-    .dateMonth {
-      width: 240px;
-    }
-    // .dateGroup,
-    .dateGroup2 {
-      width: 240px;
-      display: flex;
-      background-color: #fff;
-      background-image: none;
-      border-radius: 4px;
-      .el-date-editor .el-range__close-icon {
-        position: absolute;
-        top: 0;
-        right: 3px;
-      }
-      input {
-        padding-right: 0px;
-        border: 0px;
-        background: none;
-      }
-      .el-input__suffix {
-        right: 0;
-      }
-    }
-    .dateGroup {
-      @extend .dateGroup2;
-      border: 1px solid #dcdfe6;
-      .el-date-editor {
-        position: relative;
-      }
-    }
-  }
-  .showform-box {
-    margin-top: 5px !important;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: baseline;
-    .el-form-item {
-      margin-bottom: 5px;
-    }
-
-    .button-box {
-      padding: 5px 5px 10px 5px;
-      width: 100%;
-      text-align: right;
-    }
-  }
-  .visibleform-box {
+    border-bottom: 1px solid #eee;
     display: block;
-    .form-item {
-      float: left;
+    &::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+    .el-form-item--small.el-form-item {
+      margin-bottom: 10px;
+    }
+    .form-box {
+      margin-top: 5px !important;
+      .form-item {
+        width: 340px;
+        flex-shrink: 0;
+      }
+      .form-select {
+        width: 100%;
+        margin-left: 0;
+      }
+      .dateMonth {
+        width: 240px;
+      }
+      // .dateGroup,
+      .dateGroup2 {
+        width: 240px;
+        display: flex;
+        background-color: #fff;
+        background-image: none;
+        border-radius: 4px;
+        .el-date-editor .el-range__close-icon {
+          position: absolute;
+          top: 0;
+          right: 3px;
+        }
+        input {
+          padding-right: 0px;
+          border: 0px;
+          background: none;
+        }
+        .el-input__suffix {
+          right: 0;
+        }
+      }
+      .dateGroup {
+        @extend .dateGroup2;
+        border: 1px solid #dcdfe6;
+        .el-date-editor {
+          position: relative;
+        }
+      }
+      // .dateGroup {
+      //   width: 240px;
+      //   display: flex;
+      //   background-color: #fff;
+      //   background-image: none;
+      //   border-radius: 4px;
+      //   .el-date-editor .el-range__close-icon {
+      //     position: absolute;
+      //     top: 0;
+      //     right: 3px;
+      //   }
+      //   input {
+      //     padding-right: 0px;
+      //     border: 0px;
+      //     background: none;
+      //   }
+      //   .el-input__suffix {
+      //     right: 0;
+      //   }
+      //   border: 1px solid #dcdfe6;
+      //   .el-date-editor {
+      //     position: relative;
+      //   }
+      // }
     }
     .seach-mode {
-      float: right;
-    }
-    .button-box {
-      button {
-        margin: 0 10px;
+      font-size: 14px;
+      color: #f74f52;
+      font-weight: bold;
+      i {
+        font-weight: bold;
       }
     }
+    /*高级搜索样式start*/
+    .showform-box {
+      overflow: hidden;
+      margin-top: 5px !important;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: baseline;
+      .el-form-item {
+        margin-bottom: 5px;
+      }
+
+      .button-box {
+        display: flex;
+        justify-content: flex-end;
+        padding: 5px 5px 10px 5px;
+        width: 100%;
+        overflow: hidden;
+      }
+    }
+    /*高级搜索样式end*/
+
+    /*普通样式start*/
+    .visibleform-box {
+      display: flex;
+      .seach-mode {
+        float: right;
+      }
+      .button-box {
+        flex: 1;
+        button {
+          margin: 0 10px;
+        }
+      }
+    }
+    /*普通搜索样式end*/
   }
 }
 </style>

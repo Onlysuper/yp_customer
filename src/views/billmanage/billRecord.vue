@@ -365,7 +365,7 @@ export default {
           },
           {
             key: "经营名称",
-            width: "100px",
+            width: "180px",
             word: "bussinessName"
           },
 
@@ -443,7 +443,7 @@ export default {
             }
           },
           {
-            key: "购票方企业名称",
+            key: "购方",
             width: "180px",
             word: "enterpriseName"
           },

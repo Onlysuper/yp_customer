@@ -2,7 +2,7 @@
   <!-- 表格与分页展示区域 -->
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :max-height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
+    <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :max-height="tableHeight" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable">
@@ -141,11 +141,11 @@
   }
 }
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.8rem;
   background-color: #f5f5f5;
 }
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar:horizontal {
-  height: 0.5rem;
+  height: 0.8rem;
   background-color: #f5f5f5;
 }
 /*定义滚动条的轨道，内阴影及圆角*/
@@ -165,8 +165,10 @@
 import $ from "jquery";
 import qs from "qs";
 import Vue from "vue";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 export default {
   props: ["tableDataInit", "page", "limit", "search"],
+  mixins: [mixinDataTable],
   data() {
     return {
       // iscrollOptions: {
@@ -219,17 +221,6 @@ export default {
           });
         }
         this.ifloading = false;
-      });
-    },
-    // 表格大小
-    tableSizeHandle() {
-      this.$nextTick(() => {
-        let pageHeight = $(".admin-page").outerHeight(true) || 0;
-        let formHeight = $(".search-page").outerHeight(true) || 0;
-        let operationHeight = $(".operation-box").outerHeight(true) || 0;
-        let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-        this.tableHeight =
-          pageHeight - formHeight - operationHeight - paginationHeight - 20;
       });
     },
     handleSizeChange(val) {

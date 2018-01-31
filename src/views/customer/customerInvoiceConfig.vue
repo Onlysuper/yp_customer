@@ -262,7 +262,7 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "100px",
+            width: "120px",
             sortable: true,
             word: "customerNo"
           },
@@ -316,17 +316,17 @@ export default {
           },
           {
             key: "设备编号",
-            width: "100px",
+            width: "",
             word: "deviceNo"
           },
           {
             key: "收款人",
-            width: "100px",
+            width: "",
             word: "receiveMan"
           },
           {
             key: "开票人",
-            width: "100px",
+            width: "",
             word: "invoiceMan"
           },
           {

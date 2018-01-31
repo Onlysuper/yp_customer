@@ -303,7 +303,7 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "产品编号",
-            width: "100px",
+            width: "120px",
             sortable: true,
             word: "productNo"
           },

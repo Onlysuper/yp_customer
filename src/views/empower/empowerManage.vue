@@ -489,6 +489,7 @@ export default {
             this.searchCondition.batchNo = value;
           }
         },
+
         {
           type: "dateGroup",
           label: "选择时间",
@@ -596,6 +597,26 @@ export default {
           }
         },
         {
+          corresattr: "containChild",
+          type: "select",
+          label: "是否包含下级",
+          show: false, // 普通搜索显示
+          value: "TRUE",
+          options: [
+            {
+              value: "TRUE",
+              label: "包含下级"
+            },
+            {
+              value: "FALSE",
+              label: "不包含下级"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.containChild = value;
+          }
+        },
+        {
           corresattr: "deviceType",
           type: "select",
           label: "设备类型",
@@ -682,7 +703,7 @@ export default {
           },
           {
             key: "创建时间",
-            width: "100px",
+            width: "170px",
             word: "createTime"
           },
           {
@@ -916,13 +937,13 @@ export default {
                   .catch(() => {
                     this.$message({
                       type: "info",
-                      message: "已取消操作"
+                      message: "解绑未成功！"
                     });
                   });
               }
             },
             {
-              text: "绑定子绑",
+              text: "绑定子码",
               color: "#909399",
               visibleFn: rowdata => {
                 if (

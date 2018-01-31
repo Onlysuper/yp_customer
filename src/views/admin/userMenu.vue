@@ -288,13 +288,13 @@ export default {
           },
           {
             key: "功能编号",
-            width: "170px",
+            width: "",
             word: "functionCode"
           },
           {
             key: "url",
             word: "url",
-            width: "170px"
+            width: ""
           },
           {
             key: "请求方法",
