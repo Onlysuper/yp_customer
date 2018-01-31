@@ -243,7 +243,7 @@ const getBurialPointTotal = () => { return (params) => { return http.post(base.o
 /**
 **开票图表Start
  */
-const getBillrecordCharts = () => { return (params) => { return http.get(base.oaIp, "/billrecord/chart", params) } }
+const getBillrecordCharts = () => { return (params) => { return http.post(base.oaIp, "/billrecord/chart", params) } }
 // end -------------------------------------------------
 
 export {
@@ -365,6 +365,8 @@ export {
     getPartnerTransfer,
     getTransferBranchoffice,
     // 埋点图表
-    postBurialPointCharts
+    postBurialPointCharts,
+    // 开票图表
+    getBillrecordCharts
 };
 

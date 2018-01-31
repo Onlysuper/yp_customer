@@ -141,6 +141,8 @@ export default {
               this.nodata = true;
             }
           });
+        } else {
+          this.nodata = true;
         }
         this.ifloading = false;
       });

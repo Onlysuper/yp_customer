@@ -17,7 +17,7 @@ import BuriedPointChart from "@src/components/buriedBillChart";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/buriedBillChart/chartPage";
 import { todayDate } from "@src/common/dateSerialize";
-import { getBillrecordCharts, getBurialPointTotal } from "@src/apis";
+import { getBillrecordCharts } from "@src/apis";
 export default {
   name: "buriedPoint",
   components: {
@@ -35,26 +35,26 @@ export default {
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
-        {
-          corresattr: "userType",
-          type: "select",
-          label: "用户类型",
-          show: true, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "0",
-              label: "静默"
-            },
-            {
-              value: "1",
-              label: "普通"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.userType = value;
-          }
-        },
+        // {
+        //   corresattr: "userType",
+        //   type: "select",
+        //   label: "用户类型",
+        //   show: true, // 普通搜索显示
+        //   value: "",
+        //   options: [
+        //     {
+        //       value: "0",
+        //       label: "静默"
+        //     },
+        //     {
+        //       value: "1",
+        //       label: "普通"
+        //     }
+        //   ],
+        //   cb: value => {
+        //     this.searchCondition.userType = value;
+        //   }
+        // },
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
           type: "dateGroup",

@@ -5,7 +5,9 @@ import { Toast } from "mint-ui";
 export default {
   state: {
     list: [],
-    searchQuery: {}, //搜索条件
+    searchQuery: {
+
+    }, //搜索条件
     isSearch: false,//是否搜索操作，便于刷新
   },
   getters: {
@@ -15,7 +17,9 @@ export default {
     ["QRCODE_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
-      state.searchQuery = {};
+      state.searchQuery = {
+        status: "",
+      };
       console.info("授权码审核数据加载完成");
     },
     //设置商品列表
