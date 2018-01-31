@@ -488,10 +488,6 @@ export default {
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
-            // {
-            //   value: "",
-            //   label: "全部"
-            // },
             {
               value: "TRUE",
               label: "包含下级"

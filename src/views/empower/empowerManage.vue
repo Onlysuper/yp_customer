@@ -489,6 +489,7 @@ export default {
             this.searchCondition.batchNo = value;
           }
         },
+
         {
           type: "dateGroup",
           label: "选择时间",
@@ -593,6 +594,26 @@ export default {
           ],
           cb: value => {
             this.searchCondition.status = value;
+          }
+        },
+        {
+          corresattr: "containChild",
+          type: "select",
+          label: "是否包含下级",
+          show: false, // 普通搜索显示
+          value: "TRUE",
+          options: [
+            {
+              value: "TRUE",
+              label: "包含下级"
+            },
+            {
+              value: "FALSE",
+              label: "不包含下级"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.containChild = value;
           }
         },
         {

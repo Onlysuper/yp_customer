@@ -111,12 +111,8 @@ export default {
           type: "select",
           label: "是否有下级",
           show: false, // 普通搜索显示
-          value: "全部",
+          value: "TRUE",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
             {
               value: "TRUE",
               label: "包含下级"
@@ -197,7 +193,7 @@ export default {
           {
             key: "结算状态",
             width: "",
-            word: "status",
+            word: "settleStatus",
             status: true,
             type: data => {
               if (data === "TRUE") {
