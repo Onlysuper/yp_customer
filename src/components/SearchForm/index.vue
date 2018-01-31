@@ -2,7 +2,18 @@
   <!-- 表单数据搜索区域 -->
 
   <div class="search-page">
-
+    <template>
+      <div class="block">
+        <span class="demonstration">默认</span>
+        <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+        </el-date-picker>
+      </div>
+      <div class="block">
+        <span class="demonstration">带快捷选项</span>
+        <el-date-picker v-model="value2" align="right" type="date" placeholder="选择日期" :picker-options="pickerOptions1">
+        </el-date-picker>
+      </div>
+    </template>
     <!-- Form 表单编写 start -->
     <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px">
       <el-form-item class="form-item" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput">
@@ -72,6 +83,38 @@ export default {
   },
   data() {
     return {
+      pickerOptions1: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "今天",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            }
+          },
+          {
+            text: "昨天",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            }
+          },
+          {
+            text: "一周前",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            }
+          }
+        ]
+      },
+      value1: "",
+      value2: "",
+
       visibleinput: false,
       pickerOptions7: {
         shortcuts: [
@@ -284,8 +327,32 @@ export default {
         right: 0;
       }
     }
+    .dateGroup {
+      @extend .dateGroup2;
+      border: 1px solid #dcdfe6;
+      .el-date-editor {
+        position: relative;
+      }
+    }
     // .dateGroup {
-    //   @extend .dateGroup2;
+    //   width: 240px;
+    //   display: flex;
+    //   background-color: #fff;
+    //   background-image: none;
+    //   border-radius: 4px;
+    //   .el-date-editor .el-range__close-icon {
+    //     position: absolute;
+    //     top: 0;
+    //     right: 3px;
+    //   }
+    //   input {
+    //     padding-right: 0px;
+    //     border: 0px;
+    //     background: none;
+    //   }
+    //   .el-input__suffix {
+    //     right: 0;
+    //   }
     //   border: 1px solid #dcdfe6;
     //   .el-date-editor {
     //     position: relative;
@@ -313,9 +380,9 @@ export default {
 
     .button-box {
       display: flex;
+      justify-content: flex-end;
       padding: 5px 5px 10px 5px;
       width: 100%;
-      text-align: right;
       overflow: hidden;
     }
   }
