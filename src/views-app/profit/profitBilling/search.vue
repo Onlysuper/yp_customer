@@ -58,8 +58,12 @@ export default {
       this.searchConfig.push({
         title: "是否包含下级",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.containChild,
+        defaultValue: this.searchQuery.containChild || "ALL",
         options: [
+          {
+            label: "全部",
+            value: "ALL"
+          },
           {
             label: "含下级",
             value: "TRUE"
@@ -70,6 +74,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("PROFITBILLING_SET_SEARCH", {
             containChild: value
           });
@@ -78,8 +83,12 @@ export default {
       this.searchConfig.push({
         title: "结算",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.settleStatus,
+        defaultValue: this.searchQuery.settleStatus || "ALL",
         options: [
+          {
+            label: "全部",
+            value: "ALL"
+          },
           {
             label: "已结算",
             value: "TRUE"
@@ -90,6 +99,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("PROFITBILLING_SET_SEARCH", {
             settleStatus: value
           });
