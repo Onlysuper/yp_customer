@@ -242,10 +242,6 @@ export default {
   margin-bottom: 10px;
   border-bottom: 1px solid #eee;
   display: block;
-  // flex: 1;
-  // flex-shrink: 0;
-  // display: flex;
-  // overflow: hidden;
   &::after {
     content: "";
     display: block;
@@ -320,7 +316,7 @@ export default {
       justify-content: flex-end;
       padding: 5px 5px 10px 5px;
       width: 100%;
-      text-align: right;
+      // text-align: right;
       overflow: hidden;
     }
   }
