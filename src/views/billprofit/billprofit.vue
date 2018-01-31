@@ -111,12 +111,8 @@ export default {
           type: "select",
           label: "是否有下级",
           show: false, // 普通搜索显示
-          value: "全部",
+          value: "TRUE",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
             {
               value: "TRUE",
               label: "包含下级"
@@ -170,7 +166,7 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "100px",
+            width: "120px",
             sortable: true,
             word: "customerNo"
           },
@@ -197,7 +193,7 @@ export default {
           {
             key: "结算状态",
             width: "",
-            word: "status",
+            word: "settleStatus",
             status: true,
             type: data => {
               if (data === "TRUE") {

@@ -110,7 +110,7 @@ export default {
           type: "select",
           label: "包含关系",
           show: false, // 普通搜索显示
-          value: "",
+          value: "TRUE",
           options: [
             {
               value: "TRUE",

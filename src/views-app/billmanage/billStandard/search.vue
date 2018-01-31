@@ -67,10 +67,6 @@ export default {
         defaultValue: this.searchQuery.containChild,
         options: [
           {
-            label: "全部",
-            value: ""
-          },
-          {
             label: "包含下级",
             value: "TRUE"
           },
