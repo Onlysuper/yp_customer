@@ -12,11 +12,12 @@ const mixinDataTable = {
         tableSizeHandle() {
             this.$nextTick(() => {
                 let pageHeight = $(".tablelist-box").outerHeight(true) || 0;
-                let formHeight = $(".search-page").outerHeight(true) || 0;
-                let operationHeight = $(".operation-box").outerHeight(true) || 0;
-                let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-                this.tableHeight =
-                    pageHeight - formHeight - operationHeight - paginationHeight - 20;
+                // let formHeight = $(".search-page").outerHeight(true) || 0;
+                // let operationHeight = $(".operation-box").outerHeight(true) || 0;
+                // let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
+                // this.tableHeight =
+                //     pageHeight - formHeight - operationHeight - paginationHeight - 20;
+                this.tableHeight = pageHeight
             });
         },
         /**TABLE页交互 START ************************************************************ */
