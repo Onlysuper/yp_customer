@@ -10,6 +10,9 @@
           <component class="border-bottom-1px" ref="configDate" :is="item.type" :config="item" v-for="(item,index) in config" @openPicker="openPicker" @showDate="showDate" :key="index"></component>
         </input-wrapper>
       </view-radius>
+      <br>
+      <!-- <mt-button class="okBtn" size="large" :disabled="false" @click="queryResult">查询</mt-button> -->
+      <!-- <br> -->
     </div>
     <mt-datetime-picker v-model="currentDate" type="date" @confirm="setDate" ref="datePicker" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
   </full-page>
@@ -213,7 +216,7 @@ export default {
 @import "../../assets/scss/base.scss";
 .search-component {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   // margin-top: 20*$rem;
   padding: 30*$rem 20*$rem;
   box-sizing: border-box;
