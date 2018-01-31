@@ -10,6 +10,7 @@ const Layout = {
         },
 
         menuList: [], // 菜单列表信息
+        menuListApp: [], // 菜单列表信息-移动端用
         isCollapse: false,//菜单收起
     },
     getters: {
@@ -42,6 +43,9 @@ const Layout = {
             //     userBussinessNo: "",
             //     userType: ""
             // }
+        },
+        asyncNewRoutes(state, asyncNewRoutes) {
+            state.menuListApp = asyncNewRoutes || [];
         }
     },
     actions: {

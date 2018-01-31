@@ -71,7 +71,8 @@ function filterRouter(resmenuList, asyncRoutes) {
         if (moduler instanceof Object) {
             //用当前权限列表 和 路由模块进行过滤,得到一个新的路由模块
             let newModule = filterModuler(item.child, moduler);
-
+            newModule["menuCode"] = item.menuCode;
+            newModule["menuName"] = item.menuName;
             //将路由模块保存起来
             asyncNewRoutes.push(newModule);
         }
@@ -89,7 +90,8 @@ router.beforeEach((to, from, next) => {
             store.dispatch('UserMenulistFetch').then(resmenuList => {
                 if (resmenuList.menuList) {
                     let asyncNewRoutes = filterRouter(resmenuList.menuList, asyncRoutes);
-                    console.log(asyncNewRoutes);
+                    console.info("已开发的路由", [...asyncNewRoutes]);
+                    store.commit("asyncNewRoutes", [...asyncNewRoutes]);
                     asyncNewRoutes.push(home)
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })
