@@ -244,6 +244,12 @@ export default {
   flex: 1;
   flex-shrink: 0;
   display: flex;
+  overflow: hidden;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
   .el-form-item--small.el-form-item {
     margin-bottom: 10px;
   }
