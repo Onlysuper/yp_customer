@@ -13,7 +13,7 @@
           <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="请输入合伙人编号" v-model="unitData.agentNo"></mt-field>
           <mt-field type="text" :disabled="true" label="商户编号" placeholder="请输入商户编号" v-model="unitData.customerNo"></mt-field>
           <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="unitData.extensionNum"></mt-field>
-          <mt-field @click.native="$refs.serviceModePicker.open" type="text" label="服务方式" placeholder="请选择服务方式" :value="serviceMode.name" v-readonly-ios :readonly="true" :disableClear="true">
+          <mt-field @click.native="$refs.serviceModePicker.open" type="text" label="服务方式" placeholder="请选择服务方式" :value="serviceModePickerModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-admin"></i>
           </mt-field>
           <!-- <div>
@@ -31,13 +31,13 @@
 import Picker from "@src/components-app/SelectPicker/Picker";
 import { mapState, mapActions } from "vuex";
 export default {
-  components: {},
+  components: { Picker },
   data() {
     return {
       btnDisabled: false,
       qrNumsVisible: false,
       qrcodesVisible: false,
-      serviceMode: {},
+      serviceModePickerModle: {},
       unitData: {
         receiptNo: "",
         agentNo: "",
@@ -49,17 +49,17 @@ export default {
         qrcodeEnd: "",
         qrcodes: ""
       },
+      serviceModeActions: [
+        // {
+        //   name: "授权码序列号",
+        //   code: "valueF"
+        // },
+        // {
+        //   name: "授权码号段转移",
+        //   code: "ORDER"
+        // }
+      ],
       selectOptions: {
-        serviceModeActions: [
-          // {
-          //   name: "授权码序列号",
-          //   code: "valueF"
-          // },
-          // {
-          //   name: "授权码号段转移",
-          //   code: "ORDER"
-          // }
-        ],
         serviceMode: [
           {
             label: "disabled option",
