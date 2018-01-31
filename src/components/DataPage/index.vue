@@ -141,11 +141,11 @@
   }
 }
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.8rem;
   background-color: #f5f5f5;
 }
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar:horizontal {
-  height: 0.5rem;
+  height: 0.8rem;
   background-color: #f5f5f5;
 }
 /*定义滚动条的轨道，内阴影及圆角*/

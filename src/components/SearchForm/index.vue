@@ -38,7 +38,16 @@
       <div class="button-box">
         <el-button size="small" @click="searchStart" type="primary">开始搜索</el-button>
         <el-button size="small" @click="resetInput('searchform')">重置</el-button>
-        <el-button size="small" v-if="visibleSenior" class="seach-mode" @click="advancSeachfn()" type="text">{{visibleinput?"普通搜索":"高级搜索"}}</el-button>
+        <el-button size="small" v-if="visibleSenior" class="seach-mode" @click="advancSeachfn()" type="text">
+          <template v-if="visibleinput">
+            普通搜索
+            <i class="el-icon-arrow-up"></i>
+          </template>
+          <template v-if="!visibleinput">
+            高级搜索
+            <i class="el-icon-arrow-down"></i>
+          </template>
+        </el-button>
 
       </div>
     </el-form>
@@ -285,6 +294,14 @@ export default {
       padding: 5px 5px 10px 5px;
       width: 100%;
       text-align: right;
+    }
+  }
+  .seach-mode {
+    font-size: 14px;
+    color: #f74f52;
+    font-weight: bold;
+    i {
+      font-weight: bold;
     }
   }
   .visibleform-box {
