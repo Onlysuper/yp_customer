@@ -284,13 +284,13 @@ export default {
         right: 0;
       }
     }
-    .dateGroup {
-      @extend .dateGroup2;
-      border: 1px solid #dcdfe6;
-      .el-date-editor {
-        position: relative;
-      }
-    }
+    // .dateGroup {
+    //   @extend .dateGroup2;
+    //   border: 1px solid #dcdfe6;
+    //   .el-date-editor {
+    //     position: relative;
+    //   }
+    // }
   }
   .seach-mode {
     font-size: 14px;
@@ -313,10 +313,9 @@ export default {
 
     .button-box {
       display: flex;
-      justify-content: flex-end;
       padding: 5px 5px 10px 5px;
       width: 100%;
-      // text-align: right;
+      text-align: right;
       overflow: hidden;
     }
   }
