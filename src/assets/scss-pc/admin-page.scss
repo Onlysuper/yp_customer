@@ -12,8 +12,13 @@
     flex-direction: column;
     background: blue;
     .tablelist-box{
-      // display: block;
-      // width: 100%;
+      display: block;
+      width: 100%;
+      &::after{
+        content: "";
+        display: block;
+        clear: both;
+      }
     //   background: red;
     //   display: flex;
     // flex-direction: column;
@@ -21,11 +26,11 @@
     //  background: red;
       // overflow-y: auto;
       // overflow-x:hidden
-      width: 100%;
-      flex-direction: column;
-      display: flex;
-      flex: 1;
-      overflow: hidden
+      // width: 100%;
+      // flex-direction: column;
+      // display: flex;
+      // flex: 1;
+      // overflow: hidden
     }
     .detail-content {
       .line-label-box {
