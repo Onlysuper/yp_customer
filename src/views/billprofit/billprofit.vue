@@ -206,6 +206,11 @@ export default {
                   text: "未结算",
                   type: "info"
                 };
+              } else if (data === "DELETE") {
+                return {
+                  text: "已删除",
+                  type: "info"
+                };
               } else {
                 return {
                   text: data,
