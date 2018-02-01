@@ -49,7 +49,7 @@ export default {
       dataTimeEnd: todayDate, // 结束日期
       customerNo: "", // 商户编号
       agentNo: "", // 代理商编号
-      containChild: "" // 下级
+      containChild: "TRUE" // 下级
     };
     return {
       // formLabelWidth: "100px",

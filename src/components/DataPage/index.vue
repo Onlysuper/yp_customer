@@ -244,19 +244,28 @@ export default {
       this.$emit("operation", rowdata, cb);
     },
     // 导出
-    ExportExcel(path, param) {
+    ExportExcel(path, param, haveparam) {
       var exportUrl = "";
       if (param == "download") {
         exportUrl = this.$store.state.Base.oaIp + path;
       } else {
-        exportUrl =
-          this.$store.state.Base.oaIp +
-          path +
-          "?" +
-          qs.stringify(this.getSearch);
+        if (haveparam) {
+          // 带除了搜索条件外额外的参数
+          exportUrl =
+            this.$store.state.Base.oaIp +
+            path +
+            "?" +
+            qs.stringify(this.getSearch) +
+            "&" +
+            qs.stringify(param);
+        } else {
+          exportUrl =
+            this.$store.state.Base.oaIp +
+            path +
+            "?" +
+            qs.stringify(this.getSearch);
+        }
       }
-      console.log(this.getSearch);
-      // console.log(exportUrl);
       // var exportUrl =
       //   this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
       window.location.href = exportUrl;

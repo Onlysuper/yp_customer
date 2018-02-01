@@ -26,7 +26,7 @@ export default {
         // dataTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
         dataTime: "",
         agentNo: "",
-        containChild: "",//TRUE
+        containChild: "TRUE",//TRUE
         settleStatus: "",//FALSE
       };
       state.sumData = {

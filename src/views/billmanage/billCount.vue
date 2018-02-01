@@ -48,7 +48,7 @@ export default {
       dataTimeBegin: eightday, // 开始日期
       dataTimeEnd: yesterday, // 结束日期
       agentNo: "", // 合伙人编号
-      containChild: "" // 下级
+      containChild: "TRUE" // 下级
     };
     return {
       scanSum: 0,

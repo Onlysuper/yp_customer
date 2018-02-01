@@ -47,7 +47,7 @@ export default {
       customerNo: "", // 商户编号
       enterpriseName: "", // 商户名称
       agentNo: "",
-      containChild: "",
+      containChild: "TRUE",
       settleStatus: "",
       dataTime: ""
     };
