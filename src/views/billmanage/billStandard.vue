@@ -161,6 +161,10 @@ export default {
           value: "",
           options: [
             {
+              value: "",
+              label: "全部"
+            },
+            {
               value: "TRUE",
               label: "已达标"
             },

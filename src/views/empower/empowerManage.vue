@@ -1091,11 +1091,16 @@ export default {
     // 导出授权吗保存
     exportEmpowerSave(formName) {
       var thisForm = this[formName];
+      console.log(thisForm);
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$refs.dataTable.ExportExcel("/qrcode/export", {
-            styleType: thisForm.styleType
-          });
+          this.$refs.dataTable.ExportExcel(
+            "/qrcode/export",
+            {
+              styleType: thisForm.styleType
+            },
+            true
+          );
         }
       });
     },
