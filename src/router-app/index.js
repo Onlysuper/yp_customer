@@ -78,10 +78,10 @@ function filterRouter(resmenuList, asyncRoutes) {
         if (moduler instanceof Object) {
             //用当前权限列表 和 路由模块进行过滤,得到一个新的路由模块
             let { newModule, newChild } = filterModuler(item.child, moduler);
-            console.log(newModule.children)
             //将路由模块保存起来
-            item.child = newChild;
+            //只有模块下有菜单才会在首页添加该模块入口
             if (newModule.children.length) {
+                item.child = newChild;
                 menuList.push(item);
             }
             asyncNewRoutes.push(newModule);
