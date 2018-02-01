@@ -1,4 +1,5 @@
 <template>
+  <!-- 开票图表 -->
   <!-- 表格与分页展示区域 -->
   <div :style="{height:chartHeight}" class="chart-box" ref="myChart">
     <span class="nodata" v-if="nodata">暂无数据,换个时间段试试</span>
@@ -104,24 +105,24 @@ export default {
         series: json.ySeries
       };
       let myChart = echarts.init(this.$refs["myChart"]);
-      // 绘制图表
-      myChart.setOption({
-        title: {
-          text: "ECharts 入门示例"
-        },
-        tooltip: {},
-        xAxis: {
-          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-        },
-        yAxis: {},
-        series: [
-          {
-            name: "销量",
-            type: "bar",
-            data: [5, 20, 36, 10, 10, 20]
-          }
-        ]
-      });
+      // // 绘制图表
+      // myChart.setOption({
+      //   title: {
+      //     text: "ECharts 入门示例"
+      //   },
+      //   tooltip: {},
+      //   xAxis: {
+      //     data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+      //   },
+      //   yAxis: {},
+      //   series: [
+      //     {
+      //       name: "销量",
+      //       type: "bar",
+      //       data: [5, 20, 36, 10, 10, 20]
+      //     }
+      //   ]
+      // });
       myChart.setOption(option, true);
     },
     //列表数据获取
@@ -140,6 +141,8 @@ export default {
               this.nodata = true;
             }
           });
+        } else {
+          this.nodata = true;
         }
         this.ifloading = false;
       });

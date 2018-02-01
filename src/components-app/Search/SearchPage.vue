@@ -4,24 +4,24 @@
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" size="small" type="danger" @click="queryResult">查询</mt-button>
     </mt-header>
-    <div class="search-component" @touchmove.prevent>
+    <div class="search-component">
       <view-radius>
         <input-wrapper>
           <component class="border-bottom-1px" ref="configDate" :is="item.type" :config="item" v-for="(item,index) in config" @openPicker="openPicker" @showDate="showDate" :key="index"></component>
         </input-wrapper>
       </view-radius>
+      <br>
+      <!-- <mt-button class="okBtn" size="large" :disabled="false" @click="queryResult">查询</mt-button> -->
+      <!-- <br> -->
     </div>
     <mt-datetime-picker v-model="currentDate" type="date" @confirm="setDate" ref="datePicker" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
-    <!-- <div class="myp-picker-mask page" v-show="pickerVisible" @click="pickerVisible = !pickerVisible">
-      <mt-picker class="myp-picker" valueKey="name" :showToolbar="false" :slots="slots" @change="pickerValuesChange">请选择</mt-picker>
-    </div> -->
   </full-page>
-
 </template>
 
 <script>
 import Vue from "vue";
 import utils from "@src/common/utils";
+import Picker from "../SelectPicker/Picker";
 const MypText = Vue.extend({
   name: "myp-text",
   props: {
@@ -113,8 +113,6 @@ const MypRadioList = Vue.extend({
   },
   template: `<div><mt-cell v-if="config.title" :title="config.title" class="border-1px"></mt-cell><mt-radio class="myp-radio border-1px" v-model="value" :options="config.options"></mt-radio></div>`
 });
-
-import Picker from "../SelectPicker/Picker";
 const MypSelect = Vue.extend({
   components: { Picker },
   name: "myp-select",
@@ -126,100 +124,24 @@ const MypSelect = Vue.extend({
   },
   data() {
     return {
-      value: "",
-      defaultIndex: 0,
-      pickerVisible: false
+      value: this.config.values.find(
+        item => item.code == this.config.defaultValue
+      )
     };
   },
-  created() {
-    console.log(this.config.defaultValue);
-    this.config.values.forEach((element, index) => {
-      if (element.code == this.config.defaultValue) {
-        this.value = element;
-        this.defaultIndex = index;
-      }
-    });
-  },
-  mounted() {
-    // this.config.cb(this.config.defaultValue);
-  },
-  watch: {
-    value(val) {
-      this.config.cb && this.config.cb(val.code);
-    }
-  },
   methods: {
-    cb(value) {
-      this.value = value;
-    },
-    openPicker() {
-      this.pickerVisible = true;
+    confirm(val) {
+      this.value = val;
+      this.config.cb && this.config.cb(val.code);
     }
   },
   template: `
     <div>
-    <mt-field @click.native="openPicker" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请选择'+config.title" v-model="value.name">></mt-field>
-    <picker v-model="pickerVisible" :slotsActions="config.values" :defaultIndex="defaultIndex" :cb="cb"></picker>
+      <mt-field @click.native="$refs.Picker.open" v-model="value.name" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请选择'+config.title" >></mt-field>
+      <picker v-model="value" ref="Picker" :slotsActions="config.values" @confirm="confirm"></picker>
     </div>`
 });
 
-// const MypSelect = Vue.extend({
-//   name: "myp-select",
-//   props: {
-//     config: {
-//       type: Object,
-//       default: {}
-//     }
-//   },
-//   data() {
-//     return {
-//       value: "",
-//       defaultIndex: 0,
-//       slots: [],
-//       pickerVisible: false
-//     };
-//   },
-//   created() {
-//     this.config.values.find((item, index) => {
-//       if (item.code == this.config.defaultValue) {
-//         this.value = item;
-//         this.defaultIndex = index;
-//       }
-//     });
-//   },
-//   mounted() {
-//     // this.config.cb(this.config.defaultValue);
-//   },
-//   watch: {
-//     value(val) {
-//       this.config.cb && this.config.cb(val.code);
-//     }
-//   },
-//   methods: {
-//     pickerValuesChange(picker, values) {
-//       if (values.length) this.value = values[0];
-//     },
-//     openPicker() {
-//       this.pickerVisible = true;
-
-//       this.slots = [
-//         {
-//           flex: 1,
-//           values: this.config.values,
-//           defaultIndex: this.defaultIndex,
-//           className: "slot1",
-//           textAlign: "center"
-//         }
-//       ];
-//     }
-//   },
-//   template: `
-//     <div>
-//     <mt-field @click.native="openPicker" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请选择'+config.title" v-model="value.name">></mt-field>
-//     <div class="myp-picker-mask page" @touchmove.prevent v-show="pickerVisible" @click="pickerVisible = !pickerVisible"></div>
-//     <mt-picker class="myp-picker" valueKey="name" v-show="pickerVisible" :showToolbar="true" :slots="slots" @change="pickerValuesChange">请选择</mt-picker>
-//     </div>`
-// });
 export default {
   components: {
     MypText,
@@ -294,7 +216,7 @@ export default {
 @import "../../assets/scss/base.scss";
 .search-component {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   // margin-top: 20*$rem;
   padding: 30*$rem 20*$rem;
   box-sizing: border-box;
@@ -345,32 +267,6 @@ export default {
     .mint-cell-wrapper {
       padding: 5px;
     }
-  }
-
-  .myp-picker {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 60%;
-    background: #f4f4f4;
-    right: 0;
-    top: 0;
-    height: 230px;
-    border-radius: 5px;
-    margin: auto;
-    color: #fff;
-    z-index: 100;
-    .picker-toolbar {
-      text-align: center;
-      color: #000;
-      font-size: 40*$rem;
-      line-height: 40px;
-    }
-  }
-  .myp-picker-mask {
-    position: fixed;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 100;
   }
 }
 </style>

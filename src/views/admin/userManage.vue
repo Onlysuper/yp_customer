@@ -239,11 +239,11 @@ export default {
             key: "用户名称",
             sortable: true,
             word: "realname",
-            width: "250px"
+            width: ""
           },
           {
             key: "用户登录名",
-            width: "180px",
+            width: "",
             word: "username"
           },
           {

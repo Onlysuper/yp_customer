@@ -1,91 +1,47 @@
 <template>
-  <div class="select-container" :value="value" v-show="visible">
-    <div class="select-picher-mask" ref="selectPicherMask" @click="cityPicherContainer">
-      <div class="select-picher">
-        <mt-picker :slots="slots" valueKey="name" @change="onAddressChange" :visibleItemCount="5" :itemHeight="36" :showToolbar="true">请选择</mt-picker>
-        <div class="okBtn">
-          <mt-button size="large" :disabled="false" @click="okBtn">确定</mt-button>
-        </div>
-      </div>
+  <div class="myp-select-container" @touchmove.prevent v-if="visible">
+    <!-- 遮罩层 -->
+    <div class="myp-picker-mask" ref="selectPicherMask" @touchmove.prevent @click="close"></div>
+    <!-- 主体 -->
+    <div class="myp-picker">
+      <mt-picker :slots="slots" valueKey="name" @change="change" :visibleItemCount="5" :itemHeight="36" :showToolbar="true">请选择</mt-picker>
+      <mt-button class="okBtn" size="large" :disabled="false" @click="okBtn">确定</mt-button>
     </div>
   </div>
 </template>
 
 
-<style lang="scss">
-@import "../../assets/scss/base.scss";
-.select-container {
-  .picker-toolbar {
-    text-align: center;
-    line-height: 40px;
-    color: #343434;
-    font-size: 20px;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-@import "../../assets/scss/base.scss";
-.select-container {
-  .select-picher-mask {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 100;
-    .select-picher {
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      width: 650*$rem;
-      height: 270px;
-      left: 0;
-      top: 0;
-      background: rgba(255, 255, 255, 0.9);
-      color: #fff;
-      border-radius: 10*$rem;
-      border: 1px solid #ccc;
-      padding: 20*$rem;
-
-      .okBtn {
-        margin: 20*$rem 0;
-      }
-    }
-  }
-}
-</style>
-
 <script>
+/**
+ * picker 依赖mint-ui
+ * @module picker
+ * @desc 单元格
+ * @param {string|Object} [model] - 要绑定的数据
+ * @param {string} [slotsActions] - 列表项数组
+ *
+ * @example
+ * <picker v-model="{ name: "1", code: "1" }" ref="Picker" :slotsActions="[{ name: "1", code: "1" },{ name: "2", code: "2" }]"></picker>
+ * 打开 this.$refs.Picker.open()
+ */
 export default {
   props: {
     value: {
-      type: Boolean,
-      default: false
+      type: Object,
+      default: () => {
+        return {};
+      }
     },
     slotsActions: {
       type: Array,
       default: () => {
-        return ["选项一", "选项二"];
+        return [{ name: "", code: "" }];
       }
-    },
-    defaultIndex: {
-      type: Number,
-      default: 0
-    },
-    cb: {
-      type: Function,
-      default: () => {}
     }
   },
   data() {
     return {
       visible: false,
-      result: "",
+      result: {},
       slots: [
         {
           flex: 1,
@@ -98,37 +54,92 @@ export default {
       ]
     };
   },
-  watch: {
-    value(val) {
-      this.visible = val;
-    },
-    visible(val) {
-      this.$emit("input", val);
-    }
-  },
-  created() {},
-  mounted() {
-    this.$refs.selectPicherMask.ontouchmove = e => {
-      return false;
-    };
-    if (this.value) {
-      this.visible = true;
-    }
-    this.slots[0].defaultIndex = this.defaultIndex;
-  },
   methods: {
-    cityPicherContainer() {
+    open() {
+      this.visible = true;
+      this.setDefaultIndex(this.value);
+    },
+    close() {
       this.visible = false;
     },
-    onAddressChange(picker, values) {
+    setDefaultIndex(result) {
+      this.slotsActions.forEach((element, index) => {
+        if (element.name == result.name && element.code == result.code) {
+          this.slots[0].defaultIndex = index;
+        }
+      });
+    },
+    change(picker, values) {
       this.result = values[0];
     },
     okBtn() {
-      this.visible = false;
-      this.cb(this.result);
+      this.close();
+      this.$emit("confirm", this.result);
     }
   }
 };
 </script>
 
+
+<style lang="scss">
+@import "../../assets/scss/base.scss";
+.myp-select-container {
+  .picker-toolbar {
+    text-align: center;
+    line-height: 40px;
+    color: #343434;
+    font-size: 20px;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+@import "../../assets/scss/base.scss";
+@keyframes myp-picker {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.myp-select-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  .myp-picker-mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .myp-picker {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 650*$rem;
+    height: 270px;
+    left: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.9);
+    color: #fff;
+    border-radius: 10*$rem;
+    border: 1px solid #ccc;
+    padding: 20*$rem;
+    animation: myp-picker 0.3s both;
+
+    .okBtn {
+      margin: 20*$rem 0;
+    }
+  }
+}
+</style>
 

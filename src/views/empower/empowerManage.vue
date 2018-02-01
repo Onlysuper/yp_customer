@@ -316,7 +316,7 @@ export default {
       createTimeEnd: todayDate, // 结束日期
       batchNo: "", // 批次编号
       agentNo: "", // 合伙人编号
-      containChild: "", // 下级
+      containChild: "TRUE", // 下级
       customerNo: "", // 商户编号
       qrcode: "", // 序号
       authCode: "", // 授权码
@@ -703,7 +703,7 @@ export default {
           },
           {
             key: "创建时间",
-            width: "100px",
+            width: "170px",
             word: "createTime"
           },
           {
@@ -937,7 +937,7 @@ export default {
                   .catch(() => {
                     this.$message({
                       type: "info",
-                      message: "已取消操作"
+                      message: "解绑未成功！"
                     });
                   });
               }
@@ -1091,11 +1091,16 @@ export default {
     // 导出授权吗保存
     exportEmpowerSave(formName) {
       var thisForm = this[formName];
+      console.log(thisForm);
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.$refs.dataTable.ExportExcel("/qrcode/export", {
-            styleType: thisForm.styleType
-          });
+          this.$refs.dataTable.ExportExcel(
+            "/qrcode/export",
+            {
+              styleType: thisForm.styleType
+            },
+            true
+          );
         }
       });
     },

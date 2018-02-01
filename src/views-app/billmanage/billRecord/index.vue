@@ -84,9 +84,9 @@ export default {
       this.$store.commit("BILLRECORD_SEARCH_LIST", watchDataList);
       this.$store.commit("BILLRECORD_SEARCH", false);
     }
-  },
-  activated() {
-    this.routeMenuCode = this.$route.name;
+    // activated() {
+    //   this.routeMenuCode = this.$route.name;
+    // }
   }
 };
 </script>

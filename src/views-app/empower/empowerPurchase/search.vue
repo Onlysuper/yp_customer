@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
-  </div>
+
+  <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
+
 </template>
 
 <script>
@@ -32,48 +32,74 @@ export default {
           });
         }
       });
+
       this.searchConfig.push({
         title: "状态",
-        type: "myp-select",
-        defaultValue: this.searchQuery.status,
-        values: [
-          { name: "全部", code: "" },
-          { name: "待审核", code: "AUDITING" },
-          { name: "审核通过", code: "SUCCESS" },
-          { name: "拒绝", code: "REJECT" }
+        type: "myp-radio-list",
+        defaultValue: this.searchQuery.status || "ALL",
+        options: [
+          {
+            label: "全部",
+            value: "ALL"
+          },
+          {
+            label: "待审核",
+            value: "AUDITING"
+          },
+          {
+            label: "审核通过",
+            value: "SUCCESS"
+          },
+          {
+            label: "拒绝",
+            value: "REJECT"
+          }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
             status: value
           });
         }
       });
+
       this.searchConfig.push({
         title: "设备类型",
-        type: "myp-select",
-        defaultValue: this.searchQuery.receiptType,
-        values: [
-          { name: "全部", code: "" },
-          { name: "授权码", code: "AUTHCODE" },
-          { name: "扫码枪", code: "SCANCODEGUN" }
+        type: "myp-radio-list",
+        defaultValue: this.searchQuery.receiptType || "ALL",
+        options: [
+          {
+            label: "全部",
+            value: "ALL"
+          },
+          {
+            label: "授权码",
+            value: "AUTHCODE"
+          },
+          {
+            label: "扫码枪",
+            value: "SCANCODEGUN"
+          }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
             receiptType: value
           });
         }
       });
+
       this.searchConfig.push({
         title: "开始日期",
         type: "myp-date",
         defaultValue: this.searchQuery.createTimeStart,
         cb: value => {
-          console.log(value);
           this.$store.commit("QRCODERECIEPT_SEARCH_QUERY", {
             createTimeStart: value
           });
         }
       });
+
       this.searchConfig.push({
         title: "结束日期",
         type: "myp-date",

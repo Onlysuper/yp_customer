@@ -27,7 +27,7 @@ export default {
         dataTime: "",
         agentNo: "",
         containChild: "TRUE",//TRUE
-        settleStatus: "TRUE",//FALSE
+        settleStatus: "",//FALSE
       };
       state.sumData = {
         customerSum: 0,

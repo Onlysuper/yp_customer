@@ -47,7 +47,7 @@ export default {
       customerNo: "", // 商户编号
       enterpriseName: "", // 商户名称
       agentNo: "",
-      containChild: "",
+      containChild: "TRUE",
       settleStatus: "",
       dataTime: ""
     };
@@ -172,7 +172,7 @@ export default {
           },
           {
             key: "企业名称",
-            width: "150px",
+            width: "",
             word: "enterpriseName"
           },
           {
@@ -182,12 +182,12 @@ export default {
           },
           {
             key: "补贴(元)",
-            width: "100px",
+            width: "",
             word: "subsidy"
           },
           {
             key: "中间人(元)",
-            width: "100px",
+            width: "",
             word: "rebate"
           },
           {

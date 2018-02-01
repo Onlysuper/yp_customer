@@ -10,15 +10,26 @@
     height:100%;
     display: flex;
     flex-direction: column;
-    // background: red;
     .tablelist-box{
-      display: flex;
-    flex-direction: column;
-     height:100%;
+      display: block;
+      width: 100%;
+      &::after{
+        content: "";
+        display: block;
+        clear: both;
+      }
+    //   background: red;
+    //   display: flex;
+    // flex-direction: column;
+    //  height:90%;
     //  background: red;
       // overflow-y: auto;
       // overflow-x:hidden
-      overflow: hidden
+      // width: 100%;
+      // flex-direction: column;
+      // display: flex;
+      // flex: 1;
+      // overflow: hidden
     }
     .detail-content {
       .line-label-box {
@@ -52,6 +63,12 @@
     .operation-box {
       float: left;
       width: 100%;
+      display: block;
+      &:after{
+        content: "";
+        display: block;
+        clear: both;
+      }
       .button-group {
         margin-right: 10px;
       }
@@ -71,11 +88,12 @@
     .admin-main-box {
       padding: 10px;
       position: relative;
+      display: block;
       // height: 100%;
       // width: 100%;
-      background: #fff;
-      display: flex;
-      flex-direction: column
+      // background: #fff;
+      // display: flex;
+      // flex-direction: column
     }
     .form-box {
       margin-top: 10px;

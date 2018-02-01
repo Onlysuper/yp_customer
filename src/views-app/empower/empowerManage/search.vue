@@ -1,6 +1,6 @@
 <template>
   <div>
-    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
+    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="授权码"></search-page>
   </div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.billCount.searchQuery
+      searchQuery: state => state.empowerManage.searchQuery
     })
   },
   mounted() {
@@ -86,11 +86,11 @@ export default {
       this.searchConfig.push({
         title: "状态",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.status,
+        defaultValue: this.searchQuery.status || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "待审核",
@@ -106,6 +106,9 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") {
+            value = "";
+          }
           this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
             status: value
           });

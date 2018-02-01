@@ -141,11 +141,11 @@
   }
 }
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0.8rem;
   background-color: #f5f5f5;
 }
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar:horizontal {
-  height: 0.5rem;
+  height: 0.8rem;
   background-color: #f5f5f5;
 }
 /*定义滚动条的轨道，内阴影及圆角*/
@@ -165,8 +165,10 @@
 import $ from "jquery";
 import qs from "qs";
 import Vue from "vue";
+import { mixinDataTable } from "@src/components/DataPage/dataPage";
 export default {
   props: ["tableDataInit", "page", "limit", "search"],
+  mixins: [mixinDataTable],
   data() {
     return {
       // iscrollOptions: {
@@ -221,17 +223,6 @@ export default {
         this.ifloading = false;
       });
     },
-    // 表格大小
-    tableSizeHandle() {
-      this.$nextTick(() => {
-        let pageHeight = $(".admin-page").outerHeight(true) || 0;
-        let formHeight = $(".search-page").outerHeight(true) || 0;
-        let operationHeight = $(".operation-box").outerHeight(true) || 0;
-        let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-        this.tableHeight =
-          pageHeight - formHeight - operationHeight - paginationHeight - 20;
-      });
-    },
     handleSizeChange(val) {
       // 改变页数
       this.$emit("pagelimit", val);
@@ -253,19 +244,28 @@ export default {
       this.$emit("operation", rowdata, cb);
     },
     // 导出
-    ExportExcel(path, param) {
+    ExportExcel(path, param, haveparam) {
       var exportUrl = "";
       if (param == "download") {
         exportUrl = this.$store.state.Base.oaIp + path;
       } else {
-        exportUrl =
-          this.$store.state.Base.oaIp +
-          path +
-          "?" +
-          qs.stringify(this.getSearch);
+        if (haveparam) {
+          // 带除了搜索条件外额外的参数
+          exportUrl =
+            this.$store.state.Base.oaIp +
+            path +
+            "?" +
+            qs.stringify(this.getSearch) +
+            "&" +
+            qs.stringify(param);
+        } else {
+          exportUrl =
+            this.$store.state.Base.oaIp +
+            path +
+            "?" +
+            qs.stringify(this.getSearch);
+        }
       }
-      console.log(this.getSearch);
-      // console.log(exportUrl);
       // var exportUrl =
       //   this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
       window.location.href = exportUrl;

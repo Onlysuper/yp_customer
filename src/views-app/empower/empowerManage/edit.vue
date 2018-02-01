@@ -13,27 +13,31 @@
           <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="请输入合伙人编号" v-model="unitData.agentNo"></mt-field>
           <mt-field type="text" :disabled="true" label="商户编号" placeholder="请输入商户编号" v-model="unitData.customerNo"></mt-field>
           <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="unitData.extensionNum"></mt-field>
-          <div>
+          <mt-field @click.native="$refs.serviceModePicker.open" type="text" label="服务方式" placeholder="请选择服务方式" :value="servicePickerModle.name" v-readonly-ios :readonly="true" :disableClear="true">
+            <i class="icon-admin"></i>
+          </mt-field>
+          <!-- <div>
             <mt-cell title="服务方式" class="border-1px"></mt-cell>
             <mt-radio class="myp-radio border-1px" v-model="unitData.serviceMode" :options="selectOptions.serviceMode"></mt-radio>
-          </div>
+          </div> -->
         </template>
       </input-wrapper>
     </view-radius>
-    <!-- <migrate-picker ref="MigratePicker" @change="openMigratePickerChange">
-    </migrate-picker> -->
+    <picker ref="serviceModePicker" v-model="servicePickerModle" :slotsActions="serviceActions" @confirm="openaServicePickerChange"></picker>
   </full-page>
 </template>
 
 <script>
+import Picker from "@src/components-app/SelectPicker/Picker";
 import { mapState, mapActions } from "vuex";
 export default {
-  components: {},
+  components: { Picker },
   data() {
     return {
       btnDisabled: false,
       qrNumsVisible: false,
       qrcodesVisible: false,
+      servicePickerModle: {},
       unitData: {
         receiptNo: "",
         agentNo: "",
@@ -45,6 +49,20 @@ export default {
         qrcodeEnd: "",
         qrcodes: ""
       },
+      serviceActions: [
+        {
+          name: "航信",
+          code: "HX"
+        },
+        {
+          name: "易票",
+          code: "YP"
+        },
+        {
+          name: "航信_易票",
+          code: "HX_YP"
+        }
+      ],
       selectOptions: {
         serviceMode: [
           {
@@ -116,6 +134,10 @@ export default {
     // 选择分发方式
     openMigratePicker() {
       this.$refs.MigratePicker.open();
+    },
+    openaServicePickerChange() {
+      this.servicePickerModle = obj;
+      this.unitData.serviceMode = obj.code;
     },
     // 分发方式选择结构
     openMigratePickerChange(obj) {
