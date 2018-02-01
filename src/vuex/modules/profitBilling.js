@@ -23,10 +23,9 @@ export default {
       state.searchQuery = {
         customerNo: "",
         enterpriseName: "",
-        // dataTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        dataTime: "",
+        dataTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
         agentNo: "",
-        containChild: "TRUE",//TRUE
+        containChild: "",//TRUE
         settleStatus: "",//FALSE
       };
       state.sumData = {

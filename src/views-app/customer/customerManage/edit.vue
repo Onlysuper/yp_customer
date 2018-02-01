@@ -1,7 +1,7 @@
 <template>
-  <full-page-popup v-model="visible" position="bottom">
-    <mt-header slot="header" :title="pageTitle[pageType]">
-      <mt-button slot="left" :disabled="false" type="danger" @click="close">关闭</mt-button>
+  <full-page>
+    <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
     <view-radius>
@@ -16,35 +16,33 @@
         <mt-field type="text" label="公司电话" placeholder="请输入公司电话" v-model="customer.bussinessPhone"></mt-field>
       </input-wrapper>
     </view-radius>
-  </full-page-popup>
+  </full-page>
 </template>
 
 <script>
-import { postAddCustomer, postEditCustomer } from "@src/apis";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      visible: false,
       btnDisabled: false,
-      pageType: "ADD",
+      pageType: this.$route.query["type"] || "ADD",
+      customerNo: this.$route.params["customerNo"],
       customer: {},
       pageTitle: {
-        ADD: "添加商户",
-        EDIT: "修改商户"
+        ADD: "添加",
+        EDIT: "修改"
       }
     };
   },
-  created() {},
+  created() {
+    this.pageType == "EDIT" &&
+      this.getCustomer(this.customerNo).then(customer => {
+        this.customer = { ...customer };
+        // this.echoForm(this.customer);
+      });
+  },
   methods: {
-    close() {
-      this.customer = {};
-      this.visible = false;
-    },
-    open(customer, type) {
-      this.pageType = type;
-      if (this.pageType == "EDIT") this.customer = Object.assign({}, customer);
-      this.visible = true;
-    },
+    ...mapActions(["getCustomer", "updataCustomer", "addCustomer"]),
     save() {
       if (!this.validator.isEmpty(this.customer.enterpriseName)) {
         this.MessageBox.alert("企业名称不能为空！");
@@ -72,26 +70,18 @@ export default {
       }
 
       this.btnDisabled = true;
-
       this.pageType == "EDIT"
-        ? postEditCustomer()(this.customer).then(data => {
+        ? this.updataCustomer(this.customer).then(flag => {
             this.btnDisabled = false;
-            if (data.code == "00") {
-              this.Toast("修改成功");
-              this.$parent.updata(this.customer);
-              this.close();
-            } else {
-              this.Toast(data.msg);
+            if (flag) {
+              this.$router.back();
             }
           })
-        : postAddCustomer()(this.customer).then(data => {
+        : this.addCustomer(this.customer).then(flag => {
             this.btnDisabled = false;
-            if (data.code == "00") {
-              this.Toast("添加成功");
-              this.$parent.$refs.MypLoadmoreApi.load();
-              this.close();
-            } else {
-              this.Toast(data.msg);
+            if (flag) {
+              this.$store.commit("CUSTOMER_MANAGE_IS_SEARCH", true);
+              this.$router.back();
             }
           });
     }
