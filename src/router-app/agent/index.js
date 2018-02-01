@@ -70,17 +70,17 @@ export default {
       ]
     },
     //合伙人转移
-    {
-      name: "agent_transfer",
-      path: 'agentTransfer',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/agent-mg/agentTransfer")) }, "agent-mg-app")
-      },
-      meta: {
-        pageTitle: "合伙人转移",
-        menuCode: "agent_transfer",
-        keepAlive: true
-      }
-    },
+    // {
+    //   name: "agent_transfer",
+    //   path: 'agentTransfer',
+    //   component: r => {
+    //     return require.ensure([], () => { return r(require("@src/views-app/agent-mg/agentTransfer")) }, "agent-mg-app")
+    //   },
+    //   meta: {
+    //     pageTitle: "合伙人转移",
+    //     menuCode: "agent_transfer",
+    //     keepAlive: true
+    //   }
+    // },
   ]
 }
