@@ -38,17 +38,7 @@ export default {
       qrNumsVisible: false,
       qrcodesVisible: false,
       servicePickerModle: {},
-      unitData: {
-        receiptNo: "",
-        agentNo: "",
-        migrateType: "",
-        qrcodeCount: "",
-        price: "",
-        prefixNo: "",
-        qrcodeStart: "",
-        qrcodeEnd: "",
-        qrcodes: ""
-      },
+      unitData: {},
       serviceActions: [
         {
           name: "航信",
@@ -136,8 +126,8 @@ export default {
       this.$refs.MigratePicker.open();
     },
     openaServicePickerChange() {
-      this.servicePickerModle = obj;
-      this.unitData.serviceMode = obj.code;
+      // this.servicePickerModle = obj;
+      // this.unitData.serviceMode = obj.code;
     },
     // 分发方式选择结构
     openMigratePickerChange(obj) {

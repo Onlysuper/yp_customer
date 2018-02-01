@@ -50,7 +50,9 @@ export default {
       customerNo: "", // 商户编号
       agentNo: "", // 代理商编号
       containChild: "TRUE", // 下级
-      billSuccess: "", // 推送次数
+      // billSuccess: "", // 推送次数
+      billSuccessBegin: "", // 推送次数开始
+      billSuccessEnd: "", // 推送次数结束
       standard: "" // 达标情况
     };
     return {
@@ -133,6 +135,10 @@ export default {
           value: "",
           options: [
             {
+              value: "",
+              label: "全部"
+            },
+            {
               value: "0-5",
               label: "5次以下"
             },
@@ -150,7 +156,15 @@ export default {
             }
           ],
           cb: value => {
-            this.searchCondition.billSuccess = value;
+            if (value != null) {
+              var billSuccessArr = value.split("-");
+              if (billSuccessArr.length >= 2) {
+                this.searchCondition.billSuccessBegin = billSuccessArr[0];
+                this.searchCondition.billSuccessEnd = billSuccessArr[1];
+              } else if (billSuccessArr.length >= 1) {
+                this.searchCondition.billSuccessBegin = billSuccessArr[0];
+              }
+            }
           }
         },
         {
