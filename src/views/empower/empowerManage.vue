@@ -316,7 +316,7 @@ export default {
       createTimeEnd: todayDate, // 结束日期
       batchNo: "", // 批次编号
       agentNo: "", // 合伙人编号
-      containChild: "", // 下级
+      containChild: "TRUE", // 下级
       customerNo: "", // 商户编号
       qrcode: "", // 序号
       authCode: "", // 授权码

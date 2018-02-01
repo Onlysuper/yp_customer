@@ -49,7 +49,7 @@ export default {
       standardTimeEnd: todayDate, // 结束日期
       customerNo: "", // 商户编号
       agentNo: "", // 代理商编号
-      containChild: "", // 下级
+      containChild: "TRUE", // 下级
       billSuccess: "", // 推送次数
       standard: "" // 达标情况
     };

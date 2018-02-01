@@ -13,7 +13,7 @@
           <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="请输入合伙人编号" v-model="unitData.agentNo"></mt-field>
           <mt-field type="text" :disabled="true" label="商户编号" placeholder="请输入商户编号" v-model="unitData.customerNo"></mt-field>
           <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="unitData.extensionNum"></mt-field>
-          <mt-field @click.native="$refs.serviceModePicker.open" type="text" label="服务方式" placeholder="请选择服务方式" :value="serviceModePickerModle.name" v-readonly-ios :readonly="true" :disableClear="true">
+          <mt-field @click.native="$refs.serviceModePicker.open" type="text" label="服务方式" placeholder="请选择服务方式" :value="servicePickerModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-admin"></i>
           </mt-field>
           <!-- <div>
@@ -23,7 +23,7 @@
         </template>
       </input-wrapper>
     </view-radius>
-    <picker ref="serviceModePicker" v-model="serviceModePickerModle" :slotsActions="serviceModeActions" @confirm="openaServicePickerChange"></picker>
+    <picker ref="serviceModePicker" v-model="servicePickerModle" :slotsActions="serviceActions" @confirm="openaServicePickerChange"></picker>
   </full-page>
 </template>
 
@@ -37,7 +37,7 @@ export default {
       btnDisabled: false,
       qrNumsVisible: false,
       qrcodesVisible: false,
-      serviceModePickerModle: {},
+      servicePickerModle: {},
       unitData: {
         receiptNo: "",
         agentNo: "",
@@ -49,15 +49,19 @@ export default {
         qrcodeEnd: "",
         qrcodes: ""
       },
-      serviceModeActions: [
-        // {
-        //   name: "授权码序列号",
-        //   code: "valueF"
-        // },
-        // {
-        //   name: "授权码号段转移",
-        //   code: "ORDER"
-        // }
+      serviceActions: [
+        {
+          name: "航信",
+          code: "HX"
+        },
+        {
+          name: "易票",
+          code: "YP"
+        },
+        {
+          name: "航信_易票",
+          code: "HX_YP"
+        }
       ],
       selectOptions: {
         serviceMode: [
@@ -132,7 +136,7 @@ export default {
       this.$refs.MigratePicker.open();
     },
     openaServicePickerChange() {
-      this.serviceModePickerModle = obj;
+      this.servicePickerModle = obj;
       this.unitData.serviceMode = obj.code;
     },
     // 分发方式选择结构
