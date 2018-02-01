@@ -208,6 +208,11 @@ export default {
             word: "customerNo"
           },
           {
+            key: "达标时间",
+            width: "170px",
+            word: "standardTime"
+          },
+          {
             key: "企业名称",
             width: "",
             word: "enterpriseName"
@@ -255,11 +260,6 @@ export default {
                 };
               }
             }
-          },
-          {
-            key: "达标时间",
-            width: "",
-            word: "standardTime"
           }
         ]
       }

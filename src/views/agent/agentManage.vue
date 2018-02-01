@@ -190,12 +190,12 @@
           <el-row>
             <el-col :span="12">
               <el-form-item prop="" label="收款人">
-                <el-input :disabled="true" v-model="editForm.accountName"></el-input>
+                <el-input v-model="editForm.accountName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="对公账户">
-                <el-input :disabled="true" v-model="editForm.accountNo"></el-input>
+                <el-input v-model="editForm.accountNo"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -242,7 +242,7 @@
             <span class="small"></span>
           </legend>
           <el-form-item class="full-width" prop="" label="补贴">
-            <el-select prop="subsidy" v-model="editForm.subsidy" clearable placeholder="请选择">
+            <el-select id="subsidyEdit" ref="subsidyEdit" prop="subsidy" v-model="editForm.subsidy" clearable placeholder="请选择">
               <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
               </el-option>
             </el-select>
@@ -257,7 +257,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item class="full-width" prop="" label="中间人分润">
-                <el-select prop="rebate" v-model="editForm.rebate" clearable placeholder="请选择">
+                <el-select id="rebateEdit" ref="rebateEdit" prop="rebate" v-model="editForm.rebate" clearable placeholder="请选择">
                   <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
                   </el-option>
                 </el-select>
@@ -265,15 +265,6 @@
             </el-col>
           </el-row>
         </fieldset>
-        <!-- 
-       
-        
-       
-        <el-form-item label="回调地址">
-          <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="editForm.redirectUrl">
-          </el-input>
-          <p class="tip-text">回调地址是用来通知代理商一些有用信息的接口，无开发能力代理商可不填</p>
-        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
@@ -289,6 +280,7 @@
 
 </style>
 <script>
+import $ from "jquery";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
@@ -373,7 +365,9 @@ export default {
         phoneNo: "",
         // agentArea: ["150000", "150400", "150404"],//合伙人省市县
         agentArea: [], //合伙人省市县
-        redirectUrl: "" //合伙人地址
+        redirectUrl: "", //合伙人地址
+        subsidy: 0,
+        rebate: 0
         // agentArea: [], // 必须为数组
       }, // 编辑单个表单
       // 查询条件数据
@@ -519,8 +513,13 @@ export default {
                 }
               },
               cb: rowdata => {
-                console.log(rowdata);
-                this.editForm = rowdata;
+                this.editForm = Object.assign(this.editForm, rowdata);
+                if (!!rowdata.rebate) {
+                  this.editForm.rebate = rowdata.rebate;
+                }
+                if (!!rowdata.subsidy) {
+                  this.editForm.subsidy = rowdata.subsidy;
+                }
                 this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
                 this.editFormVisible = true;
                 postEditChange()({
@@ -549,46 +548,6 @@ export default {
                 }
               }
             }
-            // {
-            // text: "删除",
-            // color: "#f56c6c",
-            // visibleFn: rowdata => {
-            //   if (this.adminOperationAll.agent_delete == "TRUE") {
-            //     return true;
-            //   } else {
-            //     return false;
-            //   }
-            // }
-            // 以下功能已作废
-            // cb: rowdata => {
-            //   console.log(rowdata.agentNo);
-            //   this.$confirm("该操作将启用该产品，确定继续吗?", "提示", {
-            //     confirmButtonText: "确定",
-            //     cancelButtonText: "取消",
-            //     type: "warning"
-            //   })
-            //     .then(() => {
-            //       postDeleteAgent()({
-            //         agentNo: rowdata.agentNo
-            //       }).then(data => {
-            //         if (data == "00") {
-            //           this.$message({
-            //             message: "删除成功！",
-            //             type: "success",
-            //             center: true
-            //           });
-            //           this.reloadData();
-            //         }
-            //       });
-            //     })
-            //     .catch(() => {
-            //       this.$message({
-            //         type: "info",
-            //         message: "已取消操作"
-            //       });
-            //     });
-            // }
-            // }
           ]
         }
       }
