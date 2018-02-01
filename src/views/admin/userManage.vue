@@ -264,7 +264,7 @@ export default {
                 };
               } else {
                 return {
-                  text: "没写",
+                  text: data,
                   type: ""
                 };
               }
