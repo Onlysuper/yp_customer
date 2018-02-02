@@ -165,6 +165,24 @@ export default {
             pageTitle: "授权码采购查询"
           }
         },
+        {
+          path: 'edit/:receiptNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerPurchase/edit")) }, "empower-purchase-search")
+          },
+          meta: {
+            pageTitle: "修改"
+          }
+        },
+        {
+          path: 'add',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerPurchase/add")) }, "empower-purchase-search")
+          },
+          meta: {
+            pageTitle: "采购"
+          }
+        },
       ]
     }
   ]
