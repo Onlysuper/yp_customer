@@ -109,7 +109,8 @@
             </el-col>
           </el-row>
         </fieldset>
-        <fieldset v-if="userAll=='branchOffice'?true:false">
+        {{userAll.userType}}
+        <fieldset v-if="userAll.userType=='branchOffice'?true:false">
           <legend>分润信息
             <span class="small"></span>
           </legend>
@@ -184,7 +185,7 @@
           </el-form-item>
         </fieldset>
 
-        <fieldset>
+        <fieldset v-if="visibleEditBank">
           <legend>结算信息</legend>
           <span class="small"></span>
           <el-row>
@@ -272,6 +273,7 @@
       </div>
     </el-dialog>
     <!-- 编辑 end -->
+
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -315,8 +317,16 @@ export default {
       agentNo: "", // 合伙人编号
       agentName: "" // 合伙人名称
     };
+    var user = this.$store.state.moduleLayour.userMessage.all;
+
+    var hideData = !(
+      user.userType === "admin" ||
+      user.userType === "branchOffice" ||
+      user.userType === "agent"
+    );
     return {
       visibleEditIntermediay: false, // 编辑的分润模块
+      visibleEditBank: false, // 编辑的结算模块
       subsidyOptions: [
         {
           name: "0",
@@ -359,10 +369,24 @@ export default {
       formLabelWidth: "200px",
       editFormRules: {}, // 编辑单个规则
       editForm: {
-        // 编辑合伙人信息
-        agentName: "", // 合伙人名称
-        agentNo: "", // 合伙人编号
+        agentName: "",
+        linkMan: "",
         phoneNo: "",
+        fixedPhone: "",
+        province: "",
+        city: "",
+        orgCode: "",
+        accountName: "",
+        accountNo: "",
+        accountType: 0,
+        provinceId: "",
+        cityId: "",
+        bankOrgCode: "",
+        bankCode: "",
+        isCreateKey: "",
+        intermediary: "",
+        unionCode: "",
+        // 编辑合伙人信息
         // agentArea: ["150000", "150400", "150404"],//合伙人省市县
         agentArea: [], //合伙人省市县
         redirectUrl: "", //合伙人地址
@@ -471,7 +495,8 @@ export default {
           {
             key: "层级详情",
             width: "150px",
-            word: "levelDetail"
+            word: "levelDetail",
+            hidden: hideData
           },
           {
             key: "状态",
@@ -505,47 +530,59 @@ export default {
             {
               text: "编辑",
               color: "#e6a23c",
-              visibleFn: rowdata => {
-                if (this.adminOperationAll.agent_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
+              // visibleFn: rowdata => {
+              //   if (this.userAll.agent_edit == "TRUE") {
+              //     return true;
+              //   } else {
+              //     return false;
+              //   }
+              // },
               cb: rowdata => {
+                // console.log(rowdata);
+                this.editFormVisible = true;
                 this.editForm = Object.assign(this.editForm, rowdata);
+                this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
+
+                if (rowdata.level == "1") {
+                  this.visibleEditBank = true;
+                  this.visibleEditIntermediay = true;
+                } else {
+                  this.visibleEditBank = false;
+                  this.visibleEditIntermediay = false;
+                }
                 if (!!rowdata.rebate) {
                   this.editForm.rebate = rowdata.rebate;
                 }
                 if (!!rowdata.subsidy) {
                   this.editForm.subsidy = rowdata.subsidy;
                 }
-                this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
-                this.editFormVisible = true;
                 postEditChange()({
                   agentNo: rowdata.agentNo
-                }).then(data => {
-                  if (data == "00") {
-                    console.log(data);
-                    this.editForm.intermediary = data.intermediary;
-                    this.editForm.rebate = parseInt(data.rebate);
-                    this.editForm.subsidy = parseInt(data.subsidy);
+                }).then(res => {
+                  if (res.code == "00") {
+                    if (rowdata.level == "1") {
+                      let data = res.data;
+                      this.selectOptions.branchBankOptions = data.bankList;
+                      this.bankCode = data.branchBank.bankCode;
+                      this.bankCity = data.branchBank.cityId;
+                      this.editForm.unionCode = data.branchBank.unionCode;
+                      this.editForm.bankCode = data.branchBank.bankCode;
+                      this.editForm.bankArea = [
+                        data.branchBank.provinceId,
+                        data.branchBank.cityId
+                      ];
+                      this.editForm = Object.assign(this.editForm, data);
+                    }
+                    // this.editForm.intermediary = data.intermediary;
+                    // this.editForm.rebate = parseInt(data.rebate);
+                    // this.editForm.subsidy = parseInt(data.subsidy);
                     //结算卡信息
-                    this.editForm.accountName = data.accountName;
-                    this.editForm.accountNo = data.accountNo;
-                    this.editForm.accountType = data.accountType;
-                    this.editForm.unionCode = data.unionCode;
+                    // this.editForm.agentName = data.agentName;
+                    // this.editForm.accountName = data.accountName;
+                    // this.editForm.accountNo = data.accountNo;
+                    // this.editForm.accountType = data.accountType;
                   }
                 });
-                if (rowdata == "1") {
-                  this.visibleEditIntermediay = true;
-                } else {
-                  this.visibleEditIntermediay = false;
-                }
-                if (rowdata.bankArea && rowdata.bankArea.some(r => r)) {
-                  this.editForm.bankArea = rowdata.bankArea.map(r => r);
-                  console.log(this.editForm.bankArea);
-                }
               }
             }
           ]
@@ -571,10 +608,10 @@ export default {
       this.bankCode = value;
       this.getBankListHandle();
     },
-    getBankListHandle() {
+    getBankListHandle(back) {
       // 获取支行
-      console.log("bankCode:" + this.bankCode + "bankCity:" + this.bankCity);
       this.addForm.unionCode = "";
+      this.editForm.unionCode = "";
       if (this.bankCode && this.bankCity) {
         // 获取支行列表数据
         getBankList()({
@@ -659,22 +696,40 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var editForm = this.editForm;
-          postEditAgentManage()({
+          var sendObj = {
             agentName: editForm.agentName || "",
-            agentNo: editForm.agentNo || "",
+            linkMan: editForm.linkMan || "",
             phoneNo: editForm.phoneNo || "",
+            fixedPhone: editForm.fixedPhone || "",
             province: editForm.agentArea[0] || "",
-            city: editForm.agentArea[1] || "",
+            city: editForm.agentArea[1] || editForm.agentArea[0] || "",
             orgCode:
               editForm.agentArea[2] ||
               editForm.agentArea[1] ||
               editForm.agentArea[0] ||
               "",
+
+            isCreateKey: editForm.isCreateKey || "",
             redirectUrl: editForm.redirectUrl || "",
             subsidy: editForm.subsidy || "",
             intermediary: editForm.intermediary || "",
             rebate: editForm.rebate || ""
-          }).then(data => {
+          };
+          if (this.visibleEditBank) {
+            sendObj.accountName = editForm.accountName || "";
+            sendObj.accountNo = editForm.accountNo || "";
+            sendObj.accountType = editForm.accountType || 0;
+            sendObj.provinceId = editForm.bankArea[0] || "";
+            sendObj.cityId = editForm.bankArea[1] || editForm.bankArea[0] || "";
+            sendObj.bankOrgCode =
+              editForm.bankArea[2] ||
+              editForm.bankArea[1] ||
+              editForm.bankArea[0] ||
+              "";
+            sendObj.bankCode = editForm.bankCode || "";
+            sendObj.unionCode = editForm.unionCode || "";
+          }
+          postEditAgentManage()(sendObj).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",
@@ -707,6 +762,7 @@ export default {
       // 所有的用户信息
       return this.$store.state.moduleLayour.userMessage.all;
     },
+
     // 新增输入框标题
     addTitle() {
       let user = this.$store.state.moduleLayour.userMessage.all;
