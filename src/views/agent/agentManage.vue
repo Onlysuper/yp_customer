@@ -560,22 +560,22 @@ export default {
                   if (res.code == "00") {
                     if (rowdata.level == "1") {
                       let data = res.data;
+                      this.editForm.unionCode = data.branchBank.unionCode;
                       this.selectOptions.branchBankOptions = data.bankList;
                       this.bankCode = data.branchBank.bankCode;
                       this.bankCity = data.branchBank.cityId;
-                      this.editForm.unionCode = data.branchBank.unionCode;
                       this.editForm.bankCode = data.branchBank.bankCode;
                       this.editForm.bankArea = [
                         data.branchBank.provinceId,
                         data.branchBank.cityId
                       ];
-                      // this.editForm = Object.assign(this.editForm, data);
-                      this.editForm.intermediary = data.intermediary;
+                      this.editForm = Object.assign(this.editForm, data);
+                      // this.editForm.intermediary = data.intermediary;
                       //结算卡信息
-                      this.editForm.agentName = data.agentName;
-                      this.editForm.accountName = data.accountName;
-                      this.editForm.accountNo = data.accountNo;
-                      this.editForm.accountType = data.accountType;
+                      // this.editForm.agentName = data.agentName;
+                      // this.editForm.accountName = data.accountName;
+                      // this.editForm.accountNo = data.accountNo;
+                      // this.editForm.accountType = data.accountType;
                     }
                   }
                 });
