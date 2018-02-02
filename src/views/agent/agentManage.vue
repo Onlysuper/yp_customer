@@ -570,12 +570,6 @@ export default {
                         data.branchBank.cityId
                       ];
                       this.editForm = Object.assign(this.editForm, data);
-                      // this.editForm.intermediary = data.intermediary;
-                      //结算卡信息
-                      // this.editForm.agentName = data.agentName;
-                      // this.editForm.accountName = data.accountName;
-                      // this.editForm.accountNo = data.accountNo;
-                      // this.editForm.accountType = data.accountType;
                     }
                   }
                 });
