@@ -105,7 +105,7 @@ export default {
     })
   },
   mounted() {
-    this.$refs.MypLoadmoreApi.load();
+    this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   watch: {
     isSearch(flag) {

@@ -99,7 +99,7 @@ router.beforeEach((to, from, next) => {
         if (to.path == "/login") {
             next('/home')
         } else if (!menuList.some((r) => r)) {
-            store.dispatch('UserGetFetch');
+            // store.dispatch('UserGetFetch');
             store.dispatch('UserMenulistFetch').then(resmenuList => {
                 if (resmenuList.menuList) {
                     let asyncNewRoutes = filterRouter(resmenuList.menuList, asyncRoutes);
