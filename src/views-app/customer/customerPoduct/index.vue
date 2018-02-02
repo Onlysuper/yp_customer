@@ -2,37 +2,25 @@
   <full-page class="" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" :disabled="false" type="danger" @click="$router.back()">新增</mt-button>
+      <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-      <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.featureType | handleFeatureType">
 
-        <!-- 常用按钮 -->
-        <!-- <div slot="btn">编辑</div> -->
-
-        <!-- 状态 -->
-        <!-- <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.taxRate | handleTaxRate}}</mt-badge>
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.discountType | handleDiscountType}}</mt-badge>
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.enjoyDiscount | handleEnjoyDiscount}}</mt-badge> -->
-
-        <myp-cell class="list-item">
-          <!-- 详情 -->
-          <table>
-            <myp-tr title="产品编号">{{item.productNo}}</myp-tr>
-            <myp-tr title="代理商">{{item.bussinessNo}}</myp-tr>
-            <myp-tr title="费率">{{item.rate}}</myp-tr>
-            <myp-tr title="单笔">{{item.fixed}}</myp-tr>
-            <myp-tr title="封顶">{{item.capped}}</myp-tr>
-            <myp-tr title="月开票量">{{item.elecBillnum || "--"}}</myp-tr>
-            <myp-tr title="开始有效期">{{item.effectiveBegin}}</myp-tr>
-            <myp-tr title="结束有效期">{{item.effectiveEnd}}</myp-tr>
-          </table>
-          <!-- 更多操作 -->
-          <!-- <div slot="right" @click="operation(item)">更多</div> -->
-        </myp-cell>
-
-      </myp-cell-pannel>
+      <view-radius class="item" v-for="(item,index) in list" :key="index">
+        <input-wrapper>
+          <mt-cell title="北京速票通科技有限公司"></mt-cell>
+          <mt-cell title="快速开票" is-link @click.native="toUrl()">
+            <span>已开通</span>
+          </mt-cell>
+          <mt-cell title="聚合支付" is-link>
+            <span>未开通</span>
+          </mt-cell>
+          <mt-cell title="电子发票" is-link>
+            <span>未开通</span>
+          </mt-cell>
+        </input-wrapper>
+      </view-radius>
     </myp-loadmore-api>
   </full-page>
 </template>
@@ -75,14 +63,21 @@ export default {
       this.$store.commit("CUSTOMER_PRODUCT_SEARCH_LIST", watchDataList);
       // this.$store.commit("IS_SEARCH_GOOD", false);
       // this.$store.commit("IS_RELOAD_GOOD", false);
+    },
+    toUrl() {
+      this.$router.push({ path: "./addPayInfo" });
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+@import "../../../assets/scss/base.scss";
 .tip {
   line-height: 200px;
   text-align: center;
+}
+.item {
+  margin: 30*$rem 0;
 }
 </style>

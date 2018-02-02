@@ -15,7 +15,7 @@
   </mt-popup>
 </template>
 <style lang="scss">
-@import '../../assets/scss/base.scss';
+@import "../../assets/scss/base.scss";
 .business-type {
   height: 100%;
   width: 100%;
@@ -24,13 +24,11 @@
     width: 100%;
   }
   .picker-toolbar {
-    height: @header-height;
+    height: 60*$rem;
   }
 }
 </style>
 <script>
-import FullPage from "@src/containers/FullPage";
-
 export default {
   props: {
     value: {

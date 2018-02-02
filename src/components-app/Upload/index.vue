@@ -2,27 +2,27 @@
   <mt-popup v-model="visible" position="bottom" class="upload-container" :modal="false">
     <full-page>
       <mt-header slot="header" title="拍照示例图">
-        <mt-button slot="left" :disabled="false" type="danger" @click="visible=false">关闭</mt-button>
+        <mt-button slot="left" :disabled="false" type="danger" @click="visible=false">取消</mt-button>
       </mt-header>
       <div class="view-waper">
         <div class="view-main">
-          <img class="view-demo" :src="require('@src/assets/images/no-result.png')" alt="">
+          <img class="view-demo" :src="demoImg[upType]" alt="">
           <span class="view-info">{{label}}</span>
         </div>
       </div>
       <div slot="tabar" class="view-btn">
         <input type="file" accept="image/*" @change="inputChange" class="input-file">
-        <i class="mintui-camera icon"></i>
+        <i class="icon-admin icon"></i>
       </div>
     </full-page>
   </mt-popup>
 </template>
 
 <style lang="scss">
-@import '../../assets/scss/base.scss';
+@import "../../assets/scss/base.scss";
 .upload-container {
   width: 100%;
-  height: 100%; // background: red;
+  height: 70%; // background: red;
   text-align: center;
   .view-waper {
     height: 100%;
@@ -50,7 +50,7 @@
     clear: both;
     font-size: 10px;
     border-radius: 50%;
-    background: red;
+    background: #26a2ff;
     .input-file {
       position: absolute;
       left: 0;
@@ -70,6 +70,20 @@
 
 <script>
 import lrz from "lrz";
+let demoImg = {
+  //身份证正面
+  LEGAL_PERSON_ID_POSITIVE: require("./img/identityFrontImg.png"),
+  //身份证反面
+  LEGAL_PERSON_ID_BACK: require("./img/identityBackImg.png"),
+  //手持正面
+  APPLICANT_WITH_ID: require("./img/identityFrontImg.png"),
+  //结算卡
+  SETTLE_CARD_IMG: require("./img/identityFrontImg.png"),
+  //营业执照
+  BUSINESS_LICENSE: require("./img/identityFrontImg.png"),
+  //门头照片
+  PLACE_IMG: require("./img/identityFrontImg.png")
+};
 export default {
   props: {
     value: {
@@ -79,11 +93,16 @@ export default {
     label: {
       type: String,
       default: "拍摄的照片尽量充满相框，无反光，无水印，清晰可见"
+    },
+    upType: {
+      type: String,
+      default: ""
     }
   },
   data() {
     return {
-      visible: true
+      visible: true,
+      demoImg: demoImg
     };
   },
   watch: {
