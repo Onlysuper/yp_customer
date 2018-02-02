@@ -468,6 +468,7 @@ export default {
             agentNo: thisForm.agentNo,
             qrcodeCount: thisForm.qrcodeCount,
             price: thisForm.price,
+            prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,

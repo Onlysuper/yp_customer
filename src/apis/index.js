@@ -27,6 +27,8 @@ const postAddAgentManage = () => { return (params) => { return http.post(base.oa
 const postEditAgentManage = () => { return (params) => { return http.post(base.oaIp, "/agent/update", params) } }
 const getBankList = () => { return (params) => { return http.get(base.oaIp, "/brankbank/list", params) } }
 const postDeleteAgent = () => { return (params) => { return http.post(base.oaIp, "/agent/delete", params) } }
+//编辑权限限制
+const postEditChange = () => { return (params) => { return http.post(base.oaIp, "/agent/queryAgentInfoByAgentNo", params) } }
 
 /**
 **快速开票分润start
@@ -259,6 +261,7 @@ export {
     postEditAgentManage,
     getBankList,
     postDeleteAgent,
+    postEditChange,
     // 快速开票分润
     getBillprofits,
     getBillprofitSum,
