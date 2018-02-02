@@ -35,6 +35,9 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     Toast("网络异常！请尝试刷新页面");
+    if (window.isMobile == "App") {
+        Indicator.close();
+    }
     return Promise.resolve(error.response);
 })
 
