@@ -331,25 +331,25 @@ export default {
       return false;
     },
     // 普通搜索 具备隐藏
-    visiblesomeHandle() {
-      this.searchOptions.forEach(element => {
-        // searchOptions数组里面的corresattr 是索引
-        if (!element.show) {
-          if (element.type == "dateGroup") {
-            // 开始时间 到结束时间组合 特殊处理
-            element.options.forEach(element => {
-              var corresattr = element.corresattr;
-              element.value = "";
-              this.searchCondition[corresattr] = "";
-            });
-          } else {
-            var corresattr = element.corresattr;
-            element.value = "";
-            this.searchCondition[corresattr] = "";
-          }
-        }
-      });
-    },
+    // visiblesomeHandle() {
+    //   this.searchOptions.forEach(element => {
+    //     // searchOptions数组里面的corresattr 是索引
+    //     if (!element.show) {
+    //       if (element.type == "dateGroup") {
+    //         // 开始时间 到结束时间组合 特殊处理
+    //         element.options.forEach(element => {
+    //           var corresattr = element.corresattr;
+    //           element.value = "";
+    //           this.searchCondition[corresattr] = "";
+    //         });
+    //       } else {
+    //         var corresattr = element.corresattr;
+    //         element.value = "";
+    //         this.searchCondition[corresattr] = "";
+    //       }
+    //     }
+    //   });
+    // },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {

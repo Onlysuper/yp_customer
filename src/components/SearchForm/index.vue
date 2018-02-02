@@ -17,9 +17,9 @@
 
         <!-- 日期组合 -->
         <div class="dateGroup" v-if="item.type=='dateGroup'">
-          <el-date-picker :editable="false" :clearable="item.options[0].clearable==false?item.options[0].clearable:true" id="dateGroup" ref="myinputData1" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date',item.options[0].clearable)" type="date" placeholder="开始时间"></el-date-picker>
+          <el-date-picker :blur="datepickerBlur" align="center" :picker-options="pickerOptions1" :editable="false" :clearable="item.options[0].clearable==false?item.options[0].clearable:true" id="dateGroup" ref="myinputData1" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date',item.options[0].clearable)" type="date" placeholder="开始时间"></el-date-picker>
           <span class="to-line">-</span>
-          <el-date-picker :editable="false" :clearable="item.options[1].clearable==false?item.options[1].clearable:true" id="dateGroup1" ref="myinputData2" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date',item.options[1].clearable)" type="date" placeholder="结束时间"></el-date-picker>
+          <el-date-picker :blur="datepickerBlur" align="center" :picker-options="pickerOptions2" :editable="false" :clearable="item.options[1].clearable==false?item.options[1].clearable:true" id="dateGroup1" ref="myinputData2" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date',item.options[1].clearable)" type="date" placeholder="结束时间"></el-date-picker>
         </div>
 
         <!-- 日期组合2 -->
@@ -71,6 +71,56 @@ export default {
   },
   data() {
     return {
+      pickerOptions1: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "今天",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            }
+          },
+          {
+            text: "昨天",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            }
+          },
+          {
+            text: "一周前",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit("pick", date);
+            }
+          }
+        ]
+      },
+      pickerOptions2: {
+        disabledDate(time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [
+          {
+            text: "今天",
+            onClick(picker) {
+              picker.$emit("pick", new Date());
+            }
+          },
+          {
+            text: "昨天",
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit("pick", date);
+            }
+          }
+        ]
+      },
       visibleinput: false,
       pickerOptions7: {
         shortcuts: [
@@ -220,6 +270,9 @@ export default {
     resetInput(formName) {
       //交给父页面操作
       this.$emit("resetInput");
+    },
+    datepickerBlur() {
+      console.log("失去");
     }
     // resetSome() {
     //   this.$emit("resetSome");
