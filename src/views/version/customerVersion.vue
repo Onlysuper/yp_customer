@@ -67,7 +67,7 @@ import {
   getCustomerVersions
 } from "@src/apis";
 export default {
-  name: "customerVersion",
+  name: "customer_versionPlugin",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

@@ -8,6 +8,7 @@ export default {
     list: [],
     searchQuery: {}, //搜索条件
     isSearch: false,//是否搜索操作，便于刷新
+    customerSearchQuery: {},
   },
   getters: {
   },
@@ -17,6 +18,7 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {};
+      state.customerSearchQuery = {};
       console.info("商户产品数据加载完成");
     },
     //设置商品列表
@@ -26,6 +28,10 @@ export default {
     //设置搜索条件
     ["CUSTOMER_PRODUCT_SEARCH_QUERY"](state, searchObj) {
       state.searchQuery = Object.assign(state.searchQuery, searchObj)
+    },
+    //设置商户搜索条件
+    ["CUSTOMER_PRODUCT_CUSTOMER_SEARCH_QUERY"](state, searchObj) {
+      state.customerSearchQuery = Object.assign(state.customerSearchQuery, searchObj)
     },
     //是否开始搜索
     ["CUSTOMER_PRODUCT_SEARCH"](state, flag) {

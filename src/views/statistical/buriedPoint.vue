@@ -25,7 +25,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate } from "@src/common/dateSerialize";
 import { getBurialPointManages, getBurialPointTotal } from "@src/apis";
 export default {
-  name: "buriedPoint",
+  name: "operator_log",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

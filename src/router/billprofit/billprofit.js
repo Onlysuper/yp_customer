@@ -13,6 +13,7 @@ export default {
   meta: {
     title: '快速开票分润',
     keepAlive: true,
+    // componentName: billprofit,
     requiresAuth: true,
     parent: "",
     parentname: "开票查询",

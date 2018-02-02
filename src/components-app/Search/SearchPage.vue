@@ -66,9 +66,29 @@ const MypDate = Vue.extend({
   methods: {
     showDate($this) {
       this.$emit("showDate", this);
+    },
+    clear() {
+      console.log(11);
+      this.value = "";
     }
   },
-  template: `<mt-field @click.native="showDate(this)" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请输入'+config.title" v-model="value"></mt-field>`
+  // template: `<mt-field @click.native="showDate(this)" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请输入'+config.title" v-model="value"></mt-field>`,
+  // template: `<mt-cell :title="config.title" is-link @click.native="showDate(this)">
+  //             <span style="color: green">{{value}}</span>
+  //           </mt-cell>`,
+  template: `<mt-cell-swipe
+              is-link
+              :title="config.title"
+              @click.native="showDate(this)"
+              :right="[
+                {
+                  content: '清空',
+                  style: { background: '#eee', color: '#000' },
+                  handler: this.clear
+                }
+              ]">
+              <span style="color: green">{{value}}</span>
+              </mt-cell-swipe>`
 });
 const MypChekList = Vue.extend({
   name: "myp-chek-list",

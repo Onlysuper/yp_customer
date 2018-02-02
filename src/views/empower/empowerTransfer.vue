@@ -171,7 +171,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { getArantNumTransfers, postMigrateNumTransfer } from "@src/apis";
 export default {
-  name: "billCount",
+  name: "qr_code_migrate",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -493,14 +493,14 @@ export default {
               .querySelector(".el-dialog")
           });
           postMigrateNumTransfer()({
-            deviceType: "AUTHCODE",
+            deviceType: thisForm.deviceType,
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode:
-              this.userAll.userType == "admin"
-                ? "OPERATOR_MIGRATE"
-                : "DOWNWARD_MIGRATE",
+            migrateMode: "DOWNWARD_MIGRATE",
+            // this.userAll.userType == "admin"
+            //   ? "OPERATOR_MIGRATE"
+            //   : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes,
@@ -531,14 +531,14 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           postMigrateNumTransfer()({
-            deviceType: "AUTHCODE",
+            deviceType: thisForm.deviceType,
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode:
-              this.userAll.userType == "admin"
-                ? "OPERATOR_MIGRATE"
-                : "UPWARD_MIGRATE",
+            migrateMode: "UPWARD_MIGRATE",
+            // this.userAll.userType == "admin"
+            //   ? "OPERATOR_MIGRATE"
+            //   : "UPWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes

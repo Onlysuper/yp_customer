@@ -37,7 +37,7 @@ import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBillcountdays, getExportBillcountdays } from "@src/apis";
 
 export default {
-  name: "billCount",
+  name: "billcount_day",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

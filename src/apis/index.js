@@ -243,11 +243,21 @@ const getBurialPointTotal = () => { return (params) => { return http.post(base.o
 // end -------------------------------------------------
 
 /**
-**开票图表Start
+**结算统计Start
  */
-const getBillrecordCharts = () => { return (params) => { return http.post(base.oaIp, "/billrecord/chart", params) } }
+const getSettles = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
+// end -------------------------------------------------
+/**
+**代理商结算统计Start
+ */
+const getAgentSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
 // end -------------------------------------------------
 
+
+/**
+ **商户版本管理Start
+ */
+// end -------------------------------------------------
 export {
     Login,
     Logout,
@@ -370,6 +380,10 @@ export {
     // 埋点图表
     postBurialPointCharts,
     // 开票图表
-    getBillrecordCharts
+    getBillrecordCharts,
+    // 结算统计
+    getSettles,
+    //代理商结算统计
+    getAgentSettle
 };
 

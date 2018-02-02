@@ -29,23 +29,23 @@ const mixinDataTable = {
         },
         // 重置某输入框
         visiblesomeHandle() {
-            this.searchOptions.forEach(element => {
-                // searchOptions数组里面的corresattr 是索引
-                if (!element.show) {
-                    if (element.type == "dateGroup") {
-                        // 开始时间 到结束时间组合 特殊处理
-                        element.options.forEach(element => {
-                            var corresattr = element.corresattr;
-                            element.value = "";
-                            this.searchCondition[corresattr] = "";
-                        });
-                    } else {
-                        var corresattr = element.corresattr;
-                        element.value = "";
-                        this.searchCondition[corresattr] = "";
-                    }
-                }
-            });
+            // this.searchOptions.forEach(element => {
+            //     // searchOptions数组里面的corresattr 是索引
+            //     if (!element.show) {
+            //         if (element.type == "dateGroup") {
+            //             // 开始时间 到结束时间组合 特殊处理
+            //             element.options.forEach(element => {
+            //                 var corresattr = element.corresattr;
+            //                 element.value = "";
+            //                 this.searchCondition[corresattr] = "";
+            //             });
+            //         } else {
+            //             var corresattr = element.corresattr;
+            //             element.value = "";
+            //             this.searchCondition[corresattr] = "";
+            //         }
+            //     }
+            // });
         },
         callbackformHandle(cb, data1, data2) {
             // 表单双向绑定 得到输入的内容并返回到本页面

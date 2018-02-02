@@ -77,6 +77,11 @@ const websocket = {
       this.ws.onclose = () => {
         console.log("连接关闭");
       }
+      // console.log(this.$router.afterEach);
+      // this.$router.afterEach(function () {
+      //   console.log('已断开websocket链接')
+      //   this.ws.close();
+      // })
     }
   },
   beforeDestroy() {

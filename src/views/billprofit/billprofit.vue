@@ -35,7 +35,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { thisMonth } from "@src/common/dateSerialize";
 import { getBillprofits, getBillprofitSum } from "@src/apis";
 export default {
-  name: "billCount",
+  name: "billprofit",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

@@ -37,7 +37,7 @@ import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { getBillcountcustomers, getExportcountcustomers } from "@src/apis";
 
 export default {
-  name: "billCount",
+  name: "billcountcustomer",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -225,7 +225,26 @@ export default {
           {
             key: "RCS",
             width: "",
-            word: "realFlag"
+            word: "realFlag",
+            status: true,
+            type: data => {
+              if (data == "TRUE") {
+                return {
+                  text: "通过",
+                  type: "success"
+                };
+              } else if (data == "FALSE") {
+                return {
+                  text: "未通过",
+                  type: "danger"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "danger"
+                };
+              }
+            }
           },
           {
             key: "推送次数",

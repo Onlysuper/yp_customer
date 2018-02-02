@@ -15,15 +15,22 @@ export default {
     {
       name: "agent-customer-product",
       path: 'productConfig',
-      component: r => {
-        loading(true);
-        return require.ensure([], () => { loading(false); return r(require("@src/views-app/customer/customerPoductConfig")) }, "customer-app")
-      },
-      meta: {
-        pageTitle: "产品配置",
-        keepAlive: true,
-        menuCode: "agent-customer-product"
-      }
+      redirect: "productConfig/index",
+      component: App,
+      children: [
+        {
+          path: "index",
+          component: r => {
+            loading(true);
+            return require.ensure([], () => { loading(false); return r(require("@src/views-app/customer/customerPoductConfig")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "产品配置",
+            keepAlive: true,
+            menuCode: "agent-customer-product"
+          }
+        }
+      ],
     },
     //商品管理
     {
@@ -71,14 +78,67 @@ export default {
     {
       name: "customerProduct",
       path: 'product',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct")) }, "customer-app")
-      },
-      meta: {
-        pageTitle: "商户产品",
-        keepAlive: true,
-        menuCode: "customerProduct"
-      },
+      redirect: "product/index",
+      component: App,
+      children: [
+        {
+          path: "index",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/index")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "商户产品",
+            keepAlive: true,
+            menuCode: "customerProduct"
+          },
+        },
+        {
+          path: "search",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/search")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "搜索商户"
+          },
+        },
+        {
+          path: "addPayInfo",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addPayInfo")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "完善支付信息"
+          },
+        },
+        {
+          path: "addGoods",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addGoods")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "选择产品"
+          },
+        },
+        {
+          path: "addUpload",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addUpload")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "上传资质"
+          },
+        },
+        {
+          path: "addSuccess",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addSuccess")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "提交成功"
+          },
+        }
+      ],
+
     },
     //商户管理
     {
@@ -131,14 +191,22 @@ export default {
     {
       name: "customerInvoiceConfig",
       path: 'invoiceConfig',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/customer/customerInvoiceConfig")) }, "customer-app")
-      },
-      meta: {
-        pageTitle: "开票配置",
-        keepAlive: true,
-        menuCode: "customerInvoiceConfig"
-      }
+      redirect: "invoiceConfig/index",
+      component: App,
+      children: [
+        {
+          path: "index",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerInvoiceConfig")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "开票配置",
+            keepAlive: true,
+            menuCode: "customerInvoiceConfig"
+          }
+        }
+      ]
+
     }
   ]
 }
