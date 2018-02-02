@@ -1,5 +1,5 @@
 <template>
-  <!-- 达标详情 -->
+  <!-- 结算统计 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -7,7 +7,8 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button v-if="adminFilter('billcountcustomer_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
+          <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
+          <span class="sumtext">商户:{{customerSum}}个 返利:{{rebateSum}}元 中间人:{{subsidySum}}元</span>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -15,7 +16,6 @@
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <style lang='scss' scoped>
 .operation-box {
   .sumtext {
@@ -27,63 +27,40 @@
 }
 </style>
 <script>
-import qs from "qs";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
-import { getBillcountcustomers, getExportcountcustomers } from "@src/apis";
-
+import { thisMonth } from "@src/common/dateSerialize";
+import { getBillprofits, getBillprofitSum } from "@src/apis";
 export default {
-  name: "billcountcustomer",
+  name: "billprofit",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
   mixins: [mixinDataTable, mixinsPc],
   data() {
+    // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
-      standardTimeBegin: todayDate, // 开始日期
-      standardTimeEnd: todayDate, // 结束日期
       customerNo: "", // 商户编号
-      agentNo: "", // 代理商编号
-      containChild: "TRUE", // 下级
-      // billSuccess: "", // 推送次数
-      billSuccessBegin: "", // 推送次数开始
-      billSuccessEnd: "", // 推送次数结束
-      standard: "" // 达标情况
+      enterpriseName: "", // 商户名称
+      agentNo: "",
+      containChild: "TRUE",
+      settleStatus: "",
+      dataTime: thisMonth
     };
     return {
+      customerSum: 0,
+      rebateSum: 0,
+      subsidySum: 0,
+      sumLoading: false,
       formLabelWidth: "100px",
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
-        {
-          type: "dateGroup",
-          label: "达标时间",
-          show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "standardTimeBegin",
-              label: "开始时间",
-              value: todayDate,
-              cb: value => {
-                this.searchCondition.standardTimeBegin = value;
-              }
-            },
-            {
-              corresattr: "standardTimeEnd",
-              lable: "结束时间",
-              value: todayDate,
-              cb: value => {
-                this.searchCondition.standardTimeEnd = value;
-              }
-            }
-          ]
-        },
         {
           corresattr: "customerNo",
           type: "text", // 表单类型
@@ -93,6 +70,29 @@ export default {
           cb: value => {
             // 表单输入之后回调函数
             this.searchCondition.customerNo = value;
+          }
+        },
+        {
+          corresattr: "enterpriseName",
+          type: "text", // 表单类型
+          label: "商户名称", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.enterpriseName = value;
+          }
+        },
+        {
+          corresattr: "dataTime",
+          type: "dateMonth", // 表单类型
+          label: "日期", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          value: thisMonth, // 表单默认的内容
+          cb: value => {
+            // console.log(value);
+            // 表单输入之后回调函数
+            this.searchCondition.dataTime = value;
           }
         },
         {
@@ -106,11 +106,10 @@ export default {
             this.searchCondition.agentNo = value;
           }
         },
-
         {
           corresattr: "containChild",
           type: "select",
-          label: "包含关系",
+          label: "是否有下级",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -128,49 +127,9 @@ export default {
           }
         },
         {
-          corresattr: "billSuccess",
+          corresattr: "settleStatus",
           type: "select",
-          label: "推送次数",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "0-5",
-              label: "5次以下"
-            },
-            {
-              value: "5-50",
-              label: "5-50次"
-            },
-            {
-              value: "50-100",
-              label: "50-100次"
-            },
-            {
-              value: "100",
-              label: "100次"
-            }
-          ],
-          cb: value => {
-            if (value != null) {
-              var billSuccessArr = value.split("-");
-              if (billSuccessArr.length >= 2) {
-                this.searchCondition.billSuccessBegin = billSuccessArr[0];
-                this.searchCondition.billSuccessEnd = billSuccessArr[1];
-              } else if (billSuccessArr.length >= 1) {
-                this.searchCondition.billSuccessBegin = billSuccessArr[0];
-              }
-            }
-          }
-        },
-        {
-          corresattr: "standard",
-          type: "select",
-          label: "达标情况",
+          label: "结算情况",
           show: false, // 普通搜索显示
           value: "",
           options: [
@@ -180,37 +139,36 @@ export default {
             },
             {
               value: "TRUE",
-              label: "已达标"
+              label: "已结算"
             },
             {
               value: "FALSE",
-              label: "未达标"
+              label: "未结算"
             }
           ],
           cb: value => {
-            this.searchCondition.standard = value;
+            this.searchCondition.settleStatus = value;
           }
         }
       ],
+
       // 列表数据
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getBillcountcustomers // 初始化数据
+          url: getBillprofits // 初始化数据
         },
-        havecheck: false, //是否显示输入框
+        summary: {
+          is: false
+        }, //显示合计
+        havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "",
+            width: "120px",
             sortable: true,
             word: "customerNo"
-          },
-          {
-            key: "达标时间",
-            width: "170px",
-            word: "standardTime"
           },
           {
             key: "企业名称",
@@ -218,64 +176,40 @@ export default {
             word: "enterpriseName"
           },
           {
-            key: "合伙人编号",
-            width: "",
-            word: "agentNo"
+            key: "入网时间",
+            width: "180px",
+            word: "registerTime"
           },
           {
-            key: "RCS",
+            key: "补贴(元)",
             width: "",
-            word: "realFlag",
+            word: "subsidy"
+          },
+          {
+            key: "中间人(元)",
+            width: "",
+            word: "rebate"
+          },
+          {
+            key: "结算状态",
+            width: "",
+            word: "settleStatus",
             status: true,
             type: data => {
-              if (data == "TRUE") {
+              if (data === "TRUE") {
                 return {
-                  text: "通过",
+                  text: "已结算",
                   type: "success"
                 };
-              } else if (data == "FALSE") {
+              } else if (data === "FALSE") {
                 return {
-                  text: "未通过",
-                  type: "danger"
+                  text: "未结算",
+                  type: "info"
                 };
               } else {
                 return {
                   text: data,
-                  type: "danger"
-                };
-              }
-            }
-          },
-          {
-            key: "推送次数",
-            width: "",
-            word: "billSuccess"
-          },
-          {
-            key: "在线时长(天)",
-            width: "",
-            word: "online"
-          },
-          {
-            key: "达标情况",
-            width: "100px",
-            word: "standard",
-            status: true,
-            type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已达标",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "未达标",
-                  type: "danger"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "danger"
+                  type: "info"
                 };
               }
             }
@@ -286,13 +220,31 @@ export default {
   },
 
   methods: {
-    exportDialog() {
-      // 导出
-      this.$refs.dataTable.ExportExcel("/billcountcustomer/export");
+    // 合计
+    SumHandle() {
+      this.sumLoading = true;
+      var searchCondition = this.searchCondition;
+      getBillprofitSum()({
+        customerNo: searchCondition.customerNo,
+        enterpriseName: searchCondition.enterpriseName,
+        agentNo: searchCondition.agentNo,
+        containChild: searchCondition.containChild,
+        settleStatus: searchCondition.settleStatus,
+        dataTime: searchCondition.dataTime
+      }).then(res => {
+        if (res.code == "00") {
+          var data = res.data;
+          this.customerSum = data.customerSum;
+          this.rebateSum = data.rebateSum;
+          this.subsidySum = data.subsidySum;
+        }
+        this.sumLoading = false;
+      });
     }
   },
-  computed: {},
-  mounted() {}
+  mounted() {
+    this.SumHandle();
+  }
 };
 </script>
 

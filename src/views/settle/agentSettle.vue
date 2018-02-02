@@ -1,5 +1,5 @@
 <template>
-  <!-- 快速开票分润 -->
+  <!-- 代理商结算统计 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
@@ -32,8 +32,8 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { thisMonth } from "@src/common/dateSerialize";
-import { getBillprofits, getBillprofitSum } from "@src/apis";
+import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
+import { getAgentSettle, getBillprofitSum } from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -44,12 +44,9 @@ export default {
   data() {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
-      customerNo: "", // 商户编号
-      enterpriseName: "", // 商户名称
-      agentNo: "",
-      containChild: "TRUE",
-      settleStatus: "",
-      dataTime: thisMonth
+      createTimeStart: todayDate, // 开始时间
+      createTimeEnd: todayDate, // 结束时间
+      status: "" // 结算状态
     };
     return {
       customerSum: 0,
@@ -62,74 +59,33 @@ export default {
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
-          corresattr: "customerNo",
-          type: "text", // 表单类型
-          label: "商户编号", // 输入框前面的文字
+          type: "dateGroup",
+          label: "选择时间",
           show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.customerNo = value;
-          }
-        },
-        {
-          corresattr: "enterpriseName",
-          type: "text", // 表单类型
-          label: "商户名称", // 输入框前面的文字
-          show: false, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.enterpriseName = value;
-          }
-        },
-        {
-          corresattr: "dataTime",
-          type: "dateMonth", // 表单类型
-          label: "日期", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: thisMonth, // 表单默认的内容
-          cb: value => {
-            // console.log(value);
-            // 表单输入之后回调函数
-            this.searchCondition.dataTime = value;
-          }
-        },
-        {
-          corresattr: "agentNo",
-          type: "text", // 表单类型
-          label: "合伙人编号", // 输入框前面的文字
-          show: false, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.agentNo = value;
-          }
-        },
-        {
-          corresattr: "containChild",
-          type: "select",
-          label: "是否有下级",
-          show: false, // 普通搜索显示
-          value: "TRUE",
           options: [
             {
-              value: "TRUE",
-              label: "包含下级"
+              corresattr: "createTimeStart",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
             },
             {
-              value: "FALSE",
-              label: "不包含下级"
+              corresattr: "createTimeEnd",
+              lable: "结束时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
             }
-          ],
-          cb: value => {
-            this.searchCondition.containChild = value;
-          }
+          ]
         },
+
         {
-          corresattr: "settleStatus",
+          corresattr: "status",
           type: "select",
-          label: "结算情况",
+          label: "结算状态",
           show: false, // 普通搜索显示
           value: "",
           options: [
@@ -139,24 +95,82 @@ export default {
             },
             {
               value: "TRUE",
-              label: "已结算"
+              label: "已确认"
             },
             {
               value: "FALSE",
-              label: "未结算"
+              label: "待确认"
+            },
+            {
+              value: "SUCCESS",
+              label: "已结算"
             }
           ],
           cb: value => {
-            this.searchCondition.settleStatus = value;
+            this.searchCondition.status = value;
           }
         }
       ],
+      operation: {
+        width: "120px",
+        options: [
+          // 操作按钮
+          {
+            text: "详情",
+            color: "#00c1df",
+            visibleFn: rowdata => {
+              //已确认
+              if (rowdata.status == "TRUE") {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            cb: rowdata => {
+              // this.editForm = rowdata;
+              // this.editFormVisible = true;
+            }
+          },
+          {
+            text: "详情",
+            color: "#00c1df",
+            visibleFn: rowdata => {
+              //待确认
+              if (rowdata.status == "FALSE") {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            cb: rowdata => {
+              // this.editForm = rowdata;
+              // this.editFormVisible = true;
+            }
+          },
+          {
+            text: "详情",
+            color: "#00c1df",
+            visibleFn: rowdata => {
+              //已结算
+              if (rowdata.status == "SUCCESS") {
+                return true;
+              } else {
+                return false;
+              }
+            },
+            cb: rowdata => {
+              // this.editForm = rowdata;
+              // this.editFormVisible = true;
+            }
+          }
+        ]
+      },
 
       // 列表数据
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getBillprofits // 初始化数据
+          url: getAgentSettle // 初始化数据
         },
         summary: {
           is: false
@@ -165,55 +179,50 @@ export default {
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
-            key: "商户编号",
+            key: "结算单号",
             width: "120px",
-            sortable: true,
-            word: "customerNo"
+            word: "settleNo"
           },
           {
-            key: "企业名称",
-            width: "",
-            word: "enterpriseName"
-          },
-          {
-            key: "入网时间",
+            key: "时间",
             width: "180px",
-            word: "registerTime"
+            word: "dataTime"
+          },
+
+          {
+            key: "商户数量",
+            width: "",
+            word: "customerNumber"
           },
           {
-            key: "补贴(元)",
+            key: "结算金额",
             width: "",
-            word: "subsidy"
-          },
-          {
-            key: "中间人(元)",
-            width: "",
-            word: "rebate"
-          },
-          {
-            key: "结算状态",
-            width: "",
-            word: "settleStatus",
-            status: true,
-            type: data => {
-              if (data === "TRUE") {
-                return {
-                  text: "已结算",
-                  type: "success"
-                };
-              } else if (data === "FALSE") {
-                return {
-                  text: "未结算",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
-            }
+            word: "settlePrice"
           }
+          // {
+          //   key: "结算状态",
+          //   width: "",
+          //   word: "settleStatus",
+          //   status: true,
+          //   type: data => {
+          //     if (data === "TRUE") {
+          //       return {
+          //         text: "已结算",
+          //         type: "success"
+          //       };
+          //     } else if (data === "FALSE") {
+          //       return {
+          //         text: "未结算",
+          //         type: "info"
+          //       };
+          //     } else {
+          //       return {
+          //         text: data,
+          //         type: "info"
+          //       };
+          //     }
+          //   }
+          // }
         ]
       }
     };

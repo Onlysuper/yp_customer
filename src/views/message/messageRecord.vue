@@ -19,7 +19,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { getMessages } from "@src/apis";
 export default {
-  name: "messageRecord",
+  name: "message-list",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

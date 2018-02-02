@@ -32,6 +32,9 @@
               </div>
             </el-col>
           </el-row>
+          <!-- <el-form-item prop="agentNo" label="合伙人编号">
+            <el-input v-model="addForm.agentNo"></el-input>
+          </el-form-item> -->
           <el-row>
             <el-col :span="12">
               <div class="grid-content bg-purple">
@@ -53,7 +56,7 @@
             </el-cascader>
           </el-form-item>
         </fieldset>
-        <fieldset>
+        <fieldset v-if="userAll.userType=='branchOffice'?true:false">
           <legend>结算信息</legend>
           <el-row>
             <el-col :span="12">
@@ -89,7 +92,7 @@
             </el-select>
           </el-form-item>
         </fieldset>
-        <fieldset>
+        <fieldset v-if="userAll.userType=='branchOffice'?true:false">
           <legend>开发信息
             <span class="small">（开发能力的第三方合伙人入网的必填选项，无需开发合伙人不填）</span>
           </legend>
@@ -109,7 +112,6 @@
             </el-col>
           </el-row>
         </fieldset>
-        {{userAll.userType}}
         <fieldset v-if="userAll.userType=='branchOffice'?true:false">
           <legend>分润信息
             <span class="small"></span>
@@ -172,12 +174,12 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="联系人">
-                <el-input :disabled="true" v-model="editForm.linkMan"></el-input>
+                <el-input v-model="editForm.linkMan"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-form-item label="固定电话">
-            <el-input :disabled="true" v-model="editForm.fixedPhone"></el-input>
+            <el-input v-model="editForm.fixedPhone"></el-input>
           </el-form-item>
           <el-form-item class="full-width" label="经营区域">
             <el-cascader :options="optionsArea" v-model="editForm.agentArea" @change="handleChangeArea">
@@ -218,7 +220,7 @@
           </el-form-item>
         </fieldset>
 
-        <fieldset>
+        <fieldset v-if="visibleEditDevelop">
           <legend>开发信息
             <span class="small">（开发能力的第三方合伙人入网的必填选项，无需开发合伙人不填）</span>
           </legend>
@@ -305,7 +307,7 @@ import {
 } from "@src/apis";
 
 export default {
-  name: "agentManage",
+  name: "agent",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -327,6 +329,7 @@ export default {
     return {
       visibleEditIntermediay: false, // 编辑的分润模块
       visibleEditBank: false, // 编辑的结算模块
+      visibleEditDevelop: false, // 编辑信息开发模块
       subsidyOptions: [
         {
           name: "0",
@@ -370,6 +373,7 @@ export default {
       editFormRules: {}, // 编辑单个规则
       editForm: {
         agentName: "",
+        agentNo: "",
         linkMan: "",
         phoneNo: "",
         fixedPhone: "",
@@ -484,19 +488,19 @@ export default {
           },
           {
             key: "合伙人名称",
-            width: "100px",
+            width: "",
             word: "agentName"
           },
           {
             key: "手机号",
-            width: "150px",
+            width: "",
             word: "phoneNo"
           },
           {
             key: "层级详情",
-            width: "150px",
+            width: "",
             word: "levelDetail",
-            hidden: hideData
+            hidden: hideData // 显示条件
           },
           {
             key: "状态",
@@ -530,25 +534,19 @@ export default {
             {
               text: "编辑",
               color: "#e6a23c",
-              // visibleFn: rowdata => {
-              //   if (this.userAll.agent_edit == "TRUE") {
-              //     return true;
-              //   } else {
-              //     return false;
-              //   }
-              // },
               cb: rowdata => {
                 // console.log(rowdata);
                 this.editFormVisible = true;
                 this.editForm = Object.assign(this.editForm, rowdata);
                 this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
-
                 if (rowdata.level == "1") {
                   this.visibleEditBank = true;
                   this.visibleEditIntermediay = true;
+                  this.visibleEditDevelop = true;
                 } else {
                   this.visibleEditBank = false;
                   this.visibleEditIntermediay = false;
+                  this.visibleEditDevelop = false;
                 }
                 if (!!rowdata.rebate) {
                   this.editForm.rebate = rowdata.rebate;
@@ -571,16 +569,14 @@ export default {
                         data.branchBank.provinceId,
                         data.branchBank.cityId
                       ];
-                      this.editForm = Object.assign(this.editForm, data);
+                      // this.editForm = Object.assign(this.editForm, data);
+                      this.editForm.intermediary = data.intermediary;
+                      //结算卡信息
+                      this.editForm.agentName = data.agentName;
+                      this.editForm.accountName = data.accountName;
+                      this.editForm.accountNo = data.accountNo;
+                      this.editForm.accountType = data.accountType;
                     }
-                    // this.editForm.intermediary = data.intermediary;
-                    // this.editForm.rebate = parseInt(data.rebate);
-                    // this.editForm.subsidy = parseInt(data.subsidy);
-                    //结算卡信息
-                    // this.editForm.agentName = data.agentName;
-                    // this.editForm.accountName = data.accountName;
-                    // this.editForm.accountNo = data.accountNo;
-                    // this.editForm.accountType = data.accountType;
                   }
                 });
               }
@@ -697,8 +693,9 @@ export default {
         if (valid) {
           var editForm = this.editForm;
           var sendObj = {
-            agentName: editForm.agentName || "",
-            linkMan: editForm.linkMan || "",
+            agentName: editForm.agentName,
+            agentNo: editForm.agentNo,
+            linkMan: editForm.linkMan,
             phoneNo: editForm.phoneNo || "",
             fixedPhone: editForm.fixedPhone || "",
             province: editForm.agentArea[0] || "",

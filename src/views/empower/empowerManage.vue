@@ -304,7 +304,7 @@ import {
 } from "@src/apis";
 
 export default {
-  name: "billCount",
+  name: "qrcode",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

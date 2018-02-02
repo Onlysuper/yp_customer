@@ -19,7 +19,7 @@
 <script>
 import { getVersion } from "@src/apis";
 export default {
-  name: "pc",
+  name: "home",
   data() {
     return {
       menuList: "", // 菜单数据

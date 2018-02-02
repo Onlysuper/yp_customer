@@ -33,6 +33,8 @@ import buriedPointChart from "./statistical/buriedPointChart";
 import messageRecord from "./message/messageRecord";
 import customerVersion from "./version/customerVersion";
 import versionManage from "./version/versionManage";
+import agentSettle from "./settle/agentSettle";
+import settle from "./settle/settle";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
@@ -70,7 +72,9 @@ const asyncRouter = [
     empowerTransfer, // 授权码转移
     empowerPurchase, // 授权码采购
     customerVersion, // 商户版本
-    versionManage //版本管理
+    versionManage, //版本管理
+    agentSettle,// 代理商结算统计
+    settle// 结算统计
 ];
 // 路由过滤
 

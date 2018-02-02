@@ -19,7 +19,7 @@ import { mixinDataTable } from "@src/components/BuriedPointChart/chartPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { postBurialPointCharts, getBurialPointTotal } from "@src/apis";
 export default {
-  name: "buriedPoint",
+  name: "operator_log_chart",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-chart": BuriedPointChart // 数据列表组件

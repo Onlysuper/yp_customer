@@ -171,7 +171,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { getArantNumTransfers, postMigrateNumTransfer } from "@src/apis";
 export default {
-  name: "billCount",
+  name: "qr_code_migrate",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
