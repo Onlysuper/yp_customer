@@ -1,5 +1,5 @@
 <template>
-  <!-- 开票统计 -->
+  <!-- 授权码采购 -->
   <div class="page">
     <full-page class="page" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle">
@@ -15,7 +15,7 @@
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
           <!-- 常用按钮 -->
-          <div slot="btn" @click="edit(item)">编辑</div>
+          <div slot="btn" @click="$router.push({path:'./edit/'+item.receiptNo})">编辑</div>
 
           <!-- 状态 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerCheckStatus}}</mt-badge>
@@ -60,11 +60,13 @@ export default {
         {
           name: "采购授权码",
           icon: "icon-admin",
+          type: "AUTHCODE",
           method: this.add
         },
         {
           name: "采购扫码枪",
           icon: "icon-admin",
+          type: "SCANCODEGUN",
           method: this.add
         }
       ]
@@ -92,6 +94,9 @@ export default {
     watchDataList(watchDataList) {
       this.$store.commit("QRCODERECIEPT_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODERECIEPT_SEARCH", false);
+    },
+    add(obj) {
+      this.$router.push({ path: "add", query: { type: obj.type } });
     }
   },
   activated() {

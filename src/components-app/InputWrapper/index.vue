@@ -27,6 +27,9 @@
     background-size: 100% 1px;
     background-repeat: no-repeat;
     background-position: bottom;
+    .mint-cell-swipe-button {
+      line-height: 100*$rem;
+    }
   }
   // 去掉最后一个input下边框
   & > .mint-field:last-child {
@@ -39,9 +42,7 @@
       .mint-cell-label {
         font-size: 32*$rem;
       }
-      width: 220*$rem;
-      // margin-right: 30*$rem; // text-align: justify; // text-align-last: justify; // -moz-text-align-last: justify; // position: relative; // &:after {
-      // content: ""; // display: block;
+      width: 220*$rem; // margin-right: 30*$rem; // text-align: justify; // text-align-last: justify; // -moz-text-align-last: justify; // position: relative; // &:after { // content: ""; // display: block;
       // width: 100%;
       // height: 0;
       // overflow: hidden;
