@@ -15,7 +15,7 @@
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
           <!-- 常用按钮 -->
-          <div slot="btn" @click="$router.push({path:'./edit/'+item.receiptNo})">编辑</div>
+          <!-- <div slot="btn" @click="$router.push({path:'./edit/'+item.receiptNo})">编辑</div> -->
 
           <!-- 状态 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerCheckStatus}}</mt-badge>
@@ -32,6 +32,7 @@
               <myp-tr title="数量">{{item.qrcodeCount}}</myp-tr>
               <myp-tr title="单价">{{item.price || '--'}}</myp-tr>
             </table>
+            <div slot="right" @click="$router.push({path:'./edit/'+item.receiptNo})">编辑</div>
           </myp-cell>
 
         </myp-cell-pannel>

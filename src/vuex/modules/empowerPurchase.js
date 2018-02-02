@@ -56,7 +56,8 @@ export default {
     //修改订单数量
     editEmpowerCodeInfo({ commit, dispatch, getters, rootGetters, rootState, state }, receiptCode) {
       return patchPurchaseArantNum()({
-        ...receiptCode
+        receiptNo: receiptCode.receiptNo,
+        qrcodeCount: receiptCode.qrcodeCount
       }).then(data => {
         if (data.code == "00") {
           Toast("修改成功");
