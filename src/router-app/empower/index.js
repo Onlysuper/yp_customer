@@ -41,7 +41,7 @@ export default {
           }
         },
         {
-          name: "billEdit",
+          name: "empowerEdit",
           path: 'check/:receiptNo',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/empower/empowerCheck/check")) }, "empower-check-check")
@@ -72,7 +72,7 @@ export default {
           }
         },
         {
-          name: "empowerManageSearch",
+          // name: "empowerManageSearch",
           path: 'search',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/search")) }, "empower-manage-search")
@@ -125,7 +125,7 @@ export default {
           }
         },
         {
-          name: "empowerManageSearch",
+          // name: "empowerManageSearch",
           path: 'search',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/empower/empowerTransfer/search")) }, "empower-transfer-search")
@@ -156,7 +156,7 @@ export default {
           }
         },
         {
-          name: "empowerManageSearch",
+          // name: "empowerManageSearch",
           path: 'search',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/empower/empowerPurchase/search")) }, "empower-purchase-search")

@@ -7,7 +7,7 @@ import tagsView from "@src/vuex/tagsView/tagsView"
 import fullScreen from "@src/vuex/fullScreen/fullScreen"
 
 import {
-    customerGoods, profitBilling, agent, billCount, billRecord, billDay, billStandard,
+    customerGoods, customerManage, profitBilling, agent, billCount, billRecord, billDay, billStandard,
     empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct
 } from "./modules";
 Vue.use(Vuex);
@@ -38,6 +38,7 @@ const store = new Vuex.Store({
         Base: Base,
         tagsView: tagsView,
         customerGoods,
+        customerManage,
         profitBilling,
         fullScreen,
         agent,

@@ -3,7 +3,7 @@
     <full-page class="" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="searchVisible = true">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
       </mt-header>
       <!-- actions操作 -->
@@ -12,10 +12,10 @@
       <slider-nav slot="header" v-model="routeMenuCode" :munes="munes"></slider-nav>
 
       <!-- 列表组件 -->
-      <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList" :defaultLoadQuery="defaultLoadQuery">
+      <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
           <!-- 常用按钮 -->
-          <div slot="btn" @click="edit(item)">编辑</div>
+          <div slot="btn" @click="toUrl('EDIT',item.customerNo)">编辑</div>
           <!-- 状态 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.customerFrom | handleFrom}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="error">{{item.status | handleStatus}}</mt-badge>
@@ -38,14 +38,12 @@
     <!-- 详情 -->
     <detail ref="detail"></detail>
     <!-- 商户转移 -->
-    <transfer ref="transfer"></transfer>
+    <!-- <transfer ref="transfer"></transfer> -->
     <!-- 新增商户 编辑商户 -->
-    <add ref="add"></add>
+    <!-- <add ref="add"></add> -->
 
     <!-- 更多操作 -->
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
-    <!-- 搜索组件 -->
-    <search-panel-popup v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-panel-popup>
   </div>
 </template>
 
@@ -54,20 +52,17 @@ import SliderNav from "@src/components-app/SliderNav";
 import SearchPanelPopup from "@src/components-app/Search/SearchPanelPopup";
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import detail from "./detail";
-import transfer from "./transfer";
-import add from "./add";
 import { getCustomers } from "@src/apis";
 import utils from "@src/common/utils";
 import { scrollBehavior } from "@src/common/mixins";
+import { mapState, mapActions } from "vuex";
 export default {
   mixins: [scrollBehavior],
   components: {
     SliderNav,
     SearchPanelPopup,
     MypPopupActions,
-    detail,
-    transfer,
-    add
+    detail
   },
   data() {
     return {
@@ -76,116 +71,8 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getCustomers,
-      list: [],
-      //默认查询条件
-      defaultLoadQuery: {
-        limit: 10,
-        page: 1,
-        createTimeStart: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        createTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        containChild: "TRUE"
-      },
-      searchVisible: false,
-      searchQuery: {},
-      searchConfig: [
-        {
-          title: "商户编号",
-          type: "myp-text",
-          cb: value => {
-            this.searchQuery.customerNo = value;
-          }
-        },
-        {
-          title: "企业税号",
-          type: "myp-text",
-          cb: value => {
-            this.searchQuery.taxNo = value;
-          }
-        },
-        {
-          title: "企业名称",
-          type: "myp-text",
-          cb: value => {
-            this.searchQuery.enterpriseName = value;
-          }
-        },
-        {
-          title: "合伙人编号",
-          type: "myp-text",
-          cb: value => {
-            this.searchQuery.agentNo = value;
-          }
-        },
-        {
-          title: "是否包含下级",
-          type: "myp-radio-list",
-          defaultValue: "TRUE",
-          options: [
-            {
-              label: "含下级",
-              value: "TRUE"
-            },
-            {
-              label: "不含下级",
-              value: "FALSE"
-            }
-          ],
-          cb: value => {
-            this.searchQuery.containChild = value;
-          }
-        },
-        {
-          title: "选择入网来源",
-          type: "myp-radio-list",
-          // defaultValue: "2",
-          options: [
-            {
-              label: "插件",
-              value: "PLUGIN"
-            },
-            {
-              label: "扫码",
-              value: "SCAN_CODE"
-            },
-            {
-              label: "公众号",
-              value: "OFFICAL_ACCOUNT"
-            },
-            {
-              label: "静默",
-              value: "SLIENT"
-            },
-            {
-              label: "后台",
-              value: "LOCAL"
-            },
-            {
-              label: "第三方",
-              value: "OPEN_API"
-            }
-          ],
-          cb: value => {
-            this.searchQuery.customerFrom = value;
-          }
-        },
-        {
-          title: "开始时间",
-          type: "myp-date",
-          defaultValue: new Date(),
-          cb: value => {
-            this.searchQuery.createTimeStart = value;
-          }
-        },
-        {
-          title: "结束时间",
-          type: "myp-date",
-          defaultValue: new Date(),
-          cb: value => {
-            this.searchQuery.createTimeEnd = value;
-          }
-        }
-      ],
       sheetVisible: false,
+      _customer: "",
       actions: [
         {
           name: "转移",
@@ -197,17 +84,9 @@ export default {
         {
           name: "新增商户",
           icon: "icon-admin",
-          method: this.add
-        },
-        {
-          name: "测试按钮",
-          icon: "icon-admin",
-          method: this.add
-        },
-        {
-          name: "测试按钮",
-          icon: "icon-admin",
-          method: this.add
+          method: () => {
+            this.toUrl("ADD");
+          }
         }
       ]
     };
@@ -215,18 +94,35 @@ export default {
   activated() {
     this.routeMenuCode = this.$route.name;
   },
+  created() {
+    this.$store.commit("CUSTOMER_MANAGE_INIT");
+  },
+  computed: {
+    ...mapState({
+      list: state => state.customerManage.list,
+      isSearch: state => state.customerManage.isSearch,
+      searchQuery: state => state.customerManage.searchQuery
+    })
+  },
   mounted() {
     this.$refs.MypLoadmoreApi.load();
   },
+  watch: {
+    isSearch(flag) {
+      flag && this.$refs.MypLoadmoreApi.load(this.searchQuery);
+    }
+  },
   methods: {
+    ...mapActions([]),
     watchDataList(watchDataList) {
-      this.list = watchDataList;
+      this.$store.commit("CUSTOMER_MANAGE_SET_LIST", watchDataList);
+      this.$store.commit("CUSTOMER_MANAGE_IS_SEARCH", false);
     },
-    searchPanelResult() {
-      this.$refs.MypLoadmoreApi.load(this.searchQuery);
-    },
-    edit(customer) {
-      this.$refs.add.open(customer, "EDIT");
+    toUrl(type, goodsNo) {
+      this.$router.push({
+        path: "./edit/" + goodsNo,
+        query: { type: type }
+      });
     },
     detail(customer) {
       this.$refs.detail.open(customer);
@@ -242,10 +138,10 @@ export default {
       this._customer = customer;
     },
     transfer() {
-      this.$refs.transfer.open(this._customer);
-    },
-    add() {
-      this.$refs.add.open({}, "ADD");
+      this.$router.push({
+        path: "./transfer",
+        query: { customerNo: this._customer.customerNo }
+      });
     }
   }
 };

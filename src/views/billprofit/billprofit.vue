@@ -32,7 +32,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { thisMonth } from "@src/common/dateSerialize";
 import { getBillprofits, getBillprofitSum } from "@src/apis";
 export default {
   name: "billCount",
@@ -49,7 +49,7 @@ export default {
       agentNo: "",
       containChild: "TRUE",
       settleStatus: "",
-      dataTime: ""
+      dataTime: thisMonth
     };
     return {
       customerSum: 0,
@@ -88,9 +88,9 @@ export default {
           type: "dateMonth", // 表单类型
           label: "日期", // 输入框前面的文字
           show: true, // 普通搜索显示
-          value: todayDate, // 表单默认的内容
+          value: thisMonth, // 表单默认的内容
           cb: value => {
-            console.log(value);
+            // console.log(value);
             // 表单输入之后回调函数
             this.searchCondition.dataTime = value;
           }

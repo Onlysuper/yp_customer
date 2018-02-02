@@ -12,8 +12,12 @@
         </header>
         <!-- 表单 -->
         <div class="form">
-          <input type="text" v-model="ruleForm.username" placeholder="请输入易票帐号/手机号">
-          <input type="password" v-model="ruleForm.password" placeholder="请输入密码">
+          <div class="input">
+            <input type="text" v-model="ruleForm.username" placeholder="请输入易票帐号/手机号">
+          </div>
+          <div class="input">
+            <input type="password" v-model="ruleForm.password" placeholder="请输入密码">
+          </div>
           <!-- 按钮 -->
           <mt-button class="spacing-80 login-button" type="danger" @click="submitForm" size="large">登录</mt-button>
         </div>
@@ -46,10 +50,7 @@ export default {
           localStorage.setItem("isLogin", "100");
           location.reload();
         } else {
-          this.$message({
-            type: "warning",
-            message: data.msg
-          });
+          this.Toast(data.msg);
         }
       });
     }
@@ -115,9 +116,11 @@ $default-color: #333; // 字体颜色
   .form {
     width: 90%;
     margin: 120*$rem auto;
-    input {
+    .input {
       line-height: 100*$rem;
       border-bottom: 1px solid #000;
+    }
+    input {
       width: 100%;
       color: $default-color;
       padding: 0;

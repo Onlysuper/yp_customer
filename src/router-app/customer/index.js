@@ -48,7 +48,7 @@ export default {
           name: "goodsEdit",
           path: 'edit/:goodsNo',
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-edit-app")
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-app")
           },
           meta: {
             pageTitle: "商品"
@@ -59,7 +59,7 @@ export default {
           name: "goodsSearch",
           path: 'search',
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/search")) }, "customer-edit-app")
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/search")) }, "customer-app")
           },
           meta: {
             pageTitle: "商品搜索"
@@ -84,14 +84,48 @@ export default {
     {
       name: "customerlist",
       path: 'manage',
-      component: r => {
-        return require.ensure([], () => { return r(require("@src/views-app/customer/customerManage")) }, "customer-app")
-      },
-      meta: {
-        pageTitle: "商户管理",
-        keepAlive: true,
-        menuCode: "customerlist"
-      },
+      redirect: "manage/index",
+      component: App,
+      children: [
+        {
+          path: "index",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerManage/index")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "商户管理",
+            keepAlive: true,
+            menuCode: "customerlist"
+          }
+        },
+        {
+          path: 'edit/:customerNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerManage/edit")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "商户"
+          }
+        },
+        {
+          path: 'transfer',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerManage/transfer")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "商户转移"
+          }
+        },
+        {
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerManage/search")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "商户搜索"
+          }
+        }
+      ],
     },
     //开票配置
     {

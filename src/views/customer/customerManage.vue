@@ -453,28 +453,28 @@ export default {
               label: "全部"
             },
             {
-              value: "插件",
+              value: "PLUGIN",
               label: "插件"
             },
             {
-              value: "扫码",
-              label: "扫码"
+              label: "扫码",
+              value: "SCAN_CODE"
             },
             {
-              value: "公众号",
-              label: "公众号"
+              label: "公众号",
+              value: "OFFICAL_ACCOUNT"
             },
             {
-              value: "静默",
-              label: "静默"
+              label: "静默",
+              value: "SLIENT"
             },
             {
-              value: "后台",
-              label: "后台"
+              label: "后台",
+              value: "LOCAL"
             },
             {
-              value: "第三方",
-              label: "第三方"
+              label: "第三方",
+              value: "OPEN_API"
             }
           ],
           cb: value => {

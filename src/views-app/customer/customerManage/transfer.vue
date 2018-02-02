@@ -1,7 +1,7 @@
 <template>
-  <full-page-popup v-model="visible" position="bottom">
-    <mt-header slot="header" title="转移商户">
-      <mt-button slot="left" :disabled="false" type="danger" @click="close">关闭</mt-button>
+  <full-page>
+    <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
     <view-radius>
@@ -12,29 +12,27 @@
         <mt-field type="text" label="接受合伙人" :readonly="false" :disabled="false" :disableClear="false" placeholder="请输入接受合伙人" v-model="customer.receiveAgentNo"></mt-field>
       </input-wrapper>
     </view-radius>
-  </full-page-popup>
+  </full-page>
 </template>
 
 <script>
-import { transferCustomer } from "@src/apis";
+import { mapState, mapActions } from "vuex";
 export default {
   data() {
     return {
-      visible: false,
       btnDisabled: false,
+      customerNo: this.$route.query["customerNo"],
       customer: {}
     };
   },
-  created() {},
+  created() {
+    this.getCustomer(this.customerNo).then(customer => {
+      this.customer = { ...customer };
+      console.log(this.customer.customerNo);
+    });
+  },
   methods: {
-    close() {
-      this.customer = {};
-      this.visible = false;
-    },
-    open(customer) {
-      this.customer = Object.assign({}, customer);
-      this.visible = true;
-    },
+    ...mapActions(["getCustomer", "transferCustomer"]),
     save() {
       if (!this.validator.isEmpty(this.customer.receiveAgentNo)) {
         this.MessageBox.alert("合伙人编号不能为空！");
@@ -43,13 +41,10 @@ export default {
 
       this.btnDisabled = true;
 
-      transferCustomer()(this.customer).then(data => {
+      this.transferCustomer(this.customer).then(flag => {
         this.btnDisabled = false;
-        if (data.code == "00") {
-          this.Toast("转移成功");
-          this.close();
-        } else {
-          this.Toast(data.msg);
+        if (flag) {
+          this.$router.back();
         }
       });
     }

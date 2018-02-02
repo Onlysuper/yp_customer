@@ -181,6 +181,7 @@ export default {
       } else {
         val = "";
       }
+      // console.log(val);
       this.$emit("changeform", cb, val);
     },
     changeFoInput(cb, event, type, clearable) {

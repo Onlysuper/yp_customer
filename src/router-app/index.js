@@ -43,15 +43,20 @@ const asyncRoutes = [
  */
 function filterModuler(child, moduler) {
     let children = [];
-    child.forEach((item, index) => {
-        let menuCode = item.menuCode;
+    let newChild = [];
+    child.forEach((itemd, index) => {
+        let menuCode = itemd.menuCode;
         moduler.children.forEach((item, index) => {
-            if (menuCode == item.name) children.push(item);
+            if (menuCode == item.name) {
+                children.push(item);
+                newChild.push(itemd);
+            }
         })
+        // console.log(123, item)
     });
 
     moduler.children = children;
-    return moduler;
+    return { newModule: moduler, newChild: newChild };
 }
 
 /**
@@ -64,25 +69,27 @@ function filterRouter(resmenuList, asyncRoutes) {
     let asyncNewRoutes = [];
     let menuList = [];
     resmenuList.forEach((item, index) => {
+        item = { ...item };
         let menuCode = item.menuCode;
 
         //查找这个菜单的路由模块
-        let moduler = asyncRoutes.find(item => item.name == menuCode);
+        let moduler = asyncRoutes.find(route => route.name == menuCode);
 
         if (moduler instanceof Object) {
             //用当前权限列表 和 路由模块进行过滤,得到一个新的路由模块
-            let newModule = filterModuler(item.child, moduler);
-            //移动端模块菜单只渲染已经开发过的路由
-            newModule["menuCode"] = item.menuCode;
-            newModule["menuName"] = item.menuName;
+            let { newModule, newChild } = filterModuler(item.child, moduler);
             //将路由模块保存起来
-            menuList.push(item);
+            //只有模块下有菜单才会在首页添加该模块入口
+            if (newModule.children.length) {
+                item.child = newChild;
+                menuList.push(item);
+            }
             asyncNewRoutes.push(newModule);
         }
     });
     console.info("已开发的路由", [...asyncNewRoutes]);
     store.commit("asyncNewRoutes", [...asyncNewRoutes]);
-    store.commit('setMenuList', menuList);
+    store.commit('setMenuList', [...menuList]);
     return asyncNewRoutes;
 }
 

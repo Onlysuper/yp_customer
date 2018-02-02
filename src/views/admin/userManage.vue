@@ -262,9 +262,14 @@ export default {
                   text: "未开启",
                   type: "info"
                 };
+              } else if (data === "DELETE") {
+                return {
+                  text: "已删除",
+                  type: "info"
+                };
               } else {
                 return {
-                  text: "没写",
+                  text: data,
                   type: ""
                 };
               }
