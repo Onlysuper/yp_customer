@@ -37,7 +37,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
 import { getBillcountagents, getBillcountSum } from "@src/apis";
 export default {
-  name: "billCount",
+  name: "billcountagent",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

@@ -35,7 +35,7 @@
 import {} from "@src/apis";
 
 export default {
-  name: "customermanage",
+  name: "agent-customer-product",
   components: {},
   data() {
     return {

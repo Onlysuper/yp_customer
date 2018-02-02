@@ -215,9 +215,12 @@ export default {
             this.$emit("operation", data, this.dataSuccess);
           }
         } else {
+          // alert(1);
           this.$message({
             message: data.msg,
-            type: "warning"
+            type: "warning",
+            duration: 1500,
+            showClose: true
           });
         }
         this.ifloading = false;

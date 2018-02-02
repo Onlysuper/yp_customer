@@ -137,7 +137,7 @@ import {
   patchPurchaseArantNum
 } from "@src/apis";
 export default {
-  name: "billCount",
+  name: "qr_code_reciept",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -365,12 +365,12 @@ export default {
             type: (data, row) => {
               if (data == "AUTHCODE") {
                 return {
-                  text: "扫码枪",
+                  text: "授权码",
                   type: "success"
                 };
               } else if (data == "SCANCODEGUN") {
                 return {
-                  text: "授权码",
+                  text: "扫码枪",
                   type: ""
                 };
               } else {

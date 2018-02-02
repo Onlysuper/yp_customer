@@ -1,12 +1,16 @@
 <template>
   <!-- layout 内容展示区域 -->
   <div class="reset-main">
-    <!-- <transition> -->
-    <keep-alive>
-      <router-view v-if="$route.meta.keepAlive"></router-view>
-    </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
-    <!-- </transition> -->
+    <transition>
+      <!-- <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view> -->
+
+      <keep-alive :include="cachedViews">
+        <router-view></router-view>
+      </keep-alive>
+    </transition>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -24,7 +28,7 @@ export default {
   name: "AppMain",
   computed: {
     cachedViews() {
-      // return this.$store.state.tagsView.cachedViews;
+      return this.$store.state.tagsView.cachedViews;
     }
   },
   mounted() {

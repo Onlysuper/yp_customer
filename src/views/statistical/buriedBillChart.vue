@@ -19,7 +19,7 @@ import { mixinDataTable } from "@src/components/buriedBillChart/chartPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { getBillrecordCharts } from "@src/apis";
 export default {
-  name: "buriedPoint",
+  name: "billrecord_chart",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-chart": BuriedPointChart // 数据列表组件

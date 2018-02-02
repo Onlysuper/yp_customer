@@ -201,7 +201,7 @@ import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { getBillrecords, postEditBillrecord } from "@src/apis";
 
 export default {
-  name: "customermanage",
+  name: "billrecord",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

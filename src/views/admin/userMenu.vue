@@ -161,7 +161,7 @@ import $ from "jquery";
 import "@src/common/zTree/js/jquery.ztree.all.js";
 
 export default {
-  name: "usermanage",
+  name: "menu",
   components: {
     "myp-data-page": DataPage // 数据列表组件
   },

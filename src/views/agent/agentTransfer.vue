@@ -67,7 +67,7 @@
 import { mixinsPc } from "@src/common/mixinsPc";
 import { getPartnerTransfer, getTransferBranchoffice } from "@src/apis";
 export default {
-  name: "agentTranster",
+  name: "agent_transfer",
   components: {},
   mixins: [mixinsPc],
   data() {
@@ -87,7 +87,9 @@ export default {
         targetAgentNo: [
           { required: true, message: "请输入接收合伙人编号", trigger: "blur" }
         ],
-        agentNo: [{ required: true, message: "请输入一代合伙人编号", trigger: "blur" }]
+        agentNo: [
+          { required: true, message: "请输入一代合伙人编号", trigger: "blur" }
+        ]
       }
     };
   },
