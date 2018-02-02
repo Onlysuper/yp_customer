@@ -493,14 +493,14 @@ export default {
               .querySelector(".el-dialog")
           });
           postMigrateNumTransfer()({
-            deviceType: "AUTHCODE",
+            deviceType: thisForm.deviceType,
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode:
-              this.userAll.userType == "admin"
-                ? "OPERATOR_MIGRATE"
-                : "DOWNWARD_MIGRATE",
+            migrateMode: "DOWNWARD_MIGRATE",
+            // this.userAll.userType == "admin"
+            //   ? "OPERATOR_MIGRATE"
+            //   : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes,
@@ -531,14 +531,14 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           postMigrateNumTransfer()({
-            deviceType: "AUTHCODE",
+            deviceType: thisForm.deviceType,
             migrateCount: thisForm.migrateCount,
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
-            migrateMode:
-              this.userAll.userType == "admin"
-                ? "OPERATOR_MIGRATE"
-                : "UPWARD_MIGRATE",
+            migrateMode: "UPWARD_MIGRATE",
+            // this.userAll.userType == "admin"
+            //   ? "OPERATOR_MIGRATE"
+            //   : "UPWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
