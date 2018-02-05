@@ -10,7 +10,7 @@ import home from "./home/home";
 import customerManage from "./customer/customerManage";
 import customerGoods from "./customer/customerGoods";
 import customerInvoiceConfig from "./customer/customerInvoiceConfig";
-import customerProduct from "./customer/customerProduct";
+import customerProduct from "./product/customerProduct";
 import customerProductConfigure from "./customer/customerProductConfigure";
 import billCount from "./billmanage/billCount";
 import billRecord from "./billmanage/billRecord";

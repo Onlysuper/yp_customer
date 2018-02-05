@@ -1,7 +1,6 @@
 <template>
   <!-- 代理商结算统计 -->
   <div class="admin-page">
-    代理商结算统计
     <div class="admin-main-box">
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
