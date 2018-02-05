@@ -13,6 +13,7 @@ import empower from "./empower";
 
 import agent from "./agent";
 import productMg from "./product-mg";
+import order from "./order";
 
 Vue.use(Router)
 
@@ -34,7 +35,8 @@ const asyncRoutes = [
     empower,
 
     agent,
-    productMg
+    productMg,
+    order
 ]
 
 

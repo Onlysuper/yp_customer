@@ -43,5 +43,25 @@ export default {
         },
       ]
     },
+    //聚合支付分润
+    {
+      name: "convergePayComm",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
+      path: "convergePayComm",
+      redirect: "convergePayComm/index",
+      component: keepAlive,
+      children: [
+        {
+          path: 'index',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/profit/convergePayComm")) }, "profit-app")
+          },
+          meta: {
+            pageTitle: "聚合支付分润",
+            keepAlive: true,
+            menuCode: "convergePayComm",
+          }
+        }
+      ]
+    },
   ]
 }

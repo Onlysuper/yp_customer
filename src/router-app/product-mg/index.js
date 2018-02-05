@@ -22,7 +22,7 @@ export default {
         {
           path: "index",
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/index")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/index")) }, "product-mg-app")
           },
           meta: {
             pageTitle: "商户产品",
@@ -33,7 +33,7 @@ export default {
         {
           path: "search",
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/search")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/search")) }, "product-mg-app")
           },
           meta: {
             pageTitle: "搜索商户"
@@ -42,7 +42,7 @@ export default {
         {
           path: "addPayInfo",
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addPayInfo")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addPayInfo")) }, "product-mg-app")
           },
           meta: {
             pageTitle: "完善支付信息"
@@ -51,7 +51,7 @@ export default {
         {
           path: "addGoods",
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addGoods")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addGoods")) }, "product-mg-app")
           },
           meta: {
             pageTitle: "选择产品"
@@ -60,7 +60,7 @@ export default {
         {
           path: "addUpload",
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addUpload")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addUpload")) }, "product-mg-app")
           },
           meta: {
             pageTitle: "上传资质"
@@ -69,7 +69,7 @@ export default {
         {
           path: "addSuccess",
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerPoduct/addSuccess")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addSuccess")) }, "product-mg-app")
           },
           meta: {
             pageTitle: "提交成功"

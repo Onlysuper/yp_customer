@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.billRecord.searchQuery
+      searchQuery: state => state.billStandard.searchQuery
     })
   },
   mounted() {
@@ -64,8 +64,12 @@ export default {
       this.searchConfig.push({
         title: "包含关系",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.containChild,
+        defaultValue: this.searchQuery.containChild || "ALL",
         options: [
+          {
+            label: "全部",
+            value: "ALL"
+          },
           {
             label: "包含下级",
             value: "TRUE"
@@ -76,6 +80,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
             containChild: value
           });
@@ -84,11 +89,11 @@ export default {
       this.searchConfig.push({
         title: "推送次数",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.billSuccess,
+        defaultValue: this.searchQuery.billSuccess || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "5次以下",
@@ -108,6 +113,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
             billSuccess: value
           });
@@ -116,11 +122,11 @@ export default {
       this.searchConfig.push({
         title: "达标情况",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.standard,
+        defaultValue: this.searchQuery.standard || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "已达标",
@@ -132,6 +138,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
             standard: value
           });

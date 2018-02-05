@@ -359,6 +359,29 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+
+    /**
+     * 商户产品类型
+     */
+    Vue.filter('handleProductOpenStatus', function (value) {
+        switch (value) {
+            case "TRUE":
+                value = "已开通";
+                break;
+            case "INIT":
+                value = "未开通";
+                break;
+            case "REJECT":
+                value = "被拒绝";
+                break;
+            case "CHECKING":
+                value = "待审核";
+                break;
+            default:
+                value = "未知";
+        }
+        return value;
+    })
     // 3. 添加实例方法
     //Vue.prototype.$myMethod = ...
 }

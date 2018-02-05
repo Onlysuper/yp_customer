@@ -1,6 +1,7 @@
 
 import { getBillcountSum } from "@src/apis";
 import { Toast } from "mint-ui";
+import utils from "@src/common/utils";
 export default {
   state: {
     list: [],
@@ -15,7 +16,10 @@ export default {
     ["BILLCOUNT_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
-      state.searchQuery = {};
+      state.searchQuery = {
+        dataTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        dataTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
+      };
       state.sumData = {
         scan: 0,
         billSuccess: 0,

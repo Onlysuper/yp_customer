@@ -9,15 +9,15 @@
 
       <view-radius class="item" v-for="(item,index) in list" :key="index">
         <input-wrapper>
-          <mt-cell title="北京速票通科技有限公司"></mt-cell>
-          <mt-cell title="快速开票" is-link @click.native="toUrl()">
-            <span>已开通</span>
+          <mt-cell :title="item.customerName"></mt-cell>
+          <mt-cell title="快速开票" is-link>
+            <span>{{item.qrcodeStatus | handleProductOpenStatus}}</span>
           </mt-cell>
-          <mt-cell title="聚合支付" is-link>
-            <span>未开通</span>
+          <mt-cell title="聚合支付" is-link @click.native="openPay(item)">
+            <span>{{item.payStatus | handleProductOpenStatus}}</span>
           </mt-cell>
           <mt-cell title="电子发票" is-link>
-            <span>未开通</span>
+            <span>{{item.elecStatus | handleProductOpenStatus}}</span>
           </mt-cell>
         </input-wrapper>
       </view-radius>
@@ -29,7 +29,7 @@
 import SliderNav from "@src/components-app/SliderNav";
 import { scrollBehavior } from "@src/common/mixins";
 import { mapState, mapActions } from "vuex";
-import { getCustomerProducts } from "@src/apis";
+import { getCustomerOpenProducts } from "@src/apis";
 export default {
   mixins: [scrollBehavior],
   components: { SliderNav },
@@ -39,7 +39,7 @@ export default {
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
-      api: getCustomerProducts
+      api: getCustomerOpenProducts
     };
   },
   computed: {
@@ -49,23 +49,46 @@ export default {
       isSearch: state => state.customerProduct.isSearch
     })
   },
+  watch: {
+    isSearch(flag) {
+      flag && this.$refs.MypLoadmoreApi.load(this.searchQuery);
+    }
+  },
   created() {
-    this.$store.commit("CUSTOMER_PRODUCT_SEARCH_INIT");
+    this.$store.commit("CUSTOMER_PRODUCT_INIT");
   },
   mounted() {
-    this.$refs.MypLoadmoreApi.load();
+    this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   activated() {
     this.routeMenuCode = this.$route.name;
   },
   methods: {
     watchDataList(watchDataList, count, pageNum) {
-      this.$store.commit("CUSTOMER_PRODUCT_SEARCH_LIST", watchDataList);
-      // this.$store.commit("IS_SEARCH_GOOD", false);
-      // this.$store.commit("IS_RELOAD_GOOD", false);
+      this.$store.commit("CUSTOMER_PRODUCT_SET_LIST", watchDataList);
+      this.$store.commit("CUSTOMER_PRODUCT_IS_SEARCH", false);
     },
-    toUrl() {
-      this.$router.push({ path: "./addPayInfo" });
+    openPay(customer) {
+      //判断开通状态
+      switch (customer.payStatus) {
+        case "TRUE":
+          this.Toast("已开通");
+          break;
+        case "INIT":
+          this.$router.push({
+            path: "./addPayInfo",
+            query: { customerNo: customer.bussinessNo }
+          });
+          break;
+        case "REJECT":
+          this.Toast("被拒绝");
+          break;
+        case "CHECKING":
+          this.Toast("待审核");
+          break;
+        default:
+          this.Toast("未知状态");
+      }
     }
   }
 };

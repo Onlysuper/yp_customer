@@ -27,15 +27,36 @@
 </template>
 
 <script>
+import { getCustomerEchoProduct, completeConvergeProduct } from "@src/apis";
 export default {
   data() {
     return {
-      switchValue: true
+      switchValue: true,
+      customerNo: this.$route.query["customerNo"],
+      form: {}
     };
+  },
+  created() {
+    getCustomerEchoProduct()({
+      customerNo: this.customerNo,
+      featureType: "CONVERGE_PAY"
+    }).then(data => {
+      if (data.code == "00") {
+        console.log(data.data);
+      } else {
+        this.Toast(data.msg);
+      }
+    });
   },
   methods: {
     //提交
     submit() {
+      completeConvergeProduct()().then(data => {
+        if (data.code == "00") {
+        } else {
+          this.Toast(data.msg);
+        }
+      });
       this.$router.push({ path: "./addUpload" });
     }
   }
