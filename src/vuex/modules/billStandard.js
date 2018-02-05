@@ -2,6 +2,7 @@
 // 达标详情
 import { } from "@src/apis";
 import { Toast } from "mint-ui";
+import utils from "@src/common/utils";
 export default {
   state: {
     list: [],
@@ -15,7 +16,10 @@ export default {
     ["BILLSTANDARD_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
-      state.searchQuery = {};
+      state.searchQuery = {
+        standardTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        standardTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
+      };
       console.info("达标详情数据加载完成");
     },
     //设置商品列表

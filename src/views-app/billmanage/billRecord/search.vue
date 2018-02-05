@@ -62,11 +62,11 @@ export default {
       this.searchConfig.push({
         title: "开票类型",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.billType,
+        defaultValue: this.searchQuery.billType || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "普票",
@@ -82,6 +82,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("BILLRECORD_SEARCH_QUERY", {
             billType: value
           });
@@ -90,11 +91,11 @@ export default {
       this.searchConfig.push({
         title: "状态",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.status,
+        defaultValue: this.searchQuery.status || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "推送成功",
@@ -122,6 +123,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("BILLRECORD_SEARCH_QUERY", {
             status: value
           });

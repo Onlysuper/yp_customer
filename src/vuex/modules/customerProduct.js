@@ -1,46 +1,53 @@
 
 // 商户产品
 
-import { postEditBillrecord } from "@src/apis";
+import { getCustomerEchoProduct } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
     list: [],
     searchQuery: {}, //搜索条件
     isSearch: false,//是否搜索操作，便于刷新
-    customerSearchQuery: {},
   },
   getters: {
   },
   mutations: {
     //初始化store
-    ["CUSTOMER_PRODUCT_SEARCH_INIT"](state) {
+    ["CUSTOMER_PRODUCT_INIT"](state) {
       state.list = [];
       state.isSearch = false;
-      state.searchQuery = {};
-      state.customerSearchQuery = {};
+      state.searchQuery = {
+        bussinessNo: "",
+        customerName: "",
+        qrcodeStatus: "",
+        elecStatus: "",
+        payStatus: ""
+      };
       console.info("商户产品数据加载完成");
     },
     //设置商品列表
-    ["CUSTOMER_PRODUCT_SEARCH_LIST"](state, datas) {
+    ["CUSTOMER_PRODUCT_SET_LIST"](state, datas) {
       state.list = datas || [];
     },
     //设置搜索条件
-    ["CUSTOMER_PRODUCT_SEARCH_QUERY"](state, searchObj) {
+    ["CUSTOMER_PRODUCT_SET_SEARCH"](state, searchObj) {
       state.searchQuery = Object.assign(state.searchQuery, searchObj)
     },
-    //设置商户搜索条件
-    ["CUSTOMER_PRODUCT_CUSTOMER_SEARCH_QUERY"](state, searchObj) {
-      state.customerSearchQuery = Object.assign(state.customerSearchQuery, searchObj)
-    },
     //是否开始搜索
-    ["CUSTOMER_PRODUCT_SEARCH"](state, flag) {
+    ["CUSTOMER_PRODUCT_IS_SEARCH"](state, flag) {
       state.isSearch = flag;
     }
   },
   actions: {
-    upBillRecordsss({ commit, dispatch, getters, rootGetters, rootState, state }, editForm) {
-
+    //回显表单
+    getCustomerEchoProduct({ commit, dispatch, getters, rootGetters, rootState, state }, query) {
+      return getCustomerEchoProduct()({ ...query }).then(data => {
+        if (data.code == "00") {
+          return data.data;
+        } else {
+          Toast(data.msg);
+        }
+      })
     }
   }
 };

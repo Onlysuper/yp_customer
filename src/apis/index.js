@@ -256,6 +256,18 @@ const getAgentSettleSum = () => { return (params) => { return http.get(base.oaIp
 
 
 /**
+**我的产品Start
+ */
+const getCustomerOpenProducts = () => { return (params) => { return http.get(base.oaIp, "/userProductStatus/page", params) } }
+const getCustomerEchoProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomerConverge", params) } }
+const completeSettleInfo = () => { return (params) => { return http.post(base.oaIp, "/customer/completeSettleInfo", params) } }
+const completeConvergeProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/completeConvergeProduct", params) } }
+const completeBussinessImg = () => { return (params) => { return http.post(base.oaIp, "/customer/completeBussinessImg", params) } }
+const upload = () => { return (params) => { return http.post(base.oaIp, "/bussinessImg/upload", params) } }
+// end -------------------------------------------------
+
+
+/**
  **商户版本管理Start
  */
 // end -------------------------------------------------
@@ -386,6 +398,13 @@ export {
     getSettles,
     //代理商结算统计
     getAgentSettle,
-    getAgentSettleSum
+    getAgentSettleSum,
+    //我的产品
+    getCustomerOpenProducts,
+    getCustomerEchoProduct,
+    completeSettleInfo,
+    completeConvergeProduct,
+    completeBussinessImg,
+    upload
 };
 
