@@ -1047,10 +1047,14 @@ export default {
         // 号段入库
         this.visibleQrcodes = false;
         this.visibleQrNums = true;
+
+        this.addMaterielForm.qrcodeStart = "";
+        this.addMaterielForm.qrcodeEnd = "";
       } else if (event == "OUT_ORDER") {
         // 序号入库
         this.visibleQrcodes = true;
         this.visibleQrNums = false;
+        this.addMaterielForm.qrcodes = "";
       }
     },
     // 物料入库保存

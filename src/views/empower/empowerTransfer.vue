@@ -126,12 +126,14 @@
         </el-form-item>
         <el-col :span="11">
           <el-form-item v-if="qrNumsPayVisible" label="号段开始" prop="qrcodeStart" :label-width="formLabelWidth">
-            <el-input-number v-model="payForm.qrcodeStart" controls-position="right"></el-input-number>
+            <el-input v-model="payForm.qrcodeStart" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="payForm.qrcodeStart" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-col :span="11">
           <el-form-item v-if="qrNumsPayVisible" label="号段结束" prop="qrcodeEnd" :label-width="formLabelWidth">
-            <el-input-number v-model="payForm.qrcodeEnd" controls-position="right"></el-input-number>
+            <el-input v-model="payForm.qrcodeEnd" auto-complete="off"></el-input>
+            <!-- <el-input-number v-model="payForm.qrcodeEnd" controls-position="right"></el-input-number> -->
           </el-form-item>
         </el-col>
         <el-form-item v-if="qrcodesPayVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
@@ -465,10 +467,13 @@ export default {
         //号段转移
         this.qrNumsVisible = true;
         this.qrcodesVisible = false;
+        this.allotForm.qrcodes = "";
       } else if (value == "OUT_ORDER") {
         //二维码编号
         this.qrcodesVisible = true;
         this.qrNumsVisible = false;
+        this.allotForm.qrcodeStart = "";
+        this.allotForm.qrcodeEnd = "";
       }
     },
     migrateTypeChange2(value) {
@@ -476,10 +481,13 @@ export default {
         //号段转移
         this.qrNumsPayVisible = true;
         this.qrcodesPayVisible = false;
+        this.payForm.qrcodes = "";
       } else if (value == "OUT_ORDER") {
         //二维码编号
         this.qrcodesPayVisible = true;
         this.qrNumsPayVisible = false;
+        this.payForm.qrcodeStart = "";
+        this.payForm.qrcodeEnd = "";
       }
     },
     // 授权码分配保存
@@ -503,7 +511,7 @@ export default {
             //   : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes,
+            // qrcodes: thisForm.qrcodes,
             agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
@@ -511,8 +519,8 @@ export default {
                 type: "success",
                 message: "恭喜您，授权码分配成功!"
               });
-              this.checkFormVisible = false;
-              this.checkFormVisible2 = false;
+              this.allotFormVisible = false;
+              this.payFormVisible = false;
               this.reloadData(this.postPage, this.postLimit);
             } else {
               this.$message({
@@ -539,8 +547,8 @@ export default {
             // this.userAll.userType == "admin"
             //   ? "OPERATOR_MIGRATE"
             //   : "UPWARD_MIGRATE",
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
+            // qrcodeStart: thisForm.qrcodeStart,
+            // qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
           }).then(data => {
             if (data.code == "00") {
@@ -548,8 +556,8 @@ export default {
                 type: "success",
                 message: "恭喜您，授权码上缴成功!"
               });
-              this.checkFormVisible = false;
-              this.checkFormVisible2 = false;
+              this.allotFormVisible = false;
+              this.payFormVisible = false;
               this.reloadData(this.postPage, this.postLimit);
             } else {
               this.$message({
