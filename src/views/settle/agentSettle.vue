@@ -14,33 +14,6 @@
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
-
-    <!-- 编辑 start -->
-    <el-dialog title="修改" center :visible.sync="editFormVisible">
-      <el-form size="small" :model="editForm" ref="editForm">
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="代理商名称" prop="agentNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.agentNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="企业税号" prop="dataTime" :label-width="formLabelWidth">
-                <el-input v-model="editForm.dataTime" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 编辑 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -61,7 +34,11 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
-import { getAgentSettle, getAgentSettleSum } from "@src/apis";
+import {
+  getAgentSettle,
+  getAgentSettleSum,
+  postUpdateSettles
+} from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -205,7 +182,7 @@ export default {
           options: [
             // 操作按钮
             {
-              text: "编辑",
+              text: "待确认",
               color: "#00c1df",
               visibleFn: rowdata => {
                 //已确认
@@ -216,24 +193,33 @@ export default {
                 }
               },
               cb: rowdata => {
-                this.editFormVisible = true;
+                // 确认结算订单金额
+                this.$confirm("此操作将确认结算订单金额, 是否继续?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                }).then(() => {
+                  postUpdateSettles()({
+                    agentNo: rowdata.agentNo,
+                    dataTime: rowdata.dataTime
+                  }).then(data => {
+                    console.log(data);
+                    if (data.code == "00") {
+                      this.$message({
+                        type: "success",
+                        message: "已确认"
+                      });
+                    } else {
+                      this.$message({
+                        type: "warning",
+                        message: data.msg
+                      });
+                    }
+                    this.reloadData(this.storePageCount, this.storeCurrentPage);
+                  });
+                });
               }
             }
-            // {
-            //   text: "详情",
-            //   color: "#00c1df",
-            //   visibleFn: rowdata => {
-            //     //待确认
-            //     if (rowdata.status == "TRUE") {
-            //       return true;
-            //     } else {
-            //       return false;
-            //     }
-            //   },
-            //   cb: rowdata => {
-            //     this.detailsFormVisible = true;
-            //   }
-            // }
           ]
         }
       }

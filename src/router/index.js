@@ -36,6 +36,7 @@ import versionManage from "./version/versionManage";
 import agentSettle from "./settle/agentSettle";
 import settle from "./settle/settle";
 import enterpriseSupply from "./enterprise/enterpriseSupply";
+import orderQuery from "./order/orderQuery";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
@@ -76,7 +77,8 @@ const asyncRouter = [
     versionManage, //版本管理
     agentSettle,// 代理商结算统计
     settle,// 结算统计
-    enterpriseSupply// 自制补充
+    enterpriseSupply,// 自制补充
+    orderQuery//订单查询
 ];
 // 路由过滤
 
