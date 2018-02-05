@@ -35,6 +35,7 @@ import customerVersion from "./version/customerVersion";
 import versionManage from "./version/versionManage";
 import agentSettle from "./settle/agentSettle";
 import settle from "./settle/settle";
+import enterpriseSupply from "./enterprise/enterpriseSupply";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
@@ -74,7 +75,8 @@ const asyncRouter = [
     customerVersion, // 商户版本
     versionManage, //版本管理
     agentSettle,// 代理商结算统计
-    settle// 结算统计
+    settle,// 结算统计
+    enterpriseSupply// 自制补充
 ];
 // 路由过滤
 

@@ -250,11 +250,23 @@ const getSettles = () => { return (params) => { return http.get(base.oaIp, "/age
 /**
 **代理商结算统计Start
  */
-const getAgentSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
+const getAgentSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
 const getAgentSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
 // end -------------------------------------------------
+/**
+**统计Start
+ */
+const getSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
+const getSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
+const postUpdateSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/updateSettle", params) } }
+// end -------------------------------------------------
 
-
+/**
+**资质补充
+ */
+const postEnterpriseSupplys = () => { return (params) => { return http.post(base.oaIp, "/enterprisesupply/page", params) } }
+const postAddEnterpriseSupply = () => { return (params) => { return http.post(base.oaIp, "/enterprisesupply/add", params) } }
+// end -------------------------------------------------
 /**
  **商户版本管理Start
  */
@@ -386,6 +398,13 @@ export {
     getSettles,
     //代理商结算统计
     getAgentSettle,
-    getAgentSettleSum
+    getAgentSettleSum,
+    // 统计
+    getSettle,
+    getSettleSum,
+    postUpdateSettleSum,
+    //资质管理
+    postEnterpriseSupplys,
+    postAddEnterpriseSupply
 };
 

@@ -96,10 +96,14 @@
           <span class="line-label">发票金额:</span>
           <span class="line-label-last">{{detailsForm.billAmount}}</span>
         </div>
+
       </div>
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
+        <!-- <el-button class="download-text"  type="primary"> -->
+        <a v-if="downLoadVisible" class="el-button el-button--primary" :href="detailsForm.pdfUrl" :download="'发票'">下载</a>
+        <!-- </el-button> -->
       </div>
     </el-dialog>
     <!-- 详情 end -->
@@ -188,7 +192,16 @@
     <!-- 编辑 end -->
 
   </div>
+
 </template>
+  <style lang="scss">
+.downLoad-text {
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+</style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -219,6 +232,7 @@ export default {
     return {
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
+      downLoadVisible: false,
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
       editForm: {}, // 编辑单个表单
@@ -457,7 +471,20 @@ export default {
               text: "查看",
               color: "#00c1df",
               cb: rowdata => {
+                // downLoadVisible
+                //      if (data.pdfUrl != null && data.pdfUrl != "") {
+                //     $("#pdfUrlDiv").show();
+                //     $("#pdfUrlA").attr("href", data.pdfUrl);
+                // } else {
+                //     $("#pdfUrlDiv").hide();
+                //     $("#pdfUrlA").attr("href", "");
+                // }
                 this.detailsForm = rowdata;
+                if (rowdata.pdfUrl != null && rowdata.pdfUrl != "") {
+                  this.downLoadVisible = true;
+                } else {
+                  this.downLoadVisible = false;
+                }
                 this.detailsFormVisible = true;
               }
             },
@@ -478,6 +505,11 @@ export default {
   methods: {
     resetAddForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    downLoad(pdfUrl) {
+      console.log(pdfUrl);
+      return;
+      this.$refs.dataTable.ExportExcel(pdfUrl, "download", false, true);
     },
     editSave(formName) {
       // 编辑内容保存
