@@ -251,6 +251,7 @@ const getSettles = () => { return (params) => { return http.get(base.oaIp, "/age
 **代理商结算统计Start
  */
 const getAgentSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
+const getAgentSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
 // end -------------------------------------------------
 
 
@@ -384,6 +385,7 @@ export {
     // 结算统计
     getSettles,
     //代理商结算统计
-    getAgentSettle
+    getAgentSettle,
+    getAgentSettleSum
 };
 

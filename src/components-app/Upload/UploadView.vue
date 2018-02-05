@@ -46,7 +46,7 @@
 <script>
 import { Toast, Indicator } from "mint-ui";
 import Upload from "./index";
-import { upload } from "@src/apis";
+// import { upload } from "@src/apis";
 export default {
   components: {
     Upload
