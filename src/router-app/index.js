@@ -12,6 +12,7 @@ import empower from "./empower";
 
 
 import agent from "./agent";
+import productMg from "./product-mg";
 
 Vue.use(Router)
 
@@ -32,7 +33,8 @@ const asyncRoutes = [
     profit,
     empower,
 
-    agent
+    agent,
+    productMg
 ]
 
 
