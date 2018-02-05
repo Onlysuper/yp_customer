@@ -1,6 +1,7 @@
 <template>
   <!-- 代理商结算统计 -->
   <div class="admin-page">
+    代理商结算统计
     <div class="admin-main-box">
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
@@ -8,11 +9,190 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">商户:{{customerSum}}个 返利:{{rebateSum}}元 中间人:{{subsidySum}}元</span>
+          <span class="sumtext">达标商户数量:{{customerNumber}} 结算金额:{{settlePrice}}</span>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
+    <!-- 详情 start -->
+    <!-- <el-dialog title="详情" center :visible.sync="detailsFormVisible">
+      <div class="detail-content">
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">订单编号:</span>
+              <span class="line-label-last">{{detailsForm.orderNo}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">交付状态:</span>
+              <span class="line-label-last">{{detailsForm.status}}</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">发票代码:</span>
+              <span class="line-label-last">{{detailsForm.invoiceCode}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">发票号码:</span>
+              <span class="line-label-last">{{detailsForm.invoiceNo}}</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">含税金额:</span>
+              <span class="line-label-last">{{detailsForm.totalTax}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">手机号码:</span>
+              <span class="line-label-last">{{detailsForm.phoneNo}}</span>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">购方名称:</span>
+              <span class="line-label-last">{{detailsForm.enterpriseName}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">企业税号:</span>
+              <span class="line-label-last">{{detailsForm.taxNo}}</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row class="line-label-box">
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <span class="line-label">公司电话:</span>
+              <span class="line-label-last">{{detailsForm.companyPhone}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <span class="line-label">销方名称:</span>
+              <span class="line-label-last">{{detailsForm.bussinessName}}</span>
+            </div>
+          </el-col>
+        </el-row>
+        <div class="line-label-box">
+          <span class="line-label">银行帐号:</span>{{detailsForm.bankAccountNo}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">开户银行:</span>
+          <span class="line-label-last">{{detailsForm.bankName}}</span>
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">单位地址:</span>
+          <span class="line-label-last">{{detailsForm.enterpriseAddress}}</span>
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">发票金额:</span>
+          <span class="line-label-last">{{detailsForm.billAmount}}</span>
+        </div>
+      </div>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog> -->
+    <!-- 详情 end -->
+    <!-- 编辑 start -->
+    <!-- <el-dialog title="修改商户信息" center :visible.sync="editFormVisible">
+      <el-form size="small" :model="editForm" ref="editForm">
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item v-show="false" label="订单编号" prop="orderNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.orderNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item v-show="false" label="交付状态" prop="status" :label-width="formLabelWidth">
+                <el-input v-model="editForm.status" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-form-item v-show="false" label="发票代码" prop="invoiceCode" :label-width="formLabelWidth">
+          <el-input v-model="editForm.invoiceCode" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="发票号码" prop="invoiceNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.invoiceNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="含税金额" prop="totalTax" :label-width="formLabelWidth">
+          <el-input v-model="editForm.totalTax" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-show="false" label="手机号码" prop="phoneNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="购方名称" prop="enterpriseName" :label-width="formLabelWidth">
+                <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-form-item label="单位地址" prop="enterpriseAddress" :label-width="formLabelWidth">
+          <el-input v-model="editForm.enterpriseAddress" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="开户银行" prop="bankName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bankName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="银行帐号" prop="bankAccountNo" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bankAccountNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="公司电话" prop="companyPhone" :label-width="formLabelWidth">
+                <el-input v-model="editForm.companyPhone" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="销方名称" prop="bussinessName" :label-width="formLabelWidth">
+                <el-input v-model="editForm.bussinessName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-form-item label="发票金额" prop="billAmount" :label-width="formLabelWidth">
+          <el-input v-model="editForm.billAmount" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+      </div>
+    </el-dialog> -->
+    <!-- 编辑 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -33,7 +213,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
-import { getAgentSettle, getBillprofitSum } from "@src/apis";
+import { getAgentSettle, getAgentSettleSum } from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -49,11 +229,15 @@ export default {
       status: "" // 结算状态
     };
     return {
+      customerNumber: 0,
+      settlePrice: 0,
       customerSum: 0,
       rebateSum: 0,
       subsidySum: 0,
       sumLoading: false,
       formLabelWidth: "100px",
+      detailsFormVisible: false,
+      editFormVisible: false,
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -111,60 +295,6 @@ export default {
           }
         }
       ],
-      operation: {
-        width: "120px",
-        options: [
-          // 操作按钮
-          {
-            text: "详情",
-            color: "#00c1df",
-            visibleFn: rowdata => {
-              //已确认
-              if (rowdata.status == "TRUE") {
-                return true;
-              } else {
-                return false;
-              }
-            },
-            cb: rowdata => {
-              // this.editForm = rowdata;
-              // this.editFormVisible = true;
-            }
-          },
-          {
-            text: "详情",
-            color: "#00c1df",
-            visibleFn: rowdata => {
-              //待确认
-              if (rowdata.status == "FALSE") {
-                return true;
-              } else {
-                return false;
-              }
-            },
-            cb: rowdata => {
-              // this.editForm = rowdata;
-              // this.editFormVisible = true;
-            }
-          },
-          {
-            text: "详情",
-            color: "#00c1df",
-            visibleFn: rowdata => {
-              //已结算
-              if (rowdata.status == "SUCCESS") {
-                return true;
-              } else {
-                return false;
-              }
-            },
-            cb: rowdata => {
-              // this.editForm = rowdata;
-              // this.editFormVisible = true;
-            }
-          }
-        ]
-      },
 
       // 列表数据
       postSearch: searchConditionVar,
@@ -198,32 +328,70 @@ export default {
             key: "结算金额",
             width: "",
             word: "settlePrice"
+          },
+          {
+            key: "结算状态",
+            width: "",
+            word: "settleStatus",
+            status: true,
+            type: data => {
+              if (data === "TRUE") {
+                return {
+                  text: "已结算",
+                  type: "success"
+                };
+              } else if (data === "FALSE") {
+                return {
+                  text: "未结算",
+                  type: "info"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
+              }
+            }
           }
-          // {
-          //   key: "结算状态",
-          //   width: "",
-          //   word: "settleStatus",
-          //   status: true,
-          //   type: data => {
-          //     if (data === "TRUE") {
-          //       return {
-          //         text: "已结算",
-          //         type: "success"
-          //       };
-          //     } else if (data === "FALSE") {
-          //       return {
-          //         text: "未结算",
-          //         type: "info"
-          //       };
-          //     } else {
-          //       return {
-          //         text: data,
-          //         type: "info"
-          //       };
-          //     }
-          //   }
-          // }
-        ]
+        ],
+        operation: {
+          width: "120px",
+          options: [
+            // 操作按钮
+            {
+              text: "编辑",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                //已确认
+                if (rowdata.status == "FALSE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                this.editFormVisible = true;
+              }
+            },
+            {
+              text: "详情",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                //待确认
+                if (rowdata.status == "TRUE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                this.detailsFormVisible = true;
+                // detailsFormVisible:false,
+                // editFormVisible:false,
+              }
+            }
+          ]
+        }
       }
     };
   },
@@ -233,19 +401,15 @@ export default {
     SumHandle() {
       this.sumLoading = true;
       var searchCondition = this.searchCondition;
-      getBillprofitSum()({
-        customerNo: searchCondition.customerNo,
-        enterpriseName: searchCondition.enterpriseName,
-        agentNo: searchCondition.agentNo,
-        containChild: searchCondition.containChild,
-        settleStatus: searchCondition.settleStatus,
-        dataTime: searchCondition.dataTime
+      getAgentSettleSum()({
+        createTimeStart: searchCondition.createTimeStart,
+        createTimeEnd: searchCondition.createTimeEnd,
+        status: searchCondition.status
       }).then(res => {
         if (res.code == "00") {
           var data = res.data;
-          this.customerSum = data.customerSum;
-          this.rebateSum = data.rebateSum;
-          this.subsidySum = data.subsidySum;
+          this.customerNumber = data.customerNumber;
+          this.settlePrice = data.settlePrice;
         }
         this.sumLoading = false;
       });
