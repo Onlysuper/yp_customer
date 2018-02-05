@@ -68,16 +68,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="入库数量" prop="receiptCount" :label-width="formLabelWidth">
-                <el-input v-model="addMaterielForm.receiptCount" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="入库方式" prop="migrateType" :label-width="formLabelWidth">
+              <el-form-item class="full-width" label="入库方式" prop="migrateType" :label-width="formLabelWidth">
                 <el-select v-model="addMaterielForm.migrateType" placeholder="请选择" @change="migrateChagen">
                   <el-option v-for="item in selectOptions.addMaterielOptions" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
@@ -85,30 +76,30 @@
               </el-form-item>
             </div>
           </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
-                <el-input v-model="addMaterielForm.prefixNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
+        </el-row>
+        <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
+          <el-input v-model="addMaterielForm.prefixNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item v-if="visibleQrcodes" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
+          <el-input v-model="addMaterielForm.qrcodes" auto-complete="off" @blur="qrcodeBlur($event,'addQrcodes')" placeholder="多个二维码请用英文逗号分隔"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="11">
+            <el-form-item class="full-width" v-if="visibleQrNums" label="号段开始" prop="" :label-width="formLabelWidth">
+              <el-input v-model="addMaterielForm.qrcodeStart" auto-complete="off" @blur="qrcodeBlur($event,'addQrcodeStart')"></el-input>
+              <!-- <el-input-number v-model="addMaterielForm.qrcodeStart" controls-position="right"></el-input-number> -->
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item class="full-width" v-if="visibleQrNums" label="号段结束" prop="" :label-width="formLabelWidth">
+              <el-input v-model="addMaterielForm.qrcodeEnd" auto-complete="off" @blur="qrcodeBlur($event,'addQrcodeEnd')"></el-input>
+              <!-- <el-input-number v-model="addMaterielForm.qrcodeEnd" controls-position="right"></el-input-number> -->
+            </el-form-item>
           </el-col>
         </el-row>
-
-        <el-form-item v-if="visibleQrcodes" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
-          <el-input v-model="addMaterielForm.qrcodes" auto-complete="off" placeholder="多个二维码请用英文逗号分隔"></el-input>
+        <el-form-item label="入库数量" prop="receiptCount" :label-width="formLabelWidth">
+          <el-input v-model="addMaterielForm.receiptCount" auto-complete="off"></el-input>
         </el-form-item>
-        <el-col :span="11">
-          <el-form-item v-if="visibleQrNums" label="号段开始" prop="" :label-width="formLabelWidth">
-            <el-input v-model="addMaterielForm.qrcodeStart" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="addMaterielForm.qrcodeStart" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
-        <el-col :span="11">
-          <el-form-item v-if="visibleQrNums" label="号段结束" prop="" :label-width="formLabelWidth">
-            <el-input v-model="addMaterielForm.qrcodeEnd" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="addMaterielForm.qrcodeEnd" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addMaterielForm')">重置</el-button>
@@ -395,7 +386,9 @@ export default {
           { required: true, message: "请选择支持类型", trigger: "blur" }
         ]
       },
-      addMaterielForm: {},
+      addMaterielForm: {
+        receiptCount: 0
+      },
       addMaterielRules: {
         deviceType: [
           { required: true, message: "入库类型不能为空", trigger: "blur" }
@@ -1043,14 +1036,19 @@ export default {
       });
     },
     migrateChagen(event) {
+      this.addMaterielForm.receiptCount = "";
       if (event == "ORDER") {
         // 号段入库
         this.visibleQrcodes = false;
         this.visibleQrNums = true;
+
+        this.addMaterielForm.qrcodeStart = "";
+        this.addMaterielForm.qrcodeEnd = "";
       } else if (event == "OUT_ORDER") {
         // 序号入库
         this.visibleQrcodes = true;
         this.visibleQrNums = false;
+        this.addMaterielForm.qrcodes = "";
       }
     },
     // 物料入库保存
@@ -1276,6 +1274,34 @@ export default {
         if (err) throw err;
         qrcodebox.appendChild(canvas);
       });
+    },
+    qrcodeCheck(type) {
+      if (type == "addQrcode") {
+        let qrcodes = this.addMaterielForm.qrcodes;
+        if (qrcodes) {
+          let qrcodesArr = qrcodes.split(",");
+          console.log(qrcodesArr);
+          this.addMaterielForm.receiptCount = qrcodesArr.length;
+        }
+      } else {
+        // 号段转移
+        let qrcodeEnd = this.addMaterielForm.qrcodeEnd;
+        let qrcodeStart = this.addMaterielForm.qrcodeStart;
+        if (qrcodeStart && qrcodeEnd) {
+          let num = isNaN(parseInt(qrcodeEnd) - parseInt(qrcodeStart))
+            ? ""
+            : parseInt(qrcodeEnd) - parseInt(qrcodeStart);
+          console.log(num);
+          this.addMaterielForm.receiptCount = num;
+        }
+      }
+    },
+    qrcodeBlur(ev, type) {
+      if (type == "addQrcodeStart" || type == "addQrcodeEnd") {
+        this.qrcodeCheck("addQrcodeSE");
+      } else if (type == "addQrcodes") {
+        this.qrcodeCheck("addQrcode");
+      }
     }
   },
   mounted() {},

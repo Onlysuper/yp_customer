@@ -29,9 +29,13 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
-                <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
+              <el-form-item class="full-width" label="分配方式" prop="migrateType" :label-width="formLabelWidth">
+                <el-select v-model="allotForm.migrateType" placeholder="请选择" @change="migrateTypeChange1">
+                  <el-option v-for="item in selectOptions.migrateType" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
+
             </div>
           </el-col>
         </el-row>
@@ -51,26 +55,23 @@
             </div>
           </el-col>
         </el-row>
-        <el-form-item class="full-width" label="分配方式" prop="migrateType" :label-width="formLabelWidth">
-          <el-select v-model="allotForm.migrateType" placeholder="请选择" @change="migrateTypeChange1">
-            <el-option v-for="item in selectOptions.migrateType" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
+        <el-row>
+          <el-col :span="11">
+            <el-form-item v-if="qrNumsVisible" label="号段开始" prop="qrcodeStart" :label-width="formLabelWidth">
+              <el-input v-model="allotForm.qrcodeStart" auto-complete="off" @blur="qrcodeBlur($event,'allotQrcodeStart')"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item v-if="qrNumsVisible" label="号段结束" prop="qrcodeEnd" :label-width="formLabelWidth">
+              <el-input v-model="allotForm.qrcodeEnd" auto-complete="off" @blur="qrcodeBlur($event,'allotQrcodeEnd')"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
+          <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
         </el-form-item>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible" label="号段开始" prop="qrcodeStart" :label-width="formLabelWidth">
-            <el-input v-model="allotForm.qrcodeStart" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="allotForm.qrcodeStart" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible" label="号段结束" prop="qrcodeEnd" :label-width="formLabelWidth">
-            <el-input v-model="allotForm.qrcodeEnd" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="allotForm.qrcodeEnd" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
         <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
-          <el-input placeholder="多个二维码请用英文逗号分隔" v-model="allotForm.qrcodes" auto-complete="off"></el-input>
+          <el-input placeholder="多个二维码请用英文逗号分隔" @blur="qrcodeBlur($event,'allotQrcodes')" v-model="allotForm.qrcodes" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -96,8 +97,11 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
-                <el-input v-model="payForm.migrateCount" auto-complete="off"></el-input>
+              <el-form-item class="full-width" label="上缴方式" prop="migrateType" :label-width="formLabelWidth">
+                <el-select v-model="payForm.migrateType" placeholder="请选择" @change="migrateTypeChange2">
+                  <el-option v-for="item in selectOptions.migrateType" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </div>
           </el-col>
@@ -110,32 +114,24 @@
               </el-form-item>
             </div>
           </el-col>
-          <!-- <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="合伙人编号" prop="agentNo" :label-width="formLabelWidth">
-                <el-input v-model="payForm.agentNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col> -->
         </el-row>
-        <el-form-item class="full-width" label="上缴方式" prop="migrateType" :label-width="formLabelWidth">
-          <el-select v-model="payForm.migrateType" placeholder="请选择" @change="migrateTypeChange2">
-            <el-option v-for="item in selectOptions.migrateType" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsPayVisible" label="号段开始" prop="qrcodeStart" :label-width="formLabelWidth">
-            <el-input-number v-model="payForm.qrcodeStart" controls-position="right"></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsPayVisible" label="号段结束" prop="qrcodeEnd" :label-width="formLabelWidth">
-            <el-input-number v-model="payForm.qrcodeEnd" controls-position="right"></el-input-number>
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="11">
+            <el-form-item v-if="qrNumsPayVisible" label="号段开始" prop="qrcodeStart" :label-width="formLabelWidth">
+              <el-input v-model="payForm.qrcodeStart" @blur="qrcodeBlur($event,'payQrcodeStart')" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item v-if="qrNumsPayVisible" label="号段结束" prop="qrcodeEnd" :label-width="formLabelWidth">
+              <el-input v-model="payForm.qrcodeEnd" @blur="qrcodeBlur($event,'payQrcodeEnd')" auto-complete="off"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item v-if="qrcodesPayVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
-          <el-input placeholder="多个二维码请用英文逗号分隔" v-model="payForm.qrcodes" auto-complete="off"></el-input>
+          <el-input placeholder="多个二维码请用英文逗号分隔" @blur="qrcodeBlur($event,'payQrcodes')" v-model="payForm.qrcodes" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
+          <el-input v-model="payForm.migrateCount" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -143,7 +139,7 @@
         <el-button type="primary" @click="paySave('payForm')">上缴</el-button>
       </div>
     </el-dialog>
-    <!-- 授权码分配 end -->
+    <!-- 授权码上缴 end -->
 
   </div>
 </template>
@@ -193,7 +189,9 @@ export default {
       qrcodesVisible: false, // 二维码
       qrNumsPayVisible: false, // 授权码上缴段号
       qrcodesPayVisible: false, //授权码上缴二维码
-      allotForm: {},
+      allotForm: {
+        migrateCount: 0
+      },
       allotFormRules: {
         deviceType: [
           { required: true, message: "请选择设备类型", trigger: "blur" }
@@ -220,7 +218,9 @@ export default {
           { required: true, message: "二维码编号不能为空", trigger: "blur" }
         ]
       },
-      payForm: {},
+      payForm: {
+        migrateCount: 0
+      },
       payFormRules: {
         deviceType: [
           { required: true, message: "请选择设备类型", trigger: "blur" }
@@ -461,25 +461,33 @@ export default {
   },
   methods: {
     migrateTypeChange1(value) {
+      this.allotForm.migrateCount = "";
       if (value == "ORDER") {
         //号段转移
         this.qrNumsVisible = true;
         this.qrcodesVisible = false;
+        this.allotForm.qrcodes = "";
       } else if (value == "OUT_ORDER") {
         //二维码编号
         this.qrcodesVisible = true;
         this.qrNumsVisible = false;
+        this.allotForm.qrcodeStart = "";
+        this.allotForm.qrcodeEnd = "";
       }
     },
     migrateTypeChange2(value) {
+      this.payForm.migrateCount = "";
       if (value == "ORDER") {
         //号段转移
         this.qrNumsPayVisible = true;
         this.qrcodesPayVisible = false;
+        this.payForm.qrcodes = "";
       } else if (value == "OUT_ORDER") {
         //二维码编号
         this.qrcodesPayVisible = true;
         this.qrNumsPayVisible = false;
+        this.payForm.qrcodeStart = "";
+        this.payForm.qrcodeEnd = "";
       }
     },
     // 授权码分配保存
@@ -503,7 +511,7 @@ export default {
             //   : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes,
+            // qrcodes: thisForm.qrcodes,
             agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
@@ -511,8 +519,8 @@ export default {
                 type: "success",
                 message: "恭喜您，授权码分配成功!"
               });
-              this.checkFormVisible = false;
-              this.checkFormVisible2 = false;
+              this.allotFormVisible = false;
+              this.payFormVisible = false;
               this.reloadData(this.postPage, this.postLimit);
             } else {
               this.$message({
@@ -539,8 +547,8 @@ export default {
             // this.userAll.userType == "admin"
             //   ? "OPERATOR_MIGRATE"
             //   : "UPWARD_MIGRATE",
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
+            // qrcodeStart: thisForm.qrcodeStart,
+            // qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
           }).then(data => {
             if (data.code == "00") {
@@ -548,8 +556,8 @@ export default {
                 type: "success",
                 message: "恭喜您，授权码上缴成功!"
               });
-              this.checkFormVisible = false;
-              this.checkFormVisible2 = false;
+              this.allotFormVisible = false;
+              this.payFormVisible = false;
               this.reloadData(this.postPage, this.postLimit);
             } else {
               this.$message({
@@ -560,6 +568,59 @@ export default {
           });
         }
       });
+    },
+    allotQrcodeCheck(type) {
+      if (type == "allotQrcode") {
+        let qrcodes = this.allotForm.qrcodes;
+        if (qrcodes) {
+          let qrcodesArr = qrcodes.split(",");
+          this.allotForm.migrateCount = qrcodesArr.length;
+        }
+      } else {
+        // 号段转移
+        let qrcodeEnd = this.allotForm.qrcodeEnd;
+        let qrcodeStart = this.allotForm.qrcodeStart;
+        if (qrcodeStart !== "" && qrcodeEnd != "") {
+          let num = isNaN(parseInt(qrcodeEnd) - parseInt(qrcodeStart))
+            ? ""
+            : parseInt(qrcodeEnd) - parseInt(qrcodeStart);
+          this.allotForm.migrateCount = num;
+        }
+      }
+    },
+    payQrcodeCheck(type) {
+      if (type == "payQrcode") {
+        let qrcodes = this.payForm.qrcodes;
+        if (qrcodes) {
+          let qrcodesArr = qrcodes.split(",");
+          this.payForm.migrateCount = qrcodesArr.length;
+        }
+      } else {
+        // 号段转移
+        let qrcodeEnd = this.payForm.qrcodeEnd;
+        let qrcodeStart = this.payForm.qrcodeStart;
+        if (qrcodeStart && qrcodeEnd) {
+          let num = isNaN(parseInt(qrcodeEnd) - parseInt(qrcodeStart))
+            ? ""
+            : parseInt(qrcodeEnd) - parseInt(qrcodeStart);
+          this.payForm.migrateCount = num;
+        }
+      }
+    },
+    qrcodeBlur(ev, type) {
+      if (type == "allotQrcodeStart" || type == "allotQrcodeEnd") {
+        // 授权码分配开始号段
+        this.allotQrcodeCheck("allotQrcodeSE");
+      } else if (type == "allotQrcodes") {
+        this.allotQrcodeCheck("allotQrcode");
+        //授权码分配序列号
+      } else if (type == "payQrcodeStart" || type == "payQrcodeEnd") {
+        // 授权码上缴开始号段
+        this.payQrcodeCheck("payQrcodeSE");
+      } else if (type == "payQrcodes") {
+        //授权码上缴序列号
+        this.payQrcodeCheck("payQrcode");
+      }
     }
   },
   computed: {

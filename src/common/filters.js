@@ -182,6 +182,21 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    Vue.filter('enterprisesupplyStatus', function (value) {
+        switch (value) {
+            case "INIT":
+                value = "未处理";
+                break;
+            case "SUCCESS":
+                value = "已处理";
+                break;
+            case "FAIL":
+                value = "失败";
+                break;
+        }
+        return value;
+    })
+
     /**
      * 状态
      */
