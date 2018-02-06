@@ -241,6 +241,11 @@ const setUsingVersion = () => { return (params) => { return http.post(base.oaIp,
  */
 const postBurialPointCharts = () => { return (params) => { return http.post(base.oaIp, "/operatorlog/chart", params) } }
 // end -------------------------------------------------
+/**
+**开票图表Start
+ */
+const getBillrecordCharts = () => { return (params) => { return http.post(base.oaIp, "/billrecord/chart", params) } }
+// end -------------------------------------------------
 
 /**
 **埋点管理Start
@@ -253,6 +258,7 @@ const getBurialPointTotal = () => { return (params) => { return http.post(base.o
 **结算统计Start
  */
 const getSettles = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
+const postUpdateSettles = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateAgentSettle", params) } }
 // end -------------------------------------------------
 /**
 **代理商结算统计Start
@@ -265,7 +271,7 @@ const getAgentSettleSum = () => { return (params) => { return http.get(base.oaIp
  */
 const getSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
 const getSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
-const postUpdateSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/updateSettle", params) } }
+const postUpdateSettle = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateSettle", params) } }
 // end -------------------------------------------------
 
 /**
@@ -416,13 +422,14 @@ export {
     getBillrecordCharts,
     // 结算统计
     getSettles,
+    postUpdateSettles,
     //代理商结算统计
     getAgentSettle,
     getAgentSettleSum,
     // 统计
     getSettle,
     getSettleSum,
-    postUpdateSettleSum,
+    postUpdateSettle,
     //资质管理
     postEnterpriseSupplys,
     postAddEnterpriseSupply,

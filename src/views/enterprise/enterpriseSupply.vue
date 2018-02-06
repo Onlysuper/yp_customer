@@ -124,10 +124,10 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="line-label-box">
+        <el-row class="line-label-box" v-if="!detailsForm.remark==''?true:false">
           <el-col :span="24">
             <div class="grid-content bg-purple-light">
-              <span class="line-label-last">{{detailsForm.remark}}</span>
+              {{detailsForm.remark}}
             </div>
           </el-col>
         </el-row>

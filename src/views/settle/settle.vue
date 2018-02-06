@@ -7,6 +7,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
+          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
           <span class="sumtext">达标商户数量:{{customerNumber}}个 结算金额:{{settlePrice}}元</span>
         </el-button-group>
@@ -81,7 +82,7 @@
     <!-- 详情 end -->
     <!-- 编辑 start -->
     <el-dialog title="修改" center :visible.sync="editFormVisible">
-      <el-form size="small" :model="editForm" ref="editForm">
+      <el-form size="small" :model="editForm" ref="editForm" :rules="editFormRules">
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -93,7 +94,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
-                <el-input v-model="editForm.receiveMan" auto-complete="off"></el-input>
+                <el-input :disabled="true" v-model="editForm.receiveMan" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -102,14 +103,14 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="收款账户" prop="accountNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.accountNo" auto-complete="off"></el-input>
+                <el-input :disabled="true" v-model="editForm.accountNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="联系电话" prop="agentPhone" :label-width="formLabelWidth">
-                <el-input v-model="editForm.agentPhone" auto-complete="off"></el-input>
+                <el-input :disabled="true" v-model="editForm.agentPhone" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -118,20 +119,20 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="实付金额" prop="settlePrice" :label-width="formLabelWidth">
-                <el-input v-model="editForm.settlePrice" auto-complete="off"></el-input>
+                <el-input :disabled="true" v-model="editForm.settlePrice" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="达标商户数量" prop="customerNumber" :label-width="formLabelWidth">
-                <el-input v-model="editForm.customerNumber" auto-complete="off"></el-input>
+                <el-input :disabled="true" v-model="editForm.customerNumber" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
         </el-row>
         <el-form-item label="开户行" prop="bankName" :label-width="formLabelWidth">
-          <el-input v-model="editForm.bankName" auto-complete="off"></el-input>
+          <el-input :disabled="true" v-model="editForm.bankName" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -160,7 +161,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
-import { getSettle, getSettleSum, postUpdateSettleSum } from "@src/apis";
+import { getSettle, getSettleSum, postUpdateSettle } from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -186,6 +187,11 @@ export default {
       settlePrice: 0,
       sumLoading: false,
       formLabelWidth: "100px",
+      editFormRules: {
+        orderNo: [
+          { required: true, message: "请输入订单编号", trigger: "blur" }
+        ]
+      },
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -402,7 +408,7 @@ export default {
         if (valid) {
           let editForm = this.editForm;
           this.resetSearchHandle();
-          postUpdateSettleSum()({
+          postUpdateSettle()({
             agentNo: editForm.agentNo,
             orderNo: editForm.orderNo,
             receiveMan: editForm.receiveMan,
@@ -431,6 +437,11 @@ export default {
           });
         }
       });
+    },
+    // 导出
+    exportDialog() {
+      this.$refs.dataTable.ExportExcel("/agentSettle/export");
+      return false;
     }
   },
   mounted() {
