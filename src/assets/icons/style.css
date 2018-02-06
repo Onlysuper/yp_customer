@@ -43,6 +43,9 @@
   .icon-order:before {
     content: "\e903";
   }
+  .icon-enterprise:before {
+    content: "\e903";
+  }
   .icon-customer:before {
     content: "\e904";
   }

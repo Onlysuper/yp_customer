@@ -9,7 +9,7 @@ import keepAlive from "@src/views-app/keepAlive";
 export default {
   name: "profit",
   path: "/",
-  component: App,
+  component: keepAlive,
   redirect: () => "/" + this.a.children[0].path,
   children: [
     //快速开票分润
@@ -17,7 +17,7 @@ export default {
       name: "billprofit",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
       path: "profitBilling",
       redirect: "profitBilling/index",
-      component: keepAlive,
+      component: App,
       children: [
         {
           path: 'index',
@@ -48,7 +48,7 @@ export default {
       name: "convergePayComm",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
       path: "convergePayComm",
       redirect: "convergePayComm/index",
-      component: keepAlive,
+      component: App,
       children: [
         {
           path: 'index',
@@ -60,7 +60,16 @@ export default {
             keepAlive: true,
             menuCode: "convergePayComm",
           }
-        }
+        },
+        {
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/profit/convergePayComm/search")) }, "profit-app")
+          },
+          meta: {
+            pageTitle: "搜索",
+          }
+        },
       ]
     },
   ]
