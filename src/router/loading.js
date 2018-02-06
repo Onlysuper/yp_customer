@@ -1,7 +1,7 @@
 import { Loading as eleLoading } from 'element-ui';
 export default (flag) => {
     if (!window.navigator.onLine) {
-        let loading = eleLoading.service({ text: "当前网络环境不稳定" });
+        let loading = eleLoading.service({ text: "努力加载中" });
         setTimeout(() => {
             if (window.navigator.onLine) {
                 location.reload();

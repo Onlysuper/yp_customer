@@ -196,6 +196,17 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    Vue.filter('settleMode', function (value) {
+        switch (value) {
+            case "T0":
+                value = "已开通";
+                break;
+            case "T1":
+                value = "未开通";
+                break;
+        }
+        return value;
+    })
 
     /**
      * 状态

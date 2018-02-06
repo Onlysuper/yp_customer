@@ -278,6 +278,7 @@ const postAddEnterpriseSupply = () => { return (params) => { return http.post(ba
 **我的产品Start
  */
 const getCustomerOpenProducts = () => { return (params) => { return http.get(base.oaIp, "/userProductStatus/page", params) } }
+const postCustomerOpenProductSearch = () => { return (params) => { return http.post(base.oaIp, "/userproduct/query/cost", params) } }
 const getCustomerEchoProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomerConverge", params) } }
 const completeSettleInfo = () => { return (params) => { return http.post(base.oaIp, "/customer/completeSettleInfo", params) } }
 const completeConvergeProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/completeConvergeProduct", params) } }
@@ -426,6 +427,7 @@ export {
     postAddEnterpriseSupply,
     //我的产品
     getCustomerOpenProducts,
+    postCustomerOpenProductSearch,
     getCustomerEchoProduct,
     completeSettleInfo,
     completeConvergeProduct,

@@ -283,7 +283,7 @@ export default {
           corresattr: "migrateMode",
           type: "select",
           label: "转移类型",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
