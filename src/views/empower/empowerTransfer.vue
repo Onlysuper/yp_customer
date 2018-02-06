@@ -584,7 +584,7 @@ export default {
           let num = isNaN(parseInt(qrcodeEnd) - parseInt(qrcodeStart))
             ? ""
             : parseInt(qrcodeEnd) - parseInt(qrcodeStart);
-          this.allotForm.migrateCount = num;
+          this.allotForm.migrateCount = num + 1;
         }
       }
     },
@@ -603,7 +603,7 @@ export default {
           let num = isNaN(parseInt(qrcodeEnd) - parseInt(qrcodeStart))
             ? ""
             : parseInt(qrcodeEnd) - parseInt(qrcodeStart);
-          this.payForm.migrateCount = num;
+          this.payForm.migrateCount = num + 1;
         }
       }
     },

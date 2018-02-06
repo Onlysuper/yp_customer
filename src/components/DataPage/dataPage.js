@@ -19,6 +19,8 @@ const mixinDataTable = {
                 this.tableHeight =
                     pageHeight - formHeight - operationHeight - paginationHeight - 20;
                 // this.tableHeight = pageHeight
+                // console.log(pageHeight);
+                // console.log(this.tableHeight);
             });
         },
         /**TABLE页交互 START ************************************************************ */

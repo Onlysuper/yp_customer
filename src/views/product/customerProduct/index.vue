@@ -85,14 +85,15 @@
         </el-select>
       </div>
       <keep-alive>
-        <router-view></router-view>
+        <component v-on:nextFn="nextFn" v-bind:is="currentView">
+          <!-- 组件在 vm.currentview 变化时改变！ -->
+        </component>
       </keep-alive>
     </el-dialog>
     <!-- 开通产品 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <style lang='scss' scoped>
 
 </style>
@@ -105,7 +106,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { regionData } from "element-china-area-data";
-
+import paystatusFirst from "./paystatusFirst";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch
@@ -113,9 +114,11 @@ import {
 
 export default {
   name: "customerlist",
+
   components: {
     "myp-search-form": SearchForm, // 搜索组件
-    "myp-data-page": DataPage // 数据列表组件
+    "myp-data-page": DataPage, // 数据列表组件
+    paystatusFirst: paystatusFirst
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
@@ -127,6 +130,7 @@ export default {
       payStatus: ""
     };
     return {
+      currentView: "paystatusFirst",
       optionsArea: regionData, //省市县插件
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
@@ -427,11 +431,8 @@ export default {
               cb: rowdata => {
                 this.editForm = rowdata;
                 this.editFormVisible = true;
-                console.log(this.$route);
-                this.$router.push({
-                  path: "customerProduct/payStatusFirst"
-                });
-                // this.$route.push("./payStatusFirst");
+                this.currentView = "paystatusFirst";
+                this.$store.dispatch("customerProductRowAction", rowdata);
               }
             }
           ]
@@ -501,6 +502,10 @@ export default {
     },
     customerTypeChange() {
       this.customerTypeSelect();
+    },
+    // 下一步
+    nextFn() {
+      this.currentView = "paystatusSecond";
     }
   },
 

@@ -5,6 +5,7 @@ import topSearch from "@src/vuex/topSearch/topSearch"
 import Base from "@src/vuex/base/base"
 import tagsView from "@src/vuex/tagsView/tagsView"
 import fullScreen from "@src/vuex/fullScreen/fullScreen"
+import customerProductPc from "@src/vuex/customerProduct/customerProduct"
 
 import {
     customerGoods, customerManage, profitBilling, convergePayComm, agent, billCount, billRecord, billDay, billStandard,
@@ -53,7 +54,8 @@ const store = new Vuex.Store({
         empowerTransfer,
 
         customerProduct,
-        enterpriseSupply
+        enterpriseSupply,
+        customerProductPc
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

@@ -337,6 +337,7 @@ export default {
       this.tableSizeHandle();
     },
     $route(to, from) {
+      console.log(1111111111111111);
       this.tableSizeHandle();
     }
   }

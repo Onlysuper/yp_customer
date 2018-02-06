@@ -51,29 +51,29 @@
           <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
             <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
           </el-form-item>
-          <!-- <el-form-item class="full-width" label="账户名称" prop="accountNo" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
-          </el-form-item> -->
+
         </el-col>
       </el-row>
-
-      <el-form-item class="full-width" label="开户银行" prop="bankName" :label-width="formLabelWidth">
-        <el-select @input="banksChange" size="small" v-model="payStatusForm.bankName" placeholder="请选择">
+      <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
+        <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
           <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item class="full-width" prop="Area" label="银行区域">
-        <el-cascader @change="bankhandleChangeArea" :options="optionsArea" v-model="payStatusForm.Area">
+      <el-form-item class="full-width" prop="bankArea" label="银行区域">
+        <el-cascader @change="bankhandleChangeArea" :options="optionsArea" v-model="payStatusForm.bankArea">
         </el-cascader>
       </el-form-item>
       <el-form-item class="full-width" prop="unionCode" label="选择支行">
+        <!-- <el-select prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择"> -->
         <el-select prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
           <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
           </el-option>
         </el-select>
       </el-form-item>
-
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="editFormVisible = false">取 消</el-button>
@@ -106,7 +106,7 @@ import {
 } from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
-  name: "customerlist",
+  name: "paystatusFirst",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -114,6 +114,7 @@ export default {
   mixins: [mixinsPc, mixinDataTable],
   data() {
     return {
+      aa: {},
       bankOptions: banks,
       slotsActions: bussinessTypeJson,
       optionsArea: regionData, //省市县插件
@@ -134,9 +135,11 @@ export default {
       },
       formLabelWidth: "100px",
       payStatusForm: {
-        Area: [] // 必须为数组
+        Area: [],
+        bankArea: [] // 必须为数组
       },
       payStatusFormRules: {
+        Area: [{ required: true, message: "请输入经营区域", trigger: "blur" }],
         legalPerson: [
           { required: true, message: "请输入法人名称", trigger: "blur" }
         ],
@@ -152,10 +155,15 @@ export default {
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur" }
         ],
-        bankName: [
+        phoneNo: [
+          { required: true, message: "请输入预留手机号码", trigger: "blur" }
+        ],
+        bankCode: [
           { required: true, message: "请输入开户银行", trigger: "blur" }
         ],
-        Area: [{ required: true, message: "请选择银行区域", trigger: "blur" }],
+        bankArea: [
+          { required: true, message: "请选择银行区域", trigger: "blur" }
+        ],
         unionCode: [{ required: true, message: "请选择支行", trigger: "blur" }],
         accountNo: [{ required: true, message: "请输入账号", trigger: "blur" }]
       } // 编辑单个规则
@@ -166,28 +174,36 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          var payStatusForm = this.payStatusForm;
-          completeSettleInfo()({
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo,
-            customerNo: payStatusForm.customerNo
-          }).then(data => {
+          let payStatusForm = this.payStatusForm;
+          let bankName = this.bankOptions.find(
+            r => r.code == payStatusForm.bankCode
+          ).name;
+          let branchName = this.branchBankOptions.find(
+            r => r.unionCode == payStatusForm.unionCode
+          ).branchName;
+          let obj = {
+            customerNo: this.customerProductRowdate.bussinessNo,
+            orgCode:
+              payStatusForm.Area[2] ||
+              payStatusForm.Area[1] ||
+              payStatusForm.Area[0] ||
+              "",
+            legalPerson: payStatusForm.legalPerson,
+            idCard: payStatusForm.idCard,
+            contactEmail: payStatusForm.contactEmail,
+            category: payStatusForm.category,
+            accountNo: payStatusForm.accountNo,
+            accountType: payStatusForm.accountType,
+            unionCode: payStatusForm.unionCode, //
+            branchName: branchName, //
+            bankCode: payStatusForm.bankCode,
+            bankName: bankName,
+            phoneNo: payStatusForm.phoneNo
+          };
+          completeSettleInfo()(obj).then(data => {
             if (data.code === "00") {
-              console.log(data);
-              // this.$router.push({
-              //   path: "./payStatusSecond"
-              // });
-              // this.reloadData();
+              // 下一步
+              this.$emit("nextFn");
             } else {
               this.$message({
                 message: data.msg,
@@ -227,9 +243,15 @@ export default {
     }
   },
 
-  computed: {},
+  computed: {
+    customerProductRowdate() {
+      return this.$store.state.customerProductPc.customerProductRowdate;
+    }
+  },
   watch: {},
-  mounted() {}
+  mounted() {
+    // this.$emit("nextFn");
+  }
 };
 </script>
 
