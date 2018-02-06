@@ -6,14 +6,14 @@
 
     <div class="add-playinfo">
       <view-radius class="uploads">
-        <upload-view class="item" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg" :label="'身份证正面'"></upload-view>
-        <upload-view class="item" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg" :label="'身份证反面'"></upload-view>
-        <upload-view class="item" :upType="'BUSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessImg'" ref="bussinessImg" :label="'营业执照'"></upload-view>
-        <upload-view class="item" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg" :label="'店内照片'"></upload-view>
-        <upload-view class="item" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg" :label="'收银台照片'"></upload-view>
-        <upload-view class="item" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accessImg'" ref="accessImg" :label="'开户许可证'"></upload-view>
-        <upload-view class="item" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accessImg'" ref="accessImg" :label="'结算卡正面'"></upload-view>
-        <upload-view class="item" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accessImg'" ref="accessImg" :label="'门头照片'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg" :label="'身份证正面'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg" :label="'身份证反面'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'BUSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessImg'" ref="bussinessImg" :label="'营业执照'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg" :label="'店内照片'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg" :label="'收银台照片'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accessImg'" ref="accessImg" :label="'开户许可证'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accessImg'" ref="accessImg" :label="'结算卡正面'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accessImg'" ref="accessImg" :label="'门头照片'"></upload-view>
       </view-radius>
       <mt-radio v-model="value" v-targetTo style="text-align: center;" :options="['同意《支付开通协议》']"></mt-radio>
     </div>
@@ -29,7 +29,8 @@ export default {
   },
   data() {
     return {
-      value: ""
+      value: "",
+      customerNo: this.$route.query["customerNo"]
     };
   },
   directives: {

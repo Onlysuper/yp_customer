@@ -7,17 +7,12 @@
 
       <view-radius>
         <input-wrapper>
-          <!-- <template v-if="store.sendMode.customerType == 'SMART_POS'">
-          <mt-field label="借记卡:" v-model="store.sendData.debitTransCostRate" type="text" :readonly="false" placeholder="">%</mt-field>
-          <mt-field label="借记卡封顶值:" v-model="store.sendData.debitTransCostCapped" type="text" :readonly="false" placeholder="">元</mt-field>
-          <mt-field label="贷记卡费率:" v-model="store.sendData.creditTransCostRate" type="text" :readonly="false" placeholder="">%</mt-field>
-        </template> -->
-          <mt-field label="微信费率:" type="text" :readonly="false" placeholder="">%</mt-field>
-          <mt-field label="支付宝费率:" type="text" :readonly="false" placeholder="">%</mt-field>
+          <mt-field label="微信费率:" type="text" v-model="form.wechatRate" :readonly="false" placeholder="">%</mt-field>
+          <mt-field label="支付宝费率:" type="text" v-model="form.alipayRate" :readonly="false" placeholder="">%</mt-field>
           <mt-cell :title="'开通即刷即到'">
             <mt-switch v-model="switchValue"></mt-switch>
           </mt-cell>
-          <mt-field v-if="switchValue" label="D0手续费:" type="text" :readonly="false" placeholder="">元</mt-field>
+          <mt-field v-if="switchValue" label="D0手续费:" v-model="form.t0CashCostFixed" type="text" :readonly="false" placeholder="">元</mt-field>
         </input-wrapper>
       </view-radius>
 
@@ -31,10 +26,23 @@ import { getCustomerEchoProduct, completeConvergeProduct } from "@src/apis";
 export default {
   data() {
     return {
-      switchValue: true,
       customerNo: this.$route.query["customerNo"],
-      form: {}
+      form: {
+        settleMode: "T1",
+        t0CashCostFixed: 0
+      }
     };
+  },
+  computed: {
+    switchValue: {
+      get() {
+        return this.form.settleMode == "T0" ? true : false;
+      },
+      set(val) {
+        if (val) this.form.settleMode = "T0";
+        else this.form.settleMode = "T1";
+      }
+    }
   },
   created() {
     getCustomerEchoProduct()({
@@ -51,13 +59,19 @@ export default {
   methods: {
     //提交
     submit() {
-      completeConvergeProduct()().then(data => {
+      completeConvergeProduct()({
+        ...this.form,
+        customerNo: this.customerNo
+      }).then(data => {
         if (data.code == "00") {
+          this.$router.push({
+            path: "./addUpload",
+            query: { customerNo: this.customerNo }
+          });
         } else {
           this.Toast(data.msg);
         }
       });
-      this.$router.push({ path: "./addUpload" });
     }
   }
 };

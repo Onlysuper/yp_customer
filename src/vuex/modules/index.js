@@ -1,5 +1,6 @@
 import customerGoods from "./customerGoods";
 import profitBilling from "./profitBilling";
+import convergePayComm from "./profit/convergePayComm";
 import agent from "./agent";
 import billCount from "./billCount";
 import billRecord from "./billRecord";
@@ -14,12 +15,14 @@ import customerManage from "./customer/customerManage";
 
 
 import customerProduct from "./customerProduct";
+import enterpriseSupply from "./enterprise/enterprise_supply";
 
 
 export {
   customerGoods,
   customerManage,
   profitBilling,
+  convergePayComm,
   agent,
   billCount,
   billRecord,
@@ -31,5 +34,6 @@ export {
   empowerTransfer,
 
 
-  customerProduct
+  customerProduct,
+  enterpriseSupply
 };

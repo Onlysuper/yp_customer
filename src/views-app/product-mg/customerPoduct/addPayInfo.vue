@@ -17,7 +17,7 @@
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
               <i class="icon-admin"></i>
             </mt-field>
-            <mt-field label="邮箱:" type="email" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field>
             <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
             <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称"></mt-field> -->
             <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">

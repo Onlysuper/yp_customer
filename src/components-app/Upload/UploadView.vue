@@ -2,7 +2,7 @@
   <div class="upload-view">
     <div class="upload-view-btn" @click="showUpload = true">
       <img v-if="base64" :src="base64" alt="">
-      <i class="icon-admin icon"></i>
+      <i v-if="!base64" class="icon-admin icon"></i>
     </div>
     <span>{{label}}</span>
     <upload v-model="showUpload" @upresult="upresult" :label="desc" :upType="upType"></upload>
@@ -46,7 +46,7 @@
 <script>
 import { Toast, Indicator } from "mint-ui";
 import Upload from "./index";
-// import { upload } from "@src/apis";
+import { upload } from "@src/apis";
 export default {
   components: {
     Upload
@@ -61,6 +61,10 @@ export default {
       default: ""
     },
     upType: {
+      type: String,
+      default: ""
+    },
+    customerNo: {
       type: String,
       default: ""
     },
@@ -82,9 +86,14 @@ export default {
         text: "正在上传...",
         spinnerType: "fading-circle"
       });
-      upload()({ type: this.upType, imgSource: base64 }).then(data => {
+      upload()({
+        businessNo: this.customerNo,
+        businessType: "customer",
+        imgType: this.upType,
+        imgString: base64
+      }).then(data => {
         Indicator.close();
-        if (data.resultCode === "0") {
+        if (data.code === "00") {
           this.$emit("result", this.dataKey, data.data.mediaId);
           this.setImg(base64);
         } else {

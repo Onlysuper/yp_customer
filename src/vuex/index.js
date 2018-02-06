@@ -7,8 +7,8 @@ import tagsView from "@src/vuex/tagsView/tagsView"
 import fullScreen from "@src/vuex/fullScreen/fullScreen"
 
 import {
-    customerGoods, customerManage, profitBilling, agent, billCount, billRecord, billDay, billStandard,
-    empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct
+    customerGoods, customerManage, profitBilling, convergePayComm, agent, billCount, billRecord, billDay, billStandard,
+    empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply
 } from "./modules";
 Vue.use(Vuex);
 
@@ -40,6 +40,7 @@ const store = new Vuex.Store({
         customerGoods,
         customerManage,
         profitBilling,
+        convergePayComm,
         fullScreen,
         agent,
         billCount,
@@ -51,7 +52,8 @@ const store = new Vuex.Store({
         empowerPurchase,
         empowerTransfer,
 
-        customerProduct
+        customerProduct,
+        enterpriseSupply
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

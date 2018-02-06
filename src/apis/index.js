@@ -38,6 +38,13 @@ const getBillprofitSum = () => { return (params) => { return http.get(base.oaIp,
 // end -------------------------------------------------
 
 /**
+**聚合支付分润start
+ */
+const getpayProfits = () => { return (params) => { return http.get(base.oaIp, "/payProfit/page", params) } }
+// end -------------------------------------------------
+
+
+/**
 **开票统计start
  */
 const getBillcountagents = () => { return (params) => { return http.get(base.oaIp, "/billcountagent/page", params) } }
@@ -299,6 +306,8 @@ export {
     // 快速开票分润
     getBillprofits,
     getBillprofitSum,
+    //聚合支付分润
+    getpayProfits,
     //开票统计
     getBillcountagents,
     getBillcountSum,
