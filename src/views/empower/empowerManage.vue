@@ -1277,11 +1277,21 @@ export default {
     },
     qrcodeCheck(type) {
       if (type == "addQrcode") {
+        let reg = /,$/gi;
+        let newQrcodes = this.addMaterielForm.qrcodes.replace(reg, "");
+        this.addMaterielForm.qrcodes = newQrcodes;
         let qrcodes = this.addMaterielForm.qrcodes;
         if (qrcodes) {
           let qrcodesArr = qrcodes.split(",");
-          console.log(qrcodesArr);
-          this.addMaterielForm.receiptCount = qrcodesArr.length;
+          let newArr = [];
+          qrcodesArr.map(r => {
+            if (r != "undefined" && r != "") {
+              newArr.push(r);
+              return r;
+            }
+          });
+          this.addMaterielForm.qrcodes = newArr.join(",");
+          this.addMaterielForm.receiptCount = newArr.length;
         }
       } else {
         // 号段转移

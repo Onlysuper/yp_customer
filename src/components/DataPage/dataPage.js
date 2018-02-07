@@ -125,14 +125,6 @@ const mixinDataTable = {
             return this.$store.state.moduleLayour.userMessage.all;
         }
     },
-    activated() {
-        console.log($(".operation-box").html());
-        // let pageHeight = $(".admin-page").outerHeight(true) || 0;
-        // // console.log(pageHeight);
-        // let formHeight = $(".search-page").outerHeight(true) || 0;
-        // let operationHeight = $(".operation-box").outerHeight(true) || 0;
-        // let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-    },
     mounted() {
         this.$store.commit("initSearchVisibleFn");
     }
