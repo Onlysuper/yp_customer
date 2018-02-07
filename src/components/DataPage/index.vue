@@ -2,7 +2,7 @@
   <!-- 表格与分页展示区域 -->
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :max-height="tableHeight" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
+    <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :width="item.width" :sortable="item.sortable">
@@ -310,6 +310,7 @@ export default {
       return this.$store.state.fullScreen.isFullscreen;
     }
   },
+  activated: function() {},
   watch: {
     visibleinput(val) {
       // 监听高级搜索与普通搜索模式转变
@@ -337,7 +338,6 @@ export default {
       this.tableSizeHandle();
     },
     $route(to, from) {
-      console.log(1111111111111111);
       this.tableSizeHandle();
     }
   }

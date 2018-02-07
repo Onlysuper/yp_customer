@@ -362,15 +362,43 @@ export default {
             word: "migrateNo"
           },
           {
-            key: "来源合伙人",
-            width: "120px",
-            word: "agentNo"
+            // key: "来源合伙人",
+            key: "转移状态",
+            width: "280px",
+            word: "agentNo",
+            status: true,
+            type: (agentNo, row) => {
+              let migrateMode = row.migrateMode;
+              let moveType = "";
+              let who = "";
+              if (
+                row.agentNo != row.operator &&
+                row.otherAgentNo != row.operator
+              ) {
+                who = " (运营操作)";
+              }
+              if (migrateMode == "INPUT") {
+                moveType = " <==转入" + who + " ";
+                return {
+                  text: agentNo + moveType + row.otherAgentNo,
+                  type: ""
+                };
+              } else if (migrateMode == "OUTPUT") {
+                moveType = " 转出" + who + "==> ";
+                return {
+                  text: agentNo + moveType + row.otherAgentNo,
+                  type: "warning"
+                };
+              } else {
+                moveType = migrateMode + who;
+              }
+            }
           },
-          {
-            key: "目标合伙人",
-            width: "120px",
-            word: "otherAgentNo"
-          },
+          // {
+          //   key: "目标合伙人",
+          //   width: "120px",
+          //   word: "otherAgentNo"
+          // },
           {
             key: "操作员",
             width: "80px",
@@ -381,37 +409,37 @@ export default {
             width: "80px",
             word: "qrcodeCount"
           },
-          {
-            key: "转移类型",
-            width: "130px",
-            word: "migrateMode",
-            status: true,
-            type: (data, row) => {
-              var who = "";
-              if (
-                row.agentNo != row.operator &&
-                row.otherAgentNo != row.operator
-              ) {
-                who = " (运营操作)";
-              }
-              if (data == "INPUT") {
-                return {
-                  text: "转入" + who,
-                  type: "success"
-                };
-              } else if (data == "OUTPUT") {
-                return {
-                  text: "转出" + who,
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data + who,
-                  type: ""
-                };
-              }
-            }
-          },
+          // {
+          //   key: "转移类型",
+          //   width: "130px",
+          //   word: "migrateMode",
+          //   status: true,
+          //   type: (data, row) => {
+          //     var who = "";
+          //     if (
+          //       row.agentNo != row.operator &&
+          //       row.otherAgentNo != row.operator
+          //     ) {
+          //       who = " (运营操作)";
+          //     }
+          //     if (data == "INPUT") {
+          //       return {
+          //         text: "转入" + who,
+          //         type: "success"
+          //       };
+          //     } else if (data == "OUTPUT") {
+          //       return {
+          //         text: "转出" + who,
+          //         type: "warning"
+          //       };
+          //     } else {
+          //       return {
+          //         text: data + who,
+          //         type: ""
+          //       };
+          //     }
+          //   }
+          // },
           {
             key: "状态",
             width: "",

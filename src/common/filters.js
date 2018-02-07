@@ -13,6 +13,32 @@ mypFilters.install = function (Vue, options) {
         return value === "YEEPIAO" ? '易票' : '中付';
     })
     /**
+        * 商户来源
+        */
+    Vue.filter('customerFrom', function (value) {
+        switch (value) {
+            case "OPEN_API":
+                value = "第三方";
+                break;
+            case "PLUGIN":
+                value = "插件";
+                break;
+            case "LOCAL":
+                value = "后台";
+                break;
+            case "SCAN_CODE":
+                value = "扫码";
+                break;
+            case "OFFICAL_ACCOUNT":
+                value = "公众号";
+                break;
+            case "SLIENT":
+                value = "静默";
+                break;
+        }
+        return value;
+    })
+    /**
      * 来源
      */
     Vue.filter('handleFrom', function (value) {

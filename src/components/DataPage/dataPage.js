@@ -19,8 +19,7 @@ const mixinDataTable = {
                 this.tableHeight =
                     pageHeight - formHeight - operationHeight - paginationHeight - 20;
                 // this.tableHeight = pageHeight
-                // console.log(pageHeight);
-                // console.log(this.tableHeight);
+                console.log(pageHeight + "---" + formHeight + '---' + operationHeight + '--' + this.tableHeight);
             });
         },
         /**TABLE页交互 START ************************************************************ */
@@ -109,6 +108,7 @@ const mixinDataTable = {
         }
         /**END ***********************************************/
     },
+
     computed: {
         oaIp() {
             // nginx配置的路由

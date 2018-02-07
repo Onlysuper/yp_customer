@@ -164,10 +164,10 @@
           <span class="line-label">手机号:</span>{{detailsForm.phoneNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户编号:</span>{{detailsForm.agentNo}}
+          <span class="line-label">商户编号:</span>{{detailsForm.customerNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom}}
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | customerFrom}}
         </div>
       </div>
 
@@ -848,6 +848,9 @@ export default {
           fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
       );
     }
+  },
+  activated() {
+    this.tableSizeHandle();
   },
   computed: {
     editFormCustomerFrom() {
