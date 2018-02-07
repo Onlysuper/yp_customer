@@ -5,21 +5,28 @@ const mixinDataTable = {
         return {
             postPage: 1,
             postLimit: 10,
+            pageHeight: 0,// .admin-page的高度
+            formHeight: 0,// 搜索框的高度
+            operationHeight: 0,// 操作按钮组的高度
+            paginationHeight: 0// 翻页的高度
         }
     },
     methods: {
         // 表格大小
         tableSizeHandle() {
+            // this.$emit("databoxSize");
             this.$nextTick(() => {
-                let pageHeight = $(".admin-page").outerHeight(true) || 0;
-                // console.log(pageHeight);
-                let formHeight = $(".search-page").outerHeight(true) || 0;
-                let operationHeight = $(".operation-box").outerHeight(true) || 0;
-                let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
+
+                // console.log($(".operation-box").html());
+                // let pageHeight = $(".admin-page").outerHeight(true) || 0;
+                // // console.log(pageHeight);
+                // let formHeight = $(".search-page").outerHeight(true) || 0;
+                // let operationHeight = $(".operation-box").outerHeight(true) || 0;
+                // let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
                 this.tableHeight =
-                    pageHeight - formHeight - operationHeight - paginationHeight - 20;
+                    this.pageHeight - this.formHeight - this.operationHeight - this.paginationHeight - 20;
                 // this.tableHeight = pageHeight
-                console.log(pageHeight + "---" + formHeight + '---' + operationHeight + '--' + this.tableHeight);
+                // console.log(pageHeight + "---" + formHeight + '---' + operationHeight + '--' + this.tableHeight);
             });
         },
         /**TABLE页交互 START ************************************************************ */
@@ -32,7 +39,6 @@ const mixinDataTable = {
             let limit_ = limit ? limit : this.postLimit;
             this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
             console.log("reload");
-            this.tableSizeHandle();
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
@@ -118,6 +124,14 @@ const mixinDataTable = {
             // 用户按钮权限
             return this.$store.state.moduleLayour.userMessage.all;
         }
+    },
+    activated() {
+        console.log($(".operation-box").html());
+        // let pageHeight = $(".admin-page").outerHeight(true) || 0;
+        // // console.log(pageHeight);
+        // let formHeight = $(".search-page").outerHeight(true) || 0;
+        // let operationHeight = $(".operation-box").outerHeight(true) || 0;
+        // let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
     },
     mounted() {
         this.$store.commit("initSearchVisibleFn");
