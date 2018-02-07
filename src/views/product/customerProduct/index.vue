@@ -79,7 +79,7 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <keep-alive>
-        <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView">
+        <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected">
           <!-- 组件在 vm.currentview 变化时改变！ -->
         </component>
       </keep-alive>
@@ -131,6 +131,7 @@ export default {
     };
     return {
       currentView: "paystatusSecond",
+      customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
@@ -156,7 +157,7 @@ export default {
 
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
-      formLabelWidth: "100px",
+      formLabelWidth: "130px",
       payStatusFormRules: {}, // 编辑单个规则
       payStatusForm: {
         Area: [] // 必须为数组
@@ -431,8 +432,27 @@ export default {
               cb: rowdata => {
                 this.editForm = rowdata;
                 this.editFormVisible = true;
-                this.nextFn("paystatusFirst");
+
+                this.customerTypeSelected = [
+                  {
+                    value: "payStatus",
+                    label: "聚合支付",
+                    disabled: rowdata.qrcodeStatus == "INIT" ? true : false
+                  },
+                  {
+                    value: "qrcodeStatus",
+                    label: "快速开票",
+                    disabled: rowdata.qrcodeStatus == "INIT" ? true : false
+                  },
+                  {
+                    value: "elecStatus",
+                    label: "电子发票",
+                    disabled: rowdata.elecStatus == "INIT" ? true : false
+                  }
+                ];
+                // this.nextFn("paystatusFirst");
                 // this.nextFn("paystatusSecond");
+                this.nextFn("paystatusThird");
                 this.$store.dispatch("customerProductRowAction", rowdata);
               }
             }

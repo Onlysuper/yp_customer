@@ -72,7 +72,7 @@
           <el-input v-model="checkForm2.price" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
-          <el-input v-model="checkForm2.prefixNo" auto-complete="off"></el-input>
+          <el-input v-model="checkForm2.prefixNo" auto-complete="off" placeholder="有前缀时必须填入前缀"></el-input>
         </el-form-item>
         <el-form-item label="分发方式" prop="migrateType" :label-width="formLabelWidth">
           <el-select v-model="checkForm2.migrateType" placeholder="请选择" @change="migrateTypeChange2">
@@ -83,13 +83,13 @@
         <el-row v-if="qrNumsVisible2">
           <el-col :span="11">
             <el-form-item label="号段开始" prop="" :label-width="formLabelWidth">
-              <el-input v-model="checkForm2.qrcodeStart" auto-complete="off"></el-input>
+              <el-input v-model="checkForm2.qrcodeStart" auto-complete="off" placeholder="号段不需要加前缀"></el-input>
               <!-- <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number> -->
             </el-form-item>
           </el-col>
           <el-col :span="11">
             <el-form-item label="号段结束" prop="" :label-width="formLabelWidth">
-              <el-input v-model="checkForm2.qrcodeEnd" auto-complete="off"></el-input>
+              <el-input v-model="checkForm2.qrcodeEnd" auto-complete="off" placeholder="号段不需要加前缀"></el-input>
               <!-- <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number> -->
             </el-form-item>
           </el-col>

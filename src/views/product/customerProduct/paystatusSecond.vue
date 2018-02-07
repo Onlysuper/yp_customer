@@ -1,10 +1,10 @@
 <template>
   <div>
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
-      <el-form-item class="full-width" label="微信费率" prop="phoneNo" :label-width="formLabelWidth">
+      <el-form-item class="full-width" label="微信费率" prop="wechatRate" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.wechatRate" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item class="full-width" label="支付宝费率" prop="bankCode" :label-width="formLabelWidth">
+      <el-form-item class="full-width" label="支付宝费率" prop="alipayRate" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.alipayRate" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开通即刷即到" prop="settleMode" :label-width="formLabelWidth">

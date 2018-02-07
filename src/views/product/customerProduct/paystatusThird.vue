@@ -1,350 +1,171 @@
 <template>
   <div>
-    第三部
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="editFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
+      <el-form-item class="full-width" label="申请人身份证正面" prop="idcard" :label-width="formLabelWidth">
+        <el-upload :data="idcardData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="idcardSuccess" :before-upload="idcardbeforeUpload">
+          <img v-if="idcardUrl" :src="idcardUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
+      <el-form-item class="full-width" label="申请人身份证反面" prop="alipayRate" :label-width="formLabelWidth">
+
+      </el-form-item>
+      <el-form-item class="full-width" label="营业执照" prop="settleMode" :label-width="formLabelWidth">
+
+      </el-form-item>
+      <el-form-item class="full-width" label="结算卡正面" prop="t0CashCostFixed" :label-width="formLabelWidth">
+
+      </el-form-item>
+      <el-form-item class="full-width" label="开户许可证" prop="t0CashCostFixed" :label-width="formLabelWidth">
+
+      </el-form-item>
+      <el-form-item class="full-width" label="门头照片" prop="t0CashCostFixed" :label-width="formLabelWidth">
+
+      </el-form-item>
+      <el-form-item class="full-width" label="店内照片" prop="t0CashCostFixed" :label-width="formLabelWidth">
+
+      </el-form-item>
+      <el-form-item class="full-width" label="收银台照片" prop="t0CashCostFixed" :label-width="formLabelWidth">
+
+      </el-form-item>
+    </el-form>
+    <div center slot="footer" class="dialog-footer">
+      <el-button @click="goback('paystatusFirst')">返回</el-button>
+      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 .dialog-footer {
   text-align: center;
 }
 </style>
 <script>
-import SearchForm from "@src/components/SearchForm";
-import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
-import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
-
-import { getCustomerOpenProducts } from "@src/apis";
+import { completeConvergeProduct } from "@src/apis";
 
 export default {
-  name: "customerlist",
-  components: {
-    "myp-search-form": SearchForm, // 搜索组件
-    "myp-data-page": DataPage // 数据列表组件
-  },
-  mixins: [mixinsPc, mixinDataTable],
+  name: "",
+  components: {},
+  mixins: [mixinsPc],
   data() {
-    var searchConditionVar = {
-      bussinessNo: "",
-      customerName: "",
-      qrcodeStatus: "",
-      elecStatus: "",
-      payStatus: ""
-    };
     return {
-      optionsArea: regionData, //省市县插件
-      sumLoading: false,
-      payStatusVisible: false, // 聚合详情
-      qrcodeStatusVisible: false, // 快速
-      elecStatusVisible: false, // 电子
-      selectOptions: {
-        customerType: "payStatus",
-        customerTypeOptions: [
-          {
-            value: "payStatus",
-            label: "聚合支付"
-          },
-          {
-            value: "qrcodeStatus",
-            label: "快速开票"
-          },
-          {
-            value: "elecStatus",
-            label: "电子发票"
-          }
-        ]
+      // 身份证正面
+      idcardData: {
+        imgType: "LEGAL_PERSON_ID_POSITIVE",
+        businessNo: "",
+        businessType: "customer",
+        imgString: ""
       },
-
-      detailsFormVisible: false, // 详情框
-      editFormVisible: false, // 编辑框
-      formLabelWidth: "100px",
-      payStatusFormRules: {}, // 编辑单个规则
-      payStatusForm: {
-        Area: [] // 必须为数组
-      }, // 编辑单个表单
-      detailsForm: {}, // 详情单个表单
-      // 查询条件数据
-      searchCondition: searchConditionVar,
-      // 顶部搜索表单信息
-      searchOptions: [
-        // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
-        {
-          corresattr: "bussinessNo",
-          type: "text", // 表单类型
-          label: "商户编号", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.bussinessNo = value;
-          }
-        },
-        {
-          corresattr: "customerName",
-          type: "text",
-          label: "商户名称",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.customerName = value;
-          }
-        },
-
-        {
-          corresattr: "qrcodeStatus",
-          type: "select",
-          label: "快速开票",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.qrcodeStatus = value;
-          }
-        },
-        {
-          corresattr: "payStatus",
-          type: "select",
-          label: "聚合状态",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            },
-            {
-              label: "拒绝",
-              value: "REJECT"
-            },
-            {
-              label: "待审核",
-              value: "CHECKING"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.payStatus = value;
-          }
-        },
-
-        {
-          corresattr: "elecStatus",
-          type: "select",
-          label: "电子发票",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.elecStatus = value;
-          }
-        }
-      ],
-
-      // 列表数据
-      postSearch: searchConditionVar,
-      tableData: {
-        getDataUrl: {
-          url: getCustomerOpenProducts // 初始化数据
-        },
-        dataHeader: [
-          // table列信息 key=>表头标题，word=>表内容信息
-          {
-            key: "商户编号",
-            width: "",
-            sortable: true,
-            word: "bussinessNo"
-          },
-          {
-            key: "商户名称",
-            width: "",
-            word: "customerName"
-          },
-
-          {
-            key: "快速开票",
-            width: "",
-            word: "qrcodeStatus",
-            status: true,
-            type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
-            }
-          },
-          {
-            key: "聚合支付",
-            width: "",
-            word: "qrcodeStatus",
-            status: true,
-            type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "info"
-                };
-              } else if (data == "CHECKING") {
-                return {
-                  text: "待审核",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
-            }
-          },
-          {
-            key: "电子发票",
-            width: "",
-            word: "elecStatus",
-            status: true,
-            type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
-            }
-          }
+      idcardUrl: "",
+      fileList: [],
+      formLabelWidth: "150px",
+      payStatusForm: {},
+      payStatusFormRules: {
+        idcard: [
+          { required: true, message: "请上传身份证正面图片", trigger: "blur" }
         ],
-        operation: {
-          width: "120px",
-          options: [
-            // 操作按钮
-            {
-              text: "查询",
-              color: "#00c1df",
-              visibleFn: rowdata => {
-                if (this.adminOperationAll.customer_detail == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              cb: rowdata => {
-                this.detailsForm = rowdata;
-                this.detailsFormVisible = true;
-              }
-            },
-            {
-              text: "开通产品",
-              visibleFn: rowdata => {
-                if (
-                  this.adminOperationAll.customer_edit == "TRUE" &&
-                  (rowdata.agentNo == this.userBussinessNo ||
-                    this.userType == "admin")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              color: "#00c1df",
-              cb: rowdata => {
-                this.editForm = rowdata;
-                this.editFormVisible = true;
-              }
-            }
-          ]
+        alipayRate: [
+          { required: true, message: "请输入支付宝费率", trigger: "blur" }
+        ],
+        settleMode: [
+          { required: true, message: "请选择结算方式", trigger: "blur" }
+        ],
+        t0CashCostFixed: [
+          { required: true, message: "请输入TO手续费", trigger: "blur" }
+        ]
+      }, // 编辑单个规则
+      settleModeOptions: [
+        {
+          code: "T0",
+          name: "开通"
+        },
+        {
+          code: "T1",
+          name: "不开通"
         }
-      }
+      ]
     };
   },
 
   methods: {
+    idcardSuccess(res, file) {
+      this.idcardUrl = URL.createObjectURL(file.raw);
+    },
+    idcardbeforeUpload(file) {
+      console.log(file);
+      var reader = new FileReader();
+      let self = this;
+      reader.readAsDataURL(file);
+      reader.onload = function(e) {
+        // base64编码
+        console.log(self.idcardData);
+        self.idcardData.imgString = this.result;
+      };
+      return this.checkUpload(file);
+    },
+    checkUpload(file) {
+      const isJPG = file.type === "image/jpeg";
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error("上传头像图片只能是 JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+    },
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
-          postEditCustomer()(this.editForm).then(data => {
+          let payStatusForm = this.payStatusForm;
+
+          let obj = {
+            customerNo: this.customerProductRowdate.bussinessNo,
+            settleMode: payStatusForm.settleMode,
+            t0CashCostFixed: payStatusForm.t0CashCostFixed,
+            wechatRate: payStatusForm.wechatRate,
+            alipayRate: payStatusForm.alipayRate
+          };
+          completeConvergeProduct()(obj).then(data => {
             if (data.code === "00") {
-              this.$message({
-                message: "恭喜你，修改数据成功",
-                type: "success",
-                center: true
-              });
-              this.editFormVisible = false;
-              this.reloadData();
+              // 下一步
+              this.$emit("nextFn", "paystatusThird");
+              // this.$message({
+              //   message: "恭喜你，修改数据成功",
+              //   type: "success",
+              //   center: true
+              // });
+              // this.editFormVisible = false;
+              // this.reloadData();
             } else {
               this.$message({
                 message: data.msg,
@@ -357,52 +178,16 @@ export default {
         }
       });
     },
-    // 合计
-    SumHandle() {
-      this.sumLoading = true;
-      var searchCondition = this.searchCondition;
-      getBillcountSum()({
-        dataTimeBegin: searchCondition.dataTimeBegin,
-        dataTimeEnd: searchCondition.dataTimeEnd,
-        agentNo: searchCondition.agentNo,
-        containChild: searchCondition.containChild
-      }).then(res => {
-        if (res.code == "00") {
-          var data = res.data;
-          this.scanSum = data.scan;
-          this.netSum = data.register;
-          this.pushSum = data.billSuccess;
-        }
-        this.sumLoading = false;
-      });
-    },
-    customerTypeSelect() {
-      let value = this.selectOptions.customerType;
-      this.payStatusVisible = false; // 聚合详情
-      this.qrcodeStatusVisible = false; // 快速
-      this.elecStatusVisible = false; // 电子
-      if (value == "qrcodeStatus") {
-        this.qrcodeStatusVisible = true;
-      } else if (value == "elecStatus") {
-        this.elecStatusVisible = true;
-      } else if (value == "payStatus") {
-        this.payStatusVisible = true;
-      }
-    },
-    customerTypeChange() {
-      this.customerTypeSelect();
+    goback(path) {
+      this.$emit("backFn", path);
     }
   },
-
   computed: {
-    // customerTypeSelect() {
-    //   return this.selectOptions.customerType;
-    // }
+    customerProductRowdate() {
+      return this.$store.state.customerProductPc.customerProductRowdate;
+    }
   },
-  watch: {},
-  mounted() {
-    this.customerTypeSelect();
-  }
+  watch: {}
 };
 </script>
 

@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="line-box-center">
-      <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
-        <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+      <el-select @input="customerTypeChange" size="small" v-model="payStatusForm.customerType" placeholder="请选择">
+        <el-option v-for="item in customerTypeSelected" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
         </el-option>
       </el-select>
     </div>
@@ -86,6 +86,7 @@
       <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
+
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
@@ -106,6 +107,11 @@ import { getBankList, completeSettleInfo } from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
   name: "paystatusFirst",
+  props: {
+    customerTypeSelected: {
+      type: Array
+    }
+  },
   components: {},
   mixins: [mixinsPc],
   data() {
@@ -117,21 +123,22 @@ export default {
       bankCity: "",
       bankCode: "",
       branchBankOptions: [],
+      customerTypeOptions: "",
       selectOptions: {
-        customerTypeOptions: [
-          {
-            value: "payStatus",
-            label: "聚合支付"
-          },
-          {
-            value: "qrcodeStatus",
-            label: "快速开票"
-          },
-          {
-            value: "elecStatus",
-            label: "电子发票"
-          }
-        ],
+        // customerTypeOptions: [
+        //   {
+        //     value: "payStatus",
+        //     label: "聚合支付"
+        //   },
+        //   {
+        //     value: "qrcodeStatus",
+        //     label: "快速开票"
+        //   },
+        //   {
+        //     value: "elecStatus",
+        //     label: "电子发票"
+        //   }
+        // ],
         accountTypeOptions: [
           {
             value: "0",
