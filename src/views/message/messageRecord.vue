@@ -144,7 +144,28 @@ export default {
           {
             key: "消息类别",
             width: "100px",
-            word: "type"
+            word: "type",
+            status: true,
+            type: data => {
+              switch (data) {
+                case "TEXT":
+                  return {
+                    text: "文本类",
+                    type: "success"
+                  };
+                case "DOWNLOAD":
+                  return {
+                    text: "下载类",
+                    type: ""
+                  };
+
+                default:
+                  return {
+                    text: data,
+                    type: ""
+                  };
+              }
+            }
           },
           {
             key: "标题",

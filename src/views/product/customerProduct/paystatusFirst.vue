@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div class="line-box-center">
+      <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
+        <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
       <el-form-item class="full-width" prop="Area" label="所在地区">
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
@@ -76,7 +82,7 @@
       </el-form-item>
     </el-form>
     <div center slot="footer" class="dialog-footer">
-      <el-button @click="editFormVisible = false">取 消</el-button>
+      <el-button @click="goback('close')">返回</el-button>
       <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
@@ -90,31 +96,21 @@
 </style>
 <script>
 import bussinessTypeJson from "@src/data/bussinessType.json";
-import SearchForm from "@src/components/SearchForm";
-import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
-import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { regionData } from "element-china-area-data";
 
-import {
-  getCustomerOpenProducts,
-  getBankList,
-  completeSettleInfo
-} from "@src/apis";
+import { getBankList, completeSettleInfo } from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
   name: "paystatusFirst",
-  components: {
-    "myp-search-form": SearchForm, // 搜索组件
-    "myp-data-page": DataPage // 数据列表组件
-  },
-  mixins: [mixinsPc, mixinDataTable],
+  components: {},
+  mixins: [mixinsPc],
   data() {
     return {
-      aa: {},
+      formLabelWidth: "100px",
       bankOptions: banks,
       slotsActions: bussinessTypeJson,
       optionsArea: regionData, //省市县插件
@@ -122,6 +118,20 @@ export default {
       bankCode: "",
       branchBankOptions: [],
       selectOptions: {
+        customerTypeOptions: [
+          {
+            value: "payStatus",
+            label: "聚合支付"
+          },
+          {
+            value: "qrcodeStatus",
+            label: "快速开票"
+          },
+          {
+            value: "elecStatus",
+            label: "电子发票"
+          }
+        ],
         accountTypeOptions: [
           {
             value: "0",
@@ -203,7 +213,7 @@ export default {
           completeSettleInfo()(obj).then(data => {
             if (data.code === "00") {
               // 下一步
-              this.$emit("nextFn");
+              this.$emit("nextFn", "paystatusSecond");
             } else {
               this.$message({
                 message: data.msg,
@@ -240,6 +250,25 @@ export default {
           }
         });
       }
+    },
+    customerTypeSelect() {
+      let value = this.selectOptions.customerType;
+      this.payStatusVisible = false; // 聚合详情
+      this.qrcodeStatusVisible = false; // 快速
+      this.elecStatusVisible = false; // 电子
+      if (value == "qrcodeStatus") {
+        this.qrcodeStatusVisible = true;
+      } else if (value == "elecStatus") {
+        this.elecStatusVisible = true;
+      } else if (value == "payStatus") {
+        this.payStatusVisible = true;
+      }
+    },
+    customerTypeChange() {
+      this.customerTypeSelect();
+    },
+    goback(path) {
+      this.$emit("backFn", path);
     }
   },
 
@@ -248,10 +277,7 @@ export default {
       return this.$store.state.customerProductPc.customerProductRowdate;
     }
   },
-  watch: {},
-  mounted() {
-    // this.$emit("nextFn");
-  }
+  watch: {}
 };
 </script>
 

@@ -12,23 +12,6 @@ const mixinDataTable = {
         }
     },
     methods: {
-        // 表格大小
-        tableSizeHandle() {
-            // this.$emit("databoxSize");
-            this.$nextTick(() => {
-
-                // console.log($(".operation-box").html());
-                // let pageHeight = $(".admin-page").outerHeight(true) || 0;
-                // // console.log(pageHeight);
-                // let formHeight = $(".search-page").outerHeight(true) || 0;
-                // let operationHeight = $(".operation-box").outerHeight(true) || 0;
-                // let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-                this.tableHeight =
-                    this.pageHeight - this.formHeight - this.operationHeight - this.paginationHeight - 20;
-                // this.tableHeight = pageHeight
-                // console.log(pageHeight + "---" + formHeight + '---' + operationHeight + '--' + this.tableHeight);
-            });
-        },
         /**TABLE页交互 START ************************************************************ */
         showDialog(dialogName) {
             this[dialogName] = true;
@@ -38,7 +21,7 @@ const mixinDataTable = {
             let page_ = page ? page : this.postPage;
             let limit_ = limit ? limit : this.postLimit;
             this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
-            console.log("reload");
+            // console.log("reload");
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();

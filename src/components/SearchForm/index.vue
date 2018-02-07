@@ -1,7 +1,7 @@
 <template>
   <!-- 表单数据搜索区域 -->
 
-  <div class="search-page">
+  <div class="search-page" @keyup.enter="searchStart">
     <!-- Form 表单编写 start -->
     <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px">
       <el-form-item :class="itemWidth(item.type)" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput">

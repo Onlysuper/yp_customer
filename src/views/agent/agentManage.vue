@@ -466,7 +466,7 @@ export default {
           corresattr: "agentName",
           type: "text",
           label: "合伙人名称",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.agentName = value;

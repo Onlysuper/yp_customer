@@ -200,8 +200,6 @@ export default {
     },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
-      // console.log(JSON.stringify({ aa: searchCondition }));
-      // console.log("开始查询了" + searchCondition + "--" + limit + "-" + page);
       this.ifloading = true;
       this.getUrl()({
         page: page,
@@ -215,6 +213,7 @@ export default {
           if (this.dataSuccess != "" && this.dataSuccess != null) {
             this.$emit("operation", data, this.dataSuccess);
           }
+          this.ifloading = false;
         } else {
           // alert(1);
           this.$message({
@@ -307,7 +306,6 @@ export default {
       return this.$store.state.fullScreen.isFullscreen;
     }
   },
-  activated() {},
   watch: {
     visibleinput(val) {
       // 监听高级搜索与普通搜索模式转变

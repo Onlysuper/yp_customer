@@ -128,7 +128,7 @@ import {
   putRefuseArantNumExamine
 } from "@src/apis";
 export default {
-  name: "qr_code_reciept_audit",
+  name: "orderQuery",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件

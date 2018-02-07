@@ -1,95 +1,18 @@
 <template>
-  <!-- 商户管理 -->
-  <div class="admin-page">
-    <div class="admin-main-box">
-      <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
-      <!-- search form end -->
-      <div class="operation-box">
-        <el-button-group class="button-group">
-          <el-button-group class="button-group">
-            <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-            <!-- <span class="sumtext">商户:个</span> -->
-          </el-button-group>
-        </el-button-group>
-      </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+  <div>
+    第三部
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="editFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
     </div>
-
-    <!-- 商户状态 start -->
-    <el-dialog title="商户状态" center :visible.sync="detailsFormVisible">
-      <div class="detail-content">
-        <div class="line-box-center">
-          <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </div>
-        <template v-if="payStatusVisible">
-          <!-- 聚合详情 -->
-          <div class="line-label-box">
-            <span class="line-label">商户编号:</span>
-            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">商户名称:</span>
-            <span class="line-label-last">{{detailsForm.customerName}}</span>
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">聚合支付:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">微信费率:</span>{{detailsForm.wechatRate}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">支付宝费率:</span>{{detailsForm.alipayRate}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">开通即刷即到:</span>{{detailsForm.settleMode | settleMode}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">D0手续费:</span>{{detailsForm.t0CashCostFixed}}
-          </div>
-        </template>
-        <template v-if="qrcodeStatusVisible">
-          <!-- 快速详情 -->
-          <div class="line-label-box">
-            <span class="line-label">商户编号:</span>
-            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">商户名称:</span>
-            <span class="line-label-last">{{detailsForm.customerName}}</span>
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus}}
-          </div>
-        </template>
-        <template v-if="elecStatusVisible">
-          <!-- 电子详情 -->
-          电子
-        </template>
-      </div>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="detailsFormVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- 详情 end -->
-    <!-- 开通产品 start -->
-    <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
-      <keep-alive>
-        <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView">
-          <!-- 组件在 vm.currentview 变化时改变！ -->
-        </component>
-      </keep-alive>
-    </el-dialog>
-    <!-- 开通产品 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='scss' scoped>
 
+<style lang='scss' scoped>
+.dialog-footer {
+  text-align: center;
+}
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -100,25 +23,14 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { regionData } from "element-china-area-data";
-import paystatusFirst from "./paystatusFirst";
-import paystatusSecond from "./paystatusSecond";
-import paystatusThird from "./paystatusThird";
-import paystatusSuccess from "./paystatusSuccess";
-import {
-  getCustomerOpenProducts,
-  postCustomerOpenProductSearch
-} from "@src/apis";
+
+import { completeConvergeProduct } from "@src/apis";
 
 export default {
-  name: "customerProduct",
-
+  name: "customerlist",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
-    "myp-data-page": DataPage, // 数据列表组件
-    paystatusFirst: paystatusFirst,
-    paystatusSecond: paystatusSecond,
-    paystatusThird: paystatusThird,
-    paystatusSuccess: paystatusSuccess
+    "myp-data-page": DataPage // 数据列表组件
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
@@ -130,7 +42,6 @@ export default {
       payStatus: ""
     };
     return {
-      currentView: "paystatusSecond",
       optionsArea: regionData, //省市县插件
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
@@ -390,28 +301,8 @@ export default {
                 }
               },
               cb: rowdata => {
-                console.log(rowdata);
-                this.detailsForm = Object.assign(this.detailsForm, rowdata);
-
-                postCustomerOpenProductSearch()({
-                  businessNo: rowdata.bussinessNo,
-                  businessType: rowdata.bussinessType
-                }).then(data => {
-                  if (data.code == "00") {
-                    console.log(data);
-                    this.detailsForm = Object.assign(
-                      this.detailsForm,
-                      data.data
-                    );
-                    this.detailsFormVisible = true;
-                  } else {
-                    // this.detailsFormVisible = true;
-                    this.$message({
-                      message: data.msg,
-                      type: "warning"
-                    });
-                  }
-                });
+                this.detailsForm = rowdata;
+                this.detailsFormVisible = true;
               }
             },
             {
@@ -431,9 +322,6 @@ export default {
               cb: rowdata => {
                 this.editForm = rowdata;
                 this.editFormVisible = true;
-                this.nextFn("paystatusFirst");
-                // this.nextFn("paystatusSecond");
-                this.$store.dispatch("customerProductRowAction", rowdata);
               }
             }
           ]
@@ -503,37 +391,13 @@ export default {
     },
     customerTypeChange() {
       this.customerTypeSelect();
-    },
-    // 下一步
-    nextFn(next) {
-      this.currentView = next;
-    },
-    // 返回
-    backFn(path) {
-      if (path == "close") {
-        this.editFormVisible = false;
-      } else if (path == "paystatusFirst") {
-        this.currentView = "paystatusFirst";
-      } else if (path == "paystatusSecond") {
-        this.currentView = "paystatusSecond";
-      } else if (path == "paystatusThird") {
-        this.currentView = "paystatusThird";
-      }
     }
   },
 
   computed: {
-    productOpenTitle() {
-      if (this.currentView == "paystatusFirst") {
-        return "完善信息";
-      } else if (this.currentView == "paystatusSecond") {
-        return "开通产品";
-      } else if (this.currentView == "paystatusThird") {
-        return "上传资质";
-      } else if (this.currentView == "paystatusSuccess") {
-        return "申请完成";
-      }
-    }
+    // customerTypeSelect() {
+    //   return this.selectOptions.customerType;
+    // }
   },
   watch: {},
   mounted() {
