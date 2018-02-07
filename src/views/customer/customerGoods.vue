@@ -496,7 +496,7 @@ export default {
           corresattr: "goodsName",
           type: "text",
           label: "商品名称",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.goodsName = value;

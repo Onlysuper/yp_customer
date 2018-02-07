@@ -4,7 +4,7 @@
   <div class="search-page">
     <!-- Form 表单编写 start -->
     <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px">
-      <el-form-item class="form-item" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput">
+      <el-form-item :class="itemWidth(item.type)" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput">
 
         <!-- 文本框 -->
         <el-input ref="myinput" v-if="item.type=='text'" :placeholder="item.label" @input="changeInput(item.cb,$event)" v-model="item.value"></el-input>
@@ -171,6 +171,7 @@ export default {
     // visibleinput() {
     //   return this.$store.state.topSearch.visibleinput;
     // },
+
     visibleSenior() {
       //隐藏高级搜索
       var showlen = 0;
@@ -195,6 +196,17 @@ export default {
     };
   },
   methods: {
+    itemWidth(type) {
+      // console.log(type);
+      if (type == "dateGroup") {
+        return "form-item-data";
+      } else if (type == "dateMonth") {
+        return "form-item-month";
+      } else {
+        return "form-item";
+      }
+      // =='dateGroup'||item.type=='dateGroup'?'dateMonth':'form-item'
+    },
     visibleinputHandle() {
       // 高级搜索与普通搜索转变
       this.visibleinput = !this.visibleinput;
@@ -307,8 +319,16 @@ export default {
     .form-box {
       margin-top: 5px !important;
       .form-item {
-        width: 340px;
+        // width: 340px;
+        width: 280px;
         flex-shrink: 0;
+      }
+      .form-item-month {
+        width: 280px;
+        flex-shrink: 0;
+        .dateMonth {
+          width: 100%;
+        }
       }
       .form-select {
         width: 100%;

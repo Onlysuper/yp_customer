@@ -113,7 +113,7 @@ export default {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: false,
+          show: true,
           value: "",
           options: [
             {

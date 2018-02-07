@@ -92,7 +92,7 @@ export default {
           corresattr: "status",
           type: "select",
           label: "结算状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {

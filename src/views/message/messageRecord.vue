@@ -83,7 +83,7 @@ export default {
           corresattr: "status",
           type: "select",
           label: "消息状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
