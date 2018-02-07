@@ -318,8 +318,8 @@ export default {
             type: data => {
               if (data === "TRUE") {
                 return {
-                  text: "已结算",
-                  type: "success"
+                  text: "已确认",
+                  type: ""
                 };
               } else if (data === "FALSE") {
                 return {
@@ -329,7 +329,7 @@ export default {
               } else if (data === "SUCCESS") {
                 return {
                   text: "已结算",
-                  type: ""
+                  type: "success"
                 };
               } else {
                 return {
@@ -345,7 +345,7 @@ export default {
           options: [
             // 操作按钮
             {
-              text: "编辑",
+              text: "待确认",
               color: "#00c1df",
               visibleFn: rowdata => {
                 //已确认
@@ -361,8 +361,8 @@ export default {
               }
             },
             {
-              text: "详情",
-              color: "#00c1df",
+              text: "查询",
+              color: "#e6a23c",
               visibleFn: rowdata => {
                 //待确认
                 if (rowdata.status == "TRUE") {

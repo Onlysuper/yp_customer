@@ -159,13 +159,18 @@ export default {
             type: data => {
               if (data === "TRUE") {
                 return {
-                  text: "已结算",
-                  type: "success"
+                  text: "已确认",
+                  type: ""
                 };
               } else if (data === "FALSE") {
                 return {
-                  text: "未结算",
+                  text: "待确认",
                   type: "info"
+                };
+              } else if (data === "SUCCESS") {
+                return {
+                  text: "已结算",
+                  type: "success"
                 };
               } else {
                 return {
