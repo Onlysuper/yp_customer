@@ -1292,7 +1292,7 @@ export default {
             ? ""
             : parseInt(qrcodeEnd) - parseInt(qrcodeStart);
           console.log(num);
-          this.addMaterielForm.receiptCount = num;
+          this.addMaterielForm.receiptCount = num + 1;
         }
       }
     },
