@@ -19,6 +19,7 @@ export default {
       state.searchQuery = {
         standardTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),
         standardTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        containChild: "TRUE",
       };
       console.info("达标详情数据加载完成");
     },

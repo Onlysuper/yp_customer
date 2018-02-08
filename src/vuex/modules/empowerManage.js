@@ -2,6 +2,7 @@
 // 授权码审核
 import { postEditEmpower } from "@src/apis";
 import { Toast } from "mint-ui";
+import utils from "@src/common/utils";
 export default {
   state: {
     list: [],
@@ -18,9 +19,19 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
+        batchNo: "",
+        agentNo: "",
+        customerNo: "",
+        qrcode: "",
+        authCode: "",
+        createTimeStart: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        createTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
         status: "",
+        receiptType: "",
+        materiel: "",
+        containChild: "TRUE",
+
       };
-      console.info("授权码审核数据加载完成");
     },
     //设置商品列表
     ["QRCODE_SEARCH_LIST"](state, datas) {

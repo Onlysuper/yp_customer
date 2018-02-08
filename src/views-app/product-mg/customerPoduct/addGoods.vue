@@ -23,11 +23,15 @@
 
 <script>
 import { getCustomerEchoProduct, completeConvergeProduct } from "@src/apis";
+import utils from "@src/common/utils";
+import { install } from "vuex";
 export default {
   data() {
     return {
       customerNo: this.$route.query["customerNo"],
       form: {
+        wechatRate: 0,
+        alipayRate: 0,
         settleMode: "T1",
         t0CashCostFixed: 0
       }
@@ -50,17 +54,31 @@ export default {
       featureType: "CONVERGE_PAY"
     }).then(data => {
       if (data.code == "00") {
-        console.log(data.data);
+        this.echoForm(data.data);
       } else {
         this.Toast(data.msg);
       }
     });
+    // let data = JSON.parse(localStorage.getItem("echo_form") || "{}");
+    // this.echoForm(data);
   },
   methods: {
+    echoForm(data) {
+      let { product } = data;
+      if (product instanceof Object) {
+        this.form.wechatRate = utils.accMul(product.wechatRate, 100);
+        this.form.alipayRate = utils.accMul(product.alipayRate, 100);
+        this.form.settleMode = product.settleMode || "T1";
+        this.form.t0CashCostFixed = product.t0CashCostFixed || 0;
+      }
+    },
     //提交
     submit() {
       completeConvergeProduct()({
-        ...this.form,
+        wechatRate: utils.accMul(this.form.wechatRate, 0.01),
+        alipayRate: utils.accMul(this.form.alipayRate, 0.01),
+        settleMode: this.form.settleMode,
+        t0CashCostFixed: this.form.t0CashCostFixed,
         customerNo: this.customerNo
       }).then(data => {
         if (data.code == "00") {

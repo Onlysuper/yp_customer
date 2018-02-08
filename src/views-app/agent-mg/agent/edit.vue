@@ -8,8 +8,10 @@
       <mt-field type="text" label="合伙人名称" v-model="agent.agentName" :disabled="true" placeholder="请输入合伙人名称"></mt-field>
       <mt-field type="text" label="合伙人编号" v-model="agent.agentNo" :disabled="true" placeholder="请输入合伙人编号"></mt-field>
       <mt-field type="tel" label="手机号" v-model="agent.phoneNo" :disabled="true" placeholder="请输入手机号"></mt-field>
+      <mt-field type="tel" label="联系人" v-model="agent.linkMan" :disabled="true" placeholder="请输入联系人"></mt-field>
+      <mt-field type="tel" label="固定电话" v-model="agent.fixedPhone" :disabled="true" placeholder="请输入固定电话"></mt-field>
       <mt-field type="text" label="经营区域" v-model="city.resultAddr" @click.native="cityVisible = true" v-readonly-ios :readonly="true" placeholder="请选择地区">
-        <i class="icon-admin"></i>
+        <i class="icon-arrow"></i>
       </mt-field>
       <mt-field type="textarea" label="回调地址" v-model="agent.redirectUrl" placeholder="请输入内容"></mt-field>
     </input-wrapper>

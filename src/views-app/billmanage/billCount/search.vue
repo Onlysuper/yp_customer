@@ -31,11 +31,35 @@ export default {
         }
       });
       this.searchConfig.push({
+        title: "是否包含下级",
+        type: "myp-radio-list",
+        defaultValue: this.searchQuery.containChild || "ALL",
+        options: [
+          {
+            label: "全部",
+            value: "ALL"
+          },
+          {
+            label: "含下级",
+            value: "TRUE"
+          },
+          {
+            label: "不含下级",
+            value: "FALSE"
+          }
+        ],
+        cb: value => {
+          if (value == "ALL") value = "";
+          this.$store.commit("PROFITBILLING_SET_SEARCH", {
+            containChild: value
+          });
+        }
+      });
+      this.searchConfig.push({
         title: "开始日期",
         type: "myp-date",
         defaultValue: this.searchQuery.dataTimeBegin,
         cb: value => {
-          console.log(value);
           this.$store.commit("BILLCOUNT_SEARCH_QUERY", {
             dataTimeBegin: value
           });

@@ -1,7 +1,7 @@
 <template>
   <!-- 日开票详情 -->
   <full-page class="page" ref="FullPage">
-    <mt-header slot="header" :title="$route.meta.pageTitle">
+    <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({name:'billDaySearch'})">搜索</mt-button>
       <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
@@ -47,6 +47,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getBillcountdays,
+      count: 0,
       actions: []
     };
   },
@@ -74,7 +75,8 @@ export default {
   },
   methods: {
     // ...mapActions(["cancelDefaultGood"]),
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("BILLDAY_SEARCH_LIST", watchDataList);
       this.$store.commit("BILLDAY_SEARCH", false);
       this.$store.commit("BILLDAY_ADD", false);

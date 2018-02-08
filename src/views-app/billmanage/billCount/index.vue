@@ -2,7 +2,7 @@
   <!-- 开票统计 -->
   <div class="page">
     <full-page class="page" ref="FullPage">
-      <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billCountSearch'})">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="sum">合计</mt-button>
@@ -45,6 +45,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getBillcountagents,
+      count: 0,
       actions: []
     };
   },
@@ -69,7 +70,8 @@ export default {
   },
   methods: {
     ...mapActions(["getBillcountSum"]),
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("BILLCOUNT_SEARCH_INIT_list", watchDataList);
       this.$store.commit("BILLCOUNT_SEARCH", false);
     },

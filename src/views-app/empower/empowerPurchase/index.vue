@@ -2,7 +2,7 @@
   <!-- 授权码采购 -->
   <div class="page">
     <full-page class="page" ref="FullPage">
-      <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">采购</mt-button>
@@ -56,6 +56,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getArantNumBuybacks,
+      count: 0,
       popupActionsVisible: false,
       popupActions: [
         {
@@ -92,7 +93,8 @@ export default {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   methods: {
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("QRCODERECIEPT_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODERECIEPT_SEARCH", false);
     },

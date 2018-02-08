@@ -9,7 +9,7 @@
         <!-- 添加表单 -->
         <template v-if="pageType == 'ADD'">
           <mt-field @click.native="goodsVisible = true" type="text" label="商品编码" placeholder="请选择商品编码" :value="goodsModel.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
           <mt-field type="text" label="商户编号" placeholder="请输入商品编号" v-model="good.customerNo"></mt-field>
           <mt-field type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName"></mt-field>
@@ -17,33 +17,33 @@
           <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
           <mt-field type="text" label="含税单价" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
           <mt-field @click.native="$refs.EnjoyPicker.open" type="text" label="享受优惠" placeholder="请选择享受优惠" :value="enjoyModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
           <mt-field @click.native="$refs.DiscountPicker.open" type="text" label="优惠类型" placeholder="请选择优惠类型" :value="discountModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
         </template>
 
         <!-- 编辑表单 -->
         <template v-if="pageType == 'EDIT'">
           <mt-field @click.native="goodsVisible = true" type="text" label="商品编码" placeholder="请选择商品编码" :value="goodsModel.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
           <mt-field type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName"></mt-field>
           <mt-field type="text" label="规格型号" placeholder="请输入规格型号" v-model="good.model"></mt-field>
           <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
           <mt-field type="text" label="含税单价" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
           <mt-field @click.native="$refs.EnjoyPicker.open" type="text" label="享受优惠" placeholder="请选择享受优惠" :value="enjoyModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
           <mt-field @click.native="$refs.DiscountPicker.open" type="text" label="优惠类型" placeholder="请选择优惠类型" :value="discountModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
         </template>
 

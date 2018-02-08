@@ -6,15 +6,14 @@ import keepAlive from "@src/views-app/keepAlive";
 export default {
   name: "order",
   path: "/",
-  component: App,
+  component: keepAlive,
   redirect: () => "/" + this.a.children[0].path,
   children: [
-    //聚合支付分润
     {
       name: "orderQuery",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
       path: "orderQuery",
       redirect: "orderQuery/index",
-      component: keepAlive,
+      component: App,
       children: [
         {
           path: 'index',
@@ -22,9 +21,18 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/order/orderQuery")) }, "order-app")
           },
           meta: {
-            pageTitle: "聚合支付分润",
+            pageTitle: "订单查询",
             keepAlive: true,
             menuCode: "orderQuery",
+          }
+        },
+        {
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/order/orderQuery/search")) }, "order-app")
+          },
+          meta: {
+            pageTitle: "搜索",
           }
         }
       ]

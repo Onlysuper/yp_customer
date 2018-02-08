@@ -94,7 +94,7 @@ export default {
       }).then(data => {
         Indicator.close();
         if (data.code === "00") {
-          this.$emit("result", this.dataKey, data.data.mediaId);
+          this.$emit("result", this.dataKey, data.data);
           this.setImg(base64);
         } else {
           Toast(data.resultMsg);

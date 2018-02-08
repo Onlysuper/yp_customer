@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <full-page ref="FullPage">
-      <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./add'})">新增</mt-button>
@@ -42,7 +42,8 @@ export default {
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
-      api: postEnterpriseSupplys
+      api: postEnterpriseSupplys,
+      count: 0
     };
   },
   created() {
@@ -65,7 +66,8 @@ export default {
   },
   methods: {
     ...mapActions([]),
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("ENTERPRISE_SUPPLY_SET_LIST", watchDataList);
       this.$store.commit("ENTERPRISE_SUPPLY_IS_SEARCH", false);
     },

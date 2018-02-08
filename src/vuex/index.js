@@ -5,11 +5,10 @@ import topSearch from "@src/vuex/topSearch/topSearch"
 import Base from "@src/vuex/base/base"
 import tagsView from "@src/vuex/tagsView/tagsView"
 import fullScreen from "@src/vuex/fullScreen/fullScreen"
-import customerProductPc from "@src/vuex/customerProduct/customerProduct"
 
 import {
     customerGoods, customerManage, profitBilling, convergePayComm, agent, billCount, billRecord, billDay, billStandard,
-    empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply
+    empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply, orderQuery
 } from "./modules";
 Vue.use(Vuex);
 
@@ -55,7 +54,7 @@ const store = new Vuex.Store({
 
         customerProduct,
         enterpriseSupply,
-        customerProductPc
+        orderQuery
     }
 })
 console.warn("Vuex严格模式：" + store.strict)
