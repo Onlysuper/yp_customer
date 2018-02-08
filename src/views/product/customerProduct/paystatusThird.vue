@@ -3,11 +3,10 @@
     <el-form size="small" label-position="left" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
       <el-row>
         <!-- {{rowData}}  -->
-        {{idcardData}}
         <el-col :span="12">
           <div class="grid-content bg-purple">
             <el-form-item class="full-width" label="申请人身份证正面" prop="idcard" :label-width="formLabelWidth">
-              <el-upload :data="idcardData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="idcardSuccess" :before-upload="idcardbeforeUpload">
+              <el-upload :data="idcardData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="idcardbeforeUpload">
                 <img v-if="idcardUrl" :src="idcardUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -17,7 +16,7 @@
         <el-col :span="12">
           <div class="grid-content bg-purple-light">
             <el-form-item class="full-width" label="申请人身份证反面" prop="idcardBack" :label-width="formLabelWidth">
-              <el-upload :data="idcardBackData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="idcardBackSuccess" :before-upload="idcardBackbeforeUpload">
+              <el-upload :data="idcardBackData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="idcardBackbeforeUpload">
                 <img v-if="idcardBackUrl" :src="idcardBackUrl" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
@@ -27,37 +26,37 @@
       </el-row>
 
       <el-form-item class="full-width" label="营业执照" prop="business" :label-width="formLabelWidth">
-        <el-upload :data="businessData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="businessSuccess" :before-upload="businessbeforeUpload">
+        <el-upload :data="businessData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="businessbeforeUpload">
           <img v-if="businessUrl" :src="businessUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item class="full-width" label="结算卡正面" prop="settle" :label-width="formLabelWidth">
-        <el-upload :data="settleData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="settleSuccess" :before-upload="settlebeforeUpload">
+        <el-upload :data="settleData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="settlebeforeUpload">
           <img v-if="settleUrl" :src="settleUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item class="full-width" label="开户许可证" prop="account" :label-width="formLabelWidth">
-        <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="accountSuccess" :before-upload="accountbeforeUpload">
+        <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
           <img v-if="accountUrl" :src="accountUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item class="full-width" label="门头照片" prop="place" :label-width="formLabelWidth">
-        <el-upload :data="placeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="placeSuccess" :before-upload="placebeforeUpload">
+        <el-upload :data="placeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="placebeforeUpload">
           <img v-if="placeUrl" :src="placeUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item class="full-width" label="店内照片" prop="store" :label-width="formLabelWidth">
-        <el-upload :data="storeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="storeSuccess" :before-upload="storebeforeUpload">
+        <el-upload :data="storeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="storebeforeUpload">
           <img v-if="storeUrl" :src="storeUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
       <el-form-item class="full-width" label="收银台照片" prop="cash" :label-width="formLabelWidth">
-        <el-upload :data="cashData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :on-success="cashSuccess" :before-upload="cashbeforeUpload">
+        <el-upload :data="cashData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="cashbeforeUpload">
           <img v-if="cashUrl" :src="cashUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -65,7 +64,7 @@
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="goback('paystatusFirst')">返回</el-button>
-      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
+      <el-button type="primary" @click="editSave()">下一步</el-button>
     </div>
   </div>
 </template>
@@ -106,7 +105,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
-import { completeConvergeProduct } from "@src/apis";
+import { upload, completeBussinessImg } from "@src/apis";
 
 export default {
   name: "",
@@ -121,6 +120,9 @@ export default {
     return {
       // rowData_: rowData,
       // 身份证正面
+      saveForm: {
+        identityFrontImg: ""
+      },
       idcardData: {
         imgType: "LEGAL_PERSON_ID_POSITIVE",
         businessNo: this.rowData.bussinessNo,
@@ -187,24 +189,24 @@ export default {
       formLabelWidth: "140px",
       payStatusForm: {},
       payStatusFormRules: {
-        idcard: [
-          { required: true, message: "请上传身份证正面图片", trigger: "blur" }
-        ],
-        idcardBack: [
-          { required: true, message: "请上传身份证反面图片", trigger: "blur" }
-        ],
-        business: [
-          { required: true, message: "请上传营业执照", trigger: "blur" }
-        ],
-        settle: [
-          { required: true, message: "请上传结算卡正面照片", trigger: "blur" }
-        ],
-        account: [
-          { required: true, message: "请上传开户许可证", trigger: "blur" }
-        ],
-        place: [{ required: true, message: "请上传门头照片", trigger: "blur" }],
-        store: [{ required: true, message: "请上传店内照片", trigger: "blur" }],
-        cash: [{ required: true, message: "请上传收银台照片", trigger: "blur" }]
+        // idcard: [
+        //   { required: true, message: "请上传身份证正面图片", trigger: "blur" }
+        // ],
+        // idcardBack: [
+        //   { required: true, message: "请上传身份证反面图片", trigger: "blur" }
+        // ],
+        // business: [
+        //   { required: true, message: "请上传营业执照", trigger: "blur" }
+        // ],
+        // settle: [
+        //   { required: true, message: "请上传结算卡正面照片", trigger: "blur" }
+        // ],
+        // account: [
+        //   { required: true, message: "请上传开户许可证", trigger: "blur" }
+        // ],
+        // place: [{ required: true, message: "请上传门头照片", trigger: "blur" }],
+        // store: [{ required: true, message: "请上传店内照片", trigger: "blur" }],
+        // cash: [{ required: true, message: "请上传收银台照片", trigger: "blur" }]
       }, // 编辑单个规则
       settleModeOptions: [
         {
@@ -221,109 +223,66 @@ export default {
 
   methods: {
     // 身份证正面
-    idcardSuccess(res, file) {
-      if (res.code == "00") {
-        this.idcardUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
     idcardbeforeUpload(file) {
-      this.imgTransform(file, "idcardData");
-
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "idcardData");
+      }
+      return false;
     },
     // 身份证反面
-    idcardBackSuccess(res, file) {
-      if (res.code == "00") {
-        this.idcardBackUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
     idcardBackbeforeUpload(file) {
-      this.imgTransform(file, "idcardBackData");
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "idcardBackData");
+      }
+      return false;
     },
     // 营业执照
-    businessSuccess(res, file) {
-      if (res.code == "00") {
-        this.businessUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
     businessbeforeUpload(file) {
-      this.imgTransform(file, "businessData");
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "businessData");
+      }
+      return false;
     },
     // 结算卡
-    settleSuccess(res, file) {
-      if (res.code == "00") {
-        this.settleUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
     settlebeforeUpload(file) {
-      this.imgTransform(file, "settleData");
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "settleData");
+      }
+      return false;
     },
     // 开户许可证
-    accountSuccess(res, file) {
-      if (res.code == "00") {
-        this.accountUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
     accountbeforeUpload(file) {
-      this.imgTransform(file, "accountData");
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "accountData");
+      }
+      return false;
     },
     //门头照片编号
-    placeSuccess(res, file) {
-      if (res.code == "00") {
-        this.placeUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
     placebeforeUpload(file) {
-      this.imgTransform(file, "placeData");
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "placeData");
+      }
+      return false;
     },
     //店内照片
-    storeSuccess(res, file) {
-      if (res.code == "00") {
-        this.storeUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
+
     storebeforeUpload(file) {
-      this.imgTransform(file, "storeData");
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "storeData");
+      }
+      return;
     },
     //收银台照片
-    cashSuccess(res, file) {
-      if (res.code == "00") {
-        this.cashUrl = URL.createObjectURL(file.raw);
-      } else {
-        this.warningMsg(res);
-      }
-    },
     cashbeforeUpload(file) {
-      this.imgTransform(file, "cashData");
-      return this.checkUpload(file);
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "cashData");
+      }
+      return;
     },
     // 上传文件格式校验
     checkUpload(file) {
       const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
-      // if (!isJPG) {
-      //   this.$message.error("上传头像图片只能是 JPG 格式!");
-      // }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
         return false;
@@ -337,51 +296,115 @@ export default {
       reader.readAsDataURL(file);
       reader.onload = function(e) {
         // base64编码
-        // console.log(this.result);
         self[where].imgString = this.result;
-        console.log(self.idcardData.imgString);
+        upload()(self[where]).then(data => {
+          if (data.code == "00") {
+            switch (where) {
+              // 身份证正面
+              case "idcardData":
+                self.idcardUrl = self[where].imgString;
+                self.saveForm.identityFrontImg = data.data;
+                break;
+              // 身份证反面
+              case "idcardBackData":
+                self.idcardBackUrl = self[where].imgString;
+                self.saveForm.identityBackImg = data.data;
+                break;
+              // 营业执照
+              case "businessData":
+                self.businessUrl = self[where].imgString;
+                self.saveForm.bussinessLicenseImg = data.data;
+                break;
+              // 结算
+              case "settleData":
+                self.settleUrl = self[where].imgString;
+                self.saveForm.settleCardImg = data.data;
+                break;
+              // 开户许可证
+              case "accountData":
+                self.accountUrl = self[where].imgString;
+                self.saveForm.accountLicenseImg = data.data;
+                break;
+              // 门头照片
+              case "placeData":
+                self.placeUrl = self[where].imgString;
+                self.saveForm.placeImg = data.data;
+                break;
+              // 店内照片
+              case "storeData":
+                self.storeUrl = self[where].imgString;
+                self.saveForm.storeImg = data.data;
+                break;
+              // 收银台照片
+              case "cashData":
+                self.cashUrl = self[where].imgString;
+                self.saveForm.cashSpaceImg = data.data;
+                break;
+            }
+          } else {
+            this.$message({
+              message: data.msg,
+              type: "warning"
+            });
+          }
+        });
       };
     },
-    editSave(formName) {
+    editSave() {
       // 编辑内容保存
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          let payStatusForm = this.payStatusForm;
-
-          let obj = {
-            customerNo: this.customerProductRowdate.bussinessNo,
-            settleMode: payStatusForm.settleMode,
-            t0CashCostFixed: payStatusForm.t0CashCostFixed,
-            wechatRate: payStatusForm.wechatRate,
-            alipayRate: payStatusForm.alipayRate
-          };
-          completeConvergeProduct()(obj).then(data => {
-            if (data.code === "00") {
-              // 下一步
-              this.$emit("nextFn", "paystatusThird");
-              // this.$message({
-              //   message: "恭喜你，修改数据成功",
-              //   type: "success",
-              //   center: true
-              // });
-              // this.editFormVisible = false;
-              // this.reloadData();
-            } else {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            }
-            console.log(data);
-          });
+      for (var i in this.saveForm) {
+        if (!this.saveForm[i]) {
+          switch (i) {
+            // 身份证正面
+            case "identityFrontImg":
+              this.warningMsg("请上传身份证正面照片");
+              break;
+            // 身份证反面
+            case "identityBackImg":
+              this.warningMsg("请上传身份证反面照片");
+              break;
+            // 营业执照
+            case "bussinessLicenseImg":
+              this.warningMsg("请上传营业执照");
+              break;
+            // 结算
+            case "settleCardImg":
+              this.warningMsg("请上传结算卡照片");
+              break;
+            // 开户许可证
+            case "accountLicenseImg":
+              this.warningMsg("请上传开户许可证照片");
+              break;
+            // 门头照片
+            case "placeData":
+              this.warningMsg("请上传门头照片");
+              break;
+            // 店内照片
+            case "storeData":
+              this.warningMsg("请上传店内照片");
+              break;
+            // 收银台照片
+            case "cashData":
+              this.warningMsg("请上传收银台照片");
+              break;
+          }
+          return false;
+        }
+      }
+      // 点击下一步提交所有图片
+      completeBussinessImg()(this.saveForm).then(res => {
+        if (res.data == "00") {
+          // 下一步
+          this.$emit("nextFn", "paystatusSuccess");
+        } else {
+          this.warningMsg(res.msg);
         }
       });
     },
     // 遗憾信息提示
-    warningMsg(data) {
+    warningMsg(msg) {
       this.$message({
-        message: data.msg,
+        message: msg,
         type: "warning",
         center: true
       });

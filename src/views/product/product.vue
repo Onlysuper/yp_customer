@@ -622,7 +622,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var addForm = this.addForm;
-          // this.resetSearchHandle();
+          this.resetSearchHandle();
           postAddProduct()({
             bussinessType: addForm.bussinessType,
             productName: addForm.productName,

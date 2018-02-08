@@ -1,9 +1,11 @@
 <template>
   <div>
-    第三部
+    <div>
+      您申请的支付功能已受理，预计会在1-3个工作日以短信方式发送到您13366666666通知您是否开通成功。
+    </div>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="editFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+      <el-button @click="editFormVisible = false">上一步</el-button>
+      <el-button type="primary" @click="editSave('editForm')">完成</el-button>
     </div>
   </div>
 </template>

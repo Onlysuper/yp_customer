@@ -987,6 +987,7 @@ export default {
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
         if (valid) {
+          // this.resetSearchHandle();
           postAddCustomerGood()({
             unionNo: addForm.unionNo,
             customerNo: addForm.customerNo,
