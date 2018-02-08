@@ -54,11 +54,11 @@ const mixinDataTable = {
         },
         // 高级搜索与普通搜索切换
         changeSearchVisible(show) {
-            if (show) {
-                // 高级搜索
-                // this.reloadData();
-                this.$refs.dataTable.unrealReload();
-            }
+            // if (show) {
+            // 高级搜索
+            // this.reloadData();
+            this.$refs.dataTable.unrealReload();
+            // }
         },
         callbackformHandle(cb, data1, data2) {
             // 表单双向绑定 得到输入的内容并返回到本页面
