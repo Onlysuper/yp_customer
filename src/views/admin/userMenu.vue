@@ -89,7 +89,7 @@
           <el-switch v-model="addForm.isParent" active-value="TRUE" inactive-value="FALSE" active-text="是" inactive-text="否">
           </el-switch>
         </el-form-item>
-        <el-form-item v-if="(addForm.isParent=='TRUE'?true:false)" label="菜单url" prop="url" :label-width="formLabelWidth">
+        <el-form-item v-if="(addForm.isParent=='TRUE'?false:true)" label="菜单url" prop="url" :label-width="formLabelWidth">
           <el-input v-model="addForm.url" auto-complete="off"></el-input>
         </el-form-item>
 

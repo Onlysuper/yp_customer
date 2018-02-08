@@ -8,7 +8,7 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">商户:{{customerSum}}个 返利:{{rebateSum}}元 中间人:{{subsidySum}}元</span>
+          <span class="sumtext">商户:{{customerSum}}个 返利:{{subsidySum}}元 中间人:{{rebateSum}}元</span>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>

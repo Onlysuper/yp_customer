@@ -3,12 +3,13 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
+      <!-- {{adminOperationAll.qr_code_reciept_audit_all}} -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 审核授权码采购 -->
-    <el-dialog center title="审核授权码采购清单" :visible.sync="checkFormVisible">
+    <el-dialog center title="授权码采购清单" :visible.sync="checkFormVisible">
       <el-form size="small" :model="checkForm" ref="checkForm" :rules="checkFormRules">
         <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="checkForm.receiptNo" auto-complete="off"></el-input>
@@ -29,18 +30,20 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible" label="号段开始" prop="" :label-width="formLabelWidth">
-            <el-input v-model="checkForm.qrcodeStart" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="checkForm.qrcodeStart" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible" label="号段结束" prop="" :label-width="formLabelWidth">
-            <el-input v-model="checkForm.qrcodeEnd" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="checkForm.qrcodeEnd" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
+        <el-row v-if="qrNumsVisible">
+          <el-col :span="11">
+            <el-form-item label="号段开始" prop="" :label-width="formLabelWidth">
+              <el-input v-model="checkForm.qrcodeStart" auto-complete="off"></el-input>
+              <!-- <el-input-number v-model="checkForm.qrcodeStart" controls-position="right"></el-input-number> -->
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="号段结束" prop="" :label-width="formLabelWidth">
+              <el-input v-model="checkForm.qrcodeEnd" auto-complete="off"></el-input>
+              <!-- <el-input-number v-model="checkForm.qrcodeEnd" controls-position="right"></el-input-number> -->
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input placeholder="多个二维码请用英文逗号分隔" v-model="checkForm.qrcodes" auto-complete="off"></el-input>
         </el-form-item>
@@ -54,7 +57,7 @@
     <!-- 审核下级授权码采购 end -->
 
     <!-- 扫码枪采购 start-->
-    <el-dialog center title="审核扫码枪采购清单" :visible.sync="checkFormVisible2">
+    <el-dialog center title="扫码枪采购清单" :visible.sync="checkFormVisible2">
       <el-form size="small" :model="checkForm2" ref="checkForm2" :rules="checkFormRules">
         <el-form-item label="服务商编号" prop="agentNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="checkForm2.agentNo" auto-complete="off"></el-input>
@@ -69,7 +72,7 @@
           <el-input v-model="checkForm2.price" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="序列号前缀" prop="prefixNo" :label-width="formLabelWidth">
-          <el-input v-model="checkForm2.prefixNo" auto-complete="off"></el-input>
+          <el-input v-model="checkForm2.prefixNo" auto-complete="off" placeholder="有前缀时必须填入前缀"></el-input>
         </el-form-item>
         <el-form-item label="分发方式" prop="migrateType" :label-width="formLabelWidth">
           <el-select v-model="checkForm2.migrateType" placeholder="请选择" @change="migrateTypeChange2">
@@ -77,20 +80,22 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible2" label="号段开始" prop="" :label-width="formLabelWidth">
-            <el-input v-model="checkForm2.qrcodeStart" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
-        <el-col :span="11">
-          <el-form-item v-if="qrNumsVisible2" label="号段结束" prop="" :label-width="formLabelWidth">
-            <el-input v-model="checkForm2.qrcodeEnd" auto-complete="off"></el-input>
-            <!-- <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number> -->
-          </el-form-item>
-        </el-col>
+        <el-row v-if="qrNumsVisible2">
+          <el-col :span="11">
+            <el-form-item label="号段开始" prop="" :label-width="formLabelWidth">
+              <el-input v-model="checkForm2.qrcodeStart" auto-complete="off" placeholder="号段不需要加前缀"></el-input>
+              <!-- <el-input-number v-model="checkForm2.qrcodeStart" controls-position="right"></el-input-number> -->
+            </el-form-item>
+          </el-col>
+          <el-col :span="11">
+            <el-form-item label="号段结束" prop="" :label-width="formLabelWidth">
+              <el-input v-model="checkForm2.qrcodeEnd" auto-complete="off" placeholder="号段不需要加前缀"></el-input>
+              <!-- <el-input-number v-model="checkForm2.qrcodeEnd" controls-position="right"></el-input-number> -->
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item v-if="qrcodesVisible2" label="扫码枪编号" prop="qrcodes" :label-width="formLabelWidth">
-          <el-input placeholder="多个扫码枪请用英文逗号分隔" v-model="checkForm.qrcodes" auto-complete="off"></el-input>
+          <el-input placeholder="多个扫码枪请用英文逗号分隔" v-model="checkForm2.qrcodes" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -145,9 +150,13 @@ export default {
     return {
       // 授权码
       checkFormVisible: false,
+
+      checkFormVisible2: false,
       migrateTypeVisible: false,
       qrNumsVisible: false,
       qrcodesVisible: false,
+      qrNumsVisible2: false,
+      qrcodesVisible2: false,
       checkFormRules: {
         price: [
           { required: true, message: "采购单价不能为空", trigger: "blur" }
@@ -159,9 +168,7 @@ export default {
       checkForm: {},
 
       // 扫码枪
-      checkFormVisible2: false,
-      qrNumsVisible2: false,
-      qrcodesVisible2: false,
+
       checkFormRules2: {
         price: [
           { required: true, message: "采购单价不能为空", trigger: "blur" }
@@ -438,7 +445,7 @@ export default {
               cb: rowdata => {
                 this.checkForm2 = rowdata;
                 this.checkFormVisible2 = true;
-                this.showScancodegunOrderDiv(true);
+                // this.showScancodegunOrderDiv(true);
               }
             }
           ]
@@ -525,6 +532,9 @@ export default {
     },
     migrateTypeChange1(value) {
       console.log(value);
+      this.checkForm.qrcodes = "";
+      this.checkForm.qrcodeStart = "";
+      this.checkForm.qrcodeEnd = "";
       if (value == "ORDER") {
         //号段转移
         this.qrNumsVisible = true;
@@ -536,6 +546,9 @@ export default {
       }
     },
     migrateTypeChange2(value) {
+      this.checkForm2.qrcodes = "";
+      this.checkForm2.qrcodeStart = "";
+      this.checkForm2.qrcodeEnd = "";
       if (value == "ORDER") {
         //号段转移
         this.qrNumsVisible2 = true;
@@ -552,12 +565,12 @@ export default {
     isShowDistributeType(isShow) {
       if (!isShow) {
         this.migrateTypeVisible = false;
-        this.qrNumsVisible = false;
-        this.qrcodesVisible = false;
+        // this.qrNumsVisible = false;
+        // this.qrcodesVisible = false;
       } else {
         this.migrateTypeVisible = true;
-        this.qrNumsVisible = true;
-        this.qrcodesVisible = true;
+        // this.qrNumsVisible = true;
+        // this.qrcodesVisible = true;
       }
     },
     /**

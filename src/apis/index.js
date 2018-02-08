@@ -38,6 +38,13 @@ const getBillprofitSum = () => { return (params) => { return http.get(base.oaIp,
 // end -------------------------------------------------
 
 /**
+**聚合支付分润start
+ */
+const getpayProfits = () => { return (params) => { return http.get(base.oaIp, "/payProfit/page", params) } }
+// end -------------------------------------------------
+
+
+/**
 **开票统计start
  */
 const getBillcountagents = () => { return (params) => { return http.get(base.oaIp, "/billcountagent/page", params) } }
@@ -234,6 +241,11 @@ const setUsingVersion = () => { return (params) => { return http.post(base.oaIp,
  */
 const postBurialPointCharts = () => { return (params) => { return http.post(base.oaIp, "/operatorlog/chart", params) } }
 // end -------------------------------------------------
+/**
+**开票图表Start
+ */
+const getBillrecordCharts = () => { return (params) => { return http.post(base.oaIp, "/billrecord/chart", params) } }
+// end -------------------------------------------------
 
 /**
 **埋点管理Start
@@ -243,16 +255,38 @@ const getBurialPointTotal = () => { return (params) => { return http.post(base.o
 // end -------------------------------------------------
 
 /**
-**结算统计Start
+**结算管理Start
  */
 const getSettles = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
-// end -------------------------------------------------
-/**
-**代理商结算统计Start
- */
-const getAgentSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
+const postUpdateSettles = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateSettle", params) } }
+const getAgentSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
 // end -------------------------------------------------
 
+
+/**
+**资质补充
+ */
+const postEnterpriseSupplys = () => { return (params) => { return http.post(base.oaIp, "/enterprisesupply/page", params) } }
+const postAddEnterpriseSupply = () => { return (params) => { return http.post(base.oaIp, "/enterprisesupply/add", params) } }
+// end -------------------------------------------------
+
+/**
+**我的产品Start
+ */
+const getCustomerOpenProducts = () => { return (params) => { return http.get(base.oaIp, "/userProductStatus/page", params) } }
+const postCustomerOpenProductSearch = () => { return (params) => { return http.post(base.oaIp, "/userproduct/query/cost", params) } }
+const getCustomerEchoProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomerConverge", params) } }
+const completeSettleInfo = () => { return (params) => { return http.post(base.oaIp, "/customer/completeSettleInfo", params) } }
+const completeConvergeProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/completeConvergeProduct", params) } }
+const completeBussinessImg = () => { return (params) => { return http.post(base.oaIp, "/customer/completeBussinessImg", params) } }
+const upload = () => { return (params) => { return http.post(base.oaIp, "/bussinessImg/upload", params) } }
+// end -------------------------------------------------
+
+/**
+**交易管理-订单查询
+ */
+
+const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/operator/page", params) } }
 
 /**
  **商户版本管理Start
@@ -275,6 +309,8 @@ export {
     // 快速开票分润
     getBillprofits,
     getBillprofitSum,
+    //聚合支付分润
+    getpayProfits,
     //开票统计
     getBillcountagents,
     getBillcountSum,
@@ -383,7 +419,26 @@ export {
     getBillrecordCharts,
     // 结算统计
     getSettles,
+    postUpdateSettles,
     //代理商结算统计
-    getAgentSettle
+    getAgentSettle,
+    getAgentSettleSum,
+    // 统计
+    getSettle,
+    getSettleSum,
+    postUpdateSettle,
+    //资质管理
+    postEnterpriseSupplys,
+    postAddEnterpriseSupply,
+    //我的产品
+    getCustomerOpenProducts,
+    postCustomerOpenProductSearch,
+    getCustomerEchoProduct,
+    completeSettleInfo,
+    completeConvergeProduct,
+    completeBussinessImg,
+    upload,
+    //交易订单查询
+    getPayOrders,
 };
 

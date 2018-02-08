@@ -2,7 +2,7 @@
   <div class="upload-view">
     <div class="upload-view-btn" @click="showUpload = true">
       <img v-if="base64" :src="base64" alt="">
-      <i class="icon-admin icon"></i>
+      <i v-if="!base64" class="icon-admin icon"></i>
     </div>
     <span>{{label}}</span>
     <upload v-model="showUpload" @upresult="upresult" :label="desc" :upType="upType"></upload>
@@ -64,6 +64,10 @@ export default {
       type: String,
       default: ""
     },
+    customerNo: {
+      type: String,
+      default: ""
+    },
     desc: {
       type: String,
       default: "拍摄的照片尽量充满相框，无反光，无水印，清晰可见"
@@ -82,10 +86,15 @@ export default {
         text: "正在上传...",
         spinnerType: "fading-circle"
       });
-      upload()({ type: this.upType, imgSource: base64 }).then(data => {
+      upload()({
+        businessNo: this.customerNo,
+        businessType: "customer",
+        imgType: this.upType,
+        imgString: base64
+      }).then(data => {
         Indicator.close();
-        if (data.resultCode === "0") {
-          this.$emit("result", this.dataKey, data.data.mediaId);
+        if (data.code === "00") {
+          this.$emit("result", this.dataKey, data.data);
           this.setImg(base64);
         } else {
           Toast(data.resultMsg);

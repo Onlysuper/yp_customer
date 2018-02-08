@@ -10,12 +10,12 @@
         <mt-field type="text" label="商户编号" placeholder="请输入商户编号" :disabled="false" :disableClear="false" :readonly="false" v-model="customer.customerNo" v-if="pageType == 'ADD'"></mt-field>
         <div @click="setSheet('deviceTypes')">
           <mt-field type="text" label="设备类型" placeholder="请选择设备类型" :value="customer.deviceType | handleDeviceType" :disabled="true" :disableClear="true" :readonly="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
         </div>
         <div @click="setSheet('clientTypes')">
           <mt-field type="text" label="客户端类型" placeholder="请选择客户端类型" :value="customer.clientType | handleClientType" :disabled="true" :disableClear="true" :readonly="true">
-            <i class="icon-admin"></i>
+            <i class="icon-arrow"></i>
           </mt-field>
         </div>
         <mt-field type="text" label="设备编号" placeholder="请输入设备编号" v-model="customer.deviceNo"></mt-field>

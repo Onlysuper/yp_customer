@@ -10,7 +10,7 @@ import home from "./home/home";
 import customerManage from "./customer/customerManage";
 import customerGoods from "./customer/customerGoods";
 import customerInvoiceConfig from "./customer/customerInvoiceConfig";
-import customerProduct from "./customer/customerProduct";
+import customerProduct from "./product/customerProduct";
 import customerProductConfigure from "./customer/customerProductConfigure";
 import billCount from "./billmanage/billCount";
 import billRecord from "./billmanage/billRecord";
@@ -35,6 +35,8 @@ import customerVersion from "./version/customerVersion";
 import versionManage from "./version/versionManage";
 import agentSettle from "./settle/agentSettle";
 import settle from "./settle/settle";
+import enterpriseSupply from "./enterprise/enterpriseSupply";
+import orderQuery from "./order/orderQuery";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
@@ -74,7 +76,9 @@ const asyncRouter = [
     customerVersion, // 商户版本
     versionManage, //版本管理
     agentSettle,// 代理商结算统计
-    settle// 结算统计
+    settle,// 结算统计
+    enterpriseSupply,// 自制补充
+    orderQuery//订单查询
 ];
 // 路由过滤
 

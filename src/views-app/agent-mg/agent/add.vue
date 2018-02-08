@@ -17,13 +17,13 @@
         <view-radius class="spacing-20">
           <input-wrapper>
             <mt-field type="text" label="经营区域" v-model="city.resultAddr" @click.native="cityVisible = true" v-readonly-ios :readonly="true" placeholder="请选择经营区域">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field>
             <mt-field type="text" label="所属银行" v-model="bank.value" @click.native="bankVisible = true" v-readonly-ios :readonly="true" placeholder="请选择所属银行">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field>
             <mt-field type="text" label="选择支行" v-model="bankBranch.branchName" @click.native="openBankBranch" v-readonly-ios :readonly="true" placeholder="请选择所属银行">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field>
             <mt-field type="text" label="对公账户" v-model="agent.accountNo" placeholder="请输入对公账户" :attr="{maxlength:100}"></mt-field>
             <mt-field type="text" label="收款人" v-model="agent.accountName" placeholder="请输入收款人" :attr="{maxlength:20}"></mt-field>
@@ -37,7 +37,7 @@
             </mt-cell>
           </input-wrapper>
         </view-radius>
-        <mt-button class="btn-margin" size="large" type="danger" :disabled="false" @click="save">提交</mt-button>
+        <mt-button class="btn-margin" size="large" type="primary" :disabled="false" @click="save">提交</mt-button>
       </div>
     </full-page>
     <city-picher ref="CityPicher" v-model="cityVisible" :resultCallback="resultCallback"></city-picher>

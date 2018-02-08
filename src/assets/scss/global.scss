@@ -5,7 +5,16 @@ body{
   color:$globalColor;
   font-size:30*$rem;
 }
+.clear:after{content:'';display:block;clear:both;height:0;overflow:hidden;visibility:hidden;}
+.clear{zoom:1;}
+.form-required::after{
+    content: "*";
+    display: inline-block;
+    color: red;
+    text-align: right;
+    font-size: 15px;
 
+}
 .g-b-c{
   background-color: $globalBackroundColor;
 }

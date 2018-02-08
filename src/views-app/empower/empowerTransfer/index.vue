@@ -2,7 +2,7 @@
   <!-- 开票统计 -->
   <div class="page">
     <full-page class="page" ref="FullPage">
-      <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'billCountSearch'})">搜索</mt-button>
       </mt-header>
@@ -42,6 +42,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getArantNumManages,
+      count: 0,
       actions: []
     };
   },
@@ -64,7 +65,8 @@ export default {
     this.$refs.MypLoadmoreApi.load();
   },
   methods: {
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("QRCODEMIGRATE_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODEMIGRATE_SEARCH", false);
     }

@@ -13,6 +13,32 @@ mypFilters.install = function (Vue, options) {
         return value === "YEEPIAO" ? '易票' : '中付';
     })
     /**
+        * 商户来源
+        */
+    Vue.filter('customerFrom', function (value) {
+        switch (value) {
+            case "OPEN_API":
+                value = "第三方";
+                break;
+            case "PLUGIN":
+                value = "插件";
+                break;
+            case "LOCAL":
+                value = "后台";
+                break;
+            case "SCAN_CODE":
+                value = "扫码";
+                break;
+            case "OFFICAL_ACCOUNT":
+                value = "公众号";
+                break;
+            case "SLIENT":
+                value = "静默";
+                break;
+        }
+        return value;
+    })
+    /**
      * 来源
      */
     Vue.filter('handleFrom', function (value) {
@@ -182,6 +208,32 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    Vue.filter('enterprisesupplyStatus', function (value) {
+        switch (value) {
+            case "INIT":
+                value = "未处理";
+                break;
+            case "SUCCESS":
+                value = "已处理";
+                break;
+            case "FAIL":
+                value = "失败";
+                break;
+        }
+        return value;
+    })
+    Vue.filter('settleMode', function (value) {
+        switch (value) {
+            case "T0":
+                value = "已开通";
+                break;
+            case "T1":
+                value = "未开通";
+                break;
+        }
+        return value;
+    })
+
     /**
      * 状态
      */
@@ -338,6 +390,29 @@ mypFilters.install = function (Vue, options) {
                 break;
             case "ALIPAY_COST":
                 value = "支付宝支付";
+                break;
+            default:
+                value = "未知";
+        }
+        return value;
+    })
+
+    /**
+     * 商户产品类型
+     */
+    Vue.filter('handleProductOpenStatus', function (value) {
+        switch (value) {
+            case "TRUE":
+                value = "已开通";
+                break;
+            case "INIT":
+                value = "未开通";
+                break;
+            case "REJECT":
+                value = "被拒绝";
+                break;
+            case "CHECKING":
+                value = "待审核";
                 break;
             default:
                 value = "未知";

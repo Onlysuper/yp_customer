@@ -25,7 +25,7 @@ export default {
         //合伙人编号
         agentNo: "",
         //是否包含下级
-        containChild: "",
+        containChild: "TRUE",
         //入网来源
         customerFrom: "",
         //开始时间

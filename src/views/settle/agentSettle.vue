@@ -8,7 +8,7 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">商户:{{customerSum}}个 返利:{{rebateSum}}元 中间人:{{subsidySum}}元</span>
+          <span class="sumtext">达标商户数量:{{customerNumber}} 结算金额:{{settlePrice}}</span>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -33,7 +33,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
-import { getAgentSettle, getBillprofitSum } from "@src/apis";
+import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -49,11 +49,13 @@ export default {
       status: "" // 结算状态
     };
     return {
-      customerSum: 0,
-      rebateSum: 0,
-      subsidySum: 0,
+      customerNumber: 0,
+      settlePrice: 0,
       sumLoading: false,
       formLabelWidth: "100px",
+      detailsFormVisible: false,
+      editFormVisible: false,
+      editForm: {},
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -86,7 +88,7 @@ export default {
           corresattr: "status",
           type: "select",
           label: "结算状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -111,66 +113,12 @@ export default {
           }
         }
       ],
-      operation: {
-        width: "120px",
-        options: [
-          // 操作按钮
-          {
-            text: "详情",
-            color: "#00c1df",
-            visibleFn: rowdata => {
-              //已确认
-              if (rowdata.status == "TRUE") {
-                return true;
-              } else {
-                return false;
-              }
-            },
-            cb: rowdata => {
-              // this.editForm = rowdata;
-              // this.editFormVisible = true;
-            }
-          },
-          {
-            text: "详情",
-            color: "#00c1df",
-            visibleFn: rowdata => {
-              //待确认
-              if (rowdata.status == "FALSE") {
-                return true;
-              } else {
-                return false;
-              }
-            },
-            cb: rowdata => {
-              // this.editForm = rowdata;
-              // this.editFormVisible = true;
-            }
-          },
-          {
-            text: "详情",
-            color: "#00c1df",
-            visibleFn: rowdata => {
-              //已结算
-              if (rowdata.status == "SUCCESS") {
-                return true;
-              } else {
-                return false;
-              }
-            },
-            cb: rowdata => {
-              // this.editForm = rowdata;
-              // this.editFormVisible = true;
-            }
-          }
-        ]
-      },
 
       // 列表数据
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getAgentSettle // 初始化数据
+          url: getSettles // 初始化数据
         },
         summary: {
           is: false
@@ -198,32 +146,81 @@ export default {
             key: "结算金额",
             width: "",
             word: "settlePrice"
+          },
+          {
+            key: "结算状态",
+            width: "",
+            word: "settleStatus",
+            status: true,
+            type: data => {
+              if (data === "TRUE") {
+                return {
+                  text: "已确认",
+                  type: ""
+                };
+              } else if (data === "FALSE") {
+                return {
+                  text: "待确认",
+                  type: "info"
+                };
+              } else if (data === "SUCCESS") {
+                return {
+                  text: "已结算",
+                  type: "success"
+                };
+              } else {
+                return {
+                  text: data,
+                  type: "info"
+                };
+              }
+            }
           }
-          // {
-          //   key: "结算状态",
-          //   width: "",
-          //   word: "settleStatus",
-          //   status: true,
-          //   type: data => {
-          //     if (data === "TRUE") {
-          //       return {
-          //         text: "已结算",
-          //         type: "success"
-          //       };
-          //     } else if (data === "FALSE") {
-          //       return {
-          //         text: "未结算",
-          //         type: "info"
-          //       };
-          //     } else {
-          //       return {
-          //         text: data,
-          //         type: "info"
-          //       };
-          //     }
-          //   }
-          // }
-        ]
+        ],
+        operation: {
+          width: "120px",
+          options: [
+            // 操作按钮
+            {
+              text: "待确认",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                //已确认
+                if (rowdata.status == "FALSE") {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                // 确认结算订单金额
+                this.$confirm("此操作将确认结算订单金额, 是否继续?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                }).then(() => {
+                  postUpdateSettles()({
+                    agentNo: rowdata.agentNo,
+                    settleNo: rowdata.settleNo
+                  }).then(data => {
+                    if (data.code == "00") {
+                      this.$message({
+                        type: "success",
+                        message: "已确认"
+                      });
+                    } else {
+                      this.$message({
+                        type: "warning",
+                        message: data.msg
+                      });
+                    }
+                    this.reloadData();
+                  });
+                });
+              }
+            }
+          ]
+        }
       }
     };
   },
@@ -233,19 +230,15 @@ export default {
     SumHandle() {
       this.sumLoading = true;
       var searchCondition = this.searchCondition;
-      getBillprofitSum()({
-        customerNo: searchCondition.customerNo,
-        enterpriseName: searchCondition.enterpriseName,
-        agentNo: searchCondition.agentNo,
-        containChild: searchCondition.containChild,
-        settleStatus: searchCondition.settleStatus,
-        dataTime: searchCondition.dataTime
+      getAgentSettleSum()({
+        createTimeStart: searchCondition.createTimeStart,
+        createTimeEnd: searchCondition.createTimeEnd,
+        status: searchCondition.status
       }).then(res => {
         if (res.code == "00") {
           var data = res.data;
-          this.customerSum = data.customerSum;
-          this.rebateSum = data.rebateSum;
-          this.subsidySum = data.subsidySum;
+          this.customerNumber = data.customerNumber;
+          this.settlePrice = data.settlePrice;
         }
         this.sumLoading = false;
       });

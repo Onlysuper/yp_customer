@@ -1,29 +1,50 @@
 <template>
-  <mt-popup v-model="visible" position="bottom" class="upload-container" :modal="false">
-    <full-page>
-      <mt-header slot="header" title="拍照示例图">
-        <mt-button slot="left" :disabled="false" type="danger" @click="visible=false">取消</mt-button>
-      </mt-header>
-      <div class="view-waper">
-        <div class="view-main">
-          <img class="view-demo" :src="demoImg[upType]" alt="">
-          <span class="view-info">{{label}}</span>
+  <div class="upload-container" @touchmove.prevent v-if="visible">
+    <!-- 主体 -->
+    <mt-popup v-model="visible" position="bottom" class="upload-main" :modal="false">
+      <full-page>
+        <mt-header slot="header" title="拍照示例图">
+          <mt-button slot="left" :disabled="false" type="danger" @click="visible=false">取消</mt-button>
+        </mt-header>
+        <div class="view-waper">
+          <div class="view-main">
+            <img class="view-demo" :src="demoImg[upType]" alt="">
+            <span class="view-info">{{label}}</span>
+          </div>
         </div>
-      </div>
-      <div slot="tabar" class="view-btn">
-        <input type="file" accept="image/*" @change="inputChange" class="input-file">
-        <i class="icon-admin icon"></i>
-      </div>
-    </full-page>
-  </mt-popup>
+        <div slot="tabar" class="view-btn">
+          <input type="file" accept="image/*" @change="inputChange" class="input-file">
+          <i class="icon-admin icon"></i>
+        </div>
+      </full-page>
+    </mt-popup>
+    <!-- 遮罩层 -->
+    <div class="mask" @touchmove.prevent @click="visible = false"></div>
+  </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../../assets/scss/base.scss";
 .upload-container {
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
-  height: 70%; // background: red;
-  text-align: center;
+  height: 100%;
+  z-index: 1000;
+  .mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .upload-main {
+    width: 100%;
+    height: 70%; // background: red;
+    text-align: center;
+  }
   .view-waper {
     height: 100%;
     display: flex;

@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -164,10 +164,10 @@
           <span class="line-label">手机号:</span>{{detailsForm.phoneNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户编号:</span>{{detailsForm.agentNo}}
+          <span class="line-label">商户编号:</span>{{detailsForm.customerNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom}}
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | customerFrom}}
         </div>
       </div>
 
@@ -670,7 +670,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postAddCustomer()(this.addForm).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -710,11 +710,6 @@ export default {
       // 批量转移文件上传成功
       if (res.data == "00") {
         this.batchTransferFormVisible = false;
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
           message: "上传失败",
@@ -729,14 +724,9 @@ export default {
       // 批量入网文件上传成功
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
-          message: "上传失败",
+          message: res.msg,
           type: "warning"
         });
       }
@@ -748,14 +738,9 @@ export default {
     handleElectronicOpenSuccess(res, file) {
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
-          message: "上传失败",
+          message: res.msg,
           type: "warning"
         });
       }
@@ -767,7 +752,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postEditCustomer()(this.editForm).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -776,7 +761,12 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              console.log(this.searchCondition);
+              this.reloadData(
+                this.postPage,
+                this.postLimit,
+                this.searchCondition
+              );
             } else {
               this.$message({
                 message: data.msg,

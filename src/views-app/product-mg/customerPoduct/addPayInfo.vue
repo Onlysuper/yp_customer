@@ -10,24 +10,24 @@
         <view-radius>
           <input-wrapper>
             <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="详细地址:" type="text" placeholder="如：古美路1468号" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="法人:" type="text" placeholder="输入法人姓名" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="身份证号:" type="text" placeholder="输入身份证号" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="法人:" type="text" v-model="form.legalPerson" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
+            <mt-field label="身份证号:" type="text" v-model="form.idCard" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="邮箱:" type="email" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field>
-            <mt-radio title="结算信息" :options="[{ label: '对公',value: 'COMMON' },{ label: '对私',value: 'PERSONAL' }]" class="mint-radiolist-row border-1px"></mt-radio>
-            <mt-field label="账户名称:" type="text" placeholder="请输入账户名称"></mt-field>
+            <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field>
+            <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
+            <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称"></mt-field> -->
             <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field>
             <mt-field label="开户支行:" type="text" v-model="bankBranch.branchName" @click.native="openBankBranch" placeholder="选择开户支行" v-readonly-ios :readonly="true">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="帐号:" type="tel" placeholder="请输入帐号"></mt-field>
+            <mt-field label="帐号:" type="tel" v-model="form.accountNo" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="预留手机号:" type="tel" v-model="form.phoneNo" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
           </input-wrapper>
         </view-radius>
       </div>
@@ -49,7 +49,12 @@ import bussinessTypeJson from "@src/data/bussinessType.json";
 import BankPopup from "@src/components-app/BankPopup";
 import BankBranchPopup from "@src/components-app/BankBranchPopup";
 import BankSearchPopup from "@src/components-app/BankSearchPopup";
-import { getBankList } from "@src/apis";
+import {
+  getBankList,
+  getCustomerEchoProduct,
+  completeSettleInfo
+} from "@src/apis";
+import { mapActions, install } from "vuex";
 export default {
   components: {
     CityPicher,
@@ -66,6 +71,10 @@ export default {
       bankBranchVisible: false,
       bankSearchVisible: false,
       bankSearchApi: getBankList,
+      form: {
+        accountType: "1",
+        legalPerson: ""
+      },
       city: {},
       //银行信息
       bank: {},
@@ -74,10 +83,53 @@ export default {
       //支行信息
       bankBranch: {},
       slotsActions: bussinessTypeJson,
-      bussinessType: { name: "", code: "" }
+      bussinessType: { name: "", code: "" },
+      customerNo: this.$route.query["customerNo"]
     };
   },
+  created() {
+    getCustomerEchoProduct()({
+      customerNo: this.customerNo,
+      featureType: "CONVERGE_PAY"
+    }).then(data => {
+      if (data.code == "00") {
+        //回显信息
+        this.echoForm(data.data);
+        //保存到localStorage中
+        // localStorage.setItem("echo_form", JSON.stringify(data.data));
+      } else {
+        this.Toast(data.msg);
+      }
+    });
+  },
   methods: {
+    echoForm(data) {
+      let { customer, settleCard } = data;
+      if (customer instanceof Object) {
+        let city = this.$refs.CityPicher.findCity(customer.orgCode);
+        this.resultCallback(city);
+        this.form.legalPerson = customer.legalPerson;
+        this.form.idCard = customer.idCard;
+        this.form.contactEmail = customer.contactEmail;
+        let bussinessType = bussinessTypeJson.find(
+          item => item.code == customer.category
+        );
+        this.confirm(bussinessType || {});
+      }
+      if (settleCard instanceof Object) {
+        this.bankResult({
+          value: settleCard.bankName,
+          key: settleCard.bankCode
+        });
+        this.bankRsearchResult({
+          branchName: settleCard.branchName,
+          unionCode: settleCard.unionCode
+        });
+        this.form.accountType = settleCard.accountType;
+        this.form.accountNo = settleCard.accountNo;
+        this.form.phoneNo = settleCard.phoneNo;
+      }
+    },
     //地区选择回调函数
     resultCallback(obj) {
       this.city = obj;
@@ -119,12 +171,32 @@ export default {
       this.bankSearchVisible = false;
       this.bankBranchVisible = false;
       this.bankBranch = resultObj;
-      console.log(this.bankBranch);
     },
 
     //提交
     submit() {
-      this.$router.push({ path: "./addGoods" });
+      let form = {
+        ...this.form,
+        customerNo: this.customerNo,
+        orgCode: this.city.resultCode,
+        category: this.bussinessType.code,
+        unionCode: this.bankBranch.unionCode,
+        branchName: this.bankBranch.branchName,
+        bankCode: this.bank.key,
+        bankName: this.bank.value
+      };
+      // console.log(form);
+
+      completeSettleInfo()(form).then(data => {
+        if (data.code == "00") {
+          this.$router.push({
+            path: "./addGoods",
+            query: { customerNo: this.customerNo }
+          });
+        } else {
+          this.Toast(data.msg);
+        }
+      });
     }
   }
 };

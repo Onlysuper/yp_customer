@@ -38,7 +38,7 @@ axios.interceptors.response.use(function (response) {
     if (window.isMobile == "App") {
         Indicator.close();
     }
-    return Promise.resolve(error.response);
+    // return Promise.resolve(error.response);
 })
 
 function checkStatus(response) {

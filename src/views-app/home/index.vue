@@ -20,13 +20,13 @@
 
     <mt-tabbar slot="tabar" class="g-b-c tabbar no-absolute" v-model="selected">
       <mt-tab-item id="首页">
-        <i slot="icon" class="icon-admin tab-icon-center"></i>首页
+        <i slot="icon" class="icon-my tab-icon-center"></i>首页
       </mt-tab-item>
       <mt-tab-item id="业务">
-        <i slot="icon" class="icon-admin tab-icon-center"></i>业务
+        <i slot="icon" class="icon-business tab-icon-center"></i>业务
       </mt-tab-item>
       <mt-tab-item id="我的">
-        <i slot="icon" class="icon-admin tab-icon-center"></i>我的
+        <i slot="icon" class="icon-Home-page tab-icon-center"></i>我的
       </mt-tab-item>
     </mt-tabbar>
   </full-page>

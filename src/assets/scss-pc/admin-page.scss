@@ -11,8 +11,9 @@
     display: flex;
     flex-direction: column;
     .tablelist-box{
-      display: block;
-      width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
       &::after{
         content: "";
         display: block;
@@ -31,7 +32,16 @@
       // flex: 1;
       // overflow: hidden
     }
+     .line-box-center {
+         padding: 4px 0;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom:1px solid #ebeef5
+      }
     .detail-content {
+     
       .line-label-box {
         padding: 4px 0;
         display: flex;
@@ -88,12 +98,12 @@
     .admin-main-box {
       padding: 10px;
       position: relative;
-      display: block;
-      // height: 100%;
+      // display: block;
+      height: 100%;
       // width: 100%;
-      // background: #fff;
-      // display: flex;
-      // flex-direction: column
+      background: #fff;
+      display: flex;
+      flex-direction: column
     }
     .form-box {
       margin-top: 10px;

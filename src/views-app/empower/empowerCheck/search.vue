@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.billCount.searchQuery
+      searchQuery: state => state.empowerCheck.searchQuery
     })
   },
   mounted() {
@@ -56,11 +56,11 @@ export default {
       this.searchConfig.push({
         title: "状态",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.status,
+        defaultValue: this.searchQuery.status || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "待审核",
@@ -76,6 +76,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
             status: value
           });
@@ -84,11 +85,11 @@ export default {
       this.searchConfig.push({
         title: "设备类型",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.receiptType,
+        defaultValue: this.searchQuery.receiptType || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "授权码",
@@ -100,6 +101,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
             receiptType: value
           });

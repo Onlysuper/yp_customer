@@ -2,6 +2,7 @@
 // 授权码审核
 import { putAdoptArantNumExamine, putRefuseArantNumExamine } from "@src/apis";
 import { Toast } from "mint-ui";
+import utils from "@src/common/utils";
 export default {
   state: {
     list: [],
@@ -15,7 +16,13 @@ export default {
     ["QRCODERECIEPTAUDIT_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
-      state.searchQuery = {};
+      state.searchQuery = {
+        receiptNo: "",
+        createTimeStart: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        createTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        status: "",
+        receiptType: "AUTHCODE"
+      };
       console.info("授权码审核数据加载完成");
     },
     //设置商品列表

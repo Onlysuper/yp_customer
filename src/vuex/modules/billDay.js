@@ -3,6 +3,7 @@
 import { } from "@src/apis";
 import { eightday, yesterday } from "@src/common/dateSerialize";
 import { Toast } from "mint-ui";
+import utils from "@src/common/utils";
 export default {
   state: {
     list: [],
@@ -17,8 +18,9 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
-        dataTimeBegin: eightday,
-        dataTimeEnd: yesterday,
+        dataTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        dataTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        containChild: "TRUE",
       };
       console.info("日开票记录数据加载完成");
     },

@@ -84,6 +84,33 @@ export default {
         }
       });
       this.searchConfig.push({
+        title: "是否包含下级",
+        type: "myp-radio-list",
+        defaultValue: this.searchQuery.containChild || "ALL",
+        options: [
+          {
+            label: "全部",
+            value: "ALL"
+          },
+          {
+            label: "包含下级",
+            value: "TRUE"
+          },
+          {
+            label: "不包含下级",
+            value: "FALSE"
+          }
+        ],
+        cb: value => {
+          if (value == "ALL") {
+            value = "";
+          }
+          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
+            containChild: value
+          });
+        }
+      });
+      this.searchConfig.push({
         title: "状态",
         type: "myp-radio-list",
         defaultValue: this.searchQuery.status || "ALL",
@@ -117,11 +144,11 @@ export default {
       this.searchConfig.push({
         title: "设备类型",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.receiptType,
+        defaultValue: this.searchQuery.receiptType || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "授权码",
@@ -133,6 +160,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
             receiptType: value
           });
@@ -141,11 +169,11 @@ export default {
       this.searchConfig.push({
         title: "是否有物料",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.materiel,
+        defaultValue: this.searchQuery.materiel || "ALL",
         options: [
           {
             label: "全部",
-            value: ""
+            value: "ALL"
           },
           {
             label: "有物料",
@@ -157,6 +185,7 @@ export default {
           }
         ],
         cb: value => {
+          if (value == "ALL") value = "";
           this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
             materiel: value
           });

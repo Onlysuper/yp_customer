@@ -1,13 +1,16 @@
 <template>
   <div class="myp-select-container" @touchmove.prevent v-if="visible">
+    <!-- 主体 -->
+    <mt-popup v-model="visible" position="bottom" class="myp-picker" :modal="false">
+      <mt-picker :slots="slots" valueKey="name" @change="change" :visibleItemCount="7" :itemHeight="36" :showToolbar="true">
+        <span class="mint-datetime-action mint-datetime-cancel" @click="close">取消</span>
+        <span class="mint-datetime-action mint-datetime-confirm" @click="okBtn">确定</span>
+      </mt-picker>
+    </mt-popup>
     <!-- 遮罩层 -->
     <div class="myp-picker-mask" ref="selectPicherMask" @touchmove.prevent @click="close"></div>
-    <!-- 主体 -->
-    <div class="myp-picker">
-      <mt-picker :slots="slots" valueKey="name" @change="change" :visibleItemCount="5" :itemHeight="36" :showToolbar="true">请选择</mt-picker>
-      <mt-button class="okBtn" size="large" :disabled="false" @click="okBtn">确定</mt-button>
-    </div>
   </div>
+
 </template>
 
 
@@ -85,24 +88,13 @@ export default {
 @import "../../assets/scss/base.scss";
 .myp-select-container {
   .picker-toolbar {
-    text-align: center;
-    line-height: 40px;
-    color: #343434;
-    font-size: 20px;
+    border-bottom: solid 1px #eaeaea;
   }
 }
 </style>
 
 <style lang="scss" scoped>
 @import "../../assets/scss/base.scss";
-@keyframes myp-picker {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
 .myp-select-container {
   position: fixed;
   left: 0;
@@ -119,26 +111,9 @@ export default {
     background: rgba(0, 0, 0, 0.5);
   }
   .myp-picker {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    width: 650*$rem;
-    height: 270px;
-    left: 0;
-    top: 0;
-    background: rgba(255, 255, 255, 0.9);
-    color: #fff;
-    border-radius: 10*$rem;
-    border: 1px solid #ccc;
-    padding: 20*$rem;
-    animation: myp-picker 0.3s both;
-
-    .okBtn {
-      margin: 20*$rem 0;
-    }
+    width: 100%;
+    height: 300px;
+    background: rgba(255, 255, 255, 1);
   }
 }
 </style>
