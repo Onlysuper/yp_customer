@@ -56,7 +56,8 @@ const mixinDataTable = {
         changeSearchVisible(show) {
             if (show) {
                 // 高级搜索
-                this.reloadData();
+                // this.reloadData();
+                this.$refs.dataTable.unrealReload();
             }
         },
         callbackformHandle(cb, data1, data2) {
