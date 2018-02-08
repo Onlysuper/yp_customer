@@ -99,7 +99,7 @@ export default {
           corresattr: "containChild",
           type: "select",
           label: "下级",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "TRUE",
           options: [
             {

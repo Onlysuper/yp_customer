@@ -1,6 +1,5 @@
 <template>
   <div class="admin-page">
-    哈哈哈哈
     <div class="admin-main-box">
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>

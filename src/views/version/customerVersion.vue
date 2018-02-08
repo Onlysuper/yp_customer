@@ -113,7 +113,7 @@ export default {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: false,
+          show: true,
           value: "",
           options: [
             {
@@ -206,6 +206,11 @@ export default {
                 case "DATA_COLLECTION":
                   return {
                     text: "数据采集程序",
+                    type: "danger"
+                  };
+                case "MANUAL":
+                  return {
+                    text: "其他",
                     type: "danger"
                   };
                 default:

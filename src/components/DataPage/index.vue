@@ -2,7 +2,8 @@
   <!-- 表格与分页展示区域 -->
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
-    <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :max-height="tableHeight" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
+    <!-- <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true"> -->
+    <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :width="item.width" :sortable="item.sortable">
@@ -158,7 +159,7 @@
 .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-thumb {
   border-radius: 0.2rem;
   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #c6c6c6;
+  background-color: #989797;
 }
 </style>
 <script>
@@ -199,8 +200,6 @@ export default {
     },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
-      // console.log(JSON.stringify({ aa: searchCondition }));
-      // console.log("开始查询了" + searchCondition + "--" + limit + "-" + page);
       this.ifloading = true;
       this.getUrl()({
         page: page,
@@ -214,6 +213,7 @@ export default {
           if (this.dataSuccess != "" && this.dataSuccess != null) {
             this.$emit("operation", data, this.dataSuccess);
           }
+          this.ifloading = false;
         } else {
           // alert(1);
           this.$message({
@@ -229,7 +229,6 @@ export default {
     handleSizeChange(val) {
       // 改变页数
       this.$emit("pagelimit", val);
-      this.tableSizeHandle();
     },
     // 更改页数
     handleCurrentChange(val) {
@@ -279,12 +278,9 @@ export default {
   },
 
   mounted() {
+    this.$emit("databoxSize");
     // 初始化数据
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    this.tableSizeHandle();
-    window.onresize = () => {
-      this.tableSizeHandle();
-    };
   },
   computed: {
     userAll() {
@@ -313,7 +309,6 @@ export default {
   watch: {
     visibleinput(val) {
       // 监听高级搜索与普通搜索模式转变
-      this.tableSizeHandle();
     },
     getPage(value) {
       this.getPage = value;
@@ -334,11 +329,8 @@ export default {
     },
     fullScreen(value) {
       // 全屏切换
-      this.tableSizeHandle();
     },
-    $route(to, from) {
-      this.tableSizeHandle();
-    }
+    $route(to, from) {}
   }
 };
 </script>

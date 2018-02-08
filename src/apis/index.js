@@ -255,24 +255,13 @@ const getBurialPointTotal = () => { return (params) => { return http.post(base.o
 // end -------------------------------------------------
 
 /**
-**结算统计Start
+**结算管理Start
  */
 const getSettles = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
-const postUpdateSettles = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateAgentSettle", params) } }
-// end -------------------------------------------------
-/**
-**代理商结算统计Start
- */
-const getAgentSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
+const postUpdateSettles = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateSettle", params) } }
 const getAgentSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
 // end -------------------------------------------------
-/**
-**统计Start
- */
-const getSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
-const getSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
-const postUpdateSettle = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateSettle", params) } }
-// end -------------------------------------------------
+
 
 /**
 **资质补充
@@ -285,6 +274,7 @@ const postAddEnterpriseSupply = () => { return (params) => { return http.post(ba
 **我的产品Start
  */
 const getCustomerOpenProducts = () => { return (params) => { return http.get(base.oaIp, "/userProductStatus/page", params) } }
+const postCustomerOpenProductSearch = () => { return (params) => { return http.post(base.oaIp, "/userproduct/query/cost", params) } }
 const getCustomerEchoProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomerConverge", params) } }
 const completeSettleInfo = () => { return (params) => { return http.post(base.oaIp, "/customer/completeSettleInfo", params) } }
 const completeConvergeProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/completeConvergeProduct", params) } }
@@ -442,6 +432,7 @@ export {
     postAddEnterpriseSupply,
     //我的产品
     getCustomerOpenProducts,
+    postCustomerOpenProductSearch,
     getCustomerEchoProduct,
     completeSettleInfo,
     completeConvergeProduct,

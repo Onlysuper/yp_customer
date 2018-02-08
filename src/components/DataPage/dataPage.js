@@ -5,22 +5,13 @@ const mixinDataTable = {
         return {
             postPage: 1,
             postLimit: 10,
+            pageHeight: 0,// .admin-page的高度
+            formHeight: 0,// 搜索框的高度
+            operationHeight: 0,// 操作按钮组的高度
+            paginationHeight: 0// 翻页的高度
         }
     },
     methods: {
-        // 表格大小
-        tableSizeHandle() {
-            this.$nextTick(() => {
-                let pageHeight = $(".admin-page").outerHeight(true) || 0;
-                // console.log(pageHeight);
-                let formHeight = $(".search-page").outerHeight(true) || 0;
-                let operationHeight = $(".operation-box").outerHeight(true) || 0;
-                let paginationHeight = $(".el-pagination").outerHeight(true) || 0;
-                this.tableHeight =
-                    pageHeight - formHeight - operationHeight - paginationHeight - 20;
-                // this.tableHeight = pageHeight
-            });
-        },
         /**TABLE页交互 START ************************************************************ */
         showDialog(dialogName) {
             this[dialogName] = true;
@@ -29,9 +20,9 @@ const mixinDataTable = {
         reloadData(page, limit, search) {
             let page_ = page ? page : this.postPage;
             let limit_ = limit ? limit : this.postLimit;
-            this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
-            console.log("reload");
-            this.tableSizeHandle();
+            let search_ = search ? search : this.postSearch;
+            this.$refs.dataTable.postDataInit(page_, limit_, search_);
+            // console.log("reload");
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
@@ -60,6 +51,13 @@ const mixinDataTable = {
             //         }
             //     }
             // });
+        },
+        // 高级搜索与普通搜索切换
+        changeSearchVisible(show) {
+            if (show) {
+                // 高级搜索
+                this.reloadData();
+            }
         },
         callbackformHandle(cb, data1, data2) {
             // 表单双向绑定 得到输入的内容并返回到本页面
@@ -107,6 +105,7 @@ const mixinDataTable = {
         }
         /**END ***********************************************/
     },
+
     computed: {
         oaIp() {
             // nginx配置的路由

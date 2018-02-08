@@ -33,11 +33,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
-import {
-  getAgentSettle,
-  getAgentSettleSum,
-  postUpdateSettles
-} from "@src/apis";
+import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -92,7 +88,7 @@ export default {
           corresattr: "status",
           type: "select",
           label: "结算状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -122,7 +118,7 @@ export default {
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getAgentSettle // 初始化数据
+          url: getSettles // 初始化数据
         },
         summary: {
           is: false
@@ -159,13 +155,18 @@ export default {
             type: data => {
               if (data === "TRUE") {
                 return {
-                  text: "已结算",
-                  type: "success"
+                  text: "已确认",
+                  type: ""
                 };
               } else if (data === "FALSE") {
                 return {
-                  text: "未结算",
+                  text: "待确认",
                   type: "info"
+                };
+              } else if (data === "SUCCESS") {
+                return {
+                  text: "已结算",
+                  type: "success"
                 };
               } else {
                 return {
@@ -200,9 +201,8 @@ export default {
                 }).then(() => {
                   postUpdateSettles()({
                     agentNo: rowdata.agentNo,
-                    dataTime: rowdata.dataTime
+                    settleNo: rowdata.settleNo
                   }).then(data => {
-                    console.log(data);
                     if (data.code == "00") {
                       this.$message({
                         type: "success",
@@ -214,7 +214,7 @@ export default {
                         message: data.msg
                       });
                     }
-                    this.reloadData(this.storePageCount, this.storeCurrentPage);
+                    this.reloadData();
                   });
                 });
               }
