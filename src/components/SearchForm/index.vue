@@ -210,6 +210,7 @@ export default {
     visibleinputHandle() {
       // 高级搜索与普通搜索转变
       this.visibleinput = !this.visibleinput;
+      this.$emit("changeSearchVisible", this.visibleinput);
     },
     changeInput2(value) {
       console.log(value);

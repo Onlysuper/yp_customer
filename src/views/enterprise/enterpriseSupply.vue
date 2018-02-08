@@ -13,7 +13,7 @@
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
+    <el-dialog center title="新增资质" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-row>
           <el-col :span="12">
@@ -261,7 +261,7 @@ export default {
           },
           {
             key: "名称",
-            width: "100px",
+            width: "130px",
             word: "name"
           },
           {
