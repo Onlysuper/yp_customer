@@ -74,6 +74,15 @@ export default {
           meta: {
             pageTitle: "提交成功"
           },
+        },
+        {
+          path: "completeInvoice",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/completeInvoice")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "开通电子发票"
+          },
         }
       ],
 

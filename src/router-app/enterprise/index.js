@@ -21,7 +21,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/enterprise/enterprise_supply")) }, "enterprise-app")
           },
           meta: {
-            pageTitle: "快速开票分润",
+            pageTitle: "资质补充",
             keepAlive: true,
             menuCode: "enterprise_supply",
           }

@@ -17,8 +17,10 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
-        dataTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        dataTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        agentNo: "",
+        dataTimeBegin: utils.formatDate(new Date(Date.now() - 7 * (24 * 60 * 60 * 1000)), "yyyy-MM-dd"),
+        dataTimeEnd: utils.formatDate(new Date(Date.now() - 1 * (24 * 60 * 60 * 1000)), "yyyy-MM-dd"),
+        containChild: "TRUE",
       };
       state.sumData = {
         scan: 0,

@@ -1,7 +1,7 @@
 <template>
   <!-- 达标详情 -->
   <full-page class="page" ref="FullPage">
-    <mt-header slot="header" :title="$route.meta.pageTitle">
+    <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({name:'billStandardSearch'})">搜索</mt-button>
       <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
@@ -49,6 +49,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getBillcountcustomers,
+      count: 0,
       actions: []
     };
   },
@@ -76,7 +77,8 @@ export default {
   },
   methods: {
     // ...mapActions(["cancelDefaultGood"]),
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("BILLSTANDARD_SEARCH_LIST", watchDataList);
       this.$store.commit("BILLSTANDARD_SEARCH", false);
       this.$store.commit("BILLSTANDARD_ADD", false);

@@ -31,7 +31,7 @@ export default {
     ...mapActions(["addEnterpriseSupply"]),
     save() {
       if (!this.validator.isEmpty(this.form.name)) {
-        this.MessageBox.alert("企业名称不能为空！");
+        this.MessageBox.alert("资质名称不能为空！");
         return;
       }
       if (!this.validator.isTax(this.form.tax)) {

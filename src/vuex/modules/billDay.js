@@ -20,7 +20,7 @@ export default {
       state.searchQuery = {
         dataTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),
         dataTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        containChild: "",
+        containChild: "TRUE",
       };
       console.info("日开票记录数据加载完成");
     },

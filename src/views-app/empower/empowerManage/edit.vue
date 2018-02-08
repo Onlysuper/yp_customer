@@ -14,6 +14,7 @@
           <mt-field type="text" :disabled="true" label="商户编号" placeholder="请输入商户编号" v-model="unitData.customerNo"></mt-field>
           <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="unitData.extensionNum"></mt-field>
           <mt-field @click.native="$refs.serviceModePicker.open" type="text" label="服务方式" placeholder="请选择服务方式" :value="servicePickerModle.name" v-readonly-ios :readonly="true" :disableClear="true">
+            <i class="icon-arrow"></i>
           </mt-field>
           <myp-check-list @result="checkListResult" title="支持类型" :listModle="unitData.supportTypes" :actions="supportTypeActions"></myp-check-list>
           <!-- <div>

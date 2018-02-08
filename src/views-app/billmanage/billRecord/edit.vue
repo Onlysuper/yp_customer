@@ -10,7 +10,7 @@
         <template v-if="pageType == 'EDIT'">
           <!-- <div> -->
           <!-- <mt-field type="text" label="订单编号" placeholder="请选择订单编号" :value="unitData.orderNo" :disabled="true" :disableClear="true" :readonly="true">
-              <i class="icon-admin"></i>
+              <i class="icon-arrow"></i>
             </mt-field> -->
           <!-- </div> -->
           <!-- <mt-field type="text" label="交付状态" placeholder="请输入交付状态" v-model="unitData.status"></mt-field> -->

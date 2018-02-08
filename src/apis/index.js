@@ -291,6 +291,13 @@ const completeConvergeProduct = () => { return (params) => { return http.post(ba
 const completeBussinessImg = () => { return (params) => { return http.post(base.oaIp, "/customer/completeBussinessImg", params) } }
 const upload = () => { return (params) => { return http.post(base.oaIp, "/bussinessImg/upload", params) } }
 // end -------------------------------------------------
+
+/**
+**交易管理-订单查询
+ */
+
+const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/operator/page", params) } }
+
 /**
  **商户版本管理Start
  */
@@ -439,6 +446,8 @@ export {
     completeSettleInfo,
     completeConvergeProduct,
     completeBussinessImg,
-    upload
+    upload,
+    //交易订单查询
+    getPayOrders,
 };
 

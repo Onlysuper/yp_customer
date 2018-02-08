@@ -1,7 +1,7 @@
 <template>
   <!-- 开票记录 -->
   <full-page class="page" ref="FullPage">
-    <mt-header slot="header" :title="$route.meta.pageTitle">
+    <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({name:'billRecordSearch'})">搜索</mt-button>
       <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
@@ -18,11 +18,11 @@
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
-            <!-- <myp-tr title="日期">{{item.dataTime}}</myp-tr> -->
             <myp-tr title="开票时间">{{item.createTime}}</myp-tr>
             <myp-tr title="商户号">{{item.customerNo}}</myp-tr>
             <myp-tr title="经营名称">{{item.bussinessName}}</myp-tr>
-            <!-- <myp-tr title="企业名称">{{item.enterpriseName}}</myp-tr> -->
+            <myp-tr title="购方">{{item.enterpriseName}}</myp-tr>
+            <myp-tr title="税号">{{item.taxNo}}</myp-tr>
           </table>
           <!-- 更多操作 -->
         </myp-cell>
@@ -49,6 +49,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getBillrecords,
+      count: 0,
       actions: []
     };
   },
@@ -80,7 +81,8 @@ export default {
         query: { type: type }
       });
     },
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("BILLRECORD_SEARCH_LIST", watchDataList);
       this.$store.commit("BILLRECORD_SEARCH", false);
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <full-page class="" ref="FullPage">
-      <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="searchVisible = true">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="add">新增</mt-button>
@@ -51,6 +51,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getCustomerConfigs,
+      count: 0,
       list: [],
       searchVisible: false,
       searchQuery: {},
@@ -72,7 +73,8 @@ export default {
     this.routeMenuCode = this.$route.name;
   },
   methods: {
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.list = watchDataList;
     },
     add() {

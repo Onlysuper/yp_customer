@@ -1,5 +1,5 @@
 import customerGoods from "./customerGoods";
-import profitBilling from "./profitBilling";
+import profitBilling from "./profit/profitBilling";
 import convergePayComm from "./profit/convergePayComm";
 import agent from "./agent";
 import billCount from "./billCount";
@@ -16,6 +16,7 @@ import customerManage from "./customer/customerManage";
 
 import customerProduct from "./customerProduct";
 import enterpriseSupply from "./enterprise/enterprise_supply";
+import orderQuery from "./order/orderQuery";
 
 
 export {
@@ -35,5 +36,6 @@ export {
 
 
   customerProduct,
-  enterpriseSupply
+  enterpriseSupply,
+  orderQuery
 };

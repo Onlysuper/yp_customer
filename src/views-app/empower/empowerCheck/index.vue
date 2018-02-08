@@ -2,7 +2,7 @@
   <!-- 开票统计 -->
   <div class="page">
     <full-page class="page" ref="FullPage">
-      <mt-header slot="header" :title="$route.meta.pageTitle">
+      <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({name:'empowerCheckSearch'})">搜索</mt-button>
       </mt-header>
@@ -54,6 +54,7 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getArantNumExamines,
+      count: 0,
       allData: "",
       actions: []
     };
@@ -78,10 +79,11 @@ export default {
     }
   },
   mounted() {
-    this.$refs.MypLoadmoreApi.load();
+    this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   methods: {
-    watchDataList(watchDataList) {
+    watchDataList(watchDataList, count) {
+      this.count = count;
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH", false);
     },
