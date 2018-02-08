@@ -621,7 +621,8 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           var addForm = this.addForm;
-          this.resetSearchHandle();
+          // 初始化查询条件
+          // this.resetSearchHandle();
           postAddAgentManage()({
             agentName: addForm.agentName || "",
             linkMan: addForm.linkMan || "",
@@ -728,7 +729,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData(this.storePageCount, this.storeCurrentPage);
+              this.reloadData();
             } else if (data.code === "98") {
               this.$message({
                 message: data.msg,

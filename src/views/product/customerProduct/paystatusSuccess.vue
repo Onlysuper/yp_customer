@@ -335,7 +335,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postEditCustomer()(this.editForm).then(data => {
             if (data.code === "00") {
               this.$message({

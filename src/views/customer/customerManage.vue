@@ -670,7 +670,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postAddCustomer()(this.addForm).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -710,11 +710,6 @@ export default {
       // 批量转移文件上传成功
       if (res.data == "00") {
         this.batchTransferFormVisible = false;
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
           message: "上传失败",
@@ -729,14 +724,9 @@ export default {
       // 批量入网文件上传成功
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
-          message: "上传失败",
+          message: res.msg,
           type: "warning"
         });
       }
@@ -748,14 +738,9 @@ export default {
     handleElectronicOpenSuccess(res, file) {
       if (res.data == "00") {
         this.$message.success("恭喜您！上传成功");
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
-          message: "上传失败",
+          message: res.msg,
           type: "warning"
         });
       }
@@ -767,7 +752,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postEditCustomer()(this.editForm).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -776,7 +761,12 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData();
+              console.log(this.searchCondition);
+              this.reloadData(
+                this.postPage,
+                this.postLimit,
+                this.searchCondition
+              );
             } else {
               this.$message({
                 message: data.msg,
@@ -848,9 +838,6 @@ export default {
           fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
       );
     }
-  },
-  activated() {
-    this.tableSizeHandle();
   },
   computed: {
     editFormCustomerFrom() {

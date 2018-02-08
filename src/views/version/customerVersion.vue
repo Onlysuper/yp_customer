@@ -208,6 +208,11 @@ export default {
                     text: "数据采集程序",
                     type: "danger"
                   };
+                case "MANUAL":
+                  return {
+                    text: "其他",
+                    type: "danger"
+                  };
                 default:
                   return {
                     text: data,

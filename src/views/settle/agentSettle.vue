@@ -33,11 +33,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
-import {
-  getAgentSettle,
-  getAgentSettleSum,
-  postUpdateSettles
-} from "@src/apis";
+import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -122,7 +118,7 @@ export default {
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getAgentSettle // 初始化数据
+          url: getSettles // 初始化数据
         },
         summary: {
           is: false
@@ -205,9 +201,8 @@ export default {
                 }).then(() => {
                   postUpdateSettles()({
                     agentNo: rowdata.agentNo,
-                    dataTime: rowdata.dataTime
+                    settleNo: rowdata.settleNo
                   }).then(data => {
-                    console.log(data);
                     if (data.code == "00") {
                       this.$message({
                         type: "success",
@@ -219,7 +214,7 @@ export default {
                         message: data.msg
                       });
                     }
-                    this.reloadData(this.storePageCount, this.storeCurrentPage);
+                    this.reloadData();
                   });
                 });
               }

@@ -6,7 +6,7 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button v-if="adminFilter('agent_add')" class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;uploadDialogVisible = true">上传新版本</el-button>
+          <el-button v-if="adminFilter('agent_add')" class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;uploadDialogVisible = true;editType=false">上传新版本</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
@@ -30,7 +30,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="客户端类型" prop="type">
-                <el-select v-model="form.type" placeholder="请选择">
+                <el-select :disabled="editType" v-model="form.type" placeholder="请选择">
                   <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
@@ -105,6 +105,7 @@ export default {
     return {
       uploadDialogVisible: false, //上传面板是否可见
       isUpdate: true,
+      editType: false,
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
       searchOptions: [
@@ -215,6 +216,11 @@ export default {
                     text: "数据采集程序",
                     type: "danger"
                   };
+                case "MANUAL":
+                  return {
+                    text: "其他",
+                    type: "danger"
+                  };
                 default:
                   return {
                     text: data,
@@ -284,6 +290,7 @@ export default {
               },
               cb: rowdata => {
                 this.uploadDialogVisible = true;
+                this.editType = true;
                 this.form = { ...rowdata };
               }
             },

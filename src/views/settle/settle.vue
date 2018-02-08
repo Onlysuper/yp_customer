@@ -81,7 +81,7 @@
     </el-dialog>
     <!-- 详情 end -->
     <!-- 编辑 start -->
-    <el-dialog title="修改" center :visible.sync="editFormVisible">
+    <el-dialog title="待确认" center :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="editFormRules">
         <el-row>
           <el-col :span="12">
@@ -161,7 +161,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
-import { getSettle, getSettleSum, postUpdateSettle } from "@src/apis";
+import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
 export default {
   name: "billprofit",
   components: {
@@ -276,7 +276,7 @@ export default {
       postSearch: searchConditionVar,
       tableData: {
         getDataUrl: {
-          url: getSettle // 初始化数据
+          url: getSettles // 初始化数据
         },
         summary: {
           is: false
@@ -387,7 +387,7 @@ export default {
     SumHandle() {
       this.sumLoading = true;
       var searchCondition = this.searchCondition;
-      getSettleSum()({
+      getAgentSettleSum()({
         createTimeStart: searchCondition.createTimeStart,
         createTimeEnd: searchCondition.createTimeEnd,
         status: searchCondition.status,
@@ -407,8 +407,9 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let editForm = this.editForm;
-          this.resetSearchHandle();
-          postUpdateSettle()({
+          // this.resetSearchHandle();
+          postUpdateSettles()({
+            settleNo: editForm.settleNo,
             agentNo: editForm.agentNo,
             orderNo: editForm.orderNo,
             receiveMan: editForm.receiveMan,
@@ -420,12 +421,12 @@ export default {
           }).then(data => {
             if (data.code === "00") {
               this.$message({
-                message: "恭喜你，编辑数据成功",
+                message: "恭喜你，操作成功",
                 type: "success",
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData(this.storePageCount, this.storeCurrentPage);
+              this.reloadData();
             } else {
               this.$message({
                 message: data.msg,

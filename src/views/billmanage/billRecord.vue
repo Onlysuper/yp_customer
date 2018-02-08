@@ -516,7 +516,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let editForm = this.editForm;
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postEditBillrecord()({
             billRecordNo: editForm.billRecordNo,
             orderNo: editForm.orderNo,
@@ -541,7 +541,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData(this.storePageCount, this.storeCurrentPage);
+              this.reloadData();
             } else {
               this.$message({
                 message: data.msg,

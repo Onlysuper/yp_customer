@@ -79,7 +79,7 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <keep-alive>
-        <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected">
+        <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
           <!-- 组件在 vm.currentview 变化时改变！ -->
         </component>
       </keep-alive>
@@ -130,6 +130,7 @@ export default {
       payStatus: ""
     };
     return {
+      rowData: {},
       currentView: "paystatusSecond",
       customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
@@ -452,8 +453,10 @@ export default {
                 ];
                 // this.nextFn("paystatusFirst");
                 // this.nextFn("paystatusSecond");
+                // this.$store.dispatch("customerProductRowAction", rowdata);
+                this.rowData = rowdata;
+                console.log(this.rowData);
                 this.nextFn("paystatusThird");
-                this.$store.dispatch("customerProductRowAction", rowdata);
               }
             }
           ]
@@ -467,7 +470,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postEditCustomer()(this.editForm).then(data => {
             if (data.code === "00") {
               this.$message({

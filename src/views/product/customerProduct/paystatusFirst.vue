@@ -110,6 +110,9 @@ export default {
   props: {
     customerTypeSelected: {
       type: Array
+    },
+    rowData: {
+      type: Array
     }
   },
   components: {},

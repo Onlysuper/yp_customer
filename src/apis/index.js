@@ -255,24 +255,13 @@ const getBurialPointTotal = () => { return (params) => { return http.post(base.o
 // end -------------------------------------------------
 
 /**
-**结算统计Start
+**结算管理Start
  */
 const getSettles = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
-const postUpdateSettles = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateAgentSettle", params) } }
-// end -------------------------------------------------
-/**
-**代理商结算统计Start
- */
-const getAgentSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/agentPage", params) } }
+const postUpdateSettles = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateSettle", params) } }
 const getAgentSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
 // end -------------------------------------------------
-/**
-**统计Start
- */
-const getSettle = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/page", params) } }
-const getSettleSum = () => { return (params) => { return http.get(base.oaIp, "/agentSettle/sum", params) } }
-const postUpdateSettle = () => { return (params) => { return http.post(base.oaIp, "/agentSettle/updateSettle", params) } }
-// end -------------------------------------------------
+
 
 /**
 **资质补充

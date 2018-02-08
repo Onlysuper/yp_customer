@@ -764,10 +764,7 @@ export default {
                           type: "success",
                           message: "操作成功!"
                         });
-                        this.reloadData(
-                          this.storePageCount,
-                          this.storeCurrentPage
-                        );
+                        this.reloadData();
                       } else {
                         this.$message({
                           type: "warning",
@@ -826,10 +823,7 @@ export default {
                           type: "success",
                           message: "操作成功!"
                         });
-                        this.reloadData(
-                          this.storePageCount,
-                          this.storeCurrentPage
-                        );
+                        this.reloadData();
                       } else {
                         this.$message({
                           type: "warning",
@@ -932,14 +926,9 @@ export default {
           type: "success",
           center: true
         });
-      } else if (res.data == "98") {
-        this.$message({
-          message: "新增数据存在失败",
-          type: "warning"
-        });
       } else {
         this.$message({
-          message: "上传失败",
+          message: res.msg,
           type: "warning"
         });
       }
@@ -1036,7 +1025,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let editForm = this.editForm;
-          this.resetSearchHandle();
+          // this.resetSearchHandle();
           postEditCustomerGood(editForm.goodsNo)({
             unionNo: editForm.unionNo,
             goodsNo: editForm.goodsNo,
@@ -1056,7 +1045,7 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              this.reloadData(this.storePageCount, this.storeCurrentPage);
+              this.reloadData();
             } else {
               this.$message({
                 message: data.msg,

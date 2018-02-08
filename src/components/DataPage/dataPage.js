@@ -20,7 +20,8 @@ const mixinDataTable = {
         reloadData(page, limit, search) {
             let page_ = page ? page : this.postPage;
             let limit_ = limit ? limit : this.postLimit;
-            this.$refs.dataTable.postDataInit(page_, limit_, this.postSearch);
+            let search_ = search ? search : this.postSearch;
+            this.$refs.dataTable.postDataInit(page_, limit_, search_);
             // console.log("reload");
         },
         resetForm(formName) {
