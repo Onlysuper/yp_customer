@@ -198,6 +198,15 @@ export default {
     summaryMethod(param) {
       // console.log(param);
     },
+    //假刷新
+    unrealReload() {
+      let arr_ = this.tableData;
+      console.log(arr_);
+      this.tableData = [];
+      this.$nextTick(() => {
+        this.tableData = arr_;
+      });
+    },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
       this.ifloading = true;
