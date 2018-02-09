@@ -185,11 +185,11 @@ export default {
         checkFormOptions: [
           {
             value: "OUT_ORDER",
-            label: "授权码序列号"
+            label: "序列号"
           },
           {
             value: "ORDER",
-            label: "授权码号段转移"
+            label: "号段转移"
           }
         ]
       },

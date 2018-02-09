@@ -456,7 +456,7 @@ export default {
                 // this.$store.dispatch("customerProductRowAction", rowdata);
                 this.rowData = rowdata;
                 console.log(this.rowData);
-                this.nextFn("paystatusThird");
+                this.nextFn("paystatusFirst");
               }
             }
           ]

@@ -68,6 +68,7 @@ import {
   CheckboxButton as eleCheckboxButton,
   CheckboxGroup as eleCheckboxGroup,
   ColorPicker as eleColorPicker,
+  Alert as eleAlert,
 
   MessageBox,
   Message,
@@ -115,6 +116,7 @@ Vue.component(eleUpload.name, eleUpload)
 Vue.component(eleTree.name, eleTree)
 Vue.component(eleCascader.name, eleCascader)
 Vue.component(eleColorPicker.name, eleColorPicker)
+Vue.component(eleAlert.name, eleAlert)
 
 Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }

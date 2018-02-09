@@ -466,7 +466,6 @@ export default {
               }
             },
             {
-              // 授权码编辑
               text: "编辑",
               visibleFn: rowdata => {
                 if (
@@ -482,12 +481,11 @@ export default {
               },
               color: "#67c23a",
               cb: rowdata => {
-                this.editPayForm = rowdata;
-                this.editPayFormVisible = true;
+                this.editScangunForm = rowdata;
+                this.editScangunFormVisible = true;
               }
             },
             {
-              // 扫码枪编辑
               text: "编辑",
               visibleFn: rowdata => {
                 if (
@@ -503,9 +501,8 @@ export default {
               },
               color: "#e6a23c",
               cb: rowdata => {
-                this.editScangunForm = rowdata;
-
-                this.editScangunFormVisible = true;
+                this.editPayForm = rowdata;
+                this.editPayFormVisible = true;
               }
             }
           ]
