@@ -2,7 +2,7 @@
   <div class="upload-view">
     <div class="upload-view-btn" @click="showUpload = true">
       <img v-if="base64" :src="base64" alt="">
-      <i v-if="!base64" class="icon-admin icon"></i>
+      <i v-if="!base64" class="icon-camera icon"></i>
     </div>
     <span>{{label}}</span>
     <upload v-model="showUpload" @upresult="upresult" :label="desc" :upType="upType"></upload>
