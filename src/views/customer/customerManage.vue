@@ -70,31 +70,33 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
     <!-- 批量入网 start -->
     <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
-      <form>
+      <el-form label-width="0" label-position="top" size="small" :model="batchNetForm" ref="batchNetForm" :rules="batchNetFormRules">
         <div class="content-center-box">
           <div class="sep-inline">
             <a class="link-Label" :href="oaIp+'/static/template/customer-batch-2007.xlsx'">下载入网模板</a>
           </div>
           <div class="sep-inline">
-            <el-upload :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false" ref="batchnetFile" :action="oaIp+'/customer/incomeBatch'" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将入网文件拖到此处，或
-                <em>点击上传</em>
-              </div>
-              <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
-            </el-upload>
+            <el-form-item label="" prop="batchNet" :label-width="formLabelWidth">
+              <el-upload :file-list="fileList" :with-credentials="true" ref="batchnetFile" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false" :action="oaIp+'/customer/incomeBatch'" :on-success="handleBatchNetSuccess" :before-upload="beforeBatchNetUpload" class="upload-demo" drag>
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将入网文件拖到此处，或
+                  <em>点击上传</em>
+                </div>
+                <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+              </el-upload>
+            </el-form-item>
           </div>
         </div>
-      </form>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchNetFormVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="saveBatchNet">提 交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="saveBatchNet('batchNetForm')">提 交</el-button>
       </span>
     </el-dialog>
     <!-- 批量入网 end -->
@@ -116,7 +118,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchTransferFormVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="saveBatchTransfer">提 交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="saveBatchTransfer">提 交</el-button>
       </span>
     </el-dialog>
     <!-- 批量转移 end -->
@@ -138,7 +140,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="electronicOpenFormVisible = false">关 闭</el-button>
-        <el-button type="primary" @click="saveElectronicOpen">提 交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="saveElectronicOpen">提 交</el-button>
       </span>
     </el-dialog>
     <!-- 商户电票开通 end -->
@@ -246,7 +248,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -268,7 +270,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="transferFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="transferSave('transferForm')">保存</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="transferSave('transferForm')">保存</el-button>
       </div>
     </el-dialog>
     <!-- 商户转移 end -->
@@ -354,6 +356,7 @@ export default {
         ],
         phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
       },
+      batchNetFormRules: {},
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
       editForm: {}, // 编辑单个表单
@@ -670,6 +673,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           // this.resetSearchHandle();
           postAddCustomer()(this.addForm).then(data => {
             if (data.code === "00") {
@@ -688,23 +692,54 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
       });
     },
     // 批量入网文件保存
-    saveBatchNet() {
-      console.log(this.$refs.batchnetFile);
-      this.$refs.batchnetFile.submit();
+    saveBatchNet(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          if (this.$refs.batchnetFile.uploadFiles.length === 0) {
+            this.$message({
+              type: "warning", //warning
+              message: "请选择上传文件!"
+            });
+            return;
+          } else {
+            this.saveLoading = true;
+            this.$refs.batchnetFile.submit();
+          }
+        }
+      });
     },
     // 批量转移文件提交
     saveBatchTransfer() {
-      this.$refs.batchtransferFile.submit();
+      if (this.$refs.batchtransferFile.uploadFiles.length === 0) {
+        this.$message({
+          type: "warning", //warning
+          message: "请选择上传文件!"
+        });
+        return;
+      } else {
+        this.saveLoading = true;
+        this.$refs.batchtransferFile.submit();
+      }
     },
     // 批量开通点票
     saveElectronicOpen() {
-      this.$refs.electronicOpenFile.submit();
+      if (this.$refs.electronicOpenFile.uploadFiles.length === 0) {
+        this.$message({
+          type: "warning", //warning
+          message: "请选择上传文件!"
+        });
+        return;
+      } else {
+        this.saveLoading = true;
+        this.$refs.electronicOpenFile.submit();
+      }
     },
     handleBatchTransferSuccess(res, file) {
       // 批量转移文件上传成功
@@ -719,6 +754,7 @@ export default {
       this.reloadData();
       this.$message.success("恭喜您！上传成功");
       this.$refs["batchtransferFile"].clearFiles();
+      this.saveLoading = false;
     },
     handleBatchNetSuccess(res, file) {
       // 批量入网文件上传成功
@@ -733,6 +769,7 @@ export default {
       this.reloadData();
       this.$refs["batchnetFile"].clearFiles();
       this.batchNetFormVisible = false;
+      this.saveLoading = false;
     },
     // 批量开通电票成功
     handleElectronicOpenSuccess(res, file) {
@@ -747,11 +784,13 @@ export default {
       this.reloadData();
       this.$refs["electronicOpenFile"].clearFiles();
       this.electronicOpenFormVisible = false;
+      this.saveLoading = false;
     },
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           // this.resetSearchHandle();
           postEditCustomer()(this.editForm).then(data => {
             if (data.code === "00") {
@@ -774,6 +813,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
@@ -783,7 +823,7 @@ export default {
       // 转移保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log(this.transferForm);
+          this.saveLoading = true;
           transferCustomer()({
             customerNo: this.transferForm.customerNo,
             enterpriseName: this.transferForm.enterpriseName,
@@ -805,21 +845,19 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
     },
     beforeBatchNetUpload(file) {
       const extension = file.name.split(".")[1] === "xlsx";
-      // const extension2 = file.name.split(".")[1] === "numbers";
+      const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
       if (!extension && !extension2) {
         this.$message.error("上传文件只能是 xlsx 格式!");
       }
-      // if (!isLt2M) {
-      //   this.$message.error("上传文件图片大小不能超过 10MB!");
-      // }
-      // return extension || (extension2 && isLt2M);
+      this.saveLoading = false;
       return extension;
     },
     handleRemove(file, fileList) {
@@ -837,6 +875,7 @@ export default {
         `当前共选择了 ${files.length +
           fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
       );
+      this.saveLoading = false;
     }
   },
   computed: {

@@ -1,6 +1,14 @@
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 // 公用table页与search页功能
 const mixinsPc = {
+  data() {
+    return {
+      saveLoading: false, // 保存loading
+      saveLoading2: false, // 保存loading
+      buttonDisabled: false, // 保存loading
+      buttonDisabled2: false, // 保存loading
+    }
+  },
   methods: {
     showDialog(dialogName) {
       // 打开dialog框

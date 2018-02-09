@@ -41,6 +41,11 @@ export default {
   name: "",
   components: {},
   mixins: [mixinsPc],
+  props: {
+    rowData: {
+      type: Object
+    }
+  },
   data() {
     return {
       formLabelWidth: "110px",
@@ -80,7 +85,7 @@ export default {
           let payStatusForm = this.payStatusForm;
 
           let obj = {
-            customerNo: this.customerProductRowdate.bussinessNo,
+            customerNo: this.rowData.bussinessNo,
             settleMode: payStatusForm.settleMode,
             t0CashCostFixed: payStatusForm.t0CashCostFixed,
             wechatRate: payStatusForm.wechatRate,
@@ -113,11 +118,7 @@ export default {
       this.$emit("backFn", path);
     }
   },
-  computed: {
-    customerProductRowdate() {
-      return this.$store.state.customerProductPc.customerProductRowdate;
-    }
-  },
+  computed: {},
   watch: {}
 };
 </script>

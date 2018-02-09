@@ -137,7 +137,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -406,6 +406,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postUpdateSettles()({
@@ -434,6 +435,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }

@@ -14,7 +14,7 @@
         </div>
         <div slot="tabar" class="view-btn">
           <input type="file" accept="image/*" @change="inputChange" class="input-file">
-          <i class="icon-admin icon"></i>
+          <i class="icon-camera icon"></i>
         </div>
       </full-page>
     </mt-popup>
@@ -103,7 +103,13 @@ let demoImg = {
   //营业执照
   BUSINESS_LICENSE: require("./img/identityFrontImg.png"),
   //门头照片
-  PLACE_IMG: require("./img/identityFrontImg.png")
+  PLACE_IMG: require("./img/identityFrontImg.png"),
+  //收银台
+  CASH_SPACE_IMG: require("./img/identityFrontImg.png"),
+  //开户许可证
+  ACCOUNT_OPENING_LICENSE: require("./img/identityFrontImg.png"),
+  //店内照片
+  STORE_IMG: require("./img/identityFrontImg.png")
 };
 export default {
   props: {

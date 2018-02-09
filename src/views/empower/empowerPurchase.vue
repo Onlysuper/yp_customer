@@ -42,7 +42,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('purchaseForm')">重置</el-button>
-        <el-button type="primary" @click="purchaseSave('purchaseForm')">提交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="purchaseSave('purchaseForm')">提交</el-button>
       </div>
     </el-dialog>
     <!-- 授权码采购 end -->
@@ -55,7 +55,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('scangunForm')">重置</el-button>
-        <el-button type="primary" @click="scangunSave('scangunForm')">提交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="scangunSave('scangunForm')">提交</el-button>
       </div>
     </el-dialog>
     <!-- 抢购扫码枪 end -->
@@ -90,7 +90,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('editPayForm')">重置</el-button>
-        <el-button type="primary" @click="editPaySave('editPayForm')">提交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editPaySave('editPayForm')">提交</el-button>
       </div>
     </el-dialog>
     <!-- 授权码采购单修改 end -->
@@ -106,7 +106,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="this.editScangunFormVisible = false">重置</el-button>
-        <el-button type="primary" @click="editScangunSave('editScangunForm')">提交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editScangunSave('editScangunForm')">提交</el-button>
       </div>
     </el-dialog>
     <!-- 扫描枪采购单修改 end -->
@@ -466,7 +466,6 @@ export default {
               }
             },
             {
-              // 授权码编辑
               text: "编辑",
               visibleFn: rowdata => {
                 if (
@@ -482,12 +481,11 @@ export default {
               },
               color: "#67c23a",
               cb: rowdata => {
-                this.editPayForm = rowdata;
-                this.editPayFormVisible = true;
+                this.editScangunForm = rowdata;
+                this.editScangunFormVisible = true;
               }
             },
             {
-              // 扫码枪编辑
               text: "编辑",
               visibleFn: rowdata => {
                 if (
@@ -503,9 +501,8 @@ export default {
               },
               color: "#e6a23c",
               cb: rowdata => {
-                this.editScangunForm = rowdata;
-
-                this.editScangunFormVisible = true;
+                this.editPayForm = rowdata;
+                this.editPayFormVisible = true;
               }
             }
           ]
@@ -521,6 +518,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postPurchaseArantNum()({
             qrcodeCount: thisForm.qrcodeCount,
             receiptType: thisForm.receiptType,
@@ -540,6 +538,7 @@ export default {
                 message: data.msg
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -549,6 +548,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postPurchaseArantNum()({
             qrcodeCount: thisForm.qrcodeCount,
             receiptType: thisForm.receiptType
@@ -566,6 +566,7 @@ export default {
                 message: data.msg
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -575,6 +576,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           patchPurchaseArantNum()({
             receiptNo: thisForm.receiptNo,
             qrcodeCount: thisForm.qrcodeCount,
@@ -593,6 +595,7 @@ export default {
                 message: data.msg
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -602,6 +605,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           patchPurchaseArantNum()({
             receiptNo: thisForm.receiptNo,
             qrcodeCount: thisForm.qrcodeCount
@@ -619,6 +623,7 @@ export default {
                 message: data.msg
               });
             }
+            this.saveLoading = false;
           });
         }
       });

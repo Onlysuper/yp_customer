@@ -24,7 +24,12 @@
           </div>
         </el-col>
       </el-row>
-
+      <el-form-item class="full-width is-required" label="手持身份证照" prop="applicant" :label-width="formLabelWidth">
+        <el-upload :data="applicantData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="applicantbeforeUpload">
+          <img v-if="applicantUrl" :src="applicantUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
       <el-form-item class="full-width is-required" label="营业执照" prop="business" :label-width="formLabelWidth">
         <el-upload :data="businessData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="businessbeforeUpload">
           <img v-if="businessUrl" :src="businessUrl" class="avatar">
@@ -121,7 +126,7 @@ export default {
       // rowData_: rowData,
       // 身份证正面
       saveForm: {
-        identityFrontImg: ""
+        customerNo: this.rowData.bussinessNo
       },
       idcardData: {
         imgType: "LEGAL_PERSON_ID_POSITIVE",
@@ -132,54 +137,62 @@ export default {
       // 身份证反面
       idcardBackData: {
         imgType: "LEGAL_PERSON_ID_BACK",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       // 营业执照
       businessData: {
         imgType: "BUSINESS_LICENSE",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       // 结算卡
       settleData: {
         imgType: "SETTLE_CARD_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       //开户许可证
       accountData: {
         imgType: "ACCOUNT_OPENING_LICENSE",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       //门头照片
       placeData: {
         imgType: "PLACE_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       //店内照片
       storeData: {
         imgType: "STORE_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
-      //店内照片
+      //收银台照片
       cashData: {
         imgType: "CASH_SPACE_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
+        businessType: "customer",
+        imgString: ""
+      },
+      //手持身份证
+      applicantData: {
+        imgType: "APPLICANT_WITH_ID",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       idcardUrl: "",
       idcardBackUrl: "",
+      applicantUrl: "",
       businessUrl: "",
       settleUrl: "",
       accountUrl: "",
@@ -188,26 +201,7 @@ export default {
       cashUrl: "",
       formLabelWidth: "140px",
       payStatusForm: {},
-      payStatusFormRules: {
-        // idcard: [
-        //   { required: true, message: "请上传身份证正面图片", trigger: "blur" }
-        // ],
-        // idcardBack: [
-        //   { required: true, message: "请上传身份证反面图片", trigger: "blur" }
-        // ],
-        // business: [
-        //   { required: true, message: "请上传营业执照", trigger: "blur" }
-        // ],
-        // settle: [
-        //   { required: true, message: "请上传结算卡正面照片", trigger: "blur" }
-        // ],
-        // account: [
-        //   { required: true, message: "请上传开户许可证", trigger: "blur" }
-        // ],
-        // place: [{ required: true, message: "请上传门头照片", trigger: "blur" }],
-        // store: [{ required: true, message: "请上传店内照片", trigger: "blur" }],
-        // cash: [{ required: true, message: "请上传收银台照片", trigger: "blur" }]
-      }, // 编辑单个规则
+      payStatusFormRules: {}, // 编辑单个规则
       settleModeOptions: [
         {
           code: "T0",
@@ -233,6 +227,13 @@ export default {
     idcardBackbeforeUpload(file) {
       if (this.checkUpload(file)) {
         this.imgTransform(file, "idcardBackData");
+      }
+      return false;
+    },
+    // 身份证反面
+    applicantbeforeUpload(file) {
+      if (this.checkUpload(file)) {
+        this.imgTransform(file, "applicantData");
       }
       return false;
     },
@@ -309,6 +310,11 @@ export default {
               case "idcardBackData":
                 self.idcardBackUrl = self[where].imgString;
                 self.saveForm.identityBackImg = data.data;
+                break;
+              // 手持身份证
+              case "applicantData":
+                self.applicantUrl = self[where].imgString;
+                self.saveForm.identityHolderImg = data.data;
                 break;
               // 营业执照
               case "businessData":
@@ -393,7 +399,7 @@ export default {
       }
       // 点击下一步提交所有图片
       completeBussinessImg()(this.saveForm).then(res => {
-        if (res.data == "00") {
+        if (res.code == "00") {
           // 下一步
           this.$emit("nextFn", "paystatusSuccess");
         } else {
@@ -413,12 +419,7 @@ export default {
       this.$emit("backFn", path);
     }
   },
-  computed: {
-    // storeBussinessNo() {
-    //   return this.$store.state.customerProductPc.customerProductRowdate
-    //     .bussinessNo;
-    // }
-  },
+  computed: {},
   watch: {}
 };
 </script>

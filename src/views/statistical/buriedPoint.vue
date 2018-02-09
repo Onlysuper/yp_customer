@@ -336,6 +336,7 @@ export default {
     SumHandle() {
       this.sumLoading = true;
       getBurialPointTotal()(this.searchCondition).then(res => {
+        console.log(res);
         if (res.ptNum > 0) {
           this.ptTotal = `普通商户共操作${res.ptNum}次,明细如下：<hr>`;
           res.pt.forEach((value, index, array) => {

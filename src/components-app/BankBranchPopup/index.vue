@@ -6,8 +6,8 @@
           <mt-field :value="bank.value" label="开户银行" type="text" state="" :readonly="true" placeholder=""></mt-field>
         </input-wrapper>
         <input-wrapper>
-          <mt-field :value="bankAddr.resultAddr" @click.native="cityVisible = true" label="开户地区" type="text" state="" v-readonly-ios :readonly="true" placeholder="">
-            <i class="mintui-arrow_down"></i>
+          <mt-field :value="bankAddr.resultAddr" @click.native="cityVisible = true" label="开户地区" type="text" state="" v-readonly-ios :readonly="true" placeholder="请选择地区">
+            <i class="icon-arrow"></i>
           </mt-field>
         </input-wrapper>
         <!-- <input-wrapper>

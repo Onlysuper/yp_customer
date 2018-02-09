@@ -66,7 +66,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -124,14 +124,11 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="line-label-box" v-if="!detailsForm.remark==''?true:false">
-          <el-col :span="24">
-            <div class="grid-content bg-purple-light">
-              {{detailsForm.remark}}
-            </div>
-          </el-col>
-        </el-row>
+
+        <el-alert v-if="!detailsForm.remark?false:true" type="info" center :closable="false" :title="detailsForm.remark">
+        </el-alert>
       </div>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
       </div>
@@ -261,38 +258,12 @@ export default {
           },
           {
             key: "名称",
-            width: "130px",
+            width: "200px",
             word: "name"
           },
           {
-            key: "地址",
-            width: "180px",
-            word: "address"
-          },
-          {
-            key: "电话",
-            width: "180px",
-            word: "tel"
-          },
-          {
-            key: "银行",
-            width: "180px",
-            word: "bank"
-          },
-          {
-            key: "帐号",
-            width: "180px",
-            word: "account"
-          },
-          {
-            key: "操作员",
-            width: "180px",
-            word: "operator"
-          },
-
-          {
             key: "状态",
-            width: "100px",
+            width: "80px",
             word: "status",
             status: true,
             type: data => {
@@ -318,10 +289,35 @@ export default {
                 };
               }
             }
+          },
+          {
+            key: "地址",
+            width: "180px",
+            word: "address"
+          },
+          {
+            key: "电话",
+            width: "180px",
+            word: "tel"
+          },
+          {
+            key: "银行",
+            width: "180px",
+            word: "bank"
+          },
+          {
+            key: "帐号",
+            width: "180px",
+            word: "account"
+          },
+          {
+            key: "操作员",
+            width: "180px",
+            word: "operator"
           }
         ],
         operation: {
-          width: "120px",
+          width: "60px",
           options: [
             // 操作按钮
             {
@@ -345,6 +341,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           var addForm = this.addForm;
           // this.resetSearchHandle();
           postAddEnterpriseSupply()({
@@ -371,6 +368,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -379,6 +377,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postEditBillrecord()({
@@ -413,6 +412,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
