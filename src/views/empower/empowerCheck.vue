@@ -50,8 +50,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm')">重置</el-button>
-        <el-button type="primary" @click="checkAdoptSave('checkForm')">审核通过</el-button>
-        <el-button type="primary" @click="checkRefuseSave('checkForm')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm')">审核通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm')">拒绝通过</el-button>
       </div>
     </el-dialog>
     <!-- 审核下级授权码采购 end -->
@@ -100,8 +100,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm2')">重置</el-button>
-        <el-button type="primary" @click="checkAdoptSave('checkForm2')">审核通过</el-button>
-        <el-button type="primary" @click="checkRefuseSave('checkForm2')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm2')">审核通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm2')">拒绝通过</el-button>
       </div>
     </el-dialog>
     <!-- 扫码枪采购 end -->
@@ -137,7 +137,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
@@ -458,9 +458,11 @@ export default {
   methods: {
     // 审核通过保存
     checkAdoptSave(formName) {
-      var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
+          this.buttonDisabled2 = true;
+          var thisForm = this[formName];
           let receiptType = "";
           if (formName == "checkForm") {
             receiptType = "AUTHCODE";
@@ -469,6 +471,7 @@ export default {
           } else {
             receiptType = thisForm.receiptType;
           }
+
           putAdoptArantNumExamine(thisForm.receiptNo)({
             receiptNo: thisForm.receiptNo,
             receiptType: receiptType,
@@ -495,37 +498,47 @@ export default {
                 message: data.msg
               });
             }
+            this.saveLoading = false;
+            this.buttonDisabled2 = false;
           });
         }
       });
     },
     // 审核拒绝保存
     checkRefuseSave(formName) {
-      var thisForm = this[formName];
-      putRefuseArantNumExamine(thisForm.receiptNo)({
-        agentNo: thisForm.agentNo,
-        receiptNo: thisForm.receiptNo,
-        receiptType: thisForm.receiptType,
-        qrcodeCount: thisForm.qrcodeCount,
-        price: thisForm.price,
-        prefixNo: thisForm.prefixNo,
-        migrateType: thisForm.migrateType,
-        qrcodeStart: thisForm.qrcodeStart,
-        qrcodeEnd: thisForm.qrcodeEnd,
-        qrcodes: thisForm.qrcodes
-      }).then(data => {
-        if (data.code == "00") {
-          this.$message({
-            type: "success",
-            message: "已拒绝通过!"
-          });
-          this.reloadData(this.postPage, this.postLimit);
-          this.checkFormVisible = false;
-          this.checkFormVisible2 = false;
-        } else {
-          this.$message({
-            type: "warning",
-            message: data.msg
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.saveLoading2 = true;
+          this.buttonDisabled = true;
+          var thisForm = this[formName];
+          putRefuseArantNumExamine(thisForm.receiptNo)({
+            agentNo: thisForm.agentNo,
+            receiptNo: thisForm.receiptNo,
+            receiptType: thisForm.receiptType,
+            qrcodeCount: thisForm.qrcodeCount,
+            price: thisForm.price,
+            prefixNo: thisForm.prefixNo,
+            migrateType: thisForm.migrateType,
+            qrcodeStart: thisForm.qrcodeStart,
+            qrcodeEnd: thisForm.qrcodeEnd,
+            qrcodes: thisForm.qrcodes
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                type: "success",
+                message: "已拒绝通过!"
+              });
+              this.reloadData(this.postPage, this.postLimit);
+              this.checkFormVisible = false;
+              this.checkFormVisible2 = false;
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+            this.saveLoading2 = false;
+            this.buttonDisabled = false;
           });
         }
       });

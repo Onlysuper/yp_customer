@@ -48,7 +48,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('empoverCodeForm')">重置</el-button>
-        <el-button type="primary" @click="empoverCodeSave('empoverCodeForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="empoverCodeSave('empoverCodeForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 生成授权码end -->
@@ -104,7 +104,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addMaterielForm')">重置</el-button>
         <!-- <el-button type="primary" @click="addMaterielSave('addMaterielForm')">扫码枪入库</el-button> -->
-        <el-button type="primary" @click="addTorageMaterielSave('addMaterielForm')">入库</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addTorageMaterielSave('addMaterielForm')">入库</el-button>
       </div>
     </el-dialog>
     <!-- 生成授权码end -->
@@ -120,7 +120,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('exportEmpowerCodeForm')">重置</el-button>
-        <el-button type="primary" @click="exportEmpowerSave('exportEmpowerCodeForm')">保存</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="exportEmpowerSave('exportEmpowerCodeForm')">保存</el-button>
       </div>
     </el-dialog>
     <!-- 导出end -->
@@ -144,7 +144,7 @@
       </form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchBindReset">重置</el-button>
-        <el-button type="primary" @click="batchBindSave">提 交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="batchBindSave">提 交</el-button>
       </span>
     </el-dialog>
     <!-- 批量绑定end -->
@@ -210,7 +210,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="this.editFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -232,7 +232,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('bindForm')">重置</el-button>
-        <el-button type="primary" @click="bindFormSave('bindForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="bindFormSave('bindForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 绑定end -->
@@ -248,7 +248,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('bindForm')">重置</el-button>
-        <el-button type="primary" @click="bindChildFormSave('bindChildForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="bindChildFormSave('bindChildForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 绑定end -->
@@ -993,6 +993,7 @@ export default {
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
         if (valid) {
+          this.saveLoading = true;
           let empoverCodeForm = this.empoverCodeForm;
           let supportTypes1 = "";
           let supportTypes2 = "";
@@ -1031,6 +1032,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1056,6 +1058,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postMakeTorageEmpower()({
             deviceType: thisForm.deviceType,
             receiptCount: thisForm.receiptCount,
@@ -1081,6 +1084,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1107,6 +1111,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let supportTypes1 = "";
           let supportTypes2 = "";
           let supportTypes3 = "";
@@ -1146,6 +1151,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1155,6 +1161,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postBindEmpower()({
             qrcode: thisForm.qrcode,
             authCode: thisForm.authCode,
@@ -1177,6 +1184,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1187,6 +1195,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postBindChildEmpower()({
             authCode: thisForm.authCode,
             qrcode: thisForm.qrcode,
@@ -1208,6 +1217,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1225,6 +1235,7 @@ export default {
       this.reloadData();
       this.$refs.batchBindFile.clearFiles();
       this.batchBindVisible = false;
+      this.saveLoading = false;
     },
     uploadFilleError(response, file, fileList) {
       this.$message({
@@ -1233,6 +1244,7 @@ export default {
         center: true
       });
       this.$refs.batchBindFile.clearFiles();
+      this.saveLoading = false;
     },
     // 批量绑定
     batchBindSave() {
@@ -1251,6 +1263,7 @@ export default {
       if (!isLt2M) {
         this.$message.error("上传文件图片大小不能超过 10MB!");
       }
+      this.saveLoading = false;
       return extension || (extension2 && isLt2M);
     },
     handleRemove(file, fileList) {

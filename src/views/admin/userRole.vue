@@ -23,7 +23,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -40,7 +40,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -51,7 +51,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="configRoleFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="configRoleSave(roleForm)">保 存</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="configRoleSave(roleForm)">保 存</el-button>
       </div>
     </el-dialog>
     <!-- 配置角色 end -->
@@ -354,6 +354,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postAddRole()(this.addForm).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -377,6 +378,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
@@ -386,6 +388,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           patchEditRole()({
             roleName: this.editForm.roleName,
             roleCode: this.editForm.roleCode
@@ -405,6 +408,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
@@ -455,6 +459,7 @@ export default {
             }
           }
         }
+        this.saveLoading = true;
         patchRolesTreeSave()({
           roleCode: roleCode,
           addMenuCodes: addMenuCodes,
@@ -477,6 +482,7 @@ export default {
               center: true
             });
           }
+          this.saveLoading = false;
         });
       }
     }

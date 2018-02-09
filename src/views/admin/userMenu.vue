@@ -34,7 +34,7 @@
         </el-form-item>
         <el-form-item label="请求方法" :label-width="formLabelWidth">
           <el-select prop="httpMethod" v-model="addFuncForm.httpMethod" placeholder="请求方法">
-            <el-option v-for="item in addFuncForm.httpMethodOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in httpMethodOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -44,7 +44,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addFuncFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addFuncSave('addFuncForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addFuncSave('addFuncForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增功能 end -->
@@ -62,7 +62,7 @@
         </el-form-item>
         <el-form-item label="请求方法" :label-width="formLabelWidth">
           <el-select prop="httpMethod" v-model="editFuncForm.httpMethod" placeholder="是否有下级菜单">
-            <el-option v-for="item in editFuncForm.httpMethodOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in httpMethodOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -72,7 +72,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFuncFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editFuncSave('editFuncFormVisible')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editFuncSave('editFuncFormVisible')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 功能编辑 end -->
@@ -96,7 +96,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增菜单 end -->
@@ -121,7 +121,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -204,9 +204,8 @@ export default {
     return {
       tableVisible: false,
       editFuncFormVisible: false,
-      editFuncForm: {
-        httpMethodOptions: httpMethodOptions
-      },
+      httpMethodOptions: httpMethodOptions,
+      editFuncForm: {},
       functionMenu: {},
       treeNodeObj: "",
       treeId: "rootTreeNenu",
@@ -237,9 +236,8 @@ export default {
             value: "delete",
             label: "删除"
           }
-        ],
+        ]
         // 请求方法
-        httpMethodOptions: httpMethodOptions
       },
       menuFunctionParentNode: "",
       addFormVisible: false,
@@ -384,6 +382,7 @@ export default {
     },
     editFuncSave() {
       // 修改功能保存
+      this.saveLoading = true;
       var editFuncForm = this.editFuncForm;
       patchEditMenuFunction()({
         menuCode: this.functionMenu.menuCode,
@@ -412,6 +411,7 @@ export default {
             message: data.msg
           });
         }
+        this.saveLoading = false;
       });
     },
     // 新增菜单功能类型改变
@@ -443,6 +443,7 @@ export default {
     },
     // 保存新增功能
     addFuncSave() {
+      this.saveLoading = true;
       postAddMenuFunction()({
         menuCode: this.functionMenu.menuCode,
         menuName: this.addFuncForm.menuName,
@@ -469,6 +470,7 @@ export default {
             message: data.msg
           });
         }
+        this.saveLoading = false;
       });
     },
     removeHoverDom(treeId, treeNode) {
@@ -504,6 +506,7 @@ export default {
     },
     addSave() {
       // 保存新增信息
+      this.saveLoading = true;
       var addForm = this.addForm;
       patchAddMenuTree()({
         menuName: addForm.menuName,
@@ -526,6 +529,7 @@ export default {
             message: data.msg
           });
         }
+        this.saveLoading = false;
       });
     },
     // 树加载成功之后展开根节点
@@ -569,6 +573,7 @@ export default {
       this.editFormVisible = true;
     },
     editSave() {
+      this.saveLoading = true;
       let editForm = this.editForm;
       patchEditMenuTree()({
         menuName: editForm.menuName,
@@ -590,6 +595,7 @@ export default {
             message: data.msg
           });
         }
+        this.saveLoading = false;
       });
     },
     // 点击删除按钮

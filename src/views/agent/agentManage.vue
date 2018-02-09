@@ -143,7 +143,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -271,7 +271,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -620,6 +620,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           var addForm = this.addForm;
           // 初始化查询条件
           // this.resetSearchHandle();
@@ -676,7 +677,7 @@ export default {
                 center: true
               });
             }
-            console.log(data);
+            this.saveLoading = false;
           });
         }
       });
@@ -686,6 +687,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           var editForm = this.editForm;
           var sendObj = {
             agentName: editForm.agentName,
@@ -730,12 +732,6 @@ export default {
               });
               this.editFormVisible = false;
               this.reloadData();
-            } else if (data.code === "98") {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
             } else {
               this.$message({
                 message: data.msg,
@@ -744,6 +740,7 @@ export default {
               });
             }
             console.log(data);
+            this.saveLoading = false;
           });
         }
       });

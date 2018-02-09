@@ -66,7 +66,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -345,6 +345,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           var addForm = this.addForm;
           // this.resetSearchHandle();
           postAddEnterpriseSupply()({
@@ -371,6 +372,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -379,6 +381,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postEditBillrecord()({
@@ -413,6 +416,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
