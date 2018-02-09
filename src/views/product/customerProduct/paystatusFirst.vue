@@ -202,7 +202,7 @@ export default {
             r => r.unionCode == payStatusForm.unionCode
           ).branchName;
           let obj = {
-            customerNo: this.customerProductRowdate.bussinessNo,
+            customerNo: this.rowData.bussinessNo,
             orgCode:
               payStatusForm.Area[2] ||
               payStatusForm.Area[1] ||
@@ -283,9 +283,9 @@ export default {
   },
 
   computed: {
-    customerProductRowdate() {
-      return this.$store.state.customerProductPc.customerProductRowdate;
-    }
+    // customerProductRowdate() {
+    //   return this.$store.state.customerProductPc.customerProductRowdate;
+    // }
   },
   watch: {}
 };

@@ -20,7 +20,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <span class="line-label">交付状态:</span>
-              <span class="line-label-last">{{detailsForm.status}}</span>
+              <span class="line-label-last">{{detailsForm.status | payStatus}}</span>
             </div>
           </el-col>
         </el-row>

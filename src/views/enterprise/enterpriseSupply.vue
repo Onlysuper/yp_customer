@@ -124,6 +124,7 @@
             </div>
           </el-col>
         </el-row>
+
         <el-row class="line-label-box" v-if="!detailsForm.remark==''?true:false">
           <el-col :span="24">
             <div class="grid-content bg-purple-light">
@@ -132,6 +133,9 @@
           </el-col>
         </el-row>
       </div>
+      <el-alert :title="detailsForm.remark" type="success">
+
+      </el-alert>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
       </div>

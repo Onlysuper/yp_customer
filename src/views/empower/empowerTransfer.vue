@@ -539,7 +539,7 @@ export default {
             //   : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
-            // qrcodes: thisForm.qrcodes,
+            qrcodes: thisForm.qrcodes,
             agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
@@ -575,9 +575,10 @@ export default {
             // this.userAll.userType == "admin"
             //   ? "OPERATOR_MIGRATE"
             //   : "UPWARD_MIGRATE",
-            // qrcodeStart: thisForm.qrcodeStart,
-            // qrcodeEnd: thisForm.qrcodeEnd,
+            qrcodeStart: thisForm.qrcodeStart,
+            qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
+            // agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
               this.$message({

@@ -121,7 +121,7 @@ export default {
       // rowData_: rowData,
       // 身份证正面
       saveForm: {
-        identityFrontImg: ""
+        customerNo: this.rowData.bussinessNo
       },
       idcardData: {
         imgType: "LEGAL_PERSON_ID_POSITIVE",
@@ -132,49 +132,49 @@ export default {
       // 身份证反面
       idcardBackData: {
         imgType: "LEGAL_PERSON_ID_BACK",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       // 营业执照
       businessData: {
         imgType: "BUSINESS_LICENSE",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       // 结算卡
       settleData: {
         imgType: "SETTLE_CARD_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       //开户许可证
       accountData: {
         imgType: "ACCOUNT_OPENING_LICENSE",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       //门头照片
       placeData: {
         imgType: "PLACE_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       //店内照片
       storeData: {
         imgType: "STORE_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
       //店内照片
       cashData: {
         imgType: "CASH_SPACE_IMG",
-        businessNo: "",
+        businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
       },
