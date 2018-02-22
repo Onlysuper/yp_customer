@@ -31,6 +31,12 @@
 import { Login } from "@src/apis";
 export default {
   name: "Login",
+  beforeCreate: function() {
+    document.getElementsByTagName("body")[0].className = "loginBackground";
+  },
+  beforeDestroy: function() {
+    document.body.removeAttribute("class", "loginBackground");
+  },
   data() {
     return {
       ruleForm: {
@@ -60,8 +66,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-html,
-body {
+.loginBackground {
   background: #d8e4e5;
 }
 </style>
@@ -69,10 +74,6 @@ body {
 @import "../../assets/scss/base.scss";
 $default-color: #333; // 字体颜色
 .login-page {
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
   background: #d8e4e5;
   color: $default-color;
   display: flex;
