@@ -340,7 +340,7 @@ export default {
       }
       // .dateGroup,
       .dateGroup2 {
-        width: 240px;
+        width: 179px;
         display: flex;
         background-color: #fff;
         background-image: none;
@@ -357,6 +357,15 @@ export default {
         }
         .el-input__suffix {
           right: 0;
+        }
+        .el-date-editor .el-input__inner {
+          padding-left: 8px;
+        }
+        .el-date-editor .el-input__prefix {
+          display: none;
+        }
+        .el-input__icon {
+          width: 12px;
         }
       }
       .dateGroup {
