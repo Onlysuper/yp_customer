@@ -27,7 +27,7 @@ export default {
       path: "payStatusFirst",
       component: r => {
         // loading(true);
-        return require.ensure([], () => { loading(false); return r(require("@src/views/product/customerProduct/paystatusFirst")) }, "customer-product-paystatus-first")
+        return require.ensure([], () => { loading(false); return r(require("@src/views/product/customerProduct/paystatusInfo")) }, "customer-product-paystatus-first")
       },
     },
     {
@@ -35,15 +35,15 @@ export default {
       path: "payStatusSecond",
       component: r => {
         // loading(true);
-        return require.ensure([], () => { loading(false); return r(require("@src/views/product/customerProduct/paystatusSecond")) }, "customer-product-paystatus-second")
+        return require.ensure([], () => { loading(false); return r(require("@src/views/product/customerProduct/paystatusGoods")) }, "customer-product-paystatus-second")
       },
     },
     {
       name: "",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
-      path: "payStatusThird",
+      path: "payStatusUpload",
       component: r => {
         // loading(true);
-        return require.ensure([], () => { loading(false); return r(require("@src/views/product/customerProduct/paystatusThird")) }, "customer-product-paystatus-third")
+        return require.ensure([], () => { loading(false); return r(require("@src/views/product/customerProduct/paystatusUpload")) }, "customer-product-paystatus-third")
       },
     },
   ]

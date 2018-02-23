@@ -5,14 +5,13 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <div class="operation-box">
+      <!-- <div class="operation-box">
         <el-button-group class="button-group">
           <el-button-group class="button-group">
             <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-            <!-- <span class="sumtext">商户:个</span> -->
           </el-button-group>
         </el-button-group>
-      </div>
+      </div> -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
 
@@ -78,11 +77,11 @@
     <!-- 详情 end -->
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
-      <keep-alive>
-        <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
-          <!-- 组件在 vm.currentview 变化时改变！ -->
-        </component>
-      </keep-alive>
+      <!-- <keep-alive> -->
+      <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
+        <!-- 组件在 vm.currentview 变化时改变！ -->
+      </component>
+      <!-- </keep-alive> -->
     </el-dialog>
     <!-- 开通产品 end -->
   </div>
@@ -100,10 +99,11 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { regionData } from "element-china-area-data";
-import paystatusFirst from "./paystatusFirst";
-import paystatusSecond from "./paystatusSecond";
-import paystatusThird from "./paystatusThird";
+import paystatusInfo from "./paystatusInfo";
+import paystatusGoods from "./paystatusGoods";
+import paystatusUpload from "./paystatusUpload";
 import paystatusSuccess from "./paystatusSuccess";
+import utils from "@src/common/utils";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch
@@ -115,9 +115,9 @@ export default {
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage, // 数据列表组件
-    paystatusFirst: paystatusFirst,
-    paystatusSecond: paystatusSecond,
-    paystatusThird: paystatusThird,
+    paystatusInfo: paystatusInfo,
+    paystatusGoods: paystatusGoods,
+    paystatusUpload: paystatusUpload,
     paystatusSuccess: paystatusSuccess
   },
   mixins: [mixinsPc, mixinDataTable],
@@ -131,7 +131,7 @@ export default {
     };
     return {
       rowData: {},
-      currentView: "paystatusSecond",
+      currentView: "paystatusGoods",
       customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
       sumLoading: false,
@@ -321,7 +321,7 @@ export default {
           {
             key: "聚合支付",
             width: "",
-            word: "qrcodeStatus",
+            word: "payStatus",
             status: true,
             type: data => {
               if (data == "TRUE") {
@@ -337,12 +337,12 @@ export default {
               } else if (data == "REJECT") {
                 return {
                   text: "拒绝",
-                  type: "info"
+                  type: "error"
                 };
               } else if (data == "CHECKING") {
                 return {
                   text: "待审核",
-                  type: "info"
+                  type: "warning"
                 };
               } else {
                 return {
@@ -392,7 +392,7 @@ export default {
                 }
               },
               cb: rowdata => {
-                console.log(rowdata);
+                // console.log(rowdata);
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
 
                 postCustomerOpenProductSearch()({
@@ -405,7 +405,14 @@ export default {
                       this.detailsForm,
                       data.data
                     );
+                    this.detailsForm.wechatRate =
+                      utils.accMul(this.detailsForm.wechatRate, 100) + "%";
+                    this.detailsForm.alipayRate =
+                      utils.accMul(this.detailsForm.alipayRate, 100) + "%";
                     this.detailsFormVisible = true;
+                    this.detailsForm.t0CashCostFixed =
+                      this.detailsForm.t0CashCostFixed &&
+                      this.detailsForm.t0CashCostFixed + "元";
                   } else {
                     // this.detailsFormVisible = true;
                     this.$message({
@@ -438,25 +445,21 @@ export default {
                   {
                     value: "payStatus",
                     label: "聚合支付",
-                    disabled: rowdata.qrcodeStatus == "INIT" ? true : false
+                    disabled: rowdata.payStatus == "TRUE" ? true : false
                   },
                   {
                     value: "qrcodeStatus",
                     label: "快速开票",
-                    disabled: rowdata.qrcodeStatus == "INIT" ? true : false
+                    disabled: rowdata.qrcodeStatus == "TRUE" ? true : false
                   },
                   {
                     value: "elecStatus",
                     label: "电子发票",
-                    disabled: rowdata.elecStatus == "INIT" ? true : false
+                    disabled: rowdata.elecStatus == "TRUE" ? true : false
                   }
                 ];
-                // this.nextFn("paystatusFirst");
-                // this.nextFn("paystatusSecond");
-                // this.$store.dispatch("customerProductRowAction", rowdata);
                 this.rowData = rowdata;
-                console.log(this.rowData);
-                this.nextFn("paystatusFirst");
+                this.nextFn("paystatusInfo");
               }
             }
           ]
@@ -493,24 +496,24 @@ export default {
       });
     },
     // 合计
-    SumHandle() {
-      this.sumLoading = true;
-      var searchCondition = this.searchCondition;
-      getBillcountSum()({
-        dataTimeBegin: searchCondition.dataTimeBegin,
-        dataTimeEnd: searchCondition.dataTimeEnd,
-        agentNo: searchCondition.agentNo,
-        containChild: searchCondition.containChild
-      }).then(res => {
-        if (res.code == "00") {
-          var data = res.data;
-          this.scanSum = data.scan;
-          this.netSum = data.register;
-          this.pushSum = data.billSuccess;
-        }
-        this.sumLoading = false;
-      });
-    },
+    // SumHandle() {
+    //   this.sumLoading = true;
+    //   var searchCondition = this.searchCondition;
+    //   getBillcountSum()({
+    //     dataTimeBegin: searchCondition.dataTimeBegin,
+    //     dataTimeEnd: searchCondition.dataTimeEnd,
+    //     agentNo: searchCondition.agentNo,
+    //     containChild: searchCondition.containChild
+    //   }).then(res => {
+    //     if (res.code == "00") {
+    //       var data = res.data;
+    //       this.scanSum = data.scan;
+    //       this.netSum = data.register;
+    //       this.pushSum = data.billSuccess;
+    //     }
+    //     this.sumLoading = false;
+    //   });
+    // },
     customerTypeSelect() {
       let value = this.selectOptions.customerType;
       this.payStatusVisible = false; // 聚合详情
@@ -535,30 +538,41 @@ export default {
     backFn(path) {
       if (path == "close") {
         this.editFormVisible = false;
-      } else if (path == "paystatusFirst") {
-        this.currentView = "paystatusFirst";
-      } else if (path == "paystatusSecond") {
-        this.currentView = "paystatusSecond";
-      } else if (path == "paystatusThird") {
-        this.currentView = "paystatusThird";
+        this.currentView = "";
+      } else if (path == "reload") {
+        this.editFormVisible = false;
+        this.currentView = "";
+        this.reloadData();
+      } else if (path == "paystatusInfo") {
+        this.currentView = "paystatusInfo";
+      } else if (path == "paystatusGoods") {
+        this.currentView = "paystatusGoods";
+      } else if (path == "paystatusUpload") {
+        this.currentView = "paystatusUpload";
       }
     }
   },
 
   computed: {
     productOpenTitle() {
-      if (this.currentView == "paystatusFirst") {
+      if (this.currentView == "paystatusInfo") {
         return "完善信息";
-      } else if (this.currentView == "paystatusSecond") {
+      } else if (this.currentView == "paystatusGoods") {
         return "开通产品";
-      } else if (this.currentView == "paystatusThird") {
+      } else if (this.currentView == "paystatusUpload") {
         return "上传资质";
       } else if (this.currentView == "paystatusSuccess") {
         return "申请完成";
       }
     }
   },
-  watch: {},
+  watch: {
+    editFormVisible(value) {
+      if (!value) {
+        this.currentView = "";
+      }
+    }
+  },
   mounted() {
     this.customerTypeSelect();
   }

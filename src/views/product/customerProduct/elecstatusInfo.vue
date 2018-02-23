@@ -1,92 +1,7 @@
 <template>
   <div>
-    <div class="line-box-center">
-      <el-select @input="customerTypeChange" size="small" v-model="payStatusForm.customerType" placeholder="请选择">
-        <el-option v-for="item in customerTypeSelected" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
-        </el-option>
-      </el-select>
-    </div>
-    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
-      <el-form-item class="full-width" prop="Area" label="所在地区">
-        <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
-        </el-cascader>
-      </el-form-item>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
-              <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="身份证号" prop="idCard" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
-              <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
-                <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="邮箱" prop="contactEmail" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item class="full-width" label="结算信息" prop="accountType" :label-width="formLabelWidth">
-              <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
-                <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
-          </el-form-item>
-
-        </el-col>
-      </el-row>
-      <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-        <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
-          <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item class="full-width" prop="bankArea" label="银行区域">
-        <el-cascader @change="bankhandleChangeArea" :options="optionsArea" v-model="payStatusForm.bankArea">
-        </el-cascader>
-      </el-form-item>
-      <el-form-item class="full-width" prop="unionCode" label="选择支行">
-        <!-- <el-select prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择"> -->
-        <el-select prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
-          <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
-          </el-option>
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <div center slot="footer" class="dialog-footer">
-      <el-button @click="goback('close')">返回</el-button>
-      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
-    </div>
+    电子发票
   </div>
-
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
@@ -102,23 +17,28 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { regionData } from "element-china-area-data";
-
-import { getBankList, completeSettleInfo } from "@src/apis";
+import { areaOrgcode } from "@src/common/orgcode";
+import {
+  getBankList,
+  completeSettleInfo,
+  getCustomerEchoProduct
+} from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
-  name: "paystatusFirst",
+  name: "paystatusInfo",
   props: {
     customerTypeSelected: {
       type: Array
     },
     rowData: {
-      type: Array
+      type: Object
     }
   },
   components: {},
   mixins: [mixinsPc],
   data() {
     return {
+      pageData: [],
       formLabelWidth: "100px",
       bankOptions: banks,
       slotsActions: bussinessTypeJson,
@@ -127,21 +47,9 @@ export default {
       bankCode: "",
       branchBankOptions: [],
       customerTypeOptions: "",
+      bankAreaVisible: false,
+      branchNameVisible: true,
       selectOptions: {
-        // customerTypeOptions: [
-        //   {
-        //     value: "payStatus",
-        //     label: "聚合支付"
-        //   },
-        //   {
-        //     value: "qrcodeStatus",
-        //     label: "快速开票"
-        //   },
-        //   {
-        //     value: "elecStatus",
-        //     label: "电子发票"
-        //   }
-        // ],
         accountTypeOptions: [
           {
             value: "0",
@@ -155,6 +63,11 @@ export default {
       },
       formLabelWidth: "100px",
       payStatusForm: {
+        customerType: this.customerTypeSelected[0].value,
+        category: "",
+        accountType: "",
+        bankCode: "",
+        unionCode: "",
         Area: [],
         bankArea: [] // 必须为数组
       },
@@ -198,9 +111,16 @@ export default {
           let bankName = this.bankOptions.find(
             r => r.code == payStatusForm.bankCode
           ).name;
-          let branchName = this.branchBankOptions.find(
-            r => r.unionCode == payStatusForm.unionCode
-          ).branchName;
+
+          let branchName = "";
+          if (this.branchBankOptions.length == 0) {
+            branchName = payStatusForm.branchName;
+          } else {
+            branchName =
+              this.branchBankOptions.find(
+                r => r.unionCode == payStatusForm.unionCode
+              ).branchName || payStatusForm.unionCode;
+          }
           let obj = {
             customerNo: this.rowData.bussinessNo,
             orgCode:
@@ -223,7 +143,7 @@ export default {
           completeSettleInfo()(obj).then(data => {
             if (data.code === "00") {
               // 下一步
-              this.$emit("nextFn", "paystatusSecond");
+              this.$emit("nextFn", "paystatusGoods");
             } else {
               this.$message({
                 message: data.msg,
@@ -243,10 +163,14 @@ export default {
     },
     banksChange(value) {
       // 选择所属银行
+      this.bankAreaVisible = true;
+      this.branchNameVisible = false;
       this.bankCode = value;
       this.getBankListHandle();
     },
     getBankListHandle(back) {
+      this.payStatusForm.unionCode = "";
+      this.payStatusForm.branchName = "";
       // 获取支行
       if (this.bankCode && this.bankCity) {
         // 获取支行列表数据
@@ -279,14 +203,41 @@ export default {
     },
     goback(path) {
       this.$emit("backFn", path);
+    },
+    // 回显
+    getCustomerEcho() {
+      getCustomerEchoProduct()({
+        customerNo: this.rowData.bussinessNo,
+        featureType: "CONVERGE_PAY"
+      }).then(res => {
+        if (res.code == "00") {
+          console.log(res.data);
+          let customerData = res.data.customer;
+          let settleCard = res.data.settleCard;
+          if (customerData.orgCode) {
+            this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
+          }
+
+          this.payStatusForm.legalPerson = customerData.legalPerson;
+          this.payStatusForm.idCard = customerData.idCard;
+          this.payStatusForm.category = customerData.category;
+          this.payStatusForm.contactEmail = customerData.contactEmail;
+          if (settleCard != null) {
+            this.payStatusForm.accountType = settleCard.accountType;
+            this.payStatusForm.accountNo = settleCard.accountNo;
+            this.payStatusForm.phoneNo = settleCard.phoneNo;
+            this.payStatusForm.bankCode = settleCard.bankCode;
+            this.payStatusForm.unionCode = settleCard.unionCode;
+            this.payStatusForm.branchName = settleCard.branchName;
+          }
+        }
+      });
     }
   },
-
-  computed: {
-    // customerProductRowdate() {
-    //   return this.$store.state.customerProductPc.customerProductRowdate;
-    // }
+  created() {
+    this.getCustomerEcho();
   },
+  computed: {},
   watch: {}
 };
 </script>
