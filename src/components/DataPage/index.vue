@@ -76,15 +76,22 @@
     margin: 0;
   }
   .inline-text {
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 100%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    position: relative;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
     overflow: hidden;
+    height: 30px;
   }
 }
 
+.tablelist-box .tableHeader th {
+  position: relative;
+}
+.tablelist-box .el-table td {
+  position: relative;
+}
 @media only screen and (min-device-height: 600px) {
   .tablelist-box .tableHeader th {
     padding: 2px 0;

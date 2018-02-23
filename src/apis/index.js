@@ -286,7 +286,8 @@ const upload = () => { return (params) => { return http.post(base.oaIp, "/bussin
 **交易管理-订单查询
  */
 
-const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/operator/page", params) } }
+// const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/operator/page", params) } }
+const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/page?", params) } }
 
 /**
  **商户版本管理Start

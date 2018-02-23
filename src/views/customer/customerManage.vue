@@ -610,7 +610,7 @@ export default {
           { key: "入网时间", word: "createTime", width: "170" }
         ],
         operation: {
-          width: "120px",
+          width: "130px",
           options: [
             // 操作按钮
             {

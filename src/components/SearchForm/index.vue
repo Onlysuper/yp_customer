@@ -3,7 +3,7 @@
 
   <div class="search-page" @keyup.enter="searchStart">
     <!-- Form 表单编写 start -->
-    <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px">
+    <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="90px">
       <el-form-item :class="itemWidth(item.type)" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput">
 
         <!-- 文本框 -->
@@ -321,7 +321,7 @@ export default {
       margin-top: 5px !important;
       .form-item {
         // width: 340px;
-        width: 280px;
+        width: 240px;
         flex-shrink: 0;
       }
       .form-item-month {
@@ -438,7 +438,8 @@ export default {
       .button-box {
         flex: 1;
         button {
-          margin: 0 10px;
+          // margin: 0 10px;
+          margin-left: 10px;
         }
       }
     }

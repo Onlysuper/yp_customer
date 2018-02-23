@@ -258,14 +258,6 @@
 
 <style lang='scss' scoped>
 .empower {
-  .operation-box {
-    .sumtext {
-      font-size: 14px;
-      padding-left: 10px;
-      line-height: 32px;
-      color: #606266;
-    }
-  }
   .qrcodeboxchild {
     text-align: center;
   }
