@@ -17,6 +17,7 @@ import billRecord from "./billmanage/billRecord";
 import billDay from "./billmanage/billDay";
 import billStandard from "./billmanage/billStandard";
 import billprofit from "./billprofit/billprofit";
+import convergePayComm from "./billprofit/convergePayComm";
 import product from "./product/product";
 import agentManage from "./agent/agentManage";
 import agentTransfer from "./agent/agentTransfer";
@@ -55,6 +56,7 @@ const asyncRouter = [
     customerProduct,
     customerProductConfigure,
     billprofit,// 开票查询
+    // convergePayComm,// 聚合开票分润
     billCount,// 开票统计
     billRecord,// 开票记录
     billDay,// 日开票详情

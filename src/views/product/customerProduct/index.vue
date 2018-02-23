@@ -310,6 +310,16 @@ export default {
                   text: "未开通",
                   type: "info"
                 };
+              } else if (data == "REJECT") {
+                return {
+                  text: "拒绝",
+                  type: "error"
+                };
+              } else if (data == "CHECKING") {
+                return {
+                  text: "待审核",
+                  type: "warning"
+                };
               } else {
                 return {
                   text: data,
@@ -367,6 +377,16 @@ export default {
                 return {
                   text: "未开通",
                   type: "info"
+                };
+              } else if (data == "REJECT") {
+                return {
+                  text: "拒绝",
+                  type: "error"
+                };
+              } else if (data == "CHECKING") {
+                return {
+                  text: "待审核",
+                  type: "warning"
                 };
               } else {
                 return {
