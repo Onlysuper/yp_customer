@@ -61,7 +61,7 @@
             <span class="line-label-last">{{detailsForm.customerName}}</span>
           </div>
           <div class="line-label-box">
-            <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus}}
+            <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
           </div>
         </template>
         <template v-if="elecStatusVisible">
