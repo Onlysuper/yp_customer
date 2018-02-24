@@ -1,108 +1,86 @@
 <template>
   <div>
-    <div class="line-box-center">
-      <el-select @input="customerTypeChange" size="small" v-model="payStatusForm.customerType" placeholder="请选择">
-        <el-option v-for="item in customerTypeSelected" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
-        </el-option>
-      </el-select>
+    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
+      <el-form-item class="full-width" prop="Area" label="所在地区">
+        <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
+        </el-cascader>
+      </el-form-item>
+      <el-row>
+        <el-col :span="12">
+          <div class="grid-content bg-purple">
+            <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
+              <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
+            </el-form-item>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="身份证号" prop="idCard" :label-width="formLabelWidth">
+            <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <div class="grid-content bg-purple">
+            <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
+              <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
+                <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="邮箱" prop="contactEmail" :label-width="formLabelWidth">
+            <el-input v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <div class="grid-content bg-purple">
+            <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
+              <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
+                <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
+            <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
+          </el-form-item>
+
+        </el-col>
+      </el-row>
+      <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
+        <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
+          <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="bankAreaVisible" class="full-width" prop="bankArea" label="银行区域">
+        <el-cascader @change="bankhandleChangeArea" :options="optionsArea" v-model="payStatusForm.bankArea">
+        </el-cascader>
+      </el-form-item>
+      <el-form-item class="full-width" prop="unionCode" label="选择支行">
+        <el-input v-if="branchNameVisible" v-model="payStatusForm.branchName" auto-complete="off"></el-input>
+        <!-- <el-select prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择"> -->
+        <el-select v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
+          <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
+          </el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div center slot="footer" class="dialog-footer">
+      <el-button @click="goback('close')">返回</el-button>
+      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
-    <!-- 聚合支付开通 start -->
-
-    <template v-if="payStatusVisible">
-      <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
-        <el-form-item class="full-width" prop="Area" label="所在地区">
-          <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
-          </el-cascader>
-        </el-form-item>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
-                <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="身份证号" prop="idCard" :label-width="formLabelWidth">
-              <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
-                <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
-                  <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="邮箱" prop="contactEmail" :label-width="formLabelWidth">
-              <el-input v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
-                <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
-              <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
-            </el-form-item>
-
-          </el-col>
-        </el-row>
-        <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
-          <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-          <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
-            <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item v-if="bankAreaVisible" class="full-width" prop="bankArea" label="银行区域">
-          <el-cascader @change="bankhandleChangeArea" :options="optionsArea" v-model="payStatusForm.bankArea">
-          </el-cascader>
-        </el-form-item>
-        <el-form-item class="full-width" prop="unionCode" label="选择支行">
-          <el-input v-if="branchNameVisible" v-model="payStatusForm.branchName" auto-complete="off"></el-input>
-          <!-- <el-select prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择"> -->
-          <el-select v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
-            <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div center slot="footer" class="dialog-footer">
-        <el-button @click="goback('close')">返回</el-button>
-        <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
-      </div>
-    </template>
-    <!-- 聚合支付开通 end -->
-    <template v-if="qrcodeStatusVisible">
-      <div>
-        快速开票
-      </div>
-    </template>
-    <template v-if="elecStatusVisible">
-      <div>
-        电子开票
-      </div>
-    </template>
   </div>
-
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
@@ -139,10 +117,7 @@ export default {
   mixins: [mixinsPc],
   data() {
     return {
-      payStatusVisible: true, // 聚合详情
-      qrcodeStatusVisible: false, // 快速
-      elecStatusVisible: false, // 电子
-      pageData: [],
+      currentChildView: "",
       formLabelWidth: "100px",
       bankOptions: banks,
       slotsActions: bussinessTypeJson,

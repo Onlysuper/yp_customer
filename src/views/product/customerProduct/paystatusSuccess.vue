@@ -70,7 +70,6 @@ export default {
   },
   methods: {
     //上一步
-    prevfn() {},
     goback(path) {
       this.$emit("backFn", path);
     },

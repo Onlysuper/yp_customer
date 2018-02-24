@@ -9,33 +9,33 @@
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详细信息 start -->
-    <el-dialog title="详细信息" center :visible.sync="detailsFormVisible">
+    <el-dialog :title="detailsForm.body" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
         <div class="line-label-box">
           <span class="line-label">交易时间:</span>
-          <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+          <span class="line-label-last">{{detailsForm.paySuccTime}}</span>
         </div>
         <div class="line-label-box">
           <span class="line-label">交易单号:</span>
-          <span class="line-label-last">{{detailsForm.customerName}}</span>
+          <span class="line-label-last">{{detailsForm.orderNo}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">交易金额:</span>{{detailsForm.payStatus}}
+          <span class="line-label">交易金额:</span>{{detailsForm.amount}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">手续费:</span>{{detailsForm.wechatRate}}
+          <span class="line-label">手续费:</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">交易费率:</span>{{detailsForm.alipayRate}}
+          <span class="line-label">交易费率:</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">代理商编号:</span>{{detailsForm.settleMode}}
+          <span class="line-label">代理商编号:</span>{{detailsForm.agentNo}}
         </div>
         <div class="line-label-box">
-          <span class="line-label">代理商分润:</span>{{detailsForm.t0CashCostFixed}}
+          <span class="line-label">代理商分润:</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">交易类型:</span>{{detailsForm.t0CashCostFixed}}
+          <span class="line-label">交易类型:</span>{{detailsForm.payTypeDetail}}
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -46,9 +46,6 @@
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='scss' scoped>
-
-</style>
 <script>
 import $ from "jquery";
 import SearchForm from "@src/components/SearchForm";
@@ -98,17 +95,17 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
-        // {
-        //   corresattr: "agentNo",
-        //   type: "text", // 表单类型
-        //   label: "商户名称", // 输入框前面的文字
-        //   show: true, // 普通搜索显示
-        //   value: "", // 表单默认的内容
-        //   cb: value => {
-        //     // 表单输入之后回调函数
-        //     this.searchCondition.agentNo = value;
-        //   }
-        // },
+        {
+          corresattr: "body",
+          type: "text", // 表单类型
+          label: "商户名称", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.body = value;
+          }
+        },
         {
           corresattr: "agentNo",
           type: "text", // 表单类型
@@ -247,7 +244,7 @@ export default {
           {
             key: "商户名称",
             width: "",
-            word: "customerNo"
+            word: "body"
           },
           {
             key: "交易金额",
@@ -312,6 +309,7 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 console.log(rowdata);
+                this.detailsForm = rowdata;
                 this.detailsFormVisible = true;
               }
             }

@@ -280,6 +280,7 @@ const completeSettleInfo = () => { return (params) => { return http.post(base.oa
 const completeConvergeProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/completeConvergeProduct", params) } }
 const completeBussinessImg = () => { return (params) => { return http.post(base.oaIp, "/customer/completeBussinessImg", params) } }
 const upload = () => { return (params) => { return http.post(base.oaIp, "/bussinessImg/upload", params) } }
+const checkCustomerProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/query/checkCustomerProduct", params) } }
 // end -------------------------------------------------
 
 /**
@@ -438,6 +439,7 @@ export {
     completeSettleInfo,
     completeConvergeProduct,
     completeBussinessImg,
+    checkCustomerProduct,
     upload,
     //交易订单查询
     getPayOrders,

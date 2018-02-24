@@ -5,13 +5,6 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <!-- <div class="operation-box">
-        <el-button-group class="button-group">
-          <el-button-group class="button-group">
-            <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          </el-button-group>
-        </el-button-group>
-      </div> -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
 
@@ -78,7 +71,7 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
-      <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
+      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
         <!-- 组件在 vm.currentview 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -99,11 +92,11 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { regionData } from "element-china-area-data";
-import paystatusInfo from "./paystatusInfo";
+import utils from "@src/common/utils";
+import openInfo from "./openInfo";
 import paystatusGoods from "./paystatusGoods";
 import paystatusUpload from "./paystatusUpload";
 import paystatusSuccess from "./paystatusSuccess";
-import utils from "@src/common/utils";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch
@@ -115,10 +108,11 @@ export default {
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage, // 数据列表组件
-    paystatusInfo: paystatusInfo,
+    openInfo: openInfo,
     paystatusGoods: paystatusGoods,
     paystatusUpload: paystatusUpload,
-    paystatusSuccess: paystatusSuccess
+    paystatusSuccess: paystatusSuccess,
+    openInfo: openInfo
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
@@ -130,8 +124,9 @@ export default {
       payStatus: ""
     };
     return {
+      productOpenTitle: "完善信息",
       rowData: {},
-      currentView: "paystatusGoods",
+      currentView: "openInfo",
       customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
       sumLoading: false,
@@ -445,22 +440,20 @@ export default {
             },
             {
               text: "开通产品",
-              visibleFn: rowdata => {
-                if (
-                  this.adminOperationAll.customer_edit == "TRUE" &&
-                  (rowdata.agentNo == this.userBussinessNo ||
-                    this.userType == "admin")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
+              // visibleFn: rowdata => {
+              //   if (
+              //     this.adminOperationAll.customer_edit == "TRUE" &&
+              //     (rowdata.agentNo == this.userBussinessNo ||
+              //       this.userType == "admin")
+              //   ) {
+              //     return true;
+              //   } else {
+              //     return false;
+              //   }
+              // },
               color: "#00c1df",
               cb: rowdata => {
-                this.editForm = rowdata;
                 this.editFormVisible = true;
-
                 this.customerTypeSelected = [
                   {
                     value: "payStatus",
@@ -479,7 +472,7 @@ export default {
                   }
                 ];
                 this.rowData = rowdata;
-                this.nextFn("paystatusInfo");
+                this.nextFn("openInfo");
               }
             }
           ]
@@ -489,6 +482,23 @@ export default {
   },
 
   methods: {
+    // 返回
+    backFn(path) {
+      if (path == "close") {
+        this.editFormVisible = false;
+        this.currentView = "";
+      } else if (path == "reload") {
+        this.editFormVisible = false;
+        this.currentView = "";
+        this.reloadData();
+      } else {
+        this.currentView = path;
+      }
+    },
+    // 下一步
+    nextFn(next) {
+      this.currentView = next;
+    },
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
@@ -515,25 +525,7 @@ export default {
         }
       });
     },
-    // 合计
-    // SumHandle() {
-    //   this.sumLoading = true;
-    //   var searchCondition = this.searchCondition;
-    //   getBillcountSum()({
-    //     dataTimeBegin: searchCondition.dataTimeBegin,
-    //     dataTimeEnd: searchCondition.dataTimeEnd,
-    //     agentNo: searchCondition.agentNo,
-    //     containChild: searchCondition.containChild
-    //   }).then(res => {
-    //     if (res.code == "00") {
-    //       var data = res.data;
-    //       this.scanSum = data.scan;
-    //       this.netSum = data.register;
-    //       this.pushSum = data.billSuccess;
-    //     }
-    //     this.sumLoading = false;
-    //   });
-    // },
+
     customerTypeSelect() {
       let value = this.selectOptions.customerType;
       this.payStatusVisible = false; // 聚合详情
@@ -550,42 +542,20 @@ export default {
     customerTypeChange() {
       this.customerTypeSelect();
     },
-    // 下一步
-    nextFn(next) {
-      this.currentView = next;
-    },
-    // 返回
-    backFn(path) {
-      if (path == "close") {
-        this.editFormVisible = false;
-        this.currentView = "";
-      } else if (path == "reload") {
-        this.editFormVisible = false;
-        this.currentView = "";
-        this.reloadData();
-      } else if (path == "paystatusInfo") {
-        this.currentView = "paystatusInfo";
-      } else if (path == "paystatusGoods") {
-        this.currentView = "paystatusGoods";
-      } else if (path == "paystatusUpload") {
-        this.currentView = "paystatusUpload";
+    titleChange(currentView) {
+      if (currentView == "paystatusInfo") {
+        this.productOpenTitle = "完善信息";
+      } else if (currentView == "paystatusGoods") {
+        this.productOpenTitle = "开通产品";
+      } else if (currentView == "paystatusUpload") {
+        this.productOpenTitle = "上传资质";
+      } else if (currentView == "paystatusSuccess") {
+        this.productOpenTitle = "申请完成";
       }
     }
   },
 
-  computed: {
-    productOpenTitle() {
-      if (this.currentView == "paystatusInfo") {
-        return "完善信息";
-      } else if (this.currentView == "paystatusGoods") {
-        return "开通产品";
-      } else if (this.currentView == "paystatusUpload") {
-        return "上传资质";
-      } else if (this.currentView == "paystatusSuccess") {
-        return "申请完成";
-      }
-    }
-  },
+  computed: {},
   watch: {
     editFormVisible(value) {
       if (!value) {
