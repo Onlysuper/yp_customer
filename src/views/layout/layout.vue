@@ -4,7 +4,6 @@
       <side-bar class="layout-sldebar"></side-bar>
       <el-container class="layout-main">
         <nav-bar></nav-bar>
-        <!-- <tags-view></tags-view> -->
         <app-main></app-main>
       </el-container>
     </el-container>
@@ -38,8 +37,13 @@ export default {
 @import "../../../src/assets/scss-pc/admin-page.scss";
 // @import "../../../src/assets/scss-pc/reset.scss";
 .layout-page {
-  height: 100vh;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
   overflow: hidden;
+  // height: 100vh;
   .layout-main {
     flex-direction: column;
   }

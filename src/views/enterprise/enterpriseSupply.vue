@@ -190,7 +190,7 @@ export default {
           corresattr: "name",
           type: "text",
           label: "企业名称",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.name = value;
@@ -200,23 +200,12 @@ export default {
           corresattr: "tax",
           type: "text",
           label: "企业税号",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.tax = value;
           }
         },
-        {
-          corresattr: "operator",
-          type: "text",
-          label: "操作员",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.operator = value;
-          }
-        },
-
         {
           type: "dateGroup",
           label: "选择时间",
@@ -239,6 +228,16 @@ export default {
               }
             }
           ]
+        },
+        {
+          corresattr: "operator",
+          type: "text",
+          label: "操作员",
+          show: false, // 普通搜索显示
+          value: "",
+          cb: value => {
+            this.searchCondition.operator = value;
+          }
         }
       ],
       // 列表数据
@@ -251,16 +250,22 @@ export default {
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
-            key: "税号",
+            key: "创建时间",
+            width: "170px",
+            word: "createTime"
+          },
+          {
+            key: "企业名称",
+            width: "200px",
+            word: "name"
+          },
+          {
+            key: "企业税号",
             width: "180px",
             sortable: true,
             word: "tax"
           },
-          {
-            key: "名称",
-            width: "200px",
-            word: "name"
-          },
+
           {
             key: "状态",
             width: "80px",

@@ -91,7 +91,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "下级",
+          label: "是否有下级",
           show: true, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -128,6 +128,12 @@ export default {
             sortable: true,
             word: "dataTime"
           },
+          // {
+          //   key: "合伙人编号",
+          //   width: "",
+          //   sortable: true,
+          //   word: "agentNo"
+          // },
           {
             key: "扫码次数",
             width: "",

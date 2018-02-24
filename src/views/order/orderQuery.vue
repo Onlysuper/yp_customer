@@ -20,7 +20,7 @@
           <span class="line-label-last">{{detailsForm.orderNo}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">交易金额:</span>{{detailsForm.amount}}
+          <span class="line-label">交易金额:</span>{{utils.accMul(detailsForm.amount, 0.01)}}元
         </div>
         <div class="line-label-box">
           <span class="line-label">手续费:</span>
@@ -31,11 +31,11 @@
         <div class="line-label-box">
           <span class="line-label">代理商编号:</span>{{detailsForm.agentNo}}
         </div>
-        <div class="line-label-box">
+        <!-- <div class="line-label-box">
           <span class="line-label">代理商分润:</span>
-        </div>
+        </div> -->
         <div class="line-label-box">
-          <span class="line-label">交易类型:</span>{{detailsForm.payTypeDetail}}
+          <span class="line-label">交易类型:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -55,6 +55,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { getPayOrders } from "@src/apis";
+import utils from "@src/common/utils";
 export default {
   name: "orderQuery",
   components: {
@@ -95,6 +96,47 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
+
+        {
+          corresattr: "agentNo",
+          type: "text", // 表单类型
+          label: "代理商编号", // 输入框前面的文字
+          visible:
+            this.$store.state.moduleLayour.userMessage.all.userType ==
+              "admin" ||
+            this.$store.state.moduleLayour.userMessage.all.userType == "root"
+              ? "FALSE"
+              : "TRUE",
+          show: true, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.agentNo = value;
+          }
+        },
+        {
+          type: "dateGroup",
+          label: "选择时间",
+          show: true, // 普通搜索显示
+          options: [
+            {
+              corresattr: "startTime",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.startTime = value;
+              }
+            },
+            {
+              corresattr: "endTime",
+              lable: "结束时间",
+              value: new Date(),
+              cb: value => {
+                this.searchCondition.endTime = value;
+              }
+            }
+          ]
+        },
         {
           corresattr: "body",
           type: "text", // 表单类型
@@ -104,17 +146,6 @@ export default {
           cb: value => {
             // 表单输入之后回调函数
             this.searchCondition.body = value;
-          }
-        },
-        {
-          corresattr: "agentNo",
-          type: "text", // 表单类型
-          label: "代理商编号", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.agentNo = value;
           }
         },
         {
@@ -196,29 +227,6 @@ export default {
           cb: value => {
             this.searchCondition.payType = value;
           }
-        },
-        {
-          type: "dateGroup",
-          label: "选择时间",
-          show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "startTime",
-              label: "开始时间",
-              value: todayDate,
-              cb: value => {
-                this.searchCondition.startTime = value;
-              }
-            },
-            {
-              corresattr: "endTime",
-              lable: "结束时间",
-              value: new Date(),
-              cb: value => {
-                this.searchCondition.endTime = value;
-              }
-            }
-          ]
         }
       ],
 
@@ -249,7 +257,14 @@ export default {
           {
             key: "交易金额",
             width: "",
-            word: "amount"
+            word: "amount",
+            status: true,
+            type: data => {
+              return {
+                text: utils.accMul(data, 0.01) + "元",
+                type: ""
+              };
+            }
           },
 
           {
@@ -323,9 +338,9 @@ export default {
   methods: {},
   mounted() {},
   computed: {
-    userType() {
-      return this.$store.state.moduleLayour.userMessage.userType;
-    },
+    // userType() {
+    //   return this.$store.state.moduleLayour.userMessage.userType;
+    // },
     userAll() {
       // 所有的用户信息
       return this.$store.state.moduleLayour.userMessage.all;

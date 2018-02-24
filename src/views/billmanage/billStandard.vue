@@ -103,7 +103,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "包含关系",
+          label: "是否有下级",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -164,7 +164,7 @@ export default {
           corresattr: "standard",
           type: "select",
           label: "达标情况",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -202,8 +202,15 @@ export default {
           },
           {
             key: "达标时间",
-            width: "170px",
-            word: "standardTime"
+            width: "100px",
+            word: "standardTime",
+            type: data => {
+              return {
+                text: data.split(" ")[0],
+                type: "danger"
+              };
+              // return data.split(" ")[0];
+            }
           },
           {
             key: "企业名称",
@@ -221,6 +228,7 @@ export default {
             word: "realFlag",
             status: true,
             type: data => {
+              console.log(data);
               if (data == "TRUE") {
                 return {
                   text: "通过",

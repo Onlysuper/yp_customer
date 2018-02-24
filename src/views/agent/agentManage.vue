@@ -441,17 +441,7 @@ export default {
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
-        {
-          corresattr: "phoneNo",
-          type: "text", // 表单类型
-          label: "手机号", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.phoneNo = value;
-          }
-        },
+
         {
           corresattr: "agentNo",
           type: "text",
@@ -470,6 +460,17 @@ export default {
           value: "",
           cb: value => {
             this.searchCondition.agentName = value;
+          }
+        },
+        {
+          corresattr: "phoneNo",
+          type: "text", // 表单类型
+          label: "手机号", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.phoneNo = value;
           }
         }
       ],

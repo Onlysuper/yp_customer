@@ -67,7 +67,7 @@ export default {
           corresattr: "enterpriseName",
           type: "text", // 表单类型
           label: "商户名称", // 输入框前面的文字
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -162,7 +162,7 @@ export default {
             word: "customerNo"
           },
           {
-            key: "企业名称",
+            key: "商户名称",
             width: "",
             word: "enterpriseName"
           },
@@ -179,7 +179,17 @@ export default {
           {
             key: "中间人(元)",
             width: "",
-            word: "rebate"
+            word: "rebate",
+            visibleFn: rowdata => {
+              if (
+                this.userAll.userType === "admin" ||
+                this.userAll.userType === "branchOffice"
+              ) {
+                return true;
+              } else {
+                return false;
+              }
+            }
           },
           {
             key: "结算状态",
@@ -235,6 +245,12 @@ export default {
   },
   mounted() {
     this.SumHandle();
+  },
+  computed: {
+    userAll() {
+      // 所有的用户信息
+      return this.$store.state.moduleLayour.userMessage.all;
+    }
   }
 };
 </script>

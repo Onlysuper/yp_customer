@@ -8,12 +8,18 @@
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :width="item.width" :sortable="item.sortable">
         <template slot-scope="scope">
-          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{item.type(scope.row[scope.column.property],scope.row).text}}</el-tag>
+          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
           <el-popover v-else trigger="click" placement="top">
-            <p>{{ scope.row[scope.column.property]}}</p>
-            <div slot="reference" class="name-wrapper">
+            <!-- <p>{{ scope.row[scope.column.property]}}</p> -->
+            <!-- <div slot="reference" class="name-wrapper">
               <div class="inline-text">
                 {{ scope.row[scope.column.property]}}
+              </div>
+            </div> -->
+            <p>{{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</p>
+            <div slot="reference" class="name-wrapper">
+              <div class="inline-text">
+                {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
               </div>
             </div>
           </el-popover>
