@@ -114,14 +114,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-.operation-box {
-  .sumtext {
-    font-size: 14px;
-    padding-left: 10px;
-    line-height: 32px;
-    color: #606266;
-  }
-}
+
 </style>
 <script>
 import $ from "jquery";
@@ -231,22 +224,12 @@ export default {
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
-        {
-          corresattr: "receiptNo",
-          type: "text", // 表单类型
-          label: "采购单号", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.receiptNo = value;
-          }
-        },
+
         {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -274,7 +257,7 @@ export default {
           corresattr: "receiptType",
           type: "select",
           label: "设备类型",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -316,6 +299,17 @@ export default {
               }
             }
           ]
+        },
+        {
+          corresattr: "receiptNo",
+          type: "text", // 表单类型
+          label: "采购单号", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.receiptNo = value;
+          }
         }
         // {
         //   type: "dateGroup2",
@@ -342,6 +336,11 @@ export default {
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
+          {
+            key: "创建时间",
+            width: "180px",
+            word: "createTime"
+          },
           {
             key: "采购单号",
             width: "150px",

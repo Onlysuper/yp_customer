@@ -145,14 +145,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-.operation-box {
-  .sumtext {
-    font-size: 14px;
-    padding-left: 10px;
-    line-height: 32px;
-    color: #606266;
-  }
-}
+
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -211,7 +204,7 @@ export default {
           corresattr: "agentName",
           type: "text", // 表单类型
           label: "代理商名称", // 输入框前面的文字
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数

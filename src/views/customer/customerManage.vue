@@ -391,21 +391,12 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
-        {
-          corresattr: "taxNo",
-          type: "text",
-          label: "企业税号",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.taxNo = value;
-          }
-        },
+
         {
           corresattr: "enterpriseName",
           type: "text",
           label: "企业名称",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.enterpriseName = value;
@@ -413,7 +404,7 @@ export default {
         },
         {
           type: "dateGroup",
-          label: "选择时间",
+          label: "入网时间",
           show: true, // 普通搜索显示
           options: [
             {
@@ -433,6 +424,16 @@ export default {
               }
             }
           ]
+        },
+        {
+          corresattr: "taxNo",
+          type: "text",
+          label: "企业税号",
+          show: false, // 普通搜索显示
+          value: "",
+          cb: value => {
+            this.searchCondition.taxNo = value;
+          }
         },
         {
           corresattr: "agentNo",
@@ -540,7 +541,7 @@ export default {
             word: "agentNo"
           },
           {
-            key: "来源",
+            key: "入网来源",
             width: "120px",
             word: "customerFrom",
             status: true,
@@ -610,7 +611,7 @@ export default {
           { key: "入网时间", word: "createTime", width: "170" }
         ],
         operation: {
-          width: "120px",
+          width: "130px",
           options: [
             // 操作按钮
             {

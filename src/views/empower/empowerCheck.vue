@@ -109,14 +109,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-.operation-box {
-  .sumtext {
-    font-size: 14px;
-    padding-left: 10px;
-    line-height: 32px;
-    color: #606266;
-  }
-}
+
 </style>
 <script>
 import $ from "jquery";
@@ -196,22 +189,35 @@ export default {
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
+
         {
-          corresattr: "receiptNo",
-          type: "text", // 表单类型
-          label: "采购单号", // 输入框前面的文字
+          type: "dateGroup",
+          label: "选择时间",
           show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.receiptNo = value;
-          }
+          options: [
+            {
+              corresattr: "createTimeStart",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
+            },
+            {
+              corresattr: "createTimeEnd",
+              lable: "结束时间",
+              value: new Date(),
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
+            }
+          ]
         },
         {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -235,7 +241,7 @@ export default {
           corresattr: "receiptType",
           type: "select",
           label: "设备类型",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -252,27 +258,15 @@ export default {
           }
         },
         {
-          type: "dateGroup",
-          label: "选择时间",
-          show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "createTimeStart",
-              label: "开始时间",
-              value: todayDate,
-              cb: value => {
-                this.searchCondition.createTimeStart = value;
-              }
-            },
-            {
-              corresattr: "createTimeEnd",
-              lable: "结束时间",
-              value: new Date(),
-              cb: value => {
-                this.searchCondition.createTimeEnd = value;
-              }
-            }
-          ]
+          corresattr: "receiptNo",
+          type: "text", // 表单类型
+          label: "采购单号", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.receiptNo = value;
+          }
         }
       ],
 
@@ -302,7 +296,7 @@ export default {
           },
           {
             key: "数量",
-            width: "",
+            width: "100px",
             word: "qrcodeCount"
           },
           {
@@ -602,7 +596,7 @@ export default {
   mounted() {},
   computed: {
     userType() {
-      return this.$store.state.moduleLayour.userMessage.userType;
+      return this.$store.state.moduleLayour.userMessage.all.userType;
     },
     userAll() {
       // 所有的用户信息

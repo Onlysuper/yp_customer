@@ -258,14 +258,6 @@
 
 <style lang='scss' scoped>
 .empower {
-  .operation-box {
-    .sumtext {
-      font-size: 14px;
-      padding-left: 10px;
-      line-height: 32px;
-      color: #606266;
-    }
-  }
   .qrcodeboxchild {
     text-align: center;
   }
@@ -472,18 +464,6 @@ export default {
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
-          corresattr: "batchNo",
-          type: "text", // 表单类型
-          label: "批次编号", // 输入框前面的文字
-          show: false, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.batchNo = value;
-          }
-        },
-
-        {
           type: "dateGroup",
           label: "选择时间",
           show: true, // 普通搜索显示
@@ -506,6 +486,53 @@ export default {
             }
           ]
         },
+        {
+          corresattr: "qrcode",
+          type: "text", // 表单类型
+          label: "序列号", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.qrcode = value;
+          }
+        },
+        {
+          corresattr: "deviceType",
+          type: "select",
+          label: "设备类型",
+          show: true, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "AUTHCODE",
+              label: "授权码"
+            },
+            {
+              value: "SCANCODEGUN",
+              label: "扫码枪"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.deviceType = value;
+          }
+        },
+        {
+          corresattr: "batchNo",
+          type: "text", // 表单类型
+          label: "批次编号", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.batchNo = value;
+          }
+        },
+
         // {
         //   corresattr: "agentNo",
         //   type: "text", // 表单类型
@@ -539,17 +566,7 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
-        {
-          corresattr: "qrcode",
-          type: "text", // 表单类型
-          label: "序号", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.qrcode = value;
-          }
-        },
+
         {
           corresattr: "authCode",
           type: "text", // 表单类型
@@ -609,30 +626,7 @@ export default {
             this.searchCondition.containChild = value;
           }
         },
-        {
-          corresattr: "deviceType",
-          type: "select",
-          label: "设备类型",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "AUTHCODE",
-              label: "授权码"
-            },
-            {
-              value: "SCANCODEGUN",
-              label: "扫码枪"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.deviceType = value;
-          }
-        },
+
         {
           corresattr: "materiel",
           type: "select",

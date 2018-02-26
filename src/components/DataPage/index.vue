@@ -3,17 +3,19 @@
   <div class="tablelist-box">
     <!-- DataTable 数据表格 start -->
     <!-- <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true"> -->
-    <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
+
+    <!-- <div class="table-outbox"> -->
+    <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :width="item.width" :sortable="item.sortable">
         <template slot-scope="scope">
-          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{item.type(scope.row[scope.column.property],scope.row).text}}</el-tag>
+          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
           <el-popover v-else trigger="click" placement="top">
-            <p>{{ scope.row[scope.column.property]}}</p>
+            <p>{{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</p>
             <div slot="reference" class="name-wrapper">
               <div class="inline-text">
-                {{ scope.row[scope.column.property]}}
+                {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
               </div>
             </div>
           </el-popover>
@@ -21,12 +23,13 @@
       </el-table-column>
       <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
         <template slot-scope="scope">
-          <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
+          <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" :disabled="item.disabledFn?item.disabledFn(scope.row,item.disabledFn):false" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
             {{item.text}}
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <!-- </div> -->
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
@@ -34,6 +37,15 @@
 </template>
 <style lang="scss">
 .tablelist-box {
+  .table-outbox {
+    // background: red;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    flex: 1;
+    // display: flex;
+    overflow-y: auto;
+  }
   .el-pagination {
     text-align: right;
     padding-top: 8px;
@@ -76,15 +88,24 @@
     margin: 0;
   }
   .inline-text {
-    display: inline-block;
-    vertical-align: middle;
-    max-width: 100%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    position: relative;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
     overflow: hidden;
+    height: 30px;
   }
 }
-
+// .tablelist-box .el-table {
+//   height: 100%;
+// }
+.tablelist-box .tableHeader th {
+  position: relative;
+}
+.tablelist-box .el-table td {
+  position: relative;
+}
 @media only screen and (min-device-height: 600px) {
   .tablelist-box .tableHeader th {
     padding: 2px 0;
@@ -254,6 +275,10 @@ export default {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);
     },
+    doLayout() {
+      console.log(this.$refs.tableList);
+      this.$refs.tableList.doLayout();
+    },
     // 导出
     ExportExcel(path, param, haveparam) {
       var exportUrl = "";
@@ -287,6 +312,7 @@ export default {
   },
 
   mounted() {
+    // this.doLayout();
     this.$emit("databoxSize");
     // 初始化数据
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
@@ -317,6 +343,7 @@ export default {
   },
   watch: {
     visibleinput(val) {
+      this.doLayout();
       // 监听高级搜索与普通搜索模式转变
     },
     getPage(value) {
@@ -339,6 +366,7 @@ export default {
     fullScreen(value) {
       // 全屏切换
     },
+
     $route(to, from) {}
   }
 };

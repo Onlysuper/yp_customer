@@ -3,8 +3,8 @@
 
   <div class="search-page" @keyup.enter="searchStart">
     <!-- Form 表单编写 start -->
-    <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px">
-      <el-form-item :class="itemWidth(item.type)" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput">
+    <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="90px">
+      <el-form-item :class="itemWidth(item.type)" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput" v-if="item.visible=='TRUE'?false:true">
 
         <!-- 文本框 -->
         <el-input ref="myinput" v-if="item.type=='text'" :placeholder="item.label" @input="changeInput(item.cb,$event)" v-model="item.value"></el-input>
@@ -35,20 +35,24 @@
         <!-- </el-form-item> -->
       </el-form-item>
       <div class="button-box">
-        <el-button size="small" @click="searchStart" type="primary">开始搜索</el-button>
-        <el-button size="small" @click="resetInput('searchform')">重置</el-button>
-        <el-button size="small" v-if="visibleSenior" class="seach-mode" @click="advancSeachfn()" type="text">
-          <template v-if="visibleinput">
-            普通搜索
-            <i class="el-icon-arrow-up"></i>
-          </template>
-          <template v-if="!visibleinput">
-            高级搜索
-            <i class="el-icon-arrow-down"></i>
-          </template>
-        </el-button>
-
+        <div class="searchbut-box">
+          <el-button size="small" @click="searchStart" type="primary">开始搜索</el-button>
+          <el-button size="small" @click="resetInput('searchform')">重置</el-button>
+        </div>
+        <div class="seach-mode-box">
+          <el-button size="small" v-if="visibleSenior" class="seach-mode" @click="advancSeachfn()" type="text">
+            <template v-if="visibleinput">
+              普通搜索
+              <i class="el-icon-arrow-up"></i>
+            </template>
+            <template v-if="!visibleinput">
+              高级搜索
+              <i class="el-icon-arrow-down"></i>
+            </template>
+          </el-button>
+        </div>
       </div>
+
     </el-form>
     <!-- Form end -->
 
@@ -308,11 +312,19 @@ export default {
     padding: 0;
     margin-bottom: 10px;
     border-bottom: 1px solid #eee;
-    display: block;
+    display: flex;
+    flex-shrink: 0;
     &::after {
       content: "";
       display: block;
       clear: both;
+    }
+    .searchbut-box {
+      width: 170px;
+      flex-grow: 0;
+      flex-shrink: 0;
+      // display: flex;
+      // white-space: nowrap;
     }
     .el-form-item--small.el-form-item {
       margin-bottom: 10px;
@@ -340,7 +352,7 @@ export default {
       }
       // .dateGroup,
       .dateGroup2 {
-        width: 240px;
+        width: 179px;
         display: flex;
         background-color: #fff;
         background-image: none;
@@ -357,6 +369,15 @@ export default {
         }
         .el-input__suffix {
           right: 0;
+        }
+        .el-date-editor .el-input__inner {
+          padding-left: 8px;
+        }
+        .el-date-editor .el-input__prefix {
+          display: none;
+        }
+        .el-input__icon {
+          width: 12px;
         }
       }
       .dateGroup {
@@ -391,49 +412,63 @@ export default {
       //   }
       // }
     }
-    .seach-mode {
-      font-size: 14px;
-      color: #f74f52;
-      font-weight: bold;
-      i {
+    .seach-mode-box {
+      display: flex;
+      width: 100px;
+      flex-grow: 0;
+      flex-shrink: 0;
+
+      .seach-mode {
+        height: 28px;
+        font-size: 14px;
+        color: #f74f52;
         font-weight: bold;
+        i {
+          font-weight: bold;
+        }
       }
     }
-    /*高级搜索样式start*/
+    /*普通样式start*/
+    .visibleform-box,
     .showform-box {
-      overflow: hidden;
-      margin-top: 5px !important;
       display: flex;
       flex-wrap: wrap;
-      justify-content: baseline;
-      .el-form-item {
-        margin-bottom: 5px;
-      }
-
       .button-box {
         display: flex;
         justify-content: flex-end;
-        padding: 5px 5px 10px 5px;
-        width: 100%;
-        overflow: hidden;
-      }
-    }
-    /*高级搜索样式end*/
-
-    /*普通样式start*/
-    .visibleform-box {
-      display: flex;
-      .seach-mode {
-        float: right;
-      }
-      .button-box {
         flex: 1;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
         button {
-          margin: 0 10px;
+          margin-left: 10px;
         }
       }
     }
     /*普通搜索样式end*/
+
+    /*高级搜索样式start*/
+    // .showform-box {
+    //   overflow: hidden;
+    //   margin-top: 5px !important;
+    //   display: flex;
+    //   flex-wrap: wrap;
+    //   justify-content: baseline;
+    //   .el-form-item {
+    //     margin-bottom: 5px;
+    //   }
+
+    //   .button-box {
+    //     display: flex;
+    //     justify-content: flex-end;
+    //     padding: 5px 5px 10px 5px;
+    //     width: 100%;
+    //     overflow: hidden;
+    //   }
+    // }
+    /*高级搜索样式end*/
+  }
+  .el-form-item__label {
+    padding-right: 5px;
   }
 }
 </style>

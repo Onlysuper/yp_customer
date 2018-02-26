@@ -28,6 +28,23 @@ mypFilters.install = function (Vue, options) {
     //     { { # } }
     // }
     /**
+      * 交易订单-》交易类型
+      */
+    Vue.filter('payTypeDetail', function (value) {
+        switch (value) {
+            case "scanPay":
+                value = "扫码支付";
+                break;
+            case "microPay":
+                value = "刷卡支付";
+                break;
+            case "jsPay":
+                value = "公众号支付";
+                break;
+        }
+        return value;
+    })
+    /**
    * 结算交付状态
    */
     Vue.filter('payStatus', function (value) {
@@ -454,6 +471,9 @@ mypFilters.install = function (Vue, options) {
                 break;
             case "CHECKING":
                 value = "待审核";
+                break;
+            case "PROCESSING":
+                value = "开通待处理";
                 break;
             default:
                 value = "未知";

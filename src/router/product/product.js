@@ -7,7 +7,7 @@ export default {
   name: 'product',
   path: '/product',
   meta: {
-    title: '产品管理',
+    title: '产品模版',
     keepAlive: true,
     requiresAuth: true,
     parent: "product",
