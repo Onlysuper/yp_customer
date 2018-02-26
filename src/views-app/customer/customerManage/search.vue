@@ -59,7 +59,7 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "是否包含下级",
+        title: "是否有下级",
         type: "myp-radio-list",
         defaultValue: this.searchQuery.containChild || "ALL",
         options: [

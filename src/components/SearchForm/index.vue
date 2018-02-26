@@ -333,11 +333,11 @@ export default {
       margin-top: 5px !important;
       .form-item {
         // width: 340px;
-        width: 280px;
+        width: 271px;
         flex-shrink: 0;
       }
       .form-item-month {
-        width: 280px;
+        width: 271px;
         flex-shrink: 0;
         .dateMonth {
           width: 100%;
@@ -433,6 +433,7 @@ export default {
     .showform-box {
       display: flex;
       flex-wrap: wrap;
+      width: 100%;
       .button-box {
         display: flex;
         justify-content: flex-end;

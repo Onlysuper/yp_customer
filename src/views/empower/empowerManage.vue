@@ -609,7 +609,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否包含下级",
+          label: "是否有下级",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
