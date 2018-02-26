@@ -450,9 +450,9 @@ export default {
               text: "开通产品",
               // visibleFn: rowdata => {
               //   if (
-              //     this.adminOperationAll.customer_edit == "TRUE" &&
-              //     (rowdata.agentNo == this.userBussinessNo ||
-              //       this.userType == "admin")
+              //     rowdata.payStatus == "INIT" ||
+              //     rowdata.qrcodeStatus == "INIT" ||
+              //     rowdata.elecStatus == "INIT"
               //   ) {
               //     return true;
               //   } else {
@@ -460,6 +460,17 @@ export default {
               //   }
               // },
               color: "#00c1df",
+              disabledFn: rowdata => {
+                if (
+                  rowdata.payStatus == "INIT" ||
+                  rowdata.qrcodeStatus == "INIT" ||
+                  rowdata.elecStatus == "INIT"
+                ) {
+                  return false;
+                } else {
+                  return true;
+                }
+              },
               cb: rowdata => {
                 if (
                   rowdata.payStatus == "INIT" ||
@@ -487,12 +498,6 @@ export default {
                   ];
                   this.rowData = rowdata;
                   this.nextFn("openInfo");
-                } else {
-                  this.$message({
-                    message: "可开通项均已开通，不可重复开通！",
-                    type: "warning",
-                    center: true
-                  });
                 }
               }
             }

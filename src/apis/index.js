@@ -72,7 +72,7 @@ const getBillcountcustomers = () => { return (params) => { return http.get(base.
 // end -------------------------------------------------
 
 /**
-**产品管理start
+**产品模版start
  */
 const getProducts = () => { return (params) => { return http.get(base.oaIp, "/product/page", params) } }
 const postAddProduct = () => { return (params) => { return http.post(base.oaIp, "/product/add", params) } }
