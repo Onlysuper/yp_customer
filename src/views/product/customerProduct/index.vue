@@ -245,6 +245,14 @@ export default {
             {
               label: "未开通",
               value: "INIT"
+            },
+            {
+              label: "拒绝",
+              value: "REJECT"
+            },
+            {
+              label: "待审核",
+              value: "CHECKING"
             }
           ],
           cb: value => {
@@ -269,6 +277,14 @@ export default {
             {
               label: "未开通",
               value: "INIT"
+            },
+            {
+              label: "拒绝",
+              value: "REJECT"
+            },
+            {
+              label: "待审核",
+              value: "CHECKING"
             }
           ],
           cb: value => {

@@ -11,7 +11,7 @@
       <!-- {{rowData}}  -->
     </div>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="goback('paystatusUpload')">上一步</el-button>
+      <!-- <el-button @click="goback('paystatusUpload')">上一步</el-button> -->
       <el-button type="primary" @click="goback('reload')">确定</el-button>
     </div>
   </div>
