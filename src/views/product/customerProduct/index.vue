@@ -541,32 +541,32 @@ export default {
     nextFn(next) {
       this.currentView = next;
     },
-    editSave(formName) {
-      // 编辑内容保存
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          // this.resetSearchHandle();
-          postEditCustomer()(this.editForm).then(data => {
-            if (data.code === "00") {
-              this.$message({
-                message: "恭喜你，修改数据成功",
-                type: "success",
-                center: true
-              });
-              this.editFormVisible = false;
-              this.reloadData();
-            } else {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            }
-            console.log(data);
-          });
-        }
-      });
-    },
+    // editSave(formName) {
+    //   // 编辑内容保存
+    //   this.$refs[formName].validate(valid => {
+    //     if (valid) {
+    //       // this.resetSearchHandle();
+    //       postEditCustomer()(this.editForm).then(data => {
+    //         if (data.code === "00") {
+    //           this.$message({
+    //             message: "恭喜你，操作成功",
+    //             type: "success",
+    //             center: true
+    //           });
+    //           this.editFormVisible = false;
+    //           this.reloadData();
+    //         } else {
+    //           this.$message({
+    //             message: data.msg,
+    //             type: "warning",
+    //             center: true
+    //           });
+    //         }
+    //         console.log(data);
+    //       });
+    //     }
+    //   });
+    // },
 
     customerTypeSelect() {
       let value = this.selectOptions.customerType;

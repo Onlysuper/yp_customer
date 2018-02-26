@@ -312,7 +312,8 @@ export default {
     padding: 0;
     margin-bottom: 10px;
     border-bottom: 1px solid #eee;
-    display: block;
+    display: flex;
+    flex-shrink: 0;
     &::after {
       content: "";
       display: block;
