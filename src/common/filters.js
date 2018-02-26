@@ -472,6 +472,9 @@ mypFilters.install = function (Vue, options) {
             case "CHECKING":
                 value = "待审核";
                 break;
+            case "PROCESSING":
+                value = "开通待处理";
+                break;
             default:
                 value = "未知";
         }

@@ -68,7 +68,7 @@
             <span class="line-label-last">{{detailsForm.customerName}}</span>
           </div>
           <div class="line-label-box">
-            <span class="line-label">开通状态:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
+            <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | handleProductOpenStatus}}
           </div>
         </template>
       </div>
