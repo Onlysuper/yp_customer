@@ -59,7 +59,17 @@
         </template>
         <template v-if="elecStatusVisible">
           <!-- 电子详情 -->
-          电子
+          <div class="line-label-box">
+            <span class="line-label">商户编号:</span>
+            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">商户名称:</span>
+            <span class="line-label-last">{{detailsForm.customerName}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">开通状态:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
+          </div>
         </template>
       </div>
 
@@ -451,26 +461,39 @@ export default {
               // },
               color: "#00c1df",
               cb: rowdata => {
-                this.editFormVisible = true;
-                this.customerTypeSelected = [
-                  {
-                    value: "payStatus",
-                    label: "聚合支付",
-                    disabled: rowdata.payStatus == "INIT" ? false : true
-                  },
-                  {
-                    value: "qrcodeStatus",
-                    label: "快速开票",
-                    disabled: rowdata.qrcodeStatus == "INIT" ? false : true
-                  },
-                  {
-                    value: "elecStatus",
-                    label: "电子发票",
-                    disabled: rowdata.elecStatus == "INIT" ? false : true
-                  }
-                ];
-                this.rowData = rowdata;
-                this.nextFn("openInfo");
+                if (
+                  rowdata.payStatus == "INIT" ||
+                  rowdata.qrcodeStatus == "INIT" ||
+                  rowdata.elecStatus == "INIT"
+                ) {
+                  this.editFormVisible = true;
+                  this.customerTypeSelected = [
+                    {
+                      value: "payStatus",
+                      label: "聚合支付",
+                      disabled: rowdata.payStatus == "INIT" ? false : true
+                    },
+                    {
+                      value: "qrcodeStatus",
+                      label: "快速开票",
+                      disabled: rowdata.qrcodeStatus == "INIT" ? false : true
+                    },
+                    {
+                      value: "elecStatus",
+                      label: "电子发票",
+                      disabled: true
+                      // disabled: rowdata.elecStatus == "INIT" ? false : true
+                    }
+                  ];
+                  this.rowData = rowdata;
+                  this.nextFn("openInfo");
+                } else {
+                  this.$message({
+                    message: "可开通项均已开通，不可重复开通！",
+                    type: "warning",
+                    center: true
+                  });
+                }
               }
             }
           ]
