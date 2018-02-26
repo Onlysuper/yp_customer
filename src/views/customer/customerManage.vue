@@ -488,7 +488,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否包含下级",
+          label: "是否有下级",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -517,22 +517,23 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "120px",
+            width: "110px",
             sortable: true,
             word: "customerNo"
           },
           {
             key: "企业名称",
-            width: "120px",
+            width: "200px",
             word: "enterpriseName"
           },
           {
             key: "企业税号",
+            width: "100px",
             word: "taxNo"
           },
           {
             key: "联系人",
-            width: "100px",
+            width: "80px",
             word: "linkMan"
           },
           {
@@ -542,7 +543,7 @@ export default {
           },
           {
             key: "入网来源",
-            width: "120px",
+            width: "100px",
             word: "customerFrom",
             status: true,
             type: data => {
