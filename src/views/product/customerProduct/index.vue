@@ -179,42 +179,17 @@ export default {
           corresattr: "customerName",
           type: "text",
           label: "商户名称",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.customerName = value;
           }
         },
-
-        {
-          corresattr: "qrcodeStatus",
-          type: "select",
-          label: "快速开票",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.qrcodeStatus = value;
-          }
-        },
         {
           corresattr: "payStatus",
           type: "select",
-          label: "聚合状态",
-          show: false, // 普通搜索显示
+          label: "聚合支付",
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -242,7 +217,30 @@ export default {
             this.searchCondition.payStatus = value;
           }
         },
-
+        {
+          corresattr: "qrcodeStatus",
+          type: "select",
+          label: "快速开票",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              label: "已开通",
+              value: "TRUE"
+            },
+            {
+              label: "未开通",
+              value: "INIT"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.qrcodeStatus = value;
+          }
+        },
         {
           corresattr: "elecStatus",
           type: "select",
@@ -399,13 +397,13 @@ export default {
             {
               text: "查询",
               color: "#00c1df",
-              visibleFn: rowdata => {
-                if (this.adminOperationAll.customer_detail == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
+              // visibleFn: rowdata => {
+              //   if (this.adminOperationAll.customer_detail == "TRUE") {
+              //     return true;
+              //   } else {
+              //     return false;
+              //   }
+              // },
               cb: rowdata => {
                 // console.log(rowdata);
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
