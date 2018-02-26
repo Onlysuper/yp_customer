@@ -456,17 +456,17 @@ export default {
                   {
                     value: "payStatus",
                     label: "聚合支付",
-                    disabled: rowdata.payStatus == "TRUE" ? true : false
+                    disabled: rowdata.payStatus == "INIT" ? false : true
                   },
                   {
                     value: "qrcodeStatus",
                     label: "快速开票",
-                    disabled: rowdata.qrcodeStatus == "TRUE" ? true : false
+                    disabled: rowdata.qrcodeStatus == "INIT" ? false : true
                   },
                   {
                     value: "elecStatus",
                     label: "电子发票",
-                    disabled: rowdata.elecStatus == "TRUE" ? true : false
+                    disabled: rowdata.elecStatus == "INIT" ? false : true
                   }
                 ];
                 this.rowData = rowdata;

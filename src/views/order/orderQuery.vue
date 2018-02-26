@@ -23,10 +23,10 @@
           <span class="line-label">交易金额:</span>{{utils.accMul(detailsForm.amount, 0.01)}}元
         </div>
         <div class="line-label-box">
-          <span class="line-label">手续费:</span>
+          <span class="line-label">手续费:</span>{{utils.accMul(detailsForm.fee, 0.01)}}元
         </div>
         <div class="line-label-box">
-          <span class="line-label">交易费率:</span>
+          <span class="line-label">交易费率:</span>{{detailsForm.feeRate, 100}}
         </div>
         <div class="line-label-box">
           <span class="line-label">代理商编号:</span>{{detailsForm.agentNo}}
@@ -255,13 +255,13 @@ export default {
             word: "body"
           },
           {
-            key: "交易金额",
+            key: "交易金额(元)",
             width: "",
             word: "amount",
             status: true,
             type: data => {
               return {
-                text: utils.accMul(data, 0.01) + "元",
+                text: utils.accMul(data, 0.01),
                 type: ""
               };
             }

@@ -57,7 +57,7 @@ const asyncRouter = [
     customerProduct,
     customerProductConfigure,
     billprofit,// 开票查询
-    // convergePayComm,// 聚合开票分润
+    convergePayComm,// 聚合开票分润
     billCount,// 开票统计
     billRecord,// 开票记录
     billDay,// 日开票详情
