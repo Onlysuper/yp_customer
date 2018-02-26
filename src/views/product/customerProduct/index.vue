@@ -481,8 +481,8 @@ export default {
                     {
                       value: "elecStatus",
                       label: "电子发票",
-                      disabled: true
-                      // disabled: rowdata.elecStatus == "INIT" ? false : true
+                      // disabled: true
+                      disabled: rowdata.elecStatus == "INIT" ? false : true
                     }
                   ];
                   this.rowData = rowdata;
