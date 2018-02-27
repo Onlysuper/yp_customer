@@ -99,7 +99,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -121,7 +121,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetImportForm('upload','importForm')">重置</el-button>
-        <el-button type="primary" @click="importSave('importForm')">确定导入</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="importSave('importForm')">确定导入</el-button>
       </div>
     </el-dialog>
     <!-- 导入 end -->
@@ -224,7 +224,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible=false">关闭</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑end -->
@@ -935,6 +935,7 @@ export default {
       this.reloadData();
       this.$refs["upload"].clearFiles();
       this.importVisible = false;
+      this.saveLoading = false;
     },
     handleExceed(files, fileList) {
       this.$message.warning(
@@ -952,6 +953,7 @@ export default {
       this.importDialog();
       this.$refs["upload"].clearFiles();
       this.importVisible = false;
+      this.saveLoading = false;
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -965,6 +967,7 @@ export default {
         if (valid) {
           // 确定导入
           this.$refs.upload.submit();
+          // this.saveLoading = true;
         }
       });
     },
@@ -979,6 +982,7 @@ export default {
       if (!isLt2M) {
         this.$message.error("上传文件图片大小不能超过 10MB!");
       }
+      this.saveLoading = false;
       return extension || (extension2 && isLt2M);
     },
     // 新增保存
@@ -987,6 +991,7 @@ export default {
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
         if (valid) {
+          this.saveLoading = true;
           // this.resetSearchHandle();
           postAddCustomerGood()({
             unionNo: addForm.unionNo,
@@ -1015,6 +1020,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
@@ -1025,6 +1031,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postEditCustomerGood(editForm.goodsNo)({
@@ -1054,6 +1061,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }

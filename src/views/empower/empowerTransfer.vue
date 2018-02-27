@@ -14,7 +14,7 @@
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 授权码分配  start-->
-    <el-dialog id="allotFormVisible" ref="allotFormVisible" center title="授权码分配" :visible.sync="allotFormVisible">
+    <el-dialog id="dialogLoding" ref="allotFormVisible" center title="授权码分配" :visible.sync="allotFormVisible">
       <el-form size="small" :model="allotForm" ref="allotForm" :rules="allotFormRules">
         <el-row>
           <el-col :span="12">
@@ -145,14 +145,6 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-.operation-box {
-  .sumtext {
-    font-size: 14px;
-    padding-left: 10px;
-    line-height: 32px;
-    color: #606266;
-  }
-}
 .centertext {
   text-align: center;
 }
@@ -523,9 +515,9 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let allotloading = this.$loading({
+          let dialogLoading = this.$loading({
             target: document
-              .querySelector("#allotFormVisible")
+              .querySelector("#dialogLoding")
               .querySelector(".el-dialog")
           });
           postMigrateNumTransfer()({
@@ -539,7 +531,7 @@ export default {
             //   : "DOWNWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
-            // qrcodes: thisForm.qrcodes,
+            qrcodes: thisForm.qrcodes,
             agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
@@ -556,7 +548,7 @@ export default {
                 message: data.msg
               });
             }
-            allotloading.close();
+            dialogLoading.close();
           });
         }
       });
@@ -575,9 +567,10 @@ export default {
             // this.userAll.userType == "admin"
             //   ? "OPERATOR_MIGRATE"
             //   : "UPWARD_MIGRATE",
-            // qrcodeStart: thisForm.qrcodeStart,
-            // qrcodeEnd: thisForm.qrcodeEnd,
+            qrcodeStart: thisForm.qrcodeStart,
+            qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
+            // agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
               this.$message({

@@ -44,9 +44,9 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="reset">重置</el-button>
-          <el-button type="primary" @click="submit" v-if="!isUpdate && !isBatchUpdate">提 交</el-button>
-          <el-button type="primary" @click="update" v-if="isBatchUpdate">批量修改</el-button>
-          <el-button type="primary" @click="update" v-if="isUpdate">修 改</el-button>
+          <el-button :loading="saveLoading" type="primary" @click="submit" v-if="!isUpdate && !isBatchUpdate">提 交</el-button>
+          <el-button :loading="saveLoading" type="primary" @click="update" v-if="isBatchUpdate">批量修改</el-button>
+          <el-button :loading="saveLoading" type="primary" @click="update" v-if="isUpdate">修 改</el-button>
         </span>
       </el-dialog>
       <!-- 上传新版本end -->
@@ -59,6 +59,7 @@
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
+import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import {
@@ -72,7 +73,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
       customerNo: "", // 商户编号
@@ -337,13 +338,22 @@ export default {
     submit() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postCustomerVersion()(this.form).then(data => {
-            this.dialogVisible = false;
-            this.reloadData();
-            this.$message({
-              type: "success",
-              message: "修改成功!"
-            });
+            if (data.code == "00") {
+              this.reloadData();
+              this.$message({
+                type: "success",
+                message: "修改成功!"
+              });
+              this.dialogVisible = false;
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+            this.saveLoading = false;
           });
         }
       });
@@ -351,13 +361,22 @@ export default {
     update() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           patchCustomerVersion()(this.form).then(data => {
-            this.dialogVisible = false;
-            this.reloadData();
-            this.$message({
-              type: "success",
-              message: "修改成功!"
-            });
+            if (data.code == "00") {
+              this.dialogVisible = false;
+              this.reloadData();
+              this.$message({
+                type: "success",
+                message: "修改成功!"
+              });
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+            this.saveLoading = false;
           });
         }
       });

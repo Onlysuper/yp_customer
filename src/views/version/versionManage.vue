@@ -57,7 +57,7 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="上传文件" v-if="!isUpdate">
+          <el-form-item class="is-required" label="上传文件" v-if="!isUpdate">
             <el-upload ref="uploadFile" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" :data="form" :before-upload="beforeUploadFile" :on-success="uploadFileSuccess" :on-error="uploadFileError" :action="oaIp+'/versionCommand/add'" :auto-upload="false" accept="file">
               <el-button type="primary">选择新版本上传
                 <i class="el-icon-upload el-icon--right"></i>
@@ -67,8 +67,8 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="reset">重置</el-button>
-          <el-button type="primary" @click="upload" v-if="!isUpdate">提 交</el-button>
-          <el-button type="primary" @click="update" v-if="isUpdate">修 改</el-button>
+          <el-button :loading="saveLoading" type="primary" @click="upload" v-if="!isUpdate">提 交</el-button>
+          <el-button :loading="saveLoading" type="primary" @click="update" v-if="isUpdate">修 改</el-button>
         </span>
       </el-dialog>
       <!-- 上传新版本end -->
@@ -416,14 +416,17 @@ export default {
     upload() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           console.log(this.$refs.uploadFile);
           if (this.$refs.uploadFile.uploadFiles.length === 0) {
             this.$message({
               type: "danger", //warning
               message: "请选择上传文件!"
             });
+            this.saveLoading = false;
             return;
           }
+          this.saveLoading = false;
           this.$refs.uploadFile.submit();
         }
       });
@@ -431,6 +434,7 @@ export default {
     update() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           patchVersion()(this.form).then(data => {
             this.uploadDialogVisible = false;
             this.reloadData();
@@ -438,6 +442,7 @@ export default {
               type: "success",
               message: "修改成功!"
             });
+            this.saveLoading = false;
           });
         }
       });

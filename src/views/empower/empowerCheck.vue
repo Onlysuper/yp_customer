@@ -50,8 +50,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm')">重置</el-button>
-        <el-button type="primary" @click="checkAdoptSave('checkForm')">审核通过</el-button>
-        <el-button type="primary" @click="checkRefuseSave('checkForm')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm')">审核通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm')">拒绝通过</el-button>
       </div>
     </el-dialog>
     <!-- 审核下级授权码采购 end -->
@@ -100,8 +100,8 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm2')">重置</el-button>
-        <el-button type="primary" @click="checkAdoptSave('checkForm2')">审核通过</el-button>
-        <el-button type="primary" @click="checkRefuseSave('checkForm2')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm2')">审核通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm2')">拒绝通过</el-button>
       </div>
     </el-dialog>
     <!-- 扫码枪采购 end -->
@@ -109,14 +109,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-.operation-box {
-  .sumtext {
-    font-size: 14px;
-    padding-left: 10px;
-    line-height: 32px;
-    color: #606266;
-  }
-}
+
 </style>
 <script>
 import $ from "jquery";
@@ -137,7 +130,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
@@ -185,33 +178,46 @@ export default {
         checkFormOptions: [
           {
             value: "OUT_ORDER",
-            label: "授权码序列号"
+            label: "序列号"
           },
           {
             value: "ORDER",
-            label: "授权码号段转移"
+            label: "号段转移"
           }
         ]
       },
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
+
         {
-          corresattr: "receiptNo",
-          type: "text", // 表单类型
-          label: "采购单号", // 输入框前面的文字
+          type: "dateGroup",
+          label: "选择时间",
           show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.receiptNo = value;
-          }
+          options: [
+            {
+              corresattr: "createTimeStart",
+              label: "开始时间",
+              value: todayDate,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
+            },
+            {
+              corresattr: "createTimeEnd",
+              lable: "结束时间",
+              value: new Date(),
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
+            }
+          ]
         },
         {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -235,7 +241,7 @@ export default {
           corresattr: "receiptType",
           type: "select",
           label: "设备类型",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -252,27 +258,15 @@ export default {
           }
         },
         {
-          type: "dateGroup",
-          label: "选择时间",
-          show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "createTimeStart",
-              label: "开始时间",
-              value: todayDate,
-              cb: value => {
-                this.searchCondition.createTimeStart = value;
-              }
-            },
-            {
-              corresattr: "createTimeEnd",
-              lable: "结束时间",
-              value: new Date(),
-              cb: value => {
-                this.searchCondition.createTimeEnd = value;
-              }
-            }
-          ]
+          corresattr: "receiptNo",
+          type: "text", // 表单类型
+          label: "采购单号", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.receiptNo = value;
+          }
         }
       ],
 
@@ -302,7 +296,7 @@ export default {
           },
           {
             key: "数量",
-            width: "",
+            width: "100px",
             word: "qrcodeCount"
           },
           {
@@ -458,9 +452,11 @@ export default {
   methods: {
     // 审核通过保存
     checkAdoptSave(formName) {
-      var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
+          this.buttonDisabled2 = true;
+          var thisForm = this[formName];
           let receiptType = "";
           if (formName == "checkForm") {
             receiptType = "AUTHCODE";
@@ -469,6 +465,7 @@ export default {
           } else {
             receiptType = thisForm.receiptType;
           }
+
           putAdoptArantNumExamine(thisForm.receiptNo)({
             receiptNo: thisForm.receiptNo,
             receiptType: receiptType,
@@ -495,37 +492,47 @@ export default {
                 message: data.msg
               });
             }
+            this.saveLoading = false;
+            this.buttonDisabled2 = false;
           });
         }
       });
     },
     // 审核拒绝保存
     checkRefuseSave(formName) {
-      var thisForm = this[formName];
-      putRefuseArantNumExamine(thisForm.receiptNo)({
-        agentNo: thisForm.agentNo,
-        receiptNo: thisForm.receiptNo,
-        receiptType: thisForm.receiptType,
-        qrcodeCount: thisForm.qrcodeCount,
-        price: thisForm.price,
-        prefixNo: thisForm.prefixNo,
-        migrateType: thisForm.migrateType,
-        qrcodeStart: thisForm.qrcodeStart,
-        qrcodeEnd: thisForm.qrcodeEnd,
-        qrcodes: thisForm.qrcodes
-      }).then(data => {
-        if (data.code == "00") {
-          this.$message({
-            type: "success",
-            message: "已拒绝通过!"
-          });
-          this.reloadData(this.postPage, this.postLimit);
-          this.checkFormVisible = false;
-          this.checkFormVisible2 = false;
-        } else {
-          this.$message({
-            type: "warning",
-            message: data.msg
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.saveLoading2 = true;
+          this.buttonDisabled = true;
+          var thisForm = this[formName];
+          putRefuseArantNumExamine(thisForm.receiptNo)({
+            agentNo: thisForm.agentNo,
+            receiptNo: thisForm.receiptNo,
+            receiptType: thisForm.receiptType,
+            qrcodeCount: thisForm.qrcodeCount,
+            price: thisForm.price,
+            prefixNo: thisForm.prefixNo,
+            migrateType: thisForm.migrateType,
+            qrcodeStart: thisForm.qrcodeStart,
+            qrcodeEnd: thisForm.qrcodeEnd,
+            qrcodes: thisForm.qrcodes
+          }).then(data => {
+            if (data.code == "00") {
+              this.$message({
+                type: "success",
+                message: "已拒绝通过!"
+              });
+              this.reloadData(this.postPage, this.postLimit);
+              this.checkFormVisible = false;
+              this.checkFormVisible2 = false;
+            } else {
+              this.$message({
+                type: "warning",
+                message: data.msg
+              });
+            }
+            this.saveLoading2 = false;
+            this.buttonDisabled = false;
           });
         }
       });
@@ -589,7 +596,7 @@ export default {
   mounted() {},
   computed: {
     userType() {
-      return this.$store.state.moduleLayour.userMessage.userType;
+      return this.$store.state.moduleLayour.userMessage.all.userType;
     },
     userAll() {
       // 所有的用户信息

@@ -29,7 +29,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetAddForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -46,7 +46,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -59,7 +59,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="configRoleFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="configRoleSave(roleForm)">保 存</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="configRoleSave(roleForm)">保 存</el-button>
       </div>
     </el-dialog>
     <!-- 配置角色 end -->
@@ -388,6 +388,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           // this.resetSearchHandle();
           // console.log(this.addForm);
           postAddUser()(this.addForm).then(data => {
@@ -414,6 +415,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
@@ -423,6 +425,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let fmdate = new FormData();
           fmdate.append("realname", this.editForm.realname);
           fmdate.append("username", this.editForm.username);
@@ -438,12 +441,6 @@ export default {
               });
               this.editFormVisible = false;
               this.reloadData();
-            } else if (data.code === "98") {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
             } else {
               this.$message({
                 message: data.msg,
@@ -451,6 +448,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
@@ -477,6 +475,7 @@ export default {
           deleteRoleCodes += nodes[i].roleCode + ",";
         }
       }
+      this.saveLoading = true;
       patchConfigRole()({
         username: roleForm.username,
         addRoleCodes: addRoleCodes,
@@ -512,6 +511,7 @@ export default {
             center: true
           });
         }
+        this.saveLoading = false;
       });
       // let checkRole = this.$refs.roleConfigtree.getCheckedNodes();
       // let roleCodes = checkRole.map((item, index, input) => {

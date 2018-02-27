@@ -96,7 +96,7 @@ export default {
           corresattr: "userType",
           type: "select",
           label: "用户类型",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -270,7 +270,7 @@ export default {
             word: "agentNo"
           },
           {
-            key: "操作",
+            key: "操作类型",
             width: "100px",
             word: "actionDesc"
           },
@@ -294,7 +294,7 @@ export default {
             }
           },
           {
-            key: "版本",
+            key: "版本号",
             width: "100px",
             word: "version"
           },
@@ -336,6 +336,7 @@ export default {
     SumHandle() {
       this.sumLoading = true;
       getBurialPointTotal()(this.searchCondition).then(res => {
+        console.log(res);
         if (res.ptNum > 0) {
           this.ptTotal = `普通商户共操作${res.ptNum}次,明细如下：<hr>`;
           res.pt.forEach((value, index, array) => {

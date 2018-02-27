@@ -1,28 +1,36 @@
 <template>
   <!-- layout 左侧菜单区域 -->
-  <!-- <div> -->
-  <iscroll-view class="scroll-view aside-box" ref="iscroll" :options="iscrollOptions">
-    <el-menu show-timeout="50" hide-timeout="50" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
-      <div class="logo-box" ref="logoBox">
-        <div class="img-box">
-          <img :src="require('@src/assets/images/logoSmall.png')" alt="">
-        </div>
-        <h1 v-show="!isCollapse" class="home-title">
-          <router-link to="/home">易票管理系统v1.0</router-link>
-        </h1>
+  <div class="sidebar-box">
+    <div class="logo-box" ref="logoBox">
+      <div class="img-box">
+        <img :src="require('@src/assets/images/logoSmall.png')" alt="">
       </div>
-      <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
-        <template slot="title">
-          <i :class="'icon icon-'+item.menuCode"></i>
-          <span slot="title">{{item.menuName}}</span>
-        </template>
-        <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
-          {{item2.menuName}}
-        </el-menu-item>
-      </el-submenu>
-    </el-menu>
-  </iscroll-view>
-  <!-- </div> -->
+      <h1 v-show="!isCollapse" class="home-title">
+        <router-link to="/home">易票管理系统v1.0</router-link>
+      </h1>
+    </div>
+    <iscroll-view class="scroll-view aside-box" ref="iscroll" :options="iscrollOptions">
+      <el-menu show-timeout="50" hide-timeout="50" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+        <!-- <div class="logo-box" ref="logoBox">
+          <div class="img-box">
+            <img :src="require('@src/assets/images/logoSmall.png')" alt="">
+          </div>
+          <h1 v-show="!isCollapse" class="home-title">
+            <router-link to="/home">易票管理系统v1.0</router-link>
+          </h1>
+        </div> -->
+        <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
+          <template slot="title">
+            <i :class="'icon icon-'+item.menuCode"></i>
+            <span slot="title">{{item.menuName}}</span>
+          </template>
+          <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
+            {{item2.menuName}}
+          </el-menu-item>
+        </el-submenu>
+      </el-menu>
+    </iscroll-view>
+  </div>
   <!-- 左侧菜单 -->
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -72,6 +80,9 @@
       font-size: 24px;
     }
   }
+  .el-menu-vertical {
+    margin-top: 54px;
+  }
   .el-menu-vertical:not(.el-menu--collapse) {
     width: 220px;
     min-height: 400px;
@@ -114,11 +125,14 @@
 }
 
 @media screen and (min-width: 500px) {
-  .aside-box {
-    // .aside-box {
+  .sidebar-box {
+    position: relative;
     .logo-box {
+      position: absolute;
+      z-index: 999;
       height: 54px;
-      // min-width: 70px;
+      right: 0;
+      left: 0;
       overflow: hidden;
       display: flex;
       box-sizing: border-box;

@@ -31,6 +31,12 @@
 import { Login } from "@src/apis";
 export default {
   name: "Login",
+  beforeCreate: function() {
+    document.getElementsByTagName("body")[0].className = "loginBackground";
+  },
+  beforeDestroy: function() {
+    document.body.removeAttribute("class", "loginBackground");
+  },
   data() {
     return {
       ruleForm: {
@@ -59,18 +65,16 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style>
+.loginBackground {
+  background: #d8e4e5;
+}
+</style>
 <style lang='scss' scoped>
 @import "../../assets/scss/base.scss";
 $default-color: #333; // 字体颜色
-
 .login-page {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background: url(../../assets/images/LoginBack.png) no-repeat center;
-  background-size: cover;
+  background: #d8e4e5;
   color: $default-color;
   display: flex;
   flex: 1;
@@ -89,10 +93,6 @@ $default-color: #333; // 字体颜色
     margin-top: 4rem;
   }
   .login-main {
-    padding: 0px;
-    position: relative;
-    flex: 1;
-    overflow: auto;
     box-sizing: border-box;
     padding: 20*$rem;
   }

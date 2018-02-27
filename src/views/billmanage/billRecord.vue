@@ -20,7 +20,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <span class="line-label">交付状态:</span>
-              <span class="line-label-last">{{detailsForm.status}}</span>
+              <span class="line-label-last">{{detailsForm.status | payStatus}}</span>
             </div>
           </el-col>
         </el-row>
@@ -186,7 +186,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -517,6 +517,7 @@ export default {
         if (valid) {
           let editForm = this.editForm;
           // this.resetSearchHandle();
+          this.saveLoading = true;
           postEditBillrecord()({
             billRecordNo: editForm.billRecordNo,
             orderNo: editForm.orderNo,
@@ -550,6 +551,7 @@ export default {
               });
             }
             console.log(data);
+            this.saveLoading = false;
           });
         }
       });

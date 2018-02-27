@@ -72,7 +72,7 @@ const getBillcountcustomers = () => { return (params) => { return http.get(base.
 // end -------------------------------------------------
 
 /**
-**产品管理start
+**产品模版start
  */
 const getProducts = () => { return (params) => { return http.get(base.oaIp, "/product/page", params) } }
 const postAddProduct = () => { return (params) => { return http.post(base.oaIp, "/product/add", params) } }
@@ -280,13 +280,15 @@ const completeSettleInfo = () => { return (params) => { return http.post(base.oa
 const completeConvergeProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/completeConvergeProduct", params) } }
 const completeBussinessImg = () => { return (params) => { return http.post(base.oaIp, "/customer/completeBussinessImg", params) } }
 const upload = () => { return (params) => { return http.post(base.oaIp, "/bussinessImg/upload", params) } }
+const checkCustomerProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/query/checkCustomerProduct", params) } }
 // end -------------------------------------------------
 
 /**
 **交易管理-订单查询
  */
 
-const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/operator/page", params) } }
+// const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/operator/page", params) } }
+const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/page?", params) } }
 
 /**
  **商户版本管理Start
@@ -437,6 +439,7 @@ export {
     completeSettleInfo,
     completeConvergeProduct,
     completeBussinessImg,
+    checkCustomerProduct,
     upload,
     //交易订单查询
     getPayOrders,

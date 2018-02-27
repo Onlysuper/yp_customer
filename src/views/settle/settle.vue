@@ -137,7 +137,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -145,14 +145,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-.operation-box {
-  .sumtext {
-    font-size: 14px;
-    padding-left: 10px;
-    line-height: 32px;
-    color: #606266;
-  }
-}
+
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -211,7 +204,7 @@ export default {
           corresattr: "agentName",
           type: "text", // 表单类型
           label: "代理商名称", // 输入框前面的文字
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -406,6 +399,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postUpdateSettles()({
@@ -434,6 +428,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }

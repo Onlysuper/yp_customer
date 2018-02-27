@@ -205,6 +205,26 @@ export default {
           }
         },
         {
+          corresattr: "status",
+          type: "select",
+          label: "状态",
+          show: true, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "TRUE",
+              label: "有效"
+            },
+            {
+              value: "FALSE",
+              label: "无效"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.status = value;
+          }
+        },
+        {
           corresattr: "bussinessType",
           type: "select",
           label: "业务类型",
@@ -270,26 +290,6 @@ export default {
           ],
           cb: value => {
             this.searchCondition.costMode = value;
-          }
-        },
-        {
-          corresattr: "status",
-          type: "select",
-          label: "状态",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "TRUE",
-              label: "有效"
-            },
-            {
-              value: "FALSE",
-              label: "无效"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.status = value;
           }
         }
       ],

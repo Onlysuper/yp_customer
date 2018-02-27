@@ -66,7 +66,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">确 定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确 定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -124,14 +124,11 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="line-label-box" v-if="!detailsForm.remark==''?true:false">
-          <el-col :span="24">
-            <div class="grid-content bg-purple-light">
-              {{detailsForm.remark}}
-            </div>
-          </el-col>
-        </el-row>
+
+        <el-alert v-if="!detailsForm.remark?false:true" type="info" center :closable="false" :title="detailsForm.remark">
+        </el-alert>
       </div>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
       </div>
@@ -193,7 +190,7 @@ export default {
           corresattr: "name",
           type: "text",
           label: "企业名称",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.name = value;
@@ -203,23 +200,12 @@ export default {
           corresattr: "tax",
           type: "text",
           label: "企业税号",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           cb: value => {
             this.searchCondition.tax = value;
           }
         },
-        {
-          corresattr: "operator",
-          type: "text",
-          label: "操作员",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.operator = value;
-          }
-        },
-
         {
           type: "dateGroup",
           label: "选择时间",
@@ -242,6 +228,16 @@ export default {
               }
             }
           ]
+        },
+        {
+          corresattr: "operator",
+          type: "text",
+          label: "操作员",
+          show: false, // 普通搜索显示
+          value: "",
+          cb: value => {
+            this.searchCondition.operator = value;
+          }
         }
       ],
       // 列表数据
@@ -254,45 +250,25 @@ export default {
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
-            key: "税号",
+            key: "创建时间",
+            width: "170px",
+            word: "createTime"
+          },
+          {
+            key: "企业名称",
+            width: "200px",
+            word: "name"
+          },
+          {
+            key: "企业税号",
             width: "180px",
             sortable: true,
             word: "tax"
           },
-          {
-            key: "名称",
-            width: "130px",
-            word: "name"
-          },
-          {
-            key: "地址",
-            width: "180px",
-            word: "address"
-          },
-          {
-            key: "电话",
-            width: "180px",
-            word: "tel"
-          },
-          {
-            key: "银行",
-            width: "180px",
-            word: "bank"
-          },
-          {
-            key: "帐号",
-            width: "180px",
-            word: "account"
-          },
-          {
-            key: "操作员",
-            width: "180px",
-            word: "operator"
-          },
 
           {
             key: "状态",
-            width: "100px",
+            width: "80px",
             word: "status",
             status: true,
             type: data => {
@@ -318,10 +294,35 @@ export default {
                 };
               }
             }
+          },
+          {
+            key: "地址",
+            width: "180px",
+            word: "address"
+          },
+          {
+            key: "电话",
+            width: "180px",
+            word: "tel"
+          },
+          {
+            key: "银行",
+            width: "180px",
+            word: "bank"
+          },
+          {
+            key: "帐号",
+            width: "180px",
+            word: "account"
+          },
+          {
+            key: "操作员",
+            width: "180px",
+            word: "operator"
           }
         ],
         operation: {
-          width: "120px",
+          width: "60px",
           options: [
             // 操作按钮
             {
@@ -345,6 +346,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           var addForm = this.addForm;
           // this.resetSearchHandle();
           postAddEnterpriseSupply()({
@@ -371,6 +373,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -379,6 +382,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postEditBillrecord()({
@@ -413,6 +417,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }

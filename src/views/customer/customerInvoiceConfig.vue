@@ -75,7 +75,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetAddForm('addForm')">重置</el-button>
-        <el-button type="primary" @click="addSave('addForm')">立即提交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">立即提交</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -142,7 +142,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible=false">关闭</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑end -->
@@ -367,6 +367,7 @@ export default {
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
         if (valid) {
+          this.saveLoading = true;
           postAddCustomerConfigs()({
             customerNo: addForm.customerNo,
             deviceType: addForm.deviceType,
@@ -392,6 +393,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
@@ -402,6 +404,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postEditCustomerConfigs()({
@@ -428,6 +431,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }

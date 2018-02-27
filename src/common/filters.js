@@ -12,6 +12,64 @@ mypFilters.install = function (Vue, options) {
     Vue.filter('channelName', function (value) {
         return value === "YEEPIAO" ? '易票' : '中付';
     })
+    // {
+    //     { #  if (d.status == 'SUCCESS') { } }
+    //     <span class="layui-btn layui-btn-mini">推送成功</span>
+    //     { { # } else if (d.status == 'BILLING_SUCCESS') { } }
+    //     <span class="layui-btn layui-btn-mini">开票成功</span>
+    //     { { # } else if (d.status == 'BILLING') { } }
+    //     <span class="layui-btn layui-btn-mini layui-btn-danger">开票中</span>
+    //     { { # } else if (d.status == 'ORDER') { } }
+    //     <span class="layui-btn layui-btn-mini layui-btn-danger">待开票</span>
+    //     { { # } else if (d.status == 'BILLING_FAIL') { } }
+    //     <span class="layui-btn layui-btn-mini layui-btn-danger">开票失败</span>
+    //     { { # } else if (d.status == 'QUERY_FAIL') { } }
+    //     <span class="layui-btn layui-btn-mini layui-btn-danger">查询失败</span>
+    //     { { # } }
+    // }
+    /**
+      * 交易订单-》交易类型
+      */
+    Vue.filter('payTypeDetail', function (value) {
+        switch (value) {
+            case "scanPay":
+                value = "扫码支付";
+                break;
+            case "microPay":
+                value = "刷卡支付";
+                break;
+            case "jsPay":
+                value = "公众号支付";
+                break;
+        }
+        return value;
+    })
+    /**
+   * 结算交付状态
+   */
+    Vue.filter('payStatus', function (value) {
+        switch (value) {
+            case "SUCCESS":
+                value = "推送成功";
+                break;
+            case "BILLING_SUCCESS":
+                value = "开票成功";
+                break;
+            case "BILLING":
+                value = "开票中";
+                break;
+            case "ORDER":
+                value = "待开票";
+                break;
+            case "BILLING_FAIL":
+                value = "开票失败";
+                break;
+            case "QUERY_FAIL":
+                value = "查询失败";
+                break;
+        }
+        return value;
+    })
     /**
         * 商户来源
         */
@@ -413,6 +471,9 @@ mypFilters.install = function (Vue, options) {
                 break;
             case "CHECKING":
                 value = "待审核";
+                break;
+            case "PROCESSING":
+                value = "开通待处理";
                 break;
             default:
                 value = "未知";

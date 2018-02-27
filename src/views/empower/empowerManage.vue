@@ -3,7 +3,7 @@
   <div class="admin-page empower">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @resetSome="resetSomeInputHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @resetSome="resetSomeInputHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions" @changeSearchVisible="changeSearchVisible"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -48,7 +48,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('empoverCodeForm')">重置</el-button>
-        <el-button type="primary" @click="empoverCodeSave('empoverCodeForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="empoverCodeSave('empoverCodeForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 生成授权码end -->
@@ -104,7 +104,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addMaterielForm')">重置</el-button>
         <!-- <el-button type="primary" @click="addMaterielSave('addMaterielForm')">扫码枪入库</el-button> -->
-        <el-button type="primary" @click="addTorageMaterielSave('addMaterielForm')">入库</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addTorageMaterielSave('addMaterielForm')">入库</el-button>
       </div>
     </el-dialog>
     <!-- 生成授权码end -->
@@ -120,7 +120,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('exportEmpowerCodeForm')">重置</el-button>
-        <el-button type="primary" @click="exportEmpowerSave('exportEmpowerCodeForm')">保存</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="exportEmpowerSave('exportEmpowerCodeForm')">保存</el-button>
       </div>
     </el-dialog>
     <!-- 导出end -->
@@ -144,7 +144,7 @@
       </form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="batchBindReset">重置</el-button>
-        <el-button type="primary" @click="batchBindSave">提 交</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="batchBindSave">提 交</el-button>
       </span>
     </el-dialog>
     <!-- 批量绑定end -->
@@ -210,7 +210,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="this.editFormVisible = false">关闭</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -232,7 +232,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('bindForm')">重置</el-button>
-        <el-button type="primary" @click="bindFormSave('bindForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="bindFormSave('bindForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 绑定end -->
@@ -248,7 +248,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('bindForm')">重置</el-button>
-        <el-button type="primary" @click="bindChildFormSave('bindChildForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="bindChildFormSave('bindChildForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 绑定end -->
@@ -258,14 +258,6 @@
 
 <style lang='scss' scoped>
 .empower {
-  .operation-box {
-    .sumtext {
-      font-size: 14px;
-      padding-left: 10px;
-      line-height: 32px;
-      color: #606266;
-    }
-  }
   .qrcodeboxchild {
     text-align: center;
   }
@@ -472,18 +464,6 @@ export default {
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
-          corresattr: "batchNo",
-          type: "text", // 表单类型
-          label: "批次编号", // 输入框前面的文字
-          show: false, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.batchNo = value;
-          }
-        },
-
-        {
           type: "dateGroup",
           label: "选择时间",
           show: true, // 普通搜索显示
@@ -506,6 +486,53 @@ export default {
             }
           ]
         },
+        {
+          corresattr: "qrcode",
+          type: "text", // 表单类型
+          label: "序列号", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.qrcode = value;
+          }
+        },
+        {
+          corresattr: "deviceType",
+          type: "select",
+          label: "设备类型",
+          show: true, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "AUTHCODE",
+              label: "授权码"
+            },
+            {
+              value: "SCANCODEGUN",
+              label: "扫码枪"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.deviceType = value;
+          }
+        },
+        {
+          corresattr: "batchNo",
+          type: "text", // 表单类型
+          label: "批次编号", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.batchNo = value;
+          }
+        },
+
         // {
         //   corresattr: "agentNo",
         //   type: "text", // 表单类型
@@ -539,17 +566,7 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
-        {
-          corresattr: "qrcode",
-          type: "text", // 表单类型
-          label: "序号", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.qrcode = value;
-          }
-        },
+
         {
           corresattr: "authCode",
           type: "text", // 表单类型
@@ -592,7 +609,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否包含下级",
+          label: "是否有下级",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -609,30 +626,7 @@ export default {
             this.searchCondition.containChild = value;
           }
         },
-        {
-          corresattr: "deviceType",
-          type: "select",
-          label: "设备类型",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "AUTHCODE",
-              label: "授权码"
-            },
-            {
-              value: "SCANCODEGUN",
-              label: "扫码枪"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.deviceType = value;
-          }
-        },
+
         {
           corresattr: "materiel",
           type: "select",
@@ -993,6 +987,7 @@ export default {
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
         if (valid) {
+          this.saveLoading = true;
           let empoverCodeForm = this.empoverCodeForm;
           let supportTypes1 = "";
           let supportTypes2 = "";
@@ -1031,6 +1026,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1056,6 +1052,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postMakeTorageEmpower()({
             deviceType: thisForm.deviceType,
             receiptCount: thisForm.receiptCount,
@@ -1081,6 +1078,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1107,6 +1105,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let supportTypes1 = "";
           let supportTypes2 = "";
           let supportTypes3 = "";
@@ -1146,6 +1145,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1155,6 +1155,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postBindEmpower()({
             qrcode: thisForm.qrcode,
             authCode: thisForm.authCode,
@@ -1177,6 +1178,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1187,6 +1189,7 @@ export default {
       var thisForm = this[formName];
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           postBindChildEmpower()({
             authCode: thisForm.authCode,
             qrcode: thisForm.qrcode,
@@ -1208,6 +1211,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });
@@ -1225,6 +1229,7 @@ export default {
       this.reloadData();
       this.$refs.batchBindFile.clearFiles();
       this.batchBindVisible = false;
+      this.saveLoading = false;
     },
     uploadFilleError(response, file, fileList) {
       this.$message({
@@ -1233,6 +1238,7 @@ export default {
         center: true
       });
       this.$refs.batchBindFile.clearFiles();
+      this.saveLoading = false;
     },
     // 批量绑定
     batchBindSave() {
@@ -1251,6 +1257,7 @@ export default {
       if (!isLt2M) {
         this.$message.error("上传文件图片大小不能超过 10MB!");
       }
+      this.saveLoading = false;
       return extension || (extension2 && isLt2M);
     },
     handleRemove(file, fileList) {
