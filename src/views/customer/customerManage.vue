@@ -123,15 +123,15 @@
     </el-dialog>
     <!-- 批量转移 end -->
     <!-- 商户电票开通start -->
-    <el-dialog title="商户批量开通电票" center :visible.sync="electronicOpenFormVisible" width="500px">
+    <el-dialog title="商户批量开通发票" center :visible.sync="electronicOpenFormVisible" width="500px">
       <div class="content-center-box">
         <div class="sep-inline">
-          <a class="link-Label" :href="oaIp+'/static/template/electronicOpen-2007.xlsx'">下载点票开通模板</a>
+          <a class="link-Label" :href="oaIp+'/static/template/electronicOpen-2007.xlsx'">下载电子发票开通模板</a>
         </div>
         <div class="sep-inline">
           <el-upload :limit="1" :on-exceed="handleExceed" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' ref="electronicOpenFile" :auto-upload="false" :action="oaIp+'/customer/electronicOpen'" class="upload-demo" drag :on-success="handleElectronicOpenSuccess" :before-upload="beforeBatchNetUpload">
             <i class="el-icon-upload"></i>
-            <div class="el-upload__text">将需要转移的文件拖到此处，或
+            <div class="el-upload__text">可将需要上传的文件拖到此处，或
               <em>点击上传</em>
             </div>
             <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>

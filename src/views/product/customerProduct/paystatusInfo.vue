@@ -162,7 +162,7 @@ export default {
           { required: true, message: "请选择行业类型", trigger: "blur" }
         ],
         contactEmail: [
-          { required: true, message: "请输入有效邮箱", trigger: "blur" }
+          // { required: true, message: "请输入有效邮箱", trigger: "blur" }
         ],
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur" }

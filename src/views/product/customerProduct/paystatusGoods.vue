@@ -15,7 +15,7 @@
         <!-- <el-switch v-model="payStatusForm.settleMode" active-value="T0" inactive-value="T1">
         </el-switch> -->
       </el-form-item>
-      <el-form-item class="full-width" label="D0手续费" prop="t0CashCostFixed" :label-width="formLabelWidth">
+      <el-form-item v-if="payStatusForm.settleMode=='T1'?false:true" class="full-width" label="D0手续费" prop="t0CashCostFixed" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.t0CashCostFixed" auto-complete="off"></el-input>
       </el-form-item>
     </el-form>

@@ -19,28 +19,30 @@
         </div>
         <template v-if="payStatusVisible">
           <!-- 聚合详情 -->
-          <div class="line-label-box">
-            <span class="line-label">商户编号:</span>
-            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">商户名称:</span>
-            <span class="line-label-last">{{detailsForm.customerName}}</span>
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">聚合支付:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">微信费率:</span>{{detailsForm.wechatRate}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">支付宝费率:</span>{{detailsForm.alipayRate}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">开通即刷即到:</span>{{detailsForm.settleMode | settleMode}}
-          </div>
-          <div class="line-label-box">
-            <span class="line-label">D0手续费:</span>{{detailsForm.t0CashCostFixed}}
+          <div class="detail-body">
+            <div class="line-label-box">
+              <span class="line-label">商户编号:</span>
+              <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">商户名称:</span>
+              <span class="line-label-last">{{detailsForm.customerName}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">聚合支付:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">微信费率:</span>{{detailsForm.wechatRate}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">支付宝费率:</span>{{detailsForm.alipayRate}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">开通即刷即到:</span>{{detailsForm.settleMode | settleMode}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">D0手续费:</span>{{detailsForm.t0CashCostFixed}}
+            </div>
           </div>
         </template>
         <template v-if="qrcodeStatusVisible">
@@ -91,7 +93,10 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-
+.detail-body {
+  max-height: 600px;
+  overflow-y: auto;
+}
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
