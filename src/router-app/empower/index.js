@@ -47,7 +47,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/empower/empowerCheck/check")) }, "empower-check-check")
           },
           meta: {
-            pageTitle: "开票记录"
+            pageTitle: "审核"
           }
         },
       ]

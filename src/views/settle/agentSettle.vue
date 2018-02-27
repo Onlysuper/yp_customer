@@ -28,7 +28,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
 import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
 export default {
-  name: "billprofit",
+  name: "agent-settle",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -143,7 +143,7 @@ export default {
           {
             key: "结算状态",
             width: "",
-            word: "settleStatus",
+            word: "status",
             status: true,
             type: data => {
               if (data === "TRUE") {

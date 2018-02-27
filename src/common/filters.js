@@ -177,13 +177,13 @@ mypFilters.install = function (Vue, options) {
                 value = "否";
                 break;
             case "Y":
-                value = "是";
+                value = "带水牌";
                 break;
             case "" || null:
                 value = "未知";
                 break;
         }
-        return "生产水牌 " + value;
+        return value;
     })
     Vue.filter('migrateType', function (value) {
         switch (value) {

@@ -464,17 +464,14 @@ export default {
             },
             {
               text: "开通产品",
-              // visibleFn: rowdata => {
-              //   if (
-              //     rowdata.payStatus == "INIT" ||
-              //     rowdata.qrcodeStatus == "INIT" ||
-              //     rowdata.elecStatus == "INIT"
-              //   ) {
-              //     return true;
-              //   } else {
-              //     return false;
-              //   }
-              // },
+              visibleFn: rowdata => {
+                if (rowdata.payStatus == "REJECT") {
+                  // 拒绝状态隐藏
+                  return false;
+                } else {
+                  return true;
+                }
+              },
               color: "#00c1df",
               disabledFn: rowdata => {
                 if (
@@ -498,7 +495,11 @@ export default {
                     {
                       value: "payStatus",
                       label: "聚合支付",
-                      disabled: rowdata.payStatus == "INIT" ? false : true
+                      disabled:
+                        rowdata.payStatus == "INIT" ||
+                        rowdata.payStatus == "REJECT"
+                          ? false
+                          : true
                     },
                     {
                       value: "qrcodeStatus",
@@ -515,6 +516,45 @@ export default {
                   this.rowData = rowdata;
                   this.nextFn("openInfo");
                 }
+              }
+            },
+            {
+              text: "编辑开通",
+              visibleFn: rowdata => {
+                if (rowdata.payStatus == "REJECT") {
+                  // 拒绝状态隐藏
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              color: "#00c1df",
+              cb: rowdata => {
+                this.editFormVisible = true;
+                this.customerTypeSelected = [
+                  {
+                    value: "payStatus",
+                    label: "聚合支付",
+                    disabled:
+                      rowdata.payStatus == "INIT" ||
+                      rowdata.payStatus == "REJECT"
+                        ? false
+                        : true
+                  },
+                  {
+                    value: "qrcodeStatus",
+                    label: "快速开票",
+                    disabled: rowdata.qrcodeStatus == "INIT" ? false : true
+                  },
+                  {
+                    value: "elecStatus",
+                    label: "电子发票",
+                    // disabled: true
+                    disabled: rowdata.elecStatus == "INIT" ? false : true
+                  }
+                ];
+                this.rowData = rowdata;
+                this.nextFn("openInfo");
               }
             }
           ]

@@ -43,7 +43,7 @@ export default {
 .myp-cell-pannel {
   .mint-badge.is-size-small {
     border-radius: 6*$rem;
-    font-size: 10*$rem;
+    font-size: 20*$rem;
     padding: 5*$rem 15*$rem;
     display: initial;
     margin-right: 10*$rem;

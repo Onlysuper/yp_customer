@@ -9,12 +9,14 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
-          <!-- 状态 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerCheckStatus}}</mt-badge>
-          <!-- 生产水牌 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
+
           <!-- 设备类型 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
+          <!-- 生产水牌 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="error" v-if="item.isPrint == 'Y'">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
+          <!-- 状态 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="success">{{item.status | empowerCheckStatus}}</mt-badge>
+
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->
@@ -25,11 +27,9 @@
               <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
               <myp-tr title="数量">{{item.qrcodeCount}}</myp-tr>
               <myp-tr title="单价">{{item.price}}</myp-tr>
-              <myp-tr title="单价">{{item.price}}</myp-tr>
             </table>
             <!-- 更多操作 -->
-            <div v-if='adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
-        item.status == "AUDITING"&&(item.receiptType == "AUTHCODE"||item.receiptType == "SCANCODEGUN")' slot="right" @click="operation(item)">更多</div>
+            <div v-if='item.status == "AUDITING"' slot="right" @click="toUrl(item)">审核</div>
           </myp-cell>
         </myp-cell-pannel>
       </myp-loadmore-api>
@@ -87,43 +87,11 @@ export default {
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODERECIEPTAUDIT_SEARCH", false);
     },
-    operation(rowdata) {
-      this.sheetVisible = true;
-      this.rowdata = rowdata;
-      let checkBut = {};
-      if (
-        this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
-        rowdata.status == "AUDITING" &&
-        rowdata.receiptType == "AUTHCODE"
-      ) {
-        //审核授权码采购
-        checkBut.name = "审核";
-        checkBut.method = this.authcodeFn;
-        this.actions = [checkBut];
-      } else if (
-        this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
-        rowdata.status == "AUDITING" &&
-        rowdata.receiptType == "SCANCODEGUN"
-      ) {
-        //审核扫码枪采购
-        checkBut.name = "审核";
-        checkBut.method = this.scanFn;
-        this.actions = [checkBut];
-      }
-    },
-    toUrl(type, itemId) {
+    toUrl(item) {
       this.$router.push({
-        path: "./check/" + itemId,
-        query: { type: type }
+        path: "./check/" + item.receiptNo,
+        query: { type: item.receiptType }
       });
-    },
-    // 授权码审核
-    authcodeFn() {
-      this.toUrl("AUTHCHECK", this.rowdata.receiptNo);
-    },
-    // 扫码枪审核
-    scanFn() {
-      this.toUrl("SCANCHECK", this.rowdata.receiptNo);
     }
   },
   activated() {
