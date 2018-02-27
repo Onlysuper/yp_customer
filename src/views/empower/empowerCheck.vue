@@ -413,7 +413,9 @@ export default {
                 this.checkFormVisible = true;
                 let isPrint = rowdata.isPrint == "Y";
                 let isAdmin =
-                  this.userType == "root" || this.userType == "admin";
+                  this.userType == "root" ||
+                  this.userType == "admin" ||
+                  this.userType == "operator";
                 let isShow = !(isAdmin && !isPrint);
                 this.isShowDistributeType(isShow);
               }

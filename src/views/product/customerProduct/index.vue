@@ -269,7 +269,7 @@ export default {
       payStatus: ""
     };
     return {
-      editVisible: true,
+      editVisible: false,
       productOpenTitle: "完善信息",
       rowData: {},
       currentView: "openInfo",
@@ -387,6 +387,10 @@ export default {
             {
               label: "待审核",
               value: "CHECKING"
+            },
+            {
+              label: "待提交",
+              value: "WAITING_SUBMIT"
             }
           ],
           cb: value => {
@@ -539,6 +543,11 @@ export default {
                   text: "待审核",
                   type: "warning"
                 };
+              } else if (data == "WAITING_SUBMIT") {
+                return {
+                  text: "待提交",
+                  type: "warning"
+                };
               } else {
                 return {
                   text: data,
@@ -589,17 +598,12 @@ export default {
             {
               text: "查询",
               color: "#00c1df",
-              // visibleFn: rowdata => {
-              //   if (this.adminOperationAll.customer_detail == "TRUE") {
-              //     return true;
-              //   } else {
-              //     return false;
-              //   }
-              // },
               cb: rowdata => {
-                // console.log(rowdata);
                 this.rowData = rowdata;
-                if (rowdata.payStatus == "REJECT") {
+                if (
+                  rowdata.payStatus == "REJECT" ||
+                  rowdata.payStatus == "WAITING_SUBMIT"
+                ) {
                   this.editVisible = true;
                 }
                 this.getCustomerEcho(rowdata); // 回显示
@@ -633,7 +637,10 @@ export default {
             {
               text: "开通产品",
               visibleFn: rowdata => {
-                if (rowdata.payStatus == "REJECT") {
+                if (
+                  rowdata.payStatus == "REJECT" ||
+                  rowdata.payStatus == "WAITING_SUBMIT"
+                ) {
                   // 拒绝状态隐藏
                   return false;
                 } else {
@@ -644,6 +651,7 @@ export default {
               disabledFn: rowdata => {
                 if (
                   rowdata.payStatus == "INIT" ||
+                  rowdata.payStatus == "WAITING_SUBMIT" ||
                   rowdata.qrcodeStatus == "INIT" ||
                   rowdata.elecStatus == "INIT"
                 ) {
@@ -659,7 +667,10 @@ export default {
             {
               text: "编辑开通",
               visibleFn: rowdata => {
-                if (rowdata.payStatus == "REJECT") {
+                if (
+                  rowdata.payStatus == "REJECT" ||
+                  rowdata.payStatus == "WAITING_SUBMIT"
+                ) {
                   // 拒绝状态隐藏
                   return true;
                 } else {

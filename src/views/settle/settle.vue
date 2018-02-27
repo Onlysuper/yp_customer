@@ -245,7 +245,11 @@ export default {
       status: "" // 结束时间
     };
     var user = this.$store.state.moduleLayour.userMessage.all;
-    var isAdmin = !(user.userType === "root" || user.userType === "admin"); // 运营
+    var isAdmin = !(
+      user.userType === "root" ||
+      user.userType === "admin" ||
+      user.userType === "operator"
+    ); // 运营
     return {
       detailsFormVisible: false,
       editFormVisible: false,
@@ -434,7 +438,7 @@ export default {
           }
         ],
         operation: {
-          width: "120px",
+          width: "50px",
           options: [
             // 操作按钮
             {
