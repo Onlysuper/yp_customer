@@ -228,7 +228,6 @@ export default {
             word: "realFlag",
             status: true,
             type: data => {
-              console.log(data);
               if (data == "TRUE") {
                 return {
                   text: "通过",
