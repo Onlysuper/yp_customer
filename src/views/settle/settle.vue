@@ -80,8 +80,8 @@
       </div>
     </el-dialog>
     <!-- 详情 end -->
-    <!-- 编辑 start -->
-    <el-dialog title="待确认" center :visible.sync="editFormVisible">
+    <!-- 待结算 start -->
+    <el-dialog title="待结算" center :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="editFormRules">
         <el-row>
           <el-col :span="12">
@@ -131,16 +131,87 @@
             </div>
           </el-col>
         </el-row>
-        <el-form-item label="开户行" prop="bankName" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.bankName" auto-complete="off"></el-input>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="开户行" prop="bankName" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.bankName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item v-if="!isAdmin" label="打款时间" prop="remitTime" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.remitTime" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
         <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 编辑 end -->
+    <!-- 待结算 end -->
+    <!-- 待确认 start -->
+    <el-dialog title="待确认" center :visible.sync="sureFormVisible">
+      <el-form size="small" :model="editForm" ref="editForm" :rules="sureFormRules">
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
+                <el-input v-model="editForm.receiveMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="收款账户" prop="accountNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.accountNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="开户行" prop="bankName" :label-width="formLabelWidth">
+                <el-input v-model="editForm.bankName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="实付金额" prop="settlePrice" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.settlePrice" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="达标商户数量" prop="customerNumber" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.customerNumber" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="联系电话" prop="agentPhone" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.agentPhone" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="sureSave('editForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 待结算 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -178,6 +249,7 @@ export default {
     return {
       detailsFormVisible: false,
       editFormVisible: false,
+      sureFormVisible: false, // 待确认
       detailsForm: {},
       editForm: {},
       customerNumber: 0,
@@ -187,6 +259,17 @@ export default {
       editFormRules: {
         orderNo: [
           { required: true, message: "请输入订单编号", trigger: "blur" }
+        ]
+      },
+      sureFormRules: {
+        receiveMan: [
+          { required: true, message: "请输入收款人姓名", trigger: "blur" }
+        ],
+        accountNo: [
+          { required: true, message: "请输入收款账户", trigger: "blur" }
+        ],
+        bankName: [
+          { required: true, message: "请输入开户行名称", trigger: "blur" }
         ]
       },
       searchCondition: searchConditionVar,
@@ -414,29 +497,31 @@ export default {
               },
               cb: rowdata => {
                 // 确认结算订单金额
-                this.$confirm("此操作将确认结算订单金额, 是否继续?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                }).then(() => {
-                  postUpdateSettles()({
-                    agentNo: rowdata.agentNo,
-                    settleNo: rowdata.settleNo
-                  }).then(data => {
-                    if (data.code == "00") {
-                      this.$message({
-                        type: "success",
-                        message: "已确认"
-                      });
-                    } else {
-                      this.$message({
-                        type: "warning",
-                        message: data.msg
-                      });
-                    }
-                    this.reloadData();
-                  });
-                });
+                // this.$confirm("此操作将确认结算订单金额, 是否继续?", "提示", {
+                //   confirmButtonText: "确定",
+                //   cancelButtonText: "取消",
+                //   type: "warning"
+                // }).then(() => {
+                //   postUpdateSettles()({
+                //     agentNo: rowdata.agentNo,
+                //     settleNo: rowdata.settleNo
+                //   }).then(data => {
+                //     if (data.code == "00") {
+                //       this.$message({
+                //         type: "success",
+                //         message: "已确认"
+                //       });
+                //     } else {
+                //       this.$message({
+                //         type: "warning",
+                //         message: data.msg
+                //       });
+                //     }
+                //     this.reloadData();
+                //   });
+                // });
+                this.editForm = Object.assign(this.editForm, rowdata);
+                this.sureFormVisible = true;
               }
             }
           ]
@@ -465,7 +550,44 @@ export default {
         this.sumLoading = false;
       });
     },
+    // 运营确定结算
     editSave(formName) {
+      // 编辑内容保存
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.saveLoading = true;
+          let editForm = this.editForm;
+          // this.resetSearchHandle();
+          postUpdateSettles()({
+            settleNo: editForm.settleNo,
+            agentNo: editForm.agentNo,
+            bankName: editForm.bankName,
+            accountNo: editForm.accountNo,
+            receiveMan: editForm.receiveMan
+          }).then(data => {
+            if (data.code === "00") {
+              this.$message({
+                message: "恭喜你，操作成功",
+                type: "success",
+                center: true
+              });
+              this.sureFormVisible = false;
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
+            this.saveLoading = false;
+            console.log(data);
+          });
+        }
+      });
+    },
+    // 代理商确认
+    sureSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -514,6 +636,11 @@ export default {
     this.SumHandle();
   },
   computed: {
+    isAdmin() {
+      return !(
+        this.$store.state.moduleLayour.userMessage.all.userType === "root"
+      );
+    },
     userAll() {
       // 所有的用户信息
       return this.$store.state.moduleLayour.userMessage.all;

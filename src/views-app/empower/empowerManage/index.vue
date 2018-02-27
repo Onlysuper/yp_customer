@@ -36,7 +36,7 @@
       </myp-loadmore-api>
     </full-page>
     <!-- 编辑 -->
-    <edit ref="edit"></edit>
+    <!-- <edit ref="edit"></edit> -->
     <!-- 更多操作 -->
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
@@ -46,10 +46,10 @@ import SliderNav from "@src/components-app/SliderNav";
 import { getArantNumManages } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
-import edit from "./edit";
+// import edit from "./edit";
 export default {
   mixins: [scrollBehavior],
-  components: { SliderNav, edit },
+  components: { SliderNav },
   data() {
     return {
       munes: this.$store.state.moduleLayour.menuList[

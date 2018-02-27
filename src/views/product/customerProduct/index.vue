@@ -569,6 +569,25 @@ export default {
   },
 
   methods: {
+    // 回显
+    getCustomerEcho() {
+      getCustomerEchoProduct()({
+        customerNo: this.rowData.bussinessNo,
+        featureType: "CONVERGE_PAY"
+      }).then(res => {
+        if (res.code == "00") {
+          let product = res.data.product;
+          console.log(product);
+          this.payStatusForm.alipayRate =
+            utils.accMul(product.alipayRate, 100) + "%";
+          this.payStatusForm.wechatRate =
+            utils.accMul(product.wechatRate, 100) + "%";
+          this.payStatusForm.settleMode = product.settleMode;
+          this.payStatusForm.t0CashCostFixed =
+            product.t0CashCostFixed && product.t0CashCostFixed + "元";
+        }
+      });
+    },
     // 返回
     backFn(path) {
       if (path == "close") {
