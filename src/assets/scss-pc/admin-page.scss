@@ -69,8 +69,11 @@
         }
         &:nth-child(odd) {
           background-color: rgba(0, 193, 223, 0.1);
+           background: #fafafa;
+           border-bottom: 1px solid #ebeef5
         }
         &:nth-child(even) {
+          border-bottom: 1px solid #ebeef5;
           background-color: #fff;
         }
       }

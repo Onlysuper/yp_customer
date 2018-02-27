@@ -77,7 +77,7 @@
       </el-form-item>
     </el-form>
     <div center slot="footer" class="dialog-footer">
-      <el-button @click="goback('close')">返回</el-button>
+      <el-button @click="goback('close')">取消</el-button>
       <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>

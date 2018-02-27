@@ -20,28 +20,145 @@
         <template v-if="payStatusVisible">
           <!-- 聚合详情 -->
           <div class="detail-body">
+
             <div class="line-label-box">
-              <span class="line-label">商户编号:</span>
-              <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+              <span class="line-label">所在地区:</span>{{detailsForm.customer.orgCode||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">商户名称:</span>
-              <span class="line-label-last">{{detailsForm.customerName}}</span>
+              <span class="line-label">详细信息:</span>{{detailsForm.customer.bussinessAddress||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">聚合支付:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
+              <span class="line-label">法人:</span>{{detailsForm.customer.legalPerson||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">微信费率:</span>{{detailsForm.wechatRate}}
+              <span class="line-label">身份证号:</span>{{detailsForm.customer.idCard||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">支付宝费率:</span>{{detailsForm.alipayRate}}
+              <span class="line-label">行业类型:</span>{{detailsForm.customer.bussinessType||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">开通即刷即到:</span>{{detailsForm.settleMode | settleMode}}
+              <span class="line-label">邮箱:</span>{{detailsForm.customer.contactEmail||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">D0手续费:</span>{{detailsForm.t0CashCostFixed}}
+              <span class="line-label">账户类型:</span>{{detailsForm.settleCard.accountType||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">账户名称:</span>{{detailsForm.settleCard.accountName||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">开户银行:</span>{{detailsForm.settleCard.bankName||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">开户支行:</span>{{detailsForm.settleCard.branchName||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">账号:</span>{{detailsForm.settleCard.accountNo||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">微信费率:</span>{{detailsForm.product.wechatRate ||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">支付宝费率:</span>{{detailsForm.product.alipayRate||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">开通即刷即到:</span>{{detailsForm.product.settleMode||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">D0手续费:</span>{{detailsForm.product.t0CashCostFixed||""}}
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <div class="grid-content bg-purple">
+
+                    <div class="img-box">
+                      <p class="img-title">法人身份证正面:</p>
+                      <img class="img-size" :src="detailsForm.imgs.identityFrontImg.url||''" alt="">
+                    </div>
+
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="grid-content bg-purple-light">
+                    <div class="img-box">
+                      <p class="img-title">法人身份证反面:</p>
+                      <img class="img-size" :src="detailsForm.imgs.identityBackImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <div class="img-box">
+                      <p class="img-title">营业执照:</p>
+                      <img class="img-size" :src="detailsForm.imgs.bussinessLicenseImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <div class="img-box">
+                      <p class="img-title">结算卡正面:</p>
+                      <img class="img-size" :src="detailsForm.imgs.settleCardImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <div class="img-box">
+                      <p class="img-title">开户许可证:</p>
+                      <img class="img-size" :src="detailsForm.imgs.accountLicenseImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <div class="img-box">
+                      <p class="img-title">门头照片:</p>
+                      <img class="img-size" :src="detailsForm.imgs.placeImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <div class="img-box">
+                      <p class="img-title">店内照片:</p>
+                      <img class="img-size" :src="detailsForm.imgs.storeImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <div class="img-box">
+                      <p class="img-title">收银台照片:</p>
+                      <img class="img-size" :src="detailsForm.imgs.cashSpaceImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
             </div>
           </div>
         </template>
@@ -77,6 +194,7 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
+        <el-button v-if="editVisible" type="primary" @click="editFn(rowData)">编辑</el-button>
       </div>
     </el-dialog>
     <!-- 详情 end -->
@@ -94,8 +212,19 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
 .detail-body {
-  max-height: 600px;
+  max-height: 300px;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+.img-box {
+  padding: 10px;
+  .img-title {
+    padding-bottom: 10px;
+  }
+  .img-size {
+    height: 250px;
+    max-width: 100%;
+  }
 }
 </style>
 <script>
@@ -114,7 +243,8 @@ import paystatusUpload from "./paystatusUpload";
 import paystatusSuccess from "./paystatusSuccess";
 import {
   getCustomerOpenProducts,
-  postCustomerOpenProductSearch
+  postCustomerOpenProductSearch,
+  getCustomerEchoProduct
 } from "@src/apis";
 
 export default {
@@ -139,6 +269,7 @@ export default {
       payStatus: ""
     };
     return {
+      editVisible: true,
       productOpenTitle: "完善信息",
       rowData: {},
       currentView: "openInfo",
@@ -173,7 +304,37 @@ export default {
       payStatusForm: {
         Area: [] // 必须为数组
       }, // 编辑单个表单
-      detailsForm: {}, // 详情单个表单
+      detailsForm: {
+        customer: {},
+        settleCard: {},
+        product: {},
+        imgs: {
+          identityBackImg: {
+            url: ""
+          },
+          identityFrontImg: {
+            url: ""
+          },
+          bussinessLicenseImg: {
+            url: ""
+          },
+          settleCardImg: {
+            url: ""
+          },
+          accountLicenseImg: {
+            url: ""
+          },
+          placeImg: {
+            url: ""
+          },
+          storeImg: {
+            url: ""
+          },
+          cashSpaceImg: {
+            url: ""
+          }
+        }
+      }, // 详情单个表单
       // 查询条件数据
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
@@ -437,14 +598,17 @@ export default {
               // },
               cb: rowdata => {
                 // console.log(rowdata);
+                this.rowData = rowdata;
+                if (rowdata.payStatus == "REJECT") {
+                  this.editVisible = true;
+                }
+                this.getCustomerEcho(rowdata); // 回显示
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
-
                 postCustomerOpenProductSearch()({
                   businessNo: rowdata.bussinessNo,
                   businessType: rowdata.bussinessType
                 }).then(data => {
                   if (data.code == "00") {
-                    console.log(data);
                     this.detailsForm = Object.assign(
                       this.detailsForm,
                       data.data
@@ -458,7 +622,6 @@ export default {
                       this.detailsForm.t0CashCostFixed &&
                       this.detailsForm.t0CashCostFixed + "元";
                   } else {
-                    // this.detailsFormVisible = true;
                     this.$message({
                       message: data.msg,
                       type: "warning"
@@ -490,37 +653,7 @@ export default {
                 }
               },
               cb: rowdata => {
-                if (
-                  rowdata.payStatus == "INIT" ||
-                  rowdata.qrcodeStatus == "INIT" ||
-                  rowdata.elecStatus == "INIT"
-                ) {
-                  this.editFormVisible = true;
-                  this.customerTypeSelected = [
-                    {
-                      value: "payStatus",
-                      label: "聚合支付",
-                      disabled:
-                        rowdata.payStatus == "INIT" ||
-                        rowdata.payStatus == "REJECT"
-                          ? false
-                          : true
-                    },
-                    {
-                      value: "qrcodeStatus",
-                      label: "快速开票",
-                      disabled: rowdata.qrcodeStatus == "INIT" ? false : true
-                    },
-                    {
-                      value: "elecStatus",
-                      label: "电子发票",
-                      // disabled: true
-                      disabled: rowdata.elecStatus == "INIT" ? false : true
-                    }
-                  ];
-                  this.rowData = rowdata;
-                  this.nextFn("openInfo");
-                }
+                this.openProduct(rowdata);
               }
             },
             {
@@ -569,22 +702,62 @@ export default {
   },
 
   methods: {
+    // 点击开通产品
+    openProduct(rowdata) {
+      if (
+        rowdata.payStatus == "INIT" ||
+        rowdata.qrcodeStatus == "INIT" ||
+        rowdata.elecStatus == "INIT"
+      ) {
+        this.editFormVisible = true;
+        this.customerTypeSelected = [
+          {
+            value: "payStatus",
+            label: "聚合支付",
+            disabled:
+              rowdata.payStatus == "INIT" || rowdata.payStatus == "REJECT"
+                ? false
+                : true
+          },
+          {
+            value: "qrcodeStatus",
+            label: "快速开票",
+            disabled: rowdata.qrcodeStatus == "INIT" ? false : true
+          },
+          {
+            value: "elecStatus",
+            label: "电子发票",
+            // disabled: true
+            disabled: rowdata.elecStatus == "INIT" ? false : true
+          }
+        ];
+        this.rowData = rowdata;
+        this.nextFn("openInfo");
+      }
+    },
     // 回显
-    getCustomerEcho() {
+    getCustomerEcho(rowData) {
       getCustomerEchoProduct()({
-        customerNo: this.rowData.bussinessNo,
+        customerNo: rowData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
-          let product = res.data.product;
-          console.log(product);
-          this.payStatusForm.alipayRate =
-            utils.accMul(product.alipayRate, 100) + "%";
-          this.payStatusForm.wechatRate =
-            utils.accMul(product.wechatRate, 100) + "%";
-          this.payStatusForm.settleMode = product.settleMode;
-          this.payStatusForm.t0CashCostFixed =
-            product.t0CashCostFixed && product.t0CashCostFixed + "元";
+          this.detailsForm.customer = Object.assign(
+            this.detailsForm.customer,
+            res.data.customer
+          );
+          this.detailsForm.imgs = Object.assign(
+            this.detailsForm.imgs,
+            res.data.imgs
+          );
+          this.detailsForm.product = Object.assign(
+            this.detailsForm.product,
+            res.data.product
+          );
+          this.detailsForm.settleCard = Object.assign(
+            this.detailsForm.settleCard,
+            res.data.settleCard
+          );
         }
       });
     },
@@ -601,36 +774,15 @@ export default {
         this.currentView = path;
       }
     },
+    editFn(rowdata) {
+      this.detailsFormVisible = false;
+      this.editFormVisible = true;
+      this.openProduct(rowdata);
+    },
     // 下一步
     nextFn(next) {
       this.currentView = next;
     },
-    // editSave(formName) {
-    //   // 编辑内容保存
-    //   this.$refs[formName].validate(valid => {
-    //     if (valid) {
-    //       // this.resetSearchHandle();
-    //       postEditCustomer()(this.editForm).then(data => {
-    //         if (data.code === "00") {
-    //           this.$message({
-    //             message: "恭喜你，操作成功",
-    //             type: "success",
-    //             center: true
-    //           });
-    //           this.editFormVisible = false;
-    //           this.reloadData();
-    //         } else {
-    //           this.$message({
-    //             message: data.msg,
-    //             type: "warning",
-    //             center: true
-    //           });
-    //         }
-    //         console.log(data);
-    //       });
-    //     }
-    //   });
-    // },
 
     customerTypeSelect() {
       let value = this.selectOptions.customerType;
