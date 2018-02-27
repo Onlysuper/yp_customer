@@ -7,7 +7,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
+          <el-button v-if="adminFilter('agentSettle_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
           <span class="sumtext">达标商户数量:{{customerNumber}}个 结算金额:{{settlePrice}}元</span>
         </el-button-group>
@@ -155,8 +155,10 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
 import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
+
+// user.userType === "agent"
 export default {
-  name: "billprofit",
+  name: "settle",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
@@ -171,6 +173,8 @@ export default {
       createTimeEnd: todayDate, // 结束时间
       status: "" // 结束时间
     };
+    var user = this.$store.state.moduleLayour.userMessage.all;
+    var isAdmin = !(user.userType === "root" || user.userType === "admin"); // 运营
     return {
       detailsFormVisible: false,
       editFormVisible: false,
@@ -195,6 +199,7 @@ export default {
           label: "代理商编号", // 输入框前面的文字
           show: true, // 普通搜索显示
           value: "", // 表单默认的内容
+          visible: isAdmin ? "TRUE" : "FALSE",
           cb: value => {
             // 表单输入之后回调函数
             this.searchCondition.agentNo = value;
@@ -204,6 +209,7 @@ export default {
           corresattr: "agentName",
           type: "text", // 表单类型
           label: "代理商名称", // 输入框前面的文字
+          visible: isAdmin ? "TRUE" : "FALSE",
           show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
@@ -239,7 +245,8 @@ export default {
           corresattr: "status",
           type: "select",
           label: "打款状态",
-          show: false, // 普通搜索显示
+          // visible: isAdmin ? "FALSE" : "TRUE",
+          show: isAdmin ? true : false, // 普通搜索显示
           value: "TRUE",
           options: [
             {
@@ -277,21 +284,31 @@ export default {
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
+
           {
             key: "结算单号",
             width: "120px",
             sortable: true,
             word: "settleNo"
+            // hidden: isAdmin
+          },
+          {
+            key: "商户数量",
+            width: "100px",
+            word: "customerNumber",
+            hidden: !isAdmin
           },
           {
             key: "代理商编号",
             width: "",
-            word: "agentNo"
+            word: "agentNo",
+            hidden: isAdmin
           },
           {
             key: "代理商名称",
             width: "180px",
-            word: "agentName"
+            word: "agentName",
+            hidden: isAdmin
           },
           {
             key: "时间",
@@ -299,7 +316,7 @@ export default {
             word: "dataTime"
           },
           {
-            key: "结算金额",
+            key: "结算金额(元)",
             width: "",
             word: "settlePrice"
           },
@@ -338,11 +355,11 @@ export default {
           options: [
             // 操作按钮
             {
-              text: "待确认",
+              text: "结算",
               color: "#00c1df",
               visibleFn: rowdata => {
                 //已确认
-                if (rowdata.status == "FALSE") {
+                if (rowdata.status == "TRUE" && !isAdmin) {
                   return true;
                 } else {
                   return false;
@@ -354,19 +371,72 @@ export default {
               }
             },
             {
-              text: "查询",
+              text: "查看",
               color: "#e6a23c",
               visibleFn: rowdata => {
-                //待确认
-                if (rowdata.status == "TRUE") {
+                if (isAdmin) {
+                  // alert("运营");
+                  // 运营
+                  if (rowdata.status == "TRUE" || rowdata.status == "SUCCESS") {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                } else {
+                  // alert("代理商");
+                  // 代理商
+                  if (
+                    rowdata.status == "FALSE" ||
+                    rowdata.status == "SUCCESS"
+                  ) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                }
+              },
+              cb: rowdata => {
+                this.detailsForm = rowdata;
+                this.detailsFormVisible = true;
+              }
+            },
+            // 代理商确认
+            {
+              text: "待确认",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                //已确认
+                if (rowdata.status == "FALSE" && isAdmin) {
                   return true;
                 } else {
                   return false;
                 }
               },
               cb: rowdata => {
-                this.detailsForm = rowdata;
-                this.detailsFormVisible = true;
+                // 确认结算订单金额
+                this.$confirm("此操作将确认结算订单金额, 是否继续?", "提示", {
+                  confirmButtonText: "确定",
+                  cancelButtonText: "取消",
+                  type: "warning"
+                }).then(() => {
+                  postUpdateSettles()({
+                    agentNo: rowdata.agentNo,
+                    settleNo: rowdata.settleNo
+                  }).then(data => {
+                    if (data.code == "00") {
+                      this.$message({
+                        type: "success",
+                        message: "已确认"
+                      });
+                    } else {
+                      this.$message({
+                        type: "warning",
+                        message: data.msg
+                      });
+                    }
+                    this.reloadData();
+                  });
+                });
               }
             }
           ]
@@ -442,6 +512,15 @@ export default {
   },
   mounted() {
     this.SumHandle();
+  },
+  computed: {
+    userAll() {
+      // 所有的用户信息
+      return this.$store.state.moduleLayour.userMessage.all;
+    },
+    bankOptions() {
+      return banks;
+    }
   }
 };
 </script>

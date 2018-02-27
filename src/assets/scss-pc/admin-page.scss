@@ -1,4 +1,8 @@
 @media screen and (min-width: 500px) {
+  .el-dialog--center .el-dialog__header{
+    padding-top: 15px !important;
+    padding-bottom: 10px;
+  }
   // 表格数据样式
   body{
     overflow: hidden;

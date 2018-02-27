@@ -9,6 +9,8 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
+          <!-- 常用按钮 -->
+          <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerManageStatus}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.materiel | empowerManageMateriel}}</mt-badge>
@@ -33,6 +35,8 @@
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
+    <!-- 编辑 -->
+    <edit ref="edit"></edit>
     <!-- 更多操作 -->
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
@@ -42,9 +46,10 @@ import SliderNav from "@src/components-app/SliderNav";
 import { getArantNumManages } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
+import edit from "./edit";
 export default {
   mixins: [scrollBehavior],
-  components: { SliderNav },
+  components: { SliderNav, edit },
   data() {
     return {
       munes: this.$store.state.moduleLayour.menuList[
@@ -88,20 +93,20 @@ export default {
 
     // 操作按钮
     operation(rowdata) {
-      this.sheetVisible = true;
       this.rowdata = rowdata;
       let arr_ = [];
       if (rowdata.deviceType == "AUTHCODE") {
-        let showbut = {
-          name: "预览",
-          method: this.previewFn
-        };
+        // let showbut = {
+        //   name: "预览",
+        //   method: this.previewFn
+        // };
         let editbut = {
           name: "编辑",
           method: this.editFn
         };
         arr_ = arr_.map(item => item);
-        arr_.push(showbut, editbut);
+        // arr_.push(showbut, editbut);
+        arr_.push(editbut);
         this.actions = arr_;
         if (
           this.adminOperationAll.qrcode_bind == "TRUE" &&
@@ -143,8 +148,12 @@ export default {
         arr_.push(childbindbut);
       }
       this.actions = arr_;
+      // console.log()
+      if (this.actions.length > 0) {
+        this.sheetVisible = true;
+      }
     },
-    toUrl(type, itemId) {
+    toUrl(type, itemId, rowdata) {
       if (type == "PREVIEW") {
         this.$router.push({
           path: "./preview/" + itemId,
@@ -153,18 +162,21 @@ export default {
       } else if (type == "EDIT") {
         this.$router.push({
           path: "./edit/" + itemId,
-          query: { type: type }
+          query: { type: rowdata.receiptType }
         });
       }
+    },
+    edit(rowdata) {
+      this.toUrl("EDIT", rowdata.receiptNo, rowdata);
     },
     previewFn() {
       // 预览
       this.toUrl("PREVIEW", this.rowdata.receiptNo);
     },
-    editFn() {
-      // 编辑
-      this.toUrl("EDIT", this.rowdata.receiptNo);
-    },
+    // editFn() {
+    //   // 编辑
+    //   this.toUrl("EDIT", this.rowdata.receiptNo);
+    // },
     bindFn() {
       // 绑定
       this.toUrl("BIND", this.rowdata.receiptNo);

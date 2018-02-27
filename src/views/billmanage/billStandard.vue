@@ -196,17 +196,17 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "",
+            width: "120",
             sortable: true,
             word: "customerNo"
           },
           {
             key: "达标时间",
-            width: "100px",
+            width: "150px",
             word: "standardTime",
             type: data => {
               return {
-                text: data.split(" ")[0],
+                text: data != "" && data != null ? data.split(" ")[0] : data,
                 type: "danger"
               };
               // return data.split(" ")[0];

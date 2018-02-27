@@ -21,6 +21,7 @@
           </el-popover>
         </template>
       </el-table-column>
+
       <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
         <template slot-scope="scope">
           <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" :disabled="item.disabledFn?item.disabledFn(scope.row,item.disabledFn):false" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
