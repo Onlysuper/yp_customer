@@ -126,7 +126,7 @@ export default {
         bussinessTypeOptions: [
           {
             value: "AGENT_PROFIT_COST",
-            label: "一合伙人分润成本"
+            label: "一级合伙人分润成本"
           },
           {
             value: "SECOND_AGENT_PROFIT_COST",
@@ -237,7 +237,7 @@ export default {
             },
             {
               value: "AGENT_PROFIT_COST",
-              label: "一合伙人分润成本"
+              label: "一级合伙人分润成本"
             },
             {
               value: "SECOND_AGENT_PROFIT_COST",
@@ -309,7 +309,7 @@ export default {
           },
           {
             key: "产品名称",
-            width: "100px",
+            width: "150px",
             word: "productName"
           },
           {
@@ -320,7 +320,7 @@ export default {
             type: data => {
               if (data == "AGENT_PROFIT_COST") {
                 return {
-                  text: "一合伙人分润成本",
+                  text: "一级合伙人分润成本",
                   type: "success"
                 };
               } else if (data == "SECOND_AGENT_PROFIT_COST") {
@@ -387,7 +387,7 @@ export default {
           },
           {
             key: "费率",
-            width: "100px",
+            width: "80px",
             word: "rate"
           },
           {
