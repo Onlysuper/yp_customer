@@ -17,12 +17,12 @@
           <!-- 常用按钮 -->
           <!-- <div slot="btn" @click="$router.push({path:'./edit/'+item.receiptNo})">编辑</div> -->
 
+          <!-- 设备类型 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
           <!-- 状态 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerCheckStatus}}</mt-badge>
           <!-- 生产水牌 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="error">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
-          <!-- 设备类型 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="error" v-if="item.isPrint == 'Y'">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
 
           <myp-cell class="list-item">
             <!-- 详情 -->
@@ -32,7 +32,7 @@
               <myp-tr title="数量">{{item.qrcodeCount}}</myp-tr>
               <myp-tr title="单价">{{item.price || '--'}}</myp-tr>
             </table>
-            <div slot="right" @click="$router.push({path:'./edit/'+item.receiptNo})">编辑</div>
+            <div slot="right" v-if="item.status == 'REJECT'" @click="$router.push({path:'./edit/'+item.receiptNo})">修改</div>
           </myp-cell>
 
         </myp-cell-pannel>

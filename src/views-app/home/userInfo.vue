@@ -10,6 +10,9 @@
       <mt-cell class="_av" title="登录帐号">
         {{$store.state.moduleLayour.userMessage.username}}
       </mt-cell>
+      <mt-cell class="_av" title="我的编号">
+        {{$store.state.moduleLayour.userMessage.bussinessNo}}
+      </mt-cell>
     </input-wrapper>
   </full-page>
 </template>

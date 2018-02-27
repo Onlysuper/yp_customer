@@ -21,7 +21,7 @@ export default {
         createTimeStart: utils.formatDate(new Date(), "yyyy-MM-dd"),
         createTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
         status: "",
-        receiptType: "AUTHCODE"
+        receiptType: ""
       };
       console.info("授权码审核数据加载完成");
     },
