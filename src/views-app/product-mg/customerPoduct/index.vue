@@ -86,7 +86,11 @@ export default {
           this.Toast("被拒绝");
           break;
         case "CHECKING":
-          this.Toast("待审核");
+          // this.Toast("待审核");
+          this.$router.push({
+            path: "./addPayInfo",
+            query: { customerNo: customer.bussinessNo }
+          });
           break;
         default:
           this.Toast("未知状态");
@@ -108,7 +112,11 @@ export default {
           this.Toast("被拒绝");
           break;
         case "CHECKING":
-          this.Toast("待审核");
+          // this.Toast("待审核");
+          this.$router.push({
+            path: "./completeInvoice",
+            query: { customerNo: customer.bussinessNo }
+          });
           break;
         default:
           this.Toast("未知状态");
