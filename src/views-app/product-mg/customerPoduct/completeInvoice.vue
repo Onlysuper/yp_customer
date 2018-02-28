@@ -22,13 +22,14 @@
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <!-- <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
+
+            <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
             <mt-field label="开户支行:" type="text" v-model="bankBranch.branchName" @click.native="openBankBranch" placeholder="选择开户支行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
-            </mt-field> -->
-            <mt-field label="开户银行:" type="text" v-model="form.bankCode" placeholder="请输入支行信息" :attr="{maxlength:50}"></mt-field>
+            </mt-field>
+
             <mt-field label="银行帐号:" type="tel" v-model="form.bankAccountNo" placeholder="请输入银行帐号" :attr="{maxlength:50}"></mt-field>
             <mt-field label="注册资金:" type="number" v-model="form.registMoney" placeholder="请输入注册资金" :attr="{maxlength:50}"></mt-field>
             <mt-field label="月开票量:" type="number" v-model="form.mounthCount" placeholder="请输入月开票量" :attr="{maxlength:50}"></mt-field>
@@ -121,7 +122,7 @@ export default {
       this.form.enterpriseName = data.enterpriseName;
       this.form.bussinessAddress = data.bussinessAddress;
       this.form.bussinessPhone = data.bussinessPhone;
-      this.form.bankCode = data.bankCode;
+      // this.form.bankCode = data.bankCode;
       this.form.bankAccountNo = data.bankAccountNo;
       this.form.registMoney = data.registMoney;
       this.form.mounthCount = data.mounthCount;
@@ -136,6 +137,10 @@ export default {
       this.bankResult({
         value: data.bankName,
         key: data.bankCode
+      });
+      this.bankRsearchResult({
+        branchName: data.branchName,
+        unionCode: data.unionCode
       });
     },
     //地区选择回调函数
@@ -195,7 +200,11 @@ export default {
       let form = {
         ...this.form,
         customerNo: this.customerNo,
-        ...this.handleCityCode(this.city.resultCode)
+        ...this.handleCityCode(this.city.resultCode),
+        unionCode: this.bankBranch.unionCode,
+        branchName: this.bankBranch.branchName,
+        bankCode: this.bank.key,
+        bankName: this.bank.value
       };
       // console.log(form);
 
