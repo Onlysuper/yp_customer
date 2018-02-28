@@ -489,7 +489,7 @@ export default {
             },
             // 代理商确认
             {
-              text: "待确认",
+              text: "确认",
               color: "#00c1df",
               visibleFn: rowdata => {
                 //已确认
@@ -561,13 +561,16 @@ export default {
         if (valid) {
           this.saveLoading = true;
           let editForm = this.editForm;
-          // this.resetSearchHandle();
           postUpdateSettles()({
             settleNo: editForm.settleNo,
             agentNo: editForm.agentNo,
-            bankName: editForm.bankName,
+            orderNo: editForm.orderNo,
+            receiveMan: editForm.receiveMan,
             accountNo: editForm.accountNo,
-            receiveMan: editForm.receiveMan
+            bankName: editForm.bankName,
+            settlePrice: editForm.settlePrice,
+            customerNumber: editForm.customerNumber,
+            agentPhone: editForm.agentPhone
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -575,7 +578,7 @@ export default {
                 type: "success",
                 center: true
               });
-              this.sureFormVisible = false;
+              this.editFormVisible = false;
               this.reloadData();
             } else {
               this.$message({
@@ -601,13 +604,9 @@ export default {
           postUpdateSettles()({
             settleNo: editForm.settleNo,
             agentNo: editForm.agentNo,
-            orderNo: editForm.orderNo,
-            receiveMan: editForm.receiveMan,
-            accountNo: editForm.accountNo,
             bankName: editForm.bankName,
-            settlePrice: editForm.settlePrice,
-            customerNumber: editForm.customerNumber,
-            agentPhone: editForm.agentPhone
+            accountNo: editForm.accountNo,
+            receiveMan: editForm.receiveMan
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -615,7 +614,7 @@ export default {
                 type: "success",
                 center: true
               });
-              this.editFormVisible = false;
+              this.sureFormVisible = false;
               this.reloadData();
             } else {
               this.$message({

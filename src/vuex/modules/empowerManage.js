@@ -49,7 +49,7 @@ export default {
     // 刷新数据
     ["QRCODE_UPDATA"](state, data) {
       state.list = state.list.map(item => {
-        if (data.receiptNo == item.receiptNo) return data;
+        if (data.authCode == item.authCode) return data;
         else return item;
       })
     }
@@ -57,7 +57,7 @@ export default {
   actions: {
     // 数据列表中获取当前编辑得数据
     getEmpowerManageUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
-      return state.list.find(item => item.receiptNo == itemId);
+      return state.list.find(item => item.authCode == itemId);
     },
     editEmpowerManage({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
       let supportTypes1 = "";
