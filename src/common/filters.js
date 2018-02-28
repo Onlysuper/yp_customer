@@ -45,6 +45,38 @@ mypFilters.install = function (Vue, options) {
         return value;
     })
     /**
+      * 产品管理-》商户产品=》账户类型
+      */
+    Vue.filter('accountType', function (value) {
+        switch (value) {
+            case "0":
+                value = "对公";
+                break;
+            case "1":
+                value = "对私";
+                break;
+            default:
+                value = "";
+        }
+        return value;
+    })
+    /**
+      * 产品管理-》商户产品=》开通即刷即到
+      */
+    Vue.filter('settleMode', function (value) {
+        switch (value) {
+            case "T0":
+                value = "开通";
+                break;
+            case "T1":
+                value = "不开通";
+                break;
+            default:
+                value = "";
+        }
+        return value;
+    })
+    /**
    * 结算交付状态
    */
     Vue.filter('payStatus', function (value) {

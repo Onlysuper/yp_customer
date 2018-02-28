@@ -40,7 +40,7 @@
               <span class="line-label">邮箱:</span>{{detailsForm.customer.contactEmail||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">账户类型:</span>{{detailsForm.settleCard.accountType||""}}
+              <span class="line-label">账户类型:</span>{{detailsForm.settleCard.accountType | accountType}}
             </div>
             <div class="line-label-box">
               <span class="line-label">账户名称:</span>{{detailsForm.settleCard.accountName||""}}
@@ -55,13 +55,13 @@
               <span class="line-label">账号:</span>{{detailsForm.settleCard.accountNo||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">微信费率:</span>{{detailsForm.product.wechatRate ||""}}
+              <span class="line-label">微信费率:</span>{{utils.accMul(detailsForm.product.wechatRate,100)+'%' ||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">支付宝费率:</span>{{detailsForm.product.alipayRate||""}}
+              <span class="line-label">支付宝费率:</span>{{utils.accMul(detailsForm.product.alipayRate,100)+'%'||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">开通即刷即到:</span>{{detailsForm.product.settleMode||""}}
+              <span class="line-label">开通即刷即到:</span>{{detailsForm.product.settleMode | settleMode}}
             </div>
             <div class="line-label-box">
               <span class="line-label">D0手续费:</span>{{detailsForm.product.t0CashCostFixed||""}}
@@ -73,7 +73,9 @@
 
                     <div class="img-box">
                       <p class="img-title">法人身份证正面:</p>
-                      <img class="img-size" :src="detailsForm.imgs.identityFrontImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.identityFrontImg.url||''" alt="">
+                      </div>
                     </div>
 
                   </div>
@@ -82,7 +84,9 @@
                   <div class="grid-content bg-purple-light">
                     <div class="img-box">
                       <p class="img-title">法人身份证反面:</p>
-                      <img class="img-size" :src="detailsForm.imgs.identityBackImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.identityBackImg.url||''" alt="">
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -94,7 +98,9 @@
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">营业执照:</p>
-                      <img class="img-size" :src="detailsForm.imgs.bussinessLicenseImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.bussinessLicenseImg.url||''" alt="">
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -106,7 +112,9 @@
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">结算卡正面:</p>
-                      <img class="img-size" :src="detailsForm.imgs.settleCardImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.settleCardImg.url||''" alt="">
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -118,7 +126,9 @@
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">开户许可证:</p>
-                      <img class="img-size" :src="detailsForm.imgs.accountLicenseImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.accountLicenseImg.url||''" alt="">
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -130,7 +140,9 @@
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">门头照片:</p>
-                      <img class="img-size" :src="detailsForm.imgs.placeImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.placeImg.url||''" alt="">
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -142,7 +154,9 @@
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">店内照片:</p>
-                      <img class="img-size" :src="detailsForm.imgs.storeImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.storeImg.url||''" alt="">
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -154,7 +168,9 @@
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">收银台照片:</p>
-                      <img class="img-size" :src="detailsForm.imgs.cashSpaceImg.url||''" alt="">
+                      <div class="img-back">
+                        <img class="img-size" :src="detailsForm.imgs.cashSpaceImg.url||''" alt="">
+                      </div>
                     </div>
                   </div>
                 </el-col>
@@ -220,6 +236,33 @@
   padding: 10px;
   .img-title {
     padding-bottom: 10px;
+  }
+  .img-back {
+    height: 250px;
+    min-width: 250px;
+    height: 250px;
+    min-width: 250px;
+    border: 1px solid #ebeef5;
+    text-align: center;
+    padding: 5px;
+    position: relative;
+    &::after {
+      content: "暂无图片";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 100px;
+      text-align: center;
+      margin-left: -50px;
+      margin-top: -10px;
+    }
+    .img-size {
+      height: 250px;
+      max-width: 100%;
+      position: relative;
+      z-index: 1;
+      color: #909399;
+    }
   }
   .img-size {
     height: 250px;
