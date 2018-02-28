@@ -162,16 +162,16 @@ export default {
       } else if (type == "EDIT") {
         this.$router.push({
           path: "./edit/" + itemId,
-          query: { type: rowdata.receiptType }
+          query: { type: type }
         });
       }
     },
     edit(rowdata) {
-      this.toUrl("EDIT", rowdata.receiptNo, rowdata);
+      this.toUrl("EDIT", rowdata.authCode, rowdata);
     },
     previewFn() {
       // 预览
-      this.toUrl("PREVIEW", this.rowdata.receiptNo);
+      this.toUrl("PREVIEW", this.rowdata.authCode);
     },
     // editFn() {
     //   // 编辑

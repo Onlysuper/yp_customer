@@ -1,8 +1,8 @@
 <template>
   <div>
     <mt-cell :title="title" class="border-1px"></mt-cell>
-    <mt-checklist class="myp-chek-list border-1px" title="" v-model="modleValue_" :options="actions">
-    </mt-checklist>
+    <mt-radio class="myp-chek-list border-1px" title="" v-model="checkValue" :options="actions">
+    </mt-radio>
   </div>
 </template>
 
@@ -33,15 +33,15 @@
 
 <script>
 export default {
-  name: "CheckList",
+  name: "Radio",
   props: {
     title: {
       type: String,
       default: ""
     },
     modleValue: {
-      type: Array,
-      default: []
+      type: String,
+      default: ""
     },
     actions: {
       type: Array,
@@ -50,16 +50,12 @@ export default {
   },
   data() {
     return {
-      modleValue_: this.modleValue
+      checkValue: this.modleValue
     };
   },
-  computed: {
-    // checkValue_() {
-    //   return this.modleValue;
-    // }
-  },
+  computed: {},
   watch: {
-    modleValue_(value) {
+    checkValue(value) {
       this.$emit("result", value);
     }
   },

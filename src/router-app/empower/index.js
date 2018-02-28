@@ -95,7 +95,7 @@ export default {
         {
           // 编辑
           name: "empowerManageEdit",
-          path: 'edit/:receiptNo',
+          path: 'edit/:authCode',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/edit")) }, "empower-manage-edit")
           },
