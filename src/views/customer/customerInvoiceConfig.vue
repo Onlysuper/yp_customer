@@ -308,7 +308,7 @@ export default {
                 };
               } else {
                 return {
-                  text: data ? data : "未知",
+                  text: data ? data : "",
                   type: "info"
                 };
               }

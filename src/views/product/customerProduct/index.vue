@@ -20,7 +20,17 @@
         <template v-if="payStatusVisible">
           <!-- 聚合详情 -->
           <div class="detail-body">
-
+            <div class="line-label-box">
+              <span class="line-label">商户编号:</span>
+              <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">商户名称:</span>
+              <span class="line-label-last">{{detailsForm.customerName}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
+            </div>
             <div class="line-label-box">
               <span class="line-label">所在地区:</span>{{detailsForm.customer.orgCode||""}}
             </div>
@@ -177,13 +187,7 @@
               </el-row>
             </div>
           </div>
-          <div v-if="detailsForm.payStatus=='REJECT'?true:false" class="line-label-box">
-            <el-form size="small" :model="resaultForm" ref="resaultForm" :rules="resaultFormRules" label-width="100px">
-              <el-form-item label="拒绝理由">
-                <el-input :disabled="searchDetail" type="textarea" v-model="payStatusDetails.reason"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
+
         </template>
         <template v-if="qrcodeStatusVisible">
           <!-- 快速详情 -->
@@ -198,13 +202,7 @@
           <div class="line-label-box">
             <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
           </div>
-          <div v-if="detailsForm.qrcodeStatus=='REJECT'?true:false" class="line-label-box">
-            <el-form size="small" :model="resaultForm" ref="resaultForm" :rules="resaultFormRules" label-width="100px">
-              <el-form-item label="拒绝理由">
-                <el-input :disabled="searchDetail" type="textarea" v-model="qrcodeStatusDetails.reason"></el-input>
-              </el-form-item>
-            </el-form>
-          </div>
+
         </template>
         <template v-if="elecStatusVisible">
           <!-- 电子详情 -->
@@ -252,22 +250,20 @@
             <span class="line-label">月开票量:</span>
             <span class="line-label-last">{{elecStatusDetails.product.elecBillnum}}</span>
           </div>
-          <div v-if="detailsForm.elecStatus=='REJECT'?true:false" class="line-label-box">
-            <el-form size="small" :model="resaultForm" ref="resaultForm" :rules="resaultFormRules" label-width="100px">
-              <el-form-item label="拒绝理由">
-                <el-input :disabled="searchDetail" type="textarea" v-model="elecStatusDetails.reason"></el-input>
-              </el-form-item>
-            </el-form>
+          <div class="line-label-box">
+            <span class="line-label">被拒原因:</span>
+            <span class="line-label-last">{{elecStatusDetails.product.elecReason}}</span>
           </div>
+
         </template>
 
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
-        <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
+        <el-button :disabled="deitDisabled_edit(selectOptions.customerType,detailsForm)" v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
 
-        <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave()">审核拒绝</el-button>
-        <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave()">审核通过</el-button>
+        <el-button :disabled="deitDisabled_check(selectOptions.customerType,detailsForm)" v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
+        <el-button :disabled="deitDisabled_check(selectOptions.customerType,detailsForm)" v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
       </div>
     </el-dialog>
     <!-- 详情 end -->
@@ -288,14 +284,14 @@
           </el-option>
         </el-select>
       </div>
-      <el-form size="small" :model="resaultForm" ref="resaultForm" :rules="resaultFormRules" label-width="100px">
-        <el-form-item label="拒绝理由">
-          <el-input type="textarea" v-model="resaultForm.reason"></el-input>
+      <el-form size="small" :model="closeForm" ref="closeForm" :rules="closeFormRules" label-width="100px">
+        <el-form-item prop="closeReason" label="关闭原因">
+          <el-input type="textarea" v-model="closeForm.closeReason"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="closeVisible = false">取 消</el-button>
-        <el-button type="primary" @click="closeSave()">确定</el-button>
+        <el-button type="primary" @click="closeSave('closeForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 关闭end -->
@@ -443,6 +439,12 @@ export default {
       qrcodeStatusDetails: {}, // 快速开票查询详情
       payStatusDetails: {}, // 聚合支付查询详情
       resaultForm: {}, // 拒绝表单
+      closeForm: {},
+      closeFormRules: {
+        closeReason: [
+          { required: true, message: "请填写关闭原因", trigger: "blur" }
+        ]
+      },
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur" }]
       },
@@ -742,13 +744,10 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.checkVisiblebut = false;
-                this.editVisiblebut = true;
+                // this.editVisiblebut = true;
                 this.searchDetail = true;
                 this.rowData = rowdata;
-                if (
-                  rowdata.payStatus == "REJECT" ||
-                  rowdata.payStatus == "WAITING_SUBMIT"
-                ) {
+                if (rowdata.payStatus == "REJECT") {
                   this.editVisiblebut = true;
                 }
                 this.getCustomerEcho(rowdata); // 聚合支付回显
@@ -786,17 +785,17 @@ export default {
             },
             {
               text: "开通",
-              visibleFn: rowdata => {
-                if (
-                  rowdata.payStatus == "REJECT" ||
-                  rowdata.payStatus == "WAITING_SUBMIT"
-                ) {
-                  // 拒绝状态隐藏
-                  return false;
-                } else {
-                  return true;
-                }
-              },
+              // visibleFn: rowdata => {
+              //   if (
+              //     rowdata.payStatus == "REJECT" ||
+              //     rowdata.payStatus == "WAITING_SUBMIT"
+              //   ) {
+              //     // 拒绝状态隐藏
+              //     return false;
+              //   } else {
+              //     return true;
+              //   }
+              // },
               color: "#00c1df",
               disabledFn: rowdata => {
                 if (
@@ -814,49 +813,7 @@ export default {
                 this.openProduct(rowdata);
               }
             },
-            // {
-            //   text: "编辑",
-            //   visibleFn: rowdata => {
-            //     if (
-            //       rowdata.payStatus == "REJECT" ||
-            //       rowdata.payStatus == "WAITING_SUBMIT"
-            //     ) {
-            //       return false;
-            //     } else {
-            //       return true;
-            //     }
-            //   },
-            //   color: "#00c1df",
-            //   cb: rowdata => {
-            //  this.checkVisiblebut = false;
-            //   this.editVisiblebut = true;
-            //     this.editFormVisible = true;
-            //     this.customerTypeSelected = [
-            //       {
-            //         value: "payStatus",
-            //         label: "聚合支付",
-            //         disabled:
-            //           rowdata.payStatus == "INIT" ||
-            //           rowdata.payStatus == "REJECT"
-            //             ? false
-            //             : true
-            //       },
-            //       {
-            //         value: "qrcodeStatus",
-            //         label: "快速开票",
-            //         disabled: rowdata.qrcodeStatus == "INIT" ? false : true
-            //       },
-            //       {
-            //         value: "elecStatus",
-            //         label: "电子发票",
-            //         // disabled: true
-            //         disabled: rowdata.elecStatus == "INIT" ? false : true
-            //       }
-            //     ];
-            //     this.rowData = rowdata;
-            //     this.nextFn("openInfo");
-            //   }
-            // },
+
             // 一下按钮均为运营可操作
             {
               text: "关闭",
@@ -893,12 +850,6 @@ export default {
                 this.editVisiblebut = false;
                 this.searchDetail = false;
                 this.rowData = rowdata;
-                if (
-                  rowdata.payStatus == "REJECT" ||
-                  rowdata.payStatus == "WAITING_SUBMIT"
-                ) {
-                  this.editVisiblebut = true;
-                }
                 this.getCustomerEcho(rowdata); // 回显示
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
                 postCustomerOpenProductSearch()({
@@ -932,30 +883,13 @@ export default {
       }
     };
   },
-
   methods: {
-    resaultHandle(
-      bussinessNo,
-      customerType,
-      qrcodeStatus,
-      elecStatus,
-      payStatus,
-      qrReason,
-      elecReason,
-      payReason
-    ) {
-      postHandleCustomerProduct()({
-        bussinessNo: bussinessNo,
-        bussinessType: customerType,
-        qrcodeStatus: qrcodeStatus, //快速开票产品状态
-        elecStatus: elecStatus,
-        payStatus: payStatus,
-        qrReason: qrReason,
-        elecReason: elecReason,
-        payReason: payReason
-      }).then(res => {
+    // 关闭，拒绝，通过
+    resaultHandle(obj) {
+      postHandleCustomerProduct()(obj).then(res => {
         if (res.code == "00") {
           this.closeVisible = false;
+          this.detailsFormVisible = false;
           this.reloadData();
           this.$message({
             type: "success",
@@ -970,82 +904,101 @@ export default {
       });
     },
     // 关闭
-    closeSave() {
-      this.$confirm("确定关闭电子发票业务并且将以短信形式通知商户?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        let resaultForm = this.resaultForm;
-        let customerType = this.selectOptions.customerType;
-        let qrcodeStatus = resaultForm.qrcodeStatus;
-        let elecStatus = resaultForm.elecStatus;
-        let payStatus = resaultForm.payStatus;
-        let qrReason = "";
-        let elecReason = "";
-        let payReason = "";
-        if (customerType == "qrcodeStatus") {
-          qrReason = resaultForm.reason;
-          qrcodeStatus = "FALSE";
-        } else if (customerType == "elecStatus") {
-          elecReason = resaultForm.reason;
-          elecStatus = "FALSE";
-        } else if (customerType == "payStatus") {
-          payReason = resaultForm.reason;
-          payStatus = "FALSE";
+    closeSave(formName) {
+      // 编辑内容保存
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let resaultForm = this.resaultForm;
+          let customerType = this.selectOptions.customerType;
+          let obj = {
+            bussinessNo: resaultForm.bussinessNo,
+            bussinessType: "customer"
+          };
+          let msg = "";
+          if (customerType == "qrcodeStatus") {
+            // 快速开票
+            obj.qrReason = resaultForm.reason;
+            obj.qrcodeStatus = "FALSE";
+            msg = "确定关闭快速开票业务业务并且将以短信形式通知商户?";
+          } else if (customerType == "elecStatus") {
+            obj.elecReason = resaultForm.reason;
+            obj.elecStatus = "FALSE";
+            msg = "确定关闭电子发票业务并且将以短信形式通知商户?";
+          } else if (customerType == "payStatus") {
+            obj.payReason = resaultForm.reason;
+            obj.payStatus = "FALSE";
+            msg = "确定关闭聚合业务并且将以短信形式通知商户?";
+          }
+          this.$confirm(msg, "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          }).then(() => {
+            this.resaultHandle(obj);
+          });
         }
-        this.resaultHandle(
-          resaultForm.bussinessNo,
-          customerType,
-          qrcodeStatus,
-          elecStatus,
-          payStatus,
-          qrReason,
-          elecReason,
-          payReason
-        );
       });
     },
     // 审核通过
-    adoptSave() {
-      this.$confirm(
-        "确定电子发票审核开通成功 并且将以短信形式通知商户?",
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }
-      ).then(() => {
-        this.resaultHandle(
-          resaultForm.bussinessNo,
-          customerType,
-          qrcodeStatus,
-          elecStatus,
-          payStatus,
-          qrReason,
-          elecReason,
-          payReason
-        );
-      });
-    },
-    // 审核拒绝
-    refuseSave() {
-      this.$confirm("确定拒绝商户开通电子发票?", "提示", {
+    adoptSave(customerType, detailsForm) {
+      let resaultForm = this.rowData;
+      let obj = {
+        bussinessNo: resaultForm.bussinessNo,
+        bussinessType: "customer"
+      };
+      let msg = "";
+      if (customerType == "qrcodeStatus") {
+        obj.qrcodeStatus = "TRUE";
+        msg = "确定通过 快速开票业务业务并且将以短信形式通知商户?";
+      } else if (customerType == "elecStatus") {
+        obj.elecStatus = "TRUE";
+        msg = "确定通过 电子发票业务并且将以短信形式通知商户?";
+      } else if (customerType == "payStatus") {
+        obj.payStatus = "TRUE";
+        msg = "确定通过 聚合业务并且将以短信形式通知商户?";
+      }
+      this.$confirm(msg, {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        this.resaultHandle(
-          resaultForm.bussinessNo,
-          customerType,
-          qrcodeStatus,
-          elecStatus,
-          payStatus,
-          qrReason,
-          elecReason,
-          payReason
-        );
+        this.resaultHandle(obj);
+      });
+    },
+    // 审核拒绝
+    refuseSave(customerType, detailsForm) {
+      this.$prompt("请输入拒绝原因", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /^[\u4E00-\u9FA5\uF900-\uFA2D\w]+$/,
+        inputErrorMessage: "请输入拒绝原因"
+      }).then(({ value }) => {
+        let resaultForm = this.rowData;
+        let obj = {
+          bussinessNo: resaultForm.bussinessNo,
+          bussinessType: "customer"
+        };
+        let msg = "";
+        if (customerType == "qrcodeStatus") {
+          obj.qrReason = value;
+          obj.qrcodeStatus = "REJECT";
+          msg = "确定拒绝快速开票业务业务并且将以短信形式通知商户?";
+        } else if (customerType == "elecStatus") {
+          obj.elecReason = value;
+          obj.elecStatus = "REJECT";
+          msg = "确定拒绝电子发票业务并且将以短信形式通知商户?";
+        } else if (customerType == "payStatus") {
+          obj.payReason = value;
+          obj.payStatus = "REJECT";
+          msg = "确定拒绝聚合业务并且将以短信形式通知商户?";
+        }
+        this.$confirm(msg, {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(() => {
+          this.resaultHandle(obj);
+        });
       });
     },
     // 点击开通产品
@@ -1055,9 +1008,9 @@ export default {
         rowdata.payStatus == "INIT" ||
         rowdata.qrcodeStatus == "INIT" ||
         rowdata.elecStatus == "INIT" ||
-        rowdata.payStatus == "CHECKING" ||
-        rowdata.qrcodeStatus == "CHECKING" ||
-        rowdata.elecStatus == "CHECKING"
+        rowdata.payStatus == "REJECT" ||
+        rowdata.qrcodeStatus == "REJECT" ||
+        rowdata.elecStatus == "REJECT"
       ) {
         this.editFormVisible = true;
         this.customerTypeSelected = [
@@ -1154,15 +1107,21 @@ export default {
       }
     },
     editFn() {
-      this.detailsFormVisible = false;
-      this.editFormVisible = true;
-      this.openProduct(this.rowData);
+      let customerType = this.selectOptions.customerType;
+      if (customerType == "qrcodeStatus") {
+      } else if (customerType == "elecStatus") {
+      } else if (customerType == "payStatus") {
+        this.qrcodeStatusVisible = true;
+        this.detailsFormVisible = false;
+        this.editFormVisible = true;
+        this.openProduct(this.rowData);
+        console.log("聚合支付编辑");
+      }
     },
     // 下一步
     nextFn(next) {
       this.currentView = next;
     },
-
     customerTypeSelect() {
       let value = this.selectOptions.customerType;
       this.payStatusVisible = false; // 聚合详情
@@ -1188,6 +1147,32 @@ export default {
         this.productOpenTitle = "上传资质";
       } else if (currentView == "paystatusSuccess") {
         this.productOpenTitle = "申请完成";
+      }
+    },
+    // 查询详情 编辑按钮显示问题
+    deitDisabled_edit(type, row) {
+      console.log(type);
+      console.log(row);
+      if (
+        (type == "payStatus" && row.payStatus == "REJECT") ||
+        (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT") ||
+        (type == "elecStatus" && row.qrcodeStatus == "REJECT")
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    // 查询详情 审核按钮显示
+    deitDisabled_check(type, row) {
+      if (
+        true
+        // type == "elecStatus" &&
+        // row.qrcodeStatus == "CHECKING"
+      ) {
+        return false;
+      } else {
+        return true;
       }
     }
   },

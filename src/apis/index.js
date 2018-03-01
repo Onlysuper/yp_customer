@@ -115,7 +115,7 @@ const postCancelDefaultCustomerGood = (path) => { return (params) => { return ht
 const getCustomerProducts = () => { return (params) => { return http.get(base.oaIp, "/userproduct/customerProductPage", params) } }
 const getCheckCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/query/checkCustomerProduct", params) } }
 const getQueryCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomer", params) } }
-const postHandleCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/userproduct/update/userProductSingle", params) } }
+const postHandleCustomerProduct = () => { return (params) => { return http.post(base.oaIp, "/userproduct/update/userProductSingle", params) } }
 const getQueryCustomerElectronic = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomerElectronic", params) } }
 // end -------------------------------------------------
 /**
