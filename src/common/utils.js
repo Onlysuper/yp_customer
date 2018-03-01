@@ -1,3 +1,5 @@
+
+import bussinessTypeJson from "@src/data/bussinessType.json";
 export default {
     /**
      * 乘法，解决js精度损失问题
@@ -95,5 +97,12 @@ export default {
         } else {
             return false;
         }
-    }()
+    }(),
+    /**
+     * 根据code查找行业类别
+     */
+    findBussinessType: function (code) {
+        let bussinessType = bussinessTypeJson.find(item => item.code == code);
+        return bussinessType || {};
+    },
 }
