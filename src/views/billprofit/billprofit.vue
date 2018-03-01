@@ -8,7 +8,9 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">商户:{{customerSum}}个 返利:{{subsidySum}}元 中间人:{{rebateSum}}元</span>
+          <span class="sumtext">商户:{{customerSum}}个 返利:{{subsidySum}}元
+            <span v-if="isAdmin">中间人:{{rebateSum}}元</span>
+          </span>
         </el-button-group>
       </div>
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -42,6 +44,8 @@ export default {
       settleStatus: "",
       dataTime: thisMonth
     };
+    var user = this.$store.state.moduleLayour.userMessage.all;
+    var isAdmin = user.userType === "admin" || user.userType === "branchOffice"; // 运营
     return {
       customerSum: 0,
       rebateSum: 0,
@@ -180,16 +184,7 @@ export default {
             key: "中间人(元)",
             width: "",
             word: "rebate",
-            visibleFn: rowdata => {
-              if (
-                this.userAll.userType === "admin" ||
-                this.userAll.userType === "branchOffice"
-              ) {
-                return true;
-              } else {
-                return false;
-              }
-            }
+            hidden: isAdmin ? false : true
           },
           {
             key: "结算状态",
@@ -247,6 +242,14 @@ export default {
     this.SumHandle();
   },
   computed: {
+    isAdmin() {
+      let user = this.$store.state.moduleLayour.userMessage.all;
+      if (user.userType === "admin" || user.userType === "branchOffice") {
+        return true;
+      } else {
+        return false;
+      }
+    },
     userAll() {
       // 所有的用户信息
       return this.$store.state.moduleLayour.userMessage.all;

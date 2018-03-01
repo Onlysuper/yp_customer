@@ -238,19 +238,19 @@
           </div>
           <div class="line-label-box">
             <span class="line-label">注册资金:</span>
-            <span class="line-label-last">{{elecStatusDetails.product.registMoney}}</span>
+            <span class="line-label-last">{{elecStatusDetails.customer.registMoney}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">开户银行:</span>
-            <span class="line-label-last">{{elecStatusDetails.customerInvoiceConfig.customerName}}</span>
+            <span class="line-label-last">{{elecStatusDetails.customerInvoiceConfig.branchName}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">银行账号:</span>
-            <span class="line-label-last">{{elecStatusDetails.customerName}}</span>
+            <span class="line-label-last">{{elecStatusDetails.customerInvoiceConfig.bankAccountNo}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">月开票量:</span>
-            <span class="line-label-last">{{elecStatusDetails.customerName}}</span>
+            <span class="line-label-last">{{elecStatusDetails.product.elecBillnum}}</span>
           </div>
           <div v-if="detailsForm.elecStatus=='REJECT'?true:false" class="line-label-box">
             <el-form size="small" :model="resaultForm" ref="resaultForm" :rules="resaultFormRules" label-width="100px">
@@ -264,7 +264,7 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
-        <el-button v-if="editVisiblebut" type="primary" @click="editFn(rowData)">编辑</el-button>
+        <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
 
         <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave()">审核拒绝</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave()">审核通过</el-button>
@@ -435,7 +435,11 @@ export default {
       payStatusForm: {
         Area: [] // 必须为数组
       }, // 编辑单个表单
-      elecStatusDetails: {}, // 电子发票查询详情
+      elecStatusDetails: {
+        customer: {},
+        customerInvoiceConfig: {},
+        product: {}
+      }, // 电子发票查询详情
       qrcodeStatusDetails: {}, // 快速开票查询详情
       payStatusDetails: {}, // 聚合支付查询详情
       resaultForm: {}, // 拒绝表单
@@ -1046,10 +1050,14 @@ export default {
     },
     // 点击开通产品
     openProduct(rowdata) {
+      console.log(rowdata);
       if (
         rowdata.payStatus == "INIT" ||
         rowdata.qrcodeStatus == "INIT" ||
-        rowdata.elecStatus == "INIT"
+        rowdata.elecStatus == "INIT" ||
+        rowdata.payStatus == "CHECKING" ||
+        rowdata.qrcodeStatus == "CHECKING" ||
+        rowdata.elecStatus == "CHECKING"
       ) {
         this.editFormVisible = true;
         this.customerTypeSelected = [
@@ -1064,13 +1072,19 @@ export default {
           {
             value: "qrcodeStatus",
             label: "快速开票",
-            disabled: rowdata.qrcodeStatus == "INIT" ? false : true
+            disabled:
+              rowdata.qrcodeStatus == "INIT" || rowdata.qrcodeStatus == "REJECT"
+                ? false
+                : true
           },
           {
             value: "elecStatus",
             label: "电子发票",
             // disabled: true
-            disabled: rowdata.elecStatus == "INIT" ? false : true
+            disabled:
+              rowdata.elecStatus == "INIT" || rowdata.elecStatus == "REJECT"
+                ? false
+                : true
           }
         ];
         this.rowData = rowdata;
@@ -1123,10 +1137,6 @@ export default {
             this.elecStatusDetails.product,
             res.data.product
           );
-          this.elecStatusDetails.settleCard = Object.assign(
-            this.elecStatusDetails.settleCard,
-            res.data.settleCard
-          );
         }
       });
     },
@@ -1143,10 +1153,10 @@ export default {
         this.currentView = path;
       }
     },
-    editFn(rowdata) {
+    editFn() {
       this.detailsFormVisible = false;
       this.editFormVisible = true;
-      this.openProduct(rowdata);
+      this.openProduct(this.rowData);
     },
     // 下一步
     nextFn(next) {

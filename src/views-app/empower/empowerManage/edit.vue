@@ -11,21 +11,53 @@
         <mt-field type="text" label="合伙人编号" placeholder="请输入合伙人编号" v-model="empowerList.agentNo"></mt-field>
         <mt-field type="text" label="商户编号" placeholder="请输入商户编号" v-model="empowerList.customerNo"></mt-field>
         <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="empowerList.extensionNum"></mt-field>
-        <myp-radio @result="serviceModeChange" :title="'服务方式'" :modleValue="empowerList.serviceMode" :actions="serviceModeOptions"></myp-radio>
-        <myp-checkList @result="supportTypesChange" :title="'支持类型'" :modleValue="empowerList.supportTypes" :actions="supportTypesOptions"></myp-checkList>
+        <div>
+          <mt-cell title="服务方式" class="border-1px"></mt-cell>
+          <mt-radio class="myp-chek-list border-1px" title="" v-model="empowerList.serviceMode" :options="serviceModeOptions">
+          </mt-radio>
+        </div>
+        <div>
+          <mt-cell title="支持类型" class="border-1px"></mt-cell>{{empowerList.supportTypes}}
+          <mt-checklist class="myp-chek-list border-1px" title="" v-model="empowerList.supportTypes" :options="supportTypesOptions">
+          </mt-checklist>
+        </div>
+        <!-- <myp-radio @result="serviceModeChange" :title="'服务方式'" :modleValue="empowerList.serviceMode" :actions="serviceModeOptions"></myp-radio> -->
+        <!-- <myp-checkList @result="supportTypesChange" :title="'支持类型'" :modleValue="empowerList.supportTypes" :actions="supportTypesOptions" :cb="supportTypesCb"></myp-checkList> -->
       </input-wrapper>
     </view-radius>
   </full-page>
 </template>
-
+<style lang="scss">
+.myp-chek-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1px;
+  .mint-cell {
+    background-image: none;
+    background-color: #fcfcfc;
+    width: 33.333%;
+  }
+  .mint-radiolist-label,
+  .mint-checklist-label {
+    padding: 0;
+  }
+  .mint-radiolist-title,
+  .mint-checklist-title {
+    margin: 0;
+  }
+  .mint-cell-wrapper {
+    padding: 5px;
+  }
+}
+</style>
 <script>
 import { mapState, mapActions } from "vuex";
-import checkList from "@src/components-app/CheckList";
-import Radio from "@src/components-app/Radio";
+// import checkList from "@src/components-app/CheckList";
+// import Radio from "@src/components-app/Radio";
 export default {
   components: {
-    "myp-checkList": checkList,
-    "myp-radio": Radio
+    // "myp-checkList": checkList,
+    // "myp-radio": Radio
   },
   data() {
     return {
@@ -84,20 +116,33 @@ export default {
           console.log(11111);
           this.empowerList.supportTypes = ["1", "2"];
         } else if (supportType == "5") {
-          this.empowerList.supportTypes = ["1", "4"];
         } else if (supportType == "7") {
           this.empowerList.supportTypes = ["1", "2", "4"];
         }
       });
   },
+  computed: {
+    serviceMode() {
+      return this.empowerList.serviceMode;
+    },
+    supportTypes() {
+      return this.empowerList.supportTypes;
+    }
+  },
+  watch: {
+    serviceMode(value) {
+      console.log(value);
+    },
+    supportTypes(value) {
+      console.log(value);
+      // if (new Set(value).has("4")) {
+      //   this.empowerList.supportTypes = Array.from(new Set(value).add("1"));
+      // }
+    }
+  },
   methods: {
     ...mapActions(["getEmpowerManageUnit", "updataCustomer", "addCustomer"]),
-    serviceModeChange(value) {
-      console.log(value);
-    },
-    supportTypesChange(value) {
-      console.log(value);
-    },
+
     save() {}
     // save() {
     //   if (!this.validator.isEmpty(this.customer.enterpriseName)) {
