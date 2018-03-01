@@ -26,7 +26,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayDate, yesterday, today_ } from "@src/common/dateSerialize";
 import { getBillcountcustomers, getExportcountcustomers } from "@src/apis";
 
 export default {
@@ -62,7 +62,7 @@ export default {
             {
               corresattr: "standardTimeBegin",
               label: "开始时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.standardTimeBegin = value;
               }
@@ -70,7 +70,7 @@ export default {
             {
               corresattr: "standardTimeEnd",
               lable: "结束时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.standardTimeEnd = value;
               }

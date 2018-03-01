@@ -17,11 +17,22 @@ let yesterday = dateSerialize(new Date() - 24 * 60 * 60 * 1000, "day"); // 初�
 let eightday = dateSerialize(new Date() - 7 * (24 * 60 * 60 * 1000), "day"); // 8天前
 let thisMonth = dateSerialize(new Date(), "month"); // 初始化默认开始查询日期
 let lastMonth = dateSerialize(new Date() - 30 * (24 * 60 * 60 * 1000), "month"); // 初始化默认开始查询日期
+
+let today_ = new Date();
+let yesterday_ = new Date(yesterday);
+let eightday_ = new Date(eightday);
+let thisMonth_ = new Date(thisMonth);
+let lastMonth_ = new Date(lastMonth);
 export {
     dateSerialize,
     todayDate,
     yesterday,
     eightday,
     thisMonth,
-    lastMonth
+    lastMonth,
+    today_,
+    yesterday_,
+    eightday_,
+    thisMonth_,
+    lastMonth_,
 }

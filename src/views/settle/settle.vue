@@ -224,7 +224,12 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
+import {
+  todayDate,
+  yesterday,
+  eightday,
+  today_
+} from "@src/common/dateSerialize";
 import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
 
 // user.userType === "agent"
@@ -312,7 +317,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
               }
@@ -320,7 +325,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
               }

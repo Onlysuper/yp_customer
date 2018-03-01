@@ -53,7 +53,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate } from "@src/common/dateSerialize";
+import { todayDate, today_ } from "@src/common/dateSerialize";
 import { getPayOrders } from "@src/apis";
 import utils from "@src/common/utils";
 export default {
@@ -122,7 +122,7 @@ export default {
             {
               corresattr: "startTime",
               label: "开始时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.startTime = value;
               }
@@ -130,7 +130,7 @@ export default {
             {
               corresattr: "endTime",
               lable: "结束时间",
-              value: new Date(),
+              value: today_,
               cb: value => {
                 this.searchCondition.endTime = value;
               }

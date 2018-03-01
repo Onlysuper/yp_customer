@@ -2,18 +2,18 @@
   <div>
     <!-- 编辑电子发票start -->
     <template v-if="editFormVisible">
-      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
+      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules" :label-width="formLabelWidth">
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+              <el-form-item label="商户编号" prop="customerNo">
                 <el-input :disabled="true" v-model="editForm.customerNo"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="商户名称" prop="enterpriseName" :label-width="formLabelWidth">
+              <el-form-item label="商户名称" prop="enterpriseName">
                 <el-input :disabled="true" v-model="editForm.enterpriseName"></el-input>
               </el-form-item>
             </div>
@@ -47,31 +47,35 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
-                <el-input v-model="editForm.enterpriseName"></el-input>
+                <el-input v-model="editForm.bussinessName"></el-input>
               </el-form-item>
             </div>
           </el-col>
         </el-row>
+        <el-form-item class="full-width" label="注册资金" prop="registMoney" :label-width="formLabelWidth">
+          <el-input v-model="editForm.registMoney"></el-input>
+        </el-form-item>
+        <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
+          <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
+            <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item class="full-width" v-if="bankAreaVisible" prop="bankArea" label="银行区域">
+          <el-cascader @change="bankhandleChangeArea" :options="optionsArea" v-model="editForm.bankArea">
+          </el-cascader>
+        </el-form-item>
+        <el-form-item class="full-width" prop="unionCode" label="选择支行">
+          <el-input v-if="branchNameVisible" v-model="editForm.branchName" auto-complete="off"></el-input>
+          <el-select v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
+            <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="注册资金" prop="registMoney" :label-width="formLabelWidth">
-                <el-input v-model="editForm.registMoney"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bankCode"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="银行卡号" prop="bankAccountNo" :label-width="formLabelWidth">
+              <el-form-item label="银行账号" prop="bankAccountNo" :label-width="formLabelWidth">
                 <el-input v-model="editForm.bankAccountNo"></el-input>
               </el-form-item>
             </div>
@@ -105,11 +109,14 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { regionData } from "element-china-area-data";
 import { phoneNumVerify } from "@src/common/regexp";
 import { areaOrgcode } from "@src/common/orgcode";
+import { banks } from "@src/common/bank";
 import {
   getCustomerProducts,
   getCheckCustomerProduct,
   getQueryCustomerProduct,
-  perfectCustomer
+  perfectCustomer,
+  getBankList,
+  getQueryCustomerElectronic
 } from "@src/apis";
 export default {
   name: "elecstatusInfo",
@@ -125,6 +132,12 @@ export default {
   },
   data() {
     return {
+      bankAreaVisible: false,
+      branchNameVisible: true,
+      branchBankOptions: [],
+      bankCode: "",
+      cityId: "",
+      bankOptions: banks,
       formLabelWidth: "100px",
       addFeatureTypeVisible: false, //新增的产品类型默认隐藏
       editFormVisible: false, // 编辑
@@ -140,18 +153,14 @@ export default {
         customerNo: [
           { required: true, message: "请输入商户编号", trigger: "blur" }
         ],
-        // featureType: [
-        //   { required: true, message: "请选择商品类型", trigger: "blur" }
-        // ],
+
         agentArea: [
           { required: true, message: "请选择经营区域", trigger: "blur" }
         ],
         bussinessAddress: [
           { required: true, message: "请填写经营地址", trigger: "blur" }
         ],
-        // bussinessPhone: [
-        //   { required: true, validator: phoneNumVerify, trigger: "blur" }
-        // ],
+
         bussinessPhone: [
           { required: true, message: "请输入有效联系方式", trigger: "blur" }
         ],
@@ -161,7 +170,7 @@ export default {
         registMoney: [
           { required: true, message: "请输入注册资金", trigger: "blur" }
         ],
-        bankCode: [
+        bankMyCode: [
           { required: true, message: "请填写开户银行", trigger: "blur" }
         ],
         bankAccountNo: [
@@ -169,12 +178,23 @@ export default {
         ],
         mounthCount: [
           { required: true, message: "请填写月开票量", trigger: "blur" }
-        ]
+        ],
+        // bankCode: [
+        //   { required: true, message: "请输入开户银行", trigger: "blur" }
+        // ],
+        bankArea: [
+          { required: true, message: "请选择银行区域", trigger: "blur" }
+        ],
+        unionCode: [{ required: true, message: "请选择支行", trigger: "blur" }]
       },
       editFormRules: {}, // 编辑单个规则
-      editForm: {}, // 编辑单个表单
+      editForm: {
+        bankCode: "",
+        unionCode: "",
+        Area: [],
+        bankArea: [] // 必须为数组
+      } // 编辑单个表单
       // 查询条件数据
-      addForm: {}
     };
   },
   methods: {
@@ -244,6 +264,15 @@ export default {
       this.$refs[formName].validate(valid => {
         let thisForm = this[formName];
         if (valid) {
+          let branchName = "";
+          if (this.branchBankOptions.length == 0) {
+            branchName = thisForm.branchName;
+          } else {
+            branchName =
+              this.branchBankOptions.find(
+                r => r.unionCode == thisForm.unionCode
+              ).branchName || thisForm.unionCode;
+          }
           perfectCustomer()({
             customerNo: thisForm.customerNo,
             featureType: thisForm.featureType,
@@ -257,7 +286,9 @@ export default {
             registMoney: thisForm.registMoney,
             bankCode: thisForm.bankCode,
             bankAccountNo: thisForm.bankAccountNo,
-            mounthCount: thisForm.mounthCount
+            mounthCount: thisForm.mounthCount,
+            unionCode: thisForm.unionCode,
+            branchName: branchName
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -267,8 +298,6 @@ export default {
               });
               this.editFormVisible = false;
               this.goback("reload");
-              // this.resetForm("addForm");
-              // this.reloadData();
             } else {
               this.$message({
                 message: data.msg,
@@ -288,22 +317,36 @@ export default {
       let rowdata = this.rowData;
       this.editForm.featureType = "ELECTRONIC";
       this.editForm.customerNo = rowdata.bussinessNo;
-      getQueryCustomerProduct()({
-        customerNo: rowdata.bussinessNo
+      getQueryCustomerElectronic()({
+        customerNo: rowdata.bussinessNo,
+        featureType: "ELECTRONIC"
       }).then(data => {
+        // console.log(data);
         if (data.code == "00") {
           this.editFormVisible = true;
           let rowdata = data.data;
           if (rowdata) {
-            this.editForm.mounthCount = rowdata.elecBillnum;
-            this.editForm.enterpriseName = rowdata.enterpriseName;
-            this.editForm.bussinessAddress = rowdata.bussinessAddress;
-            this.editForm.bussinessPhone = rowdata.bussinessPhone;
-            this.editForm.bussinessName = rowdata.bussinessName;
-            this.editForm.registMoney = rowdata.registMoney;
-            this.editForm.bankCode = rowdata.bankCode;
-            this.editForm.bankAccountNo = rowdata.bankAccountNo;
-            this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
+            let customer = rowdata.customer;
+            let customerInvoiceConfig = rowdata.customerInvoiceConfig;
+            let product = rowdata.product;
+            if (customer) {
+              this.editForm.enterpriseName = customer.enterpriseName;
+              this.editForm.agentArea =
+                customer.orgCode && areaOrgcode(customer.orgCode);
+              this.editForm.bussinessAddress = customer.bussinessAddress;
+              this.editForm.bussinessPhone = customer.bussinessPhone;
+              this.editForm.bussinessName = customer.bussinessName;
+              this.editForm.registMoney = customer.registMoney;
+            }
+            if (customerInvoiceConfig) {
+              this.editForm.bankCode = customerInvoiceConfig.bankCode;
+              this.editForm.unionCode = customerInvoiceConfig.unionCode;
+              this.editForm.branchName = customerInvoiceConfig.branchName;
+              this.editForm.bankAccountNo = customerInvoiceConfig.bankAccountNo;
+            }
+            if (product) {
+              this.editForm.mounthCount = product.elecBillnum;
+            }
           }
         } else {
           this.editFormVisible = false;
@@ -314,12 +357,43 @@ export default {
           });
         }
       });
+    },
+    banksChange(value) {
+      // 选择所属银行
+      this.bankAreaVisible = true;
+      this.branchNameVisible = false;
+      this.bankCode = value;
+      this.getBankListHandle();
+    },
+    bankhandleChangeArea(value) {
+      console.log(value);
+      //选择银行区域
+      this.bankCity = value[2] || value[1] || value[0];
+      this.getBankListHandle();
+    },
+    getBankListHandle(back) {
+      this.editForm.unionCode = "";
+      this.editForm.branchName = "";
+      // 获取支行
+      if (this.bankCode && this.bankCity) {
+        // 获取支行列表数据
+        getBankList()({
+          bankCode: this.bankCode,
+          cityId: this.bankCity
+        }).then(data => {
+          console.log(data);
+          if (data.code == "00") {
+            this.branchBankOptions = data.data;
+          }
+        });
+      }
     }
   },
-  computed: {},
-  mounted() {
+  created() {
     this.editInfo();
-  }
+  },
+  computed: {},
+  mounted() {}
 };
 </script>
 
