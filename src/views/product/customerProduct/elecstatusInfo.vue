@@ -22,7 +22,7 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item class="full-width" prop="agentArea" label="经营区域" :label-width="formLabelWidth">
+              <el-form-item class="full-width" prop="agentArea" label="注册省份" :label-width="formLabelWidth">
                 <el-cascader :options="optionsArea" v-model="editForm.agentArea" @change="handleChangeArea">
                 </el-cascader>
               </el-form-item>
@@ -30,7 +30,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="经营地址" prop="bussinessAddress" :label-width="formLabelWidth">
+              <el-form-item label="注册地址" prop="bussinessAddress" :label-width="formLabelWidth">
                 <el-input v-model="editForm.bussinessAddress" auto-complete="off"></el-input>
               </el-form-item>
             </div>
@@ -264,6 +264,8 @@ export default {
       this.$refs[formName].validate(valid => {
         let thisForm = this[formName];
         if (valid) {
+          let bankName = this.bankOptions.find(r => r.code == thisForm.bankCode)
+            .name;
           let branchName = "";
           if (this.branchBankOptions.length == 0) {
             branchName = thisForm.branchName;
@@ -288,7 +290,9 @@ export default {
             bankAccountNo: thisForm.bankAccountNo,
             mounthCount: thisForm.mounthCount,
             unionCode: thisForm.unionCode,
-            branchName: branchName
+            branchName: branchName,
+            bankCode: thisForm.bankCode,
+            bankName: bankName
           }).then(data => {
             if (data.code === "00") {
               this.$message({
