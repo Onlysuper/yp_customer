@@ -366,7 +366,6 @@ import {
 
 export default {
   name: "customerProduct",
-
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage, // 数据列表组件
