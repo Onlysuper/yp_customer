@@ -69,7 +69,6 @@
       </el-form-item>
       <el-form-item class="full-width" prop="unionCode" label="选择支行">
         <el-input v-if="branchNameVisible" v-model="payStatusForm.branchName" auto-complete="off"></el-input>
-        <!-- <el-select prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择"> -->
         <el-select v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
           <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
           </el-option>
@@ -77,7 +76,7 @@
       </el-form-item>
     </el-form>
     <div center slot="footer" class="dialog-footer">
-      <el-button @click="goback('close')">返回</el-button>
+      <el-button @click="goback('close')">取消</el-button>
       <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
@@ -162,7 +161,7 @@ export default {
           { required: true, message: "请选择行业类型", trigger: "blur" }
         ],
         contactEmail: [
-          { required: true, message: "请输入有效邮箱", trigger: "blur" }
+          // { required: true, message: "请输入有效邮箱", trigger: "blur" }
         ],
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur" }
@@ -213,8 +212,8 @@ export default {
             category: payStatusForm.category,
             accountNo: payStatusForm.accountNo,
             accountType: payStatusForm.accountType,
-            unionCode: payStatusForm.unionCode, //
-            branchName: branchName, //
+            unionCode: payStatusForm.unionCode,
+            branchName: branchName,
             bankCode: payStatusForm.bankCode,
             bankName: bankName,
             phoneNo: payStatusForm.phoneNo
@@ -286,13 +285,11 @@ export default {
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
-          console.log(res.data);
           let customerData = res.data.customer;
           let settleCard = res.data.settleCard;
           if (customerData.orgCode) {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
           }
-
           this.payStatusForm.legalPerson = customerData.legalPerson;
           this.payStatusForm.idCard = customerData.idCard;
           this.payStatusForm.category = customerData.category;
@@ -301,7 +298,7 @@ export default {
             this.payStatusForm.accountType = settleCard.accountType;
             this.payStatusForm.accountNo = settleCard.accountNo;
             this.payStatusForm.phoneNo = settleCard.phoneNo;
-            this.payStatusForm.bankCode = settleCard.bankCode;
+            // this.payStatusForm.bankCode = settleCard.bankCode;
             this.payStatusForm.unionCode = settleCard.unionCode;
             this.payStatusForm.branchName = settleCard.branchName;
           }

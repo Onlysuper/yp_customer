@@ -45,6 +45,38 @@ mypFilters.install = function (Vue, options) {
         return value;
     })
     /**
+      * 产品管理-》商户产品=》账户类型
+      */
+    Vue.filter('accountType', function (value) {
+        switch (value) {
+            case "0":
+                value = "对公";
+                break;
+            case "1":
+                value = "对私";
+                break;
+            default:
+                value = "";
+        }
+        return value;
+    })
+    /**
+      * 产品管理-》商户产品=》开通即刷即到
+      */
+    Vue.filter('settleMode', function (value) {
+        switch (value) {
+            case "T0":
+                value = "开通";
+                break;
+            case "T1":
+                value = "不开通";
+                break;
+            default:
+                value = "";
+        }
+        return value;
+    })
+    /**
    * 结算交付状态
    */
     Vue.filter('payStatus', function (value) {
@@ -467,10 +499,13 @@ mypFilters.install = function (Vue, options) {
                 value = "未开通";
                 break;
             case "REJECT":
-                value = "被拒绝";
+                value = "审核失败";
                 break;
             case "CHECKING":
-                value = "待审核";
+                value = "审核中";
+                break;
+            case "WAITING_SUBMIT":
+                value = "待提交";
                 break;
             case "PROCESSING":
                 value = "开通待处理";

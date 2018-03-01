@@ -48,7 +48,7 @@ export default {
   actions: {
     // 数据列表中获取当前编辑得数据
     getEmpowerCheckUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
-      return state.list.find(item => item.receiptNo == itemId);
+      return state.list.find(item => item.authCode == itemId);
     },
     // 审核通过
     adoptEmpowerCheck({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {

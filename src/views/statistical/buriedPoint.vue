@@ -22,7 +22,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
-import { todayDate } from "@src/common/dateSerialize";
+import { todayDate, today_ } from "@src/common/dateSerialize";
 import { getBurialPointManages, getBurialPointTotal } from "@src/apis";
 export default {
   name: "operator_log",
@@ -74,7 +74,7 @@ export default {
               clearable: false,
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 // this.searchOptions[1].options[0].value = value;
                 this.searchCondition.createTimeStart = value;
@@ -84,7 +84,7 @@ export default {
               clearable: false,
               corresattr: "createTimeEnd",
               lable: "结束时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 // this.searchOptions[1].options[1].value = value;
                 this.searchCondition.createTimeEnd = value;

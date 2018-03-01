@@ -73,20 +73,36 @@ export default {
     openPay(customer) {
       //判断开通状态
       switch (customer.payStatus) {
+        //已开通
         case "TRUE":
-          this.Toast("已开通");
+          this.$router.push({
+            path: "./detail/pay",
+            query: { customerNo: customer.bussinessNo }
+          });
           break;
+        //未开通
         case "INIT":
           this.$router.push({
             path: "./addPayInfo",
             query: { customerNo: customer.bussinessNo }
           });
           break;
+        //审核失败
         case "REJECT":
-          this.Toast("被拒绝");
+          this.$router.push({
+            path: "./addPayInfo",
+            query: { customerNo: customer.bussinessNo }
+          });
           break;
+        //审核中
         case "CHECKING":
-          // this.Toast("待审核");
+          this.$router.push({
+            path: "./detail/pay",
+            query: { customerNo: customer.bussinessNo }
+          });
+          break;
+        //待提交
+        case "WAITING_SUBMIT":
           this.$router.push({
             path: "./addPayInfo",
             query: { customerNo: customer.bussinessNo }
@@ -99,20 +115,36 @@ export default {
     openElec(customer) {
       //判断开通状态
       switch (customer.elecStatus) {
+        //已开通
         case "TRUE":
-          this.Toast("已开通");
+          this.$router.push({
+            path: "./detail/elec",
+            query: { customerNo: customer.bussinessNo }
+          });
           break;
+        //未开通
         case "INIT":
           this.$router.push({
             path: "./completeInvoice",
             query: { customerNo: customer.bussinessNo }
           });
           break;
+        //审核失败
         case "REJECT":
-          this.Toast("被拒绝");
+          this.$router.push({
+            path: "./completeInvoice",
+            query: { customerNo: customer.bussinessNo }
+          });
           break;
+        //审核中
         case "CHECKING":
-          // this.Toast("待审核");
+          this.$router.push({
+            path: "./detail/elec",
+            query: { customerNo: customer.bussinessNo }
+          });
+          break;
+        //待提交
+        case "WAITING_SUBMIT":
           this.$router.push({
             path: "./completeInvoice",
             query: { customerNo: customer.bussinessNo }

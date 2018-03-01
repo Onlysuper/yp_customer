@@ -112,6 +112,8 @@ router.beforeEach((to, from, next) => {
                     asyncNewRoutes.push(home)
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })
+                } else {
+                    next("/login")
                 }
             })
         } else {

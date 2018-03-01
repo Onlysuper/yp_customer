@@ -31,6 +31,15 @@ export default {
           },
         },
         {
+          path: "detail/:productType",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/detail")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "产品详情"
+          },
+        },
+        {
           path: "search",
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/search")) }, "product-mg-app")

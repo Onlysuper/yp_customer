@@ -129,33 +129,39 @@ router.beforeEach((to, redirect, next) => {
             document.body.className = "document-loading";
             store.dispatch('UserGetFetch');
             store.dispatch('UserMenulistFetch').then(resmenuList => {
-                routerMatch(resmenuList, asyncRouter, (thisrouter) => {
-                    thisrouter.push(
-                        home
-                    )
-                    let rou = [{
-                        path: '',
-                        component: layout,
-                        children: thisrouter,
-                        meta: {
-                            title: '',
-                            keepAlive: true,
-                            role: ['admin', 'root']
-                        },
-                    }]
-                    rou.push({
-                        path: "*",
-                        redirect: "/error"
+
+                if (resmenuList.menuList) {
+                    routerMatch(resmenuList, asyncRouter, (thisrouter) => {
+                        thisrouter.push(
+                            home
+                        )
+                        let rou = [{
+                            path: '',
+                            component: layout,
+                            children: thisrouter,
+                            meta: {
+                                title: '',
+                                keepAlive: true,
+                                role: ['admin', 'root']
+                            },
+                        }]
+                        rou.push({
+                            path: "*",
+                            redirect: "/error"
+                        })
+                        document.body.className = document.body.className + " document-loading-top";
+                        router.addRoutes(rou)
+                        // console.log(thisrouter);
+                        setTimeout(() => {
+                            next({ ...to, replace: true })
+                            document.body.className = "";
+                        }, 500)
+                        // next()
                     })
-                    document.body.className = document.body.className + " document-loading-top";
-                    router.addRoutes(rou)
-                    // console.log(thisrouter);
-                    setTimeout(() => {
-                        next({ ...to, replace: true })
-                        document.body.className = "";
-                    }, 500)
-                    // next()
-                })
+                } else {
+                    next("/login")
+                }
+
             })
         } else {
             next()

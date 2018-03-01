@@ -1,6 +1,6 @@
 <template>
   <div class="upload-view">
-    <div class="upload-view-btn" @click="showUpload = true">
+    <div class="upload-view-btn" @click="handleClick">
       <img v-if="base64" :src="base64" alt="">
       <i v-if="!base64" class="icon-camera icon"></i>
     </div>
@@ -71,6 +71,10 @@ export default {
     desc: {
       type: String,
       default: "拍摄的照片尽量充满相框，无反光，无水印，清晰可见"
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -81,6 +85,12 @@ export default {
     };
   },
   methods: {
+    handleClick() {
+      if (this.disabled) {
+      } else {
+        this.showUpload = true;
+      }
+    },
     upresult(base64) {
       Indicator.open({
         text: "正在上传...",

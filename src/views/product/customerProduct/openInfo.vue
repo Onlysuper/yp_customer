@@ -104,8 +104,8 @@ export default {
           return item;
         }
       });
-      this.payStatusForm.customerType = check.value;
-      this.customerTypeChange(check.value);
+      this.payStatusForm.customerType = check ? check.value : "";
+      this.customerTypeChange(check ? check.value : "");
     }
   },
   created() {},

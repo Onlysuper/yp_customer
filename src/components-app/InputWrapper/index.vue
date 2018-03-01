@@ -31,10 +31,6 @@
       line-height: 100*$rem;
     }
   }
-  // 去掉最后一个input下边框
-  & > .mint-field:last-child {
-    // background-image: none;
-  }
   .mint-cell-wrapper {
     font-size: 32*$rem;
     background-image: none;
@@ -42,16 +38,16 @@
       .mint-cell-label {
         font-size: 32*$rem;
       }
-      width: 220*$rem; // margin-right: 30*$rem; // text-align: justify; // text-align-last: justify; // -moz-text-align-last: justify; // position: relative; // &:after { // content: ""; // display: block;
-      // width: 100%;
-      // height: 0;
-      // overflow: hidden;
-      // }
+      width: 220*$rem;
     }
     input {
       color: #666;
       opacity: 1;
     }
+    // .mint-cell-value {
+    // width: 500*$rem;
+    // text-align: right;
+    // }
   }
 }
 </style>
