@@ -32,7 +32,7 @@
               <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">所在地区:</span>{{detailsForm.customer.orgCode||""}}
+              <span class="line-label">所在地区:</span>{{utils.findCity(detailsForm.customer.orgCode).resultAddr}}
             </div>
             <div class="line-label-box">
               <span class="line-label">详细信息:</span>{{detailsForm.customer.bussinessAddress||""}}
@@ -220,11 +220,11 @@
           <!-- 电子发票查询详情 -->
           <div class="line-label-box">
             <span class="line-label">注册省份:</span>
-            <span class="line-label-last">{{elecStatusDetails.customer.orgCode}}</span>
+            <span class="line-label-last">{{utils.findCity(elecStatusDetails.customer.orgCode).resultAddr}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">注册地址:</span>
-            <span class="line-label-last">{{elecStatusDetails.customer.registerAddress}}</span>
+            <span class="line-label-last">{{elecStatusDetails.customer.bussinessAddress}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">联系电话:</span>
@@ -250,7 +250,7 @@
             <span class="line-label">月开票量:</span>
             <span class="line-label-last">{{elecStatusDetails.product.elecBillnum}}</span>
           </div>
-          <div class="line-label-box">
+          <div class="line-label-box" v-if="elecStatusDetails.product.elecReason==''||elecStatusDetails.product.elecReason==null?false:true">
             <span class="line-label">被拒原因:</span>
             <span class="line-label-last">{{elecStatusDetails.product.elecReason}}</span>
           </div>
@@ -567,6 +567,10 @@ export default {
             {
               label: "待审核",
               value: "CHECKING"
+            },
+            {
+              label: "待提交",
+              value: "WAITING_SUBMIT"
             }
           ],
           cb: value => {
@@ -599,6 +603,10 @@ export default {
             {
               label: "待审核",
               value: "CHECKING"
+            },
+            {
+              label: "待提交",
+              value: "WAITING_SUBMIT"
             }
           ],
           cb: value => {
@@ -651,6 +659,11 @@ export default {
               } else if (data == "CHECKING") {
                 return {
                   text: "待审核",
+                  type: "warning"
+                };
+              } else if (data == "WAITING_SUBMIT") {
+                return {
+                  text: "待提交",
                   type: "warning"
                 };
               } else {
@@ -726,6 +739,11 @@ export default {
                   text: "待审核",
                   type: "warning"
                 };
+              } else if (data == "WAITING_SUBMIT") {
+                return {
+                  text: "待提交",
+                  type: "warning"
+                };
               } else {
                 return {
                   text: data,
@@ -744,11 +762,16 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.checkVisiblebut = false;
-                // this.editVisiblebut = true;
                 this.searchDetail = true;
                 this.rowData = rowdata;
-                if (rowdata.payStatus == "REJECT") {
+                if (
+                  rowdata.payStatus == "REJECT" ||
+                  rowdata.payStatus == "WAITING_SUBMIT"
+                ) {
+                  // 被拒跟待提交的状态 显示编辑按钮
                   this.editVisiblebut = true;
+                } else {
+                  this.editVisiblebut = false;
                 }
                 this.getCustomerEcho(rowdata); // 聚合支付回显
                 this.getElectronicEcho(rowdata); // 电子发票回显
@@ -838,7 +861,12 @@ export default {
             {
               text: "审核",
               visibleFn: rowdata => {
-                if (isAdmin) {
+                if (
+                  isAdmin &&
+                  (rowdata.payStatus == "CHECKING" ||
+                    rowdata.qrcodeStatus == "CHECKING" ||
+                    rowdata.elecStatus == "CHECKING")
+                ) {
                   return true;
                 } else {
                   return false;
@@ -1156,6 +1184,9 @@ export default {
       if (
         (type == "payStatus" && row.payStatus == "REJECT") ||
         (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT") ||
+        (type == "elecStatus" && row.qrcodeStatus == "REJECT") ||
+        (type == "payStatus" && row.payStatus == "REJECT") ||
+        (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT") ||
         (type == "elecStatus" && row.qrcodeStatus == "REJECT")
       ) {
         return false;
@@ -1165,11 +1196,7 @@ export default {
     },
     // 查询详情 审核按钮显示
     deitDisabled_check(type, row) {
-      if (
-        true
-        // type == "elecStatus" &&
-        // row.qrcodeStatus == "CHECKING"
-      ) {
+      if (type == "elecStatus" && row.qrcodeStatus == "CHECKING") {
         return false;
       } else {
         return true;

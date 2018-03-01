@@ -1,3 +1,4 @@
+import org from "@src/data/org.json";
 export default {
     /**
      * 乘法，解决js精度损失问题
@@ -95,5 +96,30 @@ export default {
         } else {
             return false;
         }
-    }()
+    }(),
+    /**
+        * 根据地区编号获取地区完整省市县名称
+        */
+    findCity(key) {
+
+        var result = {};
+        if (!key) return result;
+        for (var [shengIndex, sheng] of Object.keys(org).entries()) {
+            //这里需要知道索引
+            for (var [shiIndex, shi] of Object.keys(org[sheng]).entries()) {
+                //这里需要知道索引
+                for (var [xianIndex, xian] of Object.keys(org[sheng][shi]).entries()) {
+                    //这里需要知道索引
+                    if (org[sheng][shi][xian] == key) {
+                        result.resultAddr = `${sheng}-${shi}-${xian}`;
+                        result.resultCode = key;
+                        //拿到上面的索引后设置城市联动默认选中状态
+                        // defaultStatus([shengIndex, shiIndex, xianIndex]);
+                        return result;
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }
