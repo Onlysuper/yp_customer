@@ -1,4 +1,5 @@
 import { MenuGet, UserGet } from "@src/apis"
+import { Toast } from "mint-ui";
 const Layout = {
     state: {
         userMessage: { // 管理员信息
@@ -72,9 +73,12 @@ const Layout = {
         UserGetFetch(context) { // 获取用户按钮权限数据信息
             return new Promise((resolve, reject) => {
                 UserGet()({}).then(function (data) {
+                    console.log(data);
                     if (data.code === "00") {
                         // 管理员信息
                         context.commit('userData', data);
+                    } else {
+                        Toast(data.msg);
                     }
                 })
             })
