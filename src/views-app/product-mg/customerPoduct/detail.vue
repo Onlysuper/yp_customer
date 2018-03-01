@@ -58,19 +58,16 @@
         </input-wrapper>
       </view-radius>
     </template>
-    <city-picher ref="CityPicher"></city-picher>
   </full-page>
 </template>
 
 <script>
-import CityPicher from "@src/components-app/CityPicher";
 import { getCustomerEchoProduct, getQueryCustomerElectronic } from "@src/apis";
 import bussinessTypeJson from "@src/data/bussinessType.json";
 import UploadView from "@src/components-app/Upload/UploadView";
 import utils from "@src/common/utils";
-import { install } from "vuex";
 export default {
-  components: { CityPicher, UploadView },
+  components: { UploadView },
   data() {
     return {
       productType: this.$route.params["productType"],
@@ -143,8 +140,7 @@ export default {
     echoForm(data) {
       let { customer, settleCard, product, imgs } = data;
       if (customer instanceof Object) {
-        let city = this.$refs.CityPicher.findCity(customer.orgCode);
-        this.customer.addr = city.resultAddr;
+        this.customer.addr = utils.findCity(customer.orgCode).resultAddr;
         this.customer.legalPerson = customer.legalPerson;
         this.customer.idCard = customer.idCard;
         this.customer.contactEmail = customer.contactEmail;
@@ -179,8 +175,7 @@ export default {
         this.elec.bussinessPhone = customer.bussinessPhone;
         this.elec.registMoney = customer.registMoney;
         this.elec.bussinessName = customer.bussinessName;
-        let city = this.$refs.CityPicher.findCity(customer.orgCode);
-        this.elec.addr = city.resultAddr;
+        this.elec.addr = utils.findCity(customer.orgCode).resultAddr;
         this.elec.name = utils.findBussinessType(customer.category).name;
       }
       if (customerInvoiceConfig instanceof Object) {
