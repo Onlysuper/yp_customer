@@ -65,10 +65,11 @@ function checkCode(res) {
     }
     if (res.data.code === "01") {
         localStorage.setItem("isLogin", "0");
-        router.replace({ path: "/login" });
+        //写在这里无作用
+        // router.replace({ path: "/login" });
         return {
-            resultCode: "-1",
-            msg: "请重新登录！"
+            code: "-1",
+            msg: "用户过期，请重新登录"
         };
     }
     //直接返回data中的数据
