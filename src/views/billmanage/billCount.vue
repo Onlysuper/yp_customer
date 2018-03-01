@@ -27,7 +27,14 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday, eightday } from "@src/common/dateSerialize";
+import {
+  todayDate,
+  yesterday,
+  eightday,
+  todayDate_,
+  yesterday_,
+  eightday_
+} from "@src/common/dateSerialize";
 import { getBillcountagents, getBillcountSum } from "@src/apis";
 export default {
   name: "billcountagent",
@@ -73,7 +80,7 @@ export default {
             {
               corresattr: "dataTimeBegin",
               label: "开始时间",
-              value: eightday,
+              value: eightday_,
               cb: value => {
                 this.searchCondition.dataTimeBegin = value;
               }
@@ -81,7 +88,7 @@ export default {
             {
               corresattr: "dataTimeEnd",
               lable: "结束时间",
-              value: yesterday,
+              value: yesterday_,
               cb: value => {
                 this.searchCondition.dataTimeEnd = value;
               }

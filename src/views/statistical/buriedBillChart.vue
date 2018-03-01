@@ -16,7 +16,7 @@ import SearchForm from "@src/components/SearchForm";
 import BuriedPointChart from "@src/components/buriedBillChart";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/buriedBillChart/chartPage";
-import { todayDate } from "@src/common/dateSerialize";
+import { todayDate, today_ } from "@src/common/dateSerialize";
 import { getBillrecordCharts } from "@src/apis";
 export default {
   name: "billrecord_chart",
@@ -64,7 +64,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
               }
@@ -72,7 +72,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
               }

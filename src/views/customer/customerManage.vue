@@ -287,7 +287,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate } from "@src/common/dateSerialize";
+import { todayDate, today_ } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import {
   provinceAndCityData,
@@ -410,7 +410,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
               }
@@ -418,7 +418,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
-              value: new Date(),
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
               }

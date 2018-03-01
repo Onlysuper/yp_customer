@@ -17,7 +17,10 @@
 
         <!-- 日期组合 -->
         <div class="dateGroup" v-if="item.type=='dateGroup'">
+          <!-- {{item.options}} -->
+          <!-- {{item.options[1].value}} -->
           <el-date-picker :blur="datepickerBlur" align="center" :picker-options="pickerOptions1" :editable="false" :clearable="item.options[0].clearable==false?item.options[0].clearable:true" id="dateGroup" ref="myinputData1" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date',item.options[0].clearable)" type="date" placeholder="开始时间"></el-date-picker>
+          <!-- <el-date-picker :blur="datepickerBlur" align="center" :picker-options="pickerOptions1" :editable="false" :clearable="item.options[0].clearable==false?item.options[0].clearable:true" id="dateGroup" ref="myinputData1" v-model="item.options[1].value" @input="changeInput(item.options[0].cb,$event,'date',item.options[0].clearable)" type="date" placeholder="开始时间"></el-date-picker> -->
           <span class="to-line">-</span>
           <el-date-picker :blur="datepickerBlur" align="center" :picker-options="pickerOptions2" :editable="false" :clearable="item.options[1].clearable==false?item.options[1].clearable:true" id="dateGroup1" ref="myinputData2" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date',item.options[1].clearable)" type="date" placeholder="结束时间"></el-date-picker>
         </div>

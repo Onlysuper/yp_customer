@@ -1,6 +1,8 @@
 <template>
   <div>
+
     <mt-cell :title="title" class="border-1px"></mt-cell>
+    {{modleValue_}}
     <mt-checklist class="myp-chek-list border-1px" title="" v-model="modleValue_" :options="actions">
     </mt-checklist>
   </div>
@@ -34,32 +36,38 @@
 <script>
 export default {
   name: "CheckList",
-  props: {
-    title: {
-      type: String,
-      default: ""
-    },
-    modleValue: {
-      type: Array,
-      default: []
-    },
-    actions: {
-      type: Array,
-      default: []
-    }
-  },
+  props: ["modleValue", "actions", "title", "cb"],
+  // props: {
+  //   title: {
+  //     type: String,
+  //     default: ""
+  //   },
+  //   modleValue: {
+  //     type: Array,
+  //     default: function() {
+  //       return [];
+  //     }
+  //   },
+  //   actions: {
+  //     type: Array,
+  //     default: []
+  //   }
+  // },
   data() {
     return {
       modleValue_: this.modleValue
     };
   },
   computed: {
-    // checkValue_() {
+    // modleValue_() {
     //   return this.modleValue;
     // }
   },
   watch: {
     modleValue_(value) {
+      console.log(11111);
+      // this.modleValue_ = ["1"];
+      // this.$emit("cb", value);
       this.$emit("result", value);
     }
   },

@@ -156,7 +156,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate } from "@src/common/dateSerialize";
+import { todayDate, today_ } from "@src/common/dateSerialize";
 import { getArantNumTransfers, postMigrateNumTransfer } from "@src/apis";
 export default {
   name: "qr_code_migrate",
@@ -303,7 +303,7 @@ export default {
             {
               corresattr: "dataTimeBegin",
               label: "开始时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
               }
@@ -311,7 +311,7 @@ export default {
             {
               corresattr: "dataTimeEnd",
               lable: "结束时间",
-              value: todayDate,
+              value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
               }
