@@ -431,39 +431,39 @@ export default {
         if (res.code == "00") {
           console.log(res.data);
           let imgs = res.data.imgs;
-          if (imgs.identityFrontImg) {
+          if (imgs.identityFrontImg != null) {
             this.identityFrontImg = imgs.identityFrontImg.url;
             this.saveForm.identityFrontImg = imgs.identityFrontImg.id;
           }
-          if (imgs.identityBackImg) {
+          if (imgs.identityBackImg != null) {
             this.identityBackImg = imgs.identityBackImg.url;
             this.saveForm.identityBackImg = imgs.identityBackImg.id;
           }
-          if (imgs.identityHolderImg) {
+          if (imgs.identityHolderImg != null) {
             this.identityHolderImg = imgs.identityHolderImg.url;
             this.saveForm.identityHolderImg = imgs.identityHolderImg.id;
           }
-          if (imgs.bussinessLicenseImg) {
+          if (imgs.bussinessLicenseImg != null) {
             this.bussinessLicenseImg = imgs.bussinessLicenseImg.url;
             this.saveForm.bussinessLicenseImg = imgs.bussinessLicenseImg.id;
           }
-          if (imgs.settleCardImg) {
+          if (imgs.settleCardImg != null) {
             this.settleCardImg = imgs.settleCardImg.url;
             this.saveForm.settleCardImg = imgs.settleCardImg.id;
           }
-          if (imgs.accountLicenseImg) {
+          if (imgs.accountLicenseImg != null) {
             this.accountLicenseImg = imgs.accountLicenseImg.url;
             this.saveForm.accountLicenseImg = imgs.accountLicenseImg.id;
           }
-          if (imgs.placeImg) {
+          if (imgs.placeImg != null) {
             this.placeImg = imgs.placeImg.url;
             this.saveForm.placeImg = imgs.placeImg.id;
           }
-          if (imgs.storeImg) {
+          if (imgs.storeImg != null) {
             this.storeImg = imgs.storeImg.url;
             this.saveForm.storeImg = imgs.storeImg.id;
           }
-          if (imgs.cashSpaceImg) {
+          if (imgs.cashSpaceImg != null) {
             this.cashSpaceImg = imgs.cashSpaceImg.url;
             this.saveForm.cashSpaceImg = imgs.cashSpaceImg.id;
           }
