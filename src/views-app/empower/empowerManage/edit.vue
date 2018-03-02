@@ -103,21 +103,7 @@ export default {
     };
   },
   mounted() {
-    this.pageType == "EDIT" &&
-      this.getEmpowerManageUnit(this.authCode).then(empowerList => {
-        let supportType = empowerList.supportType;
-        if (supportType == "1") {
-          this.empowerList.supportTypes = ["1"];
-        } else if (supportType == "2") {
-          this.empowerList.supportTypes = ["2"];
-        } else if (supportType == "3") {
-          this.empowerList.supportTypes = ["1", "2"];
-        } else if (supportType == "5") {
-        } else if (supportType == "7") {
-          this.empowerList.supportTypes = ["1", "2", "4"];
-        }
-        this.empowerList = Object.assign(this.empowerList, empowerList);
-      });
+    this.init();
   },
   computed: {
     serviceMode() {
@@ -142,6 +128,23 @@ export default {
   },
   methods: {
     ...mapActions(["getEmpowerManageUnit", "editEmpowerManage", "addCustomer"]),
+    init() {
+      this.pageType == "EDIT" &&
+        this.getEmpowerManageUnit(this.authCode).then(empowerList => {
+          let supportType = empowerList.supportType;
+          if (supportType == "1") {
+            this.empowerList.supportTypes = ["1"];
+          } else if (supportType == "2") {
+            this.empowerList.supportTypes = ["2"];
+          } else if (supportType == "3") {
+            this.empowerList.supportTypes = ["1", "2"];
+          } else if (supportType == "5") {
+          } else if (supportType == "7") {
+            this.empowerList.supportTypes = ["1", "2", "4"];
+          }
+          this.empowerList = Object.assign(this.empowerList, empowerList);
+        });
+    },
     save() {
       if (!this.validator.isEmpty(this.empowerList.extensionNum)) {
         this.MessageBox.alert("分机号不能为空！");

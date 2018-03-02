@@ -17,7 +17,7 @@
           <div class="grid-content bg-purple-light">
             <el-form-item class="full-width is-required" label="法人身份证反面" prop="idcardBack" :label-width="formLabelWidth">
               <el-upload :data="idcardBackData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="idcardBackbeforeUpload">
-                <img v-if="identityBackImg" :src="identityBackImg" class="avatar">
+                <img v-if="identityBackImg!=''&&identityBackImg!=null" :src="identityBackImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
