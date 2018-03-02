@@ -6,8 +6,10 @@
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <mt-field type="text" :disabled="true" label="序列号" placeholder="请输入序列号" v-model="empowerList.qrcode"></mt-field>
-        <mt-field type="text" label="子码编号" placeholder="请输入子码编号" v-model="empowerList.childQrcodes"></mt-field>
+        <mt-field type="text" :disabled="true" label="二维码编号" placeholder="二维码编号" v-model="empowerList.qrcode"></mt-field>
+        <mt-field type="text" :disabled="true" label="授权码" placeholder="授权码" v-model="empowerList.authCode"></mt-field>
+        <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="合伙人编号" v-model="empowerList.agentNo"></mt-field>
+        <mt-field type="text" label="商户编号" placeholder="商户编号" v-model="empowerList.customerNo"></mt-field>
       </input-wrapper>
     </view-radius>
   </full-page>
@@ -42,14 +44,14 @@ export default {
   data() {
     return {
       btnDisabled: false,
-      pageType: this.$route.query["type"] || "BINDCHILD",
+      pageType: this.$route.query["type"] || "BIND",
       authCode: this.$route.params["authCode"],
       empowerList: {
         qrcode: "",
         childQrcodes: ""
       },
       pageTitle: {
-        BINDCHILD: "绑定子码"
+        BIND: "绑定"
       }
     };
   },
@@ -59,22 +61,22 @@ export default {
   computed: {},
   watch: {},
   methods: {
-    ...mapActions(["getEmpowerManageUnit", "bindChildEmpowerManage"]),
+    ...mapActions(["getEmpowerManageUnit", "bindEmpowerManage"]),
     init() {
-      this.pageType == "BINDCHILD" &&
+      this.pageType == "BIND" &&
         this.getEmpowerManageUnit(this.authCode).then(empowerList => {
           console.log(empowerList);
           this.empowerList = Object.assign(this.empowerList, empowerList);
         });
     },
     save() {
-      if (!this.validator.isEmpty(this.empowerList.childQrcodes)) {
-        this.MessageBox.alert("子码编号不能为空");
+      if (!this.validator.isEmpty(this.empowerList.customerNo)) {
+        this.MessageBox.alert("商户编号不能为空");
         return;
       }
       this.btnDisabled = true;
-      if (this.pageType == "BINDCHILD") {
-        this.bindChildEmpowerManage(this.empowerList).then(flag => {
+      if (this.pageType == "BIND") {
+        this.bindEmpowerManage(this.empowerList).then(flag => {
           this.btnDisabled = false;
           if (flag) {
             this.$router.back();

@@ -40,8 +40,9 @@
   </div>
 </template>
 <script>
+import { Toast } from "mint-ui";
 import SliderNav from "@src/components-app/SliderNav";
-import { getArantNumManages } from "@src/apis";
+import { getArantNumManages, postUnBindEmpower } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
 // import edit from "./edit";
@@ -152,6 +153,11 @@ export default {
           path: "./edit/" + itemId,
           query: { type: type }
         });
+      } else if (type == "BIND") {
+        this.$router.push({
+          path: "./bind/" + itemId,
+          query: { type: type }
+        });
       } else if (type == "BINDCHILD") {
         this.$router.push({
           path: "./bindchild/" + itemId,
@@ -162,19 +168,29 @@ export default {
     edit(rowdata) {
       this.toUrl("EDIT", rowdata.authCode, rowdata);
     },
-    childbindFn() {
-      // 绑定子码
-      // console.log(this.rowdata.authCode);
-      this.toUrl("BINDCHILD", this.rowdata.authCode, this.rowdata);
-    },
     bindFn() {
       // 绑定
-      this.toUrl("BIND", this.rowdata.receiptNo);
+      this.toUrl("BIND", this.rowdata.authCode, this.rowdata);
     },
     unbindFn() {
       // 解绑
-      this.toUrl("UNBIND", this.rowdata.receiptNo);
+      postUnBindEmpower()(this.rowdata).then(data => {
+        if (data.code == "00") {
+          console.log(this.rowdata);
+          let row = { ...this.rowdata };
+          row.status = "TRUE";
+          this.$store.commit("QRCODE_UPDATA", row);
+          Toast("解绑成功");
+        } else {
+          Toast(data.msg);
+        }
+      });
     },
+    childbindFn() {
+      // 绑定子码
+      this.toUrl("BINDCHILD", this.rowdata.authCode, this.rowdata);
+    },
+
     previewFn() {
       // 预览
       this.toUrl("PREVIEW", this.rowdata.authCode);

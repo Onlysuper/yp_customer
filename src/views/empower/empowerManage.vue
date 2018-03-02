@@ -215,7 +215,7 @@
     </el-dialog>
     <!-- 编辑 end -->
     <!-- 绑定 start -->
-    <el-dialog center title="修改信息" :visible.sync="bindFormVisible">
+    <el-dialog center title="绑定" :visible.sync="bindFormVisible">
       <el-form size="small" :model="bindForm" ref="bindForm" :rules="bindFormRules">
         <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="bindForm.qrcode" auto-complete="off"></el-input>
@@ -339,7 +339,7 @@ export default {
       },
       bindFormRules: {
         customerNo: [
-          { required: true, message: "请输入合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur" }
         ]
       },
       fileList: [],
@@ -888,25 +888,28 @@ export default {
                   type: "warning"
                 })
                   .then(() => {
-                    postUnBindEmpower()({
-                      createTime: rowdata.createTime,
-                      lastUpdateTime: rowdata.lastUpdateTime,
-                      qrcode: rowdata.qrcode,
-                      parentCode: rowdata.parentCode,
-                      authCode: rowdata.authCode,
-                      deviceType: rowdata.deviceType,
-                      agentNo: rowdata.agentNo,
-                      levelDetail: rowdata.levelDetail,
-                      level: rowdata.level,
-                      customerNo: rowdata.customerNo,
-                      batchNo: rowdata.batchNo,
-                      receiptNo: rowdata.receiptNo,
-                      extensionNum: rowdata.extensionNum,
-                      supportType: rowdata.supportType,
-                      materiel: rowdata.materiel,
-                      serviceMode: rowdata.serviceMode,
-                      status: rowdata.status
-                    }).then(data => {
+                    postUnBindEmpower()(
+                      rowdata
+                      //   {
+                      //   createTime: rowdata.createTime,
+                      //   lastUpdateTime: rowdata.lastUpdateTime,
+                      //   qrcode: rowdata.qrcode,
+                      //   parentCode: rowdata.parentCode,
+                      //   authCode: rowdata.authCode,
+                      //   deviceType: rowdata.deviceType,
+                      //   agentNo: rowdata.agentNo,
+                      //   levelDetail: rowdata.levelDetail,
+                      //   level: rowdata.level,
+                      //   customerNo: rowdata.customerNo,
+                      //   batchNo: rowdata.batchNo,
+                      //   receiptNo: rowdata.receiptNo,
+                      //   extensionNum: rowdata.extensionNum,
+                      //   supportType: rowdata.supportType,
+                      //   materiel: rowdata.materiel,
+                      //   serviceMode: rowdata.serviceMode,
+                      //   status: rowdata.status
+                      // }
+                    ).then(data => {
                       if (data.code == "00") {
                         this.$message({
                           type: "success",

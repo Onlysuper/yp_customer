@@ -1,6 +1,6 @@
 
 // 授权码审核
-import { postEditEmpower } from "@src/apis";
+import { postEditEmpower, postBindChildEmpower, postBindEmpower } from "@src/apis";
 import { Toast } from "mint-ui";
 import utils from "@src/common/utils";
 export default {
@@ -48,6 +48,8 @@ export default {
     },
     // 刷新数据
     ["QRCODE_UPDATA"](state, data) {
+      console.log(data);
+      console.log(data.authCode);
       state.list = state.list.map(item => {
         if (data.authCode == item.authCode) return data;
         else return item;
@@ -59,6 +61,7 @@ export default {
     getEmpowerManageUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
       return state.list.find(item => item.authCode == itemId);
     },
+    // 编辑
     editEmpowerManage({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
       let supportTypes1 = "";
       let supportTypes2 = "";
@@ -93,6 +96,45 @@ export default {
           return false;
         }
       })
+    },
+    // 绑定
+    bindEmpowerManage({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      return postBindEmpower()({
+        qrcode: thisForm.qrcode,
+        authCode: thisForm.authCode,
+        agentNo: thisForm.agentNo,
+        customerNo: thisForm.customerNo
+      }).then(data => {
+        if (data.code == "00") {
+          //刷新数据
+          commit("QRCODE_UPDATA", thisForm);
+          Toast("绑定成功");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
+        this.saveLoading = false;
+      });
+    },
+    // 绑定子码
+    bindChildEmpowerManage({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      return postBindChildEmpower()({
+        authCode: thisForm.authCode,
+        qrcode: thisForm.qrcode,
+        childQrcodes: thisForm.childQrcodes
+      }).then(data => {
+        if (data.code == "00") {
+          //刷新数据
+          commit("QRCODE_UPDATA", thisForm);
+          Toast("修改成功");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
+        this.saveLoading = false;
+      });
     },
   }
 };

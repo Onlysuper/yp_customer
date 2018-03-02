@@ -104,7 +104,18 @@ export default {
           }
         },
         {
-          // 编辑
+          // 绑定
+          name: "empowerManageBind",
+          path: 'bind/:authCode',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/bind")) }, "empower-manage-bind")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
+        {
+          // 绑定子码
           name: "empowerManageBindchild",
           path: 'bindchild/:authCode',
           component: r => {

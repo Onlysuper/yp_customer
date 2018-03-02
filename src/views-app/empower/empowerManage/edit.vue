@@ -127,7 +127,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getEmpowerManageUnit", "editEmpowerManage", "addCustomer"]),
+    ...mapActions(["getEmpowerManageUnit", "editEmpowerManage"]),
     init() {
       this.pageType == "EDIT" &&
         this.getEmpowerManageUnit(this.authCode).then(empowerList => {

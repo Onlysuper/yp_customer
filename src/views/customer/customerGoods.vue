@@ -714,7 +714,7 @@ export default {
           },
           {
             key: "规格型号",
-            width: "100px",
+            width: "",
             word: "model"
           }
         ],

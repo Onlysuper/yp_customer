@@ -79,6 +79,15 @@
     .icon {
       font-size: 24px;
     }
+    // 当前选中的颜色
+    .el-submenu.is-active {
+      .el-submenu__title {
+        background: #000;
+        &:hover {
+          background: #000 !important;
+        }
+      }
+    }
   }
   .el-menu-vertical {
     margin-top: 54px;

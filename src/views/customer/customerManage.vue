@@ -609,7 +609,7 @@ export default {
               }
             }
           },
-          { key: "入网时间", word: "createTime", width: "170" }
+          { key: "入网时间", word: "createTime", width: "" }
         ],
         operation: {
           width: "130px",
