@@ -1038,7 +1038,9 @@ export default {
           value: "payStatus",
           label: "聚合支付",
           disabled:
-            rowdata.payStatus == "INIT" || rowdata.payStatus == "REJECT"
+            rowdata.payStatus == "INIT" ||
+            rowdata.payStatus == "REJECT" ||
+            rowdata.payStatus == "WAITING_SUBMIT"
               ? false
               : true
         },
@@ -1046,7 +1048,9 @@ export default {
           value: "qrcodeStatus",
           label: "快速开票",
           disabled:
-            rowdata.qrcodeStatus == "INIT" || rowdata.qrcodeStatus == "REJECT"
+            rowdata.qrcodeStatus == "INIT" ||
+            rowdata.qrcodeStatus == "REJECT" ||
+            rowdata.payStatus == "WAITING_SUBMIT"
               ? false
               : true
         },
@@ -1055,7 +1059,9 @@ export default {
           label: "电子发票",
           // disabled: true
           disabled:
-            rowdata.elecStatus == "INIT" || rowdata.elecStatus == "REJECT"
+            rowdata.elecStatus == "INIT" ||
+            rowdata.elecStatus == "REJECT" ||
+            rowdata.payStatus == "WAITING_SUBMIT"
               ? false
               : true
         }

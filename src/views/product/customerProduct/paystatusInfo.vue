@@ -298,7 +298,7 @@ export default {
             this.payStatusForm.accountType = settleCard.accountType;
             this.payStatusForm.accountNo = settleCard.accountNo;
             this.payStatusForm.phoneNo = settleCard.phoneNo;
-            // this.payStatusForm.bankCode = settleCard.bankCode;
+            this.payStatusForm.bankCode = settleCard.bankCode;
             this.payStatusForm.unionCode = settleCard.unionCode;
             this.payStatusForm.branchName = settleCard.branchName;
           }

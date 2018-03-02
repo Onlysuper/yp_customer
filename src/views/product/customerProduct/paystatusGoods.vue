@@ -88,17 +88,21 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let payStatusForm = this.payStatusForm;
-
           let obj = {
             customerNo: this.rowData.bussinessNo,
             settleMode: payStatusForm.settleMode,
-            t0CashCostFixed: parseFloat(payStatusForm.t0CashCostFixed),
             wechatRate: utils.accMul(
               parseFloat(payStatusForm.wechatRate),
               0.01
             ),
             alipayRate: utils.accMul(parseFloat(payStatusForm.alipayRate), 0.01)
           };
+          if (payStatusForm.settleMode == "T0") {
+            obj.t0CashCostFixed = parseFloat(payStatusForm.t0CashCostFixed);
+            // 开通
+          } else {
+            obj.t0CashCostFixed = 0;
+          }
           completeConvergeProduct()(obj).then(data => {
             if (data.code === "00") {
               // 下一步
