@@ -823,8 +823,10 @@ export default {
                 if (
                   rowdata.payStatus == "INIT" ||
                   rowdata.payStatus == "WAITING_SUBMIT" ||
+                  rowdata.payStatus == "REJECT" ||
                   rowdata.qrcodeStatus == "INIT" ||
-                  rowdata.elecStatus == "INIT"
+                  rowdata.elecStatus == "INIT" ||
+                  rowdata.elecStatus == "REJECT"
                 ) {
                   return false;
                 } else {
@@ -1196,7 +1198,10 @@ export default {
     // 查询详情 审核按钮显示
     deitDisabled_check(type, row) {
       // console.log(type + "--" + row.elecStatus);
-      if (type == "elecStatus" && row.elecStatus == "CHECKING") {
+      if (
+        type == "elecStatus" &&
+        (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING")
+      ) {
         return false;
       } else {
         return true;

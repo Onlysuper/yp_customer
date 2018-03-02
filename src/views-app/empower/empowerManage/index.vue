@@ -147,14 +147,14 @@ export default {
       }
     },
     toUrl(type, itemId, rowdata) {
-      if (type == "PREVIEW") {
-        this.$router.push({
-          path: "./preview/" + itemId,
-          query: { type: type }
-        });
-      } else if (type == "EDIT") {
+      if (type == "EDIT") {
         this.$router.push({
           path: "./edit/" + itemId,
+          query: { type: type }
+        });
+      } else if (type == "BINDCHILD") {
+        this.$router.push({
+          path: "./bindchild/" + itemId,
           query: { type: type }
         });
       }
@@ -164,7 +164,8 @@ export default {
     },
     childbindFn() {
       // 绑定子码
-      this.toUrl("BINDCHILD", rowdata.authCode, rowdata);
+      // console.log(this.rowdata.authCode);
+      this.toUrl("BINDCHILD", this.rowdata.authCode, this.rowdata);
     },
     bindFn() {
       // 绑定

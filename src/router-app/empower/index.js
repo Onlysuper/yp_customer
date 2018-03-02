@@ -81,12 +81,23 @@ export default {
             pageTitle: "授权码管理"
           }
         },
+        // {
+        //   // 预览
+        //   name: "empowerManagePreview",
+        //   path: 'preview/:receiptNo',
+        //   component: r => {
+        //     return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/preview")) }, "empower-manage-preview")
+        //   },
+        //   meta: {
+        //     pageTitle: "授权码管理"
+        //   }
+        // },
         {
-          // 预览
-          name: "empowerManagePreview",
-          path: 'preview/:receiptNo',
+          // 编辑
+          name: "empowerManageEdit",
+          path: 'edit/:authCode',
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/preview")) }, "empower-manage-preview")
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/edit")) }, "empower-manage-edit")
           },
           meta: {
             pageTitle: "授权码管理"
@@ -94,10 +105,10 @@ export default {
         },
         {
           // 编辑
-          name: "empowerManageEdit",
-          path: 'edit/:authCode',
+          name: "empowerManageBindchild",
+          path: 'bindchild/:authCode',
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/edit")) }, "empower-manage-edit")
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/bindchild")) }, "empower-manage-bindchild")
           },
           meta: {
             pageTitle: "授权码管理"
