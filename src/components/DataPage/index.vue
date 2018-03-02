@@ -4,35 +4,35 @@
     <!-- DataTable 数据表格 start -->
     <!-- <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true"> -->
 
-    <!-- <div class="table-outbox"> -->
-    <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
-      <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
-      </el-table-column>
+    <div class="table-outbox">
+      <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
+        <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
+        </el-table-column>
 
-      <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :width="item.width" :sortable="item.sortable">
-        <!-- <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable"> -->
-        <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
-          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
-          <el-popover v-else trigger="click" placement="top">
-            <p>{{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</p>
-            <div slot="reference" class="name-wrapper">
-              <div class="inline-text">
-                {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
+        <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :width="item.width" :sortable="item.sortable">
+          <!-- <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable"> -->
+          <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
+            <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
+            <el-popover v-else trigger="click" placement="top">
+              <p>{{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</p>
+              <div slot="reference" class="name-wrapper">
+                <div class="inline-text">
+                  {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
+                </div>
               </div>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
+            </el-popover>
+          </template>
+        </el-table-column>
 
-      <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
-        <template slot-scope="scope">
-          <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" :disabled="item.disabledFn?item.disabledFn(scope.row,item.disabledFn):false" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
-            {{item.text}}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- </div> -->
+        <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
+          <template slot-scope="scope">
+            <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" :disabled="item.disabledFn?item.disabledFn(scope.row,item.disabledFn):false" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
+              {{item.text}}
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
@@ -40,18 +40,29 @@
 </template>
 <style lang="scss">
 .tablelist-box {
+  position: relative;
   .table-outbox {
-    // background: red;
-    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 40px;
+    // height: 90%;
     width: 100%;
-    position: relative;
     flex: 1;
-    // display: flex;
-    overflow-y: auto;
+    display: flex;
+    // overflow-y: auto;
   }
   .el-pagination {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-end;
     text-align: right;
-    padding-top: 8px;
+    flex: 1;
+    max-height: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
   }
   .scroll-view {
     /* -- Attention: This line is extremely important in chrome 55+! -- */
@@ -225,7 +236,7 @@ export default {
     //假刷新
     unrealReload() {
       let arr_ = this.tableData;
-      console.log(arr_);
+      // console.log(arr_);
       this.tableData = [];
       this.$nextTick(() => {
         this.tableData = arr_;

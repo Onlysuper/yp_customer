@@ -15,34 +15,11 @@
     display: flex;
     flex-direction: column;
     .tablelist-box{
-        // background: #eee;
-        justify-content: flex-start;
-        width: 100%;
-      // justify-content: space-around;
-      // align-items: flex-end;
-      align-items: stretch;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    flex-shrink: 1;
-    flex-grow:1;
-      &::after{
-        content: "";
-        display: block;
-        clear: both;
-      }
-    //   background: red;
-    //   display: flex;
-    // flex-direction: column;
-    //  height:90%;
-    //  background: red;
-      // overflow-y: auto;
-      // overflow-x:hidden
-      // width: 100%;
-      // flex-direction: column;
-      // display: flex;
-      // flex: 1;
-      // overflow: hidden
+      align-content: stretch;
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      flex-grow:1;
     }
      .line-box-center {
          padding: 4px 0;
@@ -88,7 +65,9 @@
     .operation-box {
       float: left;
       width: 100%;
-      display: block;
+      // display: block;
+       display: flex;
+    flex-shrink: 0;
       &:after{
         content: "";
         display: block;
@@ -112,13 +91,17 @@
     }
     .admin-main-box {
       padding: 10px;
+      padding-bottom: 0px;
       position: relative;
-      // display: block;
+      display: block;
       height: 100%;
       // width: 100%;
+      // flex: 1;
       background: #fff;
       display: flex;
-      flex-direction: column
+      flex-direction: column;
+      justify-content: flex-start
+      // flex-direction: row
     }
     .form-box {
       margin-top: 10px;
@@ -170,6 +153,7 @@
     }
   }
   .operation-box {
+   
   .sumtext {
     font-size: 14px;
     padding-left: 10px;

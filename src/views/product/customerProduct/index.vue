@@ -1032,7 +1032,6 @@ export default {
     },
     // 点击开通产品
     openProduct(rowdata) {
-      console.log(rowdata);
       if (
         rowdata.payStatus == "INIT" ||
         rowdata.qrcodeStatus == "INIT" ||
