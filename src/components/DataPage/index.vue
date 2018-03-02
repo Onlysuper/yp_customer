@@ -40,29 +40,32 @@
 </template>
 <style lang="scss">
 .tablelist-box {
-  position: relative;
   .table-outbox {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 40px;
-    // height: 90%;
-    width: 100%;
     flex: 1;
-    display: flex;
-    // overflow-y: auto;
+    overflow: auto;
+    .el-table {
+      position: relative;
+      overflow: hidden;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 100%;
+      height: 100%;
+      background-color: #fff;
+      font-size: 14px;
+      color: #606266;
+    }
+    &::after {
+      content: "";
+      display: flex;
+    }
   }
   .el-pagination {
-    display: flex;
     flex-shrink: 0;
-    justify-content: flex-end;
     text-align: right;
     flex: 1;
     max-height: 30px;
     height: 30px;
-    position: absolute;
-    bottom: 0;
-    right: 10px;
   }
   .scroll-view {
     /* -- Attention: This line is extremely important in chrome 55+! -- */
