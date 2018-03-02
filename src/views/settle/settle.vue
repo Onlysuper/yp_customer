@@ -26,7 +26,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <span class="line-label">收款人:</span>
+              <span class="line-label">对公账户名称:</span>
               <span class="line-label-last">{{detailsForm.receiveMan}}</span>
             </div>
           </el-col>
@@ -34,7 +34,7 @@
         <el-row class="line-label-box">
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <span class="line-label">收款账户:</span>
+              <span class="line-label">收款账号:</span>
               <span class="line-label-last">{{detailsForm.accountNo}}</span>
             </div>
           </el-col>
@@ -93,7 +93,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
+              <el-form-item label="对公账户名称" prop="receiveMan" :label-width="formLabelWidth">
                 <el-input :disabled="true" v-model="editForm.receiveMan" auto-complete="off"></el-input>
               </el-form-item>
             </div>
@@ -102,15 +102,15 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="收款账户" prop="accountNo" :label-width="formLabelWidth">
+              <el-form-item label="收款账号" prop="accountNo" :label-width="formLabelWidth">
                 <el-input :disabled="true" v-model="editForm.accountNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="联系电话" prop="agentPhone" :label-width="formLabelWidth">
-                <el-input :disabled="true" v-model="editForm.agentPhone" auto-complete="off"></el-input>
+              <el-form-item label="开户行" prop="bankName" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.bankName" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -134,9 +134,10 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="开户行" prop="bankName" :label-width="formLabelWidth">
-                <el-input :disabled="true" v-model="editForm.bankName" auto-complete="off"></el-input>
+              <el-form-item label="联系电话" prop="agentPhone" :label-width="formLabelWidth">
+                <el-input :disabled="true" v-model="editForm.agentPhone" auto-complete="off"></el-input>
               </el-form-item>
+
             </div>
           </el-col>
           <el-col :span="12">
@@ -160,14 +161,14 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
+              <el-form-item label="对公账户名称" prop="receiveMan" :label-width="formLabelWidth">
                 <el-input v-model="editForm.receiveMan" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="收款账户" prop="accountNo" :label-width="formLabelWidth">
+              <el-form-item label="收款账号" prop="accountNo" :label-width="formLabelWidth">
                 <el-input v-model="editForm.accountNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
@@ -264,7 +265,7 @@ export default {
       customerNumber: 0,
       settlePrice: 0,
       sumLoading: false,
-      formLabelWidth: "100px",
+      formLabelWidth: "110px",
       editFormRules: {
         orderNo: [
           { required: true, message: "请输入订单编号", trigger: "blur" }
@@ -272,10 +273,10 @@ export default {
       },
       sureFormRules: {
         receiveMan: [
-          { required: true, message: "请输入收款人姓名", trigger: "blur" }
+          { required: true, message: "请输入对公账户名称", trigger: "blur" }
         ],
         accountNo: [
-          { required: true, message: "请输入收款账户", trigger: "blur" }
+          { required: true, message: "请输入收款账号", trigger: "blur" }
         ],
         bankName: [
           { required: true, message: "请输入开户行名称", trigger: "blur" }
