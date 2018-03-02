@@ -35,8 +35,6 @@
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
-    <!-- 编辑 -->
-    <!-- <edit ref="edit"></edit> -->
     <!-- 更多操作 -->
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
@@ -100,13 +98,8 @@ export default {
         //   name: "预览",
         //   method: this.previewFn
         // };
-        let editbut = {
-          name: "编辑",
-          method: this.editFn
-        };
         arr_ = arr_.map(item => item);
-        // arr_.push(showbut, editbut);
-        arr_.push(editbut);
+        // arr_.push(showbut);
         this.actions = arr_;
         if (
           this.adminOperationAll.qrcode_bind == "TRUE" &&
@@ -169,14 +162,10 @@ export default {
     edit(rowdata) {
       this.toUrl("EDIT", rowdata.authCode, rowdata);
     },
-    previewFn() {
-      // 预览
-      this.toUrl("PREVIEW", this.rowdata.authCode);
+    childbindFn() {
+      // 绑定子码
+      this.toUrl("BINDCHILD", rowdata.authCode, rowdata);
     },
-    // editFn() {
-    //   // 编辑
-    //   this.toUrl("EDIT", this.rowdata.receiptNo);
-    // },
     bindFn() {
       // 绑定
       this.toUrl("BIND", this.rowdata.receiptNo);
@@ -185,9 +174,9 @@ export default {
       // 解绑
       this.toUrl("UNBIND", this.rowdata.receiptNo);
     },
-    childbindFn() {
-      // 绑定子码
-      this.toUrl("BINDCHILD", this.rowdata.receiptNo);
+    previewFn() {
+      // 预览
+      this.toUrl("PREVIEW", this.rowdata.authCode);
     },
     activated() {
       this.routeMenuCode = this.$route.name;

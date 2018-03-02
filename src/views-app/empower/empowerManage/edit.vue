@@ -6,10 +6,10 @@
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <mt-field type="text" label="序列号" placeholder="请输入序列号" v-model="empowerList.qrcode"></mt-field>
-        <mt-field type="text" label="授权码" placeholder="请输入授权码" v-model="empowerList.authCode"></mt-field>
-        <mt-field type="text" label="合伙人编号" placeholder="请输入合伙人编号" v-model="empowerList.agentNo"></mt-field>
-        <mt-field type="text" label="商户编号" placeholder="请输入商户编号" v-model="empowerList.customerNo"></mt-field>
+        <mt-field type="text" :disabled="true" label="序列号" placeholder="请输入序列号" v-model="empowerList.qrcode"></mt-field>
+        <mt-field type="text" :disabled="true" label="授权码" placeholder="请输入授权码" v-model="empowerList.authCode"></mt-field>
+        <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="请输入合伙人编号" v-model="empowerList.agentNo"></mt-field>
+        <mt-field type="text" :disabled="true" label="商户编号" placeholder="请输入商户编号" v-model="empowerList.customerNo"></mt-field>
         <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="empowerList.extensionNum"></mt-field>
         <div>
           <mt-cell title="服务方式" class="border-1px"></mt-cell>
@@ -17,12 +17,10 @@
           </mt-radio>
         </div>
         <div>
-          <mt-cell title="支持类型" class="border-1px"></mt-cell>{{empowerList.supportTypes}}
+          <mt-cell title="支持类型" class="border-1px"></mt-cell>
           <mt-checklist class="myp-chek-list border-1px" title="" v-model="empowerList.supportTypes" :options="supportTypesOptions">
           </mt-checklist>
         </div>
-        <!-- <myp-radio @result="serviceModeChange" :title="'服务方式'" :modleValue="empowerList.serviceMode" :actions="serviceModeOptions"></myp-radio> -->
-        <!-- <myp-checkList @result="supportTypesChange" :title="'支持类型'" :modleValue="empowerList.supportTypes" :actions="supportTypesOptions" :cb="supportTypesCb"></myp-checkList> -->
       </input-wrapper>
     </view-radius>
   </full-page>
@@ -61,12 +59,14 @@ export default {
   },
   data() {
     return {
+      aa: [],
       btnDisabled: false,
       pageType: this.$route.query["type"] || "ADD",
       authCode: this.$route.params["authCode"],
       empowerList: {
-        serviceMode: "YP",
-        supportTypes: ["4"]
+        serviceMode: "",
+        supportTypes: [],
+        bb: []
       },
       pageTitle: {
         ADD: "添加",
@@ -105,86 +105,58 @@ export default {
   mounted() {
     this.pageType == "EDIT" &&
       this.getEmpowerManageUnit(this.authCode).then(empowerList => {
-        this.empowerList = { ...empowerList };
         let supportType = empowerList.supportType;
-        console.log(supportType);
         if (supportType == "1") {
           this.empowerList.supportTypes = ["1"];
         } else if (supportType == "2") {
           this.empowerList.supportTypes = ["2"];
         } else if (supportType == "3") {
-          console.log(11111);
           this.empowerList.supportTypes = ["1", "2"];
         } else if (supportType == "5") {
         } else if (supportType == "7") {
           this.empowerList.supportTypes = ["1", "2", "4"];
         }
+        this.empowerList = Object.assign(this.empowerList, empowerList);
       });
   },
   computed: {
     serviceMode() {
       return this.empowerList.serviceMode;
+    },
+    supportTypes() {
+      return this.empowerList.supportTypes;
     }
-    // supportTypes() {
-    //   return this.empowerList.supportTypes;
-    // }
   },
   watch: {
-    serviceMode(value) {
-      console.log(value);
+    serviceMode(value) {},
+    supportTypes(value) {
+      // 选择特殊的时候必须勾选普票
+      if (new Set(value).has("4")) {
+        let newCheck = Array.from(new Set(value).add("1"));
+        this.empowerList.supportTypes = Object.assign(
+          this.empowerList.supportTypes,
+          newCheck
+        );
+      }
     }
-    // supportTypes(value) {
-    //   console.log(value);
-    //   // if (new Set(value).has("4")) {
-    //   //   this.empowerList.supportTypes = Array.from(new Set(value).add("1"));
-    //   // }
-    // }
   },
   methods: {
-    ...mapActions(["getEmpowerManageUnit", "updataCustomer", "addCustomer"]),
-
-    save() {}
-    // save() {
-    //   if (!this.validator.isEmpty(this.customer.enterpriseName)) {
-    //     this.MessageBox.alert("企业名称不能为空！");
-    //     return;
-    //   }
-    //   if (!this.validator.isTax(this.customer.taxNo)) {
-    //     this.MessageBox.alert("企业税号有误！");
-    //     return;
-    //   }
-    //   if (!this.validator.isEmpty(this.customer.legalPerson)) {
-    //     this.MessageBox.alert("企业法人不能为空！");
-    //     return;
-    //   }
-    //   if (!this.validator.isCardNo(this.customer.idCard)) {
-    //     this.MessageBox.alert("身份证号有误！");
-    //     return;
-    //   }
-    //   if (!this.validator.isEmpty(this.customer.linkMan)) {
-    //     this.MessageBox.alert("联系人不能为空！");
-    //     return;
-    //   }
-    //   if (!this.validator.isMobile(this.customer.phoneNo)) {
-    //     this.MessageBox.alert("手机号有误！");
-    //     return;
-    //   }
-    //   this.btnDisabled = true;
-    //   this.pageType == "EDIT"
-    //     ? this.updataCustomer(this.customer).then(flag => {
-    //         this.btnDisabled = false;
-    //         if (flag) {
-    //           this.$router.back();
-    //         }
-    //       })
-    //     : this.addCustomer(this.customer).then(flag => {
-    //         this.btnDisabled = false;
-    //         if (flag) {
-    //           this.$store.commit("CUSTOMER_MANAGE_IS_SEARCH", true);
-    //           this.$router.back();
-    //         }
-    //       });
-    // }
+    ...mapActions(["getEmpowerManageUnit", "editEmpowerManage", "addCustomer"]),
+    save() {
+      if (!this.validator.isEmpty(this.empowerList.extensionNum)) {
+        this.MessageBox.alert("分机号不能为空！");
+        return;
+      }
+      this.btnDisabled = true;
+      if (this.pageType == "EDIT") {
+        this.editEmpowerManage(this.empowerList).then(flag => {
+          this.btnDisabled = false;
+          if (flag) {
+            this.$router.back();
+          }
+        });
+      }
+    }
   }
 };
 </script>
