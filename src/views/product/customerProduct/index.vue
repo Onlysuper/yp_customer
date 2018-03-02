@@ -1032,45 +1032,36 @@ export default {
     },
     // 点击开通产品
     openProduct(rowdata) {
-      if (
-        rowdata.payStatus == "INIT" ||
-        rowdata.qrcodeStatus == "INIT" ||
-        rowdata.elecStatus == "INIT" ||
-        rowdata.payStatus == "REJECT" ||
-        rowdata.qrcodeStatus == "REJECT" ||
-        rowdata.elecStatus == "REJECT"
-      ) {
-        this.editFormVisible = true;
-        this.customerTypeSelected = [
-          {
-            value: "payStatus",
-            label: "聚合支付",
-            disabled:
-              rowdata.payStatus == "INIT" || rowdata.payStatus == "REJECT"
-                ? false
-                : true
-          },
-          {
-            value: "qrcodeStatus",
-            label: "快速开票",
-            disabled:
-              rowdata.qrcodeStatus == "INIT" || rowdata.qrcodeStatus == "REJECT"
-                ? false
-                : true
-          },
-          {
-            value: "elecStatus",
-            label: "电子发票",
-            // disabled: true
-            disabled:
-              rowdata.elecStatus == "INIT" || rowdata.elecStatus == "REJECT"
-                ? false
-                : true
-          }
-        ];
-        this.rowData = rowdata;
-        this.nextFn("openInfo");
-      }
+      this.editFormVisible = true;
+      this.customerTypeSelected = [
+        {
+          value: "payStatus",
+          label: "聚合支付",
+          disabled:
+            rowdata.payStatus == "INIT" || rowdata.payStatus == "REJECT"
+              ? false
+              : true
+        },
+        {
+          value: "qrcodeStatus",
+          label: "快速开票",
+          disabled:
+            rowdata.qrcodeStatus == "INIT" || rowdata.qrcodeStatus == "REJECT"
+              ? false
+              : true
+        },
+        {
+          value: "elecStatus",
+          label: "电子发票",
+          // disabled: true
+          disabled:
+            rowdata.elecStatus == "INIT" || rowdata.elecStatus == "REJECT"
+              ? false
+              : true
+        }
+      ];
+      this.rowData = rowdata;
+      this.nextFn("openInfo");
     },
     // 聚合支付回显
     getCustomerEcho(rowData) {

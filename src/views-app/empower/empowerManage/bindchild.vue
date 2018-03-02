@@ -69,8 +69,7 @@ export default {
         bb: []
       },
       pageTitle: {
-        ADD: "添加",
-        EDIT: "编辑"
+        BINDCHILD: "绑定子码"
       },
       supportTypesOptions: [
         {
