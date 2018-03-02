@@ -3,7 +3,7 @@
     <input-wrapper>
       <mt-cell title="商户" :value="sumData.customerSum+'个'"></mt-cell>
       <mt-cell title="返利" :value="sumData.subsidySum+'元'"></mt-cell>
-      <mt-cell title="中间人" :value="sumData.rebateSum+'元'"></mt-cell>
+      <mt-cell v-if="isAdmin" title="中间人" :value="sumData.rebateSum+'元'"></mt-cell>
     </input-wrapper>
   </full-page-popup>
 </template>
@@ -15,6 +15,16 @@ export default {
       visible: false,
       sumData: {}
     };
+  },
+  computed: {
+    isAdmin() {
+      let user = this.$store.state.moduleLayour.userMessage.all;
+      if (user.userType === "admin" || user.userType === "branchOffice") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   methods: {
     open(sumData) {

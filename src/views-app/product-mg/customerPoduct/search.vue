@@ -89,6 +89,10 @@ export default {
           {
             label: "待审核",
             value: "CHECKING"
+          },
+          {
+            label: "待提交",
+            value: "WAITING_SUBMIT"
           }
         ],
         cb: value => {

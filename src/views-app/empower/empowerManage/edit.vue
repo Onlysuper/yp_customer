@@ -124,21 +124,21 @@ export default {
   computed: {
     serviceMode() {
       return this.empowerList.serviceMode;
-    },
-    supportTypes() {
-      return this.empowerList.supportTypes;
     }
+    // supportTypes() {
+    //   return this.empowerList.supportTypes;
+    // }
   },
   watch: {
     serviceMode(value) {
       console.log(value);
-    },
-    supportTypes(value) {
-      console.log(value);
-      // if (new Set(value).has("4")) {
-      //   this.empowerList.supportTypes = Array.from(new Set(value).add("1"));
-      // }
     }
+    // supportTypes(value) {
+    //   console.log(value);
+    //   // if (new Set(value).has("4")) {
+    //   //   this.empowerList.supportTypes = Array.from(new Set(value).add("1"));
+    //   // }
+    // }
   },
   methods: {
     ...mapActions(["getEmpowerManageUnit", "updataCustomer", "addCustomer"]),
