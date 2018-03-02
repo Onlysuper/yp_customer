@@ -291,7 +291,11 @@ export default {
       const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message({
+          message: "上传头像图片大小不能超过 2MB!",
+          type: "warning",
+          center: true
+        });
         return false;
       }
       return true;
