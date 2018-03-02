@@ -101,7 +101,6 @@ export default {
         * 根据地区编号获取地区完整省市县名称
         */
     findCity(key) {
-
         var result = {};
         if (!key) return result;
         for (var [shengIndex, sheng] of Object.keys(org).entries()) {
@@ -114,7 +113,6 @@ export default {
                         result.resultAddr = `${sheng}-${shi}-${xian}`;
                         result.resultCode = key;
                         //拿到上面的索引后设置城市联动默认选中状态
-                        // defaultStatus([shengIndex, shiIndex, xianIndex]);
                         return result;
                     }
                 }
