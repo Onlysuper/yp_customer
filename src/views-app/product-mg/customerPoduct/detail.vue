@@ -58,18 +58,16 @@
         </input-wrapper>
       </view-radius>
     </template>
-    <city-picher ref="CityPicher"></city-picher>
   </full-page>
 </template>
 
 <script>
-import CityPicher from "@src/components-app/CityPicher";
-import { getCustomerEchoProduct, getQueryCustomerProduct } from "@src/apis";
+import { getCustomerEchoProduct, getQueryCustomerElectronic } from "@src/apis";
 import bussinessTypeJson from "@src/data/bussinessType.json";
 import UploadView from "@src/components-app/Upload/UploadView";
 import utils from "@src/common/utils";
 export default {
-  components: { CityPicher, UploadView },
+  components: { UploadView },
   data() {
     return {
       productType: this.$route.params["productType"],
@@ -126,8 +124,9 @@ export default {
         }
       });
     } else if (this.productType == "elec") {
-      getQueryCustomerProduct()({
-        customerNo: this.customerNo
+      getQueryCustomerElectronic()({
+        customerNo: this.customerNo,
+        featureType: "ELECTRONIC"
       }).then(data => {
         if (data.code == "00") {
           this.echoFormElec(data.data || {});
@@ -141,15 +140,11 @@ export default {
     echoForm(data) {
       let { customer, settleCard, product, imgs } = data;
       if (customer instanceof Object) {
-        let city = this.$refs.CityPicher.findCity(customer.orgCode);
-        this.customer.addr = city.resultAddr;
+        this.customer.addr = utils.findCity(customer.orgCode).resultAddr;
         this.customer.legalPerson = customer.legalPerson;
         this.customer.idCard = customer.idCard;
         this.customer.contactEmail = customer.contactEmail;
-        let bussinessType = bussinessTypeJson.find(
-          item => item.code == customer.category
-        );
-        this.customer.name = bussinessType.name;
+        this.customer.name = utils.findBussinessType(customer.category).name;
       }
       if (settleCard instanceof Object) {
         this.settleCard.bankName = settleCard.bankName;
@@ -173,21 +168,24 @@ export default {
       }
     },
     echoFormElec(data) {
-      this.elec.enterpriseName = data.enterpriseName;
-      this.elec.bussinessAddress = data.bussinessAddress;
-      this.elec.bussinessPhone = data.bussinessPhone;
-      this.elec.bankName = data.bankName;
-      this.elec.branchName = data.branchName;
-      this.elec.bankAccountNo = data.bankAccountNo;
-      this.elec.registMoney = data.registMoney;
-      this.elec.mounthCount = data.mounthCount;
-      this.elec.bussinessName = data.bussinessName;
-      let city = this.$refs.CityPicher.findCity(data.orgCode);
-      this.elec.addr = city.resultAddr;
-      let bussinessType = bussinessTypeJson.find(
-        item => item.code == data.category
-      );
-      this.elec.name = bussinessType.name;
+      let { customer, customerInvoiceConfig, product } = data;
+      if (customer instanceof Object) {
+        this.elec.enterpriseName = customer.enterpriseName;
+        this.elec.bussinessAddress = customer.bussinessAddress;
+        this.elec.bussinessPhone = customer.bussinessPhone;
+        this.elec.registMoney = customer.registMoney;
+        this.elec.bussinessName = customer.bussinessName;
+        this.elec.addr = utils.findCity(customer.orgCode).resultAddr;
+        this.elec.name = utils.findBussinessType(customer.category).name;
+      }
+      if (customerInvoiceConfig instanceof Object) {
+        this.elec.bankName = customerInvoiceConfig.bankName;
+        this.elec.branchName = customerInvoiceConfig.branchName;
+        this.elec.bankAccountNo = customerInvoiceConfig.bankAccountNo;
+      }
+      if (product instanceof Object) {
+        this.elec.mounthCount = product.elecBillnum;
+      }
     }
   }
 };

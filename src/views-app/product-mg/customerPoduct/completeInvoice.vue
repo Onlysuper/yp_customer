@@ -31,7 +31,7 @@
             </mt-field>
 
             <mt-field label="银行帐号:" type="tel" v-model="form.bankAccountNo" placeholder="请输入银行帐号" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="注册资金:" type="number" v-model="form.registMoney" placeholder="请输入注册资金" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="注册资金:" type="number" v-model="form.registMoney" placeholder="请输入注册资金" :attr="{maxlength:50}">万</mt-field>
             <mt-field label="月开票量:" type="number" v-model="form.mounthCount" placeholder="请输入月开票量" :attr="{maxlength:50}"></mt-field>
           </input-wrapper>
         </view-radius>
@@ -54,9 +54,10 @@ import bussinessTypeJson from "@src/data/bussinessType.json";
 import BankPopup from "@src/components-app/BankPopup";
 import BankBranchPopup from "@src/components-app/BankBranchPopup";
 import BankSearchPopup from "@src/components-app/BankSearchPopup";
+import utils from "@src/common/utils";
 import {
   getBankList,
-  getQueryCustomerProduct,
+  getQueryCustomerElectronic,
   perfectCustomer
 } from "@src/apis";
 import { mapActions, install } from "vuex";
@@ -84,7 +85,6 @@ export default {
         orgCode: "",
         bussinessAddress: "",
         bussinessPhone: "",
-        bussinessName: "",
         registMoney: "",
         bankCode: "",
         bankAccountNo: "",
@@ -103,8 +103,9 @@ export default {
     };
   },
   created() {
-    getQueryCustomerProduct()({
-      customerNo: this.customerNo
+    getQueryCustomerElectronic()({
+      customerNo: this.customerNo,
+      featureType: "ELECTRONIC"
     }).then(data => {
       if (data.code == "00") {
         //回显信息
@@ -117,31 +118,34 @@ export default {
     });
   },
   methods: {
+    findCity(orgCode) {
+      return this.$refs.CityPicher.findCity(orgCode);
+    },
     echoForm(data) {
-      this.form.enterpriseName = data.enterpriseName;
-      this.form.enterpriseName = data.enterpriseName;
-      this.form.bussinessAddress = data.bussinessAddress;
-      this.form.bussinessPhone = data.bussinessPhone;
-      // this.form.bankCode = data.bankCode;
-      this.form.bankAccountNo = data.bankAccountNo;
-      this.form.registMoney = data.registMoney;
-      this.form.mounthCount = data.mounthCount;
-      this.form.bussinessName = data.bussinessName;
-      let city = this.$refs.CityPicher.findCity(data.orgCode);
-      this.resultCallback(city);
-      let bussinessType = bussinessTypeJson.find(
-        item => item.code == data.category
-      );
-      this.confirm(bussinessType || {});
-
-      this.bankResult({
-        value: data.bankName,
-        key: data.bankCode
-      });
-      this.bankRsearchResult({
-        branchName: data.branchName,
-        unionCode: data.unionCode
-      });
+      let { customer, customerInvoiceConfig, product } = data;
+      if (customer instanceof Object) {
+        this.form.enterpriseName = customer.enterpriseName;
+        this.form.enterpriseName = customer.enterpriseName;
+        this.form.bussinessAddress = customer.bussinessAddress;
+        this.form.bussinessPhone = customer.bussinessPhone;
+        this.form.registMoney = customer.registMoney;
+        this.resultCallback(this.findCity(customer.orgCode));
+        this.confirm(utils.findBussinessType(customer.category));
+      }
+      if (customerInvoiceConfig instanceof Object) {
+        this.bankResult({
+          value: customerInvoiceConfig.bankName,
+          key: customerInvoiceConfig.bankCode
+        });
+        this.bankRsearchResult({
+          branchName: customerInvoiceConfig.branchName,
+          unionCode: customerInvoiceConfig.unionCode
+        });
+        this.form.bankAccountNo = customerInvoiceConfig.bankAccountNo;
+      }
+      if (product instanceof Object) {
+        this.form.mounthCount = product.elecBillnum;
+      }
     },
     //地区选择回调函数
     resultCallback(obj) {
