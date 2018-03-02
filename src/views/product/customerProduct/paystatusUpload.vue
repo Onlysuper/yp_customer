@@ -358,7 +358,7 @@ export default {
                 break;
             }
           } else {
-            this.$message({
+            self.$message({
               message: data.msg,
               type: "warning"
             });
