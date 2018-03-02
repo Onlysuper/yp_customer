@@ -1195,7 +1195,7 @@ export default {
     },
     // 查询详情 审核按钮显示
     deitDisabled_check(type, row) {
-      console.log(type + "--" + row.elecStatus);
+      // console.log(type + "--" + row.elecStatus);
       if (type == "elecStatus" && row.elecStatus == "CHECKING") {
         return false;
       } else {
