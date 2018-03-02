@@ -309,6 +309,7 @@ export default {
         // base64编码
         self[where].imgString = this.result;
         upload()(self[where]).then(data => {
+          console.log(data);
           if (data.code == "00") {
             switch (where) {
               // 身份证正面
