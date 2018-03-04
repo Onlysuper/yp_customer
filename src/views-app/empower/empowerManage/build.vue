@@ -1,5 +1,5 @@
 <template>
-  <!-- 编辑 -->
+  <!-- 生成授权码 -->
   <full-page>
     <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
@@ -7,11 +7,8 @@
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <mt-field type="text" :disabled="true" label="序列号" placeholder="请输入序列号" v-model="empowerList.qrcode"></mt-field>
-        <mt-field type="text" :disabled="true" label="授权码" placeholder="请输入授权码" v-model="empowerList.authCode"></mt-field>
-        <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="请输入合伙人编号" v-model="empowerList.agentNo"></mt-field>
-        <mt-field type="text" :disabled="true" label="商户编号" placeholder="请输入商户编号" v-model="empowerList.customerNo"></mt-field>
-        <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="empowerList.extensionNum"></mt-field>
+        <mt-field type="text" label="合伙人编号" placeholder="请输入合伙人编号" v-model="empowerList.agentNo"></mt-field>
+        <mt-field type="text" label="数量" placeholder="请输入数量" v-model="empowerList.qrcodeCount"></mt-field>
         <div>
           <mt-cell title="服务方式" class="border-1px"></mt-cell>
           <mt-radio class="myp-chek-list border-1px" title="" v-model="empowerList.serviceMode" :options="serviceModeOptions">
@@ -51,27 +48,19 @@
 </style>
 <script>
 import { mapState, mapActions } from "vuex";
-// import checkList from "@src/components-app/CheckList";
-// import Radio from "@src/components-app/Radio";
 export default {
-  components: {
-    // "myp-checkList": checkList,
-    // "myp-radio": Radio
-  },
+  components: {},
   data() {
     return {
       aa: [],
       btnDisabled: false,
-      pageType: this.$route.query["type"] || "ADD",
-      authCode: this.$route.params["authCode"],
+      pageType: this.$route.query["type"] || "BUILD",
       empowerList: {
-        serviceMode: "",
-        supportTypes: [],
-        bb: []
+        serviceMode: "HX",
+        supportTypes: ["1", "2"]
       },
       pageTitle: {
-        ADD: "添加",
-        EDIT: "编辑"
+        BUILD: "生成授权码"
       },
       supportTypesOptions: [
         {
@@ -103,9 +92,7 @@ export default {
       ]
     };
   },
-  mounted() {
-    this.init();
-  },
+  mounted() {},
   computed: {
     serviceMode() {
       return this.empowerList.serviceMode;
@@ -128,32 +115,23 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getEmpowerManageUnit", "editEmpowerManage"]),
-    init() {
-      this.pageType == "EDIT" &&
-        this.getEmpowerManageUnit(this.authCode).then(empowerList => {
-          let supportType = empowerList.supportType;
-          if (supportType == "1") {
-            this.empowerList.supportTypes = ["1"];
-          } else if (supportType == "2") {
-            this.empowerList.supportTypes = ["2"];
-          } else if (supportType == "3") {
-            this.empowerList.supportTypes = ["1", "2"];
-          } else if (supportType == "5") {
-          } else if (supportType == "7") {
-            this.empowerList.supportTypes = ["1", "2", "4"];
-          }
-          this.empowerList = Object.assign(this.empowerList, empowerList);
-        });
-    },
+    ...mapActions(["getEmpowerManageUnit", "buildEmpowerManage"]),
     save() {
-      if (!this.validator.isEmpty(this.empowerList.extensionNum)) {
-        this.MessageBox.alert("分机号不能为空！");
+      if (!this.validator.isEmpty(this.empowerList.agentNo)) {
+        this.MessageBox.alert("合伙人编号不能为空！");
+        return;
+      }
+      if (!this.validator.isEmpty(this.empowerList.qrcodeCount)) {
+        this.MessageBox.alert("数量不能为空！");
+        return;
+      }
+      if (!this.validator.isEmpty(this.empowerList.supportTypes)) {
+        this.MessageBox.alert("请选择支持类型");
         return;
       }
       this.btnDisabled = true;
-      if (this.pageType == "EDIT") {
-        this.editEmpowerManage(this.empowerList).then(flag => {
+      if (this.pageType == "BUILD") {
+        this.buildEmpowerManage(this.empowerList).then(flag => {
           this.btnDisabled = false;
           if (flag) {
             this.$router.back();
@@ -164,7 +142,3 @@ export default {
   }
 };
 </script>
-
-<style>
-
-</style>

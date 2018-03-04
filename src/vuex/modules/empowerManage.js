@@ -1,6 +1,6 @@
 
 // 授权码审核
-import { postEditEmpower, postBindChildEmpower, postBindEmpower } from "@src/apis";
+import { postEditEmpower, postBindChildEmpower, postBindEmpower, postMakeEmpower, postMakeTorageEmpower } from "@src/apis";
 import { Toast } from "mint-ui";
 import utils from "@src/common/utils";
 export default {
@@ -10,6 +10,7 @@ export default {
 
     }, //搜索条件
     isSearch: false,//是否搜索操作，便于刷新
+    isReload: false
   },
   getters: {
   },
@@ -54,7 +55,14 @@ export default {
         if (data.authCode == item.authCode) return data;
         else return item;
       })
-    }
+    },
+    // 生成授权码
+    ["QRCODE_IS_BUILD"](state, data) {
+      state.list.push(data)
+    },
+    ["QRCODE_IS_RELOAD"](state, flag) {
+      state.isReload = flag;
+    },
   },
   actions: {
     // 数据列表中获取当前编辑得数据
@@ -127,13 +135,70 @@ export default {
         if (data.code == "00") {
           //刷新数据
           commit("QRCODE_UPDATA", thisForm);
-          Toast("修改成功");
+          Toast("绑定成功");
           return true;
         } else {
           Toast(data.msg);
           return false;
         }
         this.saveLoading = false;
+      });
+    },
+    // 生成授权码
+    buildEmpowerManage({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      let supportTypes1 = "";
+      let supportTypes2 = "";
+      let supportTypes3 = "";
+      thisForm.supportTypes.forEach((element, index) => {
+        if (element == "普票") {
+          supportTypes1 = 1;
+        } else if (element == "专票") {
+          supportTypes2 = 2;
+        } else if (element == "特殊") {
+          supportTypes3 = 4;
+        }
+      });
+      return postMakeEmpower()({
+        deviceType: "AUTHCODE",
+        agentNo: thisForm.agentNo,
+        qrcodeCount: thisForm.qrcodeCount,
+        serviceMode: thisForm.serviceMode,
+        "supportTypes[0]": supportTypes1,
+        "supportTypes[1]": supportTypes2,
+        "supportTypes[2]": supportTypes3
+      }).then(data => {
+        if (data.code == "00") {
+          //刷新数据
+          commit("QRCODE_IS_RELOAD");
+          Toast("生成授权码成功！");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
+      });
+    },
+    // 物料入库
+    addTorageMaterielSave({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      console.log(thisForm);
+      return postMakeTorageEmpower()({
+        deviceType: thisForm.deviceType,
+        receiptCount: thisForm.receiptCount,
+        prefixNo: thisForm.prefixNo,
+        migrateType: thisForm.migrateType,
+        qrcodeStart: thisForm.qrcodeStart,
+        qrcodeEnd: thisForm.qrcodeEnd,
+        qrcodes: thisForm.qrcodes
+      }).then(data => {
+        if (data.code == "00") {
+          //刷新数据
+          commit("QRCODE_IS_RELOAD");
+          Toast("物料入库成功！");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
       });
     },
   }

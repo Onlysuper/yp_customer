@@ -125,6 +125,28 @@ export default {
             pageTitle: "授权码管理"
           }
         },
+        {
+          // 生成授权码
+          name: "empowerManageBuild",
+          path: 'build',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/build")) }, "empower-manage-build")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
+        {
+          // 物料入库
+          name: "empowerManageAddMateriel",
+          path: 'addMateriel',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/addMateriel")) }, "empower-manage-addmateriel")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
       ]
     },
     // 授权码转移

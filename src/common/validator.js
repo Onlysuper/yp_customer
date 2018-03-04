@@ -28,7 +28,11 @@ function isRule(regText, value) {
 let Validator = {
   //检测是否为空
   isEmpty(val) {
-    return val ? SUCCESS : DEFAULT;
+    if (Array.isArray(val)) {
+      return val.length > 0 ? SUCCESS : DEFAULT;
+    } else {
+      return val ? SUCCESS : DEFAULT;
+    }
   },
   //检测手机号
   isMobile(mobel) {

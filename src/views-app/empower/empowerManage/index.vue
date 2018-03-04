@@ -4,8 +4,11 @@
     <full-page class="page" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
+        <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
       </mt-header>
+      <!-- actions操作 -->
+      <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
@@ -29,7 +32,7 @@
               <myp-tr title="上级授权码">{{item.parentCode}}</myp-tr>
             </table>
             <!-- 更多操作 -->
-            <div slot="right" @click="operation(item)">更多</div>
+            <div v-if="moreVisible(item)" slot="right" @click="operation(item)">更多</div>
           </myp-cell>
 
         </myp-cell-pannel>
@@ -43,12 +46,13 @@
 import { Toast } from "mint-ui";
 import SliderNav from "@src/components-app/SliderNav";
 import { getArantNumManages, postUnBindEmpower } from "@src/apis";
+import MypPopupActions from "@src/components-app/MypPopupActions";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior } from "@src/common/mixins";
 // import edit from "./edit";
 export default {
   mixins: [scrollBehavior],
-  components: { SliderNav },
+  components: { SliderNav, MypPopupActions },
   data() {
     return {
       munes: this.$store.state.moduleLayour.menuList[
@@ -58,7 +62,24 @@ export default {
       api: getArantNumManages,
       count: 0,
       actions: [],
-      sheetVisible: false
+      sheetVisible: false,
+      popupActionsVisible: false,
+      popupActions: [
+        {
+          name: "生成授权码",
+          icon: "icon-admin",
+          method: () => {
+            this.toUrl("BUILD");
+          }
+        },
+        {
+          name: "物料入库",
+          icon: "icon-admin",
+          method: () => {
+            this.toUrl("ADDMATERIEL");
+          }
+        }
+      ]
     };
   },
   created() {
@@ -68,7 +89,8 @@ export default {
     ...mapState({
       list: state => state.empowerManage.list,
       searchQuery: state => state.empowerManage.searchQuery,
-      isSearch: state => state.empowerManage.isSearch
+      isSearch: state => state.empowerManage.isSearch,
+      isReload: state => state.empowerManage.isReload
     }),
     adminOperationAll() {
       // 用户按钮权限
@@ -78,18 +100,50 @@ export default {
   watch: {
     isSearch(flag) {
       flag && this.$refs.MypLoadmoreApi.load(this.searchQuery);
+    },
+    isReload(flag) {
+      this.$store.commit("QRCODE_SEARCH_INIT");
+      this.$refs.MypLoadmoreApi.load(this.searchQuery);
     }
   },
   mounted() {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   methods: {
+    test() {
+      this.$refs.MypLoadmoreApi.load(this.searchQuery);
+    },
     watchDataList(watchDataList, count) {
       this.count = count;
       this.$store.commit("QRCODE_SEARCH_LIST", watchDataList);
       this.$store.commit("QRCODE_SEARCH", false);
+      this.$store.commit("QRCODE_IS_RELOAD", false);
     },
-
+    moreVisible(rowdata) {
+      if (rowdata.deviceType == "AUTHCODE") {
+        if (
+          this.adminOperationAll.qrcode_bind == "TRUE" &&
+          (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+            this.adminOperationAll.userType == "admin")
+        ) {
+          if (rowdata.status == "TRUE" || rowdata.status == "BINDED") {
+            return true;
+          }
+        }
+      } else if (
+        (this.adminOperationAll.qrcode_bind_child == "TRUE" &&
+          (rowdata.deviceType == "AUTHCODE" &&
+            rowdata.status == "BINDED" &&
+            rowdata.parentCode == null)) ||
+        (rowdata.parentCode == "" &&
+          (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+            this.adminOperationAll.userType == "admin"))
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     // 操作按钮
     operation(rowdata) {
       this.rowdata = rowdata;
@@ -161,6 +215,16 @@ export default {
       } else if (type == "BINDCHILD") {
         this.$router.push({
           path: "./bindchild/" + itemId,
+          query: { type: type }
+        });
+      } else if (type == "BUILD") {
+        this.$router.push({
+          path: "./build",
+          query: { type: type }
+        });
+      } else if (type == "ADDMATERIEL") {
+        this.$router.push({
+          path: "./addMateriel",
           query: { type: type }
         });
       }
