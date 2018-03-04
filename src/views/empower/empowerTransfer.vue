@@ -67,11 +67,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
-          <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
-        </el-form-item>
         <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input placeholder="多个二维码请用英文逗号分隔" @blur="qrcodeBlur($event,'allotQrcodes')" v-model="allotForm.qrcodes" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
+          <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -442,6 +442,16 @@ export default {
                 return {
                   text: "审核通过",
                   type: "success"
+                };
+              } else if (data == "REJECT") {
+                return {
+                  text: "拒绝",
+                  type: "info"
+                };
+              } else if (data == "AUDITING") {
+                return {
+                  text: "待审核",
+                  type: "warning"
                 };
               } else {
                 return {

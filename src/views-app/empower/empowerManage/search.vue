@@ -106,7 +106,7 @@ export default {
           if (value == "ALL") {
             value = "";
           }
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
+          this.$store.commit("QRCODE_SEARCH_QUERY", {
             containChild: value
           });
         }
@@ -137,7 +137,7 @@ export default {
           if (value == "ALL") {
             value = "";
           }
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
+          this.$store.commit("QRCODE_SEARCH_QUERY", {
             status: value
           });
         }
@@ -162,7 +162,7 @@ export default {
         ],
         cb: value => {
           if (value == "ALL") value = "";
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
+          this.$store.commit("QRCODE_SEARCH_QUERY", {
             receiptType: value
           });
         }
@@ -187,7 +187,7 @@ export default {
         ],
         cb: value => {
           if (value == "ALL") value = "";
-          this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
+          this.$store.commit("QRCODE_SEARCH_QUERY", {
             materiel: value
           });
         }

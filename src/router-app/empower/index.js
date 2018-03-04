@@ -178,6 +178,28 @@ export default {
             pageTitle: "授权码转移"
           }
         },
+        {
+          // 授权码分配
+          name: "empowerTransferAllot",
+          path: 'allot',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerTransfer/allot")) }, "empower-transfer-allot")
+          },
+          meta: {
+            pageTitle: "授权码分配"
+          }
+        },
+        {
+          // 授权码上缴
+          name: "empowerTransferPaid",
+          path: 'paid',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerTransfer/paid")) }, "empower-transfer-paid")
+          },
+          meta: {
+            pageTitle: "授权码上缴"
+          }
+        },
       ]
     },
     // 授权码采购
