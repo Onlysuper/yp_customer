@@ -107,7 +107,8 @@ export default {
           this.$emit("result", this.dataKey, data.data);
           this.setImg(base64);
         } else {
-          Toast(data.resultMsg);
+          // Toast(data.resultMsg);
+          Toast("上传失败！");
         }
       });
     },
