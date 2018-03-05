@@ -32,10 +32,10 @@
               <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">所在地区:</span>{{utils.findCity(detailsForm.customer.orgCode).resultAddr}}
+              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">详细信息:</span>{{payStatusDetails.bussinessAddress||""}}
+              <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress||""}}
             </div>
             <div class="line-label-box">
               <span class="line-label">法人:</span>{{payStatusDetails.legalPerson||""}}
@@ -44,7 +44,7 @@
               <span class="line-label">身份证号:</span>{{payStatusDetails.idCard||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">行业类型:</span>{{payStatusDetails.bussinessType||""}}
+              <span class="line-label">行业类型:</span>{{payStatusDetails.category||""}}
             </div>
             <div class="line-label-box">
               <span class="line-label">邮箱:</span>{{payStatusDetails.contactEmail||""}}
@@ -436,7 +436,7 @@ export default {
         bussinessAddress: "", //注册地址
         legalPerson: "", //法人
         idCard: "", //身份证号
-        bussinessType: "", //行业类型
+        category: "", //行业类型
         contactEmail: "", //邮箱
         accountType: "", //账户类型
         accountName: "", //账户名称
@@ -1086,7 +1086,9 @@ export default {
               data.customer.bussinessAddress;
             this.payStatusDetails.legalPerson = data.customer.legalPerson; //法人
             this.payStatusDetails.idCard = data.customer.idCard; // 身份证号码
-            this.payStatusDetails.bussinessType = data.customer.bussinessType; // 行业类型
+            this.payStatusDetails.category =
+              data.customer.category &&
+              utils.findBussinessType(data.customer.category).name; // 行业类型
             this.payStatusDetails.contactEmail = data.customer.contactEmail; // 邮箱
           }
           if (data.settleCard) {

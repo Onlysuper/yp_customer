@@ -67,7 +67,6 @@ export default {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
       orderNo: "",
-
       startTime: todayDate,
       endTime: todayDate,
       customerNo: "",
