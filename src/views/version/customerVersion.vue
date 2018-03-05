@@ -262,6 +262,7 @@ export default {
 
               color: "#3685FD",
               cb: rowdata => {
+                this.$refs.form.clearValidate();
                 this.dialogVisible = true;
                 this.form = { ...rowdata };
               }
@@ -362,7 +363,8 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.saveLoading = true;
-          patchCustomerVersion()(this.form).then(data => {
+          // patchCustomerVersion()(this.form).then(data => {
+          postCustomerVersion()(this.form).then(data => {
             if (data.code == "00") {
               this.dialogVisible = false;
               this.reloadData();

@@ -15,7 +15,7 @@
             <table>
               <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
               <myp-tr title="补贴（元）">{{item.subsidy}}</myp-tr>
-              <myp-tr title="中间人（元）">{{item.rebate}}</myp-tr>
+              <myp-tr v-if="isAdmin" title="中间人（元）">{{item.rebate}}</myp-tr>
               <myp-tr title="入网时间">{{item.registerTime}}</myp-tr>
             </table>
           </myp-cell>
@@ -37,6 +37,7 @@ export default {
   mixins: [scrollBehavior],
   components: { SliderNav, sum },
   data() {
+    var user = this.$store.state.moduleLayour.userMessage.all;
     return {
       munes: this.$store.state.moduleLayour.menuList[
         this.$route.query["menuIndex"]
@@ -55,7 +56,15 @@ export default {
       isSearch: state => state.profitBilling.isSearch,
       searchQuery: state => state.profitBilling.searchQuery,
       sumData: state => state.profitBilling.sumData
-    })
+    }),
+    isAdmin() {
+      let user = this.$store.state.moduleLayour.userMessage.all;
+      if (user.userType === "admin" || user.userType === "branchOffice") {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   mounted() {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
