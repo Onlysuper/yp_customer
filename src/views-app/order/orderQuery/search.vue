@@ -135,7 +135,7 @@ export default {
           },
           {
             label: "待支付",
-            value: "WAIT_PAY"
+            value: "PAY_WAIT"
           },
           {
             label: "交易失败",

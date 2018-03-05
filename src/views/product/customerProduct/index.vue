@@ -1150,8 +1150,10 @@ export default {
           let data = res.data;
           if (data.customer) {
             this.elecStatusDetails.orgCode =
-              !!data.customer.orgCode &&
-              utils.findCity(res.data.customer.orgCode).resultAddr; //注册省份
+              data.customer.orgCode != null
+                ? utils.findCity(res.data.customer.orgCode).resultAddr
+                : "";
+            //注册省份
             this.elecStatusDetails.bussinessAddress =
               data.customer.bussinessAddress; //注册地址
             this.elecStatusDetails.bussinessPhone =

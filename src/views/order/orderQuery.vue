@@ -188,7 +188,7 @@ export default {
               label: "订单初始化"
             },
             {
-              value: "WAIT_PAY",
+              value: "PAY_WAIT",
               label: "等待支付"
             },
             {
@@ -276,9 +276,9 @@ export default {
               if (data == "INIT") {
                 return {
                   text: "订单初始化",
-                  type: "success"
+                  type: ""
                 };
-              } else if (data == "WAIT_PAY") {
+              } else if (data == "PAY_WAIT") {
                 return {
                   text: "等待支付",
                   type: "warning"
@@ -286,12 +286,12 @@ export default {
               } else if (data == "FAIL") {
                 return {
                   text: "失败",
-                  type: "warning"
+                  type: "info"
                 };
               } else if (data == "SUCCESS") {
                 return {
                   text: "成功",
-                  type: "warning"
+                  type: "success"
                 };
               } else {
                 return {

@@ -1261,10 +1261,10 @@ export default {
         this.$message.error("上传文件只能是 xlsx,numbers 格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传文件图片大小不能超过 10MB!");
+        this.$message.error("上传文件大小不能超过 10MB!");
       }
       this.saveLoading = false;
-      return extension || (extension2 && isLt2M);
+      return (extension || extension2) && isLt2M;
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);

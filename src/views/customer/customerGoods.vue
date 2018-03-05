@@ -972,7 +972,6 @@ export default {
       });
     },
     beforeUpload(file) {
-      // console.log(file);
       const extension = file.name.split(".")[1] === "xlsx";
       const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
@@ -983,7 +982,7 @@ export default {
         this.$message.error("上传文件图片大小不能超过 10MB!");
       }
       this.saveLoading = false;
-      return extension || (extension2 && isLt2M);
+      return (extension || extension2) && isLt2M;
     },
     // 新增保存
     addSave(formName) {

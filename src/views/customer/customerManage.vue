@@ -857,10 +857,10 @@ export default {
       const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
       if (!extension && !extension2) {
-        this.$message.error("上传文件只能是 xlsx 格式!");
+        this.$message.error("上传文件只能是 xlsx numbers格式!");
       }
       this.saveLoading = false;
-      return extension;
+      return (extension || extension2) && isLt2M;
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);

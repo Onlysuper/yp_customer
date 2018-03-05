@@ -289,17 +289,17 @@ export default {
     },
     // 上传文件格式校验
     checkUpload(file) {
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isLt2M) {
-        this.$message({
-          message: "上传头像图片大小不能超过 2MB!",
-          type: "warning",
-          center: true
-        });
-        return false;
+      const isJPEG = file.type === "image/jpeg";
+      const isPNG = file.type === "image/png";
+      const isJPG = file.type === "image/jpg";
+      const isLt2M = file.size / 1024 / 1024 < 1;
+      if (!isJPEG && !isPNG && !isJPG) {
+        this.$message.error("上传图片只能是 jpeg,jpg,png 格式!");
       }
-      return true;
+      if (!isLt2M) {
+        this.$message.error("上传图片大小不能超过 1MB!");
+      }
+      return (isJPEG || isPNG || isJPG) && isLt2M;
     },
     //img转化base64
     imgTransBase(file, where) {
@@ -310,69 +310,69 @@ export default {
         // base64编码
         self[where].imgString = this.result;
         // base64编码压缩成更小的
-        console.log(
-          "压缩前：" + this.result.length / 1024 / 1024 + " " + this.result
-        );
-        utils.dealImage(this.result, { width: 200 }, function(data) {
-          console.log("压缩后：" + data.length / 1024 + " " + data);
-          upload()(self[where]).then(data => {
-            console.log(data);
-            if (data.code == "00") {
-              switch (where) {
-                // 身份证正面
-                case "idcardData":
-                  self.identityFrontImg = self[where].imgString;
-                  self.saveForm.identityFrontImg = data.data;
-                  break;
-                // 身份证反面
-                case "idcardBackData":
-                  self.identityBackImg = self[where].imgString;
-                  self.saveForm.identityBackImg = data.data;
-                  break;
-                // 手持身份证
-                case "applicantData":
-                  self.identityHolderImg = self[where].imgString;
-                  self.saveForm.identityHolderImg = data.data;
-                  break;
-                // 营业执照
-                case "businessData":
-                  self.bussinessLicenseImg = self[where].imgString;
-                  self.saveForm.bussinessLicenseImg = data.data;
-                  break;
-                // 结算
-                case "settleData":
-                  self.settleCardImg = self[where].imgString;
-                  self.saveForm.settleCardImg = data.data;
-                  break;
-                // 开户许可证
-                case "accountData":
-                  self.accountLicenseImg = self[where].imgString;
-                  self.saveForm.accountLicenseImg = data.data;
-                  break;
-                // 门头照片
-                case "placeData":
-                  self.placeImg = self[where].imgString;
-                  self.saveForm.placeImg = data.data;
-                  break;
-                // 店内照片
-                case "storeData":
-                  self.storeImg = self[where].imgString;
-                  self.saveForm.storeImg = data.data;
-                  break;
-                // 收银台照片
-                case "cashData":
-                  self.cashSpaceImg = self[where].imgString;
-                  self.saveForm.cashSpaceImg = data.data;
-                  break;
-              }
-            } else {
-              self.$message({
-                message: data.msg,
-                type: "warning"
-              });
+        // console.log(
+        //   "压缩前：" + this.result.length / 1024 / 1024 + " " + this.result
+        // );
+        // utils.dealImage(this.result, { width: 200 }, function(data) {
+        //   console.log("压缩后：" + data.length / 1024 + " " + data);
+        upload()(self[where]).then(data => {
+          console.log(data);
+          if (data.code == "00") {
+            switch (where) {
+              // 身份证正面
+              case "idcardData":
+                self.identityFrontImg = self[where].imgString;
+                self.saveForm.identityFrontImg = data.data;
+                break;
+              // 身份证反面
+              case "idcardBackData":
+                self.identityBackImg = self[where].imgString;
+                self.saveForm.identityBackImg = data.data;
+                break;
+              // 手持身份证
+              case "applicantData":
+                self.identityHolderImg = self[where].imgString;
+                self.saveForm.identityHolderImg = data.data;
+                break;
+              // 营业执照
+              case "businessData":
+                self.bussinessLicenseImg = self[where].imgString;
+                self.saveForm.bussinessLicenseImg = data.data;
+                break;
+              // 结算
+              case "settleData":
+                self.settleCardImg = self[where].imgString;
+                self.saveForm.settleCardImg = data.data;
+                break;
+              // 开户许可证
+              case "accountData":
+                self.accountLicenseImg = self[where].imgString;
+                self.saveForm.accountLicenseImg = data.data;
+                break;
+              // 门头照片
+              case "placeData":
+                self.placeImg = self[where].imgString;
+                self.saveForm.placeImg = data.data;
+                break;
+              // 店内照片
+              case "storeData":
+                self.storeImg = self[where].imgString;
+                self.saveForm.storeImg = data.data;
+                break;
+              // 收银台照片
+              case "cashData":
+                self.cashSpaceImg = self[where].imgString;
+                self.saveForm.cashSpaceImg = data.data;
+                break;
             }
-          });
+          } else {
+            self.$message({
+              message: data.msg,
+              type: "warning"
+            });
+          }
         });
+        // });
       };
     },
     editSave() {
