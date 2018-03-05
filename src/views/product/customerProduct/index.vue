@@ -807,48 +807,10 @@ export default {
                 this.getElectronicEcho(rowdata); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
                 this.detailsFormVisible = true;
-                // 聚合支付
-                // postCustomerOpenProductSearch()({
-                //   businessNo: rowdata.bussinessNo,
-                //   businessType: rowdata.bussinessType
-                // }).then(data => {
-                //   console.log(data);
-                //   if (data.code == "00") {
-                //     this.detailsForm = Object.assign(
-                //       this.detailsForm,
-                //       data.data
-                //     );
-                //     this.detailsForm.wechatRate =
-                //       utils.accMul(this.detailsForm.wechatRate, 100) + "%";
-                //     this.detailsForm.alipayRate =
-                //       utils.accMul(this.detailsForm.alipayRate, 100) + "%";
-                //     this.detailsForm.t0CashCostFixed =
-                //       this.detailsForm.t0CashCostFixed &&
-                //       this.detailsForm.t0CashCostFixed + "元";
-                //     this.detailsFormVisible = true;
-                //   } else {
-                //     this.$message({
-                //       message: data.msg,
-                //       type: "warning"
-                //     });
-                //   }
-                // });
-                // 电子发票
               }
             },
             {
               text: "开通",
-              // visibleFn: rowdata => {
-              //   if (
-              //     rowdata.payStatus == "REJECT" ||
-              //     rowdata.payStatus == "WAITING_SUBMIT"
-              //   ) {
-              //     // 拒绝状态隐藏
-              //     return false;
-              //   } else {
-              //     return true;
-              //   }
-              // },
               color: "#00c1df",
               disabledFn: rowdata => {
                 if (
@@ -910,32 +872,34 @@ export default {
                 this.editVisiblebut = false;
                 this.searchDetail = false;
                 this.rowData = rowdata;
-                this.getCustomerEcho(rowdata); // 回显示
+                this.getCustomerEcho(rowdata); // 聚合支付回显
+                this.getElectronicEcho(rowdata); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
-                postCustomerOpenProductSearch()({
-                  businessNo: rowdata.bussinessNo,
-                  businessType: rowdata.bussinessType
-                }).then(data => {
-                  if (data.code == "00") {
-                    this.detailsForm = Object.assign(
-                      this.detailsForm,
-                      data.data
-                    );
-                    this.detailsForm.wechatRate =
-                      utils.accMul(this.detailsForm.wechatRate, 100) + "%";
-                    this.detailsForm.alipayRate =
-                      utils.accMul(this.detailsForm.alipayRate, 100) + "%";
-                    this.detailsFormVisible = true;
-                    this.detailsForm.t0CashCostFixed =
-                      this.detailsForm.t0CashCostFixed &&
-                      this.detailsForm.t0CashCostFixed + "元";
-                  } else {
-                    this.$message({
-                      message: data.msg,
-                      type: "warning"
-                    });
-                  }
-                });
+                this.detailsFormVisible = true;
+                // postCustomerOpenProductSearch()({
+                //   businessNo: rowdata.bussinessNo,
+                //   businessType: rowdata.bussinessType
+                // }).then(data => {
+                //   if (data.code == "00") {
+                //     this.detailsForm = Object.assign(
+                //       this.detailsForm,
+                //       data.data
+                //     );
+                //     this.detailsForm.wechatRate =
+                //       utils.accMul(this.detailsForm.wechatRate, 100) + "%";
+                //     this.detailsForm.alipayRate =
+                //       utils.accMul(this.detailsForm.alipayRate, 100) + "%";
+                //     this.detailsFormVisible = true;
+                //     this.detailsForm.t0CashCostFixed =
+                //       this.detailsForm.t0CashCostFixed &&
+                //       this.detailsForm.t0CashCostFixed + "元";
+                //   } else {
+                //     this.$message({
+                //       message: data.msg,
+                //       type: "warning"
+                //     });
+                //   }
+                // });
               }
             }
           ]
@@ -1267,8 +1231,6 @@ export default {
     },
     // 查询详情 编辑按钮显示问题
     deitDisabled_edit(type, row) {
-      console.log(type);
-      console.log(row);
       if (
         (type == "payStatus" && row.payStatus == "REJECT") ||
         (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT") ||
