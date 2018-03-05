@@ -49,7 +49,6 @@
     }
   }
   .el-menu-vertical:not(.el-menu--collapse) {
-    width: 220px;
     min-height: 400px;
     position: relative;
   }

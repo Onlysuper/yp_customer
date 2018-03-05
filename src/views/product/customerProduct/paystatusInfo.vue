@@ -5,6 +5,9 @@
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
         </el-cascader>
       </el-form-item>
+      <el-form-item class="full-width" label="详细地址" prop="phoneNo" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
+      </el-form-item>
       <el-row>
         <el-col :span="12">
           <div class="grid-content bg-purple">
@@ -54,6 +57,9 @@
 
         </el-col>
       </el-row>
+      <!-- <el-form-item label="账户名称" prop="accountNo" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
+      </el-form-item> -->
       <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
       </el-form-item>

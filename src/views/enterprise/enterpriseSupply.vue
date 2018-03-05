@@ -275,12 +275,12 @@ export default {
               if (data == "INIT") {
                 return {
                   text: "未处理",
-                  type: "info"
+                  type: "danger"
                 };
               } else if (data == "SUCCESS") {
                 return {
                   text: "已处理",
-                  type: "danger"
+                  type: "success"
                 };
               } else if (data == "FAIL") {
                 return {
