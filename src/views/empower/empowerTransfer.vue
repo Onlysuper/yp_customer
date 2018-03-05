@@ -574,13 +574,9 @@ export default {
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
             migrateMode: "UPWARD_MIGRATE",
-            // this.userAll.userType == "admin"
-            //   ? "OPERATOR_MIGRATE"
-            //   : "UPWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
-            // agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
               this.$message({

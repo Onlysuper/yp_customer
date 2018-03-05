@@ -1,6 +1,6 @@
 import utils from "@src/common/utils";
 // 授权码转移
-import { } from "@src/apis";
+import { postMigrateNumTransfer } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -70,5 +70,29 @@ export default {
         }
       });
     },
+    // 授权码上缴
+    paidEmpowerSave({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      console.log(thisForm);
+      return postMigrateNumTransfer()({
+        deviceType: thisForm.deviceType,
+        migrateCount: thisForm.migrateCount,
+        prefixNo: thisForm.prefixNo,
+        migrateType: thisForm.migrateType,
+        migrateMode: "UPWARD_MIGRATE",
+        qrcodeStart: thisForm.qrcodeStart,
+        qrcodeEnd: thisForm.qrcodeEnd,
+        qrcodes: thisForm.qrcodes
+      }).then(data => {
+        if (data.code == "00") {
+          //刷新数据
+          commit("QRCODE_IS_RELOAD");
+          Toast("授权码上缴成功！");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
+      });
+    }
   }
 };

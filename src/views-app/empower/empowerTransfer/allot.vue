@@ -69,7 +69,7 @@ export default {
       },
       empowerList: {},
       pageTitle: {
-        ADDMATERIEL: "物料入库"
+        ALLOT: "授权码分配"
       },
       deviceTypeActions: [
         {
@@ -99,14 +99,42 @@ export default {
   methods: {
     ...mapActions(["getEmpowerManageUnit", "allotEmpowerSave"]),
     save() {
-      if (!this.validator.isEmpty(this.empowerList.receiptCount)) {
-        this.MessageBox.alert("入库数量不能为空！");
+      console.log(this.migrateType.code);
+      if (!this.validator.isEmpty(this.empowerList.agentNo)) {
+        this.MessageBox.alert("合伙人编号不能为空！");
+        return;
+      } else if (!this.validator.isEmpty(this.deviceType.name)) {
+        this.MessageBox.alert("请选择分配方式！");
+        return;
+      } else if (!this.validator.isEmpty(this.migrateType.name)) {
+        this.MessageBox.alert("请选择分配类型！");
+        return;
+      } else if (
+        !this.validator.isEmpty(this.empowerList.qrcodes) &&
+        this.migrateType.code == "OUT_ORDER"
+      ) {
+        this.MessageBox.alert("请输入授权码序列号！");
+        return;
+      } else if (
+        !this.validator.isEmpty(this.empowerList.qrcodeStart) &&
+        this.migrateType.code == "ORDER"
+      ) {
+        this.MessageBox.alert("请输入开始号段！");
+        return;
+      } else if (
+        !this.validator.isEmpty(this.empowerList.qrcodeEnd) &&
+        this.migrateType.code == "ORDER"
+      ) {
+        this.MessageBox.alert("请输入结束号段！");
+        return;
+      } else if (!this.validator.isEmpty(this.empowerList.migrateCount)) {
+        this.MessageBox.alert("请输入转移数量！");
         return;
       }
       this.empowerList.deviceType = this.deviceType.code;
       this.empowerList.migrateType = this.migrateType.code;
       this.btnDisabled = true;
-      if (this.pageType == "ADDMATERIEL") {
+      if (this.pageType == "ALLOT") {
         this.allotEmpowerSave(this.empowerList).then(flag => {
           this.btnDisabled = false;
           if (flag) {
