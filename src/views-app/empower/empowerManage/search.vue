@@ -48,7 +48,7 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "序号",
+        title: "序列号",
         type: "myp-text",
         defaultValue: this.searchQuery.qrcode,
         cb: value => {

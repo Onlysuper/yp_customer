@@ -9,7 +9,7 @@
     </div>
 
     <!-- 商户状态 start -->
-    <el-dialog title="商户状态" center :visible.sync="detailsFormVisible">
+    <el-dialog title="商户状态" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <div class="line-box-center">
           <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
@@ -35,46 +35,46 @@
               <span class="line-label">所在地区:</span>{{utils.findCity(detailsForm.customer.orgCode).resultAddr}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">详细信息:</span>{{detailsForm.customer.bussinessAddress||""}}
+              <span class="line-label">详细信息:</span>{{payStatusDetails.bussinessAddress||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">法人:</span>{{detailsForm.customer.legalPerson||""}}
+              <span class="line-label">法人:</span>{{payStatusDetails.legalPerson||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">身份证号:</span>{{detailsForm.customer.idCard||""}}
+              <span class="line-label">身份证号:</span>{{payStatusDetails.idCard||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">行业类型:</span>{{detailsForm.customer.bussinessType||""}}
+              <span class="line-label">行业类型:</span>{{payStatusDetails.bussinessType||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">邮箱:</span>{{detailsForm.customer.contactEmail||""}}
+              <span class="line-label">邮箱:</span>{{payStatusDetails.contactEmail||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">账户类型:</span>{{detailsForm.settleCard.accountType | accountType}}
+              <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">账户名称:</span>{{detailsForm.settleCard.accountName||""}}
+              <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">开户银行:</span>{{detailsForm.settleCard.bankName||""}}
+              <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">开户支行:</span>{{detailsForm.settleCard.branchName||""}}
+              <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">账号:</span>{{detailsForm.settleCard.accountNo||""}}
+              <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">微信费率:</span>{{utils.accMul(detailsForm.product.wechatRate,100)+'%' ||""}}
+              <span class="line-label">微信费率:</span>{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">支付宝费率:</span>{{utils.accMul(detailsForm.product.alipayRate,100)+'%'||""}}
+              <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">开通即刷即到:</span>{{detailsForm.product.settleMode | settleMode}}
+              <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | settleMode}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">D0手续费:</span>{{detailsForm.product.t0CashCostFixed||""}}
+              <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
             </div>
             <div class="line-label-box">
               <el-row :gutter="20">
@@ -84,7 +84,7 @@
                     <div class="img-box">
                       <p class="img-title">法人身份证正面:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.identityFrontImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
                       </div>
                     </div>
 
@@ -95,7 +95,7 @@
                     <div class="img-box">
                       <p class="img-title">法人身份证反面:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.identityBackImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
@@ -109,7 +109,7 @@
                     <div class="img-box">
                       <p class="img-title">营业执照:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.bussinessLicenseImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
@@ -123,7 +123,7 @@
                     <div class="img-box">
                       <p class="img-title">结算卡正面:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.settleCardImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
@@ -137,7 +137,7 @@
                     <div class="img-box">
                       <p class="img-title">开户许可证:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.accountLicenseImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
@@ -151,7 +151,7 @@
                     <div class="img-box">
                       <p class="img-title">门头照片:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.placeImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
@@ -165,7 +165,7 @@
                     <div class="img-box">
                       <p class="img-title">店内照片:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.storeImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
@@ -179,7 +179,7 @@
                     <div class="img-box">
                       <p class="img-title">收银台照片:</p>
                       <div class="img-back">
-                        <img class="img-size" :src="detailsForm.imgs.cashSpaceImg.url||''" alt="">
+                        <img class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
@@ -220,39 +220,39 @@
           <!-- 电子发票查询详情 -->
           <div class="line-label-box">
             <span class="line-label">注册省份:</span>
-            <span class="line-label-last">{{utils.findCity(elecStatusDetails.customer.orgCode).resultAddr}}</span>
+            <span class="line-label-last">{{elecStatusDetails.orgCode}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">注册地址:</span>
-            <span class="line-label-last">{{elecStatusDetails.customer.bussinessAddress}}</span>
+            <span class="line-label-last">{{elecStatusDetails.bussinessAddress}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">联系电话:</span>
-            <span class="line-label-last">{{elecStatusDetails.customer.bussinessPhone}}</span>
+            <span class="line-label-last">{{elecStatusDetails.bussinessPhone}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">经营名称:</span>
-            <span class="line-label-last">{{elecStatusDetails.customer.bussinessName}}</span>
+            <span class="line-label-last">{{elecStatusDetails.bussinessName}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">注册资金:</span>
-            <span class="line-label-last">{{elecStatusDetails.customer.registMoney}}</span>
+            <span class="line-label-last">{{elecStatusDetails.registMoney}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">开户银行:</span>
-            <span class="line-label-last">{{elecStatusDetails.customerInvoiceConfig.branchName}}</span>
+            <span class="line-label-last">{{elecStatusDetails.branchName}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">银行账号:</span>
-            <span class="line-label-last">{{elecStatusDetails.customerInvoiceConfig.bankAccountNo}}</span>
+            <span class="line-label-last">{{elecStatusDetails.bankAccountNo}}</span>
           </div>
           <div class="line-label-box">
             <span class="line-label">月开票量:</span>
-            <span class="line-label-last">{{elecStatusDetails.product.elecBillnum}}</span>
+            <span class="line-label-last">{{elecStatusDetails.elecBillnum}}</span>
           </div>
-          <div class="line-label-box" v-if="elecStatusDetails.product.elecReason==''||elecStatusDetails.product.elecReason==null?false:true">
+          <div class="line-label-box" v-if="elecStatusDetails.elecReason==''||elecStatusDetails.elecReason==null?false:true">
             <span class="line-label">被拒原因:</span>
-            <span class="line-label-last">{{elecStatusDetails.product.elecReason}}</span>
+            <span class="line-label-last">{{elecStatusDetails.elecReason}}</span>
           </div>
 
         </template>
@@ -430,13 +430,44 @@ export default {
       payStatusForm: {
         Area: [] // 必须为数组
       }, // 编辑单个表单
+      // 聚合支付查询详情
+      payStatusDetails: {
+        orgCode: "", //所在地
+        bussinessAddress: "", //注册地址
+        legalPerson: "", //法人
+        idCard: "", //身份证号
+        bussinessType: "", //行业类型
+        contactEmail: "", //邮箱
+        accountType: "", //账户类型
+        accountName: "", //账户名称
+        bankName: "", //开户银行
+        branchName: "", //开户支行
+        accountNo: "", //账号
+        wechatRate: "", //微信费率
+        settleMode: "", //开通即刷即到
+        t0CashCostFixed: "", //D0手续费
+        identityFrontImg: "", //法人身份证正面
+        identityBackImg: "", //法人身份证反面
+        bussinessLicenseImg: "", //营业执照
+        settleCardImg: "", //结算卡正面
+        accountLicenseImg: "", //开户许可证
+        placeImg: "", //门头照片
+        storeImg: "", //店内照片
+        cashSpaceImg: "" //收银台照片
+      },
+      // 电子发票查询详情
       elecStatusDetails: {
-        customer: {},
-        customerInvoiceConfig: {},
-        product: {}
-      }, // 电子发票查询详情
+        orgCode: "", //注册省份
+        bussinessAddress: "", //注册地址
+        bussinessPhone: "", //联系电话
+        bussinessName: "", //经营名称
+        registMoney: "", //注册资金
+        branchName: "", //开户银行
+        bankAccountNo: "", //银行账号
+        elecBillnum: "", //月开票量
+        elecReason: "" //被拒原因
+      },
       qrcodeStatusDetails: {}, // 快速开票查询详情
-      payStatusDetails: {}, // 聚合支付查询详情
       resaultForm: {}, // 拒绝表单
       closeForm: {},
       closeFormRules: {
@@ -1071,51 +1102,111 @@ export default {
     },
     // 聚合支付回显
     getCustomerEcho(rowData) {
+      let dialogLoading = this.$loading({
+        target: document
+          .querySelector("#dialogLoding")
+          .querySelector(".el-dialog")
+      });
       getCustomerEchoProduct()({
         customerNo: rowData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
-          this.detailsForm.customer = Object.assign(
-            this.detailsForm.customer,
-            res.data.customer
-          );
-          this.detailsForm.imgs = Object.assign(
-            this.detailsForm.imgs,
-            res.data.imgs
-          );
-          this.detailsForm.product = Object.assign(
-            this.detailsForm.product,
-            res.data.product
-          );
-          this.detailsForm.settleCard = Object.assign(
-            this.detailsForm.settleCard,
-            res.data.settleCard
-          );
+          // 聚合支付查询详情
+          let data = res.data;
+          if (data.customer) {
+            this.payStatusDetails.orgCode =
+              !!data.customer.orgCode &&
+              utils.findCity(data.customer.orgCode).resultAddr; //注册省份
+            this.payStatusDetails.bussinessAddress =
+              data.customer.bussinessAddress;
+            this.payStatusDetails.legalPerson = data.customer.legalPerson; //法人
+            this.payStatusDetails.idCard = data.customer.idCard; // 身份证号码
+            this.payStatusDetails.bussinessType = data.customer.bussinessType; // 行业类型
+            this.payStatusDetails.contactEmail = data.customer.contactEmail; // 邮箱
+          }
+          if (data.settleCard) {
+            this.payStatusDetails.accountType = data.settleCard.accountType; //账户类型
+            this.payStatusDetails.accountName = data.settleCard.accountName; //账号名称
+            this.payStatusDetails.bankName = data.settleCard.bankName; // 开户银行
+            this.payStatusDetails.branchName = data.settleCard.branchName; // 开户支行
+            this.payStatusDetails.accountNo = data.settleCard.accountNo; // 账号
+          }
+          if (data.product) {
+            this.payStatusDetails.wechatRate = data.product.wechatRate; //微信费率
+            this.payStatusDetails.alipayRate = data.product.alipayRate; //支付宝费率
+            this.payStatusDetails.settleMode = data.product.settleMode; // 开通即刷即到
+            this.payStatusDetails.t0CashCostFixed =
+              data.product.t0CashCostFixed; // D0手续费
+          }
+          if (data.imgs) {
+            let defaultObj = {
+              id: "",
+              url: ""
+            };
+            this.payStatusDetails.identityFrontImg =
+              data.imgs.identityFrontImg || defaultObj; //法人身份证正面
+
+            this.payStatusDetails.identityBackImg =
+              data.imgs.identityBackImg || defaultObj; //法人身份证反面
+
+            this.payStatusDetails.bussinessLicenseImg =
+              data.imgs.bussinessLicenseImg || defaultObj; //营业执照
+
+            this.payStatusDetails.settleCardImg =
+              data.imgs.settleCardImg || defaultObj; //结算卡正面
+
+            this.payStatusDetails.accountLicenseImg =
+              data.imgs.accountLicenseImg || defaultObj; //开户许可证
+
+            this.payStatusDetails.placeImg = data.imgs.placeImg || defaultObj; //门头照片
+
+            this.payStatusDetails.storeImg = data.imgs.storeImg || defaultObj; //店内照片
+
+            this.payStatusDetails.cashSpaceImg =
+              data.imgs.cashSpaceImg || defaultObj; //收银台照片
+          }
         }
+        dialogLoading.close();
       });
     },
     // 电子发票回显示
     getElectronicEcho(rowData) {
+      let dialogLoading = this.$loading({
+        target: document
+          .querySelector("#dialogLoding")
+          .querySelector(".el-dialog")
+      });
       getQueryCustomerElectronic()({
         customerNo: rowData.bussinessNo,
         featureType: "ELECTRONIC"
       }).then(res => {
         console.log(res);
         if (res.code == "00") {
-          this.elecStatusDetails.customer = Object.assign(
-            this.elecStatusDetails.customer,
-            res.data.customer
-          );
-          this.elecStatusDetails.customerInvoiceConfig = Object.assign(
-            this.elecStatusDetails.customerInvoiceConfig,
-            res.data.customerInvoiceConfig
-          );
-          this.elecStatusDetails.product = Object.assign(
-            this.elecStatusDetails.product,
-            res.data.product
-          );
+          let data = res.data;
+          if (data.customer) {
+            this.elecStatusDetails.orgCode =
+              !!data.customer.orgCode &&
+              utils.findCity(res.data.customer.orgCode).resultAddr; //注册省份
+            this.elecStatusDetails.bussinessAddress =
+              data.customer.bussinessAddress; //注册地址
+            this.elecStatusDetails.bussinessPhone =
+              data.customer.bussinessPhone; //联系电话
+            this.elecStatusDetails.bussinessName = data.customer.bussinessName; //经营名称
+            this.elecStatusDetails.registMoney = data.customer.registMoney; //注册资金
+          }
+          if (data.customerInvoiceConfig) {
+            this.elecStatusDetails.branchName =
+              data.customerInvoiceConfig.branchName; //开户银行
+            this.elecStatusDetails.bankAccountNo =
+              data.customerInvoiceConfig.bankAccountNo; //银行账号
+          }
+          if (data.customerInvoiceConfig) {
+            this.elecStatusDetails.elecBillnum = data.product.elecBillnum; //月开票量
+            this.elecStatusDetails.elecReason = data.product.elecReason; //被拒原因
+          }
         }
+        dialogLoading.close();
       });
     },
     // 返回
@@ -1193,7 +1284,6 @@ export default {
     },
     // 查询详情 审核按钮显示
     deitDisabled_check(type, row) {
-      // console.log(type + "--" + row.elecStatus);
       if (
         type == "elecStatus" &&
         (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING")

@@ -108,6 +108,7 @@
 }
 </style>
 <script>
+import utils from "@src/common/utils";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
@@ -225,49 +226,49 @@ export default {
     // 身份证正面
     idcardbeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "idcardData");
+        this.imgTransBase(file, "idcardData");
       }
       return false;
     },
     // 身份证反面
     idcardBackbeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "idcardBackData");
+        this.imgTransBase(file, "idcardBackData");
       }
       return false;
     },
     // 身份证反面
     applicantbeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "applicantData");
+        this.imgTransBase(file, "applicantData");
       }
       return false;
     },
     // 营业执照
     businessbeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "businessData");
+        this.imgTransBase(file, "businessData");
       }
       return false;
     },
     // 结算卡
     settlebeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "settleData");
+        this.imgTransBase(file, "settleData");
       }
       return false;
     },
     // 开户许可证
     accountbeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "accountData");
+        this.imgTransBase(file, "accountData");
       }
       return false;
     },
     //门头照片编号
     placebeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "placeData");
+        this.imgTransBase(file, "placeData");
       }
       return false;
     },
@@ -275,14 +276,14 @@ export default {
 
     storebeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "storeData");
+        this.imgTransBase(file, "storeData");
       }
       return;
     },
     //收银台照片
     cashbeforeUpload(file) {
       if (this.checkUpload(file)) {
-        this.imgTransform(file, "cashData");
+        this.imgTransBase(file, "cashData");
       }
       return;
     },
@@ -301,69 +302,76 @@ export default {
       return true;
     },
     //img转化base64
-    imgTransform(file, where) {
+    imgTransBase(file, where) {
       let reader = new FileReader();
       let self = this;
       reader.readAsDataURL(file);
       reader.onload = function(e) {
         // base64编码
         self[where].imgString = this.result;
-        upload()(self[where]).then(data => {
-          console.log(data);
-          if (data.code == "00") {
-            switch (where) {
-              // 身份证正面
-              case "idcardData":
-                self.identityFrontImg = self[where].imgString;
-                self.saveForm.identityFrontImg = data.data;
-                break;
-              // 身份证反面
-              case "idcardBackData":
-                self.identityBackImg = self[where].imgString;
-                self.saveForm.identityBackImg = data.data;
-                break;
-              // 手持身份证
-              case "applicantData":
-                self.identityHolderImg = self[where].imgString;
-                self.saveForm.identityHolderImg = data.data;
-                break;
-              // 营业执照
-              case "businessData":
-                self.bussinessLicenseImg = self[where].imgString;
-                self.saveForm.bussinessLicenseImg = data.data;
-                break;
-              // 结算
-              case "settleData":
-                self.settleCardImg = self[where].imgString;
-                self.saveForm.settleCardImg = data.data;
-                break;
-              // 开户许可证
-              case "accountData":
-                self.accountLicenseImg = self[where].imgString;
-                self.saveForm.accountLicenseImg = data.data;
-                break;
-              // 门头照片
-              case "placeData":
-                self.placeImg = self[where].imgString;
-                self.saveForm.placeImg = data.data;
-                break;
-              // 店内照片
-              case "storeData":
-                self.storeImg = self[where].imgString;
-                self.saveForm.storeImg = data.data;
-                break;
-              // 收银台照片
-              case "cashData":
-                self.cashSpaceImg = self[where].imgString;
-                self.saveForm.cashSpaceImg = data.data;
-                break;
+        // base64编码压缩成更小的
+        console.log(
+          "压缩前：" + this.result.length / 1024 / 1024 + " " + this.result
+        );
+        utils.dealImage(this.result, { width: 200 }, function(data) {
+          console.log("压缩后：" + data.length / 1024 + " " + data);
+          upload()(self[where]).then(data => {
+            console.log(data);
+            if (data.code == "00") {
+              switch (where) {
+                // 身份证正面
+                case "idcardData":
+                  self.identityFrontImg = self[where].imgString;
+                  self.saveForm.identityFrontImg = data.data;
+                  break;
+                // 身份证反面
+                case "idcardBackData":
+                  self.identityBackImg = self[where].imgString;
+                  self.saveForm.identityBackImg = data.data;
+                  break;
+                // 手持身份证
+                case "applicantData":
+                  self.identityHolderImg = self[where].imgString;
+                  self.saveForm.identityHolderImg = data.data;
+                  break;
+                // 营业执照
+                case "businessData":
+                  self.bussinessLicenseImg = self[where].imgString;
+                  self.saveForm.bussinessLicenseImg = data.data;
+                  break;
+                // 结算
+                case "settleData":
+                  self.settleCardImg = self[where].imgString;
+                  self.saveForm.settleCardImg = data.data;
+                  break;
+                // 开户许可证
+                case "accountData":
+                  self.accountLicenseImg = self[where].imgString;
+                  self.saveForm.accountLicenseImg = data.data;
+                  break;
+                // 门头照片
+                case "placeData":
+                  self.placeImg = self[where].imgString;
+                  self.saveForm.placeImg = data.data;
+                  break;
+                // 店内照片
+                case "storeData":
+                  self.storeImg = self[where].imgString;
+                  self.saveForm.storeImg = data.data;
+                  break;
+                // 收银台照片
+                case "cashData":
+                  self.cashSpaceImg = self[where].imgString;
+                  self.saveForm.cashSpaceImg = data.data;
+                  break;
+              }
+            } else {
+              self.$message({
+                message: data.msg,
+                type: "warning"
+              });
             }
-          } else {
-            self.$message({
-              message: data.msg,
-              type: "warning"
-            });
-          }
+          });
         });
       };
     },

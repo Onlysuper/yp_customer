@@ -301,7 +301,7 @@ export default {
       agentNo: "", // 合伙人编号
       containChild: "TRUE", // 下级
       customerNo: "", // 商户编号
-      qrcode: "", // 序号
+      qrcode: "", // 序列号
       authCode: "", // 授权码
       status: "", // 状态
       deviceType: "", // 设备类型
@@ -430,7 +430,7 @@ export default {
           },
           {
             value: "OUT_ORDER",
-            label: "序号入库"
+            label: "序列号入库"
           }
         ],
         exportEmpowerCodeOptions: [
@@ -1047,7 +1047,7 @@ export default {
         this.addMaterielForm.qrcodeStart = "";
         this.addMaterielForm.qrcodeEnd = "";
       } else if (event == "OUT_ORDER") {
-        // 序号入库
+        // 序列号入库
         this.visibleQrcodes = true;
         this.visibleQrNums = false;
         this.addMaterielForm.qrcodes = "";
