@@ -91,6 +91,7 @@
 
 <script>
 import lrz from "lrz";
+import { Toast, Indicator } from "mint-ui";
 let demoImg = {
   //身份证正面
   LEGAL_PERSON_ID_POSITIVE: require("./img/identityFrontImg.png"),
@@ -163,9 +164,14 @@ export default {
     },
     //压缩图片
     lrzImg(file, event) {
+      Indicator.open({
+        text: "处理中...",
+        spinnerType: "fading-circle"
+      });
       lrz(file, { width: 480 })
         .then(res => {
           let base64 = res.base64;
+          Indicator.close();
           this.createImg(base64);
           return base64;
         })

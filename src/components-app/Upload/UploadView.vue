@@ -103,13 +103,11 @@ export default {
         imgString: base64
       }).then(data => {
         Indicator.close();
-        alert(JSON.stringify(data));
         if (data.code === "00") {
           this.$emit("result", this.dataKey, data.data);
           this.setImg(base64);
         } else {
-          // Toast(data.resultMsg);
-          Toast("上传失败！");
+          Toast(data.msg);
         }
       });
     },
