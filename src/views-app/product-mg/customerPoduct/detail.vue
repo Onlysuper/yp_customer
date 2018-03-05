@@ -8,6 +8,7 @@
       <view-radius>
         <input-wrapper>
           <mt-cell title="所在地区">{{customer.addr}}</mt-cell>
+          <mt-cell title="详细地址">{{customer.bussinessAddress}}</mt-cell>
           <mt-cell title="法人">{{customer.legalPerson}}</mt-cell>
           <mt-cell title="身份证号">{{customer.idCard}}</mt-cell>
           <mt-cell title="行业类别">{{customer.name}}</mt-cell>
@@ -74,6 +75,7 @@ export default {
       customerNo: this.$route.query["customerNo"],
       customer: {
         addr: "",
+        bussinessAddress: "",
         legalPerson: "",
         name: "",
         idCard: "",
@@ -141,6 +143,7 @@ export default {
       let { customer, settleCard, product, imgs } = data;
       if (customer instanceof Object) {
         this.customer.addr = utils.findCity(customer.orgCode).resultAddr;
+        this.customer.bussinessAddress = customer.bussinessAddress;
         this.customer.legalPerson = customer.legalPerson;
         this.customer.idCard = customer.idCard;
         this.customer.contactEmail = customer.contactEmail;
