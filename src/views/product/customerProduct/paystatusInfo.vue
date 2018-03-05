@@ -83,7 +83,7 @@
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="goback('close')">取消</el-button>
-      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
+      <el-button :loading="saveLoading" type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
 </template>
@@ -194,6 +194,7 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
+          this.saveLoading = true;
           let payStatusForm = this.payStatusForm;
           let bankName = this.bankOptions.find(
             r => r.code == payStatusForm.bankCode
@@ -239,6 +240,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });

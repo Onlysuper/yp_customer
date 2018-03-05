@@ -73,7 +73,7 @@
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="goback('paystatusGoods')">返回</el-button>
-      <el-button type="primary" @click="editSave()">下一步</el-button>
+      <el-button :loading="saveLoading" type="primary" @click="editSave()">下一步</el-button>
     </div>
   </div>
 </template>
@@ -385,6 +385,7 @@ export default {
       };
     },
     editSave() {
+      this.saveLoading = true;
       // 编辑内容保存
       for (var i in this.saveForm) {
         if (!this.saveForm[i]) {
@@ -422,11 +423,13 @@ export default {
               this.warningMsg("请上传收银台照片");
               break;
           }
+          this.saveLoading = false;
           return false;
         }
       }
       if (!this.agreeOpen) {
         this.warningMsg("必须先勾选《同意开通支付协议》！");
+        this.saveLoading = false;
         return false;
       }
       // 点击下一步提交所有图片
@@ -437,6 +440,7 @@ export default {
         } else {
           this.warningMsg(res.msg);
         }
+        this.saveLoading = false;
       });
     },
     // 遗憾信息提示

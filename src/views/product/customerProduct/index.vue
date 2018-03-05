@@ -1237,11 +1237,10 @@ export default {
     deitDisabled_edit(type, row) {
       if (
         (type == "payStatus" && row.payStatus == "REJECT") ||
-        (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT") ||
+        (type == "payStatus" && row.payStatus == "WAITING_SUBMIT") ||
         (type == "elecStatus" && row.qrcodeStatus == "REJECT") ||
-        (type == "payStatus" && row.payStatus == "REJECT") ||
-        (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT") ||
-        (type == "elecStatus" && row.qrcodeStatus == "REJECT")
+        (type == "elecStatus" && row.qrcodeStatus == "WAITING_SUBMIT") ||
+        (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT")
       ) {
         return false;
       } else {
