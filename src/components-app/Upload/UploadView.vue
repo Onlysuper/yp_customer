@@ -103,6 +103,7 @@ export default {
         imgString: base64
       }).then(data => {
         Indicator.close();
+        alert(JSON.String(data));
         if (data.code === "00") {
           this.$emit("result", this.dataKey, data.data);
           this.setImg(base64);
