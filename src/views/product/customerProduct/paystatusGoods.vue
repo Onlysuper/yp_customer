@@ -87,7 +87,6 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saveLoading = true;
           let payStatusForm = this.payStatusForm;
           let obj = {
             customerNo: this.rowData.bussinessNo,
@@ -104,6 +103,7 @@ export default {
           } else {
             obj.t0CashCostFixed = 0;
           }
+          this.saveLoading = true;
           completeConvergeProduct()(obj).then(data => {
             if (data.code === "00") {
               // 下一步

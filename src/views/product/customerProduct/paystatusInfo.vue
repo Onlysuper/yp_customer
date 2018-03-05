@@ -194,7 +194,6 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saveLoading = true;
           let payStatusForm = this.payStatusForm;
           let bankName = this.bankOptions.find(
             r => r.code == payStatusForm.bankCode
@@ -229,6 +228,7 @@ export default {
             bankName: bankName,
             phoneNo: payStatusForm.phoneNo
           };
+          this.saveLoading = true;
           completeSettleInfo()(obj).then(data => {
             if (data.code === "00") {
               // 下一步
