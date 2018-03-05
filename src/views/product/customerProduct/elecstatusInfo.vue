@@ -19,23 +19,13 @@
             </div>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width" prop="agentArea" label="注册省份" :label-width="formLabelWidth">
-                <el-cascader :options="optionsArea" v-model="editForm.agentArea" @change="handleChangeArea">
-                </el-cascader>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="注册地址" prop="bussinessAddress" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bussinessAddress" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+        <el-form-item class="full-width" prop="agentArea" label="所在地区" :label-width="formLabelWidth">
+          <el-cascader :options="optionsArea" v-model="editForm.agentArea" @change="handleChangeArea">
+          </el-cascader>
+        </el-form-item>
+        <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bussinessAddress" auto-complete="off"></el-input>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">

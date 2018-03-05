@@ -561,15 +561,20 @@ export default {
                   if (res.code == "00") {
                     if (rowdata.level == "1") {
                       let data = res.data;
-                      this.editForm.unionCode = data.branchBank.unionCode;
-                      this.selectOptions.branchBankOptions = data.bankList;
-                      this.bankCode = data.branchBank.bankCode;
-                      this.bankCity = data.branchBank.cityId;
-                      this.editForm.bankCode = data.branchBank.bankCode;
-                      this.editForm.bankArea = [
-                        data.branchBank.provinceId,
-                        data.branchBank.cityId
-                      ];
+                      console.log(data);
+                      if (data.branchBank) {
+                        this.editForm.unionCode =
+                          data.branchBank.unionCode || "";
+                        this.bankCode = data.branchBank.bankCode || "";
+                        this.bankCity = data.branchBank.cityId || "";
+                        this.editForm.bankCode = data.branchBank.bankCode || "";
+                        this.editForm.bankArea = [
+                          data.branchBank.provinceId,
+                          data.branchBank.cityId
+                        ];
+                      }
+                      this.selectOptions.branchBankOptions =
+                        data.bankList || [];
                       this.editForm = Object.assign(this.editForm, data);
                     }
                   }

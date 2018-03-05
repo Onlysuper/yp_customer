@@ -230,20 +230,20 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="24">
             <div class="grid-content bg-purple">
               <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
                 <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
                 <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
               </el-form-item>
             </div>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -881,16 +881,16 @@ export default {
     }
   },
   computed: {
-    editFormCustomerFrom() {
-      // 表单内用户来源显示状态客户来源
-      if (this.editForm.customerFrom == "OPEN_API") {
-        return "第三方";
-      } else if (this.editForm.customerFrom == "PLUGIN") {
-        return "插件";
-      } else if (this.editForm.customerFrom == "LOCAL") {
-        return "后台";
-      }
-    }
+    // editFormCustomerFrom() {
+    //   // 表单内用户来源显示状态客户来源
+    //   if (this.editForm.customerFrom == "OPEN_API") {
+    //     return "第三方";
+    //   } else if (this.editForm.customerFrom == "PLUGIN") {
+    //     return "插件";
+    //   } else if (this.editForm.customerFrom == "LOCAL") {
+    //     return "后台";
+    //   }
+    // }
   },
   mounted() {}
 };

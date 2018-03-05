@@ -66,6 +66,10 @@
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
       </el-form-item>
+      <div class="agree-box">
+        <el-checkbox v-model="agreeOpen"> </el-checkbox>
+        <a>同意《开通支付协议》</a>
+      </div>
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="goback('paystatusGoods')">返回</el-button>
@@ -77,6 +81,10 @@
 
 <style lang='scss'>
 @media screen and (min-width: 500px) {
+  .agree-box {
+    text-align: center;
+    padding: 0px 0 20px 0;
+  }
   .paystatusUpload-box {
     .avatar-uploader .el-upload {
       border: 1px dashed #d9d9d9;
@@ -130,6 +138,7 @@ export default {
   },
   data() {
     return {
+      agreeOpen: true, // 同意协议
       // rowData_: rowData,
       // 身份证正面
       saveForm: {
@@ -415,6 +424,10 @@ export default {
           }
           return false;
         }
+      }
+      if (!this.agreeOpen) {
+        this.warningMsg("必须先勾选《同意开通支付协议》！");
+        return false;
       }
       // 点击下一步提交所有图片
       completeBussinessImg()(this.saveForm).then(res => {

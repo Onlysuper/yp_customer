@@ -5,6 +5,9 @@
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
         </el-cascader>
       </el-form-item>
+      <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      </el-form-item>
       <el-row>
         <el-col :span="12">
           <div class="grid-content bg-purple">
@@ -54,6 +57,9 @@
 
         </el-col>
       </el-row>
+      <!-- <el-form-item label="账户名称" prop="accountNo" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
+      </el-form-item> -->
       <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
       </el-form-item>
@@ -151,6 +157,9 @@ export default {
       },
       payStatusFormRules: {
         Area: [{ required: true, message: "请输入经营区域", trigger: "blur" }],
+        bussinessAddress: [
+          { required: true, message: "请输入详细地址", trigger: "blur" }
+        ],
         legalPerson: [
           { required: true, message: "请输入法人名称", trigger: "blur" }
         ],
@@ -206,6 +215,7 @@ export default {
               payStatusForm.Area[1] ||
               payStatusForm.Area[0] ||
               "",
+            bussinessAddress: payStatusForm.bussinessAddress,
             legalPerson: payStatusForm.legalPerson,
             idCard: payStatusForm.idCard,
             contactEmail: payStatusForm.contactEmail,
@@ -285,11 +295,13 @@ export default {
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
+          console.log(res.data);
           let customerData = res.data.customer;
           let settleCard = res.data.settleCard;
           if (customerData.orgCode) {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
           }
+          this.payStatusForm.bussinessAddress = customerData.bussinessAddress;
           this.payStatusForm.legalPerson = customerData.legalPerson;
           this.payStatusForm.idCard = customerData.idCard;
           this.payStatusForm.category = customerData.category;
