@@ -40,7 +40,7 @@ export default {
       console.log(key, keyPath);
     },
     checkDownloadPower() {
-      var power = this.$store.state.moduleLayour.userMessage.all.userType;
+      var power = this.$store.state.userInfoAndMenu.userMessage.all.userType;
       var flag = "root,admin,operator,branchOffice,agent".indexOf(power) >= 0;
       if (flag) {
         this.downloadDoc();

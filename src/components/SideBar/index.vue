@@ -9,27 +9,21 @@
         <router-link to="/home">易票管理系统v1.0</router-link>
       </h1>
     </div>
-    <iscroll-view class="scroll-view aside-box" ref="iscroll" :options="iscrollOptions">
-      <el-menu show-timeout="50" hide-timeout="50" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
-        <!-- <div class="logo-box" ref="logoBox">
-          <div class="img-box">
-            <img :src="require('@src/assets/images/logoSmall.png')" alt="">
-          </div>
-          <h1 v-show="!isCollapse" class="home-title">
-            <router-link to="/home">易票管理系统v1.0</router-link>
-          </h1>
-        </div> -->
-        <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
-          <template slot="title">
-            <i :class="'icon icon-'+item.menuCode"></i>
-            <span slot="title">{{item.menuName}}</span>
-          </template>
-          <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
-            {{item2.menuName}}
-          </el-menu-item>
-        </el-submenu>
-      </el-menu>
-    </iscroll-view>
+    <div class="aside-box">
+      <iscroll-view class="scroll-view " ref="iscroll" :options="iscrollOptions">
+        <el-menu show-timeout="50" hide-timeout="50" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+          <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
+            <template slot="title">
+              <i :class="'icon icon-'+item.menuCode"></i>
+              <span slot="title">{{item.menuName}}</span>
+            </template>
+            <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
+              {{item2.menuName}}
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </iscroll-view>
+    </div>
   </div>
   <!-- 左侧菜单 -->
 </template>
@@ -42,21 +36,27 @@
   -o-transition: @attr 0.8s;
 }
 .aside-box {
+  display: flex;
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
-  height: 100%;
   position: relative;
   z-index: 11;
-  flex-shrink: 0;
+  flex: 1;
+  width: 100%;
   .scroll-view {
+    // display: flex;
+    // width: 100%;
+    // display: flex;
+    // flex: 1;
+    // overflow: auto;
+
     /* -- Attention: This line is extremely important in chrome 55+! -- */
     touch-action: none;
-    // overflow: auto;
     position: absolute;
-    width: 100%;
-    top: 55px;
+    top: 0;
     bottom: 0;
     left: 0;
+    right: 0px;
   }
   /*重置样式 start*/
   .el-dropdown-link {
@@ -79,12 +79,20 @@
     .icon {
       font-size: 24px;
     }
+    // 当前选中的颜色
+    // .el-submenu.is-active {
+    //   .el-submenu__title {
+    //     background: #000;
+    //     &:hover {
+    //       background: #000 !important;
+    //     }
+    //   }
+    // }
   }
-  .el-menu-vertical {
-    margin-top: 54px;
-  }
+  // .el-menu-vertical {
+  //   margin-top: 54px;
+  // }
   .el-menu-vertical:not(.el-menu--collapse) {
-    width: 220px;
     min-height: 400px;
     position: relative;
   }
@@ -127,12 +135,25 @@
 @media screen and (min-width: 500px) {
   .sidebar-box {
     position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
     .logo-box {
-      position: absolute;
-      z-index: 999;
-      height: 54px;
-      right: 0;
-      left: 0;
+      min-width: 66px;
+      // position: absolute;
+      // z-index: 999;
+      // height: 54px;
+      // right: 0;
+      // left: 0;
+      // overflow: hidden;
+      // display: flex;
+      // box-sizing: border-box;
+      // justify-content: start;
+      // align-items: center;
+      // padding: 0 16px;
+      // background: #002240;
+      // color: #fff;
+      // box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
       overflow: hidden;
       display: flex;
       box-sizing: border-box;
@@ -142,6 +163,9 @@
       background: #002240;
       color: #fff;
       box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
+      position: relative;
+      z-index: 999;
+      height: 54px;
       .img-box {
         display: inline-block;
         img {
@@ -201,10 +225,10 @@ export default {
   },
   computed: {
     isCollapse() {
-      return this.$store.state.moduleLayour.isCollapse;
+      return this.$store.state.userInfoAndMenu.isCollapse;
     },
     menuList() {
-      return this.$store.state.moduleLayour.menuList;
+      return this.$store.state.userInfoAndMenu.menuList;
     }
   },
   mounted() {

@@ -138,7 +138,7 @@ export default {
   computed: {
     isCollapseicon() {
       //菜单是否收起
-      return this.$store.state.moduleLayour.isCollapse;
+      return this.$store.state.userInfoAndMenu.isCollapse;
     }
   },
   methods: {

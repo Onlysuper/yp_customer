@@ -81,23 +81,67 @@ export default {
             pageTitle: "授权码管理"
           }
         },
-        {
-          // 预览
-          name: "empowerManagePreview",
-          path: 'preview/:receiptNo',
-          component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/preview")) }, "empower-manage-preview")
-          },
-          meta: {
-            pageTitle: "授权码管理"
-          }
-        },
+        // {
+        //   // 预览
+        //   name: "empowerManagePreview",
+        //   path: 'preview/:receiptNo',
+        //   component: r => {
+        //     return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/preview")) }, "empower-manage-preview")
+        //   },
+        //   meta: {
+        //     pageTitle: "授权码管理"
+        //   }
+        // },
         {
           // 编辑
           name: "empowerManageEdit",
           path: 'edit/:authCode',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/edit")) }, "empower-manage-edit")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
+        {
+          // 绑定
+          name: "empowerManageBind",
+          path: 'bind/:authCode',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/bind")) }, "empower-manage-bind")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
+        {
+          // 绑定子码
+          name: "empowerManageBindchild",
+          path: 'bindchild/:authCode',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/bindchild")) }, "empower-manage-bindchild")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
+        {
+          // 生成授权码
+          name: "empowerManageBuild",
+          path: 'build',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/build")) }, "empower-manage-build")
+          },
+          meta: {
+            pageTitle: "授权码管理"
+          }
+        },
+        {
+          // 物料入库
+          name: "empowerManageAddMateriel",
+          path: 'addMateriel',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerManage/addMateriel")) }, "empower-manage-addmateriel")
           },
           meta: {
             pageTitle: "授权码管理"
@@ -132,6 +176,28 @@ export default {
           },
           meta: {
             pageTitle: "授权码转移"
+          }
+        },
+        {
+          // 授权码分配
+          name: "empowerTransferAllot",
+          path: 'allot',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerTransfer/allot")) }, "empower-transfer-allot")
+          },
+          meta: {
+            pageTitle: "授权码分配"
+          }
+        },
+        {
+          // 授权码上缴
+          name: "empowerTransferPaid",
+          path: 'paid',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/empower/empowerTransfer/paid")) }, "empower-transfer-paid")
+          },
+          meta: {
+            pageTitle: "授权码上缴"
           }
         },
       ]

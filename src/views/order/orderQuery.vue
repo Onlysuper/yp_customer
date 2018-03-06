@@ -67,7 +67,6 @@ export default {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
       orderNo: "",
-
       startTime: todayDate,
       endTime: todayDate,
       customerNo: "",
@@ -102,9 +101,9 @@ export default {
           type: "text", // 表单类型
           label: "代理商编号", // 输入框前面的文字
           visible:
-            this.$store.state.moduleLayour.userMessage.all.userType ==
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.moduleLayour.userMessage.all.userType == "root"
+            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -188,7 +187,7 @@ export default {
               label: "订单初始化"
             },
             {
-              value: "WAIT_PAY",
+              value: "PAY_WAIT",
               label: "等待支付"
             },
             {
@@ -276,9 +275,9 @@ export default {
               if (data == "INIT") {
                 return {
                   text: "订单初始化",
-                  type: "success"
+                  type: ""
                 };
-              } else if (data == "WAIT_PAY") {
+              } else if (data == "PAY_WAIT") {
                 return {
                   text: "等待支付",
                   type: "warning"
@@ -286,12 +285,12 @@ export default {
               } else if (data == "FAIL") {
                 return {
                   text: "失败",
-                  type: "warning"
+                  type: "info"
                 };
               } else if (data == "SUCCESS") {
                 return {
                   text: "成功",
-                  type: "warning"
+                  type: "success"
                 };
               } else {
                 return {
@@ -338,12 +337,9 @@ export default {
   methods: {},
   mounted() {},
   computed: {
-    // userType() {
-    //   return this.$store.state.moduleLayour.userMessage.userType;
-    // },
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     }
   }
 };

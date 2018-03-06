@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <div class="user-img"></div>
-      <div class="user-name">{{$store.state.moduleLayour.userMessage.realname}}</div>
+      <div class="user-name">{{$store.state.userInfoAndMenu.userMessage.realname}}</div>
     </div>
     <mt-cell class="border-bottom-1px _av" title="个人信息" is-link @click.native="$router.push({path:'./userInfo'})">
       <i slot="icon" class="icon mintui-info2"></i>

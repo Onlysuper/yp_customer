@@ -84,9 +84,9 @@ export default {
           type: "text", // 表单类型
           label: "合伙人编号", // 输入框前面的文字
           visible:
-            this.$store.state.moduleLayour.userMessage.all.userType ==
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.moduleLayour.userMessage.all.userType == "root"
+            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -101,9 +101,9 @@ export default {
           type: "text", // 表单类型
           label: "合伙人名称", // 输入框前面的文字
           visible:
-            this.$store.state.moduleLayour.userMessage.all.userType ==
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.moduleLayour.userMessage.all.userType == "root"
+            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -118,9 +118,9 @@ export default {
           type: "dateMonth", // 表单类型
           label: "日期", // 输入框前面的文字
           show:
-            this.$store.state.moduleLayour.userMessage.all.userType ==
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.moduleLayour.userMessage.all.userType == "root"
+            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? false
               : true, // 普通搜索显示
           value: lastMonth, // 表单默认的内容
@@ -135,9 +135,9 @@ export default {
         //   type: "select",
         //   label: "是否有下级",
         //   visible:
-        //     this.$store.state.moduleLayour.userMessage.all.userType ==
+        //     this.$store.state.userInfoAndMenu.userMessage.all.userType ==
         //       "admin" ||
-        //     this.$store.state.moduleLayour.userMessage.all.userType == "root"
+        //     this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
         //       ? "TRUE"
         //       : "FALSE",
         //   show: false, // 普通搜索显示

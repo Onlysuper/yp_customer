@@ -250,7 +250,7 @@ export default {
       createTimeEnd: todayDate, // 结束时间
       status: "" // 结束时间
     };
-    var user = this.$store.state.moduleLayour.userMessage.all;
+    var user = this.$store.state.userInfoAndMenu.userMessage.all;
     var isAdmin = !(
       user.userType === "root" ||
       user.userType === "admin" ||
@@ -645,14 +645,14 @@ export default {
     this.SumHandle();
   },
   computed: {
-    // isAdmin() {
-    //   return !(
-    //     this.$store.state.moduleLayour.userMessage.all.userType === "root"
-    //   );
-    // },
+    isAdmin() {
+      return !(
+        this.$store.state.userInfoAndMenu.userMessage.all.userType === "root"
+      );
+    },
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     },
     bankOptions() {
       return banks;

@@ -19,7 +19,7 @@ const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/
 // 用户信息
 const UserGet = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
 // 管理密码修改
-const PasswordUpdate = () => { return (params) => { return http.post(base.oaIp, "/user/update/password", params) } }
+const PasswordUpdate = () => { return (params) => { return http.patch(base.oaIp, "/user/update/password", params) } }
 
 // 合伙人管理初始化数据
 const getAgentManages = () => { return (params) => { return http.get(base.oaIp, "/agent/page", params) } }

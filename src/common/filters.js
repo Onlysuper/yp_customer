@@ -280,6 +280,22 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    /**
+* 授权码转移状态
+*/
+    Vue.filter('empowerTransferStatus', function (value) {
+        switch (value) {
+            case "SUCCESS":
+                value = "审核通过";
+                break;
+            case "REJECT":
+                value = "拒绝";
+            case "AUDITING":
+                value = "待审核";
+                break;
+        }
+        return value;
+    })
 
     /**
 * 授权码审核-设备类型

@@ -221,6 +221,11 @@ export default {
                     text: "其他",
                     type: "danger"
                   };
+                case "HOST_D":
+                  return {
+                    text: "电子发票版本",
+                    type: "danger"
+                  };
                 default:
                   return {
                     text: data,
@@ -366,6 +371,10 @@ export default {
         {
           label: "MANUAL: 其他",
           value: "MANUAL"
+        },
+        {
+          label: "HOST_D: 电子发票版本",
+          value: "HOST_D"
         }
       ],
       isForce_options: [
@@ -447,7 +456,19 @@ export default {
         }
       });
     },
-    beforeUploadFile() {},
+    beforeUploadFile(file) {
+      const extension = file.name.split(".")[1] === "xlsx";
+      const extension2 = file.name.split(".")[1] === "numbers";
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!extension && !extension2) {
+        this.$message.error("上传文件只能是 xlsx,numbers 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传文件图片大小不能超过 10MB!");
+      }
+      this.saveLoading = false;
+      return (extension || extension2) && isLt2M;
+    },
     uploadFileSuccess(res, file, fileList) {
       if (res.code == "00") {
         this.$message({

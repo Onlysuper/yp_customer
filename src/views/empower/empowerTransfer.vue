@@ -67,11 +67,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
-          <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
-        </el-form-item>
         <el-form-item v-if="qrcodesVisible" label="授权码序列号" prop="qrcodes" :label-width="formLabelWidth">
           <el-input placeholder="多个二维码请用英文逗号分隔" @blur="qrcodeBlur($event,'allotQrcodes')" v-model="allotForm.qrcodes" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="转移数量" prop="migrateCount" :label-width="formLabelWidth">
+          <el-input v-model="allotForm.migrateCount" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -443,6 +443,16 @@ export default {
                   text: "审核通过",
                   type: "success"
                 };
+              } else if (data == "REJECT") {
+                return {
+                  text: "拒绝",
+                  type: "info"
+                };
+              } else if (data == "AUDITING") {
+                return {
+                  text: "待审核",
+                  type: "warning"
+                };
               } else {
                 return {
                   text: data,
@@ -564,13 +574,9 @@ export default {
             prefixNo: thisForm.prefixNo,
             migrateType: thisForm.migrateType,
             migrateMode: "UPWARD_MIGRATE",
-            // this.userAll.userType == "admin"
-            //   ? "OPERATOR_MIGRATE"
-            //   : "UPWARD_MIGRATE",
             qrcodeStart: thisForm.qrcodeStart,
             qrcodeEnd: thisForm.qrcodeEnd,
             qrcodes: thisForm.qrcodes
-            // agentNo: thisForm.agentNo
           }).then(data => {
             if (data.code == "00") {
               this.$message({
@@ -647,18 +653,18 @@ export default {
   computed: {
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     },
     qr_code_reciept_audit_agent() {
-      return this.$store.state.moduleLayour.userMessage.all
+      return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_agent;
     },
     qr_code_reciept_audit_admin() {
-      return this.$store.state.moduleLayour.userMessage.all
+      return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_admin;
     },
     qr_code_reciept_audit_all() {
-      return this.$store.state.moduleLayour.userMessage.all
+      return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_all;
     }
   },

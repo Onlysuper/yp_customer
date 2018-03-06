@@ -1,90 +1,8 @@
 <template>
   <div>
-    <!-- 编辑电子发票start -->
-    <template v-if="editFormVisible">
-      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules" :label-width="formLabelWidth">
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="商户编号" prop="customerNo">
-                <el-input :disabled="true" v-model="editForm.customerNo"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="商户名称" prop="enterpriseName">
-                <el-input :disabled="true" v-model="editForm.enterpriseName"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-form-item class="full-width" prop="agentArea" label="所在地区" :label-width="formLabelWidth">
-          <el-cascader :options="optionsArea" v-model="editForm.agentArea" @change="handleChangeArea">
-          </el-cascader>
-        </el-form-item>
-        <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
-          <el-input v-model="editForm.bussinessAddress" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="联系电话" prop="bussinessPhone" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bussinessPhone"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bussinessName"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-form-item class="full-width" label="注册资金" prop="registMoney" :label-width="formLabelWidth">
-          <el-input v-model="editForm.registMoney"></el-input>
-        </el-form-item>
-        <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-          <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
-            <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item class="full-width" v-if="bankAreaVisible" prop="bankArea" label="银行区域">
-          <el-cascader @change="bankhandleChangeArea" :options="optionsArea" v-model="editForm.bankArea">
-          </el-cascader>
-        </el-form-item>
-        <el-form-item class="full-width" prop="unionCode" label="选择支行">
-          <el-input v-if="branchNameVisible" v-model="editForm.branchName" auto-complete="off"></el-input>
-          <el-select v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
-            <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="银行账号" prop="bankAccountNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bankAccountNo"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="月开票量" prop="mounthCount" :label-width="formLabelWidth">
-                <el-input v-model="editForm.mounthCount"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="goback('close')">关闭</el-button>
-        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
-      </div>
-    </template>
-    <!-- 编辑电子发票end -->
+    <!-- 快速开票start -->
+    暂不支持
+    <!-- 快速开票end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -265,7 +183,6 @@ export default {
                 r => r.unionCode == thisForm.unionCode
               ).branchName || thisForm.unionCode;
           }
-          this.saveLoading = true;
           perfectCustomer()({
             customerNo: thisForm.customerNo,
             featureType: thisForm.featureType,
@@ -301,7 +218,6 @@ export default {
               });
             }
             console.log(data);
-            this.saveLoading = false;
           });
         }
       });

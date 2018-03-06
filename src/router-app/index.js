@@ -100,7 +100,7 @@ function filterRouter(resmenuList, asyncRoutes) {
 }
 
 router.beforeEach((to, from, next) => {
-    let menuList = store.state.moduleLayour.menuList;
+    let menuList = store.state.userInfoAndMenu.menuList;
     if (localStorage.getItem("isLogin") == "100") {
         if (to.path == "/login") {
             next('/home')
@@ -113,7 +113,7 @@ router.beforeEach((to, from, next) => {
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })
                 } else {
-                    next("/login")
+                    // next("/login")
                 }
             })
         } else {

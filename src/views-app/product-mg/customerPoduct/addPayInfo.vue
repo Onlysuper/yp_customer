@@ -12,6 +12,7 @@
             <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
+            <mt-field label="详细地址:" type="text" v-model="form.bussinessAddress" placeholder="例如：古美路18号" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="法人:" type="text" v-model="form.legalPerson" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="身份证号:" type="text" v-model="form.idCard" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
@@ -109,6 +110,7 @@ export default {
         let city = this.$refs.CityPicher.findCity(customer.orgCode);
         this.resultCallback(city);
         this.form.legalPerson = customer.legalPerson;
+        this.form.bussinessAddress = customer.bussinessAddress;
         this.form.idCard = customer.idCard;
         this.form.contactEmail = customer.contactEmail;
         let bussinessType = bussinessTypeJson.find(

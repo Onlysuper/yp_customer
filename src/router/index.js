@@ -121,7 +121,7 @@ function routerMatch(permission, asyncRouter, back) {
     })
 }
 router.beforeEach((to, redirect, next) => {
-    let menuList = store.state.moduleLayour.menuList;
+    let menuList = store.state.userInfoAndMenu.menuList;
     if (localStorage.getItem("isLogin") == "100") {
         if (to.path == "/login") {
             next('/home')
@@ -159,7 +159,7 @@ router.beforeEach((to, redirect, next) => {
                         // next()
                     })
                 } else {
-                    next("/login")
+                    // next("/login")
                 }
 
             })

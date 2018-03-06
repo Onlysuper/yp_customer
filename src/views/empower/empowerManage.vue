@@ -215,7 +215,7 @@
     </el-dialog>
     <!-- 编辑 end -->
     <!-- 绑定 start -->
-    <el-dialog center title="修改信息" :visible.sync="bindFormVisible">
+    <el-dialog center title="绑定" :visible.sync="bindFormVisible">
       <el-form size="small" :model="bindForm" ref="bindForm" :rules="bindFormRules">
         <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="bindForm.qrcode" auto-complete="off"></el-input>
@@ -301,7 +301,7 @@ export default {
       agentNo: "", // 合伙人编号
       containChild: "TRUE", // 下级
       customerNo: "", // 商户编号
-      qrcode: "", // 序号
+      qrcode: "", // 序列号
       authCode: "", // 授权码
       status: "", // 状态
       deviceType: "", // 设备类型
@@ -339,7 +339,7 @@ export default {
       },
       bindFormRules: {
         customerNo: [
-          { required: true, message: "请输入合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur" }
         ]
       },
       fileList: [],
@@ -363,6 +363,9 @@ export default {
         ],
         qrcodeCount: [
           { required: true, message: "批次数量不能为空", trigger: "blur" }
+        ],
+        supportTypes: [
+          { required: true, message: "请选择支持类型", trigger: "blur" }
         ]
       },
       editForm: {
@@ -427,7 +430,7 @@ export default {
           },
           {
             value: "OUT_ORDER",
-            label: "序号入库"
+            label: "序列号入库"
           }
         ],
         exportEmpowerCodeOptions: [
@@ -888,25 +891,28 @@ export default {
                   type: "warning"
                 })
                   .then(() => {
-                    postUnBindEmpower()({
-                      createTime: rowdata.createTime,
-                      lastUpdateTime: rowdata.lastUpdateTime,
-                      qrcode: rowdata.qrcode,
-                      parentCode: rowdata.parentCode,
-                      authCode: rowdata.authCode,
-                      deviceType: rowdata.deviceType,
-                      agentNo: rowdata.agentNo,
-                      levelDetail: rowdata.levelDetail,
-                      level: rowdata.level,
-                      customerNo: rowdata.customerNo,
-                      batchNo: rowdata.batchNo,
-                      receiptNo: rowdata.receiptNo,
-                      extensionNum: rowdata.extensionNum,
-                      supportType: rowdata.supportType,
-                      materiel: rowdata.materiel,
-                      serviceMode: rowdata.serviceMode,
-                      status: rowdata.status
-                    }).then(data => {
+                    postUnBindEmpower()(
+                      rowdata
+                      //   {
+                      //   createTime: rowdata.createTime,
+                      //   lastUpdateTime: rowdata.lastUpdateTime,
+                      //   qrcode: rowdata.qrcode,
+                      //   parentCode: rowdata.parentCode,
+                      //   authCode: rowdata.authCode,
+                      //   deviceType: rowdata.deviceType,
+                      //   agentNo: rowdata.agentNo,
+                      //   levelDetail: rowdata.levelDetail,
+                      //   level: rowdata.level,
+                      //   customerNo: rowdata.customerNo,
+                      //   batchNo: rowdata.batchNo,
+                      //   receiptNo: rowdata.receiptNo,
+                      //   extensionNum: rowdata.extensionNum,
+                      //   supportType: rowdata.supportType,
+                      //   materiel: rowdata.materiel,
+                      //   serviceMode: rowdata.serviceMode,
+                      //   status: rowdata.status
+                      // }
+                    ).then(data => {
                       if (data.code == "00") {
                         this.$message({
                           type: "success",
@@ -1041,7 +1047,7 @@ export default {
         this.addMaterielForm.qrcodeStart = "";
         this.addMaterielForm.qrcodeEnd = "";
       } else if (event == "OUT_ORDER") {
-        // 序号入库
+        // 序列号入库
         this.visibleQrcodes = true;
         this.visibleQrNums = false;
         this.addMaterielForm.qrcodes = "";
@@ -1255,10 +1261,10 @@ export default {
         this.$message.error("上传文件只能是 xlsx,numbers 格式!");
       }
       if (!isLt2M) {
-        this.$message.error("上传文件图片大小不能超过 10MB!");
+        this.$message.error("上传文件大小不能超过 10MB!");
       }
       this.saveLoading = false;
-      return extension || (extension2 && isLt2M);
+      return (extension || extension2) && isLt2M;
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -1322,14 +1328,7 @@ export default {
     }
   },
   mounted() {},
-  computed: {
-    // userBussinessNo() {
-    //   return this.$store.state.moduleLayour.userMessage.userBussinessNo;
-    // },
-    // userType() {
-    //   return this.$store.state.moduleLayour.userMessage.userType;
-    // }
-  }
+  computed: {}
 };
 </script>
 

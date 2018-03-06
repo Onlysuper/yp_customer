@@ -21,7 +21,7 @@
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="goback('paystatusInfo')">返回</el-button>
-      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
+      <el-button :loading="saveLoading" type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
 </template>
@@ -88,17 +88,22 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let payStatusForm = this.payStatusForm;
-
           let obj = {
             customerNo: this.rowData.bussinessNo,
             settleMode: payStatusForm.settleMode,
-            t0CashCostFixed: parseFloat(payStatusForm.t0CashCostFixed),
             wechatRate: utils.accMul(
               parseFloat(payStatusForm.wechatRate),
               0.01
             ),
             alipayRate: utils.accMul(parseFloat(payStatusForm.alipayRate), 0.01)
           };
+          if (payStatusForm.settleMode == "T0") {
+            obj.t0CashCostFixed = parseFloat(payStatusForm.t0CashCostFixed);
+            // 开通
+          } else {
+            obj.t0CashCostFixed = 0;
+          }
+          this.saveLoading = true;
           completeConvergeProduct()(obj).then(data => {
             if (data.code === "00") {
               // 下一步
@@ -110,6 +115,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }

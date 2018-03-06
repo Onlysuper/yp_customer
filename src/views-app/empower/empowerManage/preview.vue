@@ -1,4 +1,5 @@
 <template>
+  <!-- 预览 -->
   <full-page class="page">
     <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>

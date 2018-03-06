@@ -8,7 +8,7 @@
     </div>
     <!-- {{rowData}} {{customerTypeSelected}} -->
     <!-- 聚合支付开通 start -->
-    <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
+    <component @titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
     </component>
   </div>
 
@@ -34,6 +34,7 @@ import paystatusUpload from "./paystatusUpload";
 import paystatusSuccess from "./paystatusSuccess";
 
 import elecstatusInfo from "./elecstatusInfo"; // 电子发票
+import qrcodeInfo from "./qrcodeInfo"; // 快速开票
 import {
   getBankList,
   completeSettleInfo,
@@ -57,7 +58,8 @@ export default {
     paystatusGoods,
     paystatusUpload,
     paystatusSuccess,
-    elecstatusInfo
+    elecstatusInfo,
+    qrcodeInfo
   },
   mixins: [mixinsPc],
   data() {
@@ -77,7 +79,7 @@ export default {
       this.currentChildView = ""; // 聚合详情
       if (value == "qrcodeStatus") {
         // 快速开票
-        this.qrcodeStatusVisible = true;
+        this.currentChildView = "qrcodeInfo";
       } else if (value == "elecStatus") {
         // 电子发票
         this.currentChildView = "elecstatusInfo";
@@ -106,6 +108,9 @@ export default {
       });
       this.payStatusForm.customerType = check ? check.value : "";
       this.customerTypeChange(check ? check.value : "");
+    },
+    titleChange(value) {
+      this.$emit("titleChange", value);
     }
   },
   created() {},
@@ -117,7 +122,11 @@ export default {
   watch: {
     currentChildView(value) {
       this.$emit("titleChange", value);
-      if (value == "paystatusInfo" || value == "elecstatusInfo") {
+      if (
+        value == "paystatusInfo" ||
+        value == "elecstatusInfo" ||
+        value == "qrcodeInfo"
+      ) {
         this.selectTypeVisible = true;
       } else {
         this.selectTypeVisible = false;

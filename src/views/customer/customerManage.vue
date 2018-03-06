@@ -230,20 +230,20 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12">
+          <el-col :span="24">
             <div class="grid-content bg-purple">
               <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
                 <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
                 <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
               </el-form-item>
             </div>
-          </el-col>
+          </el-col> -->
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -609,7 +609,7 @@ export default {
               }
             }
           },
-          { key: "入网时间", word: "createTime", width: "170" }
+          { key: "入网时间", word: "createTime", width: "" }
         ],
         operation: {
           width: "130px",
@@ -857,10 +857,10 @@ export default {
       const extension2 = file.name.split(".")[1] === "numbers";
       const isLt2M = file.size / 1024 / 1024 < 10;
       if (!extension && !extension2) {
-        this.$message.error("上传文件只能是 xlsx 格式!");
+        this.$message.error("上传文件只能是 xlsx numbers格式!");
       }
       this.saveLoading = false;
-      return extension;
+      return (extension || extension2) && isLt2M;
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -881,16 +881,16 @@ export default {
     }
   },
   computed: {
-    editFormCustomerFrom() {
-      // 表单内用户来源显示状态客户来源
-      if (this.editForm.customerFrom == "OPEN_API") {
-        return "第三方";
-      } else if (this.editForm.customerFrom == "PLUGIN") {
-        return "插件";
-      } else if (this.editForm.customerFrom == "LOCAL") {
-        return "后台";
-      }
-    }
+    // editFormCustomerFrom() {
+    //   // 表单内用户来源显示状态客户来源
+    //   if (this.editForm.customerFrom == "OPEN_API") {
+    //     return "第三方";
+    //   } else if (this.editForm.customerFrom == "PLUGIN") {
+    //     return "插件";
+    //   } else if (this.editForm.customerFrom == "LOCAL") {
+    //     return "后台";
+    //   }
+    // }
   },
   mounted() {}
 };

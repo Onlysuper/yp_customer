@@ -114,11 +114,11 @@ const mixinDataTable = {
         },
         adminOperationAll() {
             // 用户按钮权限
-            return this.$store.state.moduleLayour.userMessage.all;
+            return this.$store.state.userInfoAndMenu.userMessage.all;
         }
     },
     mounted() {
-        this.$store.commit("initSearchVisibleFn");
+        // this.$store.commit("initSearchVisibleFn");
     }
 }
 export {
