@@ -262,8 +262,8 @@
         <el-button @click="detailsFormVisible = false">取 消</el-button>
         <el-button :disabled="deitDisabled_edit(selectOptions.customerType,detailsForm)" v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
 
-        <el-button :disabled="deitDisabled_check(selectOptions.customerType,detailsForm)" v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
-        <el-button :disabled="deitDisabled_check(selectOptions.customerType,detailsForm)" v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
+        <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
+        <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
       </div>
     </el-dialog>
     <!-- 详情 end -->
@@ -791,7 +791,8 @@ export default {
               text: "查询",
               color: "#00c1df",
               cb: rowdata => {
-                this.checkVisiblebut = false;
+                // this.checkVisiblebut = false;
+                this.checkVisibleFn(false);
                 this.searchDetail = true;
                 this.rowData = rowdata;
                 if (
@@ -868,7 +869,8 @@ export default {
               },
               color: "#00c1df",
               cb: rowdata => {
-                this.checkVisiblebut = true;
+                // this.checkVisiblebut = true;
+                this.checkVisibleFn(true);
                 this.editVisiblebut = false;
                 this.searchDetail = false;
                 this.rowData = rowdata;
@@ -1219,9 +1221,7 @@ export default {
         this.payStatusVisible = true;
       }
     },
-    customerTypeChange() {
-      this.customerTypeSelect();
-    },
+
     titleChange(currentView) {
       if (currentView == "paystatusInfo") {
         this.productOpenTitle = "完善信息";
@@ -1253,13 +1253,22 @@ export default {
         type == "elecStatus" &&
         (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING")
       ) {
-        return false;
+        // 需要审核按钮系列
+        this.checkVisibleFn(true);
       } else {
-        return true;
+        // 不需要审核按钮系列
+        this.checkVisibleFn(false);
       }
+    },
+    checkVisibleFn(resault) {
+      this.checkVisiblebut = resault;
+    },
+    customerTypeChange() {
+      let customerType = this.selectOptions.customerType;
+      this.deitDisabled_check(customerType, this.rowData);
+      this.customerTypeSelect();
     }
   },
-
   computed: {},
   watch: {
     editFormVisible(value) {
