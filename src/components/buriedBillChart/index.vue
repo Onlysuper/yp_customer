@@ -188,15 +188,15 @@ export default {
   computed: {
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     },
     getDataUrl() {
       // 获取父页面传递的get参数
       return this.tableDataInit.getDataUrl;
-    },
-    visibleinput() {
-      return this.$store.state.topSearch.visibleinput;
     }
+    // visibleinput() {
+    //   return this.$store.state.topSearch.visibleinput;
+    // }
   }
 };
 </script>

@@ -20,11 +20,11 @@ const mixinsPc = {
     },
     mounted() {
       // 顶部搜索初始化为普通搜索
-      this.$store.commit("initSearchVisibleFn");
+      // this.$store.commit("initSearchVisibleFn");
     },
     // 按钮权限
     adminFilter(fileterName) {
-      let fileter = this.$store.state.moduleLayour.userMessage.all[fileterName]
+      let fileter = this.$store.state.userInfoAndMenu.userMessage.all[fileterName]
       if (fileter == "TRUE") {
         return true
       } else {
@@ -39,10 +39,10 @@ const mixinsPc = {
       return this.$store.state.Base.oaIp;
     },
     userBussinessNo() {
-      return this.$store.state.moduleLayour.userMessage.all.userBussinessNo;
+      return this.$store.state.userInfoAndMenu.userMessage.all.userBussinessNo;
     },
     userType() {
-      return this.$store.state.moduleLayour.userMessage.all.userType;
+      return this.$store.state.userInfoAndMenu.userMessage.all.userType;
     }
   }
 }

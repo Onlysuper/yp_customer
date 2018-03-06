@@ -70,7 +70,7 @@
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
           <span>同意《开通支付协议》
-            <span @click="agreeShowFn">查看详情</span>
+            <span class="show" @click="agreeShowFn">查看详情</span>
           </span>
         </div>
       </el-form>
@@ -79,7 +79,7 @@
         <el-button :loading="saveLoading" type="primary" @click="editSave()">下一步</el-button>
       </div>
     </div>
-    <component v-if="agreementVisible" :is="currentChildView" @goback="goback">
+    <component v-if="agreementVisible" :is="currentChildView" @goback_c="goback_c">
     </component>
   </div>
 </template>
@@ -90,6 +90,9 @@
   .agree-box {
     text-align: center;
     padding: 0px 0 20px 0;
+    .agree-box {
+      cursor: pointer;
+    }
   }
   .paystatusUpload-box {
     .avatar-uploader .el-upload {
@@ -468,10 +471,12 @@ export default {
     agreeShowFn() {
       this.agreementVisible = true;
       this.formVisible = false;
+      this.$emit("titleChange", "协议");
     },
-    goback() {
+    goback_c() {
       this.agreementVisible = false;
       this.formVisible = true;
+      this.$emit("titleChange", "上传资质");
     },
     // 回显
     getCustomerEcho() {

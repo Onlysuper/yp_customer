@@ -9,7 +9,7 @@
         <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
         </el-table-column>
 
-        <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :width="item.width" :sortable="item.sortable">
+        <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :min-width="item.width" :sortable="item.sortable">
           <!-- <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable"> -->
           <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
             <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
@@ -239,7 +239,6 @@ export default {
     //假刷新
     unrealReload() {
       let arr_ = this.tableData;
-      // console.log(arr_);
       this.tableData = [];
       this.$nextTick(() => {
         this.tableData = arr_;
@@ -337,7 +336,7 @@ export default {
   computed: {
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     },
     getDataUrl() {
       // 获取父页面传递的get参数
@@ -351,9 +350,9 @@ export default {
       // 是否显示选择框
       return this.tableDataInit.havecheck ? this.tableDataInit.havecheck : true;
     },
-    visibleinput() {
-      return this.$store.state.topSearch.visibleinput;
-    },
+    // visibleinput() {
+    //   return this.$store.state.topSearch.visibleinput;
+    // },
     fullScreen() {
       return this.$store.state.fullScreen.isFullscreen;
     }

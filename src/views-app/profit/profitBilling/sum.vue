@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     isAdmin() {
-      let user = this.$store.state.moduleLayour.userMessage.all;
+      let user = this.$store.state.userInfoAndMenu.userMessage.all;
       if (user.userType === "admin" || user.userType === "branchOffice") {
         return true;
       } else {

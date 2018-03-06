@@ -42,7 +42,7 @@ export default {
   components: { SliderNav },
   data() {
     return {
-      munes: this.$store.state.moduleLayour.menuList[
+      munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",

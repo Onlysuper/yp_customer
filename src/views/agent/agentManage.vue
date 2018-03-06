@@ -319,7 +319,7 @@ export default {
       agentNo: "", // 合伙人编号
       agentName: "" // 合伙人名称
     };
-    var user = this.$store.state.moduleLayour.userMessage.all;
+    var user = this.$store.state.userInfoAndMenu.userMessage.all;
 
     var hideData = !(
       user.userType === "admin" ||
@@ -628,20 +628,11 @@ export default {
         if (valid) {
           this.saveLoading = true;
           var addForm = this.addForm;
-          // 初始化查询条件
-          // this.resetSearchHandle();
-          postAddAgentManage()({
-            agentName: addForm.agentName || "",
-            linkMan: addForm.linkMan || "",
-            phoneNo: addForm.phoneNo || "",
-            fixedPhone: addForm.fixedPhone || "",
-            province: addForm.agentArea[0] || "",
-            city: addForm.agentArea[1] || addForm.agentArea[0] || "",
-            orgCode:
-              addForm.agentArea[2] ||
-              addForm.agentArea[1] ||
-              addForm.agentArea[0] ||
-              "",
+          let obj = {
+            agentName: addForm.agentName ? addForm.agentName : "",
+            linkMan: addForm.linkMan ? addForm.linkMan : "",
+            phoneNo: addForm.phoneNo ? addForm.phoneNo : "",
+            fixedPhone: addForm.fixedPhone ? addForm.fixedPhone : "",
             accountName: addForm.accountName || "",
             accountNo: addForm.accountNo || "",
             accountType: addForm.accountType || 0,
@@ -659,7 +650,17 @@ export default {
             subsidy: addForm.subsidy || "",
             intermediary: addForm.intermediary || "",
             rebate: addForm.rebate || ""
-          }).then(data => {
+          };
+          if (addForm.agentArea) {
+            obj.province = addForm.agentArea[0] ? addForm.agentArea[0] : "";
+            obj.city = addForm.agentArea[1] || addForm.agentArea[0] || "";
+            obj.orgCode =
+              addForm.agentArea[2] ||
+              addForm.agentArea[1] ||
+              addForm.agentArea[0] ||
+              "";
+          }
+          postAddAgentManage()(obj).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -676,7 +677,6 @@ export default {
                 center: true
               });
             } else {
-              console.log(data);
               this.$message({
                 message: data.msg,
                 type: "warning",
@@ -699,35 +699,48 @@ export default {
             agentName: editForm.agentName,
             agentNo: editForm.agentNo,
             linkMan: editForm.linkMan,
-            phoneNo: editForm.phoneNo || "",
-            fixedPhone: editForm.fixedPhone || "",
-            province: editForm.agentArea[0] || "",
-            city: editForm.agentArea[1] || editForm.agentArea[0] || "",
-            orgCode:
+            phoneNo: editForm.phoneNo ? editForm.phoneNo : "",
+            fixedPhone: editForm.fixedPhone ? editForm.fixedPhone : "",
+            isCreateKey: editForm.isCreateKey ? editForm.isCreateKey : "",
+            redirectUrl: editForm.redirectUrl ? editForm.redirectUrl : "",
+            subsidy: editForm.subsidy ? editForm.subsidy : "",
+            intermediary: editForm.intermediary ? editForm.intermediary : "",
+            rebate: editForm.rebate ? editForm.rebate : ""
+          };
+          if (editForm.hasOwnProperty("agentArea")) {
+            sendObj.province = editForm.agentArea[0] || "";
+            sendObj.city = editForm.agentArea[1] || editForm.agentArea[0] || "";
+            sendObj.orgCode =
               editForm.agentArea[2] ||
               editForm.agentArea[1] ||
               editForm.agentArea[0] ||
-              "",
-
-            isCreateKey: editForm.isCreateKey || "",
-            redirectUrl: editForm.redirectUrl || "",
-            subsidy: editForm.subsidy || "",
-            intermediary: editForm.intermediary || "",
-            rebate: editForm.rebate || ""
-          };
-          if (this.visibleEditBank) {
-            sendObj.accountName = editForm.accountName || "";
-            sendObj.accountNo = editForm.accountNo || "";
-            sendObj.accountType = editForm.accountType || 0;
-            sendObj.provinceId = editForm.bankArea[0] || "";
-            sendObj.cityId = editForm.bankArea[1] || editForm.bankArea[0] || "";
-            sendObj.bankOrgCode =
-              editForm.bankArea[2] ||
-              editForm.bankArea[1] ||
-              editForm.bankArea[0] ||
               "";
-            sendObj.bankCode = editForm.bankCode || "";
-            sendObj.unionCode = editForm.unionCode || "";
+          }
+          if (this.visibleEditBank) {
+            sendObj.accountName = editForm.accountName
+              ? editForm.accountName
+              : "";
+            sendObj.accountNo = editForm.accountNo ? editForm.accountNo : "";
+            sendObj.accountType = editForm.accountType
+              ? editForm.accountType
+              : 0;
+            if (editForm.hasOwnProperty("bankArea")) {
+              sendObj.provinceId = editForm.bankArea[0]
+                ? editForm.bankArea[0]
+                : "";
+              sendObj.provinceId = editForm.bankArea[0]
+                ? editForm.bankArea[0]
+                : "";
+              sendObj.cityId =
+                editForm.bankArea[1] || editForm.bankArea[0] || "";
+              sendObj.bankOrgCode =
+                editForm.bankArea[2] ||
+                editForm.bankArea[1] ||
+                editForm.bankArea[0] ||
+                "";
+            }
+            sendObj.bankCode = editForm.bankCode ? editForm.bankCode : "";
+            sendObj.unionCode = editForm.unionCode ? editForm.unionCode : "";
           }
           postEditAgentManage()(sendObj).then(data => {
             if (data.code === "00") {
@@ -752,15 +765,21 @@ export default {
       });
     }
   },
+  watch: {
+    editFormVisible(value) {
+      if (!value) {
+        this.saveLoading = false;
+      }
+    }
+  },
   computed: {
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     },
-
     // 新增输入框标题
     addTitle() {
-      let user = this.$store.state.moduleLayour.userMessage.all;
+      let user = this.$store.state.userInfoAndMenu.userMessage.all;
       if (user.userType == "admin") {
         return "新增分公司";
       } else if (user.userType == "branchOffice") {

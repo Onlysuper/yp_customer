@@ -653,18 +653,18 @@ export default {
   computed: {
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     },
     qr_code_reciept_audit_agent() {
-      return this.$store.state.moduleLayour.userMessage.all
+      return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_agent;
     },
     qr_code_reciept_audit_admin() {
-      return this.$store.state.moduleLayour.userMessage.all
+      return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_admin;
     },
     qr_code_reciept_audit_all() {
-      return this.$store.state.moduleLayour.userMessage.all
+      return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_all;
     }
   },

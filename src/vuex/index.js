@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import moduleLayour from "@src/vuex/layout/layout"
-import topSearch from "@src/vuex/topSearch/topSearch"
+import userInfoAndMenu from "@src/vuex/userInfoAndMenu/userInfoAndMenu"
+// import topSearch from "@src/vuex/topSearch/topSearch"
 import Base from "@src/vuex/base/base"
 import tagsView from "@src/vuex/tagsView/tagsView"
 import fullScreen from "@src/vuex/fullScreen/fullScreen"
@@ -32,8 +32,8 @@ const store = new Vuex.Store({
         }
     },
     modules: {
-        moduleLayour: moduleLayour,
-        topSearch: topSearch,
+        userInfoAndMenu: userInfoAndMenu,
+        // topSearch: topSearch,
         // InputValidation: InputValidation,
         Base: Base,
         tagsView: tagsView,

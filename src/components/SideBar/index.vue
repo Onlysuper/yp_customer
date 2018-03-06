@@ -80,14 +80,14 @@
       font-size: 24px;
     }
     // 当前选中的颜色
-    .el-submenu.is-active {
-      .el-submenu__title {
-        background: #000;
-        &:hover {
-          background: #000 !important;
-        }
-      }
-    }
+    // .el-submenu.is-active {
+    //   .el-submenu__title {
+    //     background: #000;
+    //     &:hover {
+    //       background: #000 !important;
+    //     }
+    //   }
+    // }
   }
   // .el-menu-vertical {
   //   margin-top: 54px;
@@ -139,6 +139,7 @@
     height: 100%;
     flex-direction: column;
     .logo-box {
+      min-width: 66px;
       // position: absolute;
       // z-index: 999;
       // height: 54px;
@@ -224,10 +225,10 @@ export default {
   },
   computed: {
     isCollapse() {
-      return this.$store.state.moduleLayour.isCollapse;
+      return this.$store.state.userInfoAndMenu.isCollapse;
     },
     menuList() {
-      return this.$store.state.moduleLayour.menuList;
+      return this.$store.state.userInfoAndMenu.menuList;
     }
   },
   mounted() {

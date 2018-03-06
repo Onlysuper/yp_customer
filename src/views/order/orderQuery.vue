@@ -101,9 +101,9 @@ export default {
           type: "text", // 表单类型
           label: "代理商编号", // 输入框前面的文字
           visible:
-            this.$store.state.moduleLayour.userMessage.all.userType ==
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.moduleLayour.userMessage.all.userType == "root"
+            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -337,12 +337,9 @@ export default {
   methods: {},
   mounted() {},
   computed: {
-    // userType() {
-    //   return this.$store.state.moduleLayour.userMessage.userType;
-    // },
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     }
   }
 };

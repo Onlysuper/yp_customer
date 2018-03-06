@@ -221,6 +221,11 @@ export default {
                     text: "其他",
                     type: "danger"
                   };
+                case "HOST_D":
+                  return {
+                    text: "电子发票版本",
+                    type: "danger"
+                  };
                 default:
                   return {
                     text: data,
@@ -366,6 +371,10 @@ export default {
         {
           label: "MANUAL: 其他",
           value: "MANUAL"
+        },
+        {
+          label: "HOST_D: 电子发票版本",
+          value: "HOST_D"
         }
       ],
       isForce_options: [

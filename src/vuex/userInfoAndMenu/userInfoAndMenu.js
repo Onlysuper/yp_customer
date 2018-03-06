@@ -1,6 +1,6 @@
 import { MenuGet, UserGet } from "@src/apis"
 import { Toast } from "mint-ui";
-const Layout = {
+const userInfoAndMenu = {
     state: {
         userMessage: { // 管理员信息
             all: "",
@@ -89,4 +89,4 @@ const Layout = {
     }
 };
 
-export default Layout
+export default userInfoAndMenu

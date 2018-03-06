@@ -37,9 +37,9 @@ export default {
   mixins: [scrollBehavior],
   components: { SliderNav, sum },
   data() {
-    var user = this.$store.state.moduleLayour.userMessage.all;
+    var user = this.$store.state.userInfoAndMenu.userMessage.all;
     return {
-      munes: this.$store.state.moduleLayour.menuList[
+      munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
@@ -58,7 +58,7 @@ export default {
       sumData: state => state.profitBilling.sumData
     }),
     isAdmin() {
-      let user = this.$store.state.moduleLayour.userMessage.all;
+      let user = this.$store.state.userInfoAndMenu.userMessage.all;
       if (user.userType === "admin" || user.userType === "branchOffice") {
         return true;
       } else {

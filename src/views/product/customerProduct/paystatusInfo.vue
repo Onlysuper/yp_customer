@@ -1,6 +1,23 @@
 <template>
-  <div>
-    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
+  <div class="paystatusInfo-box">
+    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="120px">
+      <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+        <el-input :disabled="true" v-model="payStatusForm.enterpriseName" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+        <el-input :disabled="true" v-model="payStatusForm.taxNo" auto-complete="off"></el-input>
+      </el-form-item>
+      <div class="bussinessLicense-box">
+        <el-form-item class="" label="营业执照期限" prop="bussinessLicenseEffectiveBegin" :label-width="formLabelWidth">
+          <el-date-picker value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.bussinessLicenseEffectiveBegin" type="date" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item class="full-width" label="至" prop="bussinessLicenseEffectiveEnd" label-width="30px">
+          <el-date-picker value-format="yyyy-MM-dd" v-model="payStatusForm.bussinessLicenseEffectiveEnd" type="date" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+      </div>
+      <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
         </el-cascader>
@@ -8,58 +25,27 @@
       <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
       </el-form-item>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
-              <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="身份证号" prop="idCard" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
-              <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
-                <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="邮箱" prop="contactEmail" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
-              <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
-                <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
-          </el-form-item>
-
-        </el-col>
-      </el-row>
-      <!-- <el-form-item label="账户名称" prop="accountNo" :label-width="formLabelWidth">
+      <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="身份证号" prop="idCard" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
+        <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
+          <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
+        <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
+          <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
       </el-form-item>
@@ -90,8 +76,18 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.dialog-footer {
-  text-align: center;
+.paystatusInfo-box {
+  .dialog-footer {
+    text-align: center;
+  }
+  .bussinessLicense-box {
+    display: flex;
+  }
+  .full-width {
+    .el-date-editor.el-input {
+      width: 100%;
+    }
+  }
 }
 </style>
 <script>
@@ -123,7 +119,7 @@ export default {
   data() {
     return {
       currentChildView: "",
-      formLabelWidth: "100px",
+      formLabelWidth: "120px",
       bankOptions: banks,
       slotsActions: bussinessTypeJson,
       optionsArea: regionData, //省市县插件
@@ -145,9 +141,10 @@ export default {
           }
         ]
       },
-      formLabelWidth: "100px",
       payStatusForm: {
         customerType: this.customerTypeSelected[0].value,
+        bussinessLicenseEffectiveBegin: "",
+        bussinessLicenseEffectiveEnd: "",
         category: "",
         accountType: "",
         bankCode: "",
@@ -156,6 +153,12 @@ export default {
         bankArea: [] // 必须为数组
       },
       payStatusFormRules: {
+        bussinessLicenseEffectiveBegin: [
+          { required: true, message: "请选择经营执照开始时间", trigger: "blur" }
+        ],
+        bussinessLicenseEffectiveEnd: [
+          { required: true, message: "请选择经营执照结束时间", trigger: "blur" }
+        ],
         Area: [{ required: true, message: "请输入经营区域", trigger: "blur" }],
         bussinessAddress: [
           { required: true, message: "请输入详细地址", trigger: "blur" }
@@ -169,9 +172,9 @@ export default {
         category: [
           { required: true, message: "请选择行业类型", trigger: "blur" }
         ],
-        contactEmail: [
-          // { required: true, message: "请输入有效邮箱", trigger: "blur" }
-        ],
+        // contactEmail: [
+        //   // { required: true, message: "请输入有效邮箱", trigger: "blur" }
+        // ],
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur" }
         ],
@@ -215,10 +218,16 @@ export default {
               payStatusForm.Area[1] ||
               payStatusForm.Area[0] ||
               "",
+            // enterpriseName: payStatusForm.enterpriseName, // 企业名称
+            // taxNo: payStatusForm.taxNo, // 企业税号
+            bussinessLicenseEffectiveBegin:
+              payStatusForm.bussinessLicenseEffectiveBegin, // 营业执照开始时间
+            bussinessLicenseEffectiveEnd:
+              payStatusForm.bussinessLicenseEffectiveEnd, // 营业执照结束时间
             bussinessAddress: payStatusForm.bussinessAddress,
             legalPerson: payStatusForm.legalPerson,
             idCard: payStatusForm.idCard,
-            contactEmail: payStatusForm.contactEmail,
+            // contactEmail: payStatusForm.contactEmail,
             category: payStatusForm.category,
             accountNo: payStatusForm.accountNo,
             accountType: payStatusForm.accountType,
@@ -228,6 +237,7 @@ export default {
             bankName: bankName,
             phoneNo: payStatusForm.phoneNo
           };
+          // console.log(JSON.stringify(obj));
           this.saveLoading = true;
           completeSettleInfo()(obj).then(data => {
             if (data.code === "00") {
@@ -303,11 +313,18 @@ export default {
           if (customerData.orgCode) {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
           }
+
+          this.payStatusForm.enterpriseName = customerData.enterpriseName;
+          this.payStatusForm.taxNo = customerData.taxNo;
+          this.payStatusForm.bussinessLicenseEffectiveBegin =
+            customerData.bussinessLicenseEffectiveBegin;
+          this.payStatusForm.bussinessLicenseEffectiveEnd =
+            customerData.bussinessLicenseEffectiveEnd;
           this.payStatusForm.bussinessAddress = customerData.bussinessAddress;
           this.payStatusForm.legalPerson = customerData.legalPerson;
           this.payStatusForm.idCard = customerData.idCard;
           this.payStatusForm.category = customerData.category;
-          this.payStatusForm.contactEmail = customerData.contactEmail;
+          // this.payStatusForm.contactEmail = customerData.contactEmail;
           if (settleCard != null) {
             this.payStatusForm.accountType = settleCard.accountType;
             this.payStatusForm.accountNo = settleCard.accountNo;

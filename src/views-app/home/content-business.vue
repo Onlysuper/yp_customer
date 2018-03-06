@@ -1,6 +1,6 @@
 <template>
   <div class="home-business border-top-scale-1px">
-    <div class="mode mode-b-1px _av" @click="toUrl(item.menuCode,index)" v-for="(item,index) in $store.state.moduleLayour.menuList" :key="index" :class="(index+1)%3==0?'':'mode-r-1px'">
+    <div class="mode mode-b-1px _av" @click="toUrl(item.menuCode,index)" v-for="(item,index) in $store.state.userInfoAndMenu.menuList" :key="index" :class="(index+1)%3==0?'':'mode-r-1px'">
       <i :class="'icon icon-'+item.menuCode || 'icon-admin'"></i>
       <div>{{item.menuName}}</div>
     </div>
@@ -18,7 +18,7 @@ export default {
     };
   },
   mounted() {
-    // console.log(this.$store.state.moduleLayour.menuList);
+    // console.log(this.$store.state.userInfoAndMenu.menuList);
   },
   methods: {
     toUrl(menuCode, index) {
