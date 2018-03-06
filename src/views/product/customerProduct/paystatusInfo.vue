@@ -25,47 +25,27 @@
       <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
       </el-form-item>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
-              <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="身份证号" prop="idCard" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="身份证号" prop="idCard" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
         <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
           <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
-              <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
-                <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
-          </el-form-item>
-
-        </el-col>
-      </el-row>
-      <!-- <el-form-item label="账户名称" prop="accountNo" :label-width="formLabelWidth">
+      <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
+        <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
+          <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
       </el-form-item>
