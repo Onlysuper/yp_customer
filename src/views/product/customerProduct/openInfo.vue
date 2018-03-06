@@ -8,7 +8,7 @@
     </div>
     <!-- {{rowData}} {{customerTypeSelected}} -->
     <!-- 聚合支付开通 start -->
-    <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
+    <component @titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
     </component>
   </div>
 
@@ -108,6 +108,9 @@ export default {
       });
       this.payStatusForm.customerType = check ? check.value : "";
       this.customerTypeChange(check ? check.value : "");
+    },
+    titleChange(value) {
+      this.$emit("titleChange", value);
     }
   },
   created() {},

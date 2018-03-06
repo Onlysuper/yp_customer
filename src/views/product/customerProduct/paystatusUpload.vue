@@ -468,10 +468,12 @@ export default {
     agreeShowFn() {
       this.agreementVisible = true;
       this.formVisible = false;
+      this.$emit("titleChange", "协议");
     },
     goback() {
       this.agreementVisible = false;
       this.formVisible = true;
+      this.$emit("titleChange", "上传资质");
     },
     // 回显
     getCustomerEcho() {

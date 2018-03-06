@@ -1231,6 +1231,8 @@ export default {
         this.productOpenTitle = "上传资质";
       } else if (currentView == "paystatusSuccess") {
         this.productOpenTitle = "申请完成";
+      } else {
+        this.productOpenTitle = currentView;
       }
     },
     // 查询详情 编辑按钮显示问题
