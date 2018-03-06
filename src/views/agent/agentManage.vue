@@ -628,20 +628,11 @@ export default {
         if (valid) {
           this.saveLoading = true;
           var addForm = this.addForm;
-          // 初始化查询条件
-          // this.resetSearchHandle();
-          postAddAgentManage()({
-            agentName: addForm.agentName || "",
-            linkMan: addForm.linkMan || "",
-            phoneNo: addForm.phoneNo || "",
-            fixedPhone: addForm.fixedPhone || "",
-            province: addForm.agentArea[0] || "",
-            city: addForm.agentArea[1] || addForm.agentArea[0] || "",
-            orgCode:
-              addForm.agentArea[2] ||
-              addForm.agentArea[1] ||
-              addForm.agentArea[0] ||
-              "",
+          let obj = {
+            agentName: addForm.agentName ? addForm.agentName : "",
+            linkMan: addForm.linkMan ? addForm.linkMan : "",
+            phoneNo: addForm.phoneNo ? addForm.phoneNo : "",
+            fixedPhone: addForm.fixedPhone ? addForm.fixedPhone : "",
             accountName: addForm.accountName || "",
             accountNo: addForm.accountNo || "",
             accountType: addForm.accountType || 0,
@@ -659,7 +650,17 @@ export default {
             subsidy: addForm.subsidy || "",
             intermediary: addForm.intermediary || "",
             rebate: addForm.rebate || ""
-          }).then(data => {
+          };
+          if (addForm.agentArea) {
+            obj.province = addForm.agentArea[0] ? addForm.agentArea[0] : "";
+            obj.city = addForm.agentArea[1] || addForm.agentArea[0] || "";
+            obj.orgCode =
+              addForm.agentArea[2] ||
+              addForm.agentArea[1] ||
+              addForm.agentArea[0] ||
+              "";
+          }
+          postAddAgentManage()(obj).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -676,7 +677,6 @@ export default {
                 center: true
               });
             } else {
-              console.log(data);
               this.$message({
                 message: data.msg,
                 type: "warning",
@@ -717,12 +717,20 @@ export default {
               "";
           }
           if (this.visibleEditBank) {
-            sendObj.accountName = editForm.accountName || "";
-            sendObj.accountNo = editForm.accountNo || "";
-            sendObj.accountType = editForm.accountType || 0;
+            sendObj.accountName = editForm.accountName
+              ? editForm.accountName
+              : "";
+            sendObj.accountNo = editForm.accountNo ? editForm.accountNo : "";
+            sendObj.accountType = editForm.accountType
+              ? editForm.accountType
+              : 0;
             if (editForm.hasOwnProperty("bankArea")) {
-              sendObj.provinceId = editForm.bankArea[0];
-              sendObj.provinceId = editForm.bankArea[0] || "";
+              sendObj.provinceId = editForm.bankArea[0]
+                ? editForm.bankArea[0]
+                : "";
+              sendObj.provinceId = editForm.bankArea[0]
+                ? editForm.bankArea[0]
+                : "";
               sendObj.cityId =
                 editForm.bankArea[1] || editForm.bankArea[0] || "";
               sendObj.bankOrgCode =
@@ -731,9 +739,8 @@ export default {
                 editForm.bankArea[0] ||
                 "";
             }
-            sendObj.bankCode = "bankCode" in editForm ? editForm.bankCode : "";
-            sendObj.unionCode =
-              "unionCode" in editForm ? editForm.unionCode : "";
+            sendObj.bankCode = editForm.bankCode ? editForm.bankCode : "";
+            sendObj.unionCode = editForm.unionCode ? editForm.unionCode : "";
           }
           postEditAgentManage()(sendObj).then(data => {
             if (data.code === "00") {
