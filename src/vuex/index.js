@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import userInfoAndMenu from "@src/vuex/layout/layout"
+import userInfoAndMenu from "@src/vuex/userInfoAndMenu/userInfoAndMenu"
 // import topSearch from "@src/vuex/topSearch/topSearch"
 import Base from "@src/vuex/base/base"
 import tagsView from "@src/vuex/tagsView/tagsView"
