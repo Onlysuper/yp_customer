@@ -1328,14 +1328,7 @@ export default {
     }
   },
   mounted() {},
-  computed: {
-    // userBussinessNo() {
-    //   return this.$store.state.moduleLayour.userMessage.userBussinessNo;
-    // },
-    // userType() {
-    //   return this.$store.state.moduleLayour.userMessage.userType;
-    // }
-  }
+  computed: {}
 };
 </script>
 

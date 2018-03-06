@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       sheetVisible: false,
-      munes: this.$store.state.moduleLayour.menuList[
+      munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",
@@ -70,7 +70,7 @@ export default {
     }),
     adminOperationAll() {
       // 用户按钮权限
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     }
   },
   watch: {

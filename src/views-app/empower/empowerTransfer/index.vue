@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       popupActionsVisible: false,
-      munes: this.$store.state.moduleLayour.menuList[
+      munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",

@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import moduleLayour from "@src/vuex/layout/layout"
+import userInfoAndMenu from "@src/vuex/layout/layout"
 // import topSearch from "@src/vuex/topSearch/topSearch"
 import Base from "@src/vuex/base/base"
 import tagsView from "@src/vuex/tagsView/tagsView"
@@ -32,7 +32,7 @@ const store = new Vuex.Store({
         }
     },
     modules: {
-        moduleLayour: moduleLayour,
+        userInfoAndMenu: userInfoAndMenu,
         // topSearch: topSearch,
         // InputValidation: InputValidation,
         Base: Base,

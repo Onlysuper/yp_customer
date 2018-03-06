@@ -207,6 +207,8 @@ export default {
                 message: "密码修改成功",
                 type: "success"
               });
+              this.dialogFormVisible = false;
+              this.escloginfn();
             } else if (data.resultCode == "-404") {
               this.$message({
                 showClose: true,
@@ -244,8 +246,7 @@ export default {
   },
   computed: {
     userMsg() {
-      // console.log(this.$store.state.moduleLayour.userMessage);
-      return this.$store.state.moduleLayour.userMessage;
+      return this.$store.state.userInfoAndMenu.userMessage;
     }
   },
   mounted() {}

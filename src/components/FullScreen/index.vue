@@ -161,10 +161,10 @@ export default {
   },
   computed: {
     isCollapse() {
-      return this.$store.state.moduleLayour.isCollapse;
+      return this.$store.state.userInfoAndMenu.isCollapse;
     },
     menuList() {
-      return this.$store.state.moduleLayour.menuList;
+      return this.$store.state.userInfoAndMenu.menuList;
     }
   },
   mounted() {

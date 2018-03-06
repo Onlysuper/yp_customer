@@ -598,11 +598,11 @@ export default {
   mounted() {},
   computed: {
     userType() {
-      return this.$store.state.moduleLayour.userMessage.all.userType;
+      return this.$store.state.userInfoAndMenu.userMessage.all.userType;
     },
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     }
   }
 };

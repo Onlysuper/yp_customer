@@ -12,7 +12,6 @@
         </header>
         <!-- form start -->
         <div class="login-form">
-          <!-- {{$store.state.moduleLayour.userMessage}} -->
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="top" label-width="100px" class="demo-ruleForm form-r">
             <el-form-item prop="username">
               <el-input class="input-reset" v-model="ruleForm.username" prefix-icon placeholder="请输入易票账号/手机号"></el-input>

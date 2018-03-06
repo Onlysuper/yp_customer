@@ -1,17 +1,19 @@
 <template>
   <div>
-    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
-      <el-form-item class="full-width" label="商户全称" prop="bussinessAddress" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="150px">
+      <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+        <el-input :disabled="true" v-model="payStatusForm.enterpriseName" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item class="full-width" label="商户简称" prop="bussinessAddress" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      <el-form-item class="full-width" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+        <el-input :disabled="true" v-model="payStatusForm.taxNo" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item class="full-width" label="营业执照开始时间" prop="bussinessAddress" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      <el-form-item class="full-width" label="营业执照开始时间" prop="bussinessLicenseEffectiveBegin" :label-width="formLabelWidth">
+        <el-date-picker value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.bussinessLicenseEffectiveBegin" type="date" placeholder="选择日期">
+        </el-date-picker>
       </el-form-item>
-      <el-form-item class="full-width" label="营业执照结束时间" prop="bussinessAddress" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      <el-form-item class="full-width" label="营业执照结束时间" prop="bussinessLicenseEffectiveEnd" :label-width="formLabelWidth">
+        <el-date-picker value-format="yyyy-MM-dd" v-model="payStatusForm.bussinessLicenseEffectiveEnd" type="date" placeholder="选择日期">
+        </el-date-picker>
       </el-form-item>
       <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
@@ -35,23 +37,12 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row>
-        <el-col :span="12">
-          <div class="grid-content bg-purple">
-            <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
-              <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
-                <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="邮箱" prop="contactEmail" :label-width="formLabelWidth">
-            <el-input v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
+        <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
+          <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
+        </el-select>
+      </el-form-item>
       <el-row>
         <el-col :span="12">
           <div class="grid-content bg-purple">
@@ -106,6 +97,11 @@
 .dialog-footer {
   text-align: center;
 }
+.full-width {
+  .el-date-editor.el-input {
+    width: 100%;
+  }
+}
 </style>
 <script>
 import bussinessTypeJson from "@src/data/bussinessType.json";
@@ -136,7 +132,7 @@ export default {
   data() {
     return {
       currentChildView: "",
-      formLabelWidth: "100px",
+      formLabelWidth: "150px",
       bankOptions: banks,
       slotsActions: bussinessTypeJson,
       optionsArea: regionData, //省市县插件
@@ -158,9 +154,10 @@ export default {
           }
         ]
       },
-      formLabelWidth: "100px",
       payStatusForm: {
         customerType: this.customerTypeSelected[0].value,
+        bussinessLicenseEffectiveBegin: "",
+        bussinessLicenseEffectiveEnd: "",
         category: "",
         accountType: "",
         bankCode: "",
@@ -169,6 +166,12 @@ export default {
         bankArea: [] // 必须为数组
       },
       payStatusFormRules: {
+        bussinessLicenseEffectiveBegin: [
+          { required: true, message: "请选择经营执照开始时间", trigger: "blur" }
+        ],
+        bussinessLicenseEffectiveEnd: [
+          { required: true, message: "请选择经营执照结束时间", trigger: "blur" }
+        ],
         Area: [{ required: true, message: "请输入经营区域", trigger: "blur" }],
         bussinessAddress: [
           { required: true, message: "请输入详细地址", trigger: "blur" }
@@ -228,6 +231,12 @@ export default {
               payStatusForm.Area[1] ||
               payStatusForm.Area[0] ||
               "",
+            // enterpriseName: payStatusForm.enterpriseName, // 企业名称
+            // taxNo: payStatusForm.taxNo, // 企业税号
+            bussinessLicenseEffectiveBegin:
+              payStatusForm.bussinessLicenseEffectiveBegin, // 营业执照开始时间
+            bussinessLicenseEffectiveEnd:
+              payStatusForm.bussinessLicenseEffectiveEnd, // 营业执照结束时间
             bussinessAddress: payStatusForm.bussinessAddress,
             legalPerson: payStatusForm.legalPerson,
             idCard: payStatusForm.idCard,
@@ -241,6 +250,7 @@ export default {
             bankName: bankName,
             phoneNo: payStatusForm.phoneNo
           };
+          // console.log(JSON.stringify(obj));
           this.saveLoading = true;
           completeSettleInfo()(obj).then(data => {
             if (data.code === "00") {
@@ -316,6 +326,9 @@ export default {
           if (customerData.orgCode) {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
           }
+
+          this.payStatusForm.enterpriseName = customerData.enterpriseName;
+          this.payStatusForm.taxNo = customerData.taxNo;
           this.payStatusForm.bussinessAddress = customerData.bussinessAddress;
           this.payStatusForm.legalPerson = customerData.legalPerson;
           this.payStatusForm.idCard = customerData.idCard;

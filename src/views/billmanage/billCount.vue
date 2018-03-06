@@ -191,7 +191,7 @@ export default {
   },
   computed: {
     billcountagent_export() {
-      return this.$store.state.moduleLayour.userMessage.all
+      return this.$store.state.userInfoAndMenu.userMessage.all
         .billcountagent_export;
     }
   },

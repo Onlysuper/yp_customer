@@ -51,7 +51,7 @@ export default {
   components: { SliderNav, MypPopupActions },
   data() {
     return {
-      munes: this.$store.state.moduleLayour.menuList[
+      munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
       routeMenuCode: "",

@@ -319,7 +319,7 @@ export default {
       agentNo: "", // 合伙人编号
       agentName: "" // 合伙人名称
     };
-    var user = this.$store.state.moduleLayour.userMessage.all;
+    var user = this.$store.state.userInfoAndMenu.userMessage.all;
 
     var hideData = !(
       user.userType === "admin" ||
@@ -755,12 +755,12 @@ export default {
   computed: {
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     },
 
     // 新增输入框标题
     addTitle() {
-      let user = this.$store.state.moduleLayour.userMessage.all;
+      let user = this.$store.state.userInfoAndMenu.userMessage.all;
       if (user.userType == "admin") {
         return "新增分公司";
       } else if (user.userType == "branchOffice") {

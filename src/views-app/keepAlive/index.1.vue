@@ -15,7 +15,7 @@ export default {
   components: { SliderNav },
   data() {
     return {
-      munes: this.$store.state.moduleLayour.menuList[3].child
+      munes: this.$store.state.userInfoAndMenu.menuList[3].child
     };
   },
   methods: {
@@ -24,7 +24,7 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.state.moduleLayour.menuList[3].child);
+    console.log(this.$store.state.userInfoAndMenu.menuList[3].child);
   }
 };
 </script>

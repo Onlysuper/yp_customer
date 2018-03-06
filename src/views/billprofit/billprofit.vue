@@ -44,7 +44,7 @@ export default {
       settleStatus: "",
       dataTime: thisMonth
     };
-    var user = this.$store.state.moduleLayour.userMessage.all;
+    var user = this.$store.state.userInfoAndMenu.userMessage.all;
     var isAdmin = user.userType === "admin" || user.userType === "branchOffice"; // 运营
     return {
       customerSum: 0,
@@ -243,7 +243,7 @@ export default {
   },
   computed: {
     isAdmin() {
-      let user = this.$store.state.moduleLayour.userMessage.all;
+      let user = this.$store.state.userInfoAndMenu.userMessage.all;
       if (user.userType === "admin" || user.userType === "branchOffice") {
         return true;
       } else {
@@ -252,7 +252,7 @@ export default {
     },
     userAll() {
       // 所有的用户信息
-      return this.$store.state.moduleLayour.userMessage.all;
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     }
   }
 };

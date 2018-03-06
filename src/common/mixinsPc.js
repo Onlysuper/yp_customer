@@ -24,7 +24,7 @@ const mixinsPc = {
     },
     // 按钮权限
     adminFilter(fileterName) {
-      let fileter = this.$store.state.moduleLayour.userMessage.all[fileterName]
+      let fileter = this.$store.state.userInfoAndMenu.userMessage.all[fileterName]
       if (fileter == "TRUE") {
         return true
       } else {
@@ -39,10 +39,10 @@ const mixinsPc = {
       return this.$store.state.Base.oaIp;
     },
     userBussinessNo() {
-      return this.$store.state.moduleLayour.userMessage.all.userBussinessNo;
+      return this.$store.state.userInfoAndMenu.userMessage.all.userBussinessNo;
     },
     userType() {
-      return this.$store.state.moduleLayour.userMessage.all.userType;
+      return this.$store.state.userInfoAndMenu.userMessage.all.userType;
     }
   }
 }

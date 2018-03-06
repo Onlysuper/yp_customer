@@ -377,7 +377,7 @@ export default {
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
-    var user = this.$store.state.moduleLayour.userMessage.all;
+    var user = this.$store.state.userInfoAndMenu.userMessage.all;
     var isAdmin =
       user.userType === "root" ||
       user.userType === "admin" ||
@@ -1231,6 +1231,10 @@ export default {
         this.productOpenTitle = "上传资质";
       } else if (currentView == "paystatusSuccess") {
         this.productOpenTitle = "申请完成";
+      } else if (currentView == "elecstatusInfo") {
+        this.productOpenTitle = "电子发票开通";
+      } else if (currentView == "qrcodeInfo") {
+        this.productOpenTitle = "快速开票";
       } else {
         this.productOpenTitle = currentView;
       }

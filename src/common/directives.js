@@ -62,7 +62,7 @@ mypDirective.install = function (Vue, options) {
         bind: function () { },
         //被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)。
         inserted: function (el, binding, vnode, oldVnode) {
-            let storeUsername = store.state.moduleLayour.userMessage.username;
+            let storeUsername = store.state.userInfoAndMenu.userMessage.username;
             let valueList = binding.value || [];
             valueList.forEach(username => {
                 if (username == storeUsername) {

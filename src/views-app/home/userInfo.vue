@@ -5,13 +5,13 @@
     </mt-header>
     <input-wrapper>
       <mt-cell class="_av" title="名称">
-        {{$store.state.moduleLayour.userMessage.realname}}
+        {{$store.state.userInfoAndMenu.userMessage.realname}}
       </mt-cell>
       <mt-cell class="_av" title="登录帐号">
-        {{$store.state.moduleLayour.userMessage.username}}
+        {{$store.state.userInfoAndMenu.userMessage.username}}
       </mt-cell>
       <mt-cell class="_av" title="我的编号">
-        {{$store.state.moduleLayour.userMessage.bussinessNo}}
+        {{$store.state.userInfoAndMenu.userMessage.bussinessNo}}
       </mt-cell>
     </input-wrapper>
   </full-page>
