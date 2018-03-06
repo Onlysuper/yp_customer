@@ -67,6 +67,9 @@ function checkCode(res) {
         localStorage.setItem("isLogin", "0");
         //写在这里无作用
         // router.replace({ path: "/login" });
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
         return {
             code: "-1",
             msg: "用户过期，请重新登录"

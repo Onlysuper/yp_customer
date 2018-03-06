@@ -113,7 +113,7 @@ router.beforeEach((to, from, next) => {
                     router.addRoutes(asyncNewRoutes)
                     next({ ...to, replace: true })
                 } else {
-                    next("/login")
+                    // next("/login")
                 }
             })
         } else {
