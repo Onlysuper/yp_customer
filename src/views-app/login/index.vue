@@ -45,6 +45,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.ruleForm.username = localStorage.getItem("username") || "";
+  },
   methods: {
     submitForm() {
       Login()({
@@ -54,6 +57,7 @@ export default {
         if (data.code === "00") {
           // 登录成功
           localStorage.setItem("isLogin", "100");
+          localStorage.setItem("username", this.ruleForm.username);
           location.reload();
         } else {
           this.Toast(data.msg);
