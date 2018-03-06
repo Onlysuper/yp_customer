@@ -10,8 +10,8 @@ export default {
     title: '达标详情',
     keepAlive: true,
     requiresAuth: true,
-    parent: "bill-mg",
-    parentname: "开票管理",
+    parent: "",
+    parentname: "",
     role: ['root', 'admin']
   },
   component: r => {

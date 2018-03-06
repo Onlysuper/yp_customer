@@ -81,7 +81,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="goback('close')">关闭</el-button>
-        <el-button type="primary" @click="editSave('editForm')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
       </div>
     </template>
     <!-- 编辑电子发票end -->
@@ -265,6 +265,7 @@ export default {
                 r => r.unionCode == thisForm.unionCode
               ).branchName || thisForm.unionCode;
           }
+          this.saveLoading = true;
           perfectCustomer()({
             customerNo: thisForm.customerNo,
             featureType: thisForm.featureType,
@@ -300,6 +301,7 @@ export default {
               });
             }
             console.log(data);
+            this.saveLoading = false;
           });
         }
       });

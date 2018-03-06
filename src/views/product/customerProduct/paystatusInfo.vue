@@ -83,7 +83,7 @@
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="goback('close')">取消</el-button>
-      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
+      <el-button :loading="saveLoading" type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
 </template>
@@ -228,6 +228,7 @@ export default {
             bankName: bankName,
             phoneNo: payStatusForm.phoneNo
           };
+          this.saveLoading = true;
           completeSettleInfo()(obj).then(data => {
             if (data.code === "00") {
               // 下一步
@@ -239,6 +240,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
           });
         }
       });

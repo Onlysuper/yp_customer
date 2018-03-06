@@ -21,7 +21,7 @@
     </el-form>
     <div center slot="footer" class="dialog-footer">
       <el-button @click="goback('paystatusInfo')">返回</el-button>
-      <el-button type="primary" @click="editSave('payStatusForm')">下一步</el-button>
+      <el-button :loading="saveLoading" type="primary" @click="editSave('payStatusForm')">下一步</el-button>
     </div>
   </div>
 </template>
@@ -103,6 +103,7 @@ export default {
           } else {
             obj.t0CashCostFixed = 0;
           }
+          this.saveLoading = true;
           completeConvergeProduct()(obj).then(data => {
             if (data.code === "00") {
               // 下一步
@@ -114,6 +115,7 @@ export default {
                 center: true
               });
             }
+            this.saveLoading = false;
             console.log(data);
           });
         }
