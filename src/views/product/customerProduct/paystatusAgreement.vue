@@ -2679,7 +2679,7 @@ export default {
   },
   methods: {
     goback() {
-      this.$emit("goback");
+      this.$emit("goback_c");
     }
   },
   created() {},

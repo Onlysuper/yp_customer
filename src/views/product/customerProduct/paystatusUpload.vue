@@ -79,7 +79,7 @@
         <el-button :loading="saveLoading" type="primary" @click="editSave()">下一步</el-button>
       </div>
     </div>
-    <component v-if="agreementVisible" :is="currentChildView" @goback="goback">
+    <component v-if="agreementVisible" :is="currentChildView" @goback_c="goback_c">
     </component>
   </div>
 </template>
@@ -470,7 +470,7 @@ export default {
       this.formVisible = false;
       this.$emit("titleChange", "协议");
     },
-    goback() {
+    goback_c() {
       this.agreementVisible = false;
       this.formVisible = true;
       this.$emit("titleChange", "上传资质");

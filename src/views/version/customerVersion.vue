@@ -137,6 +137,54 @@ export default {
           cb: value => {
             this.searchCondition.status = value;
           }
+        },
+        {
+          corresattr: "type",
+          type: "select",
+          label: "版本类型",
+          show: false,
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "RELEASE",
+              label: "官网版本"
+            },
+            {
+              value: "HOST_C",
+              label: "HOST_C: c++主程序"
+            },
+            {
+              value: "UPDATE_C",
+              label: "UPDATE_C: c++更新程序"
+            },
+            {
+              value: "HOST",
+              label: "HOST: c#主程序"
+            },
+            {
+              value: "UPDATE",
+              label: "UPDATE: c#更新程序"
+            },
+            {
+              value: "HOST_OLD",
+              label: "HOST_OLD: c#老版本主程序"
+            },
+            {
+              value: "UPDATE_OLD",
+              label: "UPDATE_OLD: c#老版本更新程序"
+            },
+            {
+              value: "DATA_COLLECTION ",
+              label: "DATA_COLLECTION: 数据采集程序"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.type = value;
+          }
         }
       ],
       // 列表数据

@@ -139,6 +139,7 @@
     height: 100%;
     flex-direction: column;
     .logo-box {
+      min-width: 66px;
       // position: absolute;
       // z-index: 999;
       // height: 54px;
