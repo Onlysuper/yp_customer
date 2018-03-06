@@ -238,12 +238,11 @@ export default {
     },
     //假刷新
     unrealReload() {
-      // let arr_ = this.tableData;
-      // console.log(arr_);
-      // this.tableData = [];
-      // this.$nextTick(() => {
-      //   this.tableData = arr_;
-      // });
+      let arr_ = this.tableData;
+      this.tableData = [];
+      this.$nextTick(() => {
+        this.tableData = arr_;
+      });
     },
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
@@ -351,9 +350,9 @@ export default {
       // 是否显示选择框
       return this.tableDataInit.havecheck ? this.tableDataInit.havecheck : true;
     },
-    visibleinput() {
-      return this.$store.state.topSearch.visibleinput;
-    },
+    // visibleinput() {
+    //   return this.$store.state.topSearch.visibleinput;
+    // },
     fullScreen() {
       return this.$store.state.fullScreen.isFullscreen;
     }

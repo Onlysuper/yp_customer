@@ -193,10 +193,10 @@ export default {
     getDataUrl() {
       // 获取父页面传递的get参数
       return this.tableDataInit.getDataUrl;
-    },
-    visibleinput() {
-      return this.$store.state.topSearch.visibleinput;
     }
+    // visibleinput() {
+    //   return this.$store.state.topSearch.visibleinput;
+    // }
   }
 };
 </script>

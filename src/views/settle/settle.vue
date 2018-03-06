@@ -645,11 +645,11 @@ export default {
     this.SumHandle();
   },
   computed: {
-    // isAdmin() {
-    //   return !(
-    //     this.$store.state.moduleLayour.userMessage.all.userType === "root"
-    //   );
-    // },
+    isAdmin() {
+      return !(
+        this.$store.state.moduleLayour.userMessage.all.userType === "root"
+      );
+    },
     userAll() {
       // 所有的用户信息
       return this.$store.state.moduleLayour.userMessage.all;

@@ -20,7 +20,7 @@ const mixinsPc = {
     },
     mounted() {
       // 顶部搜索初始化为普通搜索
-      this.$store.commit("initSearchVisibleFn");
+      // this.$store.commit("initSearchVisibleFn");
     },
     // 按钮权限
     adminFilter(fileterName) {

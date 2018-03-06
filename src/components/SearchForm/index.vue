@@ -224,7 +224,7 @@ export default {
     },
     advancSeachfn() {
       // 高级搜索与普通搜索转换
-      this.$store.commit("visibleinputHandle");
+      // this.$store.commit("visibleinputHandle");
       this.visibleinputHandle();
     },
     changeInput(cb, event, type, clearable) {

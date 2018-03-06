@@ -118,7 +118,7 @@ const mixinDataTable = {
         }
     },
     mounted() {
-        this.$store.commit("initSearchVisibleFn");
+        // this.$store.commit("initSearchVisibleFn");
     }
 }
 export {
