@@ -1,6 +1,19 @@
 <template>
   <div>
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
+      <el-form-item class="full-width" label="商户全称" prop="bussinessAddress" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="商户简称" prop="bussinessAddress" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="营业执照开始时间" prop="bussinessAddress" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="营业执照结束时间" prop="bussinessAddress" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      </el-form-item>
+      <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
         </el-cascader>
