@@ -159,7 +159,7 @@ router.beforeEach((to, redirect, next) => {
                         // next()
                     })
                 } else {
-                    next("/login")
+                    // next("/login")
                 }
 
             })
