@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="paystatusInfo-box">
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="150px">
       <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.enterpriseName" auto-complete="off"></el-input>
@@ -7,14 +7,16 @@
       <el-form-item class="full-width" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.taxNo" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item class="full-width" label="营业执照开始时间" prop="bussinessLicenseEffectiveBegin" :label-width="formLabelWidth">
-        <el-date-picker value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.bussinessLicenseEffectiveBegin" type="date" placeholder="选择日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item class="full-width" label="营业执照结束时间" prop="bussinessLicenseEffectiveEnd" :label-width="formLabelWidth">
-        <el-date-picker value-format="yyyy-MM-dd" v-model="payStatusForm.bussinessLicenseEffectiveEnd" type="date" placeholder="选择日期">
-        </el-date-picker>
-      </el-form-item>
+      <div class="bussinessLicense-box">
+        <el-form-item class="" label="营业执照期限" prop="bussinessLicenseEffectiveBegin" :label-width="formLabelWidth">
+          <el-date-picker value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.bussinessLicenseEffectiveBegin" type="date" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item class="full-width" label="至" prop="bussinessLicenseEffectiveEnd" label-width="30px">
+          <el-date-picker value-format="yyyy-MM-dd" v-model="payStatusForm.bussinessLicenseEffectiveEnd" type="date" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+      </div>
       <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
@@ -94,12 +96,17 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.dialog-footer {
-  text-align: center;
-}
-.full-width {
-  .el-date-editor.el-input {
-    width: 100%;
+.paystatusInfo-box {
+  .dialog-footer {
+    text-align: center;
+  }
+  .bussinessLicense-box {
+    display: flex;
+  }
+  .full-width {
+    .el-date-editor.el-input {
+      width: 100%;
+    }
   }
 }
 </style>

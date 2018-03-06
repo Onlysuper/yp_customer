@@ -699,35 +699,41 @@ export default {
             agentName: editForm.agentName,
             agentNo: editForm.agentNo,
             linkMan: editForm.linkMan,
-            phoneNo: editForm.phoneNo || "",
-            fixedPhone: editForm.fixedPhone || "",
-            province: editForm.agentArea[0] || "",
-            city: editForm.agentArea[1] || editForm.agentArea[0] || "",
-            orgCode:
+            phoneNo: editForm.phoneNo ? editForm.phoneNo : "",
+            fixedPhone: editForm.fixedPhone ? editForm.fixedPhone : "",
+            isCreateKey: editForm.isCreateKey ? editForm.isCreateKey : "",
+            redirectUrl: editForm.redirectUrl ? editForm.redirectUrl : "",
+            subsidy: editForm.subsidy ? editForm.subsidy : "",
+            intermediary: editForm.intermediary ? editForm.intermediary : "",
+            rebate: editForm.rebate ? editForm.rebate : ""
+          };
+          if (editForm.hasOwnProperty("agentArea")) {
+            sendObj.province = editForm.agentArea[0] || "";
+            sendObj.city = editForm.agentArea[1] || editForm.agentArea[0] || "";
+            sendObj.orgCode =
               editForm.agentArea[2] ||
               editForm.agentArea[1] ||
               editForm.agentArea[0] ||
-              "",
-
-            isCreateKey: editForm.isCreateKey || "",
-            redirectUrl: editForm.redirectUrl || "",
-            subsidy: editForm.subsidy || "",
-            intermediary: editForm.intermediary || "",
-            rebate: editForm.rebate || ""
-          };
+              "";
+          }
           if (this.visibleEditBank) {
             sendObj.accountName = editForm.accountName || "";
             sendObj.accountNo = editForm.accountNo || "";
             sendObj.accountType = editForm.accountType || 0;
-            sendObj.provinceId = editForm.bankArea[0] || "";
-            sendObj.cityId = editForm.bankArea[1] || editForm.bankArea[0] || "";
-            sendObj.bankOrgCode =
-              editForm.bankArea[2] ||
-              editForm.bankArea[1] ||
-              editForm.bankArea[0] ||
-              "";
-            sendObj.bankCode = editForm.bankCode || "";
-            sendObj.unionCode = editForm.unionCode || "";
+            if (editForm.hasOwnProperty("bankArea")) {
+              sendObj.provinceId = editForm.bankArea[0];
+              sendObj.provinceId = editForm.bankArea[0] || "";
+              sendObj.cityId =
+                editForm.bankArea[1] || editForm.bankArea[0] || "";
+              sendObj.bankOrgCode =
+                editForm.bankArea[2] ||
+                editForm.bankArea[1] ||
+                editForm.bankArea[0] ||
+                "";
+            }
+            sendObj.bankCode = "bankCode" in editForm ? editForm.bankCode : "";
+            sendObj.unionCode =
+              "unionCode" in editForm ? editForm.unionCode : "";
           }
           postEditAgentManage()(sendObj).then(data => {
             if (data.code === "00") {
@@ -752,12 +758,18 @@ export default {
       });
     }
   },
+  watch: {
+    editFormVisible(value) {
+      if (!value) {
+        this.saveLoading = false;
+      }
+    }
+  },
   computed: {
     userAll() {
       // 所有的用户信息
       return this.$store.state.userInfoAndMenu.userMessage.all;
     },
-
     // 新增输入框标题
     addTitle() {
       let user = this.$store.state.userInfoAndMenu.userMessage.all;
