@@ -1,6 +1,6 @@
 <template>
   <div class="paystatusInfo-box">
-    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="150px">
+    <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="120px">
       <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.enterpriseName" auto-complete="off"></el-input>
       </el-form-item>
@@ -139,7 +139,7 @@ export default {
   data() {
     return {
       currentChildView: "",
-      formLabelWidth: "150px",
+      formLabelWidth: "120px",
       bankOptions: banks,
       slotsActions: bussinessTypeJson,
       optionsArea: regionData, //省市县插件
@@ -192,9 +192,9 @@ export default {
         category: [
           { required: true, message: "请选择行业类型", trigger: "blur" }
         ],
-        contactEmail: [
-          // { required: true, message: "请输入有效邮箱", trigger: "blur" }
-        ],
+        // contactEmail: [
+        //   // { required: true, message: "请输入有效邮箱", trigger: "blur" }
+        // ],
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur" }
         ],
@@ -247,7 +247,7 @@ export default {
             bussinessAddress: payStatusForm.bussinessAddress,
             legalPerson: payStatusForm.legalPerson,
             idCard: payStatusForm.idCard,
-            contactEmail: payStatusForm.contactEmail,
+            // contactEmail: payStatusForm.contactEmail,
             category: payStatusForm.category,
             accountNo: payStatusForm.accountNo,
             accountType: payStatusForm.accountType,
@@ -336,11 +336,15 @@ export default {
 
           this.payStatusForm.enterpriseName = customerData.enterpriseName;
           this.payStatusForm.taxNo = customerData.taxNo;
+          this.payStatusForm.bussinessLicenseEffectiveBegin =
+            customerData.bussinessLicenseEffectiveBegin;
+          this.payStatusForm.bussinessLicenseEffectiveEnd =
+            customerData.bussinessLicenseEffectiveEnd;
           this.payStatusForm.bussinessAddress = customerData.bussinessAddress;
           this.payStatusForm.legalPerson = customerData.legalPerson;
           this.payStatusForm.idCard = customerData.idCard;
           this.payStatusForm.category = customerData.category;
-          this.payStatusForm.contactEmail = customerData.contactEmail;
+          // this.payStatusForm.contactEmail = customerData.contactEmail;
           if (settleCard != null) {
             this.payStatusForm.accountType = settleCard.accountType;
             this.payStatusForm.accountNo = settleCard.accountNo;

@@ -28,8 +28,21 @@
               <span class="line-label">商户名称:</span>
               <span class="line-label-last">{{detailsForm.customerName}}</span>
             </div>
+
             <div class="line-label-box">
               <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">企业名称:</span>
+              <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">企业税号:</span>
+              <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">营业执照期限:</span>
+              <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
             </div>
             <div class="line-label-box">
               <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode}}
@@ -46,9 +59,9 @@
             <div class="line-label-box">
               <span class="line-label">行业类型:</span>{{payStatusDetails.category||""}}
             </div>
-            <div class="line-label-box">
+            <!-- <div class="line-label-box">
               <span class="line-label">邮箱:</span>{{payStatusDetails.contactEmail||""}}
-            </div>
+            </div> -->
             <div class="line-label-box">
               <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
             </div>
@@ -437,7 +450,7 @@ export default {
         legalPerson: "", //法人
         idCard: "", //身份证号
         category: "", //行业类型
-        contactEmail: "", //邮箱
+        // contactEmail: "", //邮箱
         accountType: "", //账户类型
         accountName: "", //账户名称
         bankName: "", //开户银行
@@ -1077,7 +1090,10 @@ export default {
         customerNo: rowData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
+        console.log(res);
         if (res.code == "00") {
+          console.log(res.data);
+          // console.log(data.customer.enterpriseName);
           // 聚合支付查询详情
           let data = res.data;
           if (data.customer) {
@@ -1091,7 +1107,13 @@ export default {
             this.payStatusDetails.category =
               data.customer.category &&
               utils.findBussinessType(data.customer.category).name; // 行业类型
-            this.payStatusDetails.contactEmail = data.customer.contactEmail; // 邮箱
+
+            this.payStatusDetails.taxNo = data.customer.taxNo;
+            this.payStatusDetails.enterpriseName = data.customer.enterpriseName;
+            this.payStatusDetails.bussinessLicenseEffectiveBegin =
+              data.customer.bussinessLicenseEffectiveBegin;
+            this.payStatusDetails.bussinessLicenseEffectiveEnd =
+              data.customer.bussinessLicenseEffectiveEnd;
           }
           if (data.settleCard) {
             this.payStatusDetails.accountType = data.settleCard.accountType; //账户类型
@@ -1149,7 +1171,6 @@ export default {
         customerNo: rowData.bussinessNo,
         featureType: "ELECTRONIC"
       }).then(res => {
-        console.log(res);
         if (res.code == "00") {
           let data = res.data;
           if (data.customer) {

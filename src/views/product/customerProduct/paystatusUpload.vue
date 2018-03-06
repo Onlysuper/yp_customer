@@ -70,7 +70,7 @@
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
           <span>同意《开通支付协议》
-            <span @click="agreeShowFn">查看详情</span>
+            <span class="show" @click="agreeShowFn">查看详情</span>
           </span>
         </div>
       </el-form>
@@ -90,6 +90,9 @@
   .agree-box {
     text-align: center;
     padding: 0px 0 20px 0;
+    .agree-box {
+      cursor: pointer;
+    }
   }
   .paystatusUpload-box {
     .avatar-uploader .el-upload {

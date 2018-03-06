@@ -180,6 +180,10 @@ export default {
             {
               value: "DATA_COLLECTION ",
               label: "DATA_COLLECTION: 数据采集程序"
+            },
+            {
+              value: "HOST_D ",
+              label: "HOST_D: 电子发票版本"
             }
           ],
           cb: value => {
@@ -260,6 +264,11 @@ export default {
                 case "MANUAL":
                   return {
                     text: "其他",
+                    type: "danger"
+                  };
+                case "HOST_D":
+                  return {
+                    text: "电子发票版本",
                     type: "danger"
                   };
                 default:
@@ -347,6 +356,10 @@ export default {
         {
           label: "DATA_COLLECTION: 数据采集程序",
           value: "DATA_COLLECTION"
+        },
+        {
+          label: "HOST_D: 电子发票版本",
+          value: "HOST_D"
         }
       ],
       status_options: [
