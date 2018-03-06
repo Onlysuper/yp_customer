@@ -9,6 +9,8 @@
       <div class="add-playinfo">
         <view-radius>
           <input-wrapper>
+            <mt-field label="企业名称:" type="text" v-model="enterpriseName" :disabled="true"></mt-field>
+            <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
             <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -18,7 +20,13 @@
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="营业执照起始日期:" type="text" v-model="form.bussinessLicenseEffectiveBegin" @click.native="$refs.bussinessLicenseEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
+            <mt-field label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" @click.native="$refs.bussinessLicenseEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
+            <!-- <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field> -->
             <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
             <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称"></mt-field> -->
             <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
@@ -40,6 +48,8 @@
     <bank-popup v-model="bankVisible" @bankresult="bankResult"></bank-popup>
     <bank-branch-popup v-model="bankBranchVisible" :bank="bank" @bankbranchresult="bankBranchResult"></bank-branch-popup>
     <bank-search-popup v-model="bankSearchVisible" :api="bankSearchApi" :queryKey="bankBranchQuery" @bankrsearchresult="bankRsearchResult"></bank-search-popup>
+    <mt-datetime-picker v-model="bussinessLicenseEffectiveBeginVal" type="date" :endDate="new Date()" @confirm="setStartDate" ref="bussinessLicenseEffectiveBegin" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+    <mt-datetime-picker v-model="bussinessLicenseEffectiveEndVal" type="date" :endDate="new Date('2049-12-31')" @confirm="setEndDate" ref="bussinessLicenseEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
   </div>
 </template>
 
@@ -50,6 +60,7 @@ import bussinessTypeJson from "@src/data/bussinessType.json";
 import BankPopup from "@src/components-app/BankPopup";
 import BankBranchPopup from "@src/components-app/BankBranchPopup";
 import BankSearchPopup from "@src/components-app/BankSearchPopup";
+import utils from "@src/common/utils";
 import {
   getBankList,
   getCustomerEchoProduct,
@@ -72,9 +83,13 @@ export default {
       bankBranchVisible: false,
       bankSearchVisible: false,
       bankSearchApi: getBankList,
+      enterpriseName: "",
+      taxNo: "",
       form: {
         accountType: "1",
-        legalPerson: ""
+        legalPerson: "",
+        bussinessLicenseEffectiveBegin: "",
+        bussinessLicenseEffectiveEnd: ""
       },
       city: {},
       //银行信息
@@ -85,7 +100,9 @@ export default {
       bankBranch: {},
       slotsActions: bussinessTypeJson,
       bussinessType: { name: "", code: "" },
-      customerNo: this.$route.query["customerNo"]
+      customerNo: this.$route.query["customerNo"],
+      bussinessLicenseEffectiveBeginVal: new Date(),
+      bussinessLicenseEffectiveEndVal: new Date()
     };
   },
   created() {
@@ -107,11 +124,20 @@ export default {
     echoForm(data) {
       let { customer, settleCard } = data;
       if (customer instanceof Object) {
+        this.enterpriseName = customer.enterpriseName;
+        this.taxNo = customer.taxNo;
         let city = this.$refs.CityPicher.findCity(customer.orgCode);
         this.resultCallback(city);
         this.form.legalPerson = customer.legalPerson;
         this.form.bussinessAddress = customer.bussinessAddress;
         this.form.idCard = customer.idCard;
+
+        this.form.bussinessLicenseEffectiveBegin =
+          customer.bussinessLicenseEffectiveBegin;
+
+        this.form.bussinessLicenseEffectiveEnd =
+          customer.bussinessLicenseEffectiveEnd;
+
         this.form.contactEmail = customer.contactEmail;
         let bussinessType = bussinessTypeJson.find(
           item => item.code == customer.category
@@ -174,7 +200,18 @@ export default {
       this.bankBranchVisible = false;
       this.bankBranch = resultObj;
     },
-
+    setStartDate(date) {
+      this.form.bussinessLicenseEffectiveBegin = utils.formatDate(
+        date,
+        "yyyy-MM-dd"
+      );
+    },
+    setEndDate(date) {
+      this.form.bussinessLicenseEffectiveEnd = utils.formatDate(
+        date,
+        "yyyy-MM-dd"
+      );
+    },
     //提交
     submit() {
       let form = {
