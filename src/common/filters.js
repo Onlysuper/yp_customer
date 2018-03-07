@@ -139,6 +139,9 @@ mypFilters.install = function (Vue, options) {
             case "SCAN_CODE":
                 value = "扫码";
                 break;
+            case "OFFICAL_ACCOUNT":
+                value = "公众号";
+                break;
         }
         return "来源" + value;
     })
