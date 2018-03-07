@@ -10,18 +10,9 @@ import router from '../router'
 axios.defaults.withCredentials = true;
 //全局请求拦截器
 axios.interceptors.request.use(function (config) {
-    //loading
     if (window.isMobile == "App") {
         Indicator.open();
     }
-    //  var reg = new RegExp(config.baseURL);
-    //  var apiPath = config.url.replace(reg, "");
-    //  //console.log("请求地址："+apiPath)
-    //  if (apiPath === "/user/login/") {
-    //       //做点什么
-    //  } else {
-    //       config.headers.common['token'] = localStorage.getItem("token") || "";
-    //  }
     return config;
 }, function (error) {
     return Promise.reject(error);
@@ -32,52 +23,86 @@ axios.interceptors.response.use(function (response) {
     if (window.isMobile == "App") {
         Indicator.close();
     }
-    return response;
+    //如果状态吗正常直接返回data中的数据
+    if (response && response.status === 200) {
+
+        //如果登录过期了
+        if (response.data && response.data.code === "01") {
+            localStorage.setItem("isLogin", "0");
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+            return {
+                code: -103,
+                msg: "用户过期，请重新登录"
+            };
+        }
+        return response.data;
+    } else {
+        return {
+            code: -102,
+            msg: "HTTP状态码：" + response.status + "异常"
+        };
+    }
+
+
 }, function (error) {
-    // Toast("网络异常！请尝试刷新页面");
     if (window.isMobile == "App") {
         Indicator.close();
     }
-    // return Promise.resolve(error.response);
+    //请求超时
+    if (error.code == "ECONNABORTED") {
+        // return Promise.reject();
+        return Promise.resolve({
+            code: -100,
+            msg: "请求超时,请检查网络！",
+        });
+    } else {
+        return Promise.resolve({
+            code: -101,
+            msg: "未知错误！ERROR_CODE:" + error.code,
+        });
+    }
 })
 
-function checkStatus(response) {
-    //loading
-    //如果http状态码正常，则直接返回数据
-    if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
+// function checkStatus(response) {
+//     //如果http状态码正常，则直接返回数据
+//     if (response && (response.status === 200 || response.status === 304 || response.status === 400)) {
 
-        return response
-        //如果不需要除了data之外的数据，可以直接 return response.data;
-    }
-    //如果http状态不正常，返回网络异常
-    return {
-        status: -404,
-        msg: "网络异常,请稍后再试"
-    }
-}
-function checkCode(res) {
-    if (res.status === -404) {
-        Indicator.close();
-        return {
-            resultCode: res.status,
-            msg: res.msg
-        };
-    }
-    if (res.data.code === "01") {
-        localStorage.setItem("isLogin", "0");
-        //写在这里无作用
-        // router.replace({ path: "/login" });
-        setTimeout(() => {
-            location.reload();
-        }, 2000);
-        return {
-            code: "-1",
-            msg: "用户过期，请重新登录"
-        };
-    }
-    //直接返回data中的数据
-    return res.data;
-}
+//         return response
+//         //如果不需要除了data之外的数据，可以直接 return response.data;
+//     }
+//     //如果http状态不正常，返回网络异常
+//     return response;
+//     // return {
+//     //     status: -404,
+//     //     msg: "网络异常,请稍后再试"
+//     // }
+// }
+// function checkCode(res) {
+
+//     if (res.status === -404) {
+//         Indicator.close();
+//         return {
+//             resultCode: res.status,
+//             msg: res.msg
+//         };
+//     }
+//     if (res.data.code === "01") {
+//         localStorage.setItem("isLogin", "0");
+//         //写在这里无作用
+//         // router.replace({ path: "/login" });
+//         setTimeout(() => {
+//             location.reload();
+//         }, 2000);
+//         return {
+//             code: "-1",
+//             msg: "用户过期，请重新登录"
+//         };
+//     }
+//     //直接返回data中的数据
+//     return res.data;
+// }
 
 
 export default {
@@ -93,10 +118,6 @@ export default {
                 //使用form表单进行数据交互
                 "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
             },
-        }).then(function (response) {
-            return checkStatus(response)
-        }).then(function (response) {
-            return checkCode(response)
         })
     },
     get: function (baseURL, url, params) {
@@ -109,10 +130,6 @@ export default {
             headers: {
                 "X-requested-With": "XMLHttpRequest"
             }
-        }).then(function (response) {
-            return checkStatus(response)
-        }).then(function (response) {
-            return checkCode(response)
         })
     },
     delete: function (baseURL, url, params) {
@@ -125,10 +142,6 @@ export default {
             // headers: {
             //           "X-requested-With": "XMLHttpRequest"
             // }
-        }).then(function (response) {
-            return checkStatus(response)
-        }).then(function (response) {
-            return checkCode(response)
         })
     },
     put: function (baseURL, url, params) {
@@ -141,10 +154,6 @@ export default {
             // headers: {
             //           "X-requested-With": "XMLHttpRequest"
             // }
-        }).then(function (response) {
-            return checkStatus(response)
-        }).then(function (response) {
-            return checkCode(response)
         })
     },
     patch: function (baseURL, url, params) {
@@ -164,10 +173,6 @@ export default {
             // "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
             // "Content-Type": "application/json;charset=UTF-8"
             // },
-        }).then(function (response) {
-            return checkStatus(response)
-        }).then(function (response) {
-            return checkCode(response)
         })
     },
     delete: function (baseURL, url, params) {
@@ -183,10 +188,6 @@ export default {
             // "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
             // "Content-Type": "application/json;charset=UTF-8"
             // },
-        }).then(function (response) {
-            return checkStatus(response)
-        }).then(function (response) {
-            return checkCode(response)
         })
     }
 }

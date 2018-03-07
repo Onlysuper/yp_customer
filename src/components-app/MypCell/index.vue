@@ -55,7 +55,7 @@
     // }
   }
   .myp-cell-right {
-    min-width: 60px;
+    // min-width: 60px;
     display: flex;
     .right {
       display: block;
