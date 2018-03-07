@@ -16,45 +16,24 @@
     <!-- 新增start -->
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width" label="商品编码" prop="unionNo" :label-width="formLabelWidth">
-                <el-select v-model="addForm.unionNo" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-                <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-                <el-input v-model="addForm.goodsName" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
-                <el-select v-model="addForm.taxRate" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-
-            </div>
-          </el-col>
-        </el-row>
+        <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+          <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
+            <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="addForm.unionNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="addForm.goodsType" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
+          <el-input v-model="addForm.taxRate" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -128,51 +107,30 @@
     <!-- 编辑start -->
     <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="税局编码" prop="unionNo" :label-width="formLabelWidth">
-                <el-select v-model="editForm.unionNo" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.unionNumOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
-                <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+        <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+          <el-select v-model="editForm.goodsName" @change="goodsNameChange($event,'EDIT')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" placeholder="请选择">
+            <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.unionNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.goodsType" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
+          <el-input v-model="editForm.taxRate" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
                 <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
               </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-                <el-input v-model="editForm.goodsName" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
-                <el-select v-model="editForm.taxRate" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.taxRateOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-
             </div>
           </el-col>
           <el-col :span="12">
@@ -249,13 +207,15 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import utils from "@src/common/utils";
 import {
   getCustomerGoods,
   postAddCustomerGood,
   postEditCustomerGood,
   postDeleteCustomerGood,
   postDefaultCustomerGood,
-  postCancelDefaultCustomerGood
+  postCancelDefaultCustomerGood,
+  getsmartgoodscodeCustomerGood
 } from "@src/apis";
 export default {
   name: "customerGoods",
@@ -271,6 +231,8 @@ export default {
       goodsName: "" // 商品名称
     };
     return {
+      selectLoading: false,
+      goodsNameOptions: [], // 商品名称 智能编码
       selectOptions: {
         unionNumOptions: [
           {
@@ -911,6 +873,32 @@ export default {
   },
 
   methods: {
+    // 商品名称智能编码
+    goodsNameGet(value) {
+      this.selectLoading = true;
+      getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
+        let data = res.data;
+        if (res.code == "00") {
+          this.goodsNameOptions = res.data;
+          this.selectLoading = false;
+        }
+      });
+    },
+    //商品名称被改变
+    goodsNameChange(value, type) {
+      let selectObj = this.goodsNameOptions.find(item => {
+        return item.code == value;
+      });
+      if (type == "ADD") {
+        this.addForm.unionNo = selectObj.code;
+        this.addForm.goodsType = selectObj.name;
+        this.addForm.taxRate = selectObj.rate;
+      } else if (type == "EDIT") {
+        this.editForm.unionNo = selectObj.code;
+        this.editForm.goodsType = selectObj.name;
+        this.editForm.taxRate = selectObj.rate;
+      }
+    },
     importDialog() {
       this.importVisible = true;
     },
@@ -992,17 +980,9 @@ export default {
         if (valid) {
           this.saveLoading = true;
           // this.resetSearchHandle();
-          postAddCustomerGood()({
-            unionNo: addForm.unionNo,
-            customerNo: addForm.customerNo,
-            goodsName: addForm.goodsName,
-            model: addForm.model,
-            unit: addForm.unit,
-            unitPrice: addForm.unitPrice,
-            taxRate: addForm.taxRate,
-            enjoyDiscount: addForm.enjoyDiscount,
-            discountType: addForm.discountType
-          }).then(data => {
+          let sendata = { ...addForm };
+          sendata.taxRate = utils.toPoint(sendata.taxRate);
+          postAddCustomerGood()({ ...sendata }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -1034,8 +1014,8 @@ export default {
           let editForm = this.editForm;
           // this.resetSearchHandle();
           postEditCustomerGood(editForm.goodsNo)({
-            unionNo: editForm.unionNo,
             goodsNo: editForm.goodsNo,
+            unionNo: editForm.unionNo,
             customerNo: editForm.customerNo,
             goodsName: editForm.goodsName,
             model: editForm.model,
@@ -1043,7 +1023,8 @@ export default {
             unitPrice: editForm.unitPrice,
             taxRate: editForm.taxRate,
             enjoyDiscount: editForm.enjoyDiscount,
-            discountType: editForm.discountType
+            discountType: editForm.discountType,
+            goodsType: editForm.goodsType
           }).then(data => {
             if (data.code === "00") {
               this.$message({

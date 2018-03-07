@@ -326,6 +326,7 @@ export default {
       user.userType === "branchOffice" ||
       user.userType === "agent"
     );
+    var isAdmin = user.userType === "root" || user.userType === "admin";
     return {
       visibleEditIntermediay: false, // 编辑的分润模块
       visibleEditBank: false, // 编辑的结算模块
@@ -471,6 +472,64 @@ export default {
           cb: value => {
             // 表单输入之后回调函数
             this.searchCondition.phoneNo = value;
+          }
+        },
+        {
+          corresattr: "level", // 只有运营显示
+          visible: !isAdmin ? "TRUE" : "FALSE",
+          type: "select",
+          label: "级别",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "0",
+              label: "分公司"
+            },
+            {
+              value: "1",
+              label: "一级合伙人"
+            },
+            {
+              value: "2",
+              label: "二级合伙人"
+            },
+            {
+              value: "3",
+              label: "三级合伙人"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.level = value;
+          }
+        },
+        {
+          corresattr: "level", // 非运营显示
+          visible: isAdmin ? "TRUE" : "FALSE",
+          type: "select",
+          label: "级别",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "1",
+              label: "本级合伙人"
+            },
+            {
+              value: "2",
+              label: "下级合伙人"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.level = value;
           }
         }
       ],

@@ -47,6 +47,12 @@ export default {
             return ('00' + str).substr(str.length);
         }
     },
+    //百分数转小树
+    toPoint(percent) {
+        var str = percent.replace("%", "");
+        str = str / 100;
+        return str;
+    },
     /**
      * 检测数据类型 isType({},"object") 返回true
      * @param {对象} Obj
@@ -106,6 +112,7 @@ export default {
         let bussinessType = bussinessTypeJson.find(item => item.code == code);
         return bussinessType || {};
     },
+
     /**
      * 根据地区编号获取地区完整省市县名称
      */

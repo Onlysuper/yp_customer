@@ -108,6 +108,7 @@ const postEditCustomerGood = () => { return (params) => { return http.post(base.
 const postDeleteCustomerGood = (path) => { return (params) => { return http.post(base.oaIp, "/customerGoods/delete/" + path, params) } }
 const postDefaultCustomerGood = (path) => { return (params) => { return http.post(base.oaIp, "/customerGoods/configDefault/" + path, params) } }
 const postCancelDefaultCustomerGood = (path) => { return (params) => { return http.post(base.oaIp, "/customerGoods/cancelDefault/" + path, params) } }
+const getsmartgoodscodeCustomerGood = () => { return (params) => { return http.get(base.oaIp, "/invoice/query/smartgoodscode", params) } }
 // end -------------------------------------------------
 /**
 **商户产品start
@@ -338,6 +339,7 @@ export {
     postDeleteCustomerGood,
     postDefaultCustomerGood,
     postCancelDefaultCustomerGood,
+    getsmartgoodscodeCustomerGood,
     // 商户产品
     getCustomerProducts,
     getCheckCustomerProduct,
