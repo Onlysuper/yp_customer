@@ -384,6 +384,8 @@ mypFilters.install = function (Vue, options) {
             case "BROWER":
                 value = "浏览器";
                 break;
+            default:
+            // value = "未知";
         }
         return value;
     })

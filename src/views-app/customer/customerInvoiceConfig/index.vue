@@ -9,12 +9,12 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
 
-        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName || '-- --'">
+        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.createTime">
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.deviceType | handleDeviceType}}</mt-badge>
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="error">{{item.clientType | handleClientType}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.deviceType" class="g-min-badge" size="small" type="primary">{{item.deviceType | handleDeviceType}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.clientType" class="g-min-badge" size="small" type="error">{{item.clientType | handleClientType}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
