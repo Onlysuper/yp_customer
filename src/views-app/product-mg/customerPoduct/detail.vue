@@ -7,12 +7,17 @@
     <template v-if="productType == 'pay'">
       <view-radius>
         <input-wrapper>
+          <mt-cell title="企业名称">{{customer.enterpriseName}}</mt-cell>
+          <mt-cell title="企业税号">{{customer.taxNo}}</mt-cell>
           <mt-cell title="所在地区">{{customer.addr}}</mt-cell>
           <mt-cell title="详细地址">{{customer.bussinessAddress}}</mt-cell>
           <mt-cell title="法人">{{customer.legalPerson}}</mt-cell>
           <mt-cell title="身份证号">{{customer.idCard}}</mt-cell>
           <mt-cell title="行业类别">{{customer.name}}</mt-cell>
-          <mt-cell title="邮箱">{{customer.contactEmail}}</mt-cell>
+          <mt-cell title="营业执照开始日期">{{customer.bussinessLicenseEffectiveBegin}}</mt-cell>
+          <mt-cell title="营业执照结束日期">{{customer.bussinessLicenseEffectiveEnd}}</mt-cell>
+          <mt-cell title="行业类别">{{customer.name}}</mt-cell>
+          <!-- <mt-cell title="邮箱">{{customer.contactEmail}}</mt-cell> -->
           <mt-cell title="结算信息">{{accountTypes[settleCard.accountType]}}</mt-cell>
           <mt-cell title="开户银行">{{settleCard.bankName}}</mt-cell>
           <mt-cell title="开户支行">
@@ -74,12 +79,16 @@ export default {
       productType: this.$route.params["productType"],
       customerNo: this.$route.query["customerNo"],
       customer: {
+        enterpriseName: "",
+        taxNo: "",
         addr: "",
         bussinessAddress: "",
         legalPerson: "",
         name: "",
         idCard: "",
-        contactEmail: ""
+        contactEmail: "",
+        bussinessLicenseEffectiveBegin: "",
+        bussinessLicenseEffectiveEnd: ""
       },
       settleCard: {
         bankName: "",
@@ -142,11 +151,17 @@ export default {
     echoForm(data) {
       let { customer, settleCard, product, imgs } = data;
       if (customer instanceof Object) {
+        this.customer.enterpriseName = customer.enterpriseName;
+        this.customer.taxNo = customer.taxNo;
         this.customer.addr = utils.findCity(customer.orgCode).resultAddr;
         this.customer.bussinessAddress = customer.bussinessAddress;
         this.customer.legalPerson = customer.legalPerson;
         this.customer.idCard = customer.idCard;
         this.customer.contactEmail = customer.contactEmail;
+        this.customer.bussinessLicenseEffectiveBegin =
+          customer.bussinessLicenseEffectiveBegin;
+        this.customer.bussinessLicenseEffectiveEnd =
+          customer.bussinessLicenseEffectiveEnd;
         this.customer.name = utils.findBussinessType(customer.category).name;
       }
       if (settleCard instanceof Object) {
