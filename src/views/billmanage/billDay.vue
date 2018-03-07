@@ -193,6 +193,7 @@ export default {
     exportDialog() {
       // 导出
       var searchForm = qs.stringify(this.searchCondition);
+      console.log("发送信号:" + searchForm);
       getExportBillcountdays(searchForm)().then(data => {
         if (data.code == "00") {
           this.$notify.info({
