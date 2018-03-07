@@ -41,6 +41,9 @@ mypFilters.install = function (Vue, options) {
             case "jsPay":
                 value = "公众号支付";
                 break;
+            case "trade.microPay":
+                value = "刷卡支付";
+                break;
         }
         return value;
     })

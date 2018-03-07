@@ -12,24 +12,24 @@
             <mt-field type="tel" label="手机号" v-model="agent.phoneNo" placeholder="请输入手机号" :attr="{maxlength:11}"></mt-field>
             <mt-field type="text" label="联系人" v-model="agent.linkMan" placeholder="请输入联系人" :attr="{maxlength:20}"></mt-field>
             <mt-field type="text" label="固定电话" v-model="agent.fixedPhone" placeholder="请输入固定电话" :attr="{maxlength:20}"></mt-field>
-          </input-wrapper>
-        </view-radius>
-        <view-radius class="spacing-20">
-          <input-wrapper>
             <mt-field type="text" label="经营区域" v-model="city.resultAddr" @click.native="cityVisible = true" v-readonly-ios :readonly="true" placeholder="请选择经营区域">
               <i class="icon-arrow"></i>
             </mt-field>
+          </input-wrapper>
+        </view-radius>
+        <view-radius v-if="userAll.userType=='branchOffice'?true:false" class="spacing-20">
+          <input-wrapper>
+            <mt-field type="text" label="对公账户" v-model="agent.accountNo" placeholder="请输入对公账户" :attr="{maxlength:100}"></mt-field>
+            <mt-field type="text" label="收款人" v-model="agent.accountName" placeholder="请输入收款人" :attr="{maxlength:20}"></mt-field>
             <mt-field type="text" label="所属银行" v-model="bank.value" @click.native="bankVisible = true" v-readonly-ios :readonly="true" placeholder="请选择所属银行">
               <i class="icon-arrow"></i>
             </mt-field>
             <mt-field type="text" label="选择支行" v-model="bankBranch.branchName" @click.native="openBankBranch" v-readonly-ios :readonly="true" placeholder="请选择所属银行">
               <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field type="text" label="对公账户" v-model="agent.accountNo" placeholder="请输入对公账户" :attr="{maxlength:100}"></mt-field>
-            <mt-field type="text" label="收款人" v-model="agent.accountName" placeholder="请输入收款人" :attr="{maxlength:20}"></mt-field>
           </input-wrapper>
         </view-radius>
-        <view-radius class="spacing-20">
+        <view-radius v-if="userAll.userType=='branchOffice'?true:false" class="spacing-20">
           <input-wrapper>
             <mt-field type="text" label="回调地址" v-model="agent.redirectUrl" placeholder="请输入回调地址" :attr="{maxlength:200}"></mt-field>
             <mt-cell title="是否创建accesskey">
@@ -37,9 +37,24 @@
             </mt-cell>
           </input-wrapper>
         </view-radius>
+        <view-radius v-if="userAll.userType=='branchOffice'?true:false" class="spacing-20">
+          <input-wrapper>
+            <mt-field @click.native="$refs.subsidyPicker.open" type="text" label="补贴" placeholder="请选择补贴" :value="agent.subsidy" v-readonly-ios :readonly="true" :disableClear="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
+            <mt-field type="text" label="中间人" v-model="agent.intermediary" placeholder="请输入中间人" :attr="{maxlength:100}"></mt-field>
+            <mt-field @click.native="$refs.rebatePicker.open" type="text" label="中间人分润" placeholder="请选择中间人分润" :value="agent.rebate" v-readonly-ios :readonly="true" :disableClear="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
+          </input-wrapper>
+        </view-radius>
         <mt-button class="btn-margin" size="large" type="primary" :disabled="false" @click="save">提交</mt-button>
       </div>
     </full-page>
+    <!-- 补贴 -->
+    <picker ref="subsidyPicker" v-model="subsidy" :slotsActions="subsidyActions" @confirm="subsidyChange"></picker>
+    <!-- 中间人分润 -->
+    <picker ref="rebatePicker" v-model="rebate" :slotsActions="subsidyActions" @confirm="rebateChange"></picker>
     <city-picher ref="CityPicher" v-model="cityVisible" :resultCallback="resultCallback"></city-picher>
     <bank-popup v-model="bankVisible" @bankresult="bankResult"></bank-popup>
     <bank-branch-popup v-model="bankBranchVisible" :bank="bank" @bankbranchresult="bankBranchResult"></bank-branch-popup>
@@ -53,9 +68,16 @@ import CityPicher from "@src/components-app/CityPicher";
 import BankPopup from "@src/components-app/BankPopup";
 import BankBranchPopup from "@src/components-app/BankBranchPopup";
 import BankSearchPopup from "@src/components-app/BankSearchPopup";
+import Picker from "@src/components-app/SelectPicker/Picker";
 import { getBankList } from "@src/apis";
 export default {
-  components: { CityPicher, BankPopup, BankBranchPopup, BankSearchPopup },
+  components: {
+    CityPicher,
+    BankPopup,
+    BankBranchPopup,
+    BankSearchPopup,
+    Picker
+  },
   data() {
     return {
       btnDisabled: false,
@@ -64,32 +86,44 @@ export default {
       bankBranchVisible: false,
       bankSearchVisible: false,
       bankSearchApi: getBankList,
+      subsidy: {},
+      rebate: {},
+      subsidyActions: [
+        {
+          name: "0",
+          code: "0"
+        },
+        {
+          name: "20",
+          code: "20"
+        },
+        {
+          name: "30",
+          code: "30"
+        },
+        {
+          name: "50",
+          code: "50"
+        },
+        {
+          name: "60",
+          code: "60"
+        },
+        {
+          name: "70",
+          code: "70"
+        },
+        {
+          name: "80",
+          code: "80"
+        },
+        {
+          name: "100",
+          code: "100"
+        }
+      ],
       agent: {
-        // agentName: "",
-        // linkMan: "",
-        // phoneNo: "",
-        // fixedPhone: "",
-
-        // province: "",
-        // city: "",
-        // orgCode: "",
-
-        // accountName: "",
-        // accountNo: "",
-
-        // provinceId: "",
-        // cityId: "",
-        // bankOrgCode: "",
-        // bankCode: "",
-        // unionCode: "",
-
-        // redirectUrl: "",
         isCreateKey: false
-
-        // accountType: "",
-        // subsidy: "",
-        // intermediary: "",
-        // rebate: ""
       },
       city: {},
       //银行信息
@@ -103,7 +137,16 @@ export default {
   created() {},
   methods: {
     ...mapActions(["addAgent"]),
-
+    // 补贴
+    subsidyChange(obj) {
+      this.agent.subsidy = obj.name;
+      this.subsidy = obj;
+    },
+    // 中间人补贴
+    rebateChange(obj) {
+      this.agent.rebate = obj.name;
+      this.rebate = obj;
+    },
     //地区选择回调函数
     resultCallback(obj) {
       this.city = obj;
@@ -195,6 +238,12 @@ export default {
           this.$router.back();
         }
       });
+    }
+  },
+  computed: {
+    userAll() {
+      // 所有的用户信息
+      return this.$store.state.userInfoAndMenu.userMessage.all;
     }
   }
 };

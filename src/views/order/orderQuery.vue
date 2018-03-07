@@ -9,7 +9,7 @@
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详细信息 start -->
-    <el-dialog :title="detailsForm.body" center :visible.sync="detailsFormVisible">
+    <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
         <div class="line-label-box">
           <span class="line-label">交易时间:</span>
@@ -137,14 +137,14 @@ export default {
           ]
         },
         {
-          corresattr: "body",
+          corresattr: "customerName",
           type: "text", // 表单类型
           label: "商户名称", // 输入框前面的文字
           show: false, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
-            this.searchCondition.body = value;
+            this.searchCondition.customerName = value;
           }
         },
         {
@@ -251,7 +251,7 @@ export default {
           {
             key: "商户名称",
             width: "",
-            word: "body"
+            word: "customerName"
           },
           {
             key: "交易金额(元)",

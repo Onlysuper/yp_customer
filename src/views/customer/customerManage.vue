@@ -834,11 +834,11 @@ export default {
           }).then(data => {
             if (data.code === "00") {
               this.$message({
-                message: "恭喜你，转移数据成功",
+                message: "恭喜你，转移成功",
                 type: "success",
                 center: true
               });
-              this.editFormVisible = false;
+              this.transferFormVisible = false;
               this.reloadData();
             } else {
               this.$message({
