@@ -120,63 +120,6 @@ function routerMatch(permission, asyncRouter, back) {
         back(thisrouter);
     })
 }
-// router.beforeEach((to, redirect, next) => {
-//     let menuList = store.state.userInfoAndMenu.menuList;
-//     if (localStorage.getItem("isLogin") == "100") {
-//         if (to.path == "/login") {
-//             next('/home')
-//         } else if (!menuList.some((r) => r)) {
-//             document.body.className = "document-loading";
-//             store.dispatch('UserGetFetch');
-//             store.dispatch('UserMenulistFetch').then(resmenuList => {
-
-//                 if (resmenuList.menuList) {
-//                     routerMatch(resmenuList, asyncRouter, (thisrouter) => {
-//                         thisrouter.push(
-//                             home
-//                         )
-//                         let rou = [{
-//                             path: '',
-//                             component: layout,
-//                             children: thisrouter,
-//                             meta: {
-//                                 title: '',
-//                                 keepAlive: true,
-//                                 role: ['admin', 'root']
-//                             },
-//                         }]
-//                         rou.push({
-//                             path: "*",
-//                             redirect: "/error"
-//                         })
-//                         document.body.className = document.body.className + " document-loading-top";
-//                         router.addRoutes(rou)
-//                         // console.log(thisrouter);
-//                         setTimeout(() => {
-//                             next({ ...to, replace: true })
-//                             document.body.className = "";
-//                         }, 500)
-//                         // next()
-//                     })
-//                 } else {
-//                     // next("/login")
-//                 }
-
-//             })
-//         } else {
-//             next()
-//         }
-//     } else {
-//         if (to.path == "/login") {
-//             next()
-//         } else {
-//             next("/login")
-//         }
-//     }
-
-
-// })
-
 router.beforeEach((to, redirect, next) => {
     let menuList = store.state.userInfoAndMenu.menuList;
     if (localStorage.getItem("isLogin") == "100") {
@@ -207,7 +150,6 @@ router.beforeEach((to, redirect, next) => {
                             redirect: "/error"
                         })
                         document.body.className = document.body.className + " document-loading-top";
-                        console.log(rou);
                         router.addRoutes(rou)
                         // console.log(thisrouter);
                         setTimeout(() => {
@@ -231,7 +173,7 @@ router.beforeEach((to, redirect, next) => {
             next("/login")
         }
     }
-
-
 })
+
+
 export default router;
