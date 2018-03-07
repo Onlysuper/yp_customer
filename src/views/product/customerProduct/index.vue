@@ -1090,10 +1090,9 @@ export default {
         customerNo: rowData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
-        console.log(res);
         if (res.code == "00") {
+          console.log("聚合支付查询回显");
           console.log(res.data);
-          // console.log(data.customer.enterpriseName);
           // 聚合支付查询详情
           let data = res.data;
           if (data.customer) {

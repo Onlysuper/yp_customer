@@ -40,6 +40,8 @@ export default {
     var searchConditionVar = {
       standardTimeBegin: todayDate, // 开始日期
       standardTimeEnd: todayDate, // 结束日期
+      startNetTime: todayDate, // 入网开始时间
+      endNetTime: todayDate, // 入网结束时间
       customerNo: "", // 商户编号
       agentNo: "", // 代理商编号
       containChild: "TRUE", // 下级
@@ -87,6 +89,29 @@ export default {
             // 表单输入之后回调函数
             this.searchCondition.customerNo = value;
           }
+        },
+        {
+          type: "dateGroup",
+          label: "入网时间",
+          show: false, // 普通搜索显示
+          options: [
+            {
+              corresattr: "startNetTime",
+              label: "开始时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.startNetTime = value;
+              }
+            },
+            {
+              corresattr: "endNetTime",
+              lable: "结束时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.endNetTime = value;
+              }
+            }
+          ]
         },
         {
           corresattr: "agentNo",
@@ -209,9 +234,9 @@ export default {
                 text: data != "" && data != null ? data.split(" ")[0] : data,
                 type: "danger"
               };
-              // return data.split(" ")[0];
             }
           },
+
           {
             key: "企业名称",
             width: "",

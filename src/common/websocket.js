@@ -2,17 +2,16 @@
 
 //心跳包
 import $ from "jquery"
-// import oaIp from "@/src/apis"
-// console.log(oaIp)
 //无刷新下载文件
 function downloadFile(url) {
-  if (typeof (downloadFile.iframe) == "undefined") {
-    var iframe = document.createElement("iframe");
-    downloadFile.iframe = iframe;
-    document.body.appendChild(downloadFile.iframe);
-  }
-  downloadFile.iframe.src = url;
-  downloadFile.iframe.style.display = "none";
+  window.location.href = url;
+  // if (typeof (downloadFile.iframe) == "undefined") {
+  //   var iframe = document.createElement("iframe");
+  //   downloadFile.iframe = iframe;
+  //   document.body.appendChild(downloadFile.iframe);
+  // }
+  // downloadFile.iframe.src = url;
+  // downloadFile.iframe.style.display = "none";
 }
 const websocket = {
   data() {
@@ -83,6 +82,12 @@ const websocket = {
       //   this.ws.close();
       // })
     }
+  },
+  computed: {
+    oaIp() {
+      // nginx配置的路由
+      return this.$store.state.Base.oaIp;
+    },
   },
   beforeDestroy() {
     //销毁之前，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。

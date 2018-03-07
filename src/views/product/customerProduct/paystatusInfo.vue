@@ -307,6 +307,7 @@ export default {
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
+          console.log("聚合支付回显！");
           console.log(res.data);
           let customerData = res.data.customer;
           let settleCard = res.data.settleCard;
