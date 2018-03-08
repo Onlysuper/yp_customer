@@ -15,7 +15,7 @@
             <!-- 详情 -->
             <table>
               <myp-tr title="税号">{{item.tax}}</myp-tr>
-              <myp-tr title="地址">{{item.address || "低调hi参赛队参赛卡才能收到才能看到实际操控速度才能生存四大城市的"}}</myp-tr>
+              <myp-tr title="地址">{{item.address}}</myp-tr>
               <myp-tr title="电话">{{item.tel}}</myp-tr>
               <myp-tr title="银行">{{item.bank}}</myp-tr>
               <myp-tr title="帐号">{{item.account}}</myp-tr>
