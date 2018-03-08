@@ -21,8 +21,9 @@
               <myp-tr title="帐号">{{item.account}}</myp-tr>
               <myp-tr title="操作员">{{item.operator}}</myp-tr>
             </table>
+            <!-- 更多操作 -->
+            <!-- <div slot="right" @click="operation(item)">更多</div> -->
           </myp-cell>
-
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
