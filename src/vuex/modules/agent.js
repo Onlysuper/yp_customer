@@ -22,6 +22,7 @@ export default {
         phoneNo: "",
         agentName: "",
         agentNo: "",
+        level: ""
       };
       console.info("初始化合伙人管理数据完成");
     },

@@ -159,6 +159,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import utils from "@src/common/utils";
 import {
   getCustomerConfigs,
   postAddCustomerConfigs,
@@ -204,17 +205,7 @@ export default {
         invoiceMan: "",
         checkMan: ""
       },
-      addForm: {
-        unionNo: "",
-        customerNo: "",
-        goodsName: "",
-        model: "",
-        unit: "",
-        unitPrice: "",
-        taxRate: "",
-        enjoyDiscount: "",
-        discountType: ""
-      },
+      addForm: {},
       selectOptions: {
         deviceTypeOptions: [
           {
@@ -342,7 +333,16 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
-                this.editForm = rowdata;
+                let rowNew = utils.pickObj(rowdata, [
+                  "customerNo",
+                  "deviceType",
+                  "clientType",
+                  "deviceNo",
+                  "receiveMan",
+                  "invoiceMan",
+                  "checkMan"
+                ]);
+                this.editForm = rowNew;
                 this.editFormVisible = true;
               }
             }
@@ -368,15 +368,7 @@ export default {
         let addForm = this.addForm;
         if (valid) {
           this.saveLoading = true;
-          postAddCustomerConfigs()({
-            customerNo: addForm.customerNo,
-            deviceType: addForm.deviceType,
-            clientType: addForm.clientType,
-            deviceNo: addForm.deviceNo,
-            receiveMan: addForm.receiveMan,
-            invoiceMan: addForm.invoiceMan,
-            checkMan: addForm.checkMan
-          }).then(data => {
+          postAddCustomerConfigs()(addForm).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -394,7 +386,6 @@ export default {
               });
             }
             this.saveLoading = false;
-            console.log(data);
           });
         }
       });
@@ -406,16 +397,7 @@ export default {
         if (valid) {
           this.saveLoading = true;
           let editForm = this.editForm;
-          // this.resetSearchHandle();
-          postEditCustomerConfigs()({
-            customerNo: editForm.customerNo,
-            deviceType: editForm.deviceType,
-            clientType: editForm.clientType,
-            deviceNo: editForm.deviceNo,
-            receiveMan: editForm.receiveMan,
-            invoiceMan: editForm.invoiceMan,
-            checkMan: editForm.checkMan
-          }).then(data => {
+          postEditCustomerConfigs()(editForm).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",

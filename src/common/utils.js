@@ -47,11 +47,17 @@ export default {
             return ('00' + str).substr(str.length);
         }
     },
-    //百分数转小树
+    //百分数转小数
     toPoint(percent) {
         var str = percent.replace("%", "");
         str = str / 100;
         return str;
+    },
+    pickObj(obj, arr) {
+        return arr.reduce(
+            (iter, val) => (val in obj && (iter[val] = obj[val]), iter),
+            {}
+        );
     },
     /**
      * 检测数据类型 isType({},"object") 返回true
