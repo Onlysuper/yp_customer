@@ -231,6 +231,7 @@ export default {
       goodsName: "" // 商品名称
     };
     return {
+      goodsName: "", // 商品名称
       selectLoading: false,
       goodsNameOptions: [], // 商品名称 智能编码
       selectOptions: {
@@ -812,7 +813,21 @@ export default {
                 if (rowdata.unionNo == "3070402000000000000") {
                   // 住宿服务
                 }
-                this.editForm = rowdata;
+                var rowNew = utils.pickObj(rowdata, [
+                  "goodsNo",
+                  "unionNo",
+                  "customerNo",
+                  "goodsName",
+                  "model",
+                  "unit",
+                  "unitPrice",
+                  "taxRate",
+                  "enjoyDiscount",
+                  "discountType",
+                  "goodsType"
+                ]);
+                console.log(rowNew);
+                this.editForm = rowNew;
                 this.editFormVisible = true;
               }
             },
@@ -883,6 +898,7 @@ export default {
           this.selectLoading = false;
         }
       });
+      this.goodsName = value;
     },
     //商品名称被改变
     goodsNameChange(value, type) {
@@ -893,10 +909,12 @@ export default {
         this.addForm.unionNo = selectObj.code;
         this.addForm.goodsType = selectObj.name;
         this.addForm.taxRate = selectObj.rate;
+        this.addForm.goodsName = this.goodsName;
       } else if (type == "EDIT") {
         this.editForm.unionNo = selectObj.code;
         this.editForm.goodsType = selectObj.name;
         this.editForm.taxRate = selectObj.rate;
+        this.editForm.goodsName = this.goodsName;
       }
     },
     importDialog() {
@@ -977,6 +995,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
+        addForm.goodsName = this.goodsName;
         if (valid) {
           this.saveLoading = true;
           // this.resetSearchHandle();
@@ -1012,20 +1031,11 @@ export default {
         if (valid) {
           this.saveLoading = true;
           let editForm = this.editForm;
+          editForm.goodsName = this.goodsName;
           // this.resetSearchHandle();
-          postEditCustomerGood(editForm.goodsNo)({
-            goodsNo: editForm.goodsNo,
-            unionNo: editForm.unionNo,
-            customerNo: editForm.customerNo,
-            goodsName: editForm.goodsName,
-            model: editForm.model,
-            unit: editForm.unit,
-            unitPrice: editForm.unitPrice,
-            taxRate: editForm.taxRate,
-            enjoyDiscount: editForm.enjoyDiscount,
-            discountType: editForm.discountType,
-            goodsType: editForm.goodsType
-          }).then(data => {
+          let sendata = { ...editForm };
+          sendata.taxRate = utils.toPoint(sendata.taxRate);
+          postEditCustomerGood(editForm.goodsNo)({ ...sendata }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",

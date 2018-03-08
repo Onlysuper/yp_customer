@@ -13,6 +13,7 @@
         <div slot="btn" @click="toUrl('EDIT',item.goodsNo)">编辑</div>
 
         <!-- 状态 -->
+
         <mt-badge slot="badge" v-if="item.taxRate" class="g-min-badge" size="small" type="primary">{{item.taxRate | handleTaxRate}}</mt-badge>
         <mt-badge slot="badge" v-if="item.discountType" class="g-min-badge" size="small" type="primary">{{item.discountType | handleDiscountType}}</mt-badge>
         <mt-badge slot="badge" v-if="item.enjoyDiscount" class="g-min-badge" size="small" type="primary">{{item.enjoyDiscount | handleEnjoyDiscount}}</mt-badge>
