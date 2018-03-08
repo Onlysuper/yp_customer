@@ -50,12 +50,18 @@ axios.interceptors.response.use(function (response) {
     if (window.isMobile == "App") {
         Indicator.close();
     }
+    console.dir(error);
     //请求超时
     if (error.code == "ECONNABORTED") {
         // return Promise.reject();
         return Promise.resolve({
             code: -100,
-            msg: "请求超时,请检查网络！",
+            msg: "请求超时,请稍候再试！",
+        });
+    } else if (error.code == undefined) {
+        return Promise.resolve({
+            code: -104,
+            msg: "请检查网络！",
         });
     } else {
         return Promise.resolve({
