@@ -103,7 +103,7 @@ export default {
           visible:
             this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -150,7 +150,7 @@ export default {
         {
           corresattr: "hasChild",
           type: "select",
-          label: "包含下级",
+          label: "包含关系",
           show: false, // 普通搜索显示
           value: "",
           options: [
@@ -330,12 +330,12 @@ export default {
           ]
         },
         // 数据加载成功
-        dataSuccess: data => {}
+        dataSuccess: data => { }
       }
     };
   },
   methods: {},
-  mounted() {},
+  mounted() { },
   computed: {
     userAll() {
       // 所有的用户信息

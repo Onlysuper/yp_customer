@@ -104,7 +104,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否有下级",
+          label: "包含关系",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [

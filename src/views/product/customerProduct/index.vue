@@ -13,7 +13,7 @@
       <div class="detail-content">
         <div class="line-box-center">
           <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
             </el-option>
           </el-select>
         </div>
@@ -293,7 +293,7 @@
     <el-dialog title="关闭" center :visible.sync="closeVisible">
       <div class="line-box-center">
         <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
-          <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+          <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
           </el-option>
         </el-select>
       </div>
@@ -403,6 +403,8 @@ export default {
       payStatus: ""
     };
     return {
+      search: false,// 查询状态
+      check: false,// 查询状态
       checkVisiblebut: false,
       editVisiblebut: false,
       closeVisible: false,
@@ -423,15 +425,18 @@ export default {
         customerTypeOptions: [
           {
             value: "payStatus",
-            label: "聚合支付"
+            label: "聚合支付",
+            disabled: false
           },
           {
             value: "qrcodeStatus",
-            label: "快速开票"
+            label: "快速开票",
+            disabled: false
           },
           {
             value: "elecStatus",
-            label: "电子发票"
+            label: "电子发票",
+            disabled: false
           }
         ]
       },
@@ -831,8 +836,10 @@ export default {
               text: "查询",
               color: "#00c1df",
               cb: rowdata => {
+                this.search = true;
+                this.check = false;
                 // this.checkVisiblebut = false;
-                this.checkVisibleFn(false);
+                this.checkVisibleFn(rowdata);
                 this.searchDetail = true;
                 this.rowData = rowdata;
                 this.checkVisiblebut = false;
@@ -848,6 +855,9 @@ export default {
                 this.getCustomerEcho(rowdata); // 聚合支付回显
                 this.getElectronicEcho(rowdata); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
+                this.selectOptions.customerTypeOptions.forEach(element => {
+                  element.disabled = false;
+                });
                 this.detailsFormVisible = true;
               }
             },
@@ -894,17 +904,23 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.resaultForm = rowdata;
+                // 只有电子发票可以关闭
+                this.selectOptions.customerTypeOptions.forEach(element => {
+                  if (element.value != "elecStatus") {
+                    element.disabled = true;
+                    this.selectOptions.customerType = "elecStatus"
+                  }
+                });
                 this.closeVisible = true;
               }
             },
             {
               text: "审核",
               visibleFn: rowdata => {
+
                 if (
                   isAdmin &&
                   (
-                    // rowdata.payStatus == "CHECKING" ||
-                    // rowdata.qrcodeStatus == "CHECKING" ||
                     rowdata.elecStatus == "CHECKING")
                 ) {
                   return true;
@@ -914,23 +930,20 @@ export default {
               },
               color: "#00c1df",
               cb: rowdata => {
-                // this.checkVisiblebut = true;
-
-                this.checkVisibleFn(true);
+                this.rowData = rowdata;
+                this.search = false;
+                this.check = true;
                 this.editVisiblebut = false;
                 this.searchDetail = false;
-                this.rowData = rowdata;
+                this.checkVisibleFn(rowdata);
                 this.getCustomerEcho(rowdata); // 聚合支付回显
                 this.getElectronicEcho(rowdata); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
+                // 可选
+                this.selectOptions.customerTypeOptions.forEach(element => {
+                  element.disabled = false;
+                });
                 this.detailsFormVisible = true;
-                // 默认为聚合支付
-                this.selectOptions.customerType = "payStatus";
-                if (this.selectOptions.customerType == "elecStatus" && rowdata.elecStatus == "CHECKING") {
-                  this.checkVisiblebut = true
-                } else {
-                  this.checkVisiblebut = false
-                }
               }
             }
           ]
@@ -1293,25 +1306,19 @@ export default {
       }
     },
     // 查询详情 审核按钮显示
-    deitDisabled_check(type, row) {
-      if (
-        type == "elecStatus" &&
-        (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING")
-      ) {
-        // 需要审核按钮系列
-        this.checkVisibleFn(true);
+    checkVisibleFn(row) {
+      // 只有电子发票待审核状态又审核按钮
+      let type = this.selectOptions.customerType;
+      if (this.check && type == "elecStatus" &&
+        (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING")) {
+        this.checkVisiblebut = true;
       } else {
-        // 不需要审核按钮系列
-        this.checkVisibleFn(false);
+        this.checkVisiblebut = false;
       }
     },
-    checkVisibleFn(resault) {
-      this.checkVisiblebut = resault;
-    },
     customerTypeChange() {
-      let customerType = this.selectOptions.customerType;
-      this.deitDisabled_check(customerType, this.rowData);
       this.customerTypeSelect();
+      this.checkVisibleFn(this.rowData);
     }
   },
   computed: {},

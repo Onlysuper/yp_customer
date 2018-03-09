@@ -488,7 +488,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否有下级",
+          label: "包含关系",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -875,7 +875,7 @@ export default {
     handleExceed(files, fileList) {
       this.$message.warning(
         `当前共选择了 ${files.length +
-          fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
+        fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
       );
       this.saveLoading = false;
     }
@@ -892,7 +892,7 @@ export default {
     //   }
     // }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 
