@@ -259,73 +259,10 @@ export default {
           }
         },
         {
-          corresattr: "authCode",
-          type: "text",
-          label: "授权码",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.authCode = value;
-          }
-        },
-
-        {
-          type: "dateGroup",
-          label: "选择时间",
-          show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "createTimeStart",
-              label: "开始时间",
-              value: today_,
-              cb: value => {
-                this.searchCondition.createTimeStart = value;
-              }
-            },
-            {
-              corresattr: "createTimeEnd",
-              lable: "结束时间",
-              value: today_,
-              cb: value => {
-                this.searchCondition.createTimeEnd = value;
-              }
-            }
-          ]
-        },
-
-        {
-          corresattr: "invoiceType",
-          type: "select",
-          label: "开票类型",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "所有"
-            },
-            {
-              value: "1",
-              label: "普票"
-            },
-            {
-              value: "2",
-              label: "专票"
-            },
-            {
-              value: "3",
-              label: "电票"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.invoiceType = value;
-          }
-        },
-        {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -360,7 +297,69 @@ export default {
           cb: value => {
             this.searchCondition.status = value;
           }
+        },
+        {
+          type: "dateGroup",
+          label: "选择时间",
+          show: true, // 普通搜索显示
+          options: [
+            {
+              corresattr: "createTimeStart",
+              label: "开始时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
+            },
+            {
+              corresattr: "createTimeEnd",
+              lable: "结束时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
+            }
+          ]
+        },
+        {
+          corresattr: "authCode",
+          type: "text",
+          label: "授权码",
+          show: false, // 普通搜索显示
+          value: "",
+          cb: value => {
+            this.searchCondition.authCode = value;
+          }
+        },
+        {
+          corresattr: "invoiceType",
+          type: "select",
+          label: "开票类型",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "所有"
+            },
+            {
+              value: "1",
+              label: "普票"
+            },
+            {
+              value: "2",
+              label: "专票"
+            },
+            {
+              value: "3",
+              label: "电票"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.invoiceType = value;
+          }
         }
+
       ],
       // 列表数据
       postSearch: searchConditionVar,
@@ -574,7 +573,7 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 
