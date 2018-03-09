@@ -29,6 +29,13 @@ import {
   entCardQueryCode
 } from "@src/apis";
 export default {
+  // props: ["defaultVal"],
+  props: {
+    defaultVal: {
+      type: String,
+      default: ""
+    },
+  },
   data() {
     return {
       myval: "",
@@ -39,13 +46,38 @@ export default {
     };
   },
   watch: {
+    defaultVal(val) {
+      this.myval = val;
+    },
     myval(val) {
+      //点击×自动清空表单中回显的历史数据
+      if (!val) {
+        this.$emit("initData");
+      }
+
+      //处理BUG
+      if (val) {
+        this.$refs.mtField.$el.querySelector(
+          ".mint-field-clear"
+        ).style.display =
+          "block";
+      } else {
+        this.$refs.mtField.$el.querySelector(
+          ".mint-field-clear"
+        ).style.display =
+          "none";
+      }
+      //模糊查询
+      let key = val;
+      if (!this.visible) return;
       this.getsmartgoodscodeCustomerGood({ name: val, tax: "0" });
       this.$emit("goodsNameInput", val);
     }
   },
+  created() {
+  },
   mounted() {
-    this.entName = this.value;
+    this.myval = this.value;
   },
   methods: {
     getsmartgoodscodeCustomerGood(obj) {
@@ -64,19 +96,14 @@ export default {
       });
     },
     select(item) {
-      // console.log(item);
-      this.$emit("goodsNameChange", item);
       this.close();
-      // if (item.type == "ELASTIC") {
-      //   this.close();
-      // } else {
-      // }
+      this.$emit("goodsNameChange", item);
     },
     noSearch() {
-      this._czcEvent("点我试试", "企业名称:" + this.entName);
+      this._czcEvent("点我试试", "企业名称:" + this.myval);
       this.close();
       setTimeout(() => {
-        this.$parent.mixinsToTycUrl(this.entName);
+        this.$parent.mixinsToTycUrl(this.myval);
       }, 500);
     },
     open() {
@@ -87,7 +114,7 @@ export default {
         .focus();
 
       //处理BUG
-      if (this.entName) {
+      if (this.myval) {
         //由于input是自动获取焦点，所以不会显示删除input的内容的icon
         this.$refs.mtField.$el.querySelector(
           ".mint-field-clear"

@@ -31,7 +31,7 @@
     <picker ref="TaxratePicker" v-model="taxModle" :slotsActions="taxActions" @confirm="taxratePickerChange"></picker>
     <picker ref="DiscountPicker" v-model="discountModle" :slotsActions="discountActions" @confirm="discountPickerChange"></picker>
     <picker ref="EnjoyPicker" v-model="enjoyModle" :slotsActions="enjoyActions" @confirm="enjoyPickerChange"></picker>
-    <search-modle @goodsNameInput="goodsNameInput" @goodsNameChange="goodsNameChange" ref="search"></search-modle>
+    <search-modle :goodsName="good.goodsName" @goodsNameInput="goodsNameInput" @goodsNameChange="goodsNameChange" ref="search"></search-modle>
   </full-page>
 </template>
 <style  lang='scss' scoped>
@@ -97,7 +97,7 @@ export default {
       enjoyActions: enjoyJson
     };
   },
-  created() {},
+  created() { },
   methods: {
     ...mapActions(["getGood", "updataGood", "addGood"]),
     //设置费率
@@ -119,6 +119,7 @@ export default {
     // 商品名称智能编码
     goodsNameInput(val) {
       this.goodsName = val;
+      this.good.goodsName = this.goodsName;
     },
     //商品名称被改变
     goodsNameChange(item) {

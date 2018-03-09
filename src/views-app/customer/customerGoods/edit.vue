@@ -58,7 +58,7 @@
     <picker ref="TaxratePicker" v-model="taxModle" :slotsActions="taxActions" @confirm="taxratePickerChange"></picker>
     <picker ref="DiscountPicker" v-model="discountModle" :slotsActions="discountActions" @confirm="discountPickerChange"></picker>
     <picker ref="EnjoyPicker" v-model="enjoyModle" :slotsActions="enjoyActions" @confirm="enjoyPickerChange"></picker>
-    <search-modle @goodsNameInput="goodsNameInput" @goodsNameChange="goodsNameChange" ref="search"></search-modle>
+    <search-modle :defaultVal="good.goodsName" @initData="goodsInit" @goodsNameInput="goodsNameInput" @goodsNameChange="goodsNameChange" ref="search"></search-modle>
   </full-page>
 </template>
 <style  lang='scss' scoped>
@@ -179,6 +179,11 @@ export default {
     // 商品名称智能编码
     goodsNameInput(val) {
       this.goodsName = val;
+    },
+    // 商品名称智能编码
+    goodsInit(val) {
+      this.goodsName = "";
+      this.good.goodsName = ""
     },
     //商品名称被改变
     goodsNameChange(item) {
