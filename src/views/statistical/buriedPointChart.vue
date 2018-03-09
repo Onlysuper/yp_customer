@@ -3,14 +3,13 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-chart @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-chart>
     </div>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <script>
 import SearchForm from "@src/components/SearchForm";
 import BuriedPointChart from "@src/components/BuriedPointChart";
@@ -91,6 +90,6 @@ export default {
     };
   },
   methods: {},
-  mounted() {}
+  mounted() { }
 };
 </script>

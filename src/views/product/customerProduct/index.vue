@@ -299,7 +299,7 @@
       </div>
       <el-form size="small" :model="closeForm" ref="closeForm" :rules="closeFormRules" label-width="100px">
         <el-form-item prop="closeReason" label="关闭原因">
-          <el-input type="textarea" v-model="closeForm.closeReason"></el-input>
+          <el-input type="textarea" v-model="closeForm.reason"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -578,6 +578,10 @@ export default {
             {
               label: "待提交",
               value: "WAITING_SUBMIT"
+            },
+            {
+              label: "已关闭",
+              value: "FALSE"
             }
           ],
           cb: value => {
@@ -614,6 +618,10 @@ export default {
             {
               label: "待提交",
               value: "WAITING_SUBMIT"
+            },
+            {
+              label: "已关闭",
+              value: "FALSE"
             }
           ],
           cb: value => {
@@ -650,6 +658,10 @@ export default {
             {
               label: "待提交",
               value: "WAITING_SUBMIT"
+            },
+            {
+              label: "已关闭",
+              value: "FALSE"
             }
           ],
           cb: value => {
@@ -688,6 +700,11 @@ export default {
                 return {
                   text: "已开通",
                   type: "success"
+                };
+              } else if (data == "FALSE") {
+                return {
+                  text: "已关闭",
+                  type: "info"
                 };
               } else if (data == "INIT") {
                 return {
@@ -733,6 +750,11 @@ export default {
                   text: "未开通",
                   type: "info"
                 };
+              } else if (data == "FALSE") {
+                return {
+                  text: "已关闭",
+                  type: "info"
+                };
               } else if (data == "REJECT") {
                 return {
                   text: "拒绝",
@@ -766,6 +788,11 @@ export default {
                 return {
                   text: "已开通",
                   type: "success"
+                };
+              } else if (data == "FALSE") {
+                return {
+                  text: "已关闭",
+                  type: "info"
                 };
               } else if (data == "INIT") {
                 return {
@@ -832,9 +859,12 @@ export default {
                   rowdata.payStatus == "INIT" ||
                   rowdata.payStatus == "WAITING_SUBMIT" ||
                   rowdata.payStatus == "REJECT" ||
+                  rowdata.payStatus == "FALSE" ||
                   rowdata.qrcodeStatus == "INIT" ||
+                  rowdata.qrcodeStatus == "FALSE" ||
                   rowdata.elecStatus == "INIT" ||
-                  rowdata.elecStatus == "REJECT"
+                  rowdata.elecStatus == "REJECT" ||
+                  rowdata.elecStatus == "FALSE"
                 ) {
                   return false;
                 } else {
@@ -934,6 +964,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let resaultForm = this.resaultForm;
+          let closeForm = this.closeForm;
           let customerType = this.selectOptions.customerType;
           let obj = {
             bussinessNo: resaultForm.bussinessNo,
@@ -942,15 +973,15 @@ export default {
           let msg = "";
           if (customerType == "qrcodeStatus") {
             // 快速开票
-            obj.qrReason = resaultForm.reason;
+            obj.qrReason = closeForm.reason;
             obj.qrcodeStatus = "FALSE";
             msg = "确定关闭快速开票业务业务并且将以短信形式通知商户?";
           } else if (customerType == "elecStatus") {
-            obj.elecReason = resaultForm.reason;
+            obj.elecReason = closeForm.reason;
             obj.elecStatus = "FALSE";
             msg = "确定关闭电子发票业务并且将以短信形式通知商户?";
           } else if (customerType == "payStatus") {
-            obj.payReason = resaultForm.reason;
+            obj.payReason = closeForm.reason;
             obj.payStatus = "FALSE";
             msg = "确定关闭聚合业务并且将以短信形式通知商户?";
           }
@@ -1036,7 +1067,8 @@ export default {
           disabled:
             rowdata.payStatus == "INIT" ||
               rowdata.payStatus == "REJECT" ||
-              rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.payStatus == "WAITING_SUBMIT" ||
+              rowdata.payStatus == "FALSE"
               ? false
               : true
         },
@@ -1046,18 +1078,19 @@ export default {
           disabled:
             rowdata.qrcodeStatus == "INIT" ||
               rowdata.qrcodeStatus == "REJECT" ||
-              rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.qrcodeStatus == "WAITING_SUBMIT" ||
+              rowdata.qrcodeStatus == "FALSE"
               ? false
               : true
         },
         {
           value: "elecStatus",
           label: "电子发票",
-          // disabled: true
           disabled:
             rowdata.elecStatus == "INIT" ||
               rowdata.elecStatus == "REJECT" ||
-              rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.elecStatus == "WAITING_SUBMIT" ||
+              rowdata.elecStatus == "FALSE"
               ? false
               : true
         }
