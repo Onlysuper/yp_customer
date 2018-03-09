@@ -90,10 +90,17 @@ export default {
       this.$store.commit("IS_RELOAD_GOOD", false);
     },
     toUrl(type, goodsNo) {
-      this.$router.push({
-        path: "./edit/" + goodsNo,
-        query: { type: type }
-      });
+      if (type == "ADD") {
+        this.$router.push({
+          path: "./add",
+          query: { type: type }
+        });
+      } else if (type == "EDIT") {
+        this.$router.push({
+          path: "./edit/" + goodsNo,
+          query: { type: type }
+        });
+      }
     },
     operation(customer) {
       this.sheetVisible = true;
