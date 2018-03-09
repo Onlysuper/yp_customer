@@ -46,7 +46,7 @@
           <el-input v-model="editForm.registMoney"></el-input>
         </el-form-item>
         <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-          <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
+          <el-select @change="inputChange('editForm')" @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
             <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
@@ -57,7 +57,7 @@
         </el-form-item>
         <el-form-item class="full-width" prop="unionCode" label="选择支行">
           <el-input v-if="branchNameVisible" v-model="editForm.branchName" auto-complete="off"></el-input>
-          <el-select v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
+          <el-select @change="inputChange('editForm')" v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
             <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
             </el-option>
           </el-select>
@@ -228,6 +228,7 @@ export default {
     },
     handleChangeArea(value) {
       // 省市区选择
+      this.inputChange('editForm')
     },
     customerInputBlur() {
       // add商户编号失去焦点
@@ -362,10 +363,10 @@ export default {
       this.getBankListHandle();
     },
     bankhandleChangeArea(value) {
-      console.log(value);
       //选择银行区域
       this.bankCity = value[2] || value[1] || value[0];
       this.getBankListHandle();
+      this.inputChange('editForm')
     },
     getBankListHandle(back) {
       this.editForm.unionCode = "";
@@ -389,7 +390,7 @@ export default {
     this.editInfo();
   },
   computed: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

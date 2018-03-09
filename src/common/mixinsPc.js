@@ -18,6 +18,9 @@ const mixinsPc = {
       // 重置表单
       this.$refs[formName].resetFields();
     },
+    inputChange(formName) {
+      this.$refs[formName].validate(valid => { })
+    },
     mounted() {
       // 顶部搜索初始化为普通搜索
       // this.$store.commit("initSearchVisibleFn");
