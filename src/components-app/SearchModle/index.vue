@@ -10,11 +10,9 @@
       </input-wrapper>
       <div class="query-list">
         <ul>
-          <li class="border-bottom-1px _av" @click="select(item)" v-for="(item,index) in queryList" :key="index">
-            {{item.name}}
-          </li>
+          <slot></slot>
           <li class="no-search" v-show="isNoSearchShow" @click="noSearch">
-            <span>查不到？点我试试</span>
+            <span>没有更多了！</span>
           </li>
         </ul>
       </div>
@@ -29,7 +27,6 @@ import {
   entCardQueryCode
 } from "@src/apis";
 export default {
-  // props: ["defaultVal"],
   props: {
     defaultVal: {
       type: String,
@@ -54,7 +51,6 @@ export default {
       if (!val) {
         this.$emit("initData");
       }
-
       //处理BUG
       if (val) {
         this.$refs.mtField.$el.querySelector(
@@ -83,12 +79,11 @@ export default {
     getsmartgoodscodeCustomerGood(obj) {
       getsmartgoodscodeCustomerGood()(obj).then(res => {
         if (res.code == "00") {
-          this.queryList = res.data;
+          this.$emit("watchDataList", res.data);
         } else {
           this.queryList = [];
           this.Toast({
             message: res.msg,
-            // position: "top",
             duration: 500
           });
         }
@@ -96,8 +91,8 @@ export default {
       });
     },
     select(item) {
+      this.$emit("selectChange", item);
       this.close();
-      this.$emit("goodsNameChange", item);
     },
     noSearch() {
       this._czcEvent("点我试试", "企业名称:" + this.myval);
@@ -128,7 +123,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
 @import "../../assets/scss/base.scss";
 ._search-mask {
@@ -146,14 +140,9 @@ export default {
   position: fixed;
   left: 0;
   right: 0;
-
   margin: auto;
   border-radius: 10px;
-
-  // box-shadow: 0 0 5px #bfbfbf;
   width: 95%;
-  // height: 90%;
-
   background-color: rgba(255, 255, 255, 1);
   transition: opacity 0.5s;
 }

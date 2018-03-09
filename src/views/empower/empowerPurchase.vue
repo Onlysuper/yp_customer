@@ -217,7 +217,7 @@ export default {
           },
           {
             value: "OUT_ORDER",
-            label: "二维码编号"
+            label: "二维码序列号"
           }
         ]
       },
@@ -507,7 +507,7 @@ export default {
           ]
         },
         // 数据加载成功
-        dataSuccess: data => {}
+        dataSuccess: data => { }
       }
     };
   },
@@ -627,7 +627,7 @@ export default {
         }
       });
     },
-    migrateTypeChange1() {}
+    migrateTypeChange1() { }
   },
   computed: {
     userAll() {

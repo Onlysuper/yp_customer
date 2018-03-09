@@ -19,7 +19,7 @@
       </div>
       <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
-        <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
+        <el-cascader ref="payStatusForm_area" @change="areaChange" :options="optionsArea" v-model="payStatusForm.Area">
         </el-cascader>
       </el-form-item>
       <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
@@ -193,6 +193,10 @@ export default {
     };
   },
   methods: {
+    areaChange(val) {
+      // console.log(this.$refs.payStatusForm);
+      // this.$refs.payStatusForm.clearValidate();
+    },
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {

@@ -7,11 +7,10 @@
     <view-radius>
       <input-wrapper>
         <!-- 添加表单 -->
-        <template v-if="pageType == 'ADD'">
+        <!-- <template v-if="pageType == 'ADD'">
           <mt-field @click.native="$refs.search.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
           <mt-field type="text" :disabled="true" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
           <mt-field type="text" :disabled="true" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
-          <!-- <mt-field type="text" label="税率" placeholder="请输入税率" v-model="good.taxRate"></mt-field> -->
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
@@ -25,15 +24,14 @@
           <mt-field @click.native="$refs.DiscountPicker.open" type="text" label="优惠类型" placeholder="请选择优惠类型" :value="discountModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
-        </template>
+        </template> -->
 
         <!-- 编辑表单 -->
         <template v-if="pageType == 'EDIT'">
-          <mt-field @click.native="$refs.search.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
+          <mt-field @click.native="$refs.searchList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
 
           <mt-field type="text" :disabled="true" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
           <mt-field type="text" :disabled="true" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
-          <!-- <mt-field type="text" label="税率" placeholder="请输入税率" v-model="good.taxRate"></mt-field> -->
           <mt-field type="text" label="商品编号" placeholder="请输入商品编号" v-model="good.goodsNo"></mt-field>
           <mt-field type="text" label="商户编号" placeholder="请输入商户编号" v-model="good.customerNo"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
@@ -58,7 +56,11 @@
     <picker ref="TaxratePicker" v-model="taxModle" :slotsActions="taxActions" @confirm="taxratePickerChange"></picker>
     <picker ref="DiscountPicker" v-model="discountModle" :slotsActions="discountActions" @confirm="discountPickerChange"></picker>
     <picker ref="EnjoyPicker" v-model="enjoyModle" :slotsActions="enjoyActions" @confirm="enjoyPickerChange"></picker>
-    <search-modle :defaultVal="good.goodsName" @initData="goodsInit" @goodsNameInput="goodsNameInput" @goodsNameChange="goodsNameChange" ref="search"></search-modle>
+    <search-modle @watchDataList="watchDataList" :defaultVal="good.goodsName" @initData="goodsInit" @goodsNameInput="goodsNameInput" ref="searchList">
+      <li class="border-bottom-1px _av" @click="goodsNameChange(item)" v-for="(item,index) in queryList" :key="index">
+        {{item.name}}
+      </li>
+    </search-modle>
   </full-page>
 </template>
 <style  lang='scss' scoped>
@@ -98,11 +100,20 @@ export default {
   },
   data() {
     return {
+      queryList: [],
       goodsActions: [],
       goodsName: "", // 商品名称
       goodsNameOptions: [], // 商品名称 智能编码
       btnDisabled: false,
       good: {
+        goodsName: "",
+        unionNo: "",
+        goodsType: "",
+        goodsNo: "",
+        customerNo: "",
+        unit: "",
+        unitPrice: "",
+        model: "",
         taxRate: "0",
         enjoyDiscount: "0",
         discountType: "10"
@@ -116,11 +127,6 @@ export default {
 
       goodsVisible: false,
       goodsModel: {},
-      // goodsActions: goodsNoJson.map(item => {
-      //   item.method = this.goodsActionChange;
-      //   return item;
-      // }),
-
       taxModle: {},
       taxActions: taxJson,
       discountModle: {},
@@ -176,6 +182,9 @@ export default {
       this.discountModle = obj;
       this.good.discountType = obj.code;
     },
+    watchDataList(data) {
+      this.queryList = data;
+    },
     // 商品名称智能编码
     goodsNameInput(val) {
       this.goodsName = val;
@@ -183,11 +192,9 @@ export default {
     // 商品名称智能编码
     goodsInit(val) {
       this.goodsName = "";
-      this.good.goodsName = ""
     },
     //商品名称被改变
     goodsNameChange(item) {
-      console.log(this.goodsName);
       this.good.unionNo = item.code;
       this.good.goodsType = item.name;
       this.good.goodsName = this.goodsName;
@@ -195,6 +202,7 @@ export default {
         return row.code == item.rate;
       });
       this.taxratePickerChange(tax || {});
+      this.$refs.searchList.close();
     },
     // 检验税号是否存在
     checkTaxRateHave(code, type) {

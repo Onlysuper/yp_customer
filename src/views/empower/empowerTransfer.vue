@@ -195,7 +195,7 @@ export default {
           { required: true, message: "请选择分配方式", trigger: "blur" }
         ],
         price: [
-          { required: true, message: "请输入二维码编号", trigger: "blur" }
+          { required: true, message: "请输入二维码序列号", trigger: "blur" }
         ],
         agentNo: [
           { required: true, message: "采购单价不能为空", trigger: "blur" }
@@ -207,7 +207,7 @@ export default {
           { required: true, message: "结束号段不能为空", trigger: "blur" }
         ],
         qrcodes: [
-          { required: true, message: "二维码编号不能为空", trigger: "blur" }
+          { required: true, message: "二维码序列号不能为空", trigger: "blur" }
         ]
       },
       payForm: {
@@ -230,7 +230,7 @@ export default {
           { required: true, message: "结束号段不能为空", trigger: "blur" }
         ],
         qrcodes: [
-          { required: true, message: "请输入二维码编号", trigger: "blur" }
+          { required: true, message: "请输入二维码序列号", trigger: "blur" }
         ]
       },
       searchCondition: searchConditionVar,
@@ -485,7 +485,7 @@ export default {
           ]
         },
         // 数据加载成功
-        dataSuccess: data => {}
+        dataSuccess: data => { }
       }
     };
   },
@@ -498,7 +498,7 @@ export default {
         this.qrcodesVisible = false;
         this.allotForm.qrcodes = "";
       } else if (value == "OUT_ORDER") {
-        //二维码编号
+        //二维码序列号
         this.qrcodesVisible = true;
         this.qrNumsVisible = false;
         this.allotForm.qrcodeStart = "";
@@ -513,7 +513,7 @@ export default {
         this.qrcodesPayVisible = false;
         this.payForm.qrcodes = "";
       } else if (value == "OUT_ORDER") {
-        //二维码编号
+        //二维码序列号
         this.qrcodesPayVisible = true;
         this.qrNumsPayVisible = false;
         this.payForm.qrcodeStart = "";
@@ -668,7 +668,7 @@ export default {
         .qr_code_reciept_audit_all;
     }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 

@@ -808,6 +808,7 @@ export default {
                 this.checkVisibleFn(false);
                 this.searchDetail = true;
                 this.rowData = rowdata;
+                this.checkVisiblebut = false;
                 if (
                   rowdata.payStatus == "REJECT" ||
                   rowdata.payStatus == "WAITING_SUBMIT"
@@ -871,8 +872,9 @@ export default {
               visibleFn: rowdata => {
                 if (
                   isAdmin &&
-                  (rowdata.payStatus == "CHECKING" ||
-                    rowdata.qrcodeStatus == "CHECKING" ||
+                  (
+                    // rowdata.payStatus == "CHECKING" ||
+                    // rowdata.qrcodeStatus == "CHECKING" ||
                     rowdata.elecStatus == "CHECKING")
                 ) {
                   return true;
@@ -883,6 +885,7 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 // this.checkVisiblebut = true;
+
                 this.checkVisibleFn(true);
                 this.editVisiblebut = false;
                 this.searchDetail = false;
@@ -891,30 +894,13 @@ export default {
                 this.getElectronicEcho(rowdata); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
                 this.detailsFormVisible = true;
-                // postCustomerOpenProductSearch()({
-                //   businessNo: rowdata.bussinessNo,
-                //   businessType: rowdata.bussinessType
-                // }).then(data => {
-                //   if (data.code == "00") {
-                //     this.detailsForm = Object.assign(
-                //       this.detailsForm,
-                //       data.data
-                //     );
-                //     this.detailsForm.wechatRate =
-                //       utils.accMul(this.detailsForm.wechatRate, 100) + "%";
-                //     this.detailsForm.alipayRate =
-                //       utils.accMul(this.detailsForm.alipayRate, 100) + "%";
-                //     this.detailsFormVisible = true;
-                //     this.detailsForm.t0CashCostFixed =
-                //       this.detailsForm.t0CashCostFixed &&
-                //       this.detailsForm.t0CashCostFixed + "元";
-                //   } else {
-                //     this.$message({
-                //       message: data.msg,
-                //       type: "warning"
-                //     });
-                //   }
-                // });
+                // 默认为聚合支付
+                this.selectOptions.customerType = "payStatus";
+                if (this.selectOptions.customerType == "elecStatus" && rowdata.elecStatus == "CHECKING") {
+                  this.checkVisiblebut = true
+                } else {
+                  this.checkVisiblebut = false
+                }
               }
             }
           ]
@@ -1049,8 +1035,8 @@ export default {
           label: "聚合支付",
           disabled:
             rowdata.payStatus == "INIT" ||
-            rowdata.payStatus == "REJECT" ||
-            rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.payStatus == "REJECT" ||
+              rowdata.payStatus == "WAITING_SUBMIT"
               ? false
               : true
         },
@@ -1059,8 +1045,8 @@ export default {
           label: "快速开票",
           disabled:
             rowdata.qrcodeStatus == "INIT" ||
-            rowdata.qrcodeStatus == "REJECT" ||
-            rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.qrcodeStatus == "REJECT" ||
+              rowdata.payStatus == "WAITING_SUBMIT"
               ? false
               : true
         },
@@ -1070,8 +1056,8 @@ export default {
           // disabled: true
           disabled:
             rowdata.elecStatus == "INIT" ||
-            rowdata.elecStatus == "REJECT" ||
-            rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.elecStatus == "REJECT" ||
+              rowdata.payStatus == "WAITING_SUBMIT"
               ? false
               : true
         }

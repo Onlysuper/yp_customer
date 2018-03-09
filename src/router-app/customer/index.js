@@ -66,7 +66,7 @@ export default {
           name: "goodsEdit",
           path: 'edit/:goodsNo',
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-app-edit")
           },
           meta: {
             pageTitle: "商品"

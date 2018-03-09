@@ -217,7 +217,7 @@
     <!-- 绑定 start -->
     <el-dialog center title="绑定" :visible.sync="bindFormVisible">
       <el-form size="small" :model="bindForm" ref="bindForm" :rules="bindFormRules">
-        <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
+        <el-form-item label="二维码序列号" prop="qrcode" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="bindForm.qrcode" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="授权码" prop="authCode" :label-width="formLabelWidth">
@@ -239,7 +239,7 @@
     <!-- 绑定子码 start -->
     <el-dialog center title="绑定子码" :visible.sync="bindChildFormVisible">
       <el-form size="small" :model="bindChildForm" ref="bindChildForm" :rules="bindChildFormRules">
-        <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
+        <el-form-item label="二维码序列号" prop="qrcode" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="bindChildForm.qrcode" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="子码编号" prop="childQrcodes" :label-width="formLabelWidth">
@@ -797,7 +797,7 @@ export default {
               cb: rowdata => {
                 let url_ = this.qrcodeUrl + rowdata.authCode;
                 this.detailVisible = true;
-                this.$nextTick(function() {
+                this.$nextTick(function () {
                   // DOM 现在更新了
                   // `this` 绑定到当前实例
                   this._getQart(url_);
@@ -1327,7 +1327,7 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() { },
   computed: {}
 };
 </script>

@@ -447,7 +447,7 @@ export default {
           ]
         },
         // 数据加载成功
-        dataSuccess: data => {}
+        dataSuccess: data => { }
       }
     };
   },
@@ -549,7 +549,7 @@ export default {
         this.qrNumsVisible = true;
         this.qrcodesVisible = false;
       } else if (value == "OUT_ORDER") {
-        //二维码编号
+        //二维码序列号
         this.qrcodesVisible = true;
         this.qrNumsVisible = false;
       }
@@ -563,7 +563,7 @@ export default {
         this.qrNumsVisible2 = true;
         this.qrcodesVisible2 = false;
       } else if (value == "OUT_ORDER") {
-        //二维码编号
+        //二维码序列号
         this.qrcodesVisible2 = true;
         this.qrNumsVisible2 = false;
       }
@@ -595,7 +595,7 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() { },
   computed: {
     userType() {
       return this.$store.state.userInfoAndMenu.userMessage.all.userType;
