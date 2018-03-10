@@ -330,7 +330,7 @@ export default {
   computed: {},
   watch: {
     payStatusForm(value) {
-      console.log('改变了')
+      // console.log('改变了')
     }
   }
 };

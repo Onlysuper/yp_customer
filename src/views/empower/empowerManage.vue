@@ -313,11 +313,11 @@ export default {
       qrcodeUrl: "",
       empoverCodeFormVisible: false, // 生成授权吗弹出框
       addMaterielFormVisible: false, // 物料入库
+      exportEmpowerCodeVisible: false, // 导出授权码
       visibleQrcodes: false, // 入库方式
       detailVisible: false, // 预览
       editFormVisible: false, // 编辑
       visibleQrNums: true,
-      exportEmpowerCodeVisible: false, // 导出授权码
       batchBindVisible: false, // 批量绑定
       bindFormVisible: false, //绑定
       bindChildFormVisible: false, // 绑定子码
@@ -1328,7 +1328,18 @@ export default {
     }
   },
   mounted() { },
-  computed: {}
+  computed: {},
+  watch: {
+    empoverCodeFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    addMaterielFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    exportEmpowerCodeVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

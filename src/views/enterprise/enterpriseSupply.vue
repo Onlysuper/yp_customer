@@ -429,7 +429,15 @@ export default {
       }
     }
   },
-  mounted() { }
+  mounted() { },
+  watch: {
+    detailsFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

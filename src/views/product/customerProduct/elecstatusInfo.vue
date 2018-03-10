@@ -392,7 +392,15 @@ export default {
     this.editInfo();
   },
   computed: {},
-  mounted() { }
+  mounted() { },
+  watch: {
+    addFeatureTypeVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    }
+  }
 };
 </script>
 

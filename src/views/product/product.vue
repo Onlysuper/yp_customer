@@ -486,10 +486,10 @@ export default {
                     });
                   })
                   .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
+                    // this.$message({
+                    //   type: "info",
+                    //   message: "已取消操作"
+                    // });
                   });
               }
             },
@@ -534,10 +534,10 @@ export default {
                     });
                   })
                   .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
+                    // this.$message({
+                    //   type: "info",
+                    //   message: "已取消操作"
+                    // });
                   });
               }
             }
@@ -687,7 +687,7 @@ export default {
     }
   },
   watch: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

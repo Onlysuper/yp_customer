@@ -93,6 +93,9 @@ export default {
       status: "" // 状态
     };
     return {
+      addFormVisible: false, // 新增框
+      editFormVisible: false, // 编辑框
+      configRoleFormVisible: false, // 配置角色框
       zTreeObj: "",
       setting: {
         check: {
@@ -114,9 +117,6 @@ export default {
           }
         }
       },
-      addFormVisible: false, // 新增框
-      editFormVisible: false, // 编辑框
-      configRoleFormVisible: false, // 配置角色框
       defaultProps: {
         children: "children",
         label: "label"
@@ -493,6 +493,17 @@ export default {
       // var roleTree = this.$refs;
       // console.log(roleTree);
     });
+  },
+  watch: {
+    addFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    configRoleFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
   }
 };
 </script>

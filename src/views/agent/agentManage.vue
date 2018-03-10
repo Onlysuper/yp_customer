@@ -589,7 +589,7 @@ export default {
           }
         ],
         operation: {
-          width: "120px",
+          width: "70px",
           options: [
             // 操作按钮
             {
@@ -715,12 +715,13 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // this.saveLoading = true;
+
           let sendata = {
             ...this.addForm,
             ...this.changeAgentArea(this.addForm.agentArea),
             ...this.changeBankArea(this.addForm.bankArea)
           };
+          this.saveLoading = true;
           postAddAgentManage()(sendata).then(data => {
             if (data.code === "00") {
               this.$message({

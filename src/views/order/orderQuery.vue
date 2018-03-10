@@ -26,7 +26,7 @@
           <span class="line-label">手续费:</span>{{utils.accMul(detailsForm.fee, 0.01)}}元
         </div>
         <div class="line-label-box">
-          <span class="line-label">交易费率:</span>{{detailsForm.feeRate, 100}}
+          <span class="line-label">交易费率:</span>{{utils.accMul(detailsForm.feeRate, 100)+'%'}}
         </div>
         <div class="line-label-box">
           <span class="line-label">代理商编号:</span>{{detailsForm.agentNo}}

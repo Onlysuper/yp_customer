@@ -144,7 +144,6 @@ export default {
     return {
       // 授权码
       checkFormVisible: false,
-
       checkFormVisible2: false,
       migrateTypeVisible: false,
       qrNumsVisible: false,
@@ -593,6 +592,14 @@ export default {
       // 所有的用户信息
       return this.$store.state.userInfoAndMenu.userMessage.all;
     }
+  },
+  watch: {
+    checkFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    checkFormVisible2(val) {
+      this.saveLoadingStop(val);
+    },
   }
 };
 </script>

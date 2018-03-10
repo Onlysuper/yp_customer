@@ -717,10 +717,10 @@ export default {
                     });
                   })
                   .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
+                    // this.$message({
+                    //   type: "info",
+                    //   message: "已取消操作"
+                    // });
                   });
               }
             },
@@ -776,10 +776,10 @@ export default {
                     });
                   })
                   .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
+                    // this.$message({
+                    //   type: "info",
+                    //   message: "已取消操作"
+                    // });
                   });
               }
             },
@@ -868,7 +868,7 @@ export default {
   },
 
   methods: {
-    taxRateChange(event, type) {},
+    taxRateChange(event, type) { },
     // 商品名称智能编码
     goodsNameGet(value) {
       this.selectLoading = true;
@@ -927,7 +927,7 @@ export default {
     handleExceed(files, fileList) {
       this.$message.warning(
         `当前共选择了 ${files.length +
-          fileList.length} 个文件,超出限定个数。可删除下方上传列表`
+        fileList.length} 个文件,超出限定个数。可删除下方上传列表`
       );
     },
     // 导入失败
@@ -1067,7 +1067,7 @@ export default {
     }
   },
   computed: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

@@ -646,6 +646,20 @@ export default {
       return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_all;
     }
+  },
+  watch: {
+    purchaseFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    scangunFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editPayFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editScangunFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
   }
 };
 </script>

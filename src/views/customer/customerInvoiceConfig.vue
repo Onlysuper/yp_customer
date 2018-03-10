@@ -426,8 +426,15 @@ export default {
       return this.$store.state.Base.oaIp;
     }
   },
-  watch: {},
-  mounted() {}
+  watch: {
+    addFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    }
+  },
+  mounted() { }
 };
 </script>
 

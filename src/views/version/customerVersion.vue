@@ -469,7 +469,12 @@ export default {
       this.isBatchUpdate = false;
     }
   },
-  mounted() { }
+  mounted() { },
+  watch: {
+    dialogVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

@@ -510,11 +510,9 @@ export default {
     resetAddForm(formName) {
       this.$refs[formName].resetFields();
     },
-    downLoad(pdfUrl) {
-      console.log(pdfUrl);
-      return;
-      this.$refs.dataTable.ExportExcel(pdfUrl, "download", false, true);
-    },
+    // downLoad(pdfUrl) {
+    //   this.$refs.dataTable.ExportExcel(pdfUrl, "download", false, true);
+    // },
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
@@ -562,7 +560,18 @@ export default {
       }
     }
   },
-  mounted() { }
+  mounted() { },
+  watch: {
+    detailsFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    downLoadVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

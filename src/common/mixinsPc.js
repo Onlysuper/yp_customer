@@ -34,7 +34,12 @@ const mixinsPc = {
         return false
       }
     },
-
+    saveLoadingStop(val = false) {
+      if (!val) {
+        this.saveLoading = false
+        this.saveLoading2 = false
+      }
+    }
   },
   computed: {
     oaIp() {
