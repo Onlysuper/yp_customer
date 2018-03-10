@@ -643,7 +643,9 @@ export default {
       // 新增数据 弹出框
       this.addFormVisible = true;
     },
-    handleChangeArea() { },
+    handleChangeArea() {
+      this.inputChangeValidate('addForm');
+    },
     bankhandleChangeArea(value) {
       console.log(value);
       //选择银行区域

@@ -65,10 +65,14 @@ export default {
     },
     // 得到对象里面的部分属性组成心得对象
     pickObj(obj, arr) {
-        return arr.reduce(
-            (iter, val) => (val in obj && (iter[val] = obj[val]), iter),
-            {}
-        );
+        if (obj) {
+            return arr.reduce(
+                (iter, val) => (val in obj && (iter[val] = obj[val]), iter),
+                {}
+            );
+        } else {
+            return {}
+        }
     },
     /**
      * 检测数据类型 isType({},"object") 返回true

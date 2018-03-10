@@ -18,7 +18,7 @@ const mixinsPc = {
       // 重置表单
       this.$refs[formName].resetFields();
     },
-    inputChange(formName) {
+    inputChangeValidate(formName) {
       this.$refs[formName].validate(valid => { })
     },
     mounted() {
