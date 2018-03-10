@@ -90,8 +90,9 @@
   .agree-box {
     text-align: center;
     padding: 0px 0 20px 0;
-    .agree-box {
+    .show {
       cursor: pointer;
+      color: rgb(0, 193, 223);
     }
   }
   .paystatusUpload-box {
@@ -328,7 +329,7 @@ export default {
       let reader = new FileReader();
       let self = this;
       reader.readAsDataURL(file);
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         // base64编码
         self[where].imgString = this.result;
         // base64编码压缩成更小的

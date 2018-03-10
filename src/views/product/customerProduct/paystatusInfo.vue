@@ -12,7 +12,7 @@
           <el-date-picker value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.bussinessLicenseEffectiveBegin" type="date" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
-        <el-form-item class="full-width" label="至" prop="bussinessLicenseEffectiveEnd" label-width="30px">
+        <el-form-item class="full-width" label="至" prop="bussinessLicenseEffectiveEnd" label-width="50px">
           <el-date-picker value-format="yyyy-MM-dd" v-model="payStatusForm.bussinessLicenseEffectiveEnd" type="date" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
@@ -222,9 +222,12 @@ export default {
                 r => r.unionCode == payStatusForm.unionCode
               ).branchName || payStatusForm.unionCode;
           }
+          // console.log(payStatusForm);
           let newRow = utils.pickObj(payStatusForm, [
             'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
+            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType', 'phoneNo',
+            'unionCode',
+            'bankCode',
           ]);
           let sendata = {
             customerNo: this.rowData.bussinessNo,
@@ -238,7 +241,7 @@ export default {
             ...newRow
           };
           this.saveLoading = true;
-          completeSettleInfo()(sendata).then(data => {
+          completeSettleInfo()({ ...sendata }).then(data => {
             if (data.code === "00") {
               // 下一步
               this.$emit("nextFn", "paystatusGoods");
