@@ -855,6 +855,7 @@ export default {
                 this.getCustomerEcho(rowdata); // 聚合支付回显
                 this.getElectronicEcho(rowdata); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
+                // 所有选项均可选
                 this.selectOptions.customerTypeOptions.forEach(element => {
                   element.disabled = false;
                 });
@@ -939,9 +940,12 @@ export default {
                 this.getCustomerEcho(rowdata); // 聚合支付回显
                 this.getElectronicEcho(rowdata); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
-                // 可选
+                // 只有电子发票可以审核
                 this.selectOptions.customerTypeOptions.forEach(element => {
-                  element.disabled = false;
+                  if (element.value != "elecStatus") {
+                    element.disabled = true;
+                    this.selectOptions.customerType = "elecStatus"
+                  }
                 });
                 this.detailsFormVisible = true;
               }

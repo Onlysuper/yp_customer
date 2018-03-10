@@ -349,14 +349,7 @@ export default {
           this.saveLoading = true;
           var addForm = this.addForm;
           // this.resetSearchHandle();
-          postAddEnterpriseSupply()({
-            name: addForm.name,
-            tax: addForm.tax,
-            address: addForm.address,
-            tel: addForm.tel,
-            bank: addForm.bank,
-            account: addForm.account
-          }).then(data => {
+          postAddEnterpriseSupply()({ ...addForm }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -436,7 +429,7 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 

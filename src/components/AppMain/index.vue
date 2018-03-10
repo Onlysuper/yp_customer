@@ -33,7 +33,7 @@ export default {
   },
   watch: {
     cachedViews(value) {
-      console.log(value);
+      // console.log(value);
     }
   },
   mounted() {
