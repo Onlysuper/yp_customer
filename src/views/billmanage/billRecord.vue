@@ -217,7 +217,7 @@ import {
 } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { getBillrecords, postEditBillrecord } from "@src/apis";
-
+import utils from "@src/common/utils"
 export default {
   name: "billrecord",
   components: {
@@ -520,25 +520,14 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let editForm = this.editForm;
-          // this.resetSearchHandle();
+          let sendata = utils.pickObj(editForm, [
+            "billRecordNo", 'orderNo', 'status', 'invoiceCode', 'invoiceNo',
+            'totalTax', 'phoneNo', 'taxNo', 'enterpriseAddress', 'bankName',
+            'bankAccountNo', 'companyPhone', 'bussinessName', 'billAmount',
+            'enterpriseName'
+          ]);
           this.saveLoading = true;
-          postEditBillrecord()({
-            billRecordNo: editForm.billRecordNo,
-            orderNo: editForm.orderNo,
-            status: editForm.status,
-            invoiceCode: editForm.invoiceCode,
-            invoiceNo: editForm.invoiceNo,
-            totalTax: editForm.totalTax,
-            phoneNo: editForm.phoneNo,
-            enterpriseName: editForm.phoneNo,
-            taxNo: editForm.taxNo,
-            enterpriseAddress: editForm.enterpriseAddress,
-            bankName: editForm.bankName,
-            bankAccountNo: editForm.bankAccountNo,
-            companyPhone: editForm.companyPhone,
-            bussinessName: editForm.bussinessName,
-            billAmount: editForm.billAmount
-          }).then(data => {
+          postEditBillrecord()({ ...sendata }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",

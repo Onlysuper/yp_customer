@@ -51,7 +51,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm')">重置</el-button>
         <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm')">审核通过</el-button>
-        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm')">审核拒绝</el-button>
       </div>
     </el-dialog>
     <!-- 审核下级授权码采购 end -->
@@ -101,7 +101,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm2')">重置</el-button>
         <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm2')">审核通过</el-button>
-        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm2')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm2')">审核拒绝</el-button>
       </div>
     </el-dialog>
     <!-- 扫码枪采购 end -->
@@ -119,6 +119,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
+import utils from "@src/common/utils"
 import {
   getArantNumExamines,
   putAdoptArantNumExamine,
@@ -467,18 +468,13 @@ export default {
           } else {
             receiptType = thisForm.receiptType;
           }
-
+          let sendata = utils.pickObj(thisForm, [
+            "receiptNo", 'agentNo', 'qrcodeCount', 'price', 'prefixNo', 'migrateType', 'qrcodeStart',
+            'qrcodeEnd', 'qrcodes'
+          ]);
           putAdoptArantNumExamine(thisForm.receiptNo)({
-            receiptNo: thisForm.receiptNo,
             receiptType: receiptType,
-            agentNo: thisForm.agentNo,
-            qrcodeCount: thisForm.qrcodeCount,
-            price: thisForm.price,
-            prefixNo: thisForm.prefixNo,
-            migrateType: thisForm.migrateType,
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes
+            ...sendata
           }).then(data => {
             if (data.code == "00") {
               this.$message({
@@ -507,18 +503,11 @@ export default {
           this.saveLoading2 = true;
           this.buttonDisabled = true;
           var thisForm = this[formName];
-          putRefuseArantNumExamine(thisForm.receiptNo)({
-            agentNo: thisForm.agentNo,
-            receiptNo: thisForm.receiptNo,
-            receiptType: thisForm.receiptType,
-            qrcodeCount: thisForm.qrcodeCount,
-            price: thisForm.price,
-            prefixNo: thisForm.prefixNo,
-            migrateType: thisForm.migrateType,
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes
-          }).then(data => {
+          let sendata = utils.pickObj(thisForm, [
+            "agentNo", 'receiptNo', 'receiptType', 'qrcodeCount', 'price', 'prefixNo', 'migrateType',
+            "qrcodeStart", 'qrcodeEnd', 'qrcodes'
+          ]);
+          putRefuseArantNumExamine(thisForm.receiptNo)({ ...sendata }).then(data => {
             if (data.code == "00") {
               this.$message({
                 type: "success",
