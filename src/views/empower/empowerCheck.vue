@@ -152,10 +152,10 @@ export default {
       qrcodesVisible2: false,
       checkFormRules: {
         price: [
-          { required: true, message: "采购单价不能为空", trigger: "blur" }
+          { required: true, message: "采购单价不能为空", trigger: "blur,change" }
         ],
         migrateType: [
-          { required: true, message: "请选择开发方式", trigger: "blur" }
+          { required: true, message: "请选择开发方式", trigger: "blur,change" }
         ]
       },
       checkForm: {},
@@ -164,10 +164,10 @@ export default {
 
       checkFormRules2: {
         price: [
-          { required: true, message: "采购单价不能为空", trigger: "blur" }
+          { required: true, message: "采购单价不能为空", trigger: "blur,change" }
         ],
         migrateType: [
-          { required: true, message: "请选择开发方式", trigger: "blur" }
+          { required: true, message: "请选择开发方式", trigger: "blur,change" }
         ]
       },
       checkForm2: {},

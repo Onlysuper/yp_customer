@@ -179,9 +179,9 @@ export default {
         repassword: "" //确认密码
       },
       passwordRules: {
-        oldPassword: [{ validator: oldPass, trigger: "blur" }],
-        password: [{ validator: newPass, trigger: "blur" }],
-        repassword: [{ validator: confirmPass, trigger: "blur" }]
+        oldPassword: [{ validator: oldPass, trigger: "blur,change" }],
+        password: [{ validator: newPass, trigger: "blur,change" }],
+        repassword: [{ validator: confirmPass, trigger: "blur,change" }]
       }
     };
   },
@@ -233,7 +233,7 @@ export default {
             path: "/home",
             title: "首页"
           })
-          .then(res => {});
+          .then(res => { });
         // 清空用户信息
         localStorage.setItem("isLogin", "0");
         window.location.reload();
@@ -249,6 +249,6 @@ export default {
       return this.$store.state.userInfoAndMenu.userMessage;
     }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>

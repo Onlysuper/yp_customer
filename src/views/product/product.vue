@@ -166,18 +166,18 @@ export default {
       },
       addFormRules: {
         bussinessType: [
-          { required: true, message: "请选择业务类型", trigger: "blur" }
+          { required: true, message: "请选择业务类型", trigger: "blur,change" }
         ],
         productName: [
-          { required: true, message: "请输入产品名称", trigger: "blur" }
+          { required: true, message: "请输入产品名称", trigger: "blur,change" }
         ],
         costMode: [
-          { required: true, message: "请选择收费模式", trigger: "blur" }
+          { required: true, message: "请选择收费模式", trigger: "blur,change" }
         ],
-        fixed: [{ required: true, message: "请输入固定值", trigger: "blur" }],
-        rate: [{ required: true, message: "请输入费率", trigger: "blur" }],
+        fixed: [{ required: true, message: "请输入固定值", trigger: "blur,change" }],
+        rate: [{ required: true, message: "请输入费率", trigger: "blur,change" }],
         effectiveDay: [
-          { required: true, message: "请输入输入有效天数", trigger: "blur" }
+          { required: true, message: "请输入输入有效天数", trigger: "blur,change" }
         ]
       },
       // 顶部搜索表单信息

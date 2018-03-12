@@ -84,7 +84,7 @@ export default {
       this.btnDisabled = true;
       this.adoptEmpowerCheck(this.unitData).then(flag => {
         this.btnDisabled = false;
-        if (flag) this.$router.back();
+        if (flag) { this.$router.back(); }
       });
     },
     // 拒绝

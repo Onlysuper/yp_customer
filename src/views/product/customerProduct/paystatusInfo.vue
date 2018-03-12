@@ -155,38 +155,38 @@ export default {
       },
       payStatusFormRules: {
         bussinessLicenseEffectiveBegin: [
-          { required: true, message: "请选择经营执照开始时间", trigger: "blur" }
+          { required: true, message: "请选择经营执照开始时间", trigger: "blur,change" }
         ],
         bussinessLicenseEffectiveEnd: [
-          { required: true, message: "请选择经营执照结束时间", trigger: "blur" }
+          { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
         ],
-        Area: [{ required: true, message: "请输入经营区域", trigger: "blur" }],
+        Area: [{ required: true, message: "请输入经营区域", trigger: "blur,change" }],
         bussinessAddress: [
-          { required: true, message: "请输入详细地址", trigger: "blur" }
+          { required: true, message: "请输入详细地址", trigger: "blur,change" }
         ],
         legalPerson: [
-          { required: true, message: "请输入法人名称", trigger: "blur" }
+          { required: true, message: "请输入法人名称", trigger: "blur,change" }
         ],
         idCard: [
           { validator: idCardVerify_r, trigger: "blur" }
         ],
         category: [
-          { required: true, message: "请选择行业类型", trigger: "blur" }
+          { required: true, message: "请选择行业类型", trigger: "blur,change" }
         ],
         accountType: [
-          { required: true, message: "请选择结算信息", trigger: "blur" }
+          { required: true, message: "请选择结算信息", trigger: "blur,change" }
         ],
         phoneNo: [
-          { required: true, message: "请输入预留手机号码", trigger: "blur" }
+          { required: true, message: "请输入预留手机号码", trigger: "blur,change" }
         ],
         bankCode: [
-          { required: true, message: "请输入开户银行", trigger: "blur" }
+          { required: true, message: "请输入开户银行", trigger: "blur,change" }
         ],
         bankArea: [
-          { required: true, message: "请选择银行区域", trigger: "blur" }
+          { required: true, message: "请选择银行区域", trigger: "blur,change" }
         ],
-        unionCode: [{ required: true, message: "请选择支行", trigger: "blur" }],
-        accountNo: [{ required: true, message: "请输入账号", trigger: "blur" }]
+        unionCode: [{ required: true, message: "请选择支行", trigger: "blur,change" }],
+        accountNo: [{ required: true, message: "请输入账号", trigger: "blur,change" }]
       } // 编辑单个规则
     };
   },

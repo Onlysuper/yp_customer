@@ -157,10 +157,10 @@ export default {
       },
       purchaseFormRules: {
         qrcodeCount: [
-          { required: true, message: "请输入申请数量", trigger: "blur" }
+          { required: true, message: "请输入申请数量", trigger: "blur,change" }
         ],
         isPrint: [
-          { required: true, message: "请选择是否需要生产水牌", trigger: "blur" }
+          { required: true, message: "请选择是否需要生产水牌", trigger: "blur,change" }
         ]
       },
       scangunForm: {
@@ -169,22 +169,22 @@ export default {
       },
       scangunFormRules: {
         qrcodeCount: [
-          { required: true, message: "请输入申请数量", trigger: "blur" }
+          { required: true, message: "请输入申请数量", trigger: "blur,change" }
         ]
       },
       editPayForm: {},
       editPayFormRules: {
         qrcodeCount: [
-          { required: true, message: "请输入申请数量", trigger: "blur" }
+          { required: true, message: "请输入申请数量", trigger: "blur,change" }
         ],
         isPrint: [
-          { required: true, message: "请选择是否生成水牌", trigger: "blur" }
+          { required: true, message: "请选择是否生成水牌", trigger: "blur,change" }
         ]
       },
       editScangunForm: {},
       editScangunFormRules: {
         qrcodeCount: [
-          { required: true, message: "请输入申请数量", trigger: "blur" }
+          { required: true, message: "请输入申请数量", trigger: "blur,change" }
         ]
       },
       searchCondition: searchConditionVar,

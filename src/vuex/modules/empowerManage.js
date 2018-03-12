@@ -56,6 +56,32 @@ export default {
         else return item;
       })
     },
+    // 解绑 刷新
+    ["QRCODE_UNBINDCHILD_UPDATA"](state, data) {
+      state.list = state.list.map(item => {
+        if (data.authCode == item.parentCode || data.qrcode == item.qrcode) {
+          let row = data;
+          row.status = "TRUE";
+          row.customerNo = "";
+          row.parentCode = null;
+          return row
+        }
+        else return item;
+      })
+    },
+    // 绑定子码 刷新
+    ["QRCODE_BINDCHILD_UPDATA"](state, data) {
+      state.list = state.list.map(item => {
+        if (data.childQrcodes == item.qrcode) {
+          let row = data;
+          row.parentCode = data.authCode;
+          row.customerNo = data.customerNo;
+          row.status = "BINDED";
+          return row
+        }
+        else return item;
+      })
+    },
     // 生成授权码
     ["QRCODE_IS_BUILD"](state, data) {
       state.list.push(data)
@@ -136,7 +162,7 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODE_UPDATA", thisForm);
+          commit("QRCODE_BINDCHILD_UPDATA", thisForm);
           Toast("绑定成功");
           return true;
         } else {

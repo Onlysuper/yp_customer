@@ -241,10 +241,9 @@ export default {
       // 解绑
       postUnBindEmpower()(this.rowdata).then(data => {
         if (data.code == "00") {
-          console.log(this.rowdata);
           let row = { ...this.rowdata };
           row.status = "TRUE";
-          this.$store.commit("QRCODE_UPDATA", row);
+          this.$store.commit("QRCODE_UNBINDCHILD_UPDATA", row);
           Toast("解绑成功");
         } else {
           Toast(data.msg);

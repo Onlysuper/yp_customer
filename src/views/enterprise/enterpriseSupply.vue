@@ -171,8 +171,8 @@ export default {
       addFormVisible: false,
       addForm: {},
       addFormRules: {
-        name: [{ required: true, message: "请输入资质名称", trigger: "blur" }],
-        tax: [{ required: true, message: "请输入税号", trigger: "blur" }]
+        name: [{ required: true, message: "请输入资质名称", trigger: "blur,change" }],
+        tax: [{ required: true, message: "请输入税号", trigger: "blur,change" }]
       },
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框

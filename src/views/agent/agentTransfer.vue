@@ -76,19 +76,19 @@ export default {
       transferForm: {},
       transferFormRules: {
         transferAgentNo: [
-          { required: true, message: "请输入转移合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入转移合伙人编号", trigger: "blur,change" }
         ],
         targetAgentNo: [
-          { required: true, message: "请输入接受合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入接受合伙人编号", trigger: "blur,change" }
         ]
       },
       branchOfficeForm: {},
       branchOfficeFormRules: {
         targetAgentNo: [
-          { required: true, message: "请输入接收合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入接收合伙人编号", trigger: "blur,change" }
         ],
         agentNo: [
-          { required: true, message: "请输入一代合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入一代合伙人编号", trigger: "blur,change" }
         ]
       }
     };

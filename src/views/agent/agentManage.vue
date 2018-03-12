@@ -431,13 +431,13 @@ export default {
       },
       addFormRules: {
         agentName: [
-          { required: true, message: "请输入合伙人名称", trigger: "blur" }
+          { required: true, message: "请输入合伙人名称", trigger: "blur,change" }
         ],
         phoneNo: [
-          { required: true, validator: phoneNumVerify, trigger: "blur" }
+          { required: true, validator: phoneNumVerify, trigger: "blur,change" }
         ],
         agentArea: [
-          { required: true, message: "请选择经营区域", trigger: "blur" }
+          { required: true, message: "请选择经营区域", trigger: "blur,change" }
         ]
       },
       // 顶部搜索表单信息

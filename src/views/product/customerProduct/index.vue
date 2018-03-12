@@ -490,11 +490,11 @@ export default {
       closeForm: {},
       closeFormRules: {
         closeReason: [
-          { required: true, message: "请填写关闭原因", trigger: "blur" }
+          { required: true, message: "请填写关闭原因", trigger: "blur,change" }
         ]
       },
       resaultFormRules: {
-        reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur" }]
+        reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
       },
       detailsForm: {
         customer: {},
@@ -893,8 +893,9 @@ export default {
               visibleFn: rowdata => {
                 if (
                   isAdmin &&
-                  (rowdata.payStatus == "TRUE" ||
-                    rowdata.qrcodeStatus == "TRUE" ||
+                  (
+                    // rowdata.payStatus == "TRUE" ||
+                    // rowdata.qrcodeStatus == "TRUE" ||
                     rowdata.elecStatus == "TRUE")
                 ) {
                   return true;

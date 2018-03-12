@@ -15,7 +15,6 @@
           <mt-badge slot="badge" class="g-min-badge" size="small" type="error" v-if="item.isPrint == 'Y'">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
           <!-- 状态 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="success">{{item.status | empowerCheckStatus}}</mt-badge>
-
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->

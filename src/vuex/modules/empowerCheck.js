@@ -40,7 +40,10 @@ export default {
     },
     ["QRCODERECIEPTAUDIT_UPDATA"](state, data) {
       state.list = state.list.map(item => {
-        if (data.receiptNo == item.receiptNo) return data;
+        if (data.receiptNo == item.receiptNo) {
+          console.log(data)
+          return data;
+        }
         else return item;
       })
     }
@@ -69,7 +72,6 @@ export default {
           //刷新数据
           let row = { ...thisForm };
           row.status = "SUCCESS";
-          console.log(row);
           commit("QRCODERECIEPTAUDIT_UPDATA", row);
           Toast("修改成功");
           return true;
@@ -97,7 +99,7 @@ export default {
           //刷新数据
           let row = { ...thisForm };
           row.status = "REJECT";
-          commit("QRCODERECIEPTAUDIT_UPDATA", thisForm);
+          commit("QRCODERECIEPTAUDIT_UPDATA", row);
           Toast("修改成功");
           return true;
         } else {

@@ -268,18 +268,18 @@ export default {
       formLabelWidth: "110px",
       editFormRules: {
         orderNo: [
-          { required: true, message: "请输入订单编号", trigger: "blur" }
+          { required: true, message: "请输入订单编号", trigger: "blur,change" }
         ]
       },
       sureFormRules: {
         receiveMan: [
-          { required: true, message: "请输入对公账户名称", trigger: "blur" }
+          { required: true, message: "请输入对公账户名称", trigger: "blur,change" }
         ],
         accountNo: [
-          { required: true, message: "请输入收款账号", trigger: "blur" }
+          { required: true, message: "请输入收款账号", trigger: "blur,change" }
         ],
         bankName: [
-          { required: true, message: "请输入开户行名称", trigger: "blur" }
+          { required: true, message: "请输入开户行名称", trigger: "blur,change" }
         ]
       },
       searchCondition: searchConditionVar,
