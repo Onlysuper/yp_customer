@@ -15,6 +15,7 @@ export default {
     ["QRCODEMIGRATE_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
+      state.isReload = false;
       state.searchQuery = {
         migrateNo: "",
         migrateMode: "",
@@ -42,7 +43,12 @@ export default {
     //是否开始搜索
     ["QRCODEMIGRATE_SEARCH"](state, flag) {
       state.isSearch = flag;
-    }
+    },
+    //是否开始搜索
+    ["QRCODEMIGRATE_IS_RELOAD"](state, flag) {
+      state.isReload = flag;
+    },
+
   },
   actions: {
     // 授权码分配
@@ -61,7 +67,7 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODE_IS_RELOAD");
+          commit("QRCODEMIGRATE_IS_RELOAD");
           Toast("授权码分配成功！");
           return true;
         } else {
@@ -85,7 +91,7 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODE_IS_RELOAD");
+          commit("QRCODEMIGRATE_IS_RELOAD");
           Toast("授权码上缴成功！");
           return true;
         } else {

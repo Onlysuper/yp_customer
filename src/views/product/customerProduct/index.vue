@@ -298,7 +298,7 @@
         </el-select>
       </div>
       <el-form size="small" :model="closeForm" ref="closeForm" :rules="closeFormRules" label-width="100px">
-        <el-form-item prop="closeReason" label="关闭原因">
+        <el-form-item prop="reason" label="关闭原因">
           <el-input type="textarea" v-model="closeForm.reason"></el-input>
         </el-form-item>
       </el-form>
@@ -489,7 +489,7 @@ export default {
       resaultForm: {}, // 拒绝表单
       closeForm: {},
       closeFormRules: {
-        closeReason: [
+        reason: [
           { required: true, message: "请填写关闭原因", trigger: "blur,change" }
         ]
       },
@@ -1009,7 +1009,8 @@ export default {
             type: "warning"
           }).then(() => {
             this.resaultHandle(obj);
-          });
+          }).catch(() => {
+          });;
         }
       });
     },
