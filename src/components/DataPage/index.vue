@@ -238,6 +238,7 @@ export default {
     },
     //假刷新
     unrealReload() {
+      console.log("假刷新");
       let arr_ = this.tableData;
       this.tableData = [];
       this.$nextTick(() => {

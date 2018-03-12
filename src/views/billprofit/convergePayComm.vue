@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -86,7 +86,7 @@ export default {
           visible:
             this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -103,7 +103,7 @@ export default {
           visible:
             this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -120,7 +120,7 @@ export default {
           show:
             this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? false
               : true, // 普通搜索显示
           value: lastMonth, // 表单默认的内容
@@ -133,7 +133,7 @@ export default {
         // {
         //   corresattr: "containChild",
         //   type: "select",
-        //   label: "是否有下级",
+        //   label: "包含关系",
         //   visible:
         //     this.$store.state.userInfoAndMenu.userMessage.all.userType ==
         //       "admin" ||

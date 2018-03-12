@@ -31,6 +31,11 @@ export default {
       return this.$store.state.tagsView.cachedViews;
     }
   },
+  watch: {
+    cachedViews(value) {
+      // console.log(value);
+    }
+  },
   mounted() {
     // console.log(cachedViews);
     // console.log(this.cachedViews);

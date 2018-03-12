@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -128,7 +128,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否有下级",
+          label: "包含关系",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -317,7 +317,7 @@ export default {
     }
   },
   computed: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

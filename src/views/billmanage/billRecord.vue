@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
@@ -217,7 +217,7 @@ import {
 } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { getBillrecords, postEditBillrecord } from "@src/apis";
-
+import utils from "@src/common/utils"
 export default {
   name: "billrecord",
   components: {
@@ -259,73 +259,10 @@ export default {
           }
         },
         {
-          corresattr: "authCode",
-          type: "text",
-          label: "授权码",
-          show: false, // 普通搜索显示
-          value: "",
-          cb: value => {
-            this.searchCondition.authCode = value;
-          }
-        },
-
-        {
-          type: "dateGroup",
-          label: "选择时间",
-          show: true, // 普通搜索显示
-          options: [
-            {
-              corresattr: "createTimeStart",
-              label: "开始时间",
-              value: today_,
-              cb: value => {
-                this.searchCondition.createTimeStart = value;
-              }
-            },
-            {
-              corresattr: "createTimeEnd",
-              lable: "结束时间",
-              value: today_,
-              cb: value => {
-                this.searchCondition.createTimeEnd = value;
-              }
-            }
-          ]
-        },
-
-        {
-          corresattr: "invoiceType",
-          type: "select",
-          label: "开票类型",
-          show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "所有"
-            },
-            {
-              value: "1",
-              label: "普票"
-            },
-            {
-              value: "2",
-              label: "专票"
-            },
-            {
-              value: "3",
-              label: "电票"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.invoiceType = value;
-          }
-        },
-        {
           corresattr: "status",
           type: "select",
           label: "状态",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -360,7 +297,69 @@ export default {
           cb: value => {
             this.searchCondition.status = value;
           }
+        },
+        {
+          type: "dateGroup",
+          label: "选择时间",
+          show: true, // 普通搜索显示
+          options: [
+            {
+              corresattr: "createTimeStart",
+              label: "开始时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.createTimeStart = value;
+              }
+            },
+            {
+              corresattr: "createTimeEnd",
+              lable: "结束时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.createTimeEnd = value;
+              }
+            }
+          ]
+        },
+        {
+          corresattr: "authCode",
+          type: "text",
+          label: "授权码",
+          show: false, // 普通搜索显示
+          value: "",
+          cb: value => {
+            this.searchCondition.authCode = value;
+          }
+        },
+        {
+          corresattr: "invoiceType",
+          type: "select",
+          label: "开票类型",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "所有"
+            },
+            {
+              value: "1",
+              label: "普票"
+            },
+            {
+              value: "2",
+              label: "专票"
+            },
+            {
+              value: "3",
+              label: "电票"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.invoiceType = value;
+          }
         }
+
       ],
       // 列表数据
       postSearch: searchConditionVar,
@@ -511,35 +510,22 @@ export default {
     resetAddForm(formName) {
       this.$refs[formName].resetFields();
     },
-    downLoad(pdfUrl) {
-      console.log(pdfUrl);
-      return;
-      this.$refs.dataTable.ExportExcel(pdfUrl, "download", false, true);
-    },
+    // downLoad(pdfUrl) {
+    //   this.$refs.dataTable.ExportExcel(pdfUrl, "download", false, true);
+    // },
     editSave(formName) {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
           let editForm = this.editForm;
-          // this.resetSearchHandle();
+          let sendata = utils.pickObj(editForm, [
+            "billRecordNo", 'orderNo', 'status', 'invoiceCode', 'invoiceNo',
+            'totalTax', 'phoneNo', 'taxNo', 'enterpriseAddress', 'bankName',
+            'bankAccountNo', 'companyPhone', 'bussinessName', 'billAmount',
+            'enterpriseName'
+          ]);
           this.saveLoading = true;
-          postEditBillrecord()({
-            billRecordNo: editForm.billRecordNo,
-            orderNo: editForm.orderNo,
-            status: editForm.status,
-            invoiceCode: editForm.invoiceCode,
-            invoiceNo: editForm.invoiceNo,
-            totalTax: editForm.totalTax,
-            phoneNo: editForm.phoneNo,
-            enterpriseName: editForm.phoneNo,
-            taxNo: editForm.taxNo,
-            enterpriseAddress: editForm.enterpriseAddress,
-            bankName: editForm.bankName,
-            bankAccountNo: editForm.bankAccountNo,
-            companyPhone: editForm.companyPhone,
-            bussinessName: editForm.bussinessName,
-            billAmount: editForm.billAmount
-          }).then(data => {
+          postEditBillrecord()({ ...sendata }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",
@@ -574,7 +560,18 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() { },
+  watch: {
+    detailsFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    downLoadVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

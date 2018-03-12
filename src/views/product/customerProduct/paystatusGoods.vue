@@ -8,7 +8,7 @@
         <el-input v-model="payStatusForm.alipayRate" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开通即刷即到" prop="settleMode" :label-width="formLabelWidth">
-        <el-select size="small" v-model="payStatusForm.settleMode" placeholder="请选择">
+        <el-select @change="inputChangeValidate('payStatusForm')" size="small" v-model="payStatusForm.settleMode" placeholder="请选择">
           <el-option v-for="item in settleModeOptions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>

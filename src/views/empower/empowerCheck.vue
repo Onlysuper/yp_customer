@@ -4,7 +4,7 @@
     <div class="admin-main-box">
       <!-- search form start -->
       <!-- {{adminOperationAll.qr_code_reciept_audit_all}} -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
@@ -51,7 +51,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm')">重置</el-button>
         <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm')">审核通过</el-button>
-        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm')">审核拒绝</el-button>
       </div>
     </el-dialog>
     <!-- 审核下级授权码采购 end -->
@@ -101,7 +101,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('checkForm2')">重置</el-button>
         <el-button :disabled="buttonDisabled" :loading="saveLoading" type="primary" @click="checkAdoptSave('checkForm2')">审核通过</el-button>
-        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm2')">拒绝通过</el-button>
+        <el-button :disabled="buttonDisabled2" :loading="saveLoading2" type="primary" @click="checkRefuseSave('checkForm2')">审核拒绝</el-button>
       </div>
     </el-dialog>
     <!-- 扫码枪采购 end -->
@@ -119,6 +119,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
+import utils from "@src/common/utils"
 import {
   getArantNumExamines,
   putAdoptArantNumExamine,
@@ -143,7 +144,6 @@ export default {
     return {
       // 授权码
       checkFormVisible: false,
-
       checkFormVisible2: false,
       migrateTypeVisible: false,
       qrNumsVisible: false,
@@ -447,7 +447,7 @@ export default {
           ]
         },
         // 数据加载成功
-        dataSuccess: data => {}
+        dataSuccess: data => { }
       }
     };
   },
@@ -467,18 +467,13 @@ export default {
           } else {
             receiptType = thisForm.receiptType;
           }
-
+          let sendata = utils.pickObj(thisForm, [
+            "receiptNo", 'agentNo', 'qrcodeCount', 'price', 'prefixNo', 'migrateType', 'qrcodeStart',
+            'qrcodeEnd', 'qrcodes'
+          ]);
           putAdoptArantNumExamine(thisForm.receiptNo)({
-            receiptNo: thisForm.receiptNo,
             receiptType: receiptType,
-            agentNo: thisForm.agentNo,
-            qrcodeCount: thisForm.qrcodeCount,
-            price: thisForm.price,
-            prefixNo: thisForm.prefixNo,
-            migrateType: thisForm.migrateType,
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes
+            ...sendata
           }).then(data => {
             if (data.code == "00") {
               this.$message({
@@ -507,18 +502,11 @@ export default {
           this.saveLoading2 = true;
           this.buttonDisabled = true;
           var thisForm = this[formName];
-          putRefuseArantNumExamine(thisForm.receiptNo)({
-            agentNo: thisForm.agentNo,
-            receiptNo: thisForm.receiptNo,
-            receiptType: thisForm.receiptType,
-            qrcodeCount: thisForm.qrcodeCount,
-            price: thisForm.price,
-            prefixNo: thisForm.prefixNo,
-            migrateType: thisForm.migrateType,
-            qrcodeStart: thisForm.qrcodeStart,
-            qrcodeEnd: thisForm.qrcodeEnd,
-            qrcodes: thisForm.qrcodes
-          }).then(data => {
+          let sendata = utils.pickObj(thisForm, [
+            "agentNo", 'receiptNo', 'receiptType', 'qrcodeCount', 'price', 'prefixNo', 'migrateType',
+            "qrcodeStart", 'qrcodeEnd', 'qrcodes'
+          ]);
+          putRefuseArantNumExamine(thisForm.receiptNo)({ ...sendata }).then(data => {
             if (data.code == "00") {
               this.$message({
                 type: "success",
@@ -549,7 +537,7 @@ export default {
         this.qrNumsVisible = true;
         this.qrcodesVisible = false;
       } else if (value == "OUT_ORDER") {
-        //二维码编号
+        //二维码序列号
         this.qrcodesVisible = true;
         this.qrNumsVisible = false;
       }
@@ -563,7 +551,7 @@ export default {
         this.qrNumsVisible2 = true;
         this.qrcodesVisible2 = false;
       } else if (value == "OUT_ORDER") {
-        //二维码编号
+        //二维码序列号
         this.qrcodesVisible2 = true;
         this.qrNumsVisible2 = false;
       }
@@ -595,7 +583,7 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() { },
   computed: {
     userType() {
       return this.$store.state.userInfoAndMenu.userMessage.all.userType;
@@ -604,6 +592,14 @@ export default {
       // 所有的用户信息
       return this.$store.state.userInfoAndMenu.userMessage.all;
     }
+  },
+  watch: {
+    checkFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    checkFormVisible2(val) {
+      this.saveLoadingStop(val);
+    },
   }
 };
 </script>

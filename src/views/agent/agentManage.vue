@@ -2,7 +2,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -293,6 +293,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { regionData } from "element-china-area-data";
 import { phoneNumVerify } from "@src/common/regexp";
+import utils from "@src/common/utils"
 // 省市区一转三格式
 import { areaOrgcode } from "@src/common/orgcode";
 // 所有可选银行
@@ -417,10 +418,10 @@ export default {
       },
       addForm: {
         // 新增合伙人信息
-        agentName: "", // 合伙人名称
-        phoneNo: "", //合伙人手机号
         // agentArea: ["150000", "150400", "150404"],//合伙人省市县
         // agentArea: ["130000", "130200", "130202"],
+        agentName: "", // 合伙人名称
+        phoneNo: "", //合伙人手机号
         agentArea: [], // 必须为数组
         bankArea: [], // 必须为数组
         frValue: "", // 合伙人分润成本
@@ -588,7 +589,7 @@ export default {
           }
         ],
         operation: {
-          width: "120px",
+          width: "70px",
           options: [
             // 操作按钮
             {
@@ -597,8 +598,6 @@ export default {
               cb: rowdata => {
                 // console.log(rowdata);
                 this.editFormVisible = true;
-                this.editForm = Object.assign(this.editForm, rowdata);
-                this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
                 if (rowdata.level == "1") {
                   this.visibleEditBank = true;
                   this.visibleEditIntermediay = true;
@@ -608,33 +607,26 @@ export default {
                   this.visibleEditIntermediay = false;
                   this.visibleEditDevelop = false;
                 }
-                if (!!rowdata.rebate) {
-                  this.editForm.rebate = rowdata.rebate;
-                }
-                if (!!rowdata.subsidy) {
-                  this.editForm.subsidy = rowdata.subsidy;
+                let newRow = utils.pickObj(rowdata, [
+                  "agentName", 'agentNo', 'linkMan', 'phoneNo', 'fixedPhone', "redirectUrl", 'orgCode',
+                ]);
+                this.editForm = {
+                  ...newRow,
+                  ...{ agentArea: areaOrgcode(rowdata.orgCode) }
                 }
                 postEditChange()({
                   agentNo: rowdata.agentNo
                 }).then(res => {
                   if (res.code == "00") {
                     if (rowdata.level == "1") {
-                      let data = res.data;
-                      console.log(data);
-                      if (data.branchBank) {
-                        this.editForm.unionCode =
-                          data.branchBank.unionCode || "";
-                        this.bankCode = data.branchBank.bankCode || "";
-                        this.bankCity = data.branchBank.cityId || "";
-                        this.editForm.bankCode = data.branchBank.bankCode || "";
-                        this.editForm.bankArea = [
-                          data.branchBank.provinceId,
-                          data.branchBank.cityId
-                        ];
+                      let row_s = res.data;
+                      let newRow_s = utils.pickObj(row_s, ["rebate", 'subsidy', 'isCreateKey', 'intermediary', "accountName", "accountNo", "accountType"]);
+                      this.selectOptions.branchBankOptions = row_s.bankList || [];
+                      this.editForm = {
+                        ...this.editForm,
+                        ...this.branchBankChange(row_s.branchBank),
+                        ...newRow_s
                       }
-                      this.selectOptions.branchBankOptions =
-                        data.bankList || [];
-                      this.editForm = Object.assign(this.editForm, data);
                     }
                   }
                 });
@@ -651,7 +643,9 @@ export default {
       // 新增数据 弹出框
       this.addFormVisible = true;
     },
-    handleChangeArea() {},
+    handleChangeArea() {
+      this.inputChangeValidate('addForm');
+    },
     bankhandleChangeArea(value) {
       console.log(value);
       //选择银行区域
@@ -681,45 +675,54 @@ export default {
       // 开始搜索
       this.reloadData();
     },
+    // 将后台有关银行的数据转换成前端需要的数据
+    branchBankChange(branchBank) {
+      let obj = {};
+      if (branchBank) {
+        this.bankCode = branchBank.bankCode || "";
+        this.bankCity = branchBank.cityId || "";
+        obj.unionCode = branchBank.unionCode || "";
+        obj.bankCode = branchBank.bankCode || "";
+        obj.bankArea = [branchBank.provinceId, branchBank.cityId];
+      }
+      return obj;
+    },
+    // 将表单里面的区域转化成需要往后台传送的数据
+    changeAgentArea(agentArea) {
+      let obj = {};
+      if (agentArea) {
+        obj.province = agentArea[0] ? agentArea[0] : "";
+        obj.city = agentArea[1] || agentArea[0] || "";
+        obj.orgCode =
+          agentArea[2] ||
+          agentArea[1] ||
+          agentArea[0] ||
+          "";
+      }
+      return obj
+    },
+    // 将表单里面的银行区域转化成需要往后台传送的数据
+    changeBankArea(bankArea) {
+      let obj = {};
+      if (bankArea) {
+        obj.provinceId = bankArea[0] || "";
+        obj.cityId = bankArea[1] || bankArea[0] || "";
+        obj.bankOrgCode = bankArea[2] || bankArea[1] || bankArea[0] || ""
+      }
+      return obj
+    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saveLoading = true;
-          var addForm = this.addForm;
-          let obj = {
-            agentName: addForm.agentName ? addForm.agentName : "",
-            linkMan: addForm.linkMan ? addForm.linkMan : "",
-            phoneNo: addForm.phoneNo ? addForm.phoneNo : "",
-            fixedPhone: addForm.fixedPhone ? addForm.fixedPhone : "",
-            accountName: addForm.accountName || "",
-            accountNo: addForm.accountNo || "",
-            accountType: addForm.accountType || 0,
-            provinceId: addForm.bankArea[0] || "",
-            cityId: addForm.bankArea[1] || addForm.bankArea[0] || "",
-            bankOrgCode:
-              addForm.bankArea[2] ||
-              addForm.bankArea[1] ||
-              addForm.bankArea[0] ||
-              "",
-            bankCode: addForm.bankCode || "",
-            unionCode: addForm.unionCode || "",
-            isCreateKey: addForm.isCreateKey || "",
-            redirectUrl: addForm.redirectUrl || "",
-            subsidy: addForm.subsidy || "",
-            intermediary: addForm.intermediary || "",
-            rebate: addForm.rebate || ""
+
+          let sendata = {
+            ...this.addForm,
+            ...this.changeAgentArea(this.addForm.agentArea),
+            ...this.changeBankArea(this.addForm.bankArea)
           };
-          if (addForm.agentArea) {
-            obj.province = addForm.agentArea[0] ? addForm.agentArea[0] : "";
-            obj.city = addForm.agentArea[1] || addForm.agentArea[0] || "";
-            obj.orgCode =
-              addForm.agentArea[2] ||
-              addForm.agentArea[1] ||
-              addForm.agentArea[0] ||
-              "";
-          }
-          postAddAgentManage()(obj).then(data => {
+          this.saveLoading = true;
+          postAddAgentManage()(sendata).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -752,56 +755,12 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saveLoading = true;
-          var editForm = this.editForm;
-          var sendObj = {
-            agentName: editForm.agentName,
-            agentNo: editForm.agentNo,
-            linkMan: editForm.linkMan,
-            phoneNo: editForm.phoneNo ? editForm.phoneNo : "",
-            fixedPhone: editForm.fixedPhone ? editForm.fixedPhone : "",
-            isCreateKey: editForm.isCreateKey ? editForm.isCreateKey : "",
-            redirectUrl: editForm.redirectUrl ? editForm.redirectUrl : "",
-            subsidy: editForm.subsidy ? editForm.subsidy : "",
-            intermediary: editForm.intermediary ? editForm.intermediary : "",
-            rebate: editForm.rebate ? editForm.rebate : ""
+          let sendata = {
+            ...this.editForm,
+            ...this.changeAgentArea(this.editForm.agentArea),
+            ...this.changeBankArea(this.editForm.bankArea)
           };
-          if (editForm.hasOwnProperty("agentArea")) {
-            sendObj.province = editForm.agentArea[0] || "";
-            sendObj.city = editForm.agentArea[1] || editForm.agentArea[0] || "";
-            sendObj.orgCode =
-              editForm.agentArea[2] ||
-              editForm.agentArea[1] ||
-              editForm.agentArea[0] ||
-              "";
-          }
-          if (this.visibleEditBank) {
-            sendObj.accountName = editForm.accountName
-              ? editForm.accountName
-              : "";
-            sendObj.accountNo = editForm.accountNo ? editForm.accountNo : "";
-            sendObj.accountType = editForm.accountType
-              ? editForm.accountType
-              : 0;
-            if (editForm.hasOwnProperty("bankArea")) {
-              sendObj.provinceId = editForm.bankArea[0]
-                ? editForm.bankArea[0]
-                : "";
-              sendObj.provinceId = editForm.bankArea[0]
-                ? editForm.bankArea[0]
-                : "";
-              sendObj.cityId =
-                editForm.bankArea[1] || editForm.bankArea[0] || "";
-              sendObj.bankOrgCode =
-                editForm.bankArea[2] ||
-                editForm.bankArea[1] ||
-                editForm.bankArea[0] ||
-                "";
-            }
-            sendObj.bankCode = editForm.bankCode ? editForm.bankCode : "";
-            sendObj.unionCode = editForm.unionCode ? editForm.unionCode : "";
-          }
-          postEditAgentManage()(sendObj).then(data => {
+          postEditAgentManage()(sendata).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",
@@ -817,7 +776,6 @@ export default {
                 center: true
               });
             }
-            console.log(data);
             this.saveLoading = false;
           });
         }

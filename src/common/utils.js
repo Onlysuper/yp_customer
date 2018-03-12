@@ -53,11 +53,26 @@ export default {
         str = str / 100;
         return str;
     },
-    pickObj(obj, arr) {
-        return arr.reduce(
-            (iter, val) => (val in obj && (iter[val] = obj[val]), iter),
-            {}
-        );
+    // 小数转百分数
+    /**
+    *这里需要先用Number进行数据类型转换，toFixed去指定截取转换后的小数点后几位(按照四舍五入)，这里是截取一位，0.1266转换后会变成12.7%
+    */
+    toPercent(point) {
+        // var str = Number(point * 100).toFixed(1);
+        var str = Number(point * 100);
+        str += "%";
+        return str;
+    },
+    // 得到对象里面的部分属性组成心得对象
+    pickObj(obj = {}, arr) {
+        if (obj) {
+            return arr.reduce(
+                (iter, val) => (val in obj && (iter[val] = obj[val]), iter),
+                {}
+            );
+        } else {
+            return {}
+        }
     },
     /**
      * 检测数据类型 isType({},"object") 返回true

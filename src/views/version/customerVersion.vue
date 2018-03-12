@@ -3,11 +3,12 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isBatchUpdate = false;isUpdate = false;dialogVisible = true">新增升级商户</el-button>
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">修改升级商户</el-button>
+          <!-- <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isBatchUpdate = false;isUpdate = false;dialogVisible = true">新增升级商户</el-button> -->
+          <!-- <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">修改升级商户</el-button> -->
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">新增 修改升级商户</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
@@ -319,7 +320,6 @@ export default {
 
               color: "#3685FD",
               cb: rowdata => {
-                this.$refs.form.clearValidate();
                 this.dialogVisible = true;
                 this.form = { ...rowdata };
               }
@@ -444,7 +444,7 @@ export default {
         }
       });
     },
-    beforesubmitFile() {},
+    beforesubmitFile() { },
     submitFileSuccess() {
       this.$message({
         type: "success",
@@ -469,7 +469,12 @@ export default {
       this.isBatchUpdate = false;
     }
   },
-  mounted() {}
+  mounted() { },
+  watch: {
+    dialogVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

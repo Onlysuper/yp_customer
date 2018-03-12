@@ -7,7 +7,7 @@
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <mt-field type="text" :disabled="true" label="二维码编号" placeholder="二维码编号" v-model="empowerList.qrcode"></mt-field>
+        <mt-field type="text" :disabled="true" label="二维码序列号" placeholder="二维码序列号" v-model="empowerList.qrcode"></mt-field>
         <mt-field type="text" :disabled="true" label="授权码" placeholder="授权码" v-model="empowerList.authCode"></mt-field>
         <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="合伙人编号" v-model="empowerList.agentNo"></mt-field>
         <mt-field type="text" label="商户编号" placeholder="商户编号" v-model="empowerList.customerNo"></mt-field>

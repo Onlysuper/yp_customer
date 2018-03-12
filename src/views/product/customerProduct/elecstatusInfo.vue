@@ -46,7 +46,7 @@
           <el-input v-model="editForm.registMoney"></el-input>
         </el-form-item>
         <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-          <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
+          <el-select @change="inputChangeValidate('editForm')" @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
             <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
@@ -57,7 +57,7 @@
         </el-form-item>
         <el-form-item class="full-width" prop="unionCode" label="选择支行">
           <el-input v-if="branchNameVisible" v-model="editForm.branchName" auto-complete="off"></el-input>
-          <el-select v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
+          <el-select @change="inputChangeValidate('editForm')" v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
             <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
             </el-option>
           </el-select>
@@ -100,6 +100,7 @@ import { regionData } from "element-china-area-data";
 import { phoneNumVerify } from "@src/common/regexp";
 import { areaOrgcode } from "@src/common/orgcode";
 import { banks } from "@src/common/bank";
+import utils from "@src/common/utils"
 import {
   getCustomerProducts,
   getCheckCustomerProduct,
@@ -169,9 +170,9 @@ export default {
         mounthCount: [
           { required: true, message: "请填写月开票量", trigger: "blur" }
         ],
-        // bankCode: [
-        //   { required: true, message: "请输入开户银行", trigger: "blur" }
-        // ],
+        bankCode: [
+          { required: true, message: "请输入开户银行", trigger: "blur" }
+        ],
         bankArea: [
           { required: true, message: "请选择银行区域", trigger: "blur" }
         ],
@@ -228,6 +229,7 @@ export default {
     },
     handleChangeArea(value) {
       // 省市区选择
+      this.inputChangeValidate('editForm')
     },
     customerInputBlur() {
       // add商户编号失去焦点
@@ -266,24 +268,16 @@ export default {
               ).branchName || thisForm.unionCode;
           }
           this.saveLoading = true;
+          let sendata = utils.pickObj(thisForm, [
+            'customerNo', 'featureType', 'enterpriseName', 'bussinessAddress',
+            'bussinessPhone', 'bussinessName', 'registMoney', 'bankCode', 'bankAccountNo',
+            'bankAccountNo', 'mounthCount', 'unionCode'
+          ]);
           perfectCustomer()({
-            customerNo: thisForm.customerNo,
-            featureType: thisForm.featureType,
-            enterpriseName: thisForm.enterpriseName,
-            province: thisForm.agentArea[0],
-            city: thisForm.agentArea[1],
-            orgCode: thisForm.agentArea[2],
-            bussinessAddress: thisForm.bussinessAddress,
-            bussinessPhone: thisForm.bussinessPhone,
-            bussinessName: thisForm.bussinessName,
-            registMoney: thisForm.registMoney,
-            bankCode: thisForm.bankCode,
-            bankAccountNo: thisForm.bankAccountNo,
-            mounthCount: thisForm.mounthCount,
-            unionCode: thisForm.unionCode,
             branchName: branchName,
-            bankCode: thisForm.bankCode,
-            bankName: bankName
+            bankName: bankName,
+            ...this.changeAgentArea(thisForm.agentArea),
+            ...sendata
           }).then(data => {
             if (data.code === "00") {
               this.$message({
@@ -306,6 +300,20 @@ export default {
         }
       });
     },
+    // 将表单里面的区域转化成需要往后台传送的数据
+    changeAgentArea(agentArea) {
+      let obj = {};
+      if (agentArea) {
+        obj.province = agentArea[0] ? agentArea[0] : "";
+        obj.city = agentArea[1] || agentArea[0] || "";
+        obj.orgCode =
+          agentArea[2] ||
+          agentArea[1] ||
+          agentArea[0] ||
+          "";
+      }
+      return obj
+    },
     goback(path) {
       this.$emit("backFn", path);
     },
@@ -317,7 +325,6 @@ export default {
         customerNo: rowdata.bussinessNo,
         featureType: "ELECTRONIC"
       }).then(data => {
-        // console.log(data);
         if (data.code == "00") {
           this.editFormVisible = true;
           let rowdata = data.data;
@@ -325,24 +332,20 @@ export default {
             let customer = rowdata.customer;
             let customerInvoiceConfig = rowdata.customerInvoiceConfig;
             let product = rowdata.product;
+            let newCustomer = utils.pickObj(customer, [
+              'enterpriseName', 'bussinessAddress', 'bussinessPhone', 'bussinessName', 'registMoney'
+            ]);
+            let newCustomerInvoiceConfig = utils.pickObj(customerInvoiceConfig, [
+              'bankCode', 'unionCode', 'branchName', 'bankAccountNo'
+            ]);
             if (customer) {
-              this.editForm.enterpriseName = customer.enterpriseName;
               this.editForm.agentArea =
                 customer.orgCode && areaOrgcode(customer.orgCode);
-              this.editForm.bussinessAddress = customer.bussinessAddress;
-              this.editForm.bussinessPhone = customer.bussinessPhone;
-              this.editForm.bussinessName = customer.bussinessName;
-              this.editForm.registMoney = customer.registMoney;
-            }
-            if (customerInvoiceConfig) {
-              this.editForm.bankCode = customerInvoiceConfig.bankCode;
-              this.editForm.unionCode = customerInvoiceConfig.unionCode;
-              this.editForm.branchName = customerInvoiceConfig.branchName;
-              this.editForm.bankAccountNo = customerInvoiceConfig.bankAccountNo;
             }
             if (product) {
               this.editForm.mounthCount = product.elecBillnum;
             }
+            this.editForm = { ...this.editForm, ...newCustomer, ...newCustomerInvoiceConfig }
           }
         } else {
           this.editFormVisible = false;
@@ -362,10 +365,10 @@ export default {
       this.getBankListHandle();
     },
     bankhandleChangeArea(value) {
-      console.log(value);
       //选择银行区域
       this.bankCity = value[2] || value[1] || value[0];
       this.getBankListHandle();
+      this.inputChangeValidate('editForm')
     },
     getBankListHandle(back) {
       this.editForm.unionCode = "";
@@ -389,7 +392,15 @@ export default {
     this.editInfo();
   },
   computed: {},
-  mounted() {}
+  mounted() { },
+  watch: {
+    addFeatureTypeVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    }
+  }
 };
 </script>
 

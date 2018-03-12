@@ -18,6 +18,9 @@ const mixinsPc = {
       // 重置表单
       this.$refs[formName].resetFields();
     },
+    inputChangeValidate(formName) {
+      this.$refs[formName].validate(valid => { })
+    },
     mounted() {
       // 顶部搜索初始化为普通搜索
       // this.$store.commit("initSearchVisibleFn");
@@ -31,7 +34,12 @@ const mixinsPc = {
         return false
       }
     },
-
+    saveLoadingStop(val = false) {
+      if (!val) {
+        this.saveLoading = false
+        this.saveLoading2 = false
+      }
+    }
   },
   computed: {
     oaIp() {

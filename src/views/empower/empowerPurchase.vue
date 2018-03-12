@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -217,7 +217,7 @@ export default {
           },
           {
             value: "OUT_ORDER",
-            label: "二维码编号"
+            label: "二维码序列号"
           }
         ]
       },
@@ -507,7 +507,7 @@ export default {
           ]
         },
         // 数据加载成功
-        dataSuccess: data => {}
+        dataSuccess: data => { }
       }
     };
   },
@@ -627,7 +627,7 @@ export default {
         }
       });
     },
-    migrateTypeChange1() {}
+    migrateTypeChange1() { }
   },
   computed: {
     userAll() {
@@ -646,6 +646,20 @@ export default {
       return this.$store.state.userInfoAndMenu.userMessage.all
         .qr_code_reciept_audit_all;
     }
+  },
+  watch: {
+    purchaseFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    scangunFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editPayFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editScangunFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
   }
 };
 </script>

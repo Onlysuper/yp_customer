@@ -509,7 +509,12 @@ export default {
       );
     }
   },
-  mounted() {}
+  mounted() { },
+  watch: {
+    uploadDialogVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

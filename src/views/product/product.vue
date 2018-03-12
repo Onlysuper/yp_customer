@@ -2,7 +2,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -486,10 +486,10 @@ export default {
                     });
                   })
                   .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
+                    // this.$message({
+                    //   type: "info",
+                    //   message: "已取消操作"
+                    // });
                   });
               }
             },
@@ -534,10 +534,10 @@ export default {
                     });
                   })
                   .catch(() => {
-                    this.$message({
-                      type: "info",
-                      message: "已取消操作"
-                    });
+                    // this.$message({
+                    //   type: "info",
+                    //   message: "已取消操作"
+                    // });
                   });
               }
             }
@@ -687,7 +687,7 @@ export default {
     }
   },
   watch: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 
