@@ -24,13 +24,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/scss/base.scss";
 .td-justify {
   text-align: center;
   text-align: justify;
   text-justify: distribute-all-lines;
   text-align-last: justify;
 
-  width: 50px;
+  width: 120*$rem;
   // &:after {
   //      content: "";
   //      display: block;
