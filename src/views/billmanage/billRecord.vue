@@ -386,26 +386,41 @@ export default {
             width: "180px",
             word: "bussinessName"
           },
-
+          //  {{#  if(  d.invoiceMedia == 'PAPERY'&&d.billType == 1  ){ }}
+          //     <span class="layui-btn layui-btn-mini">普票</span>
+          //     {{#  } else if(d.invoiceMedia == 'PAPERY'&&d.billType == 2 ){ }}
+          //     <span class="layui-btn layui-btn-mini">专票</span>
+          //     {{#  } else if(d.invoiceMedia == 'PAPERY'&&d.billType == 3 ){ }}
+          //     <span class="layui-btn layui-btn-mini">普票(个人)</span>
+          //     {{#  } else if(d.invoiceMedia == 'ELECTRONIC' ){ }}
+          //     <span class="layui-btn layui-btn-mini">电票</span>
+          //     {{#  } }}
           {
             key: "开票类型",
             width: "100px",
             word: "billType",
             status: true,
-            type: data => {
-              if (data == "1") {
+            type: (data, row) => {
+              console.log(data);
+              console.log(row);
+              if (row.invoiceMedia == 'PAPERY' && data == "1") {
                 return {
                   text: "普票",
                   type: "success"
                 };
-              } else if (data == "2") {
+              } else if (row.invoiceMedia == 'PAPERY' && data == "2") {
                 return {
                   text: "专票",
                   type: "danger"
                 };
-              } else if (data == "3") {
+              } else if (row.invoiceMedia == 'PAPERY' && data == "3") {
                 return {
                   text: "普票(个人)",
+                  type: "warning"
+                };
+              } else if (row.invoiceMedia == 'ELECTRONIC') {
+                return {
+                  text: "电票",
                   type: ""
                 };
               } else {

@@ -115,7 +115,9 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODE_UPDATA", thisForm);
+          let row = { ...thisForm };
+          row.status = "BINDED";
+          commit("QRCODE_UPDATA", row);
           Toast("绑定成功");
           return true;
         } else {
