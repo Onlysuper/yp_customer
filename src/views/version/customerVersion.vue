@@ -380,12 +380,12 @@ export default {
       file: "",
       validateRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
         type: [
-          { required: true, message: "请选择客户端类型", trigger: "blur" }
+          { required: true, message: "请选择客户端类型", trigger: "blur,change" }
         ],
-        status: [{ required: true, message: "请选择状态", trigger: "blur" }]
+        status: [{ required: true, message: "请选择状态", trigger: "blur,change" }]
       }
     };
   },

@@ -50,8 +50,8 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: "请输入易票账号/手机号", trigger: "blur" },
-          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
+          { required: true, message: "请输入易票账号/手机号", trigger: "blur,change" },
+          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur,change" }
         ],
         password: [
           { required: true, message: "请输入有效密码", trigger: "change" }

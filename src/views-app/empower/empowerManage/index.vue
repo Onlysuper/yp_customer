@@ -7,6 +7,7 @@
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
       </mt-header>
+
       <!-- actions操作 -->
       <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
@@ -240,10 +241,9 @@ export default {
       // 解绑
       postUnBindEmpower()(this.rowdata).then(data => {
         if (data.code == "00") {
-          console.log(this.rowdata);
           let row = { ...this.rowdata };
           row.status = "TRUE";
-          this.$store.commit("QRCODE_UPDATA", row);
+          this.$store.commit("QRCODE_UNBINDCHILD_UPDATA", row);
           Toast("解绑成功");
         } else {
           Toast(data.msg);

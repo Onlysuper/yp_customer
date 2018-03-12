@@ -184,16 +184,16 @@ export default {
       formLabelWidth: "100px",
       addFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
         deviceType: [
-          { required: true, message: "请选择设备类型", trigger: "blur" }
+          { required: true, message: "请选择设备类型", trigger: "blur,change" }
         ],
         deviceNo: [
-          { required: true, message: "请输入设备编号", trigger: "blur" }
+          { required: true, message: "请输入设备编号", trigger: "blur,change" }
         ],
         invoiceMan: [
-          { required: true, message: "请输入开票人", trigger: "blur" }
+          { required: true, message: "请输入开票人", trigger: "blur,change" }
         ]
       },
       editFormRules: {}, // 编辑单个规则

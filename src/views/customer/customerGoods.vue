@@ -359,15 +359,15 @@ export default {
 
       addFormRules: {
         unionNo: [
-          { required: true, message: "请输入活动名称", trigger: "blur" }
+          { required: true, message: "请输入活动名称", trigger: "blur,change" }
         ],
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
         goodsName: [
-          { required: true, message: "请输入商品名称", trigger: "blur" }
+          { required: true, message: "请输入商品名称", trigger: "blur,change" }
         ],
-        taxRate: [{ required: true, message: "税率为必选项", trigger: "blur" }]
+        taxRate: [{ required: true, message: "税率为必选项", trigger: "blur,change" }]
       },
       // 查询条件数据
       searchCondition: searchConditionVar,
@@ -404,7 +404,7 @@ export default {
       editFormRules: {}, // 编辑单个规则
       importFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ]
       },
       batchNetForm: {

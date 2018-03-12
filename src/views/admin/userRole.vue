@@ -128,8 +128,8 @@ export default {
         label: "privilegeName"
       },
       addFormRules: {
-        roleName: [{ required: true, message: "请输入内容", trigger: "blur" }],
-        roleCode: [{ required: true, message: "请输入内容", trigger: "blur" }]
+        roleName: [{ required: true, message: "请输入内容", trigger: "blur,change" }],
+        roleCode: [{ required: true, message: "请输入内容", trigger: "blur,change" }]
       },
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则

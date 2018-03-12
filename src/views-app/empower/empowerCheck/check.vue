@@ -19,7 +19,6 @@
         <mt-field type="text" v-if="migratePickerModle.code == 'OUT_ORDER'" label="授权码序列号" v-model="unitData.qrcodes" placeholder="请输入授权码序列号"></mt-field>
         <mt-field type="text" v-if="migratePickerModle.code == 'ORDER'" label="开始号段" v-model="unitData.qrcodeStart" placeholder="请输入开始号段"></mt-field>
         <mt-field type="text" v-if="migratePickerModle.code == 'ORDER'" label="结束号段" v-model="unitData.qrcodeEnd" placeholder="请输入结束号段"></mt-field>
-
       </input-wrapper>
     </view-radius>
     <picker ref="MigratePicker" v-model="migratePickerModle" :slotsActions="migrateTaxActions" @confirm="openMigratePickerChange"></picker>
@@ -82,30 +81,14 @@ export default {
     ]),
     // 通过
     saveAdopt() {
-      // if (!this.validator.isEmpty(this.unitData.price)) {
-      //   this.MessageBox.alert("单价不能为空");
-      //   return;
-      // }
-      // if (!this.validator.isEmpty(this.unitData.migrateType)) {
-      //   this.MessageBox.alert("分发方式不能为空");
-      //   return;
-      // }
       this.btnDisabled = true;
       this.adoptEmpowerCheck(this.unitData).then(flag => {
         this.btnDisabled = false;
-        if (flag) this.$router.back();
+        if (flag) { this.$router.back(); }
       });
     },
     // 拒绝
     saveRefus() {
-      // if (!this.validator.isEmpty(this.unitData.price)) {
-      //   this.MessageBox.alert("单价不能为空");
-      //   return;
-      // }
-      // if (!this.validator.isEmpty(this.unitData.migrateType)) {
-      //   this.MessageBox.alert("分发方式不能为空");
-      //   return;
-      // }
       this.btnDisabled = true;
       this.refuseEmpowerCheck(this.unitData).then(flag => {
         this.btnDisabled = false;

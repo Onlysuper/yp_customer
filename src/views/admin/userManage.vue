@@ -154,13 +154,13 @@ export default {
       },
       addFormRules: {
         realname: [
-          { required: true, message: "请输入用户名称", trigger: "blur" }
+          { required: true, message: "请输入用户名称", trigger: "blur,change" }
         ],
         username: [
-          { required: true, message: "请输入登陆名", trigger: "blur" }
+          { required: true, message: "请输入登陆名", trigger: "blur,change" }
         ],
-        password: [{ validator: validatePass, trigger: "blur" }],
-        repassword: [{ validator: validatePass2, trigger: "blur" }]
+        password: [{ validator: validatePass, trigger: "blur,change" }],
+        repassword: [{ validator: validatePass2, trigger: "blur,change" }]
       },
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则

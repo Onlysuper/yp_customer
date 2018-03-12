@@ -344,17 +344,17 @@ export default {
       },
       addFormRules: {
         enterpriseName: [
-          { required: true, message: "请输入企业名称", trigger: "blur" }
+          { required: true, message: "请输入企业名称", trigger: "blur,change" }
         ],
-        taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
+        taxNo: [{ validator: taxNumVerify, trigger: "blur,change" }],
         legalPerson: [
-          { required: true, message: "请输入企业法人", trigger: "blur" }
+          { required: true, message: "请输入企业法人", trigger: "blur,change" }
         ],
-        idCard: [{ validator: idCardVerify, trigger: "blur" }],
+        idCard: [{ validator: idCardVerify, trigger: "blur,change" }],
         linkMan: [
-          { required: true, message: "请输入联系人姓名", trigger: "blur" }
+          { required: true, message: "请输入联系人姓名", trigger: "blur,change" }
         ],
-        phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
+        phoneNo: [{ validator: phoneNumVerify, trigger: "blur,change" }]
       },
       batchNetFormRules: {},
       formLabelWidth: "100px",
@@ -363,7 +363,7 @@ export default {
       detailsForm: {}, // 详情单个表单
       transferFormRules: {
         receiveAgentNo: [
-          { required: true, message: "不能为空", trigger: "blur" }
+          { required: true, message: "不能为空", trigger: "blur,change" }
         ]
       }, // 转移单个规则
       transferForm: {}, // 转移单个表单

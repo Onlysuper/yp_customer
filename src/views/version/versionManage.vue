@@ -398,23 +398,23 @@ export default {
       file: "",
       validateRules: {
         clientVersion: [
-          { required: true, message: "请输入上传客户端版本号", trigger: "blur" }
+          { required: true, message: "请输入上传客户端版本号", trigger: "blur,change" }
         ],
         url: [
           {
             required: true,
             message: "请输入上传版本的下载地址",
-            trigger: "blur"
+            trigger: "blur,change"
           }
         ],
         type: [
-          { required: true, message: "请输入客户端类型", trigger: "blur" }
+          { required: true, message: "请输入客户端类型", trigger: "blur,change" }
         ],
         compatibleVersion: [
-          { required: true, message: "请输入最低兼容版本", trigger: "blur" }
+          { required: true, message: "请输入最低兼容版本", trigger: "blur,change" }
         ],
-        info: [{ required: true, message: "请输入版本描述", trigger: "blur" }],
-        file: [{ required: true, message: "请选择上传文件", trigger: "blur" }]
+        info: [{ required: true, message: "请输入版本描述", trigger: "blur,change" }],
+        file: [{ required: true, message: "请选择上传文件", trigger: "blur,change" }]
       }
     };
   },
