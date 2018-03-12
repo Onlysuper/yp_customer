@@ -1207,7 +1207,7 @@ export default {
                 type: "success",
                 center: true
               });
-              this.bindFormVisible = false;
+              this.bindChildFormVisible = false;
               this.resetForm(formName);
               this.reloadData();
             } else {

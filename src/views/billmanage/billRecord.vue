@@ -401,8 +401,6 @@ export default {
             word: "billType",
             status: true,
             type: (data, row) => {
-              console.log(data);
-              console.log(row);
               if (row.invoiceMedia == 'PAPERY' && data == "1") {
                 return {
                   text: "普票",

@@ -1,6 +1,6 @@
 <template>
   <!-- 授权码管理 -->
-  <div class="page">
+  <div class="page empower-page">
     <full-page class="page" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
@@ -16,7 +16,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerManageStatus}}</mt-badge>
+          <mt-badge v-if="item.status=='TRUE'" slot="badge" class="g-min-badge" size="small" type="warning">{{item.status | empowerManageStatus}}</mt-badge>
+          <mt-badge v-if="item.status=='BINDED'" slot="badge" class="g-min-badge" size="small" type="success">{{item.status | empowerManageStatus}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.materiel | empowerManageMateriel}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.deviceType | empowerCheckReceiptType}}</mt-badge>
           <!-- 常用按钮 -->
@@ -43,6 +44,16 @@
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
 </template>
+<style lang="scss" scoped>
+// @media screen and (max-width: 500px) {
+//   .empower-page {
+//     td {
+//       width: 300px !important;
+//     }
+//   }
+// }
+</style>
+
 <script>
 import { Toast } from "mint-ui";
 import SliderNav from "@src/components-app/SliderNav";

@@ -59,21 +59,26 @@ export default {
     // 解绑 刷新
     ["QRCODE_UNBINDCHILD_UPDATA"](state, data) {
       state.list = state.list.map(item => {
-        if (data.authCode == item.parentCode || data.qrcode == item.qrcode) {
-          let row = data;
+        if (data.authCode == item.parentCode) {
+          let row = item;
           row.status = "TRUE";
           row.customerNo = "";
           row.parentCode = null;
           return row
+        } else if (data.authCode == item.authCode) {
+          let row = item;
+          row.status = "TRUE";
+          return row
+        } else {
+          return item;
         }
-        else return item;
       })
     },
     // 绑定子码 刷新
     ["QRCODE_BINDCHILD_UPDATA"](state, data) {
       state.list = state.list.map(item => {
-        if (data.childQrcodes == item.qrcode) {
-          let row = data;
+        if (item.qrcode == data.childQrcodes) {
+          let row = item;
           row.parentCode = data.authCode;
           row.customerNo = data.customerNo;
           row.status = "BINDED";
@@ -208,7 +213,6 @@ export default {
     },
     // 物料入库
     addTorageMaterielSave({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
-      console.log(thisForm);
       return postMakeTorageEmpower()({
         deviceType: thisForm.deviceType,
         receiptCount: thisForm.receiptCount,
