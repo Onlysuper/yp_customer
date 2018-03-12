@@ -43,17 +43,12 @@ export default {
     //是否开始搜索
     ["QRCODEMIGRATE_SEARCH"](state, flag) {
       state.isSearch = flag;
-    },
-    //是否开始搜索
-    ["QRCODEMIGRATE_IS_RELOAD"](state, flag) {
-      state.isReload = flag;
-    },
+    }
 
   },
   actions: {
     // 授权码分配
     allotEmpowerSave({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
-      console.log(thisForm);
       return postMigrateNumTransfer()({
         deviceType: thisForm.deviceType,
         migrateCount: thisForm.migrateCount,
@@ -67,7 +62,6 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODEMIGRATE_IS_RELOAD");
           Toast("授权码分配成功！");
           return true;
         } else {
@@ -91,7 +85,6 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODEMIGRATE_IS_RELOAD");
           Toast("授权码上缴成功！");
           return true;
         } else {
