@@ -45,7 +45,7 @@
               <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
             </div>
             <div class="line-label-box">
-              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode}}
+              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode==null?"":utils.findCity(payStatusDetails.orgCode).resultAddr}}
             </div>
             <div class="line-label-box">
               <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress||""}}
@@ -57,7 +57,7 @@
               <span class="line-label">身份证号:</span>{{payStatusDetails.idCard||""}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">行业类型:</span>{{payStatusDetails.category||""}}
+              <span class="line-label">行业类型:</span>{{payStatusDetails.category==null?"":utils.findBussinessType(payStatusDetails.category).name}}
             </div>
             <!-- <div class="line-label-box">
               <span class="line-label">邮箱:</span>{{payStatusDetails.contactEmail||""}}
@@ -233,7 +233,9 @@
           <!-- 电子发票查询详情 -->
           <div class="line-label-box">
             <span class="line-label">注册省份:</span>
-            <span class="line-label-last">{{elecStatusDetails.orgCode}}</span>
+            <span class="line-label-last">
+              {{elecStatusDetails.orgCode==null?"":utils.findCity(elecStatusDetails.orgCode).resultAddr}}
+            </span>
           </div>
           <div class="line-label-box">
             <span class="line-label">注册地址:</span>
@@ -1129,69 +1131,42 @@ export default {
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
-          // console.log("聚合支付查询回显");
-          // console.log(res.data);
           // 聚合支付查询详情
           let data = res.data;
+          let customerRow = {};
+          let settleCardRow = {};
+          let productRow = {};
+          let imgsRow = {};
           if (data.customer) {
-            this.payStatusDetails.orgCode =
-              !!data.customer.orgCode &&
-              utils.findCity(data.customer.orgCode).resultAddr; //注册省份
-            this.payStatusDetails.bussinessAddress =
-              data.customer.bussinessAddress;
-            this.payStatusDetails.legalPerson = data.customer.legalPerson; //法人
-            this.payStatusDetails.idCard = data.customer.idCard; // 身份证号码
-            this.payStatusDetails.category =
-              data.customer.category &&
-              utils.findBussinessType(data.customer.category).name; // 行业类型
-
-            this.payStatusDetails.taxNo = data.customer.taxNo;
-            this.payStatusDetails.enterpriseName = data.customer.enterpriseName;
-            this.payStatusDetails.bussinessLicenseEffectiveBegin =
-              data.customer.bussinessLicenseEffectiveBegin;
-            this.payStatusDetails.bussinessLicenseEffectiveEnd =
-              data.customer.bussinessLicenseEffectiveEnd;
+            customerRow = utils.pickObj(data.customer, [
+              "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
+              'taxNo', 'enterpriseName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd'
+            ]);
           }
           if (data.settleCard) {
-            this.payStatusDetails.accountType = data.settleCard.accountType; //账户类型
-            this.payStatusDetails.accountName = data.settleCard.accountName; //账号名称
-            this.payStatusDetails.bankName = data.settleCard.bankName; // 开户银行
-            this.payStatusDetails.branchName = data.settleCard.branchName; // 开户支行
-            this.payStatusDetails.accountNo = data.settleCard.accountNo; // 账号
+            settleCardRow = utils.pickObj(data.settleCard, [
+              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo',
+            ]);
           }
           if (data.product) {
-            this.payStatusDetails.wechatRate = data.product.wechatRate; //微信费率
-            this.payStatusDetails.alipayRate = data.product.alipayRate; //支付宝费率
-            this.payStatusDetails.settleMode = data.product.settleMode; // 开通即刷即到
-            this.payStatusDetails.t0CashCostFixed =
-              data.product.t0CashCostFixed; // D0手续费
+            productRow = utils.pickObj(data.product, [
+              "wechatRate", 'alipayRate', 'settleMode', 't0CashCostFixed',
+            ]);
           }
+
           if (data.imgs) {
-            let defaultObj = {
-              id: "",
-              url: ""
-            };
-            this.payStatusDetails.identityFrontImg =
-              data.imgs.identityFrontImg || defaultObj; //法人身份证正面
-
-            this.payStatusDetails.identityBackImg =
-              data.imgs.identityBackImg || defaultObj; //法人身份证反面
-
-            this.payStatusDetails.bussinessLicenseImg =
-              data.imgs.bussinessLicenseImg || defaultObj; //营业执照
-
-            this.payStatusDetails.settleCardImg =
-              data.imgs.settleCardImg || defaultObj; //结算卡正面
-
-            this.payStatusDetails.accountLicenseImg =
-              data.imgs.accountLicenseImg || defaultObj; //开户许可证
-
-            this.payStatusDetails.placeImg = data.imgs.placeImg || defaultObj; //门头照片
-
-            this.payStatusDetails.storeImg = data.imgs.storeImg || defaultObj; //店内照片
-
-            this.payStatusDetails.cashSpaceImg =
-              data.imgs.cashSpaceImg || defaultObj; //收银台照片
+            console.log(data.imgs);
+            imgsRow = utils.pickObj(data.imgs, [
+              "identityFrontImg", "identityBackImg", "bussinessLicenseImg", "settleCardImg",
+              "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
+            ]);
+          }
+          this.payStatusDetails = {
+            ...this.payStatusDetails,
+            ...customerRow,
+            ...settleCardRow,
+            ...productRow,
+            ...imgsRow
           }
         }
         dialogLoading.close();
@@ -1210,29 +1185,23 @@ export default {
       }).then(res => {
         if (res.code == "00") {
           let data = res.data;
+          let customerRow = {};
+          let customerInvoiceConfigRow = {};
+          let productRow = {};
           if (data.customer) {
-            this.elecStatusDetails.orgCode =
-              data.customer.orgCode != null
-                ? utils.findCity(res.data.customer.orgCode).resultAddr
-                : "";
-            //注册省份
-            this.elecStatusDetails.bussinessAddress =
-              data.customer.bussinessAddress; //注册地址
-            this.elecStatusDetails.bussinessPhone =
-              data.customer.bussinessPhone; //联系电话
-            this.elecStatusDetails.bussinessName = data.customer.bussinessName; //经营名称
-            this.elecStatusDetails.registMoney = data.customer.registMoney; //注册资金
+            customerRow = utils.pickObj(data.customer, [
+              "orgCode", 'bussinessAddress', 'bussinessPhone', 'bussinessName', 'registMoney'
+            ]);
           }
           if (data.customerInvoiceConfig) {
-            this.elecStatusDetails.branchName =
-              data.customerInvoiceConfig.branchName; //开户银行
-            this.elecStatusDetails.bankAccountNo =
-              data.customerInvoiceConfig.bankAccountNo; //银行账号
+            customerInvoiceConfigRow = utils.pickObj(data.customerInvoiceConfig, [
+              'branchName', 'bankAccountNo'
+            ]);
           }
-          if (data.customerInvoiceConfig) {
-            this.elecStatusDetails.elecBillnum = data.product.elecBillnum; //月开票量
-            this.elecStatusDetails.elecReason = data.product.elecReason; //被拒原因
+          if (data.product) {
+            productRow = utils.pickObj(data.product, ['elecBillnum', 'elecReason']);
           }
+          this.elecStatusDetails = { ...this.elecStatusDetails, ...customerRow, ...customerInvoiceConfigRow, ...productRow }
         }
         dialogLoading.close();
       });
