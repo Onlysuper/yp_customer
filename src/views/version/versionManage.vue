@@ -31,7 +31,7 @@
             <el-col :span="12">
               <el-form-item label="客户端类型" prop="type">
                 <el-select :disabled="editType" v-model="form.type" placeholder="请选择">
-                  <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
+                  <el-option v-for="item in versionTypeOptions" :key="item.code" :label="item.name" :value="item.code">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -84,6 +84,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate } from "@src/common/dateSerialize";
+import versionType from "@src/data/versionType"
 import {
   patchVersion,
   getVersions,
@@ -103,6 +104,7 @@ export default {
       status: "" // 状态
     };
     return {
+      versionTypeOptions: versionType,
       uploadDialogVisible: false, //上传面板是否可见
       isUpdate: true,
       editType: false,
@@ -338,45 +340,7 @@ export default {
           ]
         }
       },
-      // 表单数据
-      type_options: [
-        {
-          label: "RELEASE: 官网版本",
-          value: "RELEASE"
-        },
-        {
-          label: "HOST_C: c++主程序",
-          value: "HOST_C"
-        },
-        {
-          label: "UPDATE_C: c++更新程序",
-          value: "UPDATE_C"
-        },
-        {
-          label: "HOST: c#主程序",
-          value: "HOST"
-        },
-        {
-          label: "UPDATE: c#更新程序",
-          value: "UPDATE"
-        },
-        {
-          label: "HOST_OLD: c#老版本主程序",
-          value: "HOST_OLD"
-        },
-        {
-          label: "DATA_COLLECTION: 数据采集程序",
-          value: "DATA_COLLECTION"
-        },
-        {
-          label: "MANUAL: 其他",
-          value: "MANUAL"
-        },
-        {
-          label: "HOST_D: 电子发票版本",
-          value: "HOST_D"
-        }
-      ],
+
       isForce_options: [
         {
           label: "是",

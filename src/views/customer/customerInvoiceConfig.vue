@@ -34,6 +34,12 @@
             </div>
           </el-col>
         </el-row>
+        <el-form-item class="full-width" label="开票地区" prop="invoiceLocation" :label-width="formLabelWidth">
+          <el-select v-model="addForm.invoiceLocation" placeholder="请选择">
+            <el-option v-for="item in invoiceAreaOptions" :key="item.name" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -80,7 +86,7 @@
     </el-dialog>
     <!-- 新增end -->
     <!-- 编辑start -->
-    <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
+    <el-dialog center title="修改开票信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-row>
           <el-col :span="12">
@@ -101,6 +107,12 @@
             </div>
           </el-col>
         </el-row>
+        <el-form-item class="full-width" label="开票地区" prop="invoiceLocation" :label-width="formLabelWidth">
+          <el-select v-model="editForm.invoiceLocation" placeholder="请选择">
+            <el-option v-for="item in invoiceAreaOptions" :key="item.name" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -160,6 +172,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import utils from "@src/common/utils";
+import invoiceAreaJson from "@src/data/invoiceArea.json"
 import {
   getCustomerConfigs,
   postAddCustomerConfigs,
@@ -178,6 +191,7 @@ export default {
     };
     return {
       // 查询条件数据
+      invoiceAreaOptions: invoiceAreaJson,
       addFormVisible: false, // 新增框
       editFormVisible: false,
       searchCondition: searchConditionVar,
@@ -194,6 +208,9 @@ export default {
         ],
         invoiceMan: [
           { required: true, message: "请输入开票人", trigger: "blur,change" }
+        ],
+        invoiceLocation: [
+          { required: true, message: "请选择区域", trigger: "blur,change" }
         ]
       },
       editFormRules: {}, // 编辑单个规则
@@ -333,16 +350,8 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
-                let rowNew = utils.pickObj(rowdata, [
-                  "customerNo",
-                  "deviceType",
-                  "clientType",
-                  "deviceNo",
-                  "receiveMan",
-                  "invoiceMan",
-                  "checkMan"
-                ]);
-                this.editForm = rowNew;
+
+                this.editForm = rowdata;
                 this.editFormVisible = true;
               }
             }
@@ -396,8 +405,17 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.saveLoading = true;
-          let editForm = this.editForm;
-          postEditCustomerConfigs()(editForm).then(data => {
+          let rowNew = utils.pickObj(this.editForm, [
+            "customerNo",
+            "deviceType",
+            "clientType",
+            "deviceNo",
+            "receiveMan",
+            "invoiceMan",
+            "checkMan",
+            "invoiceLocation"
+          ]);
+          postEditCustomerConfigs()({ ...rowNew }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",

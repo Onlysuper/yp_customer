@@ -919,7 +919,6 @@ export default {
             {
               text: "审核",
               visibleFn: rowdata => {
-
                 if (
                   isAdmin &&
                   (
@@ -945,7 +944,8 @@ export default {
                 this.selectOptions.customerTypeOptions.forEach(element => {
                   if (element.value != "elecStatus") {
                     element.disabled = true;
-                    this.selectOptions.customerType = "elecStatus"
+                    this.selectOptions.customerType = "elecStatus";
+                    console.log('改变了')
                   }
                 });
                 this.detailsFormVisible = true;
@@ -1327,12 +1327,30 @@ export default {
       this.checkVisibleFn(this.rowData);
     }
   },
-  computed: {},
+  computed: {
+    customerType() {
+      return this.selectOptions.customerType
+    }
+  },
   watch: {
     editFormVisible(value) {
       if (!value) {
         this.currentView = "";
       }
+    },
+    customerType(val) {
+      this.payStatusVisible = false;
+      this.qrcodeStatusVisible = false;
+      this.elecStatusVisible = false;
+      if (val == "qrcodeStatus") {
+        this.qrcodeStatusVisible = true;
+      } else if (val == "elecStatus") {
+        this.elecStatusVisible = true;
+      } else if (val == "payStatus") {
+        this.payStatusVisible = true;
+      }
+      this.customerTypeSelect();
+      this.checkVisibleFn(this.rowData);
     }
   },
   mounted() {

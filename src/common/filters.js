@@ -526,7 +526,7 @@ mypFilters.install = function (Vue, options) {
                 value = "审核失败";
                 break;
             case "CHECKING":
-                value = "审核中";
+                value = "待审核";
                 break;
             case "WAITING_SUBMIT":
                 value = "待提交";

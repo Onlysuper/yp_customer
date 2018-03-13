@@ -5,8 +5,8 @@
         <i class="el-alert__icon el-icon-success is-big"></i>
       </div>
       <div class="row">
-        <h2>恭喜您，您申请的支付功能已受理！</h2>
-        <p>您申请的支付功能已受理，预计会在1-3个工作日以短信方式发送到您{{phoneNo}}通知您是否开通成功。</p>
+        <h2>您申请的支付产品已受理！</h2>
+        <p>开通结果预计会在1-3个工作日以短信的形式通知到您{{phoneNo}}的手机上，敬请查收。</p>
       </div>
       <!-- {{rowData}}  -->
     </div>
@@ -91,7 +91,7 @@ export default {
   },
   computed: {},
   watch: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

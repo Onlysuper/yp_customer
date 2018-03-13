@@ -8,6 +8,9 @@
       <input-wrapper>
         <mt-field type="text" label="商户编号" placeholder="请输入商户编号" :disabled="true" :disableClear="true" :readonly="true" v-model="customer.customerNo" v-if="pageType == 'EDIT'"></mt-field>
         <mt-field type="text" label="商户编号" placeholder="请输入商户编号" :disabled="false" :disableClear="false" :readonly="false" v-model="customer.customerNo" v-if="pageType == 'ADD'"></mt-field>
+        <mt-field @click.native="$refs.invoiceLocationPicker.open" type="text" label="开票地区" placeholder="请选择开票地区" :value="customer.invoiceLocation" v-readonly-ios :readonly="true" :disableClear="true">
+          <i class="icon-arrow"></i>
+        </mt-field>
         <div @click="setSheet('deviceTypes')">
           <mt-field type="text" label="设备类型" placeholder="请选择设备类型" :value="customer.deviceType | handleDeviceType" :disabled="true" :disableClear="true" :readonly="true">
             <i class="icon-arrow"></i>
@@ -26,17 +29,24 @@
     </view-radius>
 
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
+    <picker ref="invoiceLocationPicker" v-model="invoiceLocation" :slotsActions="invoiceAreaOptions" @confirm="invoiceLocationPickerChange"></picker>
   </full-page-popup>
 </template>
 
 <script>
+import Picker from "@src/components-app/SelectPicker/Picker";
 import { postEditCustomerConfigs, postAddCustomerConfigs } from "@src/apis";
+import invoiceAreaJson from "@src/data/invoiceArea.json"
 export default {
+  components: {
+    Picker
+  },
   data() {
     return {
       visible: false,
       btnDisabled: false,
       customer: {},
+      invoiceLocation: {},
       sheetVisible: false,
       deviceTypes: [
         {
@@ -75,6 +85,10 @@ export default {
     };
   },
   methods: {
+    invoiceLocationPickerChange(obj) {
+      this.invoiceLocation = obj;
+      this.customer.invoiceLocation = obj.code;
+    },
     close() {
       this.visible = false;
     },
@@ -95,6 +109,10 @@ export default {
     save() {
       if (!this.validator.isEmpty(this.customer.customerNo)) {
         this.MessageBox.alert("商户编号不能为空！");
+        return;
+      }
+      if (!this.validator.isEmpty(this.customer.invoiceLocation)) {
+        this.MessageBox.alert("请选择开票地区！");
         return;
       }
       if (!this.validator.isEmpty(this.customer.deviceType)) {
@@ -136,7 +154,8 @@ export default {
         deviceNo: this.customer.deviceNo,
         receiveMan: this.customer.receiveMan,
         invoiceMan: this.customer.invoiceMan,
-        checkMan: this.customer.checkMan
+        checkMan: this.customer.checkMan,
+        invoiceLocation: this.customer.invoiceLocation
       }).then(data => {
         this.btnDisabled = false;
         if (data.code == "00") {
@@ -149,6 +168,14 @@ export default {
           this.Toast(data.msg);
         }
       });
+    }
+  },
+  computed: {
+    invoiceAreaOptions() {
+      let arr_ = invoiceAreaJson.map(item => {
+        return { name: item.name, code: item.name }
+      })
+      return arr_
     }
   }
 };

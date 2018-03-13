@@ -74,7 +74,6 @@
               </div>
             </el-col>
           </el-row>
-
           <el-form-item class="full-width" prop="bankagentArea" label="银行地区">
             <el-cascader :options="optionsArea" v-model="addForm.bankArea" @change="bankhandleChangeArea">
             </el-cascader>
@@ -112,34 +111,114 @@
             </el-col>
           </el-row>
         </fieldset>
-        <fieldset v-if="userAll.userType=='branchOffice'?true:false">
-          <legend>分润信息
-            <span class="small"></span>
-          </legend>
-          <el-form-item class="full-width" prop="" label="补贴">
-            <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
-              <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-row>
-            <el-col :span="12">
-              <div class="grid-content bg-purple">
-                <el-form-item class="full-width" prop="" label="中间人">
-                  <el-input v-model="addForm.intermediary"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item class="full-width" prop="" label="中间人分润">
-                <el-select prop="rebate" v-model="addForm.rebate" clearable placeholder="请选择">
+        <template v-if="userAll.userType=='branchOffice'?true:false">
+          <!-- <template> -->
+          <!-- 快速开票start -->
+          <h2 class="title-box">合伙人成本</h2>
+          <fieldset>
+            <legend>快速开票
+              <span class="small"></span>
+            </legend>
+            <el-form-item class="full-width" prop="" label="补贴">
+              <el-col :span="20">
+                <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
                   <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
                   </el-option>
                 </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </fieldset>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元</span>
+              </el-col>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+                  <el-form-item class="full-width" prop="" label="中间人">
+                    <el-input v-model="addForm.intermediary"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item class="full-width" prop="" label="中间人分润">
+                  <el-select prop="rebate" v-model="addForm.rebate" clearable placeholder="请选择">
+                    <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </fieldset>
+          <!-- 快速开票 end -->
+
+          <!-- 聚合支付 start -->
+          <!-- <fieldset>
+            <legend>聚合支付
+              <span class="small"></span>
+            </legend>
+            <el-form-item class="full-width" prop="" label="微信">
+              <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in settleModeOption" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item class="full-width" prop="" label="支付宝">
+              <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in settleModeOption" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item class="full-width" prop="" label="即刷即到">
+              <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in settleModeTypeOptions" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :disabled="addForm.settleMode=='T1'?true:false" class="full-width" label="D0手续费" prop="t0CashCostFixed" :label-width="formLabelWidth">
+              <el-input v-model="addForm.t0CashCostFixed" auto-complete="off"></el-input>
+            </el-form-item>
+          </fieldset> -->
+          <!-- 聚合支付 end -->
+
+          <!-- 电子发票 start -->
+          <!-- <fieldset>
+            <legend>电子发票
+              <span class="small"></span>
+            </legend>
+            <el-form-item label-width="210px" class="full-width" prop="" label="服务费">
+              <el-col :span="20">
+                <el-input v-model="addForm.intermediary"></el-input>
+                <p>*服务费成本包含可免费开4000张发票，超出部分按阶梯价格计算</p>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元／张</span>
+              </el-col>
+            </el-form-item>
+            <el-form-item label-width="210px" class="full-width" prop="" label="4000 张／年 至 10000 张／年">
+              <el-col :span="20">
+                <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                  <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元／张</span>
+              </el-col>
+            </el-form-item>
+
+            <el-form-item label-width="210px" class="full-width" prop="" label="10000 张／年 至 100000 张／年">
+              <el-col :span="20">
+                <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                  <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元／张</span>
+              </el-col>
+            </el-form-item>
+          </fieldset> -->
+          <!-- 电子发票end -->
+        </template>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
@@ -240,34 +319,37 @@
             </el-col>
           </el-row>
         </fieldset>
-        <fieldset v-if="visibleEditIntermediay">
-          <legend>分润信息
-            <span class="small"></span>
-          </legend>
-          <el-form-item class="full-width" prop="" label="补贴">
-            <el-select id="subsidyEdit" ref="subsidyEdit" prop="subsidy" v-model="editForm.subsidy" clearable placeholder="请选择">
-              <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-row>
-            <el-col :span="12">
-              <div class="grid-content bg-purple">
-                <el-form-item class="full-width" prop="" label="中间人">
-                  <el-input v-model="editForm.intermediary"></el-input>
+        <template v-if="visibleEditIntermediay">
+          <h2 class="title-box">合伙人成本</h2>
+          <fieldset>
+            <legend>分润信息
+              <span class="small"></span>
+            </legend>
+            <el-form-item class="full-width" prop="" label="补贴">
+              <el-select id="subsidyEdit" ref="subsidyEdit" prop="subsidy" v-model="editForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+                  <el-form-item class="full-width" prop="" label="中间人">
+                    <el-input v-model="editForm.intermediary"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item class="full-width" prop="" label="中间人分润">
+                  <el-select id="rebateEdit" ref="rebateEdit" prop="rebate" v-model="editForm.rebate" clearable placeholder="请选择">
+                    <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item class="full-width" prop="" label="中间人分润">
-                <el-select id="rebateEdit" ref="rebateEdit" prop="rebate" v-model="editForm.rebate" clearable placeholder="请选择">
-                  <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </fieldset>
+              </el-col>
+            </el-row>
+          </fieldset>
+        </template>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
@@ -281,7 +363,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-
+.title-box {
+  text-align: center;
+  padding-top: 20px;
+  font-size: 18px;
+}
+.unit-inline {
+  padding: 0 10px;
+}
 </style>
 <script>
 import $ from "jquery";
@@ -298,6 +387,7 @@ import utils from "@src/common/utils"
 import { areaOrgcode } from "@src/common/orgcode";
 // 所有可选银行
 import { banks } from "@src/common/bank";
+import settleModeAgent from "@src/data/settleModeAgent"
 import {
   getAgentManages,
   postAddAgentManage,
@@ -329,9 +419,20 @@ export default {
     );
     var isAdmin = user.userType === "root" || user.userType === "admin";
     return {
+      settleModeOption: settleModeAgent,
       visibleEditIntermediay: false, // 编辑的分润模块
       visibleEditBank: false, // 编辑的结算模块
       visibleEditDevelop: false, // 编辑信息开发模块
+      settleModeTypeOptions: [
+        {
+          code: "T0",
+          name: "开通"
+        },
+        {
+          code: "T1",
+          name: "不开通"
+        }
+      ],
       subsidyOptions: [
         {
           name: "0",
@@ -464,23 +565,13 @@ export default {
             this.searchCondition.agentName = value;
           }
         },
-        {
-          corresattr: "phoneNo",
-          type: "text", // 表单类型
-          label: "手机号", // 输入框前面的文字
-          show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.phoneNo = value;
-          }
-        },
+
         {
           corresattr: "level", // 只有运营显示
           visible: !isAdmin ? "TRUE" : "FALSE",
           type: "select",
           label: "级别",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -513,7 +604,7 @@ export default {
           visible: isAdmin ? "TRUE" : "FALSE",
           type: "select",
           label: "级别",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -531,6 +622,17 @@ export default {
           ],
           cb: value => {
             this.searchCondition.level = value;
+          }
+        },
+        {
+          corresattr: "phoneNo",
+          type: "text", // 表单类型
+          label: "手机号", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.phoneNo = value;
           }
         }
       ],
