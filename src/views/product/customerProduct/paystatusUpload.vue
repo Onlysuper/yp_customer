@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="formVisible" class="paystatusUpload-box">
-      <el-form size="small" label-position="left" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
+      <el-form size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -42,37 +42,42 @@
             </el-form-item>
           </el-col>
         </el-row>
-
-        <el-form-item class="full-width is-required" label="结算卡正面" prop="settle" :label-width="formLabelWidth">
-          <el-upload :data="settleData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="settlebeforeUpload">
-            <img v-if="settleCardImg" :src="settleCardImg" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item class="full-width is-required" label="开户许可证" prop="account" :label-width="formLabelWidth">
-          <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
-            <img v-if="accountLicenseImg" :src="accountLicenseImg" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item class="full-width is-required" label="门头照片" prop="place" :label-width="formLabelWidth">
-          <el-upload :data="placeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="placebeforeUpload">
-            <img v-if="placeImg" :src="placeImg" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item class="full-width is-required" label="店内照片" prop="store" :label-width="formLabelWidth">
-          <el-upload :data="storeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="storebeforeUpload">
-            <img v-if="storeImg" :src="storeImg" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item class="full-width is-required" label="收银台照片" prop="cash" :label-width="formLabelWidth">
-          <el-upload :data="cashData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="cashbeforeUpload">
-            <img v-if="cashSpaceImg" :src="cashSpaceImg" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item class="full-width is-required" label="结算卡正面" prop="settle" :label-width="formLabelWidth">
+              <el-upload :data="settleData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="settlebeforeUpload">
+                <img v-if="settleCardImg" :src="settleCardImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item class="full-width is-required" label="开户许可证" prop="account" :label-width="formLabelWidth">
+              <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
+                <img v-if="accountLicenseImg" :src="accountLicenseImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item class="full-width is-required" label="店内照片" prop="store" :label-width="formLabelWidth">
+              <el-upload :data="storeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="storebeforeUpload">
+                <img v-if="storeImg" :src="storeImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item class="full-width is-required" label="收银台照片" prop="cash" :label-width="formLabelWidth">
+              <el-upload :data="cashData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="cashbeforeUpload">
+                <img v-if="cashSpaceImg" :src="cashSpaceImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
           <span>同意《开通支付协议》
@@ -235,7 +240,7 @@ export default {
       placeImg: "",
       storeImg: "",
       cashSpaceImg: "",
-      formLabelWidth: "140px",
+      formLabelWidth: "130px",
       payStatusForm: {},
       payStatusFormRules: {}, // 编辑单个规则
       settleModeOptions: [
