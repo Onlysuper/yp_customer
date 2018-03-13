@@ -158,14 +158,14 @@ export default {
         return result;
     },
     /**
- * 图片压缩，默认同比例压缩
- * @param {Object} path 
- *   pc端传入的路径可以为相对路径，但是在移动端上必须传入的路径是照相图片储存的绝对路径
- * @param {Object} obj
- *   obj 对象 有 width， height， quality(0-1)
- * @param {Object} callback
- *   回调函数有一个参数，base64的字符串数据
- */
+     * 图片压缩，默认同比例压缩
+     * @param {Object} path 
+     *   pc端传入的路径可以为相对路径，但是在移动端上必须传入的路径是照相图片储存的绝对路径
+     * @param {Object} obj
+     *   obj 对象 有 width， height， quality(0-1)
+     * @param {Object} callback
+     *   回调函数有一个参数，base64的字符串数据
+     */
     dealImage(path, obj, callback) {
         var img = new Image();
         img.src = path;
@@ -198,5 +198,11 @@ export default {
             // 回调函数返回base64的值
             callback(base64);
         }
-    }
+    },
+    /**
+     * 根据code查找json串中的item
+     */
+    queryJsonVal: function (json, code) {
+        return json.find(item => item.code == code) || {};
+    },
 }
