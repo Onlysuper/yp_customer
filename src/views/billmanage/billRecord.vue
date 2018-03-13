@@ -96,14 +96,11 @@
           <span class="line-label">发票金额:</span>
           <span class="line-label-last">{{detailsForm.billAmount}}</span>
         </div>
-
       </div>
-
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
-        <!-- <el-button class="download-text"  type="primary"> -->
-        <a v-if="downLoadVisible" class="el-button el-button--primary" :href="detailsForm.pdfUrl" :download="'发票'">下载</a>
-        <!-- </el-button> -->
+        <a :href="detailsForm.pdfUrl" target="_blank" :download="发票" class="el-button el-button--primary">下载</a>
+        <!-- <el-button @click="downLoadpdf(detailsForm.pdfUrl)" v-if="downLoadVisible" class="el-button el-button--primary">下载</el-button> -->
       </div>
     </el-dialog>
     <!-- 详情 end -->
@@ -559,6 +556,9 @@ export default {
           });
         }
       });
+    },
+    downLoadpdf(url) {
+      this.$refs.dataTable.ExportExcelDIR(url);
     }
   },
   computed: {

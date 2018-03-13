@@ -43,7 +43,15 @@
           </el-col>
         </el-row>
         <el-form-item class="full-width" label="注册资金" prop="registMoney" :label-width="formLabelWidth">
-          <el-input v-model="editForm.registMoney"></el-input>
+          <el-col :span="20">
+            <div class="grid-content bg-purple"></div>
+            <el-input @input="registMoneyChange($event)" v-model.number="editForm.registMoney"></el-input>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              <span class="small-line">万</span>
+            </div>
+          </el-col>
         </el-form-item>
         <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
           <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
@@ -384,6 +392,10 @@ export default {
           }
         });
       }
+    },
+    registMoneyChange(e) {
+      console.log()
+      e.target.value = e.target.value.replace(/[^\d]/g, '');
     }
   },
   created() {

@@ -12,7 +12,7 @@
     <el-dialog title="商户状态" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <div class="line-box-center">
-          <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
+          <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
             <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
             </el-option>
           </el-select>
@@ -45,23 +45,20 @@
               <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
             </div>
             <div class="line-label-box">
-              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode==null?"":utils.findCity(payStatusDetails.orgCode).resultAddr}}
+              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?"":utils.findCity(payStatusDetails.orgCode).resultAddr}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress||""}}
+              <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">法人:</span>{{payStatusDetails.legalPerson||""}}
+              <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">身份证号:</span>{{payStatusDetails.idCard||""}}
+              <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
             </div>
             <div class="line-label-box">
               <span class="line-label">行业类型:</span>{{payStatusDetails.category==null?"":utils.findBussinessType(payStatusDetails.category).name}}
             </div>
-            <!-- <div class="line-label-box">
-              <span class="line-label">邮箱:</span>{{payStatusDetails.contactEmail||""}}
-            </div> -->
             <div class="line-label-box">
               <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
             </div>
@@ -234,7 +231,7 @@
           <div class="line-label-box">
             <span class="line-label">注册省份:</span>
             <span class="line-label-last">
-              {{elecStatusDetails.orgCode==null?"":utils.findCity(elecStatusDetails.orgCode).resultAddr}}
+              {{elecStatusDetails.orgCode?"":utils.findCity(elecStatusDetails.orgCode).resultAddr}}
             </span>
           </div>
           <div class="line-label-box">
@@ -275,7 +272,8 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
-        <el-button :disabled="deitDisabled_edit(selectOptions.customerType,detailsForm)" v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
+        <!-- <el-button v-if="editVisiblebut" :disabled="deitDisabled_edit(selectOptions.customerType,detailsForm)" type="primary" @click="editFn()">编辑</el-button> -->
+        <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
 
         <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
@@ -285,7 +283,7 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
-      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
+      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
         <!-- 组件在 vm.currentview 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -294,7 +292,7 @@
     <!-- 关闭start -->
     <el-dialog title="关闭" center :visible.sync="closeVisible">
       <div class="line-box-center">
-        <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
+        <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
           <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
           </el-option>
         </el-select>
@@ -410,11 +408,9 @@ export default {
       checkVisiblebut: false,
       editVisiblebut: false,
       closeVisible: false,
-      searchDetail: false,
-      // editVisible: false,
       rejectReason: "", //拒绝理由
       productOpenTitle: "完善信息",
-      rowData: {},
+      resaultData: {},
       currentView: "openInfo",
       customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
@@ -840,26 +836,47 @@ export default {
               cb: rowdata => {
                 this.search = true;
                 this.check = false;
-                // this.checkVisiblebut = false;
-                this.checkVisibleFn(rowdata);
-                this.searchDetail = true;
-                this.rowData = rowdata;
-                this.checkVisiblebut = false;
-                if (
-                  rowdata.payStatus == "REJECT" ||
-                  rowdata.payStatus == "WAITING_SUBMIT"
-                ) {
-                  // 被拒跟待提交的状态 显示编辑按钮
-                  this.editVisiblebut = true;
-                } else {
-                  this.editVisiblebut = false;
-                }
-                this.getCustomerEcho(rowdata); // 聚合支付回显
-                this.getElectronicEcho(rowdata); // 电子发票回显
+                this.resaultData = rowdata;
+                this.changeVisibleFn();
+                this.getCustomerEcho(); // 聚合支付回显
+                this.getElectronicEcho(); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
                 // 所有选项均可选
                 this.selectOptions.customerTypeOptions.forEach(element => {
                   element.disabled = false;
+                });
+                this.detailsFormVisible = true;
+              }
+            },
+            {
+              text: "审核",
+              visibleFn: rowdata => {
+                if (
+                  isAdmin &&
+                  (
+                    rowdata.elecStatus == "CHECKING")
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              color: "#00c1df",
+              cb: rowdata => {
+                this.resaultData = rowdata;
+                this.search = false;
+                this.check = true;
+                this.changeVisibleFn();
+                this.getCustomerEcho(); // 聚合支付回显
+                this.getElectronicEcho(); // 电子发票回显
+                this.detailsForm = Object.assign(this.detailsForm, rowdata);
+                // 只有电子发票可以审核
+                this.selectOptions.customerTypeOptions.forEach(element => {
+                  if (element.value != "elecStatus") {
+                    element.disabled = true;
+                    this.selectOptions.customerType = "elecStatus";
+                    console.log('改变了')
+                  }
                 });
                 this.detailsFormVisible = true;
               }
@@ -916,41 +933,6 @@ export default {
                   }
                 });
                 this.closeVisible = true;
-              }
-            },
-            {
-              text: "审核",
-              visibleFn: rowdata => {
-                if (
-                  isAdmin &&
-                  (
-                    rowdata.elecStatus == "CHECKING")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              color: "#00c1df",
-              cb: rowdata => {
-                this.rowData = rowdata;
-                this.search = false;
-                this.check = true;
-                this.editVisiblebut = false;
-                this.searchDetail = false;
-                this.checkVisibleFn(rowdata);
-                this.getCustomerEcho(rowdata); // 聚合支付回显
-                this.getElectronicEcho(rowdata); // 电子发票回显
-                this.detailsForm = Object.assign(this.detailsForm, rowdata);
-                // 只有电子发票可以审核
-                this.selectOptions.customerTypeOptions.forEach(element => {
-                  if (element.value != "elecStatus") {
-                    element.disabled = true;
-                    this.selectOptions.customerType = "elecStatus";
-                    console.log('改变了')
-                  }
-                });
-                this.detailsFormVisible = true;
               }
             }
           ]
@@ -1018,7 +1000,7 @@ export default {
     },
     // 审核通过
     adoptSave(customerType, detailsForm) {
-      let resaultForm = this.rowData;
+      let resaultForm = this.resaultData;
       let obj = {
         bussinessNo: resaultForm.bussinessNo,
         bussinessType: "customer"
@@ -1050,7 +1032,7 @@ export default {
         inputPattern: /^[\u4E00-\u9FA5\uF900-\uFA2D\w]+$/,
         inputErrorMessage: "请输入拒绝原因"
       }).then(({ value }) => {
-        let resaultForm = this.rowData;
+        let resaultForm = this.resaultData;
         let obj = {
           bussinessNo: resaultForm.bussinessNo,
           bussinessType: "customer"
@@ -1116,18 +1098,19 @@ export default {
               : true
         }
       ];
-      this.rowData = rowdata;
+      this.resaultData = rowdata;
       this.nextFn("openInfo");
     },
     // 聚合支付回显
-    getCustomerEcho(rowData) {
+    getCustomerEcho() {
+      let resaultData = this.resaultData;
       let dialogLoading = this.$loading({
         target: document
           .querySelector("#dialogLoding")
           .querySelector(".el-dialog")
       });
       getCustomerEchoProduct()({
-        customerNo: rowData.bussinessNo,
+        customerNo: resaultData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
@@ -1173,14 +1156,15 @@ export default {
       });
     },
     // 电子发票回显示
-    getElectronicEcho(rowData) {
+    getElectronicEcho() {
+      let resaultData = this.resaultData;
       let dialogLoading = this.$loading({
         target: document
           .querySelector("#dialogLoding")
           .querySelector(".el-dialog")
       });
       getQueryCustomerElectronic()({
-        customerNo: rowData.bussinessNo,
+        customerNo: resaultData.bussinessNo,
         featureType: "ELECTRONIC"
       }).then(res => {
         if (res.code == "00") {
@@ -1227,7 +1211,7 @@ export default {
         this.qrcodeStatusVisible = true;
         this.detailsFormVisible = false;
         this.editFormVisible = true;
-        this.openProduct(this.rowData);
+        this.openProduct(this.resaultData);
         console.log("聚合支付编辑");
       }
     },
@@ -1235,19 +1219,19 @@ export default {
     nextFn(next) {
       this.currentView = next;
     },
-    customerTypeSelect() {
-      let value = this.selectOptions.customerType;
-      this.payStatusVisible = false; // 聚合详情
-      this.qrcodeStatusVisible = false; // 快速
-      this.elecStatusVisible = false; // 电子
-      if (value == "qrcodeStatus") {
-        this.qrcodeStatusVisible = true;
-      } else if (value == "elecStatus") {
-        this.elecStatusVisible = true;
-      } else if (value == "payStatus") {
-        this.payStatusVisible = true;
-      }
-    },
+    // customerTypeSelect() {
+    //   let value = this.selectOptions.customerType;
+    //   this.payStatusVisible = false; // 聚合详情
+    //   this.qrcodeStatusVisible = false; // 快速
+    //   this.elecStatusVisible = false; // 电子
+    //   if (value == "qrcodeStatus") {
+    //     this.qrcodeStatusVisible = true;
+    //   } else if (value == "elecStatus") {
+    //     this.elecStatusVisible = true;
+    //   } else if (value == "payStatus") {
+    //     this.payStatusVisible = true;
+    //   }
+    // },
 
     titleChange(currentView) {
       if (currentView == "paystatusInfo") {
@@ -1266,34 +1250,58 @@ export default {
         this.productOpenTitle = currentView;
       }
     },
-    // 查询详情 编辑按钮显示问题
-    deitDisabled_edit(type, row) {
-      if (
-        (type == "payStatus" && row.payStatus == "REJECT") ||
-        (type == "payStatus" && row.payStatus == "WAITING_SUBMIT") ||
-        (type == "elecStatus" && row.qrcodeStatus == "REJECT") ||
-        (type == "elecStatus" && row.qrcodeStatus == "WAITING_SUBMIT") ||
-        (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT")
-      ) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    // 查询详情 审核按钮显示
-    checkVisibleFn(row) {
-      // 只有电子发票待审核状态又审核按钮
+    // 编辑与审核按钮的显示隐藏
+    changeVisibleFn() {
+      let row = this.resaultData;
       let type = this.selectOptions.customerType;
-      if (this.check && type == "elecStatus" &&
-        (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING")) {
-        this.checkVisiblebut = true;
-      } else {
-        this.checkVisiblebut = false;
+      this.payStatusVisible = false;
+      this.qrcodeStatusVisible = false;
+      this.elecStatusVisible = false;
+      this.checkVisiblebut = false;
+      this.editVisiblebut = false;
+      if (this.check) {
+        switch (type) {
+          case "qrcodeStatus":
+            this.qrcodeStatusVisible = true;
+            break;
+          case "elecStatus":
+            this.elecStatusVisible = true;
+            if (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING") {
+              this.checkVisiblebut = true;
+            }
+            break;
+          case "payStatus":
+            this.payStatusVisible = true;
+            if (row.payStatus == "CHECKING" || row.payStatus == "PROCESSING") {
+              this.checkVisiblebut = true;
+            }
+            break;
+        }
       }
+      if (this.search) {
+        switch (type) {
+          case "qrcodeStatus":
+            this.qrcodeStatusVisible = true;
+            break;
+          case "elecStatus":
+            this.elecStatusVisible = true;
+            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT") {
+              this.editVisiblebut = true;
+            }
+            break;
+          case "payStatus":
+            this.payStatusVisible = true;
+            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT") {
+              this.editVisiblebut = true;
+            }
+            break;
+        }
+      }
+
     },
     customerTypeChange() {
-      this.customerTypeSelect();
-      this.checkVisibleFn(this.rowData);
+      // this.customerTypeSelect();
+      // this.changeVisibleFn();
     }
   },
   computed: {
@@ -1318,12 +1326,10 @@ export default {
       } else if (val == "payStatus") {
         this.payStatusVisible = true;
       }
-      this.customerTypeSelect();
-      this.checkVisibleFn(this.rowData);
+      this.changeVisibleFn();
     }
   },
   mounted() {
-    this.customerTypeSelect();
   }
 };
 </script>
