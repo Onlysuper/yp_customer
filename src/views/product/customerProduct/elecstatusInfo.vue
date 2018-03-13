@@ -45,7 +45,7 @@
         <el-form-item class="full-width" label="注册资金" prop="registMoney" :label-width="formLabelWidth">
           <el-col :span="20">
             <div class="grid-content bg-purple"></div>
-            <el-input @input="registMoneyChange($event)" v-model.number="editForm.registMoney"></el-input>
+            <el-input type="number" v-model.number="editForm.registMoney"></el-input>
           </el-col>
           <el-col :span="4">
             <div class="grid-content bg-purple">
@@ -167,7 +167,7 @@ export default {
           { required: true, message: "请输入经营名称", trigger: "blur,change" }
         ],
         registMoney: [
-          { required: true, message: "请输入注册资金", trigger: "blur,change" }
+          { required: true, message: "请输入注册资金数", trigger: "blur,change" }
         ],
         bankMyCode: [
           { required: true, message: "请填写开户银行", trigger: "blur,change" }
@@ -393,10 +393,6 @@ export default {
         });
       }
     },
-    registMoneyChange(e) {
-      console.log()
-      e.target.value = e.target.value.replace(/[^\d]/g, '');
-    }
   },
   created() {
     this.editInfo();
