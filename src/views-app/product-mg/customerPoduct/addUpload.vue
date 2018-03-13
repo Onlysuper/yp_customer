@@ -131,6 +131,7 @@ export default {
       visible: false,
       value: "",
       customerNo: this.$route.query["customerNo"],
+      phoneNo: "",
       imgs: {}
     };
   },
@@ -152,14 +153,14 @@ export default {
   directives: {
     targetTo: {
       // 指令的定义
-      inserted: function(el) {
+      inserted: function (el) {
         // console.log(el);
       }
     }
   },
   methods: {
     echoForm(data) {
-      let { imgs } = data;
+      let { imgs, settleCard } = data;
       if (imgs instanceof Object) {
         for (let key in imgs) {
           if (imgs[key] instanceof Object) {
@@ -167,6 +168,9 @@ export default {
             this.resultMediaId(key, imgs[key].id);
           }
         }
+      }
+      if (settleCard instanceof Object) {
+        this.phoneNo = settleCard.phoneNo;
       }
     },
     //图片上传结果
@@ -184,7 +188,7 @@ export default {
         customerNo: this.customerNo
       }).then(data => {
         if (data.code == "00") {
-          this.$router.push({ path: "./addSuccess" });
+          this.$router.push({ path: "./addSuccess", query: { phoneNo: this.phoneNo } });
         } else {
           this.Toast(data.msg);
         }
