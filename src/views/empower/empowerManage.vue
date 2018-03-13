@@ -328,7 +328,7 @@ export default {
       },
       bindChildFormRules: {
         childQrcodes: [
-          { required: true, message: "请输入子码编号", trigger: "blur" }
+          { required: true, message: "请输入子码编号", trigger: "blur,change" }
         ]
       },
       bindForm: {
@@ -339,7 +339,7 @@ export default {
       },
       bindFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ]
       },
       fileList: [],
@@ -348,7 +348,7 @@ export default {
       },
       exportEmpowerCodeRules: {
         styleType: [
-          { required: true, message: "请先选择模版样式", trigger: "blur" }
+          { required: true, message: "请先选择模版样式", trigger: "blur,change" }
         ]
       },
 
@@ -359,13 +359,13 @@ export default {
       },
       empoverCodeRules: {
         agentNo: [
-          { required: true, message: "请输入合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入合伙人编号", trigger: "blur,change" }
         ],
         qrcodeCount: [
-          { required: true, message: "批次数量不能为空", trigger: "blur" }
+          { required: true, message: "批次数量不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          { required: true, message: "请选择支持类型", trigger: "blur" }
+          { required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       editForm: {
@@ -375,10 +375,10 @@ export default {
       },
       editFormRules: {
         extensionNum: [
-          { required: true, message: "分机号不能为空", trigger: "blur" }
+          { required: true, message: "分机号不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          { required: true, message: "请选择支持类型", trigger: "blur" }
+          { required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       addMaterielForm: {
@@ -386,19 +386,19 @@ export default {
       },
       addMaterielRules: {
         deviceType: [
-          { required: true, message: "入库类型不能为空", trigger: "blur" }
+          { required: true, message: "入库类型不能为空", trigger: "blur,change" }
         ],
         qrcodeStart: [
-          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+          { required: true, message: "号段起始号码不能为空", trigger: "blur,change" }
         ],
         qrcodeStart: [
-          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+          { required: true, message: "号段起始号码不能为空", trigger: "blur,change" }
         ],
         migrateType: [
-          { required: true, message: "请选择入库方式", trigger: "blur" }
+          { required: true, message: "请选择入库方式", trigger: "blur,change" }
         ],
         receiptCount: [
-          { required: true, message: "请输入入库数量", trigger: "blur" }
+          { required: true, message: "请输入入库数量", trigger: "blur,change" }
         ]
       },
       // formLabelWidth: "100px",

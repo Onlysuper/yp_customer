@@ -59,41 +59,38 @@ export default {
       // addFormVisible: false, // 新增框
       addFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
 
         agentArea: [
-          { required: true, message: "请选择经营区域", trigger: "blur" }
+          { required: true, message: "请选择经营区域", trigger: "blur,change" }
         ],
         bussinessAddress: [
-          { required: true, message: "请填写经营地址", trigger: "blur" }
+          { required: true, message: "请填写经营地址", trigger: "blur,change" }
         ],
 
         bussinessPhone: [
-          { required: true, message: "请输入有效联系方式", trigger: "blur" }
+          { required: true, message: "请输入有效联系方式", trigger: "blur,change" }
         ],
         bussinessName: [
-          { required: true, message: "请输入经营名称", trigger: "blur" }
+          { required: true, message: "请输入经营名称", trigger: "blur,change" }
         ],
         registMoney: [
-          { required: true, message: "请输入注册资金", trigger: "blur" }
+          { required: true, message: "请输入注册资金", trigger: "blur,change" }
         ],
         bankMyCode: [
-          { required: true, message: "请填写开户银行", trigger: "blur" }
+          { required: true, message: "请填写开户银行", trigger: "blur,change" }
         ],
         bankAccountNo: [
-          { required: true, message: "请填写银行卡号", trigger: "blur" }
+          { required: true, message: "请填写银行卡号", trigger: "blur,change" }
         ],
         mounthCount: [
-          { required: true, message: "请填写月开票量", trigger: "blur" }
+          { required: true, message: "请填写月开票量", trigger: "blur,change" }
         ],
-        // bankCode: [
-        //   { required: true, message: "请输入开户银行", trigger: "blur" }
-        // ],
         bankArea: [
-          { required: true, message: "请选择银行区域", trigger: "blur" }
+          { required: true, message: "请选择银行区域", trigger: "blur,change" }
         ],
-        unionCode: [{ required: true, message: "请选择支行", trigger: "blur" }]
+        unionCode: [{ required: true, message: "请选择支行", trigger: "blur,change" }]
       },
       editFormRules: {}, // 编辑单个规则
       editForm: {
@@ -305,7 +302,7 @@ export default {
     this.editInfo();
   },
   computed: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

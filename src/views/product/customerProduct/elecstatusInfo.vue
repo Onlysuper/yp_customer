@@ -46,7 +46,7 @@
           <el-input v-model="editForm.registMoney"></el-input>
         </el-form-item>
         <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-          <el-select @change="inputChangeValidate('editForm')" @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
+          <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
             <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
@@ -57,7 +57,7 @@
         </el-form-item>
         <el-form-item class="full-width" prop="unionCode" label="选择支行">
           <el-input v-if="branchNameVisible" v-model="editForm.branchName" auto-complete="off"></el-input>
-          <el-select @change="inputChangeValidate('editForm')" v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
+          <el-select v-if="bankAreaVisible" prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
             <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
             </el-option>
           </el-select>
@@ -142,41 +142,41 @@ export default {
       // addFormVisible: false, // 新增框
       addFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
 
         agentArea: [
-          { required: true, message: "请选择经营区域", trigger: "blur" }
+          { required: true, message: "请选择经营区域", trigger: "blur,change" }
         ],
         bussinessAddress: [
-          { required: true, message: "请填写经营地址", trigger: "blur" }
+          { required: true, message: "请填写经营地址", trigger: "blur,change" }
         ],
 
         bussinessPhone: [
-          { required: true, message: "请输入有效联系方式", trigger: "blur" }
+          { required: true, message: "请输入有效联系方式", trigger: "blur,change" }
         ],
         bussinessName: [
-          { required: true, message: "请输入经营名称", trigger: "blur" }
+          { required: true, message: "请输入经营名称", trigger: "blur,change" }
         ],
         registMoney: [
-          { required: true, message: "请输入注册资金", trigger: "blur" }
+          { required: true, message: "请输入注册资金", trigger: "blur,change" }
         ],
         bankMyCode: [
-          { required: true, message: "请填写开户银行", trigger: "blur" }
+          { required: true, message: "请填写开户银行", trigger: "blur,change" }
         ],
         bankAccountNo: [
-          { required: true, message: "请填写银行卡号", trigger: "blur" }
+          { required: true, message: "请填写银行卡号", trigger: "blur,change" }
         ],
         mounthCount: [
-          { required: true, message: "请填写月开票量", trigger: "blur" }
+          { required: true, message: "请填写月开票量", trigger: "blur,change" }
         ],
         bankCode: [
-          { required: true, message: "请输入开户银行", trigger: "blur" }
+          { required: true, message: "请输入开户银行", trigger: "blur,change" }
         ],
         bankArea: [
-          { required: true, message: "请选择银行区域", trigger: "blur" }
+          { required: true, message: "请选择银行区域", trigger: "blur,change" }
         ],
-        unionCode: [{ required: true, message: "请选择支行", trigger: "blur" }]
+        unionCode: [{ required: true, message: "请选择支行", trigger: "blur,change" }]
       },
       editFormRules: {}, // 编辑单个规则
       editForm: {
@@ -229,7 +229,6 @@ export default {
     },
     handleChangeArea(value) {
       // 省市区选择
-      this.inputChangeValidate('editForm')
     },
     customerInputBlur() {
       // add商户编号失去焦点
@@ -368,7 +367,6 @@ export default {
       //选择银行区域
       this.bankCity = value[2] || value[1] || value[0];
       this.getBankListHandle();
-      this.inputChangeValidate('editForm')
     },
     getBankListHandle(back) {
       this.editForm.unionCode = "";

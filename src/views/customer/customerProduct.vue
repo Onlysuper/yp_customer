@@ -287,37 +287,34 @@ export default {
       addFormVisible: false, // 新增框
       addFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
         featureType: [
-          { required: true, message: "请选择商品类型", trigger: "blur" }
+          { required: true, message: "请选择商品类型", trigger: "blur,change" }
         ],
         agentArea: [
-          { required: true, message: "请选择经营区域", trigger: "blur" }
+          { required: true, message: "请选择经营区域", trigger: "blur,change" }
         ],
         bussinessAddress: [
-          { required: true, message: "请填写经营地址", trigger: "blur" }
+          { required: true, message: "请填写经营地址", trigger: "blur,change" }
         ],
-        // bussinessPhone: [
-        //   { required: true, validator: phoneNumVerify, trigger: "blur" }
-        // ],
         bussinessPhone: [
-          { required: true, message: "请输入有效联系方式", trigger: "blur" }
+          { required: true, message: "请输入有效联系方式", trigger: "blur,change" }
         ],
         bussinessName: [
-          { required: true, message: "请输入经营名称", trigger: "blur" }
+          { required: true, message: "请输入经营名称", trigger: "blur,change" }
         ],
         registMoney: [
-          { required: true, message: "请输入注册资金", trigger: "blur" }
+          { required: true, message: "请输入注册资金", trigger: "blur,change" }
         ],
         bankCode: [
-          { required: true, message: "请填写开户银行", trigger: "blur" }
+          { required: true, message: "请填写开户银行", trigger: "blur,change" }
         ],
         bankAccountNo: [
-          { required: true, message: "请填写银行卡号", trigger: "blur" }
+          { required: true, message: "请填写银行卡号", trigger: "blur,change" }
         ],
         mounthCount: [
-          { required: true, message: "请填写月开票量", trigger: "blur" }
+          { required: true, message: "请填写月开票量", trigger: "blur,change" }
         ]
       },
       editFormRules: {}, // 编辑单个规则
@@ -740,7 +737,7 @@ export default {
     }
   },
   computed: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

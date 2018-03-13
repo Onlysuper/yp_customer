@@ -19,7 +19,7 @@
       </div>
       <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
-        <el-cascader @change="inputChangeValidate('payStatusForm')" :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
+        <el-cascader :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
         </el-cascader>
       </el-form-item>
       <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
@@ -32,13 +32,13 @@
         <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
-        <el-select @change="inputChangeValidate('payStatusForm')" size="small" v-model="payStatusForm.category" placeholder="请选择">
+        <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
           <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
-        <el-select @change="inputChangeValidate('payStatusForm')" size="small" v-model="payStatusForm.accountType" placeholder="请选择">
+        <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
           <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
@@ -50,7 +50,7 @@
         <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-        <el-select @change="inputChangeValidate('payStatusForm')" @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
+        <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
           <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
@@ -61,7 +61,7 @@
       </el-form-item>
       <el-form-item class="full-width" prop="unionCode" label="选择支行">
         <el-input v-if="branchNameVisible" v-model="payStatusForm.branchName" auto-complete="off"></el-input>
-        <el-select @change="inputChangeValidate('payStatusForm')" v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
+        <el-select v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
           <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
           </el-option>
         </el-select>
@@ -168,7 +168,7 @@ export default {
           { required: true, message: "请输入法人名称", trigger: "blur,change" }
         ],
         idCard: [
-          { validator: idCardVerify_r, trigger: "blur" }
+          { validator: idCardVerify_r, trigger: "blur,change" }
         ],
         category: [
           { required: true, message: "请选择行业类型", trigger: "blur,change" }
@@ -261,7 +261,6 @@ export default {
       //选择银行区域
       this.bankCity = value[2] || value[1] || value[0];
       this.getBankListHandle();
-      this.inputChangeValidate('payStatusForm')
     },
     banksChange(value) {
       // 选择所属银行

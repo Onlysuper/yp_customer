@@ -746,7 +746,6 @@ export default {
       this.addFormVisible = true;
     },
     handleChangeArea() {
-      this.inputChangeValidate('addForm');
     },
     bankhandleChangeArea(value) {
       console.log(value);

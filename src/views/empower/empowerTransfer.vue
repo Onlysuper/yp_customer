@@ -186,28 +186,28 @@ export default {
       },
       allotFormRules: {
         deviceType: [
-          { required: true, message: "请选择设备类型", trigger: "blur" }
+          { required: true, message: "请选择设备类型", trigger: "blur,change" }
         ],
         migrateCount: [
-          { required: true, message: "请输入转移数量", trigger: "blur" }
+          { required: true, message: "请输入转移数量", trigger: "blur,change" }
         ],
         migrateType: [
-          { required: true, message: "请选择分配方式", trigger: "blur" }
+          { required: true, message: "请选择分配方式", trigger: "blur,change" }
         ],
         price: [
-          { required: true, message: "请输入二维码序列号", trigger: "blur" }
+          { required: true, message: "请输入二维码序列号", trigger: "blur,change" }
         ],
         agentNo: [
-          { required: true, message: "采购单价不能为空", trigger: "blur" }
+          { required: true, message: "采购单价不能为空", trigger: "blur,change" }
         ],
         qrcodeStart: [
-          { required: true, message: "开始号段不能为空", trigger: "blur" }
+          { required: true, message: "开始号段不能为空", trigger: "blur,change" }
         ],
         qrcodeEnd: [
-          { required: true, message: "结束号段不能为空", trigger: "blur" }
+          { required: true, message: "结束号段不能为空", trigger: "blur,change" }
         ],
         qrcodes: [
-          { required: true, message: "二维码序列号不能为空", trigger: "blur" }
+          { required: true, message: "二维码序列号不能为空", trigger: "blur,change" }
         ]
       },
       payForm: {
@@ -215,22 +215,22 @@ export default {
       },
       payFormRules: {
         deviceType: [
-          { required: true, message: "请选择设备类型", trigger: "blur" }
+          { required: true, message: "请选择设备类型", trigger: "blur,change" }
         ],
         migrateCount: [
-          { required: true, message: "请输入转移数量", trigger: "blur" }
+          { required: true, message: "请输入转移数量", trigger: "blur,change" }
         ],
         migrateType: [
-          { required: true, message: "请选择上缴方式", trigger: "blur" }
+          { required: true, message: "请选择上缴方式", trigger: "blur,change" }
         ],
         qrcodeStart: [
-          { required: true, message: "开始号段不能为空", trigger: "blur" }
+          { required: true, message: "开始号段不能为空", trigger: "blur,change" }
         ],
         qrcodeEnd: [
-          { required: true, message: "结束号段不能为空", trigger: "blur" }
+          { required: true, message: "结束号段不能为空", trigger: "blur,change" }
         ],
         qrcodes: [
-          { required: true, message: "请输入二维码序列号", trigger: "blur" }
+          { required: true, message: "请输入二维码序列号", trigger: "blur,change" }
         ]
       },
       searchCondition: searchConditionVar,
