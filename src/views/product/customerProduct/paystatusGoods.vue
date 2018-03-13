@@ -2,13 +2,20 @@
   <div>
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="100px">
       <el-form-item class="full-width" label="微信费率" prop="wechatRate" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.wechatRate" auto-complete="off"></el-input>
+        <el-select size="small" v-model="payStatusForm.wechatRate" placeholder="请选择">
+          <el-option v-for="item in settleModeOption" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
+        </el-select>
+        <!-- <el-input v-model="payStatusForm.wechatRate" auto-complete="off"></el-input> -->
       </el-form-item>
       <el-form-item class="full-width" label="支付宝费率" prop="alipayRate" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.alipayRate" auto-complete="off"></el-input>
+        <el-select size="small" v-model="payStatusForm.alipayRate" placeholder="请选择">
+          <el-option v-for="item in settleModeOption" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item class="full-width" label="开通即刷即到" prop="settleMode" :label-width="formLabelWidth">
-        <el-select size="small" v-model="payStatusForm.settleMode" placeholder="请选择">
+        <el-select :disabled="true" size="small" v-model="payStatusForm.settleMode" placeholder="请选择">
           <el-option v-for="item in settleModeOptions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
@@ -38,6 +45,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { completeConvergeProduct, getCustomerEchoProduct } from "@src/apis";
+import settleMode from "@src/data/settleMode.json";
 import utils from "@src/common/utils";
 export default {
   name: "",
@@ -51,22 +59,26 @@ export default {
   data() {
     return {
       formLabelWidth: "110px",
+      settleModeOption: settleMode,
       payStatusForm: {
         alipayRate: "",
-        settleMode: ""
+        t0CashCostFixed: 0,
+        settleMode: "T1", // 不开通
+        wechatRate: "",
+        alipayRate: "",
       },
       payStatusFormRules: {
         wechatRate: [
-          { required: true, message: "请输入微信费率", trigger: "blur" }
+          { required: true, message: "请输入微信费率", trigger: "blur,change" }
         ],
         alipayRate: [
-          { required: true, message: "请输入支付宝费率", trigger: "blur" }
+          { required: true, message: "请输入支付宝费率", trigger: "blur,change" }
         ],
         settleMode: [
-          { required: true, message: "请选择结算方式", trigger: "blur" }
+          { required: true, message: "请选择结算方式", trigger: "blur,change" }
         ],
         t0CashCostFixed: [
-          { required: true, message: "请输入TO手续费", trigger: "blur" }
+          { required: true, message: "请输入TO手续费", trigger: "blur,change" }
         ]
       }, // 编辑单个规则
       settleModeOptions: [
@@ -91,11 +103,13 @@ export default {
           let obj = {
             customerNo: this.rowData.bussinessNo,
             settleMode: payStatusForm.settleMode,
-            wechatRate: utils.accMul(
-              parseFloat(payStatusForm.wechatRate),
-              0.01
-            ),
-            alipayRate: utils.accMul(parseFloat(payStatusForm.alipayRate), 0.01)
+            wechatRate: payStatusForm.wechatRate,
+            alipayRate: payStatusForm.alipayRate,
+            // wechatRate: utils.accMul(
+            //   parseFloat(payStatusForm.wechatRate),
+            //   0.01
+            // ),
+            // alipayRate: utils.accMul(parseFloat(payStatusForm.alipayRate), 0.01)
           };
           if (payStatusForm.settleMode == "T0") {
             obj.t0CashCostFixed = parseFloat(payStatusForm.t0CashCostFixed);
@@ -132,14 +146,28 @@ export default {
       }).then(res => {
         if (res.code == "00") {
           let product = res.data.product;
-          console.log(product);
-          this.payStatusForm.alipayRate =
-            utils.accMul(product.alipayRate, 100) + "%";
-          this.payStatusForm.wechatRate =
-            utils.accMul(product.wechatRate, 100) + "%";
-          this.payStatusForm.settleMode = product.settleMode;
-          this.payStatusForm.t0CashCostFixed =
-            product.t0CashCostFixed && product.t0CashCostFixed + "元";
+          let alipayRateObj = {
+            name: "",
+            code: ""
+          };
+          let wechatRateObj = {
+            name: "",
+            code: ""
+          };
+          this.settleModeOption.forEach(item => {
+            if (item.code == product.alipayRate) {
+              alipayRateObj = item
+            }
+            if (item.code == product.wechatRate) {
+              wechatRateObj = item
+            }
+          });
+          this.payStatusForm.alipayRate = alipayRateObj.code;
+          this.payStatusForm.wechatRate = wechatRateObj.code;
+          // 目前以下面开通即刷即到 暂不开通
+          // this.payStatusForm.settleMode = product.settleMode;
+          // this.payStatusForm.t0CashCostFixed =
+          //   product.t0CashCostFixed && product.t0CashCostFixed + "元";
         }
       });
     }

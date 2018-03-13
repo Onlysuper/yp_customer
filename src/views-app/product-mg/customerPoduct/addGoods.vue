@@ -4,20 +4,24 @@
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
     </mt-header>
     <div class="add-playinfo">
-
       <view-radius>
         <input-wrapper>
-          <mt-field label="微信费率:" type="text" v-model="form.wechatRate" :readonly="false" placeholder="">%</mt-field>
-          <mt-field label="支付宝费率:" type="text" v-model="form.alipayRate" :readonly="false" placeholder="">%</mt-field>
+          <mt-field label="微信费率:" type="text" @click.native="$refs.wechatRate.open" v-model="wechatRate.name" v-readonly-ios :readonly="true" placeholder="请选择微信费率">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field label="支付宝费率:" type="text" @click.native="$refs.alipayRate.open" v-model="alipayRate.name" v-readonly-ios :readonly="true" placeholder="请选择支付宝费率">
+            <i class="icon-arrow"></i>
+          </mt-field>
           <mt-cell :title="'开通即刷即到'">
-            <mt-switch v-model="switchValue"></mt-switch>
+            <mt-switch :disabled="true" v-model="switchValue" @click.native="Toast('暂不支持开通此功能！')"></mt-switch>
           </mt-cell>
-          <mt-field v-if="switchValue" label="D0手续费:" v-model="form.t0CashCostFixed" type="text" :readonly="false" placeholder="">元</mt-field>
+          <mt-field v-if="switchValue" label="D0手续费:" v-model="t0CashCostFixed" type="text" :readonly="false" placeholder="">元</mt-field>
         </input-wrapper>
       </view-radius>
-
     </div>
     <mt-button class="btn" size="large" type="primary" @click="submit">下一步</mt-button>
+    <picker v-model="wechatRate" ref="wechatRate" :slotsActions="wechatRateActions" @confirm="(res)=>{wechatRate = res}"></picker>
+    <picker v-model="alipayRate" ref="alipayRate" :slotsActions="alipayRateActions" @confirm="(res)=>{alipayRate = res}"></picker>
   </full-page>
 </template>
 
@@ -25,26 +29,30 @@
 import { getCustomerEchoProduct, completeConvergeProduct } from "@src/apis";
 import utils from "@src/common/utils";
 import { install } from "vuex";
+import settleMode from "@src/data/settleMode.json";
+import Picker from "@src/components-app/SelectPicker/Picker";
+
 export default {
+  components: { Picker },
   data() {
     return {
       customerNo: this.$route.query["customerNo"],
-      form: {
-        wechatRate: 0,
-        alipayRate: 0,
-        settleMode: "T1",
-        t0CashCostFixed: 0
-      }
+      wechatRateActions: settleMode,
+      alipayRateActions: settleMode,
+      wechatRate: {},
+      alipayRate: {},
+      settleMode: "T1",
+      t0CashCostFixed: 0
     };
   },
   computed: {
     switchValue: {
       get() {
-        return this.form.settleMode == "T0" ? true : false;
+        return this.settleMode == "T0" ? true : false;
       },
       set(val) {
-        if (val) this.form.settleMode = "T0";
-        else this.form.settleMode = "T1";
+        if (val) this.settleMode = "T0";
+        else this.settleMode = "T1";
       }
     }
   },
@@ -66,19 +74,19 @@ export default {
     echoForm(data) {
       let { product } = data;
       if (product instanceof Object) {
-        this.form.wechatRate = utils.accMul(product.wechatRate, 100);
-        this.form.alipayRate = utils.accMul(product.alipayRate, 100);
-        this.form.settleMode = product.settleMode || "T1";
-        this.form.t0CashCostFixed = product.t0CashCostFixed || 0;
+        this.wechatRate = utils.queryJsonVal(settleMode, product.wechatRate);
+        this.alipayRate = utils.queryJsonVal(settleMode, product.alipayRate);
+        this.settleMode = product.settleMode || "T1";
+        this.t0CashCostFixed = product.t0CashCostFixed || 0;
       }
     },
     //提交
     submit() {
       completeConvergeProduct()({
-        wechatRate: utils.accMul(this.form.wechatRate, 0.01),
-        alipayRate: utils.accMul(this.form.alipayRate, 0.01),
-        settleMode: this.form.settleMode,
-        t0CashCostFixed: this.form.t0CashCostFixed,
+        wechatRate: this.wechatRate.code,
+        alipayRate: this.alipayRate.code,
+        settleMode: this.settleMode,
+        t0CashCostFixed: this.t0CashCostFixed,
         customerNo: this.customerNo
       }).then(data => {
         if (data.code == "00") {

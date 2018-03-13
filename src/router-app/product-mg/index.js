@@ -8,7 +8,7 @@ import keepAlive from "@src/views-app/keepAlive";
 export default {
   name: "product-mg",
   path: "/",
-  component: keepAlive,
+  component: App,
   redirect: () => "/" + this.a.children[0].path,
   children: [
 
@@ -17,7 +17,7 @@ export default {
       name: "customerProduct",
       path: 'product',
       redirect: "product/index",
-      component: App,
+      component: keepAlive,
       children: [
         {
           path: "index",
@@ -54,7 +54,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addPayInfo")) }, "product-mg-app")
           },
           meta: {
-            pageTitle: "完善支付信息"
+            pageTitle: "完善支付信息",
           },
         },
         {
@@ -63,7 +63,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addGoods")) }, "product-mg-app")
           },
           meta: {
-            pageTitle: "选择产品"
+            pageTitle: "选择产品",
           },
         },
         {
@@ -72,7 +72,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addUpload")) }, "product-mg-app")
           },
           meta: {
-            pageTitle: "上传资质"
+            pageTitle: "上传资质",
           },
         },
         {
@@ -81,7 +81,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addSuccess")) }, "product-mg-app")
           },
           meta: {
-            pageTitle: "提交成功"
+            pageTitle: "提交成功",
           },
         },
         {

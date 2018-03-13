@@ -76,11 +76,12 @@ export default {
     ...mapState({
       list: state => state.empowerTransfer.list,
       searchQuery: state => state.empowerTransfer.searchQuery,
-      isSearch: state => state.empowerTransfer.isSearch
+      isSearch: state => state.empowerTransfer.isSearch,
     })
   },
   watch: {
     isSearch(flag) {
+      // alert(flag);
       flag && this.$refs.MypLoadmoreApi.load(this.searchQuery);
     }
   },

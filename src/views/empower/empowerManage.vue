@@ -3,7 +3,7 @@
   <div class="admin-page empower">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @resetSome="resetSomeInputHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions" @changeSearchVisible="changeSearchVisible"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -217,7 +217,7 @@
     <!-- 绑定 start -->
     <el-dialog center title="绑定" :visible.sync="bindFormVisible">
       <el-form size="small" :model="bindForm" ref="bindForm" :rules="bindFormRules">
-        <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
+        <el-form-item label="二维码序列号" prop="qrcode" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="bindForm.qrcode" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="授权码" prop="authCode" :label-width="formLabelWidth">
@@ -239,7 +239,7 @@
     <!-- 绑定子码 start -->
     <el-dialog center title="绑定子码" :visible.sync="bindChildFormVisible">
       <el-form size="small" :model="bindChildForm" ref="bindChildForm" :rules="bindChildFormRules">
-        <el-form-item label="二维码编号" prop="qrcode" :label-width="formLabelWidth">
+        <el-form-item label="二维码序列号" prop="qrcode" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="bindChildForm.qrcode" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="子码编号" prop="childQrcodes" :label-width="formLabelWidth">
@@ -313,11 +313,11 @@ export default {
       qrcodeUrl: "",
       empoverCodeFormVisible: false, // 生成授权吗弹出框
       addMaterielFormVisible: false, // 物料入库
+      exportEmpowerCodeVisible: false, // 导出授权码
       visibleQrcodes: false, // 入库方式
       detailVisible: false, // 预览
       editFormVisible: false, // 编辑
       visibleQrNums: true,
-      exportEmpowerCodeVisible: false, // 导出授权码
       batchBindVisible: false, // 批量绑定
       bindFormVisible: false, //绑定
       bindChildFormVisible: false, // 绑定子码
@@ -328,7 +328,7 @@ export default {
       },
       bindChildFormRules: {
         childQrcodes: [
-          { required: true, message: "请输入子码编号", trigger: "blur" }
+          { required: true, message: "请输入子码编号", trigger: "blur,change" }
         ]
       },
       bindForm: {
@@ -339,7 +339,7 @@ export default {
       },
       bindFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ]
       },
       fileList: [],
@@ -348,7 +348,7 @@ export default {
       },
       exportEmpowerCodeRules: {
         styleType: [
-          { required: true, message: "请先选择模版样式", trigger: "blur" }
+          { required: true, message: "请先选择模版样式", trigger: "blur,change" }
         ]
       },
 
@@ -359,13 +359,13 @@ export default {
       },
       empoverCodeRules: {
         agentNo: [
-          { required: true, message: "请输入合伙人编号", trigger: "blur" }
+          { required: true, message: "请输入合伙人编号", trigger: "blur,change" }
         ],
         qrcodeCount: [
-          { required: true, message: "批次数量不能为空", trigger: "blur" }
+          { required: true, message: "批次数量不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          { required: true, message: "请选择支持类型", trigger: "blur" }
+          { required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       editForm: {
@@ -375,10 +375,10 @@ export default {
       },
       editFormRules: {
         extensionNum: [
-          { required: true, message: "分机号不能为空", trigger: "blur" }
+          { required: true, message: "分机号不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          { required: true, message: "请选择支持类型", trigger: "blur" }
+          { required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       addMaterielForm: {
@@ -386,19 +386,19 @@ export default {
       },
       addMaterielRules: {
         deviceType: [
-          { required: true, message: "入库类型不能为空", trigger: "blur" }
+          { required: true, message: "入库类型不能为空", trigger: "blur,change" }
         ],
         qrcodeStart: [
-          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+          { required: true, message: "号段起始号码不能为空", trigger: "blur,change" }
         ],
         qrcodeStart: [
-          { required: true, message: "号段起始号码不能为空", trigger: "blur" }
+          { required: true, message: "号段起始号码不能为空", trigger: "blur,change" }
         ],
         migrateType: [
-          { required: true, message: "请选择入库方式", trigger: "blur" }
+          { required: true, message: "请选择入库方式", trigger: "blur,change" }
         ],
         receiptCount: [
-          { required: true, message: "请输入入库数量", trigger: "blur" }
+          { required: true, message: "请输入入库数量", trigger: "blur,change" }
         ]
       },
       // formLabelWidth: "100px",
@@ -612,7 +612,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否有下级",
+          label: "包含关系",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -797,7 +797,7 @@ export default {
               cb: rowdata => {
                 let url_ = this.qrcodeUrl + rowdata.authCode;
                 this.detailVisible = true;
-                this.$nextTick(function() {
+                this.$nextTick(function () {
                   // DOM 现在更新了
                   // `this` 绑定到当前实例
                   this._getQart(url_);
@@ -1207,7 +1207,7 @@ export default {
                 type: "success",
                 center: true
               });
-              this.bindFormVisible = false;
+              this.bindChildFormVisible = false;
               this.resetForm(formName);
               this.reloadData();
             } else {
@@ -1327,8 +1327,19 @@ export default {
       }
     }
   },
-  mounted() {},
-  computed: {}
+  mounted() { },
+  computed: {},
+  watch: {
+    empoverCodeFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    addMaterielFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    exportEmpowerCodeVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -34,6 +34,12 @@
             </div>
           </el-col>
         </el-row>
+        <el-form-item class="full-width" label="开票地区" prop="invoiceLocation" :label-width="formLabelWidth">
+          <el-select v-model="addForm.invoiceLocation" placeholder="请选择">
+            <el-option v-for="item in invoiceAreaOptions" :key="item.name" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -80,7 +86,7 @@
     </el-dialog>
     <!-- 新增end -->
     <!-- 编辑start -->
-    <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
+    <el-dialog center title="修改开票信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-row>
           <el-col :span="12">
@@ -101,6 +107,12 @@
             </div>
           </el-col>
         </el-row>
+        <el-form-item class="full-width" label="开票地区" prop="invoiceLocation" :label-width="formLabelWidth">
+          <el-select v-model="editForm.invoiceLocation" placeholder="请选择">
+            <el-option v-for="item in invoiceAreaOptions" :key="item.name" :label="item.name" :value="item.name">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
@@ -159,6 +171,8 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import utils from "@src/common/utils";
+import invoiceAreaJson from "@src/data/invoiceArea.json"
 import {
   getCustomerConfigs,
   postAddCustomerConfigs,
@@ -177,22 +191,26 @@ export default {
     };
     return {
       // 查询条件数据
+      invoiceAreaOptions: invoiceAreaJson,
       addFormVisible: false, // 新增框
       editFormVisible: false,
       searchCondition: searchConditionVar,
       formLabelWidth: "100px",
       addFormRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
         deviceType: [
-          { required: true, message: "请选择设备类型", trigger: "blur" }
+          { required: true, message: "请选择设备类型", trigger: "blur,change" }
         ],
         deviceNo: [
-          { required: true, message: "请输入设备编号", trigger: "blur" }
+          { required: true, message: "请输入设备编号", trigger: "blur,change" }
         ],
         invoiceMan: [
-          { required: true, message: "请输入开票人", trigger: "blur" }
+          { required: true, message: "请输入开票人", trigger: "blur,change" }
+        ],
+        invoiceLocation: [
+          { required: true, message: "请选择区域", trigger: "blur,change" }
         ]
       },
       editFormRules: {}, // 编辑单个规则
@@ -204,17 +222,7 @@ export default {
         invoiceMan: "",
         checkMan: ""
       },
-      addForm: {
-        unionNo: "",
-        customerNo: "",
-        goodsName: "",
-        model: "",
-        unit: "",
-        unitPrice: "",
-        taxRate: "",
-        enjoyDiscount: "",
-        discountType: ""
-      },
+      addForm: {},
       selectOptions: {
         deviceTypeOptions: [
           {
@@ -342,6 +350,7 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
+
                 this.editForm = rowdata;
                 this.editFormVisible = true;
               }
@@ -368,15 +377,7 @@ export default {
         let addForm = this.addForm;
         if (valid) {
           this.saveLoading = true;
-          postAddCustomerConfigs()({
-            customerNo: addForm.customerNo,
-            deviceType: addForm.deviceType,
-            clientType: addForm.clientType,
-            deviceNo: addForm.deviceNo,
-            receiveMan: addForm.receiveMan,
-            invoiceMan: addForm.invoiceMan,
-            checkMan: addForm.checkMan
-          }).then(data => {
+          postAddCustomerConfigs()(addForm).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -394,7 +395,6 @@ export default {
               });
             }
             this.saveLoading = false;
-            console.log(data);
           });
         }
       });
@@ -405,17 +405,17 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.saveLoading = true;
-          let editForm = this.editForm;
-          // this.resetSearchHandle();
-          postEditCustomerConfigs()({
-            customerNo: editForm.customerNo,
-            deviceType: editForm.deviceType,
-            clientType: editForm.clientType,
-            deviceNo: editForm.deviceNo,
-            receiveMan: editForm.receiveMan,
-            invoiceMan: editForm.invoiceMan,
-            checkMan: editForm.checkMan
-          }).then(data => {
+          let rowNew = utils.pickObj(this.editForm, [
+            "customerNo",
+            "deviceType",
+            "clientType",
+            "deviceNo",
+            "receiveMan",
+            "invoiceMan",
+            "checkMan",
+            "invoiceLocation"
+          ]);
+          postEditCustomerConfigs()({ ...rowNew }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",
@@ -444,8 +444,15 @@ export default {
       return this.$store.state.Base.oaIp;
     }
   },
-  watch: {},
-  mounted() {}
+  watch: {
+    addFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    }
+  },
+  mounted() { }
 };
 </script>
 

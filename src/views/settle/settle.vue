@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -268,18 +268,18 @@ export default {
       formLabelWidth: "110px",
       editFormRules: {
         orderNo: [
-          { required: true, message: "请输入订单编号", trigger: "blur" }
+          { required: true, message: "请输入订单编号", trigger: "blur,change" }
         ]
       },
       sureFormRules: {
         receiveMan: [
-          { required: true, message: "请输入对公账户名称", trigger: "blur" }
+          { required: true, message: "请输入对公账户名称", trigger: "blur,change" }
         ],
         accountNo: [
-          { required: true, message: "请输入收款账号", trigger: "blur" }
+          { required: true, message: "请输入收款账号", trigger: "blur,change" }
         ],
         bankName: [
-          { required: true, message: "请输入开户行名称", trigger: "blur" }
+          { required: true, message: "请输入开户行名称", trigger: "blur,change" }
         ]
       },
       searchCondition: searchConditionVar,
@@ -506,30 +506,6 @@ export default {
                 }
               },
               cb: rowdata => {
-                // 确认结算订单金额
-                // this.$confirm("此操作将确认结算订单金额, 是否继续?", "提示", {
-                //   confirmButtonText: "确定",
-                //   cancelButtonText: "取消",
-                //   type: "warning"
-                // }).then(() => {
-                //   postUpdateSettles()({
-                //     agentNo: rowdata.agentNo,
-                //     settleNo: rowdata.settleNo
-                //   }).then(data => {
-                //     if (data.code == "00") {
-                //       this.$message({
-                //         type: "success",
-                //         message: "已确认"
-                //       });
-                //     } else {
-                //       this.$message({
-                //         type: "warning",
-                //         message: data.msg
-                //       });
-                //     }
-                //     this.reloadData();
-                //   });
-                // });
                 this.editForm = Object.assign(this.editForm, rowdata);
                 this.sureFormVisible = true;
               }
@@ -657,6 +633,17 @@ export default {
     bankOptions() {
       return banks;
     }
+  },
+  watch: {
+    detailsFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    sureFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
   }
 };
 </script>

@@ -15,6 +15,7 @@ export default {
     ["QRCODEMIGRATE_SEARCH_INIT"](state) {
       state.list = [];
       state.isSearch = false;
+      state.isReload = false;
       state.searchQuery = {
         migrateNo: "",
         migrateMode: "",
@@ -43,11 +44,11 @@ export default {
     ["QRCODEMIGRATE_SEARCH"](state, flag) {
       state.isSearch = flag;
     }
+
   },
   actions: {
     // 授权码分配
     allotEmpowerSave({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
-      console.log(thisForm);
       return postMigrateNumTransfer()({
         deviceType: thisForm.deviceType,
         migrateCount: thisForm.migrateCount,
@@ -61,7 +62,6 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODE_IS_RELOAD");
           Toast("授权码分配成功！");
           return true;
         } else {
@@ -85,7 +85,6 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           //刷新数据
-          commit("QRCODE_IS_RELOAD");
           Toast("授权码上缴成功！");
           return true;
         } else {

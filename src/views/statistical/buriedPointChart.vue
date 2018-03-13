@@ -10,7 +10,6 @@
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-
 <script>
 import SearchForm from "@src/components/SearchForm";
 import BuriedPointChart from "@src/components/BuriedPointChart";
@@ -91,6 +90,6 @@ export default {
     };
   },
   methods: {},
-  mounted() {}
+  mounted() { }
 };
 </script>

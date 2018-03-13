@@ -50,12 +50,23 @@ export default {
             menuCode: "customerGoods"
           }
         },
+        //商品管理--新增
+        {
+          name: "goodsAdd",
+          path: 'add',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/add")) }, "customer-app-add")
+          },
+          meta: {
+            pageTitle: "商品"
+          }
+        },
         //商品管理--编辑
         {
           name: "goodsEdit",
           path: 'edit/:goodsNo',
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-app")
+            return require.ensure([], () => { return r(require("@src/views-app/customer/customerGoods/edit")) }, "customer-app-edit")
           },
           meta: {
             pageTitle: "商品"

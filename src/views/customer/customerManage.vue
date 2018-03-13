@@ -67,6 +67,12 @@
             </div>
           </el-col>
         </el-row>
+        <el-form-item label="经营地址" prop="bussinessAddress" :label-width="formLabelWidth">
+          <el-input v-model="addForm.bussinessAddress" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="公司电话" prop="bussinessPhone" :label-width="formLabelWidth">
+          <el-input v-model="addForm.bussinessPhone" auto-complete="off"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
@@ -74,6 +80,74 @@
       </div>
     </el-dialog>
     <!-- 新增end -->
+    <!-- 编辑 start -->
+    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="600px">
+      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
+        <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
+          <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
+                <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
+                <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
+                <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
+                <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+                <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+
+        <el-form-item label="经营地址" prop="bussinessAddress" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bussinessAddress" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="公司电话" prop="bussinessPhone" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bussinessPhone" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
+      </div>
+    </el-dialog>
+    <!-- 编辑 end -->
     <!-- 批量入网 start -->
     <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
       <el-form label-width="0" label-position="top" size="small" :model="batchNetForm" ref="batchNetForm" :rules="batchNetFormRules">
@@ -171,6 +245,12 @@
         <div class="line-label-box">
           <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | customerFrom}}
         </div>
+        <div class="line-label-box">
+          <span class="line-label">公司电话:</span>{{detailsForm.bussinessPhone}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">经营地址:</span>{{detailsForm.bussinessAddress}}
+        </div>
       </div>
 
       <div slot="footer" class="dialog-footer">
@@ -178,80 +258,6 @@
       </div>
     </el-dialog>
     <!-- 详情 end -->
-    <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="600px">
-      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-                <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-                <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-                <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-                <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <div class="grid-content bg-purple">
-              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <!-- <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="商户来源" prop="customerFrom" :label-width="formLabelWidth">
-                <el-input v-model="editFormCustomerFrom" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col> -->
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 编辑 end -->
     <!-- 商户转移 start -->
     <el-dialog title="商户转移" center :visible.sync="transferFormVisible" width="500px">
       <el-form size="small" :model="transferForm" ref="transferForm" :rules="transferFormRules">
@@ -344,17 +350,17 @@ export default {
       },
       addFormRules: {
         enterpriseName: [
-          { required: true, message: "请输入企业名称", trigger: "blur" }
+          { required: true, message: "请输入企业名称", trigger: "blur,change" }
         ],
-        taxNo: [{ validator: taxNumVerify, trigger: "blur" }],
+        taxNo: [{ validator: taxNumVerify, trigger: "blur,change" }],
         legalPerson: [
-          { required: true, message: "请输入企业法人", trigger: "blur" }
+          { required: true, message: "请输入企业法人", trigger: "blur,change" }
         ],
-        idCard: [{ validator: idCardVerify, trigger: "blur" }],
+        idCard: [{ validator: idCardVerify, trigger: "blur,change" }],
         linkMan: [
-          { required: true, message: "请输入联系人姓名", trigger: "blur" }
+          { required: true, message: "请输入联系人姓名", trigger: "blur,change" }
         ],
-        phoneNo: [{ validator: phoneNumVerify, trigger: "blur" }]
+        phoneNo: [{ validator: phoneNumVerify, trigger: "blur,change" }]
       },
       batchNetFormRules: {},
       formLabelWidth: "100px",
@@ -363,7 +369,7 @@ export default {
       detailsForm: {}, // 详情单个表单
       transferFormRules: {
         receiveAgentNo: [
-          { required: true, message: "不能为空", trigger: "blur" }
+          { required: true, message: "不能为空", trigger: "blur,change" }
         ]
       }, // 转移单个规则
       transferForm: {}, // 转移单个表单
@@ -488,7 +494,7 @@ export default {
         {
           corresattr: "containChild",
           type: "select",
-          label: "是否有下级",
+          label: "包含关系",
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
@@ -834,11 +840,11 @@ export default {
           }).then(data => {
             if (data.code === "00") {
               this.$message({
-                message: "恭喜你，转移数据成功",
+                message: "恭喜你，转移成功",
                 type: "success",
                 center: true
               });
-              this.editFormVisible = false;
+              this.transferFormVisible = false;
               this.reloadData();
             } else {
               this.$message({
@@ -875,7 +881,7 @@ export default {
     handleExceed(files, fileList) {
       this.$message.warning(
         `当前共选择了 ${files.length +
-          fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
+        fileList.length} 个文件,超出限定个数。可删除下方上传列表，再重新选择上传`
       );
       this.saveLoading = false;
     }
@@ -892,7 +898,7 @@ export default {
     //   }
     // }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 

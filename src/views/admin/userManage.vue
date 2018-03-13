@@ -2,7 +2,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -154,13 +154,13 @@ export default {
       },
       addFormRules: {
         realname: [
-          { required: true, message: "请输入用户名称", trigger: "blur" }
+          { required: true, message: "请输入用户名称", trigger: "blur,change" }
         ],
         username: [
-          { required: true, message: "请输入登陆名", trigger: "blur" }
+          { required: true, message: "请输入登陆名", trigger: "blur,change" }
         ],
-        password: [{ validator: validatePass, trigger: "blur" }],
-        repassword: [{ validator: validatePass2, trigger: "blur" }]
+        password: [{ validator: validatePass, trigger: "blur,change" }],
+        repassword: [{ validator: validatePass2, trigger: "blur,change" }]
       },
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
@@ -389,8 +389,6 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.saveLoading = true;
-          // this.resetSearchHandle();
-          // console.log(this.addForm);
           postAddUser()(this.addForm).then(data => {
             console.log(data);
             if (data.code === "00") {
@@ -540,8 +538,19 @@ export default {
       // });
     }
   },
+  watch: {
+    addFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    configRoleFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  },
   computed: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

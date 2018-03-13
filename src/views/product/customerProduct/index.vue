@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
@@ -12,8 +12,8 @@
     <el-dialog title="商户状态" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <div class="line-box-center">
-          <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+          <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
+            <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
             </el-option>
           </el-select>
         </div>
@@ -45,23 +45,20 @@
               <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
             </div>
             <div class="line-label-box">
-              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode}}
+              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?"":utils.findCity(payStatusDetails.orgCode).resultAddr}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress||""}}
+              <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">法人:</span>{{payStatusDetails.legalPerson||""}}
+              <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">身份证号:</span>{{payStatusDetails.idCard||""}}
+              <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">行业类型:</span>{{payStatusDetails.category||""}}
+              <span class="line-label">行业类型:</span>{{payStatusDetails.category==null?"":utils.findBussinessType(payStatusDetails.category).name}}
             </div>
-            <!-- <div class="line-label-box">
-              <span class="line-label">邮箱:</span>{{payStatusDetails.contactEmail||""}}
-            </div> -->
             <div class="line-label-box">
               <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
             </div>
@@ -233,7 +230,9 @@
           <!-- 电子发票查询详情 -->
           <div class="line-label-box">
             <span class="line-label">注册省份:</span>
-            <span class="line-label-last">{{elecStatusDetails.orgCode}}</span>
+            <span class="line-label-last">
+              {{elecStatusDetails.orgCode?"":utils.findCity(elecStatusDetails.orgCode).resultAddr}}
+            </span>
           </div>
           <div class="line-label-box">
             <span class="line-label">注册地址:</span>
@@ -273,7 +272,8 @@
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
-        <el-button :disabled="deitDisabled_edit(selectOptions.customerType,detailsForm)" v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
+        <!-- <el-button v-if="editVisiblebut" :disabled="deitDisabled_edit(selectOptions.customerType,detailsForm)" type="primary" @click="editFn()">编辑</el-button> -->
+        <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
 
         <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
@@ -283,7 +283,7 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
-      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
+      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
         <!-- 组件在 vm.currentview 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -292,14 +292,14 @@
     <!-- 关闭start -->
     <el-dialog title="关闭" center :visible.sync="closeVisible">
       <div class="line-box-center">
-        <el-select @input="customerTypeChange" size="small" v-model="selectOptions.customerType" placeholder="请选择">
-          <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value">
+        <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
+          <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
           </el-option>
         </el-select>
       </div>
       <el-form size="small" :model="closeForm" ref="closeForm" :rules="closeFormRules" label-width="100px">
-        <el-form-item prop="closeReason" label="关闭原因">
-          <el-input type="textarea" v-model="closeForm.closeReason"></el-input>
+        <el-form-item prop="reason" label="关闭原因">
+          <el-input type="textarea" v-model="closeForm.reason"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -403,14 +403,14 @@ export default {
       payStatus: ""
     };
     return {
+      search: false,// 查询状态
+      check: false,// 查询状态
       checkVisiblebut: false,
       editVisiblebut: false,
       closeVisible: false,
-      searchDetail: false,
-      // editVisible: false,
       rejectReason: "", //拒绝理由
       productOpenTitle: "完善信息",
-      rowData: {},
+      resaultData: {},
       currentView: "openInfo",
       customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
@@ -423,15 +423,18 @@ export default {
         customerTypeOptions: [
           {
             value: "payStatus",
-            label: "聚合支付"
+            label: "聚合支付",
+            disabled: false
           },
           {
             value: "qrcodeStatus",
-            label: "快速开票"
+            label: "快速开票",
+            disabled: false
           },
           {
             value: "elecStatus",
-            label: "电子发票"
+            label: "电子发票",
+            disabled: false
           }
         ]
       },
@@ -484,12 +487,12 @@ export default {
       resaultForm: {}, // 拒绝表单
       closeForm: {},
       closeFormRules: {
-        closeReason: [
-          { required: true, message: "请填写关闭原因", trigger: "blur" }
+        reason: [
+          { required: true, message: "请填写关闭原因", trigger: "blur,change" }
         ]
       },
       resaultFormRules: {
-        reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur" }]
+        reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
       },
       detailsForm: {
         customer: {},
@@ -578,6 +581,10 @@ export default {
             {
               label: "待提交",
               value: "WAITING_SUBMIT"
+            },
+            {
+              label: "已关闭",
+              value: "FALSE"
             }
           ],
           cb: value => {
@@ -614,6 +621,10 @@ export default {
             {
               label: "待提交",
               value: "WAITING_SUBMIT"
+            },
+            {
+              label: "已关闭",
+              value: "FALSE"
             }
           ],
           cb: value => {
@@ -650,6 +661,10 @@ export default {
             {
               label: "待提交",
               value: "WAITING_SUBMIT"
+            },
+            {
+              label: "已关闭",
+              value: "FALSE"
             }
           ],
           cb: value => {
@@ -688,6 +703,11 @@ export default {
                 return {
                   text: "已开通",
                   type: "success"
+                };
+              } else if (data == "FALSE") {
+                return {
+                  text: "已关闭",
+                  type: "info"
                 };
               } else if (data == "INIT") {
                 return {
@@ -733,6 +753,11 @@ export default {
                   text: "未开通",
                   type: "info"
                 };
+              } else if (data == "FALSE") {
+                return {
+                  text: "已关闭",
+                  type: "info"
+                };
               } else if (data == "REJECT") {
                 return {
                   text: "拒绝",
@@ -766,6 +791,11 @@ export default {
                 return {
                   text: "已开通",
                   type: "success"
+                };
+              } else if (data == "FALSE") {
+                return {
+                  text: "已关闭",
+                  type: "info"
                 };
               } else if (data == "INIT") {
                 return {
@@ -804,22 +834,50 @@ export default {
               text: "查询",
               color: "#00c1df",
               cb: rowdata => {
-                // this.checkVisiblebut = false;
-                this.checkVisibleFn(false);
-                this.searchDetail = true;
-                this.rowData = rowdata;
-                if (
-                  rowdata.payStatus == "REJECT" ||
-                  rowdata.payStatus == "WAITING_SUBMIT"
-                ) {
-                  // 被拒跟待提交的状态 显示编辑按钮
-                  this.editVisiblebut = true;
-                } else {
-                  this.editVisiblebut = false;
-                }
-                this.getCustomerEcho(rowdata); // 聚合支付回显
-                this.getElectronicEcho(rowdata); // 电子发票回显
+                this.search = true;
+                this.check = false;
+                this.resaultData = rowdata;
+                this.changeVisibleFn();
+                this.getCustomerEcho(); // 聚合支付回显
+                this.getElectronicEcho(); // 电子发票回显
                 this.detailsForm = Object.assign(this.detailsForm, rowdata);
+                // 所有选项均可选
+                this.selectOptions.customerTypeOptions.forEach(element => {
+                  element.disabled = false;
+                });
+                this.detailsFormVisible = true;
+              }
+            },
+            {
+              text: "审核",
+              visibleFn: rowdata => {
+                if (
+                  isAdmin &&
+                  (
+                    rowdata.elecStatus == "CHECKING")
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              color: "#00c1df",
+              cb: rowdata => {
+                this.resaultData = rowdata;
+                this.search = false;
+                this.check = true;
+                this.changeVisibleFn();
+                this.getCustomerEcho(); // 聚合支付回显
+                this.getElectronicEcho(); // 电子发票回显
+                this.detailsForm = Object.assign(this.detailsForm, rowdata);
+                // 只有电子发票可以审核
+                this.selectOptions.customerTypeOptions.forEach(element => {
+                  if (element.value != "elecStatus") {
+                    element.disabled = true;
+                    this.selectOptions.customerType = "elecStatus";
+                    console.log('改变了')
+                  }
+                });
                 this.detailsFormVisible = true;
               }
             },
@@ -831,9 +889,12 @@ export default {
                   rowdata.payStatus == "INIT" ||
                   rowdata.payStatus == "WAITING_SUBMIT" ||
                   rowdata.payStatus == "REJECT" ||
+                  rowdata.payStatus == "FALSE" ||
                   rowdata.qrcodeStatus == "INIT" ||
+                  rowdata.qrcodeStatus == "FALSE" ||
                   rowdata.elecStatus == "INIT" ||
-                  rowdata.elecStatus == "REJECT"
+                  rowdata.elecStatus == "REJECT" ||
+                  rowdata.elecStatus == "FALSE"
                 ) {
                   return false;
                 } else {
@@ -851,8 +912,9 @@ export default {
               visibleFn: rowdata => {
                 if (
                   isAdmin &&
-                  (rowdata.payStatus == "TRUE" ||
-                    rowdata.qrcodeStatus == "TRUE" ||
+                  (
+                    // rowdata.payStatus == "TRUE" ||
+                    // rowdata.qrcodeStatus == "TRUE" ||
                     rowdata.elecStatus == "TRUE")
                 ) {
                   return true;
@@ -863,58 +925,14 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.resaultForm = rowdata;
+                // 只有电子发票可以关闭
+                this.selectOptions.customerTypeOptions.forEach(element => {
+                  if (element.value != "elecStatus") {
+                    element.disabled = true;
+                    this.selectOptions.customerType = "elecStatus"
+                  }
+                });
                 this.closeVisible = true;
-              }
-            },
-            {
-              text: "审核",
-              visibleFn: rowdata => {
-                if (
-                  isAdmin &&
-                  (rowdata.payStatus == "CHECKING" ||
-                    rowdata.qrcodeStatus == "CHECKING" ||
-                    rowdata.elecStatus == "CHECKING")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              color: "#00c1df",
-              cb: rowdata => {
-                // this.checkVisiblebut = true;
-                this.checkVisibleFn(true);
-                this.editVisiblebut = false;
-                this.searchDetail = false;
-                this.rowData = rowdata;
-                this.getCustomerEcho(rowdata); // 聚合支付回显
-                this.getElectronicEcho(rowdata); // 电子发票回显
-                this.detailsForm = Object.assign(this.detailsForm, rowdata);
-                this.detailsFormVisible = true;
-                // postCustomerOpenProductSearch()({
-                //   businessNo: rowdata.bussinessNo,
-                //   businessType: rowdata.bussinessType
-                // }).then(data => {
-                //   if (data.code == "00") {
-                //     this.detailsForm = Object.assign(
-                //       this.detailsForm,
-                //       data.data
-                //     );
-                //     this.detailsForm.wechatRate =
-                //       utils.accMul(this.detailsForm.wechatRate, 100) + "%";
-                //     this.detailsForm.alipayRate =
-                //       utils.accMul(this.detailsForm.alipayRate, 100) + "%";
-                //     this.detailsFormVisible = true;
-                //     this.detailsForm.t0CashCostFixed =
-                //       this.detailsForm.t0CashCostFixed &&
-                //       this.detailsForm.t0CashCostFixed + "元";
-                //   } else {
-                //     this.$message({
-                //       message: data.msg,
-                //       type: "warning"
-                //     });
-                //   }
-                // });
               }
             }
           ]
@@ -948,6 +966,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let resaultForm = this.resaultForm;
+          let closeForm = this.closeForm;
           let customerType = this.selectOptions.customerType;
           let obj = {
             bussinessNo: resaultForm.bussinessNo,
@@ -956,15 +975,15 @@ export default {
           let msg = "";
           if (customerType == "qrcodeStatus") {
             // 快速开票
-            obj.qrReason = resaultForm.reason;
+            obj.qrReason = closeForm.reason;
             obj.qrcodeStatus = "FALSE";
             msg = "确定关闭快速开票业务业务并且将以短信形式通知商户?";
           } else if (customerType == "elecStatus") {
-            obj.elecReason = resaultForm.reason;
+            obj.elecReason = closeForm.reason;
             obj.elecStatus = "FALSE";
             msg = "确定关闭电子发票业务并且将以短信形式通知商户?";
           } else if (customerType == "payStatus") {
-            obj.payReason = resaultForm.reason;
+            obj.payReason = closeForm.reason;
             obj.payStatus = "FALSE";
             msg = "确定关闭聚合业务并且将以短信形式通知商户?";
           }
@@ -974,13 +993,14 @@ export default {
             type: "warning"
           }).then(() => {
             this.resaultHandle(obj);
-          });
+          }).catch(() => {
+          });;
         }
       });
     },
     // 审核通过
     adoptSave(customerType, detailsForm) {
-      let resaultForm = this.rowData;
+      let resaultForm = this.resaultData;
       let obj = {
         bussinessNo: resaultForm.bussinessNo,
         bussinessType: "customer"
@@ -1012,7 +1032,7 @@ export default {
         inputPattern: /^[\u4E00-\u9FA5\uF900-\uFA2D\w]+$/,
         inputErrorMessage: "请输入拒绝原因"
       }).then(({ value }) => {
-        let resaultForm = this.rowData;
+        let resaultForm = this.resaultData;
         let obj = {
           bussinessNo: resaultForm.bussinessNo,
           bussinessType: "customer"
@@ -1049,8 +1069,9 @@ export default {
           label: "聚合支付",
           disabled:
             rowdata.payStatus == "INIT" ||
-            rowdata.payStatus == "REJECT" ||
-            rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.payStatus == "REJECT" ||
+              rowdata.payStatus == "WAITING_SUBMIT" ||
+              rowdata.payStatus == "FALSE"
               ? false
               : true
         },
@@ -1059,143 +1080,112 @@ export default {
           label: "快速开票",
           disabled:
             rowdata.qrcodeStatus == "INIT" ||
-            rowdata.qrcodeStatus == "REJECT" ||
-            rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.qrcodeStatus == "REJECT" ||
+              rowdata.qrcodeStatus == "WAITING_SUBMIT" ||
+              rowdata.qrcodeStatus == "FALSE"
               ? false
               : true
         },
         {
           value: "elecStatus",
           label: "电子发票",
-          // disabled: true
           disabled:
             rowdata.elecStatus == "INIT" ||
-            rowdata.elecStatus == "REJECT" ||
-            rowdata.payStatus == "WAITING_SUBMIT"
+              rowdata.elecStatus == "REJECT" ||
+              rowdata.elecStatus == "WAITING_SUBMIT" ||
+              rowdata.elecStatus == "FALSE"
               ? false
               : true
         }
       ];
-      this.rowData = rowdata;
+      this.resaultData = rowdata;
       this.nextFn("openInfo");
     },
     // 聚合支付回显
-    getCustomerEcho(rowData) {
+    getCustomerEcho() {
+      let resaultData = this.resaultData;
       let dialogLoading = this.$loading({
         target: document
           .querySelector("#dialogLoding")
           .querySelector(".el-dialog")
       });
       getCustomerEchoProduct()({
-        customerNo: rowData.bussinessNo,
+        customerNo: resaultData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
-        console.log(res);
         if (res.code == "00") {
-          console.log(res.data);
-          // console.log(data.customer.enterpriseName);
           // 聚合支付查询详情
           let data = res.data;
+          let customerRow = {};
+          let settleCardRow = {};
+          let productRow = {};
+          let imgsRow = {};
           if (data.customer) {
-            this.payStatusDetails.orgCode =
-              !!data.customer.orgCode &&
-              utils.findCity(data.customer.orgCode).resultAddr; //注册省份
-            this.payStatusDetails.bussinessAddress =
-              data.customer.bussinessAddress;
-            this.payStatusDetails.legalPerson = data.customer.legalPerson; //法人
-            this.payStatusDetails.idCard = data.customer.idCard; // 身份证号码
-            this.payStatusDetails.category =
-              data.customer.category &&
-              utils.findBussinessType(data.customer.category).name; // 行业类型
-
-            this.payStatusDetails.taxNo = data.customer.taxNo;
-            this.payStatusDetails.enterpriseName = data.customer.enterpriseName;
-            this.payStatusDetails.bussinessLicenseEffectiveBegin =
-              data.customer.bussinessLicenseEffectiveBegin;
-            this.payStatusDetails.bussinessLicenseEffectiveEnd =
-              data.customer.bussinessLicenseEffectiveEnd;
+            customerRow = utils.pickObj(data.customer, [
+              "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
+              'taxNo', 'enterpriseName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd'
+            ]);
           }
           if (data.settleCard) {
-            this.payStatusDetails.accountType = data.settleCard.accountType; //账户类型
-            this.payStatusDetails.accountName = data.settleCard.accountName; //账号名称
-            this.payStatusDetails.bankName = data.settleCard.bankName; // 开户银行
-            this.payStatusDetails.branchName = data.settleCard.branchName; // 开户支行
-            this.payStatusDetails.accountNo = data.settleCard.accountNo; // 账号
+            settleCardRow = utils.pickObj(data.settleCard, [
+              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo',
+            ]);
           }
           if (data.product) {
-            this.payStatusDetails.wechatRate = data.product.wechatRate; //微信费率
-            this.payStatusDetails.alipayRate = data.product.alipayRate; //支付宝费率
-            this.payStatusDetails.settleMode = data.product.settleMode; // 开通即刷即到
-            this.payStatusDetails.t0CashCostFixed =
-              data.product.t0CashCostFixed; // D0手续费
+            productRow = utils.pickObj(data.product, [
+              "wechatRate", 'alipayRate', 'settleMode', 't0CashCostFixed',
+            ]);
           }
+
           if (data.imgs) {
-            let defaultObj = {
-              id: "",
-              url: ""
-            };
-            this.payStatusDetails.identityFrontImg =
-              data.imgs.identityFrontImg || defaultObj; //法人身份证正面
-
-            this.payStatusDetails.identityBackImg =
-              data.imgs.identityBackImg || defaultObj; //法人身份证反面
-
-            this.payStatusDetails.bussinessLicenseImg =
-              data.imgs.bussinessLicenseImg || defaultObj; //营业执照
-
-            this.payStatusDetails.settleCardImg =
-              data.imgs.settleCardImg || defaultObj; //结算卡正面
-
-            this.payStatusDetails.accountLicenseImg =
-              data.imgs.accountLicenseImg || defaultObj; //开户许可证
-
-            this.payStatusDetails.placeImg = data.imgs.placeImg || defaultObj; //门头照片
-
-            this.payStatusDetails.storeImg = data.imgs.storeImg || defaultObj; //店内照片
-
-            this.payStatusDetails.cashSpaceImg =
-              data.imgs.cashSpaceImg || defaultObj; //收银台照片
+            console.log(data.imgs);
+            imgsRow = utils.pickObj(data.imgs, [
+              "identityFrontImg", "identityBackImg", "bussinessLicenseImg", "settleCardImg",
+              "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
+            ]);
+          }
+          this.payStatusDetails = {
+            ...this.payStatusDetails,
+            ...customerRow,
+            ...settleCardRow,
+            ...productRow,
+            ...imgsRow
           }
         }
         dialogLoading.close();
       });
     },
     // 电子发票回显示
-    getElectronicEcho(rowData) {
+    getElectronicEcho() {
+      let resaultData = this.resaultData;
       let dialogLoading = this.$loading({
         target: document
           .querySelector("#dialogLoding")
           .querySelector(".el-dialog")
       });
       getQueryCustomerElectronic()({
-        customerNo: rowData.bussinessNo,
+        customerNo: resaultData.bussinessNo,
         featureType: "ELECTRONIC"
       }).then(res => {
         if (res.code == "00") {
           let data = res.data;
+          let customerRow = {};
+          let customerInvoiceConfigRow = {};
+          let productRow = {};
           if (data.customer) {
-            this.elecStatusDetails.orgCode =
-              data.customer.orgCode != null
-                ? utils.findCity(res.data.customer.orgCode).resultAddr
-                : "";
-            //注册省份
-            this.elecStatusDetails.bussinessAddress =
-              data.customer.bussinessAddress; //注册地址
-            this.elecStatusDetails.bussinessPhone =
-              data.customer.bussinessPhone; //联系电话
-            this.elecStatusDetails.bussinessName = data.customer.bussinessName; //经营名称
-            this.elecStatusDetails.registMoney = data.customer.registMoney; //注册资金
+            customerRow = utils.pickObj(data.customer, [
+              "orgCode", 'bussinessAddress', 'bussinessPhone', 'bussinessName', 'registMoney'
+            ]);
           }
           if (data.customerInvoiceConfig) {
-            this.elecStatusDetails.branchName =
-              data.customerInvoiceConfig.branchName; //开户银行
-            this.elecStatusDetails.bankAccountNo =
-              data.customerInvoiceConfig.bankAccountNo; //银行账号
+            customerInvoiceConfigRow = utils.pickObj(data.customerInvoiceConfig, [
+              'branchName', 'bankAccountNo'
+            ]);
           }
-          if (data.customerInvoiceConfig) {
-            this.elecStatusDetails.elecBillnum = data.product.elecBillnum; //月开票量
-            this.elecStatusDetails.elecReason = data.product.elecReason; //被拒原因
+          if (data.product) {
+            productRow = utils.pickObj(data.product, ['elecBillnum', 'elecReason']);
           }
+          this.elecStatusDetails = { ...this.elecStatusDetails, ...customerRow, ...customerInvoiceConfigRow, ...productRow }
         }
         dialogLoading.close();
       });
@@ -1221,7 +1211,7 @@ export default {
         this.qrcodeStatusVisible = true;
         this.detailsFormVisible = false;
         this.editFormVisible = true;
-        this.openProduct(this.rowData);
+        this.openProduct(this.resaultData);
         console.log("聚合支付编辑");
       }
     },
@@ -1229,19 +1219,19 @@ export default {
     nextFn(next) {
       this.currentView = next;
     },
-    customerTypeSelect() {
-      let value = this.selectOptions.customerType;
-      this.payStatusVisible = false; // 聚合详情
-      this.qrcodeStatusVisible = false; // 快速
-      this.elecStatusVisible = false; // 电子
-      if (value == "qrcodeStatus") {
-        this.qrcodeStatusVisible = true;
-      } else if (value == "elecStatus") {
-        this.elecStatusVisible = true;
-      } else if (value == "payStatus") {
-        this.payStatusVisible = true;
-      }
-    },
+    // customerTypeSelect() {
+    //   let value = this.selectOptions.customerType;
+    //   this.payStatusVisible = false; // 聚合详情
+    //   this.qrcodeStatusVisible = false; // 快速
+    //   this.elecStatusVisible = false; // 电子
+    //   if (value == "qrcodeStatus") {
+    //     this.qrcodeStatusVisible = true;
+    //   } else if (value == "elecStatus") {
+    //     this.elecStatusVisible = true;
+    //   } else if (value == "payStatus") {
+    //     this.payStatusVisible = true;
+    //   }
+    // },
 
     titleChange(currentView) {
       if (currentView == "paystatusInfo") {
@@ -1260,52 +1250,86 @@ export default {
         this.productOpenTitle = currentView;
       }
     },
-    // 查询详情 编辑按钮显示问题
-    deitDisabled_edit(type, row) {
-      if (
-        (type == "payStatus" && row.payStatus == "REJECT") ||
-        (type == "payStatus" && row.payStatus == "WAITING_SUBMIT") ||
-        (type == "elecStatus" && row.qrcodeStatus == "REJECT") ||
-        (type == "elecStatus" && row.qrcodeStatus == "WAITING_SUBMIT") ||
-        (type == "qrcodeStatus" && row.qrcodeStatus == "REJECT")
-      ) {
-        return false;
-      } else {
-        return true;
+    // 编辑与审核按钮的显示隐藏
+    changeVisibleFn() {
+      let row = this.resaultData;
+      let type = this.selectOptions.customerType;
+      this.payStatusVisible = false;
+      this.qrcodeStatusVisible = false;
+      this.elecStatusVisible = false;
+      this.checkVisiblebut = false;
+      this.editVisiblebut = false;
+      if (this.check) {
+        switch (type) {
+          case "qrcodeStatus":
+            this.qrcodeStatusVisible = true;
+            break;
+          case "elecStatus":
+            this.elecStatusVisible = true;
+            if (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING") {
+              this.checkVisiblebut = true;
+            }
+            break;
+          case "payStatus":
+            this.payStatusVisible = true;
+            if (row.payStatus == "CHECKING" || row.payStatus == "PROCESSING") {
+              this.checkVisiblebut = true;
+            }
+            break;
+        }
       }
-    },
-    // 查询详情 审核按钮显示
-    deitDisabled_check(type, row) {
-      if (
-        type == "elecStatus" &&
-        (row.elecStatus == "CHECKING" || row.elecStatus == "PROCESSING")
-      ) {
-        // 需要审核按钮系列
-        this.checkVisibleFn(true);
-      } else {
-        // 不需要审核按钮系列
-        this.checkVisibleFn(false);
+      if (this.search) {
+        switch (type) {
+          case "qrcodeStatus":
+            this.qrcodeStatusVisible = true;
+            break;
+          case "elecStatus":
+            this.elecStatusVisible = true;
+            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT") {
+              this.editVisiblebut = true;
+            }
+            break;
+          case "payStatus":
+            this.payStatusVisible = true;
+            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT") {
+              this.editVisiblebut = true;
+            }
+            break;
+        }
       }
-    },
-    checkVisibleFn(resault) {
-      this.checkVisiblebut = resault;
+
     },
     customerTypeChange() {
-      let customerType = this.selectOptions.customerType;
-      this.deitDisabled_check(customerType, this.rowData);
-      this.customerTypeSelect();
+      // this.customerTypeSelect();
+      // this.changeVisibleFn();
     }
   },
-  computed: {},
+  computed: {
+    customerType() {
+      return this.selectOptions.customerType
+    }
+  },
   watch: {
     editFormVisible(value) {
       if (!value) {
         this.currentView = "";
       }
+    },
+    customerType(val) {
+      this.payStatusVisible = false;
+      this.qrcodeStatusVisible = false;
+      this.elecStatusVisible = false;
+      if (val == "qrcodeStatus") {
+        this.qrcodeStatusVisible = true;
+      } else if (val == "elecStatus") {
+        this.elecStatusVisible = true;
+      } else if (val == "payStatus") {
+        this.payStatusVisible = true;
+      }
+      this.changeVisibleFn();
     }
   },
   mounted() {
-    this.customerTypeSelect();
   }
 };
 </script>

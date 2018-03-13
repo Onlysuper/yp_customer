@@ -9,7 +9,8 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.name">
-
+          <!-- 状态 -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | enterprisesupplyStatus}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
@@ -20,8 +21,9 @@
               <myp-tr title="帐号">{{item.account}}</myp-tr>
               <myp-tr title="操作员">{{item.operator}}</myp-tr>
             </table>
+            <!-- 更多操作 -->
+            <!-- <div slot="right" @click="operation(item)">更多</div> -->
           </myp-cell>
-
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>

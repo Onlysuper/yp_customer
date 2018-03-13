@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @resetSome="resetSomeInputHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -70,7 +70,7 @@ export default {
           corresattr: "agentNo",
           type: "text", // 表单类型
           label: "代理商编号", // 输入框前面的文字
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -193,6 +193,7 @@ export default {
     exportDialog() {
       // 导出
       var searchForm = qs.stringify(this.searchCondition);
+      console.log("发送信号:" + searchForm);
       getExportBillcountdays(searchForm)().then(data => {
         if (data.code == "00") {
           this.$notify.info({

@@ -40,7 +40,10 @@ export default {
     },
     ["QRCODERECIEPTAUDIT_UPDATA"](state, data) {
       state.list = state.list.map(item => {
-        if (data.receiptNo == item.receiptNo) return data;
+        if (data.receiptNo == item.receiptNo) {
+          console.log(data)
+          return data;
+        }
         else return item;
       })
     }
@@ -48,7 +51,9 @@ export default {
   actions: {
     // 数据列表中获取当前编辑得数据
     getEmpowerCheckUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
-      return state.list.find(item => item.authCode == itemId);
+      return state.list.find(item => {
+        return item.receiptNo == itemId
+      });
     },
     // 审核通过
     adoptEmpowerCheck({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
@@ -64,7 +69,10 @@ export default {
         qrcodes: thisForm.qrcodes
       }).then(data => {
         if (data.code == "00") {
-          commit("QRCODERECIEPTAUDIT_UPDATA", thisForm);
+          //刷新数据
+          let row = { ...thisForm };
+          row.status = "SUCCESS";
+          commit("QRCODERECIEPTAUDIT_UPDATA", row);
           Toast("修改成功");
           return true;
         } else {
@@ -88,7 +96,10 @@ export default {
         qrcodes: thisForm.qrcodes
       }).then(data => {
         if (data.code == "00") {
-          commit("QRCODERECIEPTAUDIT_UPDATA", thisForm);
+          //刷新数据
+          let row = { ...thisForm };
+          row.status = "REJECT";
+          commit("QRCODERECIEPTAUDIT_UPDATA", row);
           Toast("修改成功");
           return true;
         } else {

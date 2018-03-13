@@ -92,7 +92,7 @@ export default {
       ]
     };
   },
-  mounted() {},
+  mounted() { },
   computed: {},
   watch: {},
   methods: {
@@ -133,6 +133,7 @@ export default {
         this.paidEmpowerSave(this.empowerList).then(flag => {
           this.btnDisabled = false;
           if (flag) {
+            this.$store.commit("QRCODEMIGRATE_SEARCH", true)
             this.$router.back();
           }
         });

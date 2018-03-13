@@ -2,7 +2,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -74,7 +74,6 @@
               </div>
             </el-col>
           </el-row>
-
           <el-form-item class="full-width" prop="bankagentArea" label="银行地区">
             <el-cascader :options="optionsArea" v-model="addForm.bankArea" @change="bankhandleChangeArea">
             </el-cascader>
@@ -112,34 +111,114 @@
             </el-col>
           </el-row>
         </fieldset>
-        <fieldset v-if="userAll.userType=='branchOffice'?true:false">
-          <legend>分润信息
-            <span class="small"></span>
-          </legend>
-          <el-form-item class="full-width" prop="" label="补贴">
-            <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
-              <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-row>
-            <el-col :span="12">
-              <div class="grid-content bg-purple">
-                <el-form-item class="full-width" prop="" label="中间人">
-                  <el-input v-model="addForm.intermediary"></el-input>
-                </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item class="full-width" prop="" label="中间人分润">
-                <el-select prop="rebate" v-model="addForm.rebate" clearable placeholder="请选择">
+        <template v-if="userAll.userType=='branchOffice'?true:false">
+          <!-- <template> -->
+          <!-- 快速开票start -->
+          <h2 class="title-box">合伙人成本</h2>
+          <fieldset>
+            <legend>快速开票
+              <span class="small"></span>
+            </legend>
+            <el-form-item class="full-width" prop="" label="补贴">
+              <el-col :span="20">
+                <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
                   <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
                   </el-option>
                 </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </fieldset>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元</span>
+              </el-col>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+                  <el-form-item class="full-width" prop="" label="中间人">
+                    <el-input v-model="addForm.intermediary"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item class="full-width" prop="" label="中间人分润">
+                  <el-select prop="rebate" v-model="addForm.rebate" clearable placeholder="请选择">
+                    <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </fieldset>
+          <!-- 快速开票 end -->
+
+          <!-- 聚合支付 start -->
+          <!-- <fieldset>
+            <legend>聚合支付
+              <span class="small"></span>
+            </legend>
+            <el-form-item class="full-width" prop="" label="微信">
+              <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in settleModeOption" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item class="full-width" prop="" label="支付宝">
+              <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in settleModeOption" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item class="full-width" prop="" label="即刷即到">
+              <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in settleModeTypeOptions" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item :disabled="addForm.settleMode=='T1'?true:false" class="full-width" label="D0手续费" prop="t0CashCostFixed" :label-width="formLabelWidth">
+              <el-input v-model="addForm.t0CashCostFixed" auto-complete="off"></el-input>
+            </el-form-item>
+          </fieldset> -->
+          <!-- 聚合支付 end -->
+
+          <!-- 电子发票 start -->
+          <!-- <fieldset>
+            <legend>电子发票
+              <span class="small"></span>
+            </legend>
+            <el-form-item label-width="210px" class="full-width" prop="" label="服务费">
+              <el-col :span="20">
+                <el-input v-model="addForm.intermediary"></el-input>
+                <p>*服务费成本包含可免费开4000张发票，超出部分按阶梯价格计算</p>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元／张</span>
+              </el-col>
+            </el-form-item>
+            <el-form-item label-width="210px" class="full-width" prop="" label="4000 张／年 至 10000 张／年">
+              <el-col :span="20">
+                <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                  <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元／张</span>
+              </el-col>
+            </el-form-item>
+
+            <el-form-item label-width="210px" class="full-width" prop="" label="10000 张／年 至 100000 张／年">
+              <el-col :span="20">
+                <el-select prop="subsidy" v-model="addForm.subsidy" clearable placeholder="请选择">
+                  <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                  </el-option>
+                </el-select>
+              </el-col>
+              <el-col :span="4">
+                <span class="unit-inline">元／张</span>
+              </el-col>
+            </el-form-item>
+          </fieldset> -->
+          <!-- 电子发票end -->
+        </template>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
@@ -240,34 +319,37 @@
             </el-col>
           </el-row>
         </fieldset>
-        <fieldset v-if="visibleEditIntermediay">
-          <legend>分润信息
-            <span class="small"></span>
-          </legend>
-          <el-form-item class="full-width" prop="" label="补贴">
-            <el-select id="subsidyEdit" ref="subsidyEdit" prop="subsidy" v-model="editForm.subsidy" clearable placeholder="请选择">
-              <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-row>
-            <el-col :span="12">
-              <div class="grid-content bg-purple">
-                <el-form-item class="full-width" prop="" label="中间人">
-                  <el-input v-model="editForm.intermediary"></el-input>
+        <template v-if="visibleEditIntermediay">
+          <h2 class="title-box">合伙人成本</h2>
+          <fieldset>
+            <legend>分润信息
+              <span class="small"></span>
+            </legend>
+            <el-form-item class="full-width" prop="" label="补贴">
+              <el-select id="subsidyEdit" ref="subsidyEdit" prop="subsidy" v-model="editForm.subsidy" clearable placeholder="请选择">
+                <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-row>
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+                  <el-form-item class="full-width" prop="" label="中间人">
+                    <el-input v-model="editForm.intermediary"></el-input>
+                  </el-form-item>
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item class="full-width" prop="" label="中间人分润">
+                  <el-select id="rebateEdit" ref="rebateEdit" prop="rebate" v-model="editForm.rebate" clearable placeholder="请选择">
+                    <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
+                    </el-option>
+                  </el-select>
                 </el-form-item>
-              </div>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item class="full-width" prop="" label="中间人分润">
-                <el-select id="rebateEdit" ref="rebateEdit" prop="rebate" v-model="editForm.rebate" clearable placeholder="请选择">
-                  <el-option v-for="item in subsidyOptions" :key="item.code" :label="item.name" :value="item.code">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </fieldset>
+              </el-col>
+            </el-row>
+          </fieldset>
+        </template>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
@@ -281,7 +363,14 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-
+.title-box {
+  text-align: center;
+  padding-top: 20px;
+  font-size: 18px;
+}
+.unit-inline {
+  padding: 0 10px;
+}
 </style>
 <script>
 import $ from "jquery";
@@ -293,10 +382,12 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
 import { regionData } from "element-china-area-data";
 import { phoneNumVerify } from "@src/common/regexp";
+import utils from "@src/common/utils"
 // 省市区一转三格式
 import { areaOrgcode } from "@src/common/orgcode";
 // 所有可选银行
 import { banks } from "@src/common/bank";
+import settleModeAgent from "@src/data/settleModeAgent"
 import {
   getAgentManages,
   postAddAgentManage,
@@ -326,10 +417,22 @@ export default {
       user.userType === "branchOffice" ||
       user.userType === "agent"
     );
+    var isAdmin = user.userType === "root" || user.userType === "admin";
     return {
+      settleModeOption: settleModeAgent,
       visibleEditIntermediay: false, // 编辑的分润模块
       visibleEditBank: false, // 编辑的结算模块
       visibleEditDevelop: false, // 编辑信息开发模块
+      settleModeTypeOptions: [
+        {
+          code: "T0",
+          name: "开通"
+        },
+        {
+          code: "T1",
+          name: "不开通"
+        }
+      ],
       subsidyOptions: [
         {
           name: "0",
@@ -416,10 +519,10 @@ export default {
       },
       addForm: {
         // 新增合伙人信息
-        agentName: "", // 合伙人名称
-        phoneNo: "", //合伙人手机号
         // agentArea: ["150000", "150400", "150404"],//合伙人省市县
         // agentArea: ["130000", "130200", "130202"],
+        agentName: "", // 合伙人名称
+        phoneNo: "", //合伙人手机号
         agentArea: [], // 必须为数组
         bankArea: [], // 必须为数组
         frValue: "", // 合伙人分润成本
@@ -429,13 +532,13 @@ export default {
       },
       addFormRules: {
         agentName: [
-          { required: true, message: "请输入合伙人名称", trigger: "blur" }
+          { required: true, message: "请输入合伙人名称", trigger: "blur,change" }
         ],
         phoneNo: [
-          { required: true, validator: phoneNumVerify, trigger: "blur" }
+          { required: true, validator: phoneNumVerify, trigger: "blur,change" }
         ],
         agentArea: [
-          { required: true, message: "请选择经营区域", trigger: "blur" }
+          { required: true, message: "请选择经营区域", trigger: "blur,change" }
         ]
       },
       // 顶部搜索表单信息
@@ -462,11 +565,70 @@ export default {
             this.searchCondition.agentName = value;
           }
         },
+
+        {
+          corresattr: "level", // 只有运营显示
+          visible: !isAdmin ? "TRUE" : "FALSE",
+          type: "select",
+          label: "级别",
+          show: true, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "0",
+              label: "分公司"
+            },
+            {
+              value: "1",
+              label: "一级合伙人"
+            },
+            {
+              value: "2",
+              label: "二级合伙人"
+            },
+            {
+              value: "3",
+              label: "三级合伙人"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.level = value;
+          }
+        },
+        {
+          corresattr: "level", // 非运营显示
+          visible: isAdmin ? "TRUE" : "FALSE",
+          type: "select",
+          label: "级别",
+          show: true, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "1",
+              label: "本级合伙人"
+            },
+            {
+              value: "2",
+              label: "下级合伙人"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.level = value;
+          }
+        },
         {
           corresattr: "phoneNo",
           type: "text", // 表单类型
           label: "手机号", // 输入框前面的文字
-          show: true, // 普通搜索显示
+          show: false, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -529,7 +691,7 @@ export default {
           }
         ],
         operation: {
-          width: "120px",
+          width: "70px",
           options: [
             // 操作按钮
             {
@@ -538,8 +700,6 @@ export default {
               cb: rowdata => {
                 // console.log(rowdata);
                 this.editFormVisible = true;
-                this.editForm = Object.assign(this.editForm, rowdata);
-                this.editForm.agentArea = areaOrgcode(rowdata.orgCode);
                 if (rowdata.level == "1") {
                   this.visibleEditBank = true;
                   this.visibleEditIntermediay = true;
@@ -549,33 +709,26 @@ export default {
                   this.visibleEditIntermediay = false;
                   this.visibleEditDevelop = false;
                 }
-                if (!!rowdata.rebate) {
-                  this.editForm.rebate = rowdata.rebate;
-                }
-                if (!!rowdata.subsidy) {
-                  this.editForm.subsidy = rowdata.subsidy;
+                let newRow = utils.pickObj(rowdata, [
+                  "agentName", 'agentNo', 'linkMan', 'phoneNo', 'fixedPhone', "redirectUrl", 'orgCode',
+                ]);
+                this.editForm = {
+                  ...newRow,
+                  ...{ agentArea: areaOrgcode(rowdata.orgCode) }
                 }
                 postEditChange()({
                   agentNo: rowdata.agentNo
                 }).then(res => {
                   if (res.code == "00") {
                     if (rowdata.level == "1") {
-                      let data = res.data;
-                      console.log(data);
-                      if (data.branchBank) {
-                        this.editForm.unionCode =
-                          data.branchBank.unionCode || "";
-                        this.bankCode = data.branchBank.bankCode || "";
-                        this.bankCity = data.branchBank.cityId || "";
-                        this.editForm.bankCode = data.branchBank.bankCode || "";
-                        this.editForm.bankArea = [
-                          data.branchBank.provinceId,
-                          data.branchBank.cityId
-                        ];
+                      let row_s = res.data;
+                      let newRow_s = utils.pickObj(row_s, ["rebate", 'subsidy', 'isCreateKey', 'intermediary', "accountName", "accountNo", "accountType"]);
+                      this.selectOptions.branchBankOptions = row_s.bankList || [];
+                      this.editForm = {
+                        ...this.editForm,
+                        ...this.branchBankChange(row_s.branchBank),
+                        ...newRow_s
                       }
-                      this.selectOptions.branchBankOptions =
-                        data.bankList || [];
-                      this.editForm = Object.assign(this.editForm, data);
                     }
                   }
                 });
@@ -592,7 +745,8 @@ export default {
       // 新增数据 弹出框
       this.addFormVisible = true;
     },
-    handleChangeArea() {},
+    handleChangeArea() {
+    },
     bankhandleChangeArea(value) {
       console.log(value);
       //选择银行区域
@@ -622,45 +776,54 @@ export default {
       // 开始搜索
       this.reloadData();
     },
+    // 将后台有关银行的数据转换成前端需要的数据
+    branchBankChange(branchBank) {
+      let obj = {};
+      if (branchBank) {
+        this.bankCode = branchBank.bankCode || "";
+        this.bankCity = branchBank.cityId || "";
+        obj.unionCode = branchBank.unionCode || "";
+        obj.bankCode = branchBank.bankCode || "";
+        obj.bankArea = [branchBank.provinceId, branchBank.cityId];
+      }
+      return obj;
+    },
+    // 将表单里面的区域转化成需要往后台传送的数据
+    changeAgentArea(agentArea) {
+      let obj = {};
+      if (agentArea) {
+        obj.province = agentArea[0] ? agentArea[0] : "";
+        obj.city = agentArea[1] || agentArea[0] || "";
+        obj.orgCode =
+          agentArea[2] ||
+          agentArea[1] ||
+          agentArea[0] ||
+          "";
+      }
+      return obj
+    },
+    // 将表单里面的银行区域转化成需要往后台传送的数据
+    changeBankArea(bankArea) {
+      let obj = {};
+      if (bankArea) {
+        obj.provinceId = bankArea[0] || "";
+        obj.cityId = bankArea[1] || bankArea[0] || "";
+        obj.bankOrgCode = bankArea[2] || bankArea[1] || bankArea[0] || ""
+      }
+      return obj
+    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saveLoading = true;
-          var addForm = this.addForm;
-          let obj = {
-            agentName: addForm.agentName ? addForm.agentName : "",
-            linkMan: addForm.linkMan ? addForm.linkMan : "",
-            phoneNo: addForm.phoneNo ? addForm.phoneNo : "",
-            fixedPhone: addForm.fixedPhone ? addForm.fixedPhone : "",
-            accountName: addForm.accountName || "",
-            accountNo: addForm.accountNo || "",
-            accountType: addForm.accountType || 0,
-            provinceId: addForm.bankArea[0] || "",
-            cityId: addForm.bankArea[1] || addForm.bankArea[0] || "",
-            bankOrgCode:
-              addForm.bankArea[2] ||
-              addForm.bankArea[1] ||
-              addForm.bankArea[0] ||
-              "",
-            bankCode: addForm.bankCode || "",
-            unionCode: addForm.unionCode || "",
-            isCreateKey: addForm.isCreateKey || "",
-            redirectUrl: addForm.redirectUrl || "",
-            subsidy: addForm.subsidy || "",
-            intermediary: addForm.intermediary || "",
-            rebate: addForm.rebate || ""
+
+          let sendata = {
+            ...this.addForm,
+            ...this.changeAgentArea(this.addForm.agentArea),
+            ...this.changeBankArea(this.addForm.bankArea)
           };
-          if (addForm.agentArea) {
-            obj.province = addForm.agentArea[0] ? addForm.agentArea[0] : "";
-            obj.city = addForm.agentArea[1] || addForm.agentArea[0] || "";
-            obj.orgCode =
-              addForm.agentArea[2] ||
-              addForm.agentArea[1] ||
-              addForm.agentArea[0] ||
-              "";
-          }
-          postAddAgentManage()(obj).then(data => {
+          this.saveLoading = true;
+          postAddAgentManage()(sendata).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -693,56 +856,12 @@ export default {
       // 编辑内容保存
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.saveLoading = true;
-          var editForm = this.editForm;
-          var sendObj = {
-            agentName: editForm.agentName,
-            agentNo: editForm.agentNo,
-            linkMan: editForm.linkMan,
-            phoneNo: editForm.phoneNo ? editForm.phoneNo : "",
-            fixedPhone: editForm.fixedPhone ? editForm.fixedPhone : "",
-            isCreateKey: editForm.isCreateKey ? editForm.isCreateKey : "",
-            redirectUrl: editForm.redirectUrl ? editForm.redirectUrl : "",
-            subsidy: editForm.subsidy ? editForm.subsidy : "",
-            intermediary: editForm.intermediary ? editForm.intermediary : "",
-            rebate: editForm.rebate ? editForm.rebate : ""
+          let sendata = {
+            ...this.editForm,
+            ...this.changeAgentArea(this.editForm.agentArea),
+            ...this.changeBankArea(this.editForm.bankArea)
           };
-          if (editForm.hasOwnProperty("agentArea")) {
-            sendObj.province = editForm.agentArea[0] || "";
-            sendObj.city = editForm.agentArea[1] || editForm.agentArea[0] || "";
-            sendObj.orgCode =
-              editForm.agentArea[2] ||
-              editForm.agentArea[1] ||
-              editForm.agentArea[0] ||
-              "";
-          }
-          if (this.visibleEditBank) {
-            sendObj.accountName = editForm.accountName
-              ? editForm.accountName
-              : "";
-            sendObj.accountNo = editForm.accountNo ? editForm.accountNo : "";
-            sendObj.accountType = editForm.accountType
-              ? editForm.accountType
-              : 0;
-            if (editForm.hasOwnProperty("bankArea")) {
-              sendObj.provinceId = editForm.bankArea[0]
-                ? editForm.bankArea[0]
-                : "";
-              sendObj.provinceId = editForm.bankArea[0]
-                ? editForm.bankArea[0]
-                : "";
-              sendObj.cityId =
-                editForm.bankArea[1] || editForm.bankArea[0] || "";
-              sendObj.bankOrgCode =
-                editForm.bankArea[2] ||
-                editForm.bankArea[1] ||
-                editForm.bankArea[0] ||
-                "";
-            }
-            sendObj.bankCode = editForm.bankCode ? editForm.bankCode : "";
-            sendObj.unionCode = editForm.unionCode ? editForm.unionCode : "";
-          }
-          postEditAgentManage()(sendObj).then(data => {
+          postEditAgentManage()(sendata).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，修改数据成功",
@@ -758,7 +877,6 @@ export default {
                 center: true
               });
             }
-            console.log(data);
             this.saveLoading = false;
           });
         }

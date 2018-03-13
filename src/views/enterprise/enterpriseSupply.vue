@@ -3,7 +3,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -171,8 +171,8 @@ export default {
       addFormVisible: false,
       addForm: {},
       addFormRules: {
-        name: [{ required: true, message: "请输入资质名称", trigger: "blur" }],
-        tax: [{ required: true, message: "请输入税号", trigger: "blur" }]
+        name: [{ required: true, message: "请输入资质名称", trigger: "blur,change" }],
+        tax: [{ required: true, message: "请输入税号", trigger: "blur,change" }]
       },
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
@@ -349,14 +349,7 @@ export default {
           this.saveLoading = true;
           var addForm = this.addForm;
           // this.resetSearchHandle();
-          postAddEnterpriseSupply()({
-            name: addForm.name,
-            tax: addForm.tax,
-            address: addForm.address,
-            tel: addForm.tel,
-            bank: addForm.bank,
-            account: addForm.account
-          }).then(data => {
+          postAddEnterpriseSupply()({ ...addForm }).then(data => {
             if (data.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
@@ -436,7 +429,15 @@ export default {
       }
     }
   },
-  mounted() {}
+  mounted() { },
+  watch: {
+    detailsFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

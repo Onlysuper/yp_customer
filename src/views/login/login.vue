@@ -50,8 +50,8 @@ export default {
       },
       rules: {
         username: [
-          { required: true, message: "请输入易票账号/手机号", trigger: "blur" },
-          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" }
+          { required: true, message: "请输入易票账号/手机号", trigger: "blur,change" },
+          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur,change" }
         ],
         password: [
           { required: true, message: "请输入有效密码", trigger: "change" }
@@ -158,9 +158,10 @@ $center-width: 280px; // 表单宽度
   .login-footer {
     text-align: center;
     p {
+      text-align: center;
       font-size: 16px;
       margin-top: 0;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
   }
   .login-button {
@@ -244,11 +245,7 @@ $center-width: 280px; // 表单宽度
         max-width: auto;
       }
     }
-    .login-footer {
-      p {
-        margin-bottom: 30px;
-      }
-    }
+
     .slogen-box {
       text-align: center;
       img {

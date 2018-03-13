@@ -1,7 +1,8 @@
 <template>
-  <tr>
+  <tr class="border-1px">
     <td class="td-justify">{{title}}</td>
-    <td>：
+    <td>：</td>
+    <td class="content">
       <slot></slot>
     </td>
   </tr>
@@ -23,11 +24,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../assets/scss/base.scss";
 .td-justify {
   text-align: center;
   text-align: justify;
   text-justify: distribute-all-lines;
   text-align-last: justify;
+
+  width: 120*$rem;
   // &:after {
   //      content: "";
   //      display: block;
@@ -35,5 +39,8 @@ export default {
   //      height: 0;
   //      overflow: hidden;
   // }
+}
+.content {
+  // width: 200px;
 }
 </style>

@@ -3,11 +3,12 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isBatchUpdate = false;isUpdate = false;dialogVisible = true">新增升级商户</el-button>
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">修改升级商户</el-button>
+          <!-- <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isBatchUpdate = false;isUpdate = false;dialogVisible = true">新增升级商户</el-button> -->
+          <!-- <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">修改升级商户</el-button> -->
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">新增 修改升级商户</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
@@ -19,7 +20,7 @@
             <el-col :span="11">
               <el-form-item label="版本类型" prop="type" v-if="!isUpdate">
                 <el-select v-model="form.type" placeholder="请选择">
-                  <el-option v-for="item in type_options" :key="item.value" :label="item.label" :value="item.value">
+                  <el-option v-for="item in versionTypeOptions" :key="item.code" :label="item.name" :value="item.code">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -62,6 +63,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
+import versionType from "@src/data/versionType"
 import {
   postCustomerVersion,
   patchCustomerVersion,
@@ -81,6 +83,7 @@ export default {
       status: "" // 状态
     };
     return {
+      versionTypeOptions: versionType,
       dialogVisible: false, //上传面板是否可见
       isUpdate: true,
       isBatchUpdate: false,
@@ -319,7 +322,6 @@ export default {
 
               color: "#3685FD",
               cb: rowdata => {
-                this.$refs.form.clearValidate();
                 this.dialogVisible = true;
                 this.form = { ...rowdata };
               }
@@ -327,41 +329,6 @@ export default {
           ]
         }
       },
-      // 表单数据
-      type_options: [
-        {
-          label: "RELEASE: 官网版本",
-          value: "RELEASE"
-        },
-        {
-          label: "HOST_C: c++主程序",
-          value: "HOST_C"
-        },
-        {
-          label: "UPDATE_C: c++更新程序",
-          value: "UPDATE_C"
-        },
-        {
-          label: "HOST: c#主程序",
-          value: "HOST"
-        },
-        {
-          label: "UPDATE: c#更新程序",
-          value: "UPDATE"
-        },
-        {
-          label: "HOST_OLD: c#老版本主程序",
-          value: "HOST_OLD"
-        },
-        {
-          label: "DATA_COLLECTION: 数据采集程序",
-          value: "DATA_COLLECTION"
-        },
-        {
-          label: "HOST_D: 电子发票版本",
-          value: "HOST_D"
-        }
-      ],
       status_options: [
         {
           label: "允许升级",
@@ -380,12 +347,12 @@ export default {
       file: "",
       validateRules: {
         customerNo: [
-          { required: true, message: "请输入商户编号", trigger: "blur" }
+          { required: true, message: "请输入商户编号", trigger: "blur,change" }
         ],
         type: [
-          { required: true, message: "请选择客户端类型", trigger: "blur" }
+          { required: true, message: "请选择客户端类型", trigger: "blur,change" }
         ],
-        status: [{ required: true, message: "请选择状态", trigger: "blur" }]
+        status: [{ required: true, message: "请选择状态", trigger: "blur,change" }]
       }
     };
   },
@@ -444,7 +411,7 @@ export default {
         }
       });
     },
-    beforesubmitFile() {},
+    beforesubmitFile() { },
     submitFileSuccess() {
       this.$message({
         type: "success",
@@ -469,7 +436,12 @@ export default {
       this.isBatchUpdate = false;
     }
   },
-  mounted() {}
+  mounted() { },
+  watch: {
+    dialogVisible(val) {
+      this.saveLoadingStop(val);
+    },
+  }
 };
 </script>
 

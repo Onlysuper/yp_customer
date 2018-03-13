@@ -173,9 +173,7 @@ router.beforeEach((to, redirect, next) => {
             next("/login")
         }
     }
-
-    // else if (to.matched.length == 0 || !to.matched.some(record => record.meta.requiresAuth)) {
-    // else if (!menuList.some(record => record)) {
-
 })
+
+
 export default router;

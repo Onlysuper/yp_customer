@@ -2,7 +2,7 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
@@ -93,6 +93,9 @@ export default {
       status: "" // 状态
     };
     return {
+      addFormVisible: false, // 新增框
+      editFormVisible: false, // 编辑框
+      configRoleFormVisible: false, // 配置角色框
       zTreeObj: "",
       setting: {
         check: {
@@ -114,9 +117,6 @@ export default {
           }
         }
       },
-      addFormVisible: false, // 新增框
-      editFormVisible: false, // 编辑框
-      configRoleFormVisible: false, // 配置角色框
       defaultProps: {
         children: "children",
         label: "label"
@@ -128,8 +128,8 @@ export default {
         label: "privilegeName"
       },
       addFormRules: {
-        roleName: [{ required: true, message: "请输入内容", trigger: "blur" }],
-        roleCode: [{ required: true, message: "请输入内容", trigger: "blur" }]
+        roleName: [{ required: true, message: "请输入内容", trigger: "blur,change" }],
+        roleCode: [{ required: true, message: "请输入内容", trigger: "blur,change" }]
       },
       formLabelWidth: "100px",
       editFormRules: {}, // 编辑单个规则
@@ -493,6 +493,17 @@ export default {
       // var roleTree = this.$refs;
       // console.log(roleTree);
     });
+  },
+  watch: {
+    addFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    editFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
+    configRoleFormVisible(val) {
+      this.saveLoadingStop(val);
+    },
   }
 };
 </script>

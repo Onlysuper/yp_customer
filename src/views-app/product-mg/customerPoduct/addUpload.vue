@@ -42,9 +42,9 @@
           <h4 class="indent">第三条 聚合支付</h4>
           <p class="indent">1.甲方按照支付机构的要求独立申请结算账户，由合作支付机构（本协议指“支付宝”、“财付通”、乙方合作银行及其他第三方支付机构等）直接对甲方指定的结算账户进行结算账户划款工作。</p>
           <p class="indent">2.本协议涉及支付产品结算方式如下：</p>
-          <p class="indent">（1）甲方同意“支付宝”将消费交易资金在扣除支付宝规定的交易标准费率后，在T+1个工作日内，实时向甲方指定的结算账户划款。</p>
-          <p class="indent">（2）甲方同意“财付通”及其他移动支付渠道将当日支付消费交易资金在扣除规定的交易标准费率后，在T+1个工作日内，向甲方指定结算账户划款。</p>
-          <p class="indent">（3）甲方同意乙方合作银行及其他第三方支付机构将当日银行卡支付消费交易资金在扣除协议规定的交易标准费率后，在T+1个工作日内，向甲方指定结算账户划款。</p>
+          <p class="indent">（1）甲方同意“支付宝”将消费交易资金在扣除支付宝规定的交易标准费率后，在约定的结算日期，向甲方指定的结算账户划款。</p>
+          <p class="indent">（2）甲方同意“财付通”及其他移动支付渠道将当日支付消费交易资金在扣除规定的交易标准费率后，在约定的结算日期，向甲方指定结算账户划款。</p>
+          <p class="indent">（3）甲方同意乙方合作银行及其他第三方支付机构将当日银行卡支付消费交易资金在扣除协议规定的交易标准费率后，在约定的结算日期，向甲方指定结算账户划款。</p>
           <p class="indent">3.如果由于“支付宝”、“财付通”、乙方合作银行及其他第三方支付机构等支付机构原因导致上述费率调整，双方另行签署补充协议。</p>
           <p class="indent">4.甲方应在本协议签署之后将《商户信息及产品登记表》盖章提交乙方。</p>
           <h4 class="indent">第四条 电子发票</h4>
@@ -131,6 +131,7 @@ export default {
       visible: false,
       value: "",
       customerNo: this.$route.query["customerNo"],
+      phoneNo: "",
       imgs: {}
     };
   },
@@ -152,14 +153,14 @@ export default {
   directives: {
     targetTo: {
       // 指令的定义
-      inserted: function(el) {
+      inserted: function (el) {
         // console.log(el);
       }
     }
   },
   methods: {
     echoForm(data) {
-      let { imgs } = data;
+      let { imgs, settleCard } = data;
       if (imgs instanceof Object) {
         for (let key in imgs) {
           if (imgs[key] instanceof Object) {
@@ -167,6 +168,9 @@ export default {
             this.resultMediaId(key, imgs[key].id);
           }
         }
+      }
+      if (settleCard instanceof Object) {
+        this.phoneNo = settleCard.phoneNo;
       }
     },
     //图片上传结果
@@ -184,7 +188,7 @@ export default {
         customerNo: this.customerNo
       }).then(data => {
         if (data.code == "00") {
-          this.$router.push({ path: "./addSuccess" });
+          this.$router.push({ path: "./addSuccess", query: { phoneNo: this.phoneNo } });
         } else {
           this.Toast(data.msg);
         }

@@ -1,12 +1,13 @@
 <template>
   <!-- 授权码管理 -->
-  <div class="page">
+  <div class="page empower-page">
     <full-page class="page" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
       </mt-header>
+
       <!-- actions操作 -->
       <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
@@ -15,7 +16,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerManageStatus}}</mt-badge>
+          <mt-badge v-if="item.status=='TRUE'" slot="badge" class="g-min-badge" size="small" type="warning">{{item.status | empowerManageStatus}}</mt-badge>
+          <mt-badge v-if="item.status=='BINDED'" slot="badge" class="g-min-badge" size="small" type="success">{{item.status | empowerManageStatus}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.materiel | empowerManageMateriel}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.deviceType | empowerCheckReceiptType}}</mt-badge>
           <!-- 常用按钮 -->
@@ -42,6 +44,16 @@
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
   </div>
 </template>
+<style lang="scss" scoped>
+// @media screen and (max-width: 500px) {
+//   .empower-page {
+//     td {
+//       width: 300px !important;
+//     }
+//   }
+// }
+</style>
+
 <script>
 import { Toast } from "mint-ui";
 import SliderNav from "@src/components-app/SliderNav";
@@ -240,10 +252,9 @@ export default {
       // 解绑
       postUnBindEmpower()(this.rowdata).then(data => {
         if (data.code == "00") {
-          console.log(this.rowdata);
           let row = { ...this.rowdata };
           row.status = "TRUE";
-          this.$store.commit("QRCODE_UPDATA", row);
+          this.$store.commit("QRCODE_UNBINDCHILD_UPDATA", row);
           Toast("解绑成功");
         } else {
           Toast(data.msg);

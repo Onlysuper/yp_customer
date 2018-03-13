@@ -4,12 +4,12 @@
     <div class="admin-main-box">
       <!-- search form start -->
       <!-- {{adminOperationAll.qr_code_reciept_audit_all}} -->
-      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详细信息 start -->
-    <el-dialog :title="detailsForm.body" center :visible.sync="detailsFormVisible">
+    <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
         <div class="line-label-box">
           <span class="line-label">交易时间:</span>
@@ -26,7 +26,7 @@
           <span class="line-label">手续费:</span>{{utils.accMul(detailsForm.fee, 0.01)}}元
         </div>
         <div class="line-label-box">
-          <span class="line-label">交易费率:</span>{{detailsForm.feeRate, 100}}
+          <span class="line-label">交易费率:</span>{{utils.accMul(detailsForm.feeRate, 100)+'%'}}
         </div>
         <div class="line-label-box">
           <span class="line-label">代理商编号:</span>{{detailsForm.agentNo}}
@@ -103,7 +103,7 @@ export default {
           visible:
             this.$store.state.userInfoAndMenu.userMessage.all.userType ==
               "admin" ||
-            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
@@ -137,20 +137,20 @@ export default {
           ]
         },
         {
-          corresattr: "body",
+          corresattr: "customerName",
           type: "text", // 表单类型
           label: "商户名称", // 输入框前面的文字
           show: false, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
-            this.searchCondition.body = value;
+            this.searchCondition.customerName = value;
           }
         },
         {
           corresattr: "hasChild",
           type: "select",
-          label: "包含下级",
+          label: "包含关系",
           show: false, // 普通搜索显示
           value: "",
           options: [
@@ -251,7 +251,7 @@ export default {
           {
             key: "商户名称",
             width: "",
-            word: "body"
+            word: "customerName"
           },
           {
             key: "交易金额(元)",
@@ -330,12 +330,12 @@ export default {
           ]
         },
         // 数据加载成功
-        dataSuccess: data => {}
+        dataSuccess: data => { }
       }
     };
   },
   methods: {},
-  mounted() {},
+  mounted() { },
   computed: {
     userAll() {
       // 所有的用户信息

@@ -238,6 +238,7 @@ export default {
     },
     //假刷新
     unrealReload() {
+      console.log("假刷新");
       let arr_ = this.tableData;
       this.tableData = [];
       this.$nextTick(() => {
@@ -322,6 +323,9 @@ export default {
       //   this.$store.state.Base.oaIp + path + "?" + qs.stringify(this.getSearch);
       window.location.href = exportUrl;
     },
+    ExportExcelDIR(url) {
+      window.location.href = exportUrl;
+    },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
     }
@@ -383,7 +387,7 @@ export default {
       // 全屏切换
     },
 
-    $route(to, from) {}
+    $route(to, from) { }
   }
 };
 </script>

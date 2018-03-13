@@ -41,6 +41,9 @@ mypFilters.install = function (Vue, options) {
             case "jsPay":
                 value = "公众号支付";
                 break;
+            case "trade.microPay":
+                value = "刷卡支付";
+                break;
         }
         return value;
     })
@@ -138,6 +141,9 @@ mypFilters.install = function (Vue, options) {
                 break;
             case "SCAN_CODE":
                 value = "扫码";
+                break;
+            case "OFFICAL_ACCOUNT":
+                value = "公众号";
                 break;
         }
         return "来源" + value;
@@ -381,6 +387,8 @@ mypFilters.install = function (Vue, options) {
             case "BROWER":
                 value = "浏览器";
                 break;
+            default:
+            // value = "未知";
         }
         return value;
     })
@@ -518,7 +526,7 @@ mypFilters.install = function (Vue, options) {
                 value = "审核失败";
                 break;
             case "CHECKING":
-                value = "审核中";
+                value = "待审核";
                 break;
             case "WAITING_SUBMIT":
                 value = "待提交";

@@ -9,14 +9,12 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
-
           <!-- 设备类型 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
           <!-- 生产水牌 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="error" v-if="item.isPrint == 'Y'">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
           <!-- 状态 -->
           <mt-badge slot="badge" class="g-min-badge" size="small" type="success">{{item.status | empowerCheckStatus}}</mt-badge>
-
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->
