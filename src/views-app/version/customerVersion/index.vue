@@ -7,6 +7,8 @@
         <!-- <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button> -->
         <!-- <mt-button slot="right" :disabled="false" type="danger" @click="sum">合计</mt-button> -->
       </mt-header>
+      <!-- actions操作 -->
+      <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
@@ -28,15 +30,26 @@
 </template>
 
 <script>
+import MypPopupActions from "@src/components-app/MypPopupActions";
 import SliderNav from "@src/components-app/SliderNav";
 import { scrollBehavior } from "@src/common/mixins";
 import { getCustomerVersions } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 export default {
   mixins: [scrollBehavior],
-  components: { SliderNav },
+  components: { SliderNav, MypPopupActions },
   data() {
     return {
+      popupActionsVisible: false,
+      popupActions: [
+        {
+          name: "修改升级商户",
+          icon: "icon-admin",
+          method: () => {
+            this.toUrl("ADD");
+          }
+        }
+      ],
       munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
@@ -71,6 +84,19 @@ export default {
       this.count = count;
       this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_LIST", watchDataList);
       this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH", false);
+    },
+    toUrl(type, itemId, rowdata) {
+      if (type == "ADD") {
+        this.$router.push({
+          path: "./add",
+          query: { type: type }
+        });
+      } else if (type == "EDIT") {
+        this.$router.push({
+          path: "./edit/" + itemId,
+          query: { type: type }
+        });
+      }
     },
     sum() {
       // this.getConvergePayCommSum().then(isSuccess => {

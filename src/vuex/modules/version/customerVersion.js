@@ -1,6 +1,6 @@
 import utils from "@src/common/utils";
 // 商户版本
-import { } from "@src/apis";
+import { postCustomerVersion } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -45,6 +45,24 @@ export default {
 
   },
   actions: {
-
+    // 新增或修改商户信息
+    addCustomerVersionSave({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      return postCustomerVersion()(this.form).then(data => {
+        if (data.code == "00") {
+          this.reloadData();
+          this.$message({
+            type: "success",
+            message: "修改成功!"
+          });
+          this.dialogVisible = false;
+        } else {
+          this.$message({
+            type: "warning",
+            message: data.msg
+          });
+        }
+        this.saveLoading = false;
+      });
+    },
   }
 };

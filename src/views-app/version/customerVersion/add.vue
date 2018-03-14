@@ -1,0 +1,111 @@
+<template>
+  <!-- 物料入库 -->
+  <full-page>
+    <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+      <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
+    </mt-header>
+    <view-radius>
+      <input-wrapper>
+        <mt-field @click.native="$refs.typePicker.open" type="text" label="版本类型" placeholder="请选择版本类型" :value="type.name" v-readonly-ios :readonly="true" :disableClear="true">
+          <i class="icon-arrow"></i>
+        </mt-field>
+        <mt-field @click.native="$refs.statusPicker.open" type="text" label="升级状态" placeholder="请选择升级状态" :value="status.name" v-readonly-ios :readonly="true" :disableClear="true">
+          <i class="icon-arrow"></i>
+        </mt-field>
+        <mt-field type="text" label="商户编号" placeholder="请输入商户编号" v-model="dataList.customerNo"></mt-field>
+      </input-wrapper>
+    </view-radius>
+    <picker ref="typePicker" v-model="type" :slotsActions="versionTypeOptions" @confirm="typePickerChange"></picker>
+    <picker ref="statusPicker" v-model="status" :slotsActions="status_options" @confirm="statusChange"></picker>
+  </full-page>
+</template>
+<style lang="scss">
+.myp-chek-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1px;
+  .mint-cell {
+    background-image: none;
+    background-color: #fcfcfc;
+    width: 33.333%;
+  }
+  .mint-radiolist-label,
+  .mint-checklist-label {
+    padding: 0;
+  }
+  .mint-radiolist-title,
+  .mint-checklist-title {
+    margin: 0;
+  }
+  .mint-cell-wrapper {
+    padding: 5px;
+  }
+}
+</style>
+<script>
+import { mapState, mapActions } from "vuex";
+import Picker from "@src/components-app/SelectPicker/Picker";
+import versionTypeJson from "@src/data/versionType"
+export default {
+  components: { Picker },
+  data() {
+    return {
+      versionTypeOptions: versionTypeJson,
+      status: {},
+      type: {},
+      status_options: [
+        {
+          name: "允许升级",
+          code: "TRUE"
+        },
+        {
+          name: "不允许升级",
+          code: "FALSE"
+        }
+      ],
+      btnDisabled: false,
+      pageType: this.$route.query["type"] || "ADDMATERIEL",
+      dataList: {},
+      pageTitle: {
+        ADD: "修改商户信息"
+      },
+    };
+  },
+  mounted() { },
+  computed: {},
+  watch: {},
+  methods: {
+    ...mapActions(["addCustomerVersionSave"]),
+    save() {
+      if (!this.validator.isEmpty(this.dataList.receiptCount)) {
+        this.MessageBox.alert("入库数量不能为空！");
+        return;
+      }
+      this.dataList.deviceType = this.deviceType.code;
+      this.dataList.migrateType = this.migrateType.code;
+      this.btnDisabled = true;
+      if (this.pageType == "ADD") {
+        this.addCustomerVersionSave(this.dataList).then(flag => {
+          this.btnDisabled = false;
+          if (flag) {
+            this.$router.back();
+          }
+        });
+      }
+    },
+    // 状态
+    typePickerChange(obj) {
+      this.type = obj;
+    },
+    // 类型
+    statusChange(obj) {
+      this.status = obj;
+    }
+  }
+};
+</script>
+
+<style>
+
+</style>

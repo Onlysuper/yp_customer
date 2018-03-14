@@ -887,6 +887,15 @@ export default {
             {
               text: "开通",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (
+                  isAdmin
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               disabledFn: rowdata => {
                 if (
                   rowdata.payStatus == "INIT" ||
@@ -1288,13 +1297,13 @@ export default {
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
-            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT") {
+            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && isAdmin) {
               this.editVisiblebut = true;
             }
             break;
           case "payStatus":
             this.payStatusVisible = true;
-            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT") {
+            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && isAdmin) {
               this.editVisiblebut = true;
             }
             break;
