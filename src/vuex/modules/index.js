@@ -6,10 +6,11 @@ import billCount from "./billCount";
 import billRecord from "./billRecord";
 import billDay from "./billDay";
 import billStandard from "./billStandard";
-import empowerCheck from "./empowerCheck";
-import empowerManage from "./empowerManage";
-import empowerPurchase from "./empowerPurchase";
-import empowerTransfer from "./empowerTransfer";
+
+import empowerCheck from "./empower/empowerCheck";
+import empowerManage from "./empower/empowerManage";
+import empowerPurchase from "./empower/empowerPurchase";
+import empowerTransfer from "./empower/empowerTransfer";
 
 import customerManage from "./customer/customerManage";
 
@@ -17,6 +18,7 @@ import customerManage from "./customer/customerManage";
 import customerProduct from "./customerProduct";
 import enterpriseSupply from "./enterprise/enterprise_supply";
 import orderQuery from "./order/orderQuery";
+import customerVersion from "./version/customerVersion";
 
 
 export {
@@ -37,5 +39,7 @@ export {
 
   customerProduct,
   enterpriseSupply,
-  orderQuery
+  orderQuery,
+
+  customerVersion
 };
