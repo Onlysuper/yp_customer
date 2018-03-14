@@ -20,7 +20,10 @@ function isRule(regText, value) {
   const reg = new RegExp(regText);
   return value ? reg.test(value) ? SUCCESS : DEFAULT : DEFAULT;
 }
-
+function isRule_r(regText, value) {
+  const reg = new RegExp(regText);
+  return value ? reg.test(value) ? true : false : true;
+}
 /**
  * 验证方法
  */
@@ -57,7 +60,10 @@ let Validator = {
   //检测身份证号
   isCardNo(cardNo) {
     return isRule(rule.cardnoReg, cardNo);
+  },
+  //检测身份证号 可以为空
+  isCardNoNull(cardNo) {
+    return isRule_r(rule.cardnoReg, cardNo);
   }
 }
-
 export default Validator;

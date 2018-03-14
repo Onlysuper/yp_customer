@@ -8,10 +8,10 @@
       <input-wrapper>
         <mt-field type="text" label="企业名称" placeholder="请输入企业名称" v-model="customer.enterpriseName"></mt-field>
         <mt-field type="text" label="企业税号" placeholder="请输入企业税号" v-model="customer.taxNo"></mt-field>
-        <mt-field type="text" label="企业法人" placeholder="请输入企业法人" v-model="customer.legalPerson"></mt-field>
-        <mt-field type="text" label="身份证" placeholder="请输入身份证" v-model="customer.idCard"></mt-field>
         <mt-field type="text" label="联系人" placeholder="请输入联系人" v-model="customer.linkMan"></mt-field>
         <mt-field type="text" label="手机号" placeholder="请输入手机号" v-model="customer.phoneNo"></mt-field>
+        <mt-field type="text" label="企业法人" placeholder="请输入企业法人" v-model="customer.legalPerson"></mt-field>
+        <mt-field type="text" label="身份证" placeholder="请输入身份证" v-model="customer.idCard"></mt-field>
         <mt-field type="text" label="经营地址" placeholder="请输经营地址" v-model="customer.bussinessAddress"></mt-field>
         <mt-field type="text" label="公司电话" placeholder="请输入公司电话" v-model="customer.bussinessPhone"></mt-field>
       </input-wrapper>
@@ -44,46 +44,47 @@ export default {
   methods: {
     ...mapActions(["getCustomer", "updataCustomer", "addCustomer"]),
     save() {
-      if (!this.validator.isEmpty(this.customer.enterpriseName)) {
-        this.MessageBox.alert("企业名称不能为空！");
-        return;
-      }
-      if (!this.validator.isTax(this.customer.taxNo)) {
-        this.MessageBox.alert("企业税号有误！");
-        return;
-      }
-      if (!this.validator.isEmpty(this.customer.legalPerson)) {
-        this.MessageBox.alert("企业法人不能为空！");
-        return;
-      }
-      if (!this.validator.isCardNo(this.customer.idCard)) {
+      // if (!this.validator.isEmpty(this.customer.enterpriseName)) {
+      //   this.MessageBox.alert("企业名称不能为空！");
+      //   return;
+      // }
+      // if (!this.validator.isTax(this.customer.taxNo)) {
+      //   this.MessageBox.alert("请输入正确税号！");
+      //   return;
+      // }
+      // if (!this.validator.isEmpty(this.customer.linkMan)) {
+      //   this.MessageBox.alert("联系人不能为空！");
+      //   return;
+      // }
+      // if (!this.validator.isMobile(this.customer.phoneNo)) {
+      //   this.MessageBox.alert("手机号有误！");
+      //   return;
+      // }
+      // if (!this.validator.isEmpty(this.customer.legalPerson)) {
+      //   this.MessageBox.alert("企业法人不能为空！");
+      //   return;
+      // }
+      if (!this.validator.isCardNoNull(this.customer.idCard)) {
         this.MessageBox.alert("身份证号有误！");
         return;
       }
-      if (!this.validator.isEmpty(this.customer.linkMan)) {
-        this.MessageBox.alert("联系人不能为空！");
-        return;
-      }
-      if (!this.validator.isMobile(this.customer.phoneNo)) {
-        this.MessageBox.alert("手机号有误！");
-        return;
-      }
+
 
       this.btnDisabled = true;
       this.pageType == "EDIT"
         ? this.updataCustomer(this.customer).then(flag => {
-            this.btnDisabled = false;
-            if (flag) {
-              this.$router.back();
-            }
-          })
+          this.btnDisabled = false;
+          if (flag) {
+            this.$router.back();
+          }
+        })
         : this.addCustomer(this.customer).then(flag => {
-            this.btnDisabled = false;
-            if (flag) {
-              this.$store.commit("CUSTOMER_MANAGE_IS_SEARCH", true);
-              this.$router.back();
-            }
-          });
+          this.btnDisabled = false;
+          if (flag) {
+            this.$store.commit("CUSTOMER_MANAGE_IS_SEARCH", true);
+            this.$router.back();
+          }
+        });
     }
   }
 };

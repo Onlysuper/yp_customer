@@ -28,9 +28,25 @@
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+            <div class="grid-content bg-purple-light ">
+              <el-form-item class="is-required" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
                 <el-input v-model="addForm.taxNo" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <div class="grid-content bg-purple">
+              <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
+                <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item class="is-required" label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+                <el-input v-model="addForm.phoneNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -51,22 +67,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-                <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-                <el-input v-model="addForm.phoneNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+
         <el-form-item label="经营地址" prop="bussinessAddress" :label-width="formLabelWidth">
           <el-input v-model="addForm.bussinessAddress" auto-complete="off"></el-input>
         </el-form-item>
@@ -90,14 +91,14 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-                <el-input v-model="editForm.enterpriseName" auto-complete="off"></el-input>
+                <el-input :disabled="disabledIs" v-model="editForm.enterpriseName" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-                <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
+              <el-form-item class="is-required" label="手机号" prop="phoneNo" :label-width="formLabelWidth">
+                <el-input :disabled="disabledIs" v-model="editForm.phoneNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -105,15 +106,15 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.taxNo" auto-complete="off"></el-input>
+              <el-form-item class="is-required" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
+                <el-input :disabled="disabledIs" v-model="editForm.taxNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-                <el-input v-model="editForm.linkMan" auto-complete="off"></el-input>
+              <el-form-item class="is-required" label="联系人" prop="linkMan" :label-width="formLabelWidth">
+                <el-input :disabled="disabledIs" v-model="editForm.linkMan" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -128,8 +129,8 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.phoneNo" auto-complete="off"></el-input>
+              <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
+                <el-input v-model="editForm.legalPerson" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -294,7 +295,8 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
-import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
+import { taxNumVerify, idCardVerify, phoneNumVerify, phoneNumVerify_r, taxNumVerify_r } from "@src/common/regexp";
+
 import {
   provinceAndCityData,
   regionData,
@@ -321,6 +323,11 @@ export default {
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
+    var user = this.$store.state.userInfoAndMenu.userMessage.all;
+    var isAdmin =
+      user.userType === "root" ||
+      user.userType === "admin" ||
+      user.userType === "operator"; // 运营
     var searchConditionVar = {
       customerNo: "", // 商户编号
       taxNo: "", // 企业税号
@@ -333,6 +340,7 @@ export default {
     };
     return {
       fileList: [],
+      disabledIs: isAdmin ? false : true,
       addFormVisible: false, // 新增框
       batchNetFormVisible: false, // 批量入网框
       batchTransferFormVisible: false, // 批量转移模板
@@ -352,15 +360,13 @@ export default {
         enterpriseName: [
           { required: true, message: "请输入企业名称", trigger: "blur,change" }
         ],
-        taxNo: [{ validator: taxNumVerify, trigger: "blur,change" }],
-        legalPerson: [
-          { required: true, message: "请输入企业法人", trigger: "blur,change" }
-        ],
-        idCard: [{ validator: idCardVerify, trigger: "blur,change" }],
+        taxNo: [{ validator: taxNumVerify_r, trigger: "blur,change" }],
         linkMan: [
           { required: true, message: "请输入联系人姓名", trigger: "blur,change" }
         ],
-        phoneNo: [{ validator: phoneNumVerify, trigger: "blur,change" }]
+        phoneNo: [{ validator: phoneNumVerify_r, trigger: "blur,change" }],
+        idCard: [{ validator: idCardVerify, trigger: "blur,change" }],
+
       },
       batchNetFormRules: {},
       formLabelWidth: "100px",
