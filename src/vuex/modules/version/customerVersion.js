@@ -19,7 +19,7 @@ export default {
       state.searchQuery = {
         customerNo: "",
         version: "",
-        status: "",
+        status: "TRUE",
         type: ""
       };
     },

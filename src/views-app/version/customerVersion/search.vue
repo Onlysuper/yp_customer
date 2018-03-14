@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.convergePayComm.searchQuery
+      searchQuery: state => state.customerVersion.searchQuery
     })
   },
   mounted() {
@@ -44,11 +44,11 @@ export default {
       this.searchConfig.push({
         title: "状态",
         type: "myp-select",
-        defaultValue: this.searchQuery.status || "ALL",
+        defaultValue: this.searchQuery.status,
         values: [
           {
             name: "全部",
-            code: "ALL"
+            code: ""
           },
           {
             name: "允许升级",
@@ -64,7 +64,7 @@ export default {
           }
         ],
         cb: value => {
-          if (value == "ALL") value = "";
+          // if (value == "ALL") value = "";
           this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_QUERY", {
             status: value
           });
