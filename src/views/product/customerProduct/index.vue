@@ -45,7 +45,8 @@
               <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
             </div>
             <div class="line-label-box">
-              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?"":utils.findCity(payStatusDetails.orgCode).resultAddr}}
+
+              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
             </div>
             <div class="line-label-box">
               <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
@@ -57,7 +58,7 @@
               <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
             </div>
             <div class="line-label-box">
-              <span class="line-label">行业类型:</span>{{payStatusDetails.category==null?"":utils.findBussinessType(payStatusDetails.category).name}}
+              <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
             </div>
             <div class="line-label-box">
               <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
@@ -228,7 +229,7 @@
           <div class="line-label-box">
             <span class="line-label">注册省份:</span>
             <span class="line-label-last">
-              {{elecStatusDetails.orgCode?"":utils.findCity(elecStatusDetails.orgCode).resultAddr}}
+              {{elecStatusDetails.orgCode?utils.findCity(elecStatusDetails.orgCode).resultAddr:""}}
             </span>
           </div>
           <div class="line-label-box">
