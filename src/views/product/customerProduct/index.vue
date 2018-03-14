@@ -114,7 +114,7 @@
             </div>
             <div class="line-label-box">
               <el-row :gutter="20">
-                <el-col :span="24">
+                <el-col :span="12">
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">营业执照:</p>
@@ -124,11 +124,19 @@
                     </div>
                   </div>
                 </el-col>
+                <el-col :span="12">
+                  <div class="img-box">
+                    <p class="img-title">手持身份证:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
               </el-row>
             </div>
             <div class="line-label-box">
               <el-row :gutter="20">
-                <el-col :span="24">
+                <el-col :span="12">
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">结算卡正面:</p>
@@ -138,25 +146,20 @@
                     </div>
                   </div>
                 </el-col>
-              </el-row>
-            </div>
-            <div class="line-label-box">
-              <el-row :gutter="20">
-                <el-col :span="24">
-                  <div class="grid-content bg-purple">
-                    <div class="img-box">
-                      <p class="img-title">开户许可证:</p>
-                      <div class="img-back">
-                        <img class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
-                      </div>
+                <el-col :span="12">
+                  <div class="img-box">
+                    <p class="img-title">开户许可证:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
                     </div>
                   </div>
                 </el-col>
+
               </el-row>
             </div>
             <div class="line-label-box">
               <el-row :gutter="20">
-                <el-col :span="24">
+                <el-col :span="12">
                   <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">门头照片:</p>
@@ -166,17 +169,11 @@
                     </div>
                   </div>
                 </el-col>
-              </el-row>
-            </div>
-            <div class="line-label-box">
-              <el-row :gutter="20">
-                <el-col :span="24">
-                  <div class="grid-content bg-purple">
-                    <div class="img-box">
-                      <p class="img-title">店内照片:</p>
-                      <div class="img-back">
-                        <img class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
-                      </div>
+                <el-col :span="12">
+                  <div class="img-box">
+                    <p class="img-title">店内照片:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
                     </div>
                   </div>
                 </el-col>
@@ -464,6 +461,7 @@ export default {
         t0CashCostFixed: "", //D0手续费
         identityFrontImg: "", //法人身份证正面
         identityBackImg: "", //法人身份证反面
+        identityHolderImg: "", //手持身份证
         bussinessLicenseImg: "", //营业执照
         settleCardImg: "", //结算卡正面
         accountLicenseImg: "", //开户许可证
@@ -502,7 +500,11 @@ export default {
           identityBackImg: {
             url: ""
           },
+
           identityFrontImg: {
+            url: ""
+          },
+          identityHolderImg: {
             url: ""
           },
           bussinessLicenseImg: {
@@ -1140,7 +1142,7 @@ export default {
           if (data.imgs) {
             console.log(data.imgs);
             imgsRow = utils.pickObj(data.imgs, [
-              "identityFrontImg", "identityBackImg", "bussinessLicenseImg", "settleCardImg",
+              "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
               "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
             ]);
           }

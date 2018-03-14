@@ -203,7 +203,7 @@ export default {
       console.log("val", val);
     }
   },
-  created() {},
+  created() { },
   methods: {
     queryResult() {
       this.$emit("result", this.keyVal);

@@ -539,6 +539,54 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    // 商户版本
+    Vue.filter('statusCustomerVersion', function (value) {
+        switch (value) {
+            case "TRUE":
+                value = "允许升级";
+                break;
+            case "SUCCESS":
+                value = "升级成功";
+                break;
+            default:
+                value = "不允许升级";
+                break;
+
+        }
+        return value;
+    })
+    Vue.filter('typeCustomerVersion', function (value) {
+        switch (value) {
+            case "HOST_C":
+                value = "c++主程序";
+                break;
+            case "UPDATE_C":
+                value = "c++更新程序";
+                break;
+            case "HOST":
+                value = "c#主程序";
+                break;
+            case "UPDATE":
+                value = "c#更新程序";
+                break;
+            case "RELEASE":
+                value = "官网版本";
+                break;
+            case "HOST_OLD":
+                value = "c#老版本主程序";
+                break;
+            case "DATA_COLLECTION":
+                value = "数据采集程序";
+                break;
+            case "HOST_DZFP":
+                value = "电子发票版本";
+                break;
+            case "MANUAL":
+                value = "其他";
+                break;
+        }
+        return value;
+    })
     // 3. 添加实例方法
     //Vue.prototype.$myMethod = ...
 }

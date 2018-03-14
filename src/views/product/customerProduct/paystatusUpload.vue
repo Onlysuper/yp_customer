@@ -78,6 +78,12 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-form-item class="full-width is-required" label="门头照片" prop="cash" :label-width="formLabelWidth">
+          <el-upload :data="placeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="placebeforeUpload">
+            <img v-if="placeImg" :src="placeImg" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
           <span>同意《开通支付协议》

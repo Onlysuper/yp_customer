@@ -63,7 +63,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
-import versionType from "@src/data/versionType"
+import versionTypeJson from "@src/data/versionType"
 import {
   postCustomerVersion,
   patchCustomerVersion,
@@ -83,7 +83,7 @@ export default {
       status: "" // 状态
     };
     return {
-      versionTypeOptions: versionType,
+      versionTypeOptions: versionTypeJson,
       dialogVisible: false, //上传面板是否可见
       isUpdate: true,
       isBatchUpdate: false,
@@ -152,42 +152,9 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "RELEASE",
-              label: "官网版本"
-            },
-            {
-              value: "HOST_C",
-              label: "HOST_C: c++主程序"
-            },
-            {
-              value: "UPDATE_C",
-              label: "UPDATE_C: c++更新程序"
-            },
-            {
-              value: "HOST",
-              label: "HOST: c#主程序"
-            },
-            {
-              value: "UPDATE",
-              label: "UPDATE: c#更新程序"
-            },
-            {
-              value: "HOST_OLD",
-              label: "HOST_OLD: c#老版本主程序"
-            },
-            {
-              value: "UPDATE_OLD",
-              label: "UPDATE_OLD: c#老版本更新程序"
-            },
-            {
-              value: "DATA_COLLECTION ",
-              label: "DATA_COLLECTION: 数据采集程序"
-            },
-            {
-              value: "HOST_D ",
-              label: "HOST_D: 电子发票版本"
-            }
+            ...versionTypeJson.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.type = value;
@@ -269,7 +236,7 @@ export default {
                     text: "其他",
                     type: "danger"
                   };
-                case "HOST_D":
+                case "HOST_DZFP":
                   return {
                     text: "电子发票版本",
                     type: "danger"
