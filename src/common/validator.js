@@ -20,9 +20,10 @@ function isRule(regText, value) {
   const reg = new RegExp(regText);
   return value ? reg.test(value) ? SUCCESS : DEFAULT : DEFAULT;
 }
+// 可以为空 不为空就要正确系列
 function isRule_r(regText, value) {
   const reg = new RegExp(regText);
-  return value ? reg.test(value) ? true : false : true;
+  return value ? reg.test(value) ? SUCCESS : DEFAULT : SUCCESS;
 }
 /**
  * 验证方法
@@ -59,11 +60,11 @@ let Validator = {
   },
   //检测身份证号
   isCardNo(cardNo) {
-    return isRule(rule.cardnoReg, cardNo);
+    return isRule(rule.idCard, cardNo);
   },
   //检测身份证号 可以为空
   isCardNoNull(cardNo) {
-    return isRule_r(rule.cardnoReg, cardNo);
+    return isRule_r(rule.idCard, cardNo);
   }
 }
 export default Validator;
