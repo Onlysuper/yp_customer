@@ -43,7 +43,15 @@
           </el-col>
         </el-row>
         <el-form-item class="full-width" label="注册资金" prop="registMoney" :label-width="formLabelWidth">
-          <el-input v-model="editForm.registMoney"></el-input>
+          <el-col :span="20">
+            <div class="grid-content bg-purple"></div>
+            <el-input type="number" v-model.number="editForm.registMoney"></el-input>
+          </el-col>
+          <el-col :span="4">
+            <div class="grid-content bg-purple">
+              <span class="small-line">万</span>
+            </div>
+          </el-col>
         </el-form-item>
         <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
           <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
@@ -97,7 +105,7 @@
 <script>
 import { mixinsPc } from "@src/common/mixinsPc";
 import { regionData } from "element-china-area-data";
-import { phoneNumVerify } from "@src/common/regexp";
+import { phoneNumVerify, registMoney_r } from "@src/common/regexp";
 import { areaOrgcode } from "@src/common/orgcode";
 import { banks } from "@src/common/bank";
 import utils from "@src/common/utils"
@@ -159,7 +167,8 @@ export default {
           { required: true, message: "请输入经营名称", trigger: "blur,change" }
         ],
         registMoney: [
-          { required: true, message: "请输入注册资金", trigger: "blur,change" }
+          { validator: registMoney_r, trigger: "blur,change" }
+          // { required: true, message: "请输入注册资金数", trigger: "blur,change" }
         ],
         bankMyCode: [
           { required: true, message: "请填写开户银行", trigger: "blur,change" }
@@ -384,7 +393,7 @@ export default {
           }
         });
       }
-    }
+    },
   },
   created() {
     this.editInfo();

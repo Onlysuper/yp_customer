@@ -8,13 +8,15 @@ import customer from "./customer";
 import profit from "./profit";
 import billmanage from "./billmanage";
 import empower from "./empower";
-
+import version from "./version";
+import settle from "./settle";
 
 
 import agent from "./agent";
 import productMg from "./product-mg";
 import order from "./order";
 import enterprise from "./enterprise";
+
 
 Vue.use(Router)
 
@@ -34,11 +36,12 @@ const asyncRoutes = [
     billmanage,
     profit,
     empower,
-
     agent,
     productMg,
     order,
-    enterprise
+    enterprise,
+    version,
+    settle,
 ]
 
 

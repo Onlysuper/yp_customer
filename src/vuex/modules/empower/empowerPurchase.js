@@ -61,7 +61,6 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           Toast("修改成功");
-
           commit("QRCODERECIEPT_UPDATA", receiptCode);
           return true;
         } else {
