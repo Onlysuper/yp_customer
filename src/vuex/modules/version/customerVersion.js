@@ -19,7 +19,7 @@ export default {
       state.searchQuery = {
         customerNo: "",
         version: "",
-        status: "TRUE",
+        status: "",
         type: ""
       };
     },
@@ -45,23 +45,20 @@ export default {
 
   },
   actions: {
+    // 数据列表中获取当前编辑得数据
+    getCustomerVersionUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
+      return state.list.find(item => item.customerNo == itemId);
+    },
     // 新增或修改商户信息
     addCustomerVersionSave({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
-      return postCustomerVersion()(this.form).then(data => {
+      return postCustomerVersion()(thisForm).then(data => {
         if (data.code == "00") {
-          this.reloadData();
-          this.$message({
-            type: "success",
-            message: "修改成功!"
-          });
-          this.dialogVisible = false;
+          Toast("操作成功");
+          return true;
         } else {
-          this.$message({
-            type: "warning",
-            message: data.msg
-          });
+          Toast(data.msg);
+          return false;
         }
-        this.saveLoading = false;
       });
     },
   }

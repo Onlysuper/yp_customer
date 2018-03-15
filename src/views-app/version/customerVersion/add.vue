@@ -78,18 +78,26 @@ export default {
   methods: {
     ...mapActions(["addCustomerVersionSave"]),
     save() {
-      if (!this.validator.isEmpty(this.dataList.receiptCount)) {
-        this.MessageBox.alert("入库数量不能为空！");
+      if (!this.validator.isEmpty(this.dataList.type)) {
+        this.MessageBox.alert("请选择版本类型！");
         return;
       }
-      this.dataList.deviceType = this.deviceType.code;
-      this.dataList.migrateType = this.migrateType.code;
+      if (!this.validator.isEmpty(this.dataList.status)) {
+        this.MessageBox.alert("请选择升级状态！");
+        return;
+      }
+      if (!this.validator.isEmpty(this.dataList.customerNo)) {
+        this.MessageBox.alert("请输入商户编号！");
+        return;
+      }
       this.btnDisabled = true;
       if (this.pageType == "ADD") {
         this.addCustomerVersionSave(this.dataList).then(flag => {
           this.btnDisabled = false;
           if (flag) {
             this.$router.back();
+            this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_INIT");
+            this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH", true);
           }
         });
       }
@@ -97,10 +105,12 @@ export default {
     // 状态
     typePickerChange(obj) {
       this.type = obj;
+      this.dataList.type = obj.code;
     },
     // 类型
     statusChange(obj) {
       this.status = obj;
+      this.dataList.status = obj.code;
     }
   }
 };

@@ -304,6 +304,10 @@ export default {
         {
           label: "不允许升级",
           value: "FALSE"
+        },
+        {
+          label: "升级成功",
+          value: "SUCCESS"
         }
       ],
       form: {

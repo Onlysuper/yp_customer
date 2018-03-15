@@ -4,7 +4,7 @@
       <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
-        <!-- <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button> -->
+        <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
         <!-- <mt-button slot="right" :disabled="false" type="danger" @click="sum">合计</mt-button> -->
       </mt-header>
       <!-- actions操作 -->
@@ -12,6 +12,7 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
+          <div slot="btn" @click="edit(item)">编辑</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusCustomerVersion}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.type | typeCustomerVersion}}</mt-badge>
           <myp-cell class="list-item">
@@ -98,11 +99,10 @@ export default {
         });
       }
     },
-    sum() {
-      // this.getConvergePayCommSum().then(isSuccess => {
-      //   isSuccess && this.$refs.sum.open(this.sumData);
-      // });
-      this.Toast("敬请期待");
+    edit(rowdata) {
+      // console.log(rowdata);
+      // return false;
+      this.toUrl("EDIT", rowdata.customerNo, rowdata);
     }
   },
   activated() {
