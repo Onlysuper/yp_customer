@@ -57,7 +57,7 @@ export default {
     },
     api: {
       type: Function,
-      default: () => {}
+      default: () => { }
     },
     queryKey: {
       type: Object,
@@ -112,6 +112,8 @@ export default {
             this.bankList = this.bankList.concat(data.data);
             this.query.page = this.query.page + 1;
             this.isAllLoad(data.data);
+            //注：如果需要分页查询注释下面代码即可
+            this.disabled = true;
           } else {
             Toast(data.msg);
           }
