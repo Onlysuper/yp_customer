@@ -9,6 +9,7 @@ import profit from "./profit";
 import billmanage from "./billmanage";
 import empower from "./empower";
 import version from "./version";
+import settle from "./settle";
 
 
 import agent from "./agent";
@@ -39,7 +40,8 @@ const asyncRoutes = [
     productMg,
     order,
     enterprise,
-    version
+    version,
+    settle,
 ]
 
 

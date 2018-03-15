@@ -105,7 +105,7 @@
 <script>
 import { mixinsPc } from "@src/common/mixinsPc";
 import { regionData } from "element-china-area-data";
-import { phoneNumVerify } from "@src/common/regexp";
+import { phoneNumVerify, registMoney_r } from "@src/common/regexp";
 import { areaOrgcode } from "@src/common/orgcode";
 import { banks } from "@src/common/bank";
 import utils from "@src/common/utils"
@@ -167,7 +167,8 @@ export default {
           { required: true, message: "请输入经营名称", trigger: "blur,change" }
         ],
         registMoney: [
-          { required: true, message: "请输入注册资金数", trigger: "blur,change" }
+          { validator: registMoney_r, trigger: "blur,change" }
+          // { required: true, message: "请输入注册资金数", trigger: "blur,change" }
         ],
         bankMyCode: [
           { required: true, message: "请填写开户银行", trigger: "blur,change" }

@@ -30,6 +30,28 @@ export default {
             menuCode: "customer_versionPlugin"
           }
         },
+        //商品管理--新增
+        {
+          name: "customerVersion",
+          path: 'add',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/version/customerVersion/add")) }, "customerVersion-add-app")
+          },
+          meta: {
+            pageTitle: "商户版本新增"
+          }
+        },
+        //商品管理--编辑
+        {
+          name: "customerVersion",
+          path: 'edit/:queryNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/version/customerVersion/edit")) }, "customerVersion-edit-app")
+          },
+          meta: {
+            pageTitle: "商户版本编辑"
+          }
+        },
         //商品管理--搜索
         {
           name: "customerVersion",

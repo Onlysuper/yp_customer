@@ -168,17 +168,17 @@ export default {
         text: "处理中...",
         spinnerType: "fading-circle"
       });
-      lrz(file, { width: 480 })
+      lrz(file, { width: 1000 })
         .then(res => {
           let base64 = res.base64;
           Indicator.close();
           this.createImg(base64);
           return base64;
         })
-        .catch(function(err) {
+        .catch(function (err) {
           // 处理失败会执行
         })
-        .always(function() {
+        .always(function () {
           // 不管是成功失败，都会执行
           event.target.value = null;
         });

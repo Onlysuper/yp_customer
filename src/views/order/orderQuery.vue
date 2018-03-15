@@ -34,8 +34,18 @@
         <!-- <div class="line-label-box">
           <span class="line-label">代理商分润:</span>
         </div> -->
+
         <div class="line-label-box">
-          <span class="line-label">交易类型:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
+          <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">交易来源:</span>{{detailsForm.payFrom | payFrom}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">交易类型:</span>{{detailsForm.payType | payType}}
+        </div>
+        <div v-if="detailsForm.status=='FAIL'?true:false" class="line-label-box">
+          <span class="line-label">支付失败原因:</span>{{detailsForm.respCode}}
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -95,7 +105,6 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
-
         {
           corresattr: "agentNo",
           type: "text", // 表单类型
@@ -137,16 +146,27 @@ export default {
           ]
         },
         {
-          corresattr: "customerName",
+          corresattr: "orderNo",
           type: "text", // 表单类型
-          label: "商户名称", // 输入框前面的文字
+          label: "交易单号", // 输入框前面的文字
           show: false, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
-            this.searchCondition.customerName = value;
+            this.searchCondition.orderNo = value;
           }
         },
+        // {
+        //   corresattr: "customerName",
+        //   type: "text", // 表单类型
+        //   label: "商户名称", // 输入框前面的文字
+        //   show: false, // 普通搜索显示
+        //   value: "", // 表单默认的内容
+        //   cb: value => {
+        //     // 表单输入之后回调函数
+        //     this.searchCondition.customerName = value;
+        //   }
+        // },
         {
           corresattr: "hasChild",
           type: "select",

@@ -210,7 +210,47 @@
           <div class="line-label-box">
             <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
           </div>
+          <div class="line-label-box">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
 
+                  <div class="img-box">
+                    <p class="img-title">营业执照:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="qrcodeImgs.fastBussinessImg.url||''" alt="">
+                    </div>
+                  </div>
+
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="grid-content bg-purple-light">
+                  <div class="img-box">
+                    <p class="img-title">门头照片:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="qrcodeImgs.fastCashImg.url||''" alt="">
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+          <div class="line-label-box">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+
+                  <div class="img-box">
+                    <p class="img-title">收银台照片:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="qrcodeImgs.fastHeaderImg.url||''" alt="">
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
         </template>
         <template v-if="elecStatusVisible">
           <!-- 电子详情 -->
@@ -389,10 +429,8 @@ export default {
   mixins: [mixinsPc, mixinDataTable],
   data() {
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
-    var isAdmin =
-      user.userType === "root" ||
-      user.userType === "admin" ||
-      user.userType === "operator"; // 运营
+    var isAdmin = user.userType === "root" || user.userType === "admin" || user.userType === "operator"; // 运营
+    var isBranchOffice = user.userType === "branchOffice"; // 分公司
     var searchConditionVar = {
       bussinessNo: "",
       customerName: "",
@@ -400,7 +438,103 @@ export default {
       elecStatus: "",
       payStatus: ""
     };
+    var detailsForm = { // 查看一级数据详情 数据解构
+      customer: {},
+      settleCard: {},
+      product: {},
+      imgs: {
+        identityBackImg: {
+          url: ""
+        },
+
+        identityFrontImg: {
+          url: ""
+        },
+        identityHolderImg: {
+          url: ""
+        },
+        bussinessLicenseImg: {
+          url: ""
+        },
+        settleCardImg: {
+          url: ""
+        },
+        accountLicenseImg: {
+          url: ""
+        },
+        placeImg: {
+          url: ""
+        },
+        storeImg: {
+          url: ""
+        },
+        cashSpaceImg: {
+          url: ""
+        }
+      }
+    }
+    // 聚合支付详情默认数据解构
+    var payStatusDetails = {
+      orgCode: "", //所在地
+      bussinessAddress: "", //注册地址
+      legalPerson: "", //法人
+      idCard: "", //身份证号
+      category: "", //行业类型
+      // contactEmail: "", //邮箱
+      accountType: "", //账户类型
+      accountName: "", //账户名称
+      bankName: "", //开户银行
+      branchName: "", //开户支行
+      accountNo: "", //账号
+      wechatRate: "", //微信费率
+      settleMode: "", //开通即刷即到
+      t0CashCostFixed: "", //D0手续费
+      identityFrontImg: "", //法人身份证正面
+      identityBackImg: "", //法人身份证反面
+      identityHolderImg: "", //手持身份证
+      bussinessLicenseImg: "", //营业执照
+      settleCardImg: "", //结算卡正面
+      accountLicenseImg: "", //开户许可证
+      placeImg: "", //门头照片
+      storeImg: "", //店内照片
+      cashSpaceImg: "" //收银台照片
+    }
+    var elecStatusDetails = { // 电子发票默认数据解构
+      orgCode: "", //注册省份
+      bussinessAddress: "", //注册地址
+      bussinessPhone: "", //联系电话
+      bussinessName: "", //经营名称
+      registMoney: "", //注册资金
+      branchName: "", //开户银行
+      bankAccountNo: "", //银行账号
+      elecBillnum: "", //月开票量
+      elecReason: "" //被拒原因
+    }
+    var qrcodeImgs = { // 快速开票图片
+      fastBussinessImg: {
+        url: "",
+      },
+      fastCashImg: {
+        url: "",
+      },
+      fastHeaderImg: {
+        url: "",
+      }
+    }
     return {
+      isAdmin: isAdmin,
+      // 默认数据初始值
+      detailsFormDefault: { ...detailsForm },
+      resaultDataDefault: {},
+      payStatusDetailsDefault: { ...payStatusDetails },
+      elecStatusDetailsDefault: { ...elecStatusDetails },
+      qrcodeImgsDefault: { ...qrcodeImgs },
+      // 默认数据初始值 end
+      detailsForm: detailsForm,
+      resaultData: {},
+      payStatusDetails: payStatusDetails,
+      elecStatusDetails: elecStatusDetails,
+      qrcodeImgs: qrcodeImgs,
       search: false,// 查询状态
       check: false,// 查询状态
       checkVisiblebut: false,
@@ -408,7 +542,6 @@ export default {
       closeVisible: false,
       rejectReason: "", //拒绝理由
       productOpenTitle: "完善信息",
-      resaultData: {},
       currentView: "openInfo",
       customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
@@ -445,43 +578,7 @@ export default {
         Area: [] // 必须为数组
       }, // 编辑单个表单
       // 聚合支付查询详情
-      payStatusDetails: {
-        orgCode: "", //所在地
-        bussinessAddress: "", //注册地址
-        legalPerson: "", //法人
-        idCard: "", //身份证号
-        category: "", //行业类型
-        // contactEmail: "", //邮箱
-        accountType: "", //账户类型
-        accountName: "", //账户名称
-        bankName: "", //开户银行
-        branchName: "", //开户支行
-        accountNo: "", //账号
-        wechatRate: "", //微信费率
-        settleMode: "", //开通即刷即到
-        t0CashCostFixed: "", //D0手续费
-        identityFrontImg: "", //法人身份证正面
-        identityBackImg: "", //法人身份证反面
-        identityHolderImg: "", //手持身份证
-        bussinessLicenseImg: "", //营业执照
-        settleCardImg: "", //结算卡正面
-        accountLicenseImg: "", //开户许可证
-        placeImg: "", //门头照片
-        storeImg: "", //店内照片
-        cashSpaceImg: "" //收银台照片
-      },
-      // 电子发票查询详情
-      elecStatusDetails: {
-        orgCode: "", //注册省份
-        bussinessAddress: "", //注册地址
-        bussinessPhone: "", //联系电话
-        bussinessName: "", //经营名称
-        registMoney: "", //注册资金
-        branchName: "", //开户银行
-        bankAccountNo: "", //银行账号
-        elecBillnum: "", //月开票量
-        elecReason: "" //被拒原因
-      },
+
       qrcodeStatusDetails: {}, // 快速开票查询详情
       resaultForm: {}, // 拒绝表单
       closeForm: {},
@@ -493,41 +590,8 @@ export default {
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
       },
-      detailsForm: {
-        customer: {},
-        settleCard: {},
-        product: {},
-        imgs: {
-          identityBackImg: {
-            url: ""
-          },
 
-          identityFrontImg: {
-            url: ""
-          },
-          identityHolderImg: {
-            url: ""
-          },
-          bussinessLicenseImg: {
-            url: ""
-          },
-          settleCardImg: {
-            url: ""
-          },
-          accountLicenseImg: {
-            url: ""
-          },
-          placeImg: {
-            url: ""
-          },
-          storeImg: {
-            url: ""
-          },
-          cashSpaceImg: {
-            url: ""
-          }
-        }
-      }, // 详情单个表单
+
       // 查询条件数据
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
@@ -830,7 +894,7 @@ export default {
           }
         ],
         operation: {
-          width: isAdmin ? "180px" : "120px",
+          width: "180px",
           options: [
             // 操作按钮
             {
@@ -887,6 +951,15 @@ export default {
             {
               text: "开通",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                if (
+                  isAdmin || !isBranchOffice
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               disabledFn: rowdata => {
                 if (
                   rowdata.payStatus == "INIT" ||
@@ -1123,6 +1196,7 @@ export default {
           let settleCardRow = {};
           let productRow = {};
           let imgsRow = {};
+          let qrcodeImgs = {};// 快速开票imgs
           if (data.customer) {
             customerRow = utils.pickObj(data.customer, [
               "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
@@ -1141,12 +1215,16 @@ export default {
           }
 
           if (data.imgs) {
-            console.log(data.imgs);
             imgsRow = utils.pickObj(data.imgs, [
               "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
               "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
             ]);
+            // 快速开票图片回显
+            qrcodeImgs = utils.pickObj(data.imgs, [
+              "fastBussinessImg", "fastCashImg", "fastHeaderImg"
+            ]);
           }
+          this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           this.payStatusDetails = {
             ...this.payStatusDetails,
             ...customerRow,
@@ -1222,20 +1300,6 @@ export default {
     nextFn(next) {
       this.currentView = next;
     },
-    // customerTypeSelect() {
-    //   let value = this.selectOptions.customerType;
-    //   this.payStatusVisible = false; // 聚合详情
-    //   this.qrcodeStatusVisible = false; // 快速
-    //   this.elecStatusVisible = false; // 电子
-    //   if (value == "qrcodeStatus") {
-    //     this.qrcodeStatusVisible = true;
-    //   } else if (value == "elecStatus") {
-    //     this.elecStatusVisible = true;
-    //   } else if (value == "payStatus") {
-    //     this.payStatusVisible = true;
-    //   }
-    // },
-
     titleChange(currentView) {
       if (currentView == "paystatusInfo") {
         this.productOpenTitle = "完善信息";
@@ -1288,13 +1352,13 @@ export default {
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
-            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT") {
+            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && (this.isAdmin || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;
           case "payStatus":
             this.payStatusVisible = true;
-            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT") {
+            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && (this.isAdmin || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;
@@ -1330,6 +1394,16 @@ export default {
         this.payStatusVisible = true;
       }
       this.changeVisibleFn();
+    },
+    detailsFormVisible(val) {
+      if (!val) {
+        // 恢复默认数据
+        this.resaultData = this.resaultDataDefault;
+        this.detailsForm = this.detailsFormDefault;
+        this.payStatusDetails = this.payStatusDetailsDefault;
+        this.elecStatusDetails = this.elecStatusDetailsDefault;
+        this.qrcodeImgs = this.qrcodeImgsDefault;
+      }
     }
   },
   mounted() {

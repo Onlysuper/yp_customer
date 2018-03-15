@@ -8,7 +8,8 @@ import fullScreen from "@src/vuex/fullScreen/fullScreen"
 
 import {
     customerGoods, customerManage, profitBilling, convergePayComm, agent, billCount, billRecord, billDay, billStandard,
-    empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply, orderQuery, customerVersion
+    empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply, orderQuery, customerVersion,
+    settle
 } from "./modules";
 Vue.use(Vuex);
 
@@ -55,7 +56,8 @@ const store = new Vuex.Store({
         customerProduct,
         enterpriseSupply,
         orderQuery,
-        customerVersion
+        customerVersion,
+        settle
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

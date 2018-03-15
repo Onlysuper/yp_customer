@@ -115,7 +115,7 @@ export default {
     }
   },
   watch: {
-    serviceMode(value) {},
+    serviceMode(value) { },
     supportTypes(value) {
       // 选择特殊的时候必须勾选普票
       if (new Set(value).has("4")) {
