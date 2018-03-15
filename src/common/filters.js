@@ -34,12 +34,16 @@ mypFilters.install = function (Vue, options) {
         switch (value) {
             case "trade.scanPay":
                 value = "扫码支付";
+                break;
             case "trade.microPay":
                 value = "刷卡支付";
+                break;
             case "trade.h5Pay":
                 value = "h5支付";
+                break;
             case "trade.appPay":
                 value = "app支付";
+                break;
             case "trade.jsPay":
                 value = "公众号支付";
                 break;
