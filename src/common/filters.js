@@ -47,6 +47,17 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    Vue.filter('payType', function (value) {
+        switch (value) {
+            case "WECHAT":
+                value = "微信";
+                break;
+            case "ALIPAY":
+                value = "支付宝";
+                break;
+        }
+        return value;
+    })
     /**
       * 产品管理-》商户产品=》账户类型
       */

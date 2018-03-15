@@ -64,6 +64,7 @@ export default {
   },
   created() {
     this.$store.commit("SETTLE_SEARCH_INIT");
+
   },
   computed: {
     ...mapState({
@@ -83,7 +84,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$state)
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   watch: {
@@ -116,7 +116,6 @@ export default {
     },
     sum() {
       this.getAgentSettleSumAc().then(isSuccess => {
-        console.log(this.sumData.customerNumber);
         isSuccess && this.$refs.sum.open(this.sumData);
       });
     }

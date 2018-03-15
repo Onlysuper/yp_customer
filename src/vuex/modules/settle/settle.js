@@ -7,6 +7,10 @@ export default {
     list: [],
     searchQuery: {}, //搜索条件
     isSearch: false,//是否搜索操作，便于刷新
+    sumData: {
+      customerNumber: "",
+      settlePrice: ""
+    }
   },
   getters: {
   },
@@ -16,12 +20,6 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.isReload = false;
-      // <mt-cell title="达标商户数量" : value="sumData.customerNumber+'个'"></mt-cell>
-      //   <mt-cell title="结算金额" : value="sumData.settlePrice+'元'"></mt-cell>
-      state.sumData = {
-        customerNumber: "",
-        settlePrice: ""
-      };
       state.searchQuery = {
         agentNo: "",
         agentName: "",

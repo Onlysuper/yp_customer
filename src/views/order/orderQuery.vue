@@ -35,7 +35,10 @@
           <span class="line-label">代理商分润:</span>
         </div> -->
         <div class="line-label-box">
-          <span class="line-label">交易类型:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
+          <span class="line-label">交易类型:</span>{{detailsForm.payType | payType}}
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
