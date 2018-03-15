@@ -19,6 +19,7 @@ import customerProduct from "./customerProduct";
 import enterpriseSupply from "./enterprise/enterprise_supply";
 import orderQuery from "./order/orderQuery";
 import customerVersion from "./version/customerVersion";
+import settle from "./settle/settle";
 
 
 export {
@@ -41,5 +42,6 @@ export {
   enterpriseSupply,
   orderQuery,
 
-  customerVersion
+  customerVersion,
+  settle
 };

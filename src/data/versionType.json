@@ -32,6 +32,10 @@
     "code": "HOST_DZFP"
   },
   {
+    "name": "HOST_ZF: 支付版本",
+    "code": "HOST_ZF"
+  },
+  {
     "name": "MANUAL: 其他",
     "code": "MANUAL"
   }

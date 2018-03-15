@@ -210,7 +210,47 @@
           <div class="line-label-box">
             <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
           </div>
+          <div class="line-label-box">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
 
+                  <div class="img-box">
+                    <p class="img-title">营业执照:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="qrcodeImgs.fastBussinessImg.url||''" alt="">
+                    </div>
+                  </div>
+
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="grid-content bg-purple-light">
+                  <div class="img-box">
+                    <p class="img-title">门头照片:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="qrcodeImgs.fastCashImg.url||''" alt="">
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+          <div class="line-label-box">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+
+                  <div class="img-box">
+                    <p class="img-title">收银台照片:</p>
+                    <div class="img-back">
+                      <img class="img-size" :src="qrcodeImgs.fastHeaderImg.url||''" alt="">
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
         </template>
         <template v-if="elecStatusVisible">
           <!-- 电子详情 -->
@@ -407,6 +447,7 @@ export default {
       rejectReason: "", //拒绝理由
       productOpenTitle: "完善信息",
       resaultData: {},
+
       currentView: "openInfo",
       customerTypeSelected: [],
       optionsArea: regionData, //省市县插件
@@ -490,6 +531,17 @@ export default {
       },
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
+      },
+      qrcodeImgs: { // 快速开票图片
+        fastBussinessImg: {
+          url: "",
+        },
+        fastCashImg: {
+          url: "",
+        },
+        fastHeaderImg: {
+          url: "",
+        }
       },
       detailsForm: {
         customer: {},
@@ -835,6 +887,7 @@ export default {
               text: "查询",
               color: "#00c1df",
               cb: rowdata => {
+                console.log(rowdata);
                 this.search = true;
                 this.check = false;
                 this.resaultData = rowdata;
@@ -1130,6 +1183,7 @@ export default {
           let settleCardRow = {};
           let productRow = {};
           let imgsRow = {};
+          let qrcodeImgs = {};// 快速开票imgs
           if (data.customer) {
             customerRow = utils.pickObj(data.customer, [
               "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
@@ -1148,12 +1202,17 @@ export default {
           }
 
           if (data.imgs) {
-            console.log(data.imgs);
             imgsRow = utils.pickObj(data.imgs, [
               "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
               "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
             ]);
+            // 快速开票图片回显
+            qrcodeImgs = utils.pickObj(data.imgs, [
+              "fastBussinessImg", "fastCashImg", "fastHeaderImg"
+            ]);
           }
+          console.log(qrcodeImgs);
+          this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           this.payStatusDetails = {
             ...this.payStatusDetails,
             ...customerRow,
@@ -1161,6 +1220,10 @@ export default {
             ...productRow,
             ...imgsRow
           }
+
+
+
+
         }
         dialogLoading.close();
       });
