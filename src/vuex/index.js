@@ -56,7 +56,8 @@ const store = new Vuex.Store({
         customerProduct,
         enterpriseSupply,
         orderQuery,
-        customerVersion
+        customerVersion,
+        settle
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

@@ -587,6 +587,21 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    // 结算管理 结算状态
+    Vue.filter('statusSettle', function (value) {
+        switch (value) {
+            case "TRUE":
+                value = "已确认";
+                break;
+            case "FALSE":
+                value = "待确认";
+                break;
+            case "SUCCESS":
+                value = "已结算";
+                break;
+        }
+        return value;
+    })
     // 3. 添加实例方法
     //Vue.prototype.$myMethod = ...
 }

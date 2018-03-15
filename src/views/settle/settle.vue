@@ -142,7 +142,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item v-if="!isAdmin" label="打款时间" prop="remitTime" :label-width="formLabelWidth">
+              <el-form-item v-if="isAdmin" label="打款时间" prop="remitTime" :label-width="formLabelWidth">
                 <el-input :disabled="true" v-model="editForm.remitTime" auto-complete="off"></el-input>
               </el-form-item>
             </div>
@@ -622,9 +622,16 @@ export default {
   },
   computed: {
     isAdmin() {
-      return !(
-        this.$store.state.userInfoAndMenu.userMessage.all.userType === "root"
-      );
+      var user = this.$store.state.userInfoAndMenu.userMessage.all;
+      var isAdmin = !(
+        user.userType === "root" ||
+        user.userType === "admin" ||
+        user.userType === "operator"
+      ); // 运营
+      return isAdmin
+      // return !(
+      //   this.$store.state.userInfoAndMenu.userMessage.all.userType === "root"
+      // );
     },
     userAll() {
       // 所有的用户信息

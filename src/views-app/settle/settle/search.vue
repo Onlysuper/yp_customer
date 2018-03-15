@@ -16,33 +16,45 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.customerVersion.searchQuery
-    })
+      searchQuery: state => state.settle.searchQuery
+    }),
+    isAdmin() {
+      var user = this.$store.state.userInfoAndMenu.userMessage.all;
+      var isAdmin = (
+        user.userType === "root" ||
+        user.userType === "admin" ||
+        user.userType === "operator"
+      ); // 运营
+      return isAdmin
+    }
   },
   mounted() {
     this.$nextTick(() => {
+      if (this.isAdmin) { // 运营
+        this.searchConfig.push({
+          title: "代理商编号",
+          type: "myp-text",
+          defaultValue: this.searchQuery.agentNo,
+          cb: value => {
+            this.$store.commit("SETTLE_SEARCH_QUERY", {
+              agentNo: value
+            });
+          }
+        });
+        this.searchConfig.push({
+          title: "代理商名称",
+          type: "myp-text",
+          defaultValue: this.searchQuery.agentName,
+          cb: value => {
+            this.$store.commit("SETTLE_SEARCH_QUERY", {
+              agentName: value
+            });
+          }
+        });
+      }
+
       this.searchConfig.push({
-        title: "商户编号",
-        type: "myp-text",
-        defaultValue: this.searchQuery.customerNo,
-        cb: value => {
-          this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_QUERY", {
-            customerNo: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "版本号",
-        type: "myp-text",
-        defaultValue: this.searchQuery.version,
-        cb: value => {
-          this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_QUERY", {
-            version: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "状态",
+        title: "打款状态",
         type: "myp-select",
         defaultValue: this.searchQuery.status,
         values: [
@@ -51,40 +63,41 @@ export default {
             code: ""
           },
           {
-            name: "允许升级",
+            name: "已确认",
             code: "TRUE"
           },
           {
-            name: "不允许升级",
+            name: "待确认",
             code: "FALSE"
           },
           {
-            name: "升级成功",
+            name: "已结算",
             code: "SUCCESS"
           }
         ],
         cb: value => {
-          // if (value == "ALL") value = "";
-          this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_QUERY", {
+          this.$store.commit("SETTLE_SEARCH_QUERY", {
             status: value
           });
         }
       });
       this.searchConfig.push({
-        title: "版本类型",
-        type: "myp-select",
-        defaultValue: this.searchQuery.type || "ALL",
-        values: [
-          {
-            name: "全部",
-            code: "ALL"
-          },
-          ...versionTypeJson
-        ],
+        title: "开始时间",
+        type: "myp-date",
+        defaultValue: this.searchQuery.createTimeStart,
         cb: value => {
-          if (value == "ALL") value = "";
-          this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_QUERY", {
-            type: value
+          this.$store.commit("SETTLE_SEARCH_QUERY", {
+            createTimeStart: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "结束时间",
+        type: "myp-date",
+        defaultValue: this.searchQuery.createTimeEnd,
+        cb: value => {
+          this.$store.commit("SETTLE_SEARCH_QUERY", {
+            createTimeEnd: value
           });
         }
       });
@@ -92,7 +105,7 @@ export default {
   },
   methods: {
     searchPanelResult() {
-      this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH", true);
+      this.$store.commit("SETTLE_SEARCH", true);
       this.$router.back();
     }
   }
