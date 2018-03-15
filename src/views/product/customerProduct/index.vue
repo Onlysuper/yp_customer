@@ -389,10 +389,8 @@ export default {
   mixins: [mixinsPc, mixinDataTable],
   data() {
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
-    var isAdmin =
-      user.userType === "root" ||
-      user.userType === "admin" ||
-      user.userType === "operator"; // 运营
+    var isAdmin = user.userType === "root" || user.userType === "admin" || user.userType === "operator"; // 运营
+    var isBranchOffice = user.userType === "branchOffice"; // 分公司
     var searchConditionVar = {
       bussinessNo: "",
       customerName: "",
@@ -889,7 +887,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
-                  isAdmin
+                  isAdmin || !isBranchOffice
                 ) {
                   return true;
                 } else {
@@ -1231,20 +1229,6 @@ export default {
     nextFn(next) {
       this.currentView = next;
     },
-    // customerTypeSelect() {
-    //   let value = this.selectOptions.customerType;
-    //   this.payStatusVisible = false; // 聚合详情
-    //   this.qrcodeStatusVisible = false; // 快速
-    //   this.elecStatusVisible = false; // 电子
-    //   if (value == "qrcodeStatus") {
-    //     this.qrcodeStatusVisible = true;
-    //   } else if (value == "elecStatus") {
-    //     this.elecStatusVisible = true;
-    //   } else if (value == "payStatus") {
-    //     this.payStatusVisible = true;
-    //   }
-    // },
-
     titleChange(currentView) {
       if (currentView == "paystatusInfo") {
         this.productOpenTitle = "完善信息";
@@ -1297,13 +1281,13 @@ export default {
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
-            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && isAdmin) {
+            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && (isAdmin || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;
           case "payStatus":
             this.payStatusVisible = true;
-            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && isAdmin) {
+            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && (isAdmin || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;
