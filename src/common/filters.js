@@ -32,17 +32,16 @@ mypFilters.install = function (Vue, options) {
       */
     Vue.filter('payTypeDetail', function (value) {
         switch (value) {
-            case "scanPay":
+            case "trade.scanPay":
                 value = "扫码支付";
-                break;
-            case "microPay":
-                value = "刷卡支付";
-                break;
-            case "jsPay":
-                value = "公众号支付";
-                break;
             case "trade.microPay":
                 value = "刷卡支付";
+            case "trade.h5Pay":
+                value = "h5支付";
+            case "trade.appPay":
+                value = "app支付";
+            case "trade.jsPay":
+                value = "公众号支付";
                 break;
         }
         return value;
@@ -54,6 +53,20 @@ mypFilters.install = function (Vue, options) {
                 break;
             case "ALIPAY":
                 value = "支付宝";
+                break;
+        }
+        return value;
+    })
+    Vue.filter('payFrom', function (value) {
+        switch (value) {
+            case "SMART_POS":
+                value = "智能pos";
+                break;
+            case "PLUGIN":
+                value = "插件";
+                break;
+            case "THIRD_PARTY":
+                value = "第三方";
                 break;
         }
         return value;
