@@ -33,7 +33,7 @@
         <mt-cell title="交易类型">
           <span>{{dataList.payType | payType}}</span>
         </mt-cell>
-        <mt-cell v-if="detailsForm.status=='FAIL'?true:false" title="支付失败原因">
+        <mt-cell v-if="dataList.status=='FAIL'?true:false" title="支付失败原因">
           <span>{{dataList.respCode}}</span>
         </mt-cell>
       </input-wrapper>
