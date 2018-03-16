@@ -3,7 +3,6 @@
   <full-page>
     <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
     <view-radius>
       <input-wrapper>
@@ -67,8 +66,7 @@ export default {
       pageType: this.$route.query["type"] || "DETAIL",
       dataList: {},
       pageTitle: {
-        SETTLEMENT: "结算",
-        SETTLESURE: "确认"
+        DETAIL: "详情",
       },
     };
   },

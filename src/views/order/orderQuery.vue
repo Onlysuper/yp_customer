@@ -3,7 +3,6 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <!-- search form start -->
-      <!-- {{adminOperationAll.qr_code_reciept_audit_all}} -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -22,7 +21,7 @@
         <div class="line-label-box">
           <span class="line-label">交易金额:</span>{{utils.accMul(detailsForm.amount, 0.01)}}元
         </div>
-        <div class="line-label-box">
+        <div v-if="detailsForm.settleMode=='T0'?true:false" class="line-label-box">
           <span class="line-label">手续费:</span>{{utils.accMul(detailsForm.fee, 0.01)}}元
         </div>
         <div class="line-label-box">
