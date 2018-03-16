@@ -11,7 +11,7 @@
 <script>
 import PullDownTip from "../PullDownTip";
 import { Toast, Indicator } from "mint-ui";
-import $ from "Jquery";
+import $ from "jquery";
 export default {
   name: "myp-loadmore-api",
   data() {
