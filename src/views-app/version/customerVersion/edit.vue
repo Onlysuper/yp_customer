@@ -2,21 +2,17 @@
   <!-- 物料入库 -->
   <full-page>
     <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
-      <mt-button slot="left" :disabled="false" typeObj="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" :disabled="btnDisabled" typeObj="danger" @click="save">保存</mt-button>
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+      <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <!-- <mt-field @click.native="$refs.typePicker.open" typeObj="text" label="版本类型" placeholder="请选择版本类型" :value="typeObj.name" v-readonly-ios :readonly="true" :disableClear="true">
-          <i class="icon-arrow"></i>
-        </mt-field> -->
-        <mt-field @click.native="$refs.statusPicker.open" typeObj="text" label="升级状态" placeholder="请选择升级状态" :value="statusObj.name" v-readonly-ios :readonly="true" :disableClear="true">
+        <mt-field @click.native="$refs.statusPicker.open" type="text" label="升级状态" placeholder="请选择升级状态" :value="statusObj.name" v-readonly-ios :readonly="true" :disableClear="true">
           <i class="icon-arrow"></i>
         </mt-field>
-        <mt-field :disabled="true" typeObj="text" label="商户编号" placeholder="请输入商户编号" v-model="dataList.customerNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="商户编号" placeholder="请输入商户编号" v-model="dataList.customerNo"></mt-field>
       </input-wrapper>
     </view-radius>
-    <!-- <picker ref="typePicker" v-model="typeObj" :slotsActions="versionTypeOptions" @confirm="typePickerChange"></picker> -->
     <picker ref="statusPicker" v-model="statusObj" :slotsActions="status_options" @confirm="statusChange"></picker>
   </full-page>
 </template>
@@ -53,7 +49,7 @@ export default {
     return {
       queryNo: this.$route.params["queryNo"],
       statusObj: {},
-      typeObj: {},
+      type: {},
       status_options: [
         {
           name: "允许升级",
@@ -70,7 +66,7 @@ export default {
       ],
       // versionTypeOptions: versionTypeJson,
       btnDisabled: false,
-      pageType: this.$route.query["typeObj"] || "EDIT",
+      pageType: this.$route.query["type"] || "EDIT",
       dataList: {},
       pageTitle: {
         EDIT: "编辑"

@@ -3,6 +3,7 @@
     <div class="loadmore-api-warpper-list" :style="{ minHeight: wrapperHeight + 'px' }">
       <slot></slot>
       <pull-down-tip v-if="loadMoreConfig.allLoaded"></pull-down-tip>
+      <div v-show="gotopVisible" class="gotop-box" @click="gotop">顶</div>
     </div>
   </mt-loadmore>
 </template>
@@ -10,34 +11,12 @@
 <script>
 import PullDownTip from "../PullDownTip";
 import { Toast, Indicator } from "mint-ui";
+import $ from "Jquery";
 export default {
   name: "myp-loadmore-api",
-  components: {
-    PullDownTip
-  },
-  props: {
-    api: {
-      type: Function,
-      default: () => {}
-    },
-    //loadQuery默认值
-    defaultLoadQuery: {
-      type: Object,
-      default() {
-        return {
-          limit: 20,
-          page: 1
-        };
-      }
-    }
-  },
-  watch: {
-    list(list) {
-      this.$emit("watchDataList", list, this.count, this.loadQuery.page);
-    }
-  },
   data() {
     return {
+      gotopVisible: false,
       wrapperHeight: "",
       list: [],
       count: 0,
@@ -65,11 +44,41 @@ export default {
       }
     };
   },
+  components: {
+    PullDownTip
+  },
+
+  props: {
+    api: {
+      type: Function,
+      default: () => { }
+    },
+    //loadQuery默认值
+    defaultLoadQuery: {
+      type: Object,
+      default() {
+        return {
+          limit: 20,
+          page: 1
+        };
+      }
+    }
+  },
+  watch: {
+    list(list) {
+      this.$emit("watchDataList", list, this.count, this.loadQuery.page);
+    }
+  },
+
   mounted() {
     this.$nextTick(() => {
       setTimeout(() => {
         this.wrapperHeight = this.$refs.loadmore.$el.clientHeight;
       }, 0);
+    });
+    this.BottomJumpPage();
+    $(".full-main").scroll(() => {
+      this.BottomJumpPage();
     });
   },
 
@@ -133,6 +142,21 @@ export default {
     isAllLoaded(data) {
       if (data.length < this.loadQuery.limit)
         this.loadMoreConfig.allLoaded = true;
+    },
+    gotop() {
+      $(".full-main").animate({ scrollTop: "0px" }, 250)
+    },
+    BottomJumpPage() {
+      var scrollTop = $(".full-main").scrollTop();
+      var scrollHeight = $(document).height();
+      var windowHeight = $(".full-main").height();
+      if (scrollTop + windowHeight == scrollHeight) {  //滚动到底部执行事件
+      }
+      if (scrollTop < 50) {  //滚动到头部部执行事件
+        this.gotopVisible = false;
+      } else {
+        this.gotopVisible = true;
+      }
     }
   }
 };
@@ -155,6 +179,19 @@ export default {
   // }
   .loadmore-api-warpper-list {
     overflow: hidden;
+  }
+  .gotop-box {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    background: #eee;
+    border-radius: 100%;
+    border-radius: 100%;
+    position: fixed;
+    right: 0;
+    bottom: 10px;
+    z-index: 100;
   }
 }
 </style>

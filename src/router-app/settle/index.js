@@ -30,7 +30,28 @@ export default {
             menuCode: "settle"
           }
         },
-
+        // 结算
+        {
+          name: "settlement",
+          path: 'settlement/:settleNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/settle/settle/settlement")) }, "settle-settlement-app")
+          },
+          meta: {
+            pageTitle: "结算"
+          }
+        },
+        // 详情
+        {
+          name: "settleDetail",
+          path: 'detail',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/settle/settle/detail")) }, "settle-detail-app")
+          },
+          meta: {
+            pageTitle: "结算管理搜索"
+          }
+        },
         //商品管理--搜索
         {
           name: "settleSearch",

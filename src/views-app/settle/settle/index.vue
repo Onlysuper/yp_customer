@@ -12,10 +12,10 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="isAdmin?item.agentName:''">
-          <!-- <div v-if="isAdmin && item.status == 'TRUE'" slot="btn" @click="settlement(item)">结算</div> -->
-          <!-- <div v-if="!isAdmin && item.status == 'FALSE'" slot="btn" @click="edit(item)">确认</div> -->
+          <div v-if="isAdmin && item.status == 'TRUE'" slot="btn" @click="settlement(item,'settle')">结算</div>
+          <div v-if="!isAdmin && item.status == 'FALSE'" slot="btn" @click="settlement(item,'sure')">确认</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusSettle}}</mt-badge>
-          <myp-cell class="list-item">
+          <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
             <table>
               <myp-tr title="结算单号">{{item.settleNo}}</myp-tr>
@@ -105,20 +105,31 @@ export default {
           path: "./add",
           query: { type: type }
         });
-      } else if (type == "EDIT") {
+      } else if (type == "SETTLEMENT" || type == "SETTLESURE") {
         this.$router.push({
-          path: "./edit/" + itemId,
+          path: "./settlement/" + itemId,
+          query: { type: type }
+        });
+      } else if (type == "DETAIL") {
+        this.$router.push({
+          path: "./detail/" + itemId,
           query: { type: type }
         });
       }
     },
-    edit(rowdata) {
-      this.toUrl("EDIT", rowdata.customerNo, rowdata);
+    // 结算或者确认
+    settlement(rowdata, type) {
+      if (type == 'settle') {
+        // 结算
+        this.toUrl("SETTLEMENT", rowdata.settleNo, rowdata);
+      } else if (type == "sure") {
+        // 确认
+        this.toUrl("SETTLESURE", rowdata.settleNo, rowdata);
+      }
     },
-    settlement(rowdata) {
-      console.log(rowdata);
-      return false;
-      this.toUrl("SETTLEMENT", rowdata.customerNo, rowdata);
+    // 查看详情
+    detail(rowdata) {
+      this.toUrl("DETAIL", rowdata.settleNo, rowdata);
     },
     sum() {
       this.getAgentSettleSumAc().then(isSuccess => {

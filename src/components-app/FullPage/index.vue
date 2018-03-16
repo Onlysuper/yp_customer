@@ -31,6 +31,7 @@
   }
   .full-tabar {
     position: relative;
+    z-index: 11;
   }
 }
 </style>

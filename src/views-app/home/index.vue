@@ -11,6 +11,7 @@
         <content-home/>
       </mt-tab-container-item>
       <mt-tab-container-item id="业务">
+
         <content-business/>
       </mt-tab-container-item>
       <mt-tab-container-item id="我的">
@@ -29,6 +30,7 @@
         <i slot="icon" class="icon-Home-page tab-icon-center"></i>我的
       </mt-tab-item>
     </mt-tabbar>
+
   </full-page>
 </template>
 

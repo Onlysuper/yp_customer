@@ -48,7 +48,7 @@ const websocket = {
       this.ws.onopen = () => {
         console.log("websockt链接成功")
         setInterval(() => {
-          console.log("heart")
+          // console.log("heart")
           this.ws.send("heart");
         }, 5000)
       }

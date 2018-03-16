@@ -2,22 +2,23 @@
   <!-- 物料入库 -->
   <full-page>
     <mt-header slot="header" :title="$route.meta.pageTitle + pageTitle[pageType]">
-      <mt-button slot="left" :disabled="false" typeObj="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" :disabled="btnDisabled" typeObj="danger" @click="save">保存</mt-button>
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+      <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <!-- <mt-field @click.native="$refs.typePicker.open" typeObj="text" label="版本类型" placeholder="请选择版本类型" :value="typeObj.name" v-readonly-ios :readonly="true" :disableClear="true">
-          <i class="icon-arrow"></i>
-        </mt-field> -->
-        <mt-field @click.native="$refs.statusPicker.open" typeObj="text" label="升级状态" placeholder="请选择升级状态" :value="statusObj.name" v-readonly-ios :readonly="true" :disableClear="true">
-          <i class="icon-arrow"></i>
-        </mt-field>
-        <mt-field :disabled="true" typeObj="text" label="商户编号" placeholder="请输入商户编号" v-model="dataList.customerNo"></mt-field>
+        <mt-field v-if="!surePage" type="text" label="订单编号" placeholder="请输入订单编号" v-model="dataList.orderNo"></mt-field>
+
+        <mt-field :disabled="!surePage" type="text" label="对公账户名称" placeholder="请输入对公账户名称" v-model="dataList.receiveMan"></mt-field>
+        <mt-field :disabled="!surePage" type="text" label="收款账号" placeholder="请输入收款账号" v-model="dataList.accountNo"></mt-field>
+        <mt-field :disabled="!surePage" type="text" label="开户行" placeholder="请输入开户行" v-model="dataList.bankName"></mt-field>
+
+        <mt-field :disabled="true" type="text" label="实付金额" placeholder="请输入实付金额" v-model="dataList.settlePrice"></mt-field>
+        <mt-field :disabled="true" type="text" label="达标商户数量" placeholder="请输入达标商户数量" v-model="dataList.customerNumber"></mt-field>
+        <mt-field :disabled="true" type="text" label="联系电话" placeholder="请输入联系电话" v-model="dataList.agentPhone"></mt-field>
+        <mt-field v-if="!isAdmin" :disabled="true" type="text" label="打款时间" placeholder="请输入打款时间" v-model="dataList.remitTime"></mt-field>
       </input-wrapper>
     </view-radius>
-    <!-- <picker ref="typePicker" v-model="typeObj" :slotsActions="versionTypeOptions" @confirm="typePickerChange"></picker> -->
-    <picker ref="statusPicker" v-model="statusObj" :slotsActions="status_options" @confirm="statusChange"></picker>
   </full-page>
 </template>
 <style lang="scss">
@@ -47,83 +48,105 @@
 import { mapState, mapActions } from "vuex";
 import Picker from "@src/components-app/SelectPicker/Picker";
 import versionTypeJson from "@src/data/versionType"
+import utils from "@src/common/utils"
 export default {
   components: { Picker },
   data() {
+    let user = this.$store.state.userInfoAndMenu.userMessage.all;
+    let isAdmin = (
+      user.userType === "root" ||
+      user.userType === "admin" ||
+      user.userType === "operator"
+    ); // 运营
     return {
-      queryNo: this.$route.params["queryNo"],
+      settleNo: this.$route.params["settleNo"],
+      surePage: false,
+      isAdmin: isAdmin,
       statusObj: {},
-      typeObj: {},
-      status_options: [
-        {
-          name: "允许升级",
-          code: "TRUE"
-        },
-        {
-          name: "不允许升级",
-          code: "FALSE"
-        },
-        {
-          name: "升级成功",
-          code: "SUCCESS"
-        }
-      ],
+      type: {},
       // versionTypeOptions: versionTypeJson,
       btnDisabled: false,
-      pageType: this.$route.query["typeObj"] || "EDIT",
+      pageType: this.$route.query["type"] || "SETTLEMENT",
       dataList: {},
       pageTitle: {
-        EDIT: "编辑"
+        SETTLEMENT: "结算",
+        SETTLESURE: "确认"
       },
     };
   },
   computed: {},
 
   watch: {
-    statusObj(obj) {
-      this.statusObj = obj;
-      this.dataList.status = obj.code;
-    },
   },
   created() {
     this.init();
   },
   methods: {
-    ...mapActions(["getCustomerVersionUnit", "addCustomerVersionSave"]),
+    ...mapActions(["getAgentSettleUnit", "postUpdateSettlesAc"]),
     init() {
-      this.pageType == "EDIT" &&
-        this.getCustomerVersionUnit(this.queryNo).then(empowerList => {
-          this.statusObj = this.status_options.find(item => item.code == empowerList.status);
-          this.dataList.customerNo = empowerList.customerNo
-          this.dataList.type = empowerList.type
+      if (this.pageType == "SETTLEMENT") {
+        this.surePage = false;
+        this.getAgentSettleUnit(this.settleNo).then(empowerList => {
+          this.dataList = { ...empowerList }
+
         });
+      } else if (this.pageType == "SETTLESURE") {
+        this.surePage = true;
+        this.getAgentSettleUnit(this.settleNo).then(empowerList => {
+          this.dataList = { ...empowerList }
+        });
+      }
+
     },
     save() {
-      if (!this.validator.isEmpty(this.dataList.status)) {
-        this.MessageBox.alert("请选择升级状态！");
-        return;
-      }
-      if (!this.validator.isEmpty(this.dataList.customerNo)) {
-        this.MessageBox.alert("请输入商户编号！");
-        return;
-      }
-      this.btnDisabled = true;
-      if (this.pageType == "EDIT") {
-        this.addCustomerVersionSave(this.dataList).then(flag => {
+      if (this.pageType == "SETTLEMENT") {
+        if (!this.validator.isEmpty(this.dataList.orderNo)) {
+          this.MessageBox.alert("请输入订单编号！");
+          return;
+        }
+        this.btnDisabled = true;
+        // 结算
+        let newObj = utils.pickObj(this.dataList, [
+          "settleNo", "agentNo", "orderNo", "receiveMan",
+          "accountNo", "bankName", "settlePrice",
+          "customerNumber", "agentPhone"])
+        this.postUpdateSettlesAc({ ...newObj }).then(flag => {
           this.btnDisabled = false;
           if (flag) {
             this.$router.back();
-            this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_INIT");
-            this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH", true);
+            let row = { ...this.dataList };
+            row.status = "SUCCESS";
+            this.$store.commit("SETTLE_UPDATA", row);
+          }
+        });
+      } else if (this.pageType == "SETTLESURE") {
+        if (!this.validator.isEmpty(this.dataList.receiveMan)) {
+          this.MessageBox.alert("请输入对公账户名称！");
+          return;
+        }
+        if (!this.validator.isEmpty(this.dataList.accountNo)) {
+          this.MessageBox.alert("请输入收款账号！");
+          return;
+        }
+        if (!this.validator.isEmpty(this.dataList.bankName)) {
+          this.MessageBox.alert("请输入开户行！");
+          return;
+        }
+        this.btnDisabled = true;
+        // 编辑
+        let newObj = utils.pickObj(this.dataList, [
+          "settleNo", "agentNo", "bankName", "accountNo", "receiveMan"])
+        this.postUpdateSettlesAc({ ...newObj }).then(flag => {
+          this.btnDisabled = false;
+          if (flag) {
+            this.$router.back();
+            let row = { ...this.dataList };
+            row.status = "SUCCESS";
+            this.$store.commit("SETTLE_UPDATA", row);
           }
         });
       }
     },
-    // 类型
-    statusChange(obj) {
-      this.statusObj = obj;
-      this.dataList.statusObj = obj.code;
-    }
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="keep-alive page">
+  <div v-on:scroll.passive="onScroll" class="keep-alive page">
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
@@ -8,7 +8,21 @@
 </template>
 
 <script>
-export default {};
+
+export default {
+  data() {
+    return {
+    }
+  },
+  methods: {
+
+  },
+  mounted() {
+
+  },
+  created() {
+  }
+};
 </script>
 
 <style>
