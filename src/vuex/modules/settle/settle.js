@@ -72,12 +72,8 @@ export default {
     },
 
     postUpdateSettlesAc({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
-      let newObj = utils.pickObj(thisForm, [
-        "settleNo", "agentNo", "orderNo", "receiveMan",
-        "accountNo", "bankName", "settlePrice",
-        "customerNumber", "agentPhone"])
       postUpdateSettles()({
-        ...newObj
+        ...thisForm
       }).then(data => {
         if (data.code == "00") {
           Toast("操作成功");

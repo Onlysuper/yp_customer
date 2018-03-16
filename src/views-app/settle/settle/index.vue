@@ -12,8 +12,8 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="isAdmin?item.agentName:''">
-          <div v-if="isAdmin && item.status == 'TRUE'" slot="btn" @click="settlement(item)">结算</div>
-          <!-- <div v-if="!isAdmin && item.status == 'FALSE'" slot="btn" @click="edit(item)">确认</div> -->
+          <div v-if="isAdmin && item.status == 'TRUE'" slot="btn" @click="settlement(item,'settle')">结算</div>
+          <div v-if="!isAdmin && item.status == 'FALSE'" slot="btn" @click="settlement(item,'sure')">确认</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusSettle}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
@@ -105,16 +105,24 @@ export default {
           path: "./add",
           query: { type: type }
         });
-      } else if (type == "SETTLEMENT") {
+      } else if (type == "SETTLEMENT" || type == "SETTLESURE") {
         this.$router.push({
           path: "./settlement/" + itemId,
           query: { type: type }
         });
       }
     },
-    settlement(rowdata) {
+    settlement(rowdata, type) {
       console.log(rowdata);
-      this.toUrl("SETTLEMENT", rowdata.settleNo, rowdata);
+      console.log(type);
+      if (type == 'settle') {
+        // 结算
+        this.toUrl("SETTLEMENT", rowdata.settleNo, rowdata);
+      } else if (type == "sure") {
+        // 确认
+        this.toUrl("SETTLESURE", rowdata.settleNo, rowdata);
+      }
+
     },
     sum() {
       this.getAgentSettleSumAc().then(isSuccess => {
