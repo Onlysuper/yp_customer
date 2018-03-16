@@ -1,6 +1,6 @@
 import utils from "@src/common/utils";
 // 商户版本
-import { getAgentSettleSum } from "@src/apis";
+import { getAgentSettleSum, postUpdateSettles } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -39,7 +39,7 @@ export default {
     // 刷新数据
     ["SETTLE_UPDATA"](state, data) {
       state.list = state.list.map(item => {
-        if (data.authCode == item.authCode) return data;
+        if (data.orderNo == item.orderNo) return data;
         else return item;
       })
     },
@@ -55,6 +55,10 @@ export default {
 
   },
   actions: {
+    // 数据列表中获取当前编辑得数据
+    getAgentSettleUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
+      return state.list.find(item => item.settleNo == itemId);
+    },
     // 合计
     getAgentSettleSumAc({ commit, dispatch, getters, rootGetters, rootState, state }) {
       return getAgentSettleSum()({ ...state.searchQuery }).then(data => {
@@ -65,6 +69,24 @@ export default {
           Toast(data.msg);
         }
       })
+    },
+
+    postUpdateSettlesAc({ commit, dispatch, getters, rootGetters, rootState, state }, thisForm) {
+      let newObj = utils.pickObj(thisForm, [
+        "settleNo", "agentNo", "orderNo", "receiveMan",
+        "accountNo", "bankName", "settlePrice",
+        "customerNumber", "agentPhone"])
+      postUpdateSettles()({
+        ...newObj
+      }).then(data => {
+        if (data.code == "00") {
+          Toast("操作成功");
+          return true;
+        } else {
+          Toast(data.msg);
+          return false;
+        }
+      });
     }
 
   }

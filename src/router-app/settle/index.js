@@ -33,7 +33,7 @@ export default {
         // 结算
         {
           name: "settlement",
-          path: 'settlement/:settlement',
+          path: 'settlement/:settleNo',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/settle/settle/settlement")) }, "settle-settlement-app")
           },

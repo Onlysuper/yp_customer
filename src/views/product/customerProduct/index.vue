@@ -1105,7 +1105,7 @@ export default {
       this.$prompt("请输入拒绝原因", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        inputPattern: /^[\u4E00-\u9FA5\uF900-\uFA2D\w]+$/,
+        inputPattern: /\S{1,}/,
         inputErrorMessage: "请输入拒绝原因"
       }).then(({ value }) => {
         let resaultForm = this.resaultData;

@@ -112,12 +112,8 @@ export default {
         });
       }
     },
-    // edit(rowdata) {
-    //   this.toUrl("EDIT", rowdata.settleNo, rowdata);
-    // },
     settlement(rowdata) {
       console.log(rowdata);
-      return false;
       this.toUrl("SETTLEMENT", rowdata.settleNo, rowdata);
     },
     sum() {
