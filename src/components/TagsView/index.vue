@@ -127,6 +127,7 @@ export default {
   },
   watch: {
     $route() {
+      console.log(this.$route);
       this.addViewTags();
       this.moveToCurrentTag();
     },

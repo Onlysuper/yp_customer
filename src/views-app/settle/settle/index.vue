@@ -15,7 +15,7 @@
           <div v-if="isAdmin && item.status == 'TRUE'" slot="btn" @click="settlement(item,'settle')">结算</div>
           <div v-if="!isAdmin && item.status == 'FALSE'" slot="btn" @click="settlement(item,'sure')">确认</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusSettle}}</mt-badge>
-          <myp-cell class="list-item">
+          <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
             <table>
               <myp-tr title="结算单号">{{item.settleNo}}</myp-tr>
@@ -110,11 +110,15 @@ export default {
           path: "./settlement/" + itemId,
           query: { type: type }
         });
+      } else if (type == "DETAIL") {
+        this.$router.push({
+          path: "./detail/" + itemId,
+          query: { type: type }
+        });
       }
     },
+    // 结算或者确认
     settlement(rowdata, type) {
-      console.log(rowdata);
-      console.log(type);
       if (type == 'settle') {
         // 结算
         this.toUrl("SETTLEMENT", rowdata.settleNo, rowdata);
@@ -122,7 +126,10 @@ export default {
         // 确认
         this.toUrl("SETTLESURE", rowdata.settleNo, rowdata);
       }
-
+    },
+    // 查看详情
+    detail(rowdata) {
+      this.toUrl("DETAIL", rowdata.settleNo, rowdata);
     },
     sum() {
       this.getAgentSettleSumAc().then(isSuccess => {

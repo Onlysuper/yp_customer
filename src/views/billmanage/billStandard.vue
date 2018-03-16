@@ -58,6 +58,29 @@ export default {
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
           type: "dateGroup",
+          label: "入网时间",
+          show: true, // 普通搜索显示
+          options: [
+            {
+              corresattr: "startNetTime",
+              label: "开始时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.startNetTime = value;
+              }
+            },
+            {
+              corresattr: "endNetTime",
+              lable: "结束时间",
+              value: today_,
+              cb: value => {
+                this.searchCondition.endNetTime = value;
+              }
+            }
+          ]
+        },
+        {
+          type: "dateGroup",
           label: "达标时间",
           show: true, // 普通搜索显示
           options: [
@@ -80,6 +103,30 @@ export default {
           ]
         },
         {
+          corresattr: "standard",
+          type: "select",
+          label: "达标情况",
+          show: true, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "TRUE",
+              label: "已达标"
+            },
+            {
+              value: "FALSE",
+              label: "未达标"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.standard = value;
+          }
+        },
+        {
           corresattr: "customerNo",
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
@@ -91,33 +138,10 @@ export default {
           }
         },
         {
-          type: "dateGroup",
-          label: "入网时间",
-          show: false, // 普通搜索显示
-          options: [
-            {
-              corresattr: "startNetTime",
-              label: "开始时间",
-              value: today_,
-              cb: value => {
-                this.searchCondition.startNetTime = value;
-              }
-            },
-            {
-              corresattr: "endNetTime",
-              lable: "结束时间",
-              value: today_,
-              cb: value => {
-                this.searchCondition.endNetTime = value;
-              }
-            }
-          ]
-        },
-        {
           corresattr: "agentNo",
           type: "text", // 表单类型
           label: "合伙人编号", // 输入框前面的文字
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -129,7 +153,7 @@ export default {
           corresattr: "containChild",
           type: "select",
           label: "包含关系",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "TRUE",
           options: [
             {
@@ -149,7 +173,7 @@ export default {
           corresattr: "billSuccess",
           type: "select",
           label: "推送次数",
-          show: false, // 普通搜索显示
+          show: true, // 普通搜索显示
           value: "",
           options: [
             {
@@ -185,30 +209,7 @@ export default {
             }
           }
         },
-        {
-          corresattr: "standard",
-          type: "select",
-          label: "达标情况",
-          show: true, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "TRUE",
-              label: "已达标"
-            },
-            {
-              value: "FALSE",
-              label: "未达标"
-            }
-          ],
-          cb: value => {
-            this.searchCondition.standard = value;
-          }
-        }
+
       ],
       // 列表数据
       postSearch: searchConditionVar,
@@ -226,8 +227,19 @@ export default {
             word: "customerNo"
           },
           {
+            key: "入网时间",
+            width: "120px",
+            word: "createTime",
+            type: data => {
+              return {
+                text: data != "" && data != null ? data.split(" ")[0] : data,
+                type: "danger"
+              };
+            }
+          },
+          {
             key: "达标时间",
-            width: "150px",
+            width: "120px",
             word: "standardTime",
             type: data => {
               return {
@@ -239,12 +251,12 @@ export default {
 
           {
             key: "企业名称",
-            width: "",
+            width: "100px",
             word: "enterpriseName"
           },
           {
             key: "合伙人编号",
-            width: "",
+            width: "100px",
             word: "agentNo"
           },
           {
@@ -278,7 +290,7 @@ export default {
           },
           {
             key: "在线时长(天)",
-            width: "",
+            width: "120px",
             word: "online"
           },
           {

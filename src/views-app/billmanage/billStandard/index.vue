@@ -15,6 +15,7 @@
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
+            <myp-tr title="入网时间">{{item.createTime}}</myp-tr>
             <myp-tr title="达标时间">{{item.standardTime}}</myp-tr>
             <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
             <!-- <myp-tr title="企业名称">{{item.enterpriseName}}</myp-tr> -->
