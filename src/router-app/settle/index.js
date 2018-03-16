@@ -44,12 +44,12 @@ export default {
         // 详情
         {
           name: "settleDetail",
-          path: 'detail',
+          path: 'detail/:settleNo',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/settle/settle/detail")) }, "settle-detail-app")
           },
           meta: {
-            pageTitle: "结算管理搜索"
+            pageTitle: "详情"
           }
         },
         //商品管理--搜索
@@ -60,7 +60,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/settle/settle/search")) }, "settle-search-app")
           },
           meta: {
-            pageTitle: "结算管理搜索"
+            pageTitle: "搜索"
           }
         }
       ],

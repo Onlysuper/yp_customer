@@ -22,7 +22,7 @@
         <div class="line-label-box">
           <span class="line-label">交易金额:</span>{{utils.accMul(detailsForm.amount, 0.01)}}元
         </div>
-        <div class="line-label-box">
+        <div v-if="detailsForm.settleMode=='T0'?true:false" class="line-label-box">
           <span class="line-label">手续费:</span>{{utils.accMul(detailsForm.fee, 0.01)}}元
         </div>
         <div class="line-label-box">
