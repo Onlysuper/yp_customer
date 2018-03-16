@@ -27,6 +27,15 @@ export default {
           }
         },
         {
+          path: 'detail/:orderNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/order/orderQuery/detail")) }, "order-detail-app")
+          },
+          meta: {
+            pageTitle: "详情",
+          }
+        },
+        {
           path: 'search',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/order/orderQuery/search")) }, "order-app")

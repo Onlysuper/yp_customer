@@ -630,6 +630,24 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    // 订单查询 状态
+    Vue.filter('orderQueryStatus', function (value) {
+        switch (value) {
+            case "INIT":
+                value = "订单初始化";
+                break;
+            case "PAY_WAIT":
+                value = "等待支付";
+                break;
+            case "FAIL":
+                value = "失败";
+                break;
+            case "SUCCESS":
+                value = "成功";
+                break;
+        }
+        return value;
+    })
     // 3. 添加实例方法
     //Vue.prototype.$myMethod = ...
 }
