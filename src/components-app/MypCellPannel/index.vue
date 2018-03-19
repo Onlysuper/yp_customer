@@ -74,6 +74,7 @@ export default {
   .btn {
     flex: 1;
     text-align: center;
+    white-space: nowrap;
   }
 }
 </style>

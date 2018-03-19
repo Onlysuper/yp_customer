@@ -12,13 +12,13 @@
       <div class="detail-content">
         <el-row class="line-label-box">
           <el-col :span="12">
-            <div class="grid-content bg-purple">
+            <div class="line-label-box">
               <span class="line-label">订单编号:</span>
               <span class="line-label-last">{{detailsForm.orderNo}}</span>
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="grid-content bg-purple-light">
+            <div class="line-label-box">
               <span class="line-label">交付状态:</span>
               <span class="line-label-last">{{detailsForm.status | payStatus}}</span>
             </div>
@@ -26,13 +26,13 @@
         </el-row>
         <el-row class="line-label-box">
           <el-col :span="12">
-            <div class="grid-content bg-purple">
+            <div class="line-label-box">
               <span class="line-label">发票代码:</span>
               <span class="line-label-last">{{detailsForm.invoiceCode}}</span>
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="grid-content bg-purple-light">
+            <div class="line-label-box">
               <span class="line-label">发票号码:</span>
               <span class="line-label-last">{{detailsForm.invoiceNo}}</span>
             </div>
@@ -40,7 +40,7 @@
         </el-row>
         <el-row class="line-label-box">
           <el-col :span="12">
-            <div class="grid-content bg-purple">
+            <div class="line-label-box">
               <span class="line-label">含税金额:</span>
               <span class="line-label-last">{{detailsForm.billAmount}} 元</span>
               <!-- <span class="line-label">含税金额:</span>
@@ -48,7 +48,7 @@
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="grid-content bg-purple-light">
+            <div class="line-label-box">
               <span class="line-label">手机号码:</span>
               <span class="line-label-last">{{detailsForm.phoneNo}}</span>
             </div>
@@ -57,13 +57,13 @@
 
         <el-row class="line-label-box">
           <el-col :span="12">
-            <div class="grid-content bg-purple">
+            <div class="line-label-box">
               <span class="line-label">购方名称:</span>
               <span class="line-label-last">{{detailsForm.enterpriseName}}</span>
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="grid-content bg-purple-light">
+            <div class="line-label-box">
               <span class="line-label">企业税号:</span>
               <span class="line-label-last">{{detailsForm.taxNo}}</span>
             </div>
@@ -71,20 +71,21 @@
         </el-row>
         <el-row class="line-label-box">
           <el-col :span="12">
-            <div class="grid-content bg-purple">
+            <div class="line-label-box">
               <span class="line-label">公司电话:</span>
               <span class="line-label-last">{{detailsForm.companyPhone}}</span>
             </div>
           </el-col>
           <el-col :span="12">
-            <div class="grid-content bg-purple-light">
+            <div class="line-label-box">
               <span class="line-label">销方名称:</span>
               <span class="line-label-last">{{detailsForm.bussinessName}}</span>
             </div>
           </el-col>
         </el-row>
         <div class="line-label-box">
-          <span class="line-label">银行帐号:</span>{{detailsForm.bankAccountNo}}
+          <span class="line-label">银行帐号:</span>
+          <span class="line-label-last">{{detailsForm.bankAccountNo}}</span>
         </div>
         <div class="line-label-box">
           <span class="line-label">开户银行:</span>

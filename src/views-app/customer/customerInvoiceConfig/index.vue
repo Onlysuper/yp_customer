@@ -9,7 +9,7 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
 
-        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.createTime">
+        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerNo">
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
@@ -18,7 +18,7 @@
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
-              <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
+              <!-- <myp-tr title="商户编号">{{item.customerNo}}</myp-tr> -->
               <myp-tr title="设备编号">{{item.deviceNo}}</myp-tr>
               <myp-tr title="收款人">{{item.receiveMan}}</myp-tr>
               <myp-tr title="开票人">{{item.invoiceMan}}</myp-tr>

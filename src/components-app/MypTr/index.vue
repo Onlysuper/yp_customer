@@ -30,8 +30,9 @@ export default {
   text-align: justify;
   text-justify: distribute-all-lines;
   text-align-last: justify;
-
-  width: 120*$rem;
+  max-width: 45%;
+  flex: 1;
+  // width: 120*$rem;
   // &:after {
   //      content: "";
   //      display: block;
