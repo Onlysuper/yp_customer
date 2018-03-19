@@ -129,7 +129,6 @@ router.beforeEach((to, redirect, next) => {
             document.body.className = "document-loading";
             store.dispatch('UserGetFetch');
             store.dispatch('UserMenulistFetch').then(resmenuList => {
-
                 if (resmenuList.menuList) {
                     routerMatch(resmenuList, asyncRouter, (thisrouter) => {
                         thisrouter.push(

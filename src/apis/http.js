@@ -25,7 +25,6 @@ axios.interceptors.response.use(function (response) {
     }
     //如果状态吗正常直接返回data中的数据
     if (response && response.status === 200) {
-
         //如果登录过期了
         if (response.data && response.data.code === "01") {
             localStorage.setItem("isLogin", "0");

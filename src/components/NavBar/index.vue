@@ -9,10 +9,13 @@
     <div class="head-r">
       <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
       <!-- <theme-picker class="theme-picker"></theme-picker> -->
-      <div title="信息" class="hover-back">
-        <el-badge :value="num" :max="9000" class="item" id="messageIcon">
-          <span class="icon-news"></span>
-        </el-badge>
+
+      <div title="信息" class="hover-back message-box">
+        <router-link to="/message-list">
+          <el-badge :value="messageCount" :max="9000" class="item" id="messageIcon">
+            <span class="icon-news"></span>
+          </el-badge>
+        </router-link>
       </div>
       <myp-admin-operation></myp-admin-operation>
     </div>
@@ -63,14 +66,15 @@
     vertical-align: middle;
     padding: 0 5px;
     min-width: 50px;
-
-    &:hover {
+    &:hover,
+    &.message-box.active {
       outline: none;
       @include my-transition(background,0.8s);
       background: rgba(0, 193, 223, 0.2);
       cursor: pointer;
     }
   }
+
   .head-l {
     width: 70px;
     text-align: center;
@@ -186,6 +190,15 @@ export default {
     messageCount(value) {
       this.$nextTick(() => {
         $('#messageIcon').addClass("tada");
+      })
+    },
+    $route() {
+      this.$nextTick(() => {
+        if (this.$route.name == "message-list") {
+          $(".hover-back").addClass('active')
+        } else {
+          $(".hover-back").removeClass('active')
+        }
       })
     }
   },
