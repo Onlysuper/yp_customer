@@ -877,6 +877,11 @@ export default {
         if (res.code == "00") {
           this.goodsNameOptions = res.data;
           this.selectLoading = false;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning"
+          });
         }
       });
       this.goodsName = value;

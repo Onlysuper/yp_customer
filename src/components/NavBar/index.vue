@@ -10,7 +10,7 @@
       <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
       <!-- <theme-picker class="theme-picker"></theme-picker> -->
       <div title="信息" class="hover-back">
-        <el-badge :value="200" :max="99" class="item">
+        <el-badge :value="num" :max="9000" class="item" id="messageIcon">
           <span class="icon-news"></span>
         </el-badge>
       </div>
@@ -108,12 +108,43 @@
     .el-badge {
       line-height: 0;
       margin-right: 30px;
+      &.active {
+        animation: tada 3s infinite !important;
+      }
     }
   }
 }
 @media screen and (max-width: 500px) {
   .el-header {
     display: none;
+  }
+}
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+@keyframes tada {
+  0% {
+    transform: scaleX(1);
+  }
+  10%,
+  20% {
+    transform: scale3d(0.9, 0.9, 0.9) rotate(-3deg);
+  }
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate(3deg);
+  }
+
+  40%,
+  60%,
+  80% {
+    transform: scale3d(1.1, 1.1, 1.1) rotate(-3deg);
+  }
+  100% {
+    transform: scaleX(1);
   }
 }
 </style>
@@ -133,12 +164,29 @@ export default {
     "myp-admin-operation": AdminOperation
   },
   data() {
-    return {};
+    return {
+      num: 0,
+    };
   },
   computed: {
     isCollapseicon() {
       //菜单是否收起
       return this.$store.state.userInfoAndMenu.isCollapse;
+    },
+    messageCount() {
+      return this.$store.state.acceptMessage.messageCount;
+    }
+  },
+  created() {
+    this.$store.dispatch('getMessagesFetch').then(resmenuList => {
+      this.num = resmenuList.data.length;
+    })
+  },
+  watch: {
+    messageCount(value) {
+      this.$nextTick(() => {
+        $('#messageIcon').addClass("tada");
+      })
     }
   },
   methods: {

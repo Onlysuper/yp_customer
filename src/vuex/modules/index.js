@@ -20,6 +20,8 @@ import enterpriseSupply from "./enterprise/enterprise_supply";
 import orderQuery from "./order/orderQuery";
 import customerVersion from "./version/customerVersion";
 import settle from "./settle/settle";
+import buriedPoint from "./statistical/buriedPoint";
+
 
 
 export {
@@ -43,5 +45,6 @@ export {
   orderQuery,
 
   customerVersion,
-  settle
+  settle,
+  buriedPoint
 };

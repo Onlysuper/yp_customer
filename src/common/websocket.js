@@ -55,26 +55,30 @@ const websocket = {
 
       //接收到消息的回调方法
       this.ws.onmessage = (event) => {
-
         let data = JSON.parse(event.data)
         let content = JSON.parse(data.content);
         console.log(event);
         console.log(data);
         console.log(content);
-        this.$confirm('excel已为您创建成功, 继续下载吗？', '提示', {
-          confirmButtonText: '开始下载',
-          cancelButtonText: '取消',
-          type: 'info'
-        }).then(() => {
-          // console.log("/billcountday/download?fileName=" + content);
-          let downloadUrl = this.oaIp + content.downloadUrl
-          downloadFile(downloadUrl);
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消下载'
+        if (data.type == "DOWNLOAD") {
+          this.$confirm('excel已为您创建成功, 继续下载吗？', '提示', {
+            confirmButtonText: '开始下载',
+            cancelButtonText: '取消',
+            type: 'info'
+          }).then(() => {
+            // console.log("/billcountday/download?fileName=" + content);
+            let downloadUrl = this.oaIp + content.downloadUrl
+            downloadFile(downloadUrl);
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消下载'
+            });
           });
-        });
+        } else if (data.type == "TEXT") {
+          this.store.commit('messageCountAdd')
+        }
+
       }
       //连接关闭的回调方法
       this.ws.onclose = () => {

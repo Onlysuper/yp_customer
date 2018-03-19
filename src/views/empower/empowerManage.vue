@@ -209,7 +209,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="this.editFormVisible = false">关闭</el-button>
+        <el-button @click="editFormVisible = false">关闭</el-button>
         <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
       </div>
     </el-dialog>

@@ -276,7 +276,7 @@ export default {
             key: "交易金额(元)",
             width: "",
             word: "amount",
-            status: true,
+            // status: true,
             type: data => {
               return {
                 text: utils.accMul(data, 0.01),
