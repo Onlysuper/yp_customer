@@ -17,6 +17,8 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
+        startNetTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
+        endNetTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
         standardTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),
         standardTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd"),
         containChild: "TRUE",

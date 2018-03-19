@@ -50,8 +50,10 @@ export default {
     },
   },
   actions: {
-    getConvergePayCommSum12312({ commit, dispatch, getters, rootGetters, rootState, state }) {
-
-    }
+    // 数据列表中获取当前编辑得数据
+    getOrderQueryUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
+      console.log(itemId)
+      return state.list.find(item => item.orderNo == itemId);
+    },
   }
 };

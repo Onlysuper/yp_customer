@@ -41,7 +41,28 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "开始日期",
+        title: "入网时间开始",
+        type: "myp-date",
+        defaultValue: this.searchQuery.startNetTime,
+        cb: value => {
+          console.log(value);
+          this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
+            startNetTime: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "入网时间结束",
+        type: "myp-date",
+        defaultValue: this.searchQuery.endNetTime,
+        cb: value => {
+          this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
+            endNetTime: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "达标时间开始",
         type: "myp-date",
         defaultValue: this.searchQuery.standardTimeBegin,
         cb: value => {
@@ -52,7 +73,7 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "结束日期",
+        title: "达标时间结束",
         type: "myp-date",
         defaultValue: this.searchQuery.standardTimeEnd,
         cb: value => {
@@ -61,6 +82,7 @@ export default {
           });
         }
       });
+
       this.searchConfig.push({
         title: "包含关系",
         type: "myp-radio-list",

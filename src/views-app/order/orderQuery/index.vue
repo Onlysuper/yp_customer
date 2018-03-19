@@ -9,14 +9,16 @@
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
 
-          <myp-cell class="list-item">
+          <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
             <table>
-              <myp-tr title="时间">{{item.payTime}}</myp-tr>
-              <myp-tr title="分润金额">{{item.subsidy}}</myp-tr>
-              <myp-tr title="状态">{{item.status}}</myp-tr>
-              <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
-              <myp-tr title="合伙人名称">{{item.bussinessName}}</myp-tr>
+              <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
+              <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
+              <myp-tr title="商户名称">{{item.customerName}}</myp-tr>
+              <myp-tr title="交易金额">{{utils.accMul(item.amount, 0.01)}}元</myp-tr>
+              <myp-tr title="状态">{{item.status | orderQueryStatus}}</myp-tr>
+              <!--   <myp-tr title="手续费">{{utils.accMul(item.fee, 0.01)}}元</myp-tr>
+              <myp-tr title="交易费率">{{utils.accMul(item.feeRate, 100)}}%元</myp-tr> -->
             </table>
           </myp-cell>
 
@@ -31,6 +33,7 @@ import SliderNav from "@src/components-app/SliderNav";
 import { scrollBehavior } from "@src/common/mixins";
 import { getPayOrders } from "@src/apis";
 import { mapState, mapActions } from "vuex";
+import utils from "@src/common/utils";
 export default {
   mixins: [scrollBehavior],
   components: { SliderNav },
@@ -66,6 +69,18 @@ export default {
     watchDataList(watchDataList) {
       this.$store.commit("ORDER_QUERY_SET_LIST", watchDataList);
       this.$store.commit("ORDER_QUERY_IS_SEARCH", false);
+    },
+    toUrl(type, itemId, rowdata) {
+      if (type == "DETAIL") {
+        this.$router.push({
+          path: "./detail/" + itemId,
+          query: { type: type }
+        });
+      }
+    },
+    detail(rowdata) {
+      console.log(rowdata);
+      this.toUrl("DETAIL", rowdata.orderNo, rowdata);
     }
   },
   activated() {
