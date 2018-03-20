@@ -217,7 +217,7 @@
                   </div>
                 </scroll-pane>
                 <div class="large-img">
-                  <img class="img-large" :src="largeImgUrl" alt="">
+                  <img @click="largeImageShow(largeImgUrl,'payStatus')" class="img-large" :src="largeImgUrl" alt="">
                 </div>
               </div>
             </template>
@@ -246,7 +246,7 @@
                   </div>
                 </scroll-pane>
                 <div class="large-img">
-                  <img class="img-large" :src="qrcodelargeImgUrl" alt="">
+                  <img @click="largeImageShow(qrcodelargeImgUrl,'qrcode')" class="img-large" :src="qrcodelargeImgUrl" alt="">
                 </div>
               </div>
             </template>
@@ -302,6 +302,12 @@
         <el-button type="primary" @click="closeSave('closeForm')">确定</el-button>
       </div>
     </el-dialog>
+    <transition name="slide-fade" class="fadeView">
+      <div v-if="fadeViewVisible">
+        <image-view :imgArr="largeUrl" :showImageView="true" :imageIndex="0" v-on:hideImage="hideImageView"></image-view>
+      </div>
+    </transition>
+
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -345,6 +351,9 @@
     //     max-width: 100%;
     //   }
     // }
+    .imageBox li {
+      text-align: center;
+    }
     .special-dialog {
       // overflow: hidden;
       margin-top: -5vw;
@@ -451,6 +460,7 @@
 }
 </style>
 <script> 
+import imageView from 'vue-imageview'
 import ScrollPane from "@src/components/ScrollPane";
 import FullShade from "@src/components/FullShade";
 import SearchForm from "@src/components/SearchForm";
@@ -485,7 +495,8 @@ export default {
     paystatusSuccess: paystatusSuccess,
     openInfo: openInfo,
     FullShade,
-    ScrollPane
+    ScrollPane,
+    ImageView: imageView
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
@@ -583,7 +594,9 @@ export default {
       }
     }
     return {
-      styleVisible: true,
+      largeUrl: "",
+      fadeViewVisible: false,
+      styleVisible: false,
       // showImageVisible: true,
       largeImgUrl: "",
       qrcodelargeImgUrl: "",
@@ -962,24 +975,6 @@ export default {
           width: "200px",
           options: [
             {
-              text: "排版",
-              color: "#00c1df",
-              // visibleFn: rowdata => {
-              //   if (
-              //     isAdmin || !isBranchOffice
-              //   ) {
-              //     return true;
-              //   } else {
-              //     return false;
-              //   }
-              // },
-              cb: rowdata => {
-                this.resaultData = rowdata;
-                // this.resaultData = rowdata;
-                // this.openProduct();
-              }
-            },
-            {
               text: "开通",
               color: "#00c1df",
               visibleFn: rowdata => {
@@ -1129,6 +1124,14 @@ export default {
                 });
                 this.closeVisible = true;
               }
+            },
+            {
+              text: "排版",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.resaultData = rowdata;
+                this.styleVisible = true;
+              }
             }
           ]
         }
@@ -1136,13 +1139,28 @@ export default {
     };
   },
   methods: {
+    hideImageView() {
+      this.fadeViewVisible = false
+    },
     showImg(val, type) {
       if (type == 'pay') {
         this.largeImgUrl = val
       } else if (type == 'qrcode') {
         this.largeImgUrl = val
       }
+      // this.fadeViewVisible = true
+      // this.imageIndex = index
+    },
+    largeImageShow(url, type) {
+      console.log(url);
+      if (type == "qrcode") {
 
+      } else if (type == "qrcode") {
+
+      }
+      this.largeUrl = [url];
+      this.fadeViewVisible = true
+      this.imageIndex = 0
     },
     // 关闭，拒绝，通过
     resaultHandle(obj) {

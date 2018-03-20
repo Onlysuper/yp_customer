@@ -376,7 +376,7 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "开票时间",
-            width: "180px",
+            width: "170px",
             sortable: true,
             word: "createTime"
           },
@@ -482,7 +482,7 @@ export default {
             width: "180px",
             word: "enterpriseName"
           },
-          { key: "税号", word: "taxNo", width: "" }
+          { key: "税号", word: "taxNo", width: "200px" }
         ],
         operation: {
           width: "120px",

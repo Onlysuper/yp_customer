@@ -259,7 +259,7 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "创建时间",
-            width: "100px",
+            width: "160px",
             word: "createTime"
           },
           {
@@ -269,7 +269,7 @@ export default {
           },
           {
             key: "商户名称",
-            width: "100px",
+            width: "160px",
             word: "customerName"
           },
           {
