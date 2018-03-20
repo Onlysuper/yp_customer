@@ -122,12 +122,13 @@ export default {
   },
   computed: {
     visitedViews() {
+      console.log(this.$store.state.tagsView.visitedViews);
       return this.$store.state.tagsView.visitedViews;
     }
   },
   watch: {
     $route() {
-      console.log(this.$route);
+      // console.log(this.$route);
       this.addViewTags();
       this.moveToCurrentTag();
     },
@@ -190,7 +191,7 @@ export default {
       this.$router.push("/");
     },
     openMenu(tag, e) {
-      console.log(tag);
+      // console.log(tag);
       if (tag.title == "首页") {
         this.closeSelfVisible = false;
       } else {

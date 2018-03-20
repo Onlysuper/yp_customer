@@ -259,22 +259,22 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "创建时间",
-            width: "180px",
+            width: "100px",
             word: "createTime"
           },
           {
             key: "商户编号",
-            width: "",
+            width: "100px",
             word: "customerNo"
           },
           {
             key: "商户名称",
-            width: "",
+            width: "100px",
             word: "customerName"
           },
           {
             key: "交易金额(元)",
-            width: "",
+            width: "120px",
             word: "amount",
             // status: true,
             type: data => {

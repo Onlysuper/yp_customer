@@ -11,253 +11,308 @@
     <!-- 商户状态 start -->
     <el-dialog class="special-dialog" title="商户状态" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
-        <template>
+        <div class="line-box-center">
+          <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
+            <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+            </el-option>
+          </el-select>
+        </div>
+        <template v-if="payStatusVisible">
           <!-- 聚合详情 -->
           <div class="detail-body">
-            <div class="detaile-left">
-              <div class="line-box-left">
-                <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
-                  </el-option>
-                </el-select>
-              </div>
-              <template v-if="payStatusVisible">
-                <div class="line-label-box">
-                  <span class="line-label">商户编号:</span>
-                  <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">商户名称:</span>
-                  <span class="line-label-last">{{detailsForm.customerName}}</span>
-                </div>
-
-                <div class="line-label-box">
-                  <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">企业名称:</span>
-                  <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">企业税号:</span>
-                  <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">营业执照期限:</span>
-                  <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">微信费率:</span>{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | settleMode}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
-                </div>
-              </template>
-              <template v-if="qrcodeStatusVisible">
-                <div class="line-label-box">
-                  <span class="line-label">商户编号:</span>
-                  <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">商户名称:</span>
-                  <span class="line-label-last">{{detailsForm.customerName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
-                </div>
-              </template>
-              <template v-if="elecStatusVisible">
-                <!-- 电子详情 -->
-                <div class="line-label-box">
-                  <span class="line-label">商户编号:</span>
-                  <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">商户名称:</span>
-                  <span class="line-label-last">{{detailsForm.customerName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | handleProductOpenStatus}}
-                </div>
-                <!-- 电子发票查询详情 -->
-                <div class="line-label-box">
-                  <span class="line-label">注册省份:</span>
-                  <span class="line-label-last">
-                    {{elecStatusDetails.orgCode?utils.findCity(elecStatusDetails.orgCode).resultAddr:""}}
-                  </span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">注册地址:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bussinessAddress}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">联系电话:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bussinessPhone}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">经营名称:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bussinessName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">注册资金:</span>
-                  <span class="line-label-last">{{elecStatusDetails.registMoney}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开户银行:</span>
-                  <span class="line-label-last">{{elecStatusDetails.branchName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">银行账号:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bankAccountNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">月开票量:</span>
-                  <span class="line-label-last">{{elecStatusDetails.elecBillnum}}</span>
-                </div>
-                <div class="line-label-box" v-if="elecStatusDetails.elecReason==''||elecStatusDetails.elecReason==null?false:true">
-                  <span class="line-label">被拒原因:</span>
-                  <span class="line-label-last">{{elecStatusDetails.elecReason}}</span>
-                </div>
-              </template>
+            <div class="line-label-box">
+              <span class="line-label">商户编号:</span>
+              <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
             </div>
-            <template v-if="payStatusVisible">
-              <div class="detaile-right">
-                <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
-                  <div class="imgs-group">
+            <div class="line-label-box">
+              <span class="line-label">商户名称:</span>
+              <span class="line-label-last">{{detailsForm.customerName}}</span>
+            </div>
+
+            <div class="line-label-box">
+              <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">企业名称:</span>
+              <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">企业税号:</span>
+              <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">营业执照期限:</span>
+              <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
+            </div>
+            <div class="line-label-box">
+
+              <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">微信费率:</span>{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | settleMode}}
+            </div>
+            <div class="line-label-box">
+              <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <div class="grid-content bg-purple">
+
                     <div class="img-box">
                       <p class="img-title">法人身份证正面:</p>
                       <div class="img-back">
-                        <img @click="showImg(payStatusDetails.identityFrontImg.url||'','pay')" class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
+                        <img @click="showImg(payStatusDetails.identityFrontImg.url||'')" class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
                       </div>
                     </div>
+
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="grid-content bg-purple-light">
                     <div class="img-box">
                       <p class="img-title">法人身份证反面:</p>
                       <div class="img-back">
-                        <img @click="showImg(payStatusDetails.identityBackImg.url||'','pay')" class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
+                        <img @click="showImg(payStatusDetails.identityBackImg.url||'')" class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
                       </div>
                     </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">营业执照:</p>
                       <div class="img-back">
-                        <img @click="showImg(payStatusDetails.bussinessLicenseImg.url||'','pay')" class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
+                        <img @click="showImg(payStatusDetails.bussinessLicenseImg.url||'')" class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
                       </div>
                     </div>
-                    <div class="img-box">
-                      <p class="img-title">手持身份证:</p>
-                      <div class="img-back">
-                        <img @click="showImg(payStatusDetails.identityHolderImg.url||'','pay')" class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
-                      </div>
+                  </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="img-box">
+                    <p class="img-title">手持身份证:</p>
+                    <div class="img-back">
+                      <img @click="showImg(payStatusDetails.identityHolderImg.url||'')" class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
                     </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">结算卡正面:</p>
                       <div class="img-back">
-                        <img @click="showImg(payStatusDetails.settleCardImg.url||'','pay')" class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
-                      </div>
-                    </div>
-                    <div class="img-box">
-                      <p class="img-title">开户许可证:</p>
-                      <div class="img-back">
-                        <img @click="showImg(payStatusDetails.accountLicenseImg.url||'','pay')" class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
-                      </div>
-                    </div>
-                    <div class="img-box">
-                      <p class="img-title">门头照片:</p>
-                      <div class="img-back">
-                        <img @click="showImg(payStatusDetails.placeImg.url||'','pay')" class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
-                      </div>
-                    </div>
-                    <div class="img-box">
-                      <p class="img-title">店内照片:</p>
-                      <div class="img-back">
-                        <img @click="showImg(payStatusDetails.storeImg.url||'','pay')" class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
-                      </div>
-                    </div>
-                    <div class="img-box">
-                      <p class="img-title">收银台照片:</p>
-                      <div class="img-back">
-                        <img @click="showImg(payStatusDetails.cashSpaceImg.url||'','pay')" class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
+                        <img @click="showImg(payStatusDetails.settleCardImg.url||'')" class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
-                </scroll-pane>
-                <div class="large-img">
-                  <img class="img-large" :src="largeImgUrl" alt="">
-                </div>
-              </div>
-            </template>
-            <template v-if="qrcodeStatusVisible">
-              <div class="detaile-right">
-                <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
-                  <div class="imgs-group">
-                    <div class="img-box">
-                      <p class="img-title">营业执照:</p>
-                      <div class="img-back">
-                        <img @click="showImg(qrcodeImgs.fastBussinessImg.url||'','qrcode')" class="img-size" :src="qrcodeImgs.fastBussinessImg.url||''" alt="">
-                      </div>
+                </el-col>
+                <el-col :span="12">
+                  <div class="img-box">
+                    <p class="img-title">开户许可证:</p>
+                    <div class="img-back">
+                      <img @click="showImg(payStatusDetails.accountLicenseImg.url||'')" class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
                     </div>
-                    <div class="img-box">
-                      <p class="img-title">收银台照片:</p>
-                      <div class="img-back">
-                        <img @click="showImg(qrcodeImgs.fastCashImg.url||'','qrcode')" class="img-size" :src="qrcodeImgs.fastCashImg.url||''" alt="">
-                      </div>
-                    </div>
+                  </div>
+                </el-col>
+
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="12">
+                  <div class="grid-content bg-purple">
                     <div class="img-box">
                       <p class="img-title">门头照片:</p>
                       <div class="img-back">
-                        <img @click="showImg(qrcodeImgs.fastHeaderImg.url||'','qrcode')" class="img-size" :src="qrcodeImgs.fastHeaderImg.url||''" alt="">
+                        <img @click="showImg(payStatusDetails.placeImg.url||'')" class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
                       </div>
                     </div>
                   </div>
-                </scroll-pane>
-                <div class="large-img">
-                  <img class="img-large" :src="qrcodelargeImgUrl" alt="">
-                </div>
-              </div>
-            </template>
+                </el-col>
+                <el-col :span="12">
+                  <div class="img-box">
+                    <p class="img-title">店内照片:</p>
+                    <div class="img-back">
+                      <img @click="showImg(payStatusDetails.storeImg.url||'')" class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="line-label-box">
+              <el-row :gutter="20">
+                <el-col :span="24">
+                  <div class="grid-content bg-purple">
+                    <div class="img-box">
+                      <p class="img-title">收银台照片:</p>
+                      <div class="img-back">
+                        <img @click="showImg(payStatusDetails.cashSpaceImg.url||'')" class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
+                      </div>
+                    </div>
+                  </div>
+                </el-col>
+              </el-row>
+            </div>
           </div>
+
+        </template>
+        <template v-if="qrcodeStatusVisible">
+          <!-- 快速详情 -->
+          <div class="line-label-box">
+            <span class="line-label">商户编号:</span>
+            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">商户名称:</span>
+            <span class="line-label-last">{{detailsForm.customerName}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
+          </div>
+          <div class="line-label-box">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+
+                  <div class="img-box">
+                    <p class="img-title">营业执照:</p>
+                    <div class="img-back">
+                      <img @click="showImg(qrcodeImgs.fastBussinessImg.url||'')" class="img-size" :src="qrcodeImgs.fastBussinessImg.url||''" alt="">
+                    </div>
+                  </div>
+
+                </div>
+              </el-col>
+              <el-col :span="12">
+                <div class="grid-content bg-purple-light">
+                  <div class="img-box">
+                    <p class="img-title">收银台照片:</p>
+                    <div class="img-back">
+                      <img @click="showImg(qrcodeImgs.fastCashImg.url||'')" class="img-size" :src="qrcodeImgs.fastCashImg.url||''" alt="">
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+          <div class="line-label-box">
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <div class="grid-content bg-purple">
+
+                  <div class="img-box">
+                    <p class="img-title">门头照片:</p>
+                    <div class="img-back">
+                      <img @click="showImg(qrcodeImgs.fastHeaderImg.url||'')" class="img-size" :src="qrcodeImgs.fastHeaderImg.url||''" alt="">
+                    </div>
+                  </div>
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </template>
+        <template v-if="elecStatusVisible">
+          <!-- 电子详情 -->
+          <div class="line-label-box">
+            <span class="line-label">商户编号:</span>
+            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">商户名称:</span>
+            <span class="line-label-last">{{detailsForm.customerName}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | handleProductOpenStatus}}
+          </div>
+          <!-- 电子发票查询详情 -->
+          <div class="line-label-box">
+            <span class="line-label">注册省份:</span>
+            <span class="line-label-last">
+              {{elecStatusDetails.orgCode?utils.findCity(elecStatusDetails.orgCode).resultAddr:""}}
+            </span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">注册地址:</span>
+            <span class="line-label-last">{{elecStatusDetails.bussinessAddress}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">联系电话:</span>
+            <span class="line-label-last">{{elecStatusDetails.bussinessPhone}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">经营名称:</span>
+            <span class="line-label-last">{{elecStatusDetails.bussinessName}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">注册资金:</span>
+            <span class="line-label-last">{{elecStatusDetails.registMoney}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">开户银行:</span>
+            <span class="line-label-last">{{elecStatusDetails.branchName}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">银行账号:</span>
+            <span class="line-label-last">{{elecStatusDetails.bankAccountNo}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="line-label">月开票量:</span>
+            <span class="line-label-last">{{elecStatusDetails.elecBillnum}}</span>
+          </div>
+          <div class="line-label-box" v-if="elecStatusDetails.elecReason==''||elecStatusDetails.elecReason==null?false:true">
+            <span class="line-label">被拒原因:</span>
+            <span class="line-label-last">{{elecStatusDetails.elecReason}}</span>
+          </div>
+
         </template>
 
       </div>
       <div slot="footer" class="dialog-footer">
-        <!-- <el-button @click="detailsFormVisible = false">取 消</el-button> -->
+        <el-button @click="detailsFormVisible = false">取 消</el-button>
         <!-- <el-button v-if="editVisiblebut" :disabled="deitDisabled_edit(selectOptions.customerType,detailsForm)" type="primary" @click="editFn()">编辑</el-button> -->
         <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
+
         <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
       </div>
@@ -291,167 +346,65 @@
       </div>
     </el-dialog>
     <!-- 关闭end -->
-    <el-dialog title="" center :visible.sync="styleVisible">
-      <el-form size="small" :model="closeForm" ref="closeForm" :rules="closeFormRules" label-width="100px">
-        <el-form-item prop="reason" label="关闭原因">
-          <el-input type="textarea" v-model="closeForm.reason"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="closeVisible = false">取 消</el-button>
-        <el-button type="primary" @click="closeSave('closeForm')">确定</el-button>
-      </div>
-    </el-dialog>
+    <!-- <el-dialog title="" center :visible.sync="showImageVisible">
+    </el-dialog> -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
 @media screen and (min-width: 500px) {
   .admin-page {
-    // .img-box {
-    //   padding: 10px;
-    //   .img-title {
-    //     padding-bottom: 10px;
-    //   }
-    //   .img-back {
-    //     height: 250px;
-    //     min-width: 250px;
-    //     height: 250px;
-    //     min-width: 250px;
-    //     border: 1px solid #ebeef5;
-    //     text-align: center;
-    //     padding: 5px;
-    //     position: relative;
-    //     &::after {
-    //       content: "暂无图片";
-    //       position: absolute;
-    //       left: 50%;
-    //       top: 50%;
-    //       width: 100px;
-    //       text-align: center;
-    //       margin-left: -50px;
-    //       margin-top: -10px;
-    //     }
-    //     .img-size {
-    //       height: 250px;
-    //       max-width: 100%;
-    //       position: relative;
-    //       z-index: 1;
-    //       color: #909399;
-    //     }
-    //   }
-    //   .img-size {
-    //     height: 250px;
-    //     max-width: 100%;
-    //   }
-    // }
+    .detail-body {
+      max-height: 300px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .img-box {
+      padding: 10px;
+      .img-title {
+        padding-bottom: 10px;
+      }
+      .img-back {
+        height: 250px;
+        min-width: 250px;
+        height: 250px;
+        min-width: 250px;
+        border: 1px solid #ebeef5;
+        text-align: center;
+        padding: 5px;
+        position: relative;
+        &::after {
+          content: "暂无图片";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          width: 100px;
+          text-align: center;
+          margin-left: -50px;
+          margin-top: -10px;
+        }
+        .img-size {
+          height: 250px;
+          max-width: 100%;
+          position: relative;
+          z-index: 1;
+          color: #909399;
+        }
+      }
+      .img-size {
+        height: 250px;
+        max-width: 100%;
+      }
+    }
     .special-dialog {
-      // overflow: hidden;
-      margin-top: -5vw;
-      // .el-dialog__header {
-      //   display: none;
-      // }
       .el-dialog {
         width: 90% !important;
-      }
-      .el-dialog__footer {
-        padding: 0;
-        .el-button {
-          margin: 10px;
-        }
-      }
-      .el-dialog__body {
-        padding-bottom: 0px !important;
-        // height: 500px;
-      }
-      .detail-content {
-        height: 100%;
-        overflow: auto;
-        position: relative;
-      }
-      .detail-body {
-        // height: 100%;
-        // overflow-y: auto;
-        height: 550px;
-        overflow-x: hidden;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: stretch;
-
-        .detaile-left {
-          margin-left: 10px;
-          overflow-y: auto;
-          // min-width: 300px;
-          // flex-basis: 300px;
-          flex: 4;
-          flex-shrink: 0;
-          // background: blue;
-        }
-        .detaile-right {
-          flex: 6;
-          display: flex;
-          flex-direction: column;
-          border-left: 1px solid #ebeef5;
-          .tags-view-wrapper {
-            // background: red;
-            flex-shrink: 0;
-            border-bottom: 1px solid #ebeef5;
-            flex-basis: 100px;
-            .imgs-group {
-              width: 100%;
-              display: flex;
-              flex-direction: row;
-              // padding: 5px;
-              .img-box {
-                margin: 5px;
-                width: 90px;
-                height: 90px;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-                align-items: stretch;
-                .img-title {
-                  width: 100%;
-                  flex-basis: 20px;
-                  line-height: 20px;
-                  font-size: 10px;
-                }
-                .img-back {
-                  border: 1px solid #ebeef5;
-                  width: 100%;
-                  height: 70px;
-                  // flex: 1;
-                  box-sizing: border-box;
-                  img {
-                    cursor: pointer;
-                    width: 100%;
-                    height: 100%;
-                    &:hover {
-                      opacity: 0.5;
-                    }
-                  }
-                }
-              }
-            }
-          }
-          .large-img {
-            text-align: center;
-            flex: 1;
-            padding: 10px;
-            overflow: hidden;
-            img {
-              height: 100%;
-            }
-          }
-        }
       }
     }
   }
 }
 </style>
 <script> 
-import ScrollPane from "@src/components/ScrollPane";
 import FullShade from "@src/components/FullShade";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
@@ -484,8 +437,7 @@ export default {
     paystatusUpload: paystatusUpload,
     paystatusSuccess: paystatusSuccess,
     openInfo: openInfo,
-    FullShade,
-    ScrollPane
+    FullShade
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
@@ -583,10 +535,7 @@ export default {
       }
     }
     return {
-      styleVisible: true,
       // showImageVisible: true,
-      largeImgUrl: "",
-      qrcodelargeImgUrl: "",
       isAdmin: isAdmin,
       // 默认数据初始值
       detailsFormDefault: { ...detailsForm },
@@ -635,7 +584,7 @@ export default {
         ]
       },
 
-      detailsFormVisible: false, // 详情框
+      detailsFormVisible: true, // 详情框
       editFormVisible: false, // 编辑框
       formLabelWidth: "130px",
       payStatusFormRules: {}, // 编辑单个规则
@@ -959,68 +908,16 @@ export default {
           }
         ],
         operation: {
-          width: "200px",
+          width: "180px",
           options: [
-            {
-              text: "排版",
-              color: "#00c1df",
-              // visibleFn: rowdata => {
-              //   if (
-              //     isAdmin || !isBranchOffice
-              //   ) {
-              //     return true;
-              //   } else {
-              //     return false;
-              //   }
-              // },
-              cb: rowdata => {
-                this.resaultData = rowdata;
-                // this.resaultData = rowdata;
-                // this.openProduct();
-              }
-            },
-            {
-              text: "开通",
-              color: "#00c1df",
-              visibleFn: rowdata => {
-                if (
-                  isAdmin || !isBranchOffice
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              disabledFn: rowdata => {
-                if (
-                  rowdata.payStatus == "INIT" ||
-                  rowdata.payStatus == "WAITING_SUBMIT" ||
-                  rowdata.payStatus == "REJECT" ||
-                  rowdata.payStatus == "FALSE" ||
-                  rowdata.qrcodeStatus == "INIT" ||
-                  rowdata.qrcodeStatus == "FALSE" ||
-                  rowdata.elecStatus == "INIT" ||
-                  rowdata.elecStatus == "REJECT" ||
-                  rowdata.elecStatus == "FALSE"
-                ) {
-                  return false;
-                } else {
-                  return true;
-                }
-              },
-              cb: rowdata => {
-                this.resaultData = rowdata;
-                this.openProduct();
-              }
-            },
             // 操作按钮
             {
               text: "查询",
               color: "#00c1df",
               cb: rowdata => {
-                this.resaultData = rowdata;
                 this.search = true;
                 this.check = false;
+                this.resaultData = rowdata;
                 this.changeVisibleFn();
                 this.getCustomerEcho(); // 聚合支付回显
                 this.getElectronicEcho(); // 电子发票回显
@@ -1095,11 +992,9 @@ export default {
                 }
               },
               cb: rowdata => {
-                this.resaultData = rowdata;
-                this.openProduct();
+                this.openProduct(rowdata);
               }
             },
-
 
             // 一下按钮均为运营可操作
             {
@@ -1136,13 +1031,8 @@ export default {
     };
   },
   methods: {
-    showImg(val, type) {
-      if (type == 'pay') {
-        this.largeImgUrl = val
-      } else if (type == 'qrcode') {
-        this.largeImgUrl = val
-      }
-
+    showImg(val) {
+      console.log(val);
     },
     // 关闭，拒绝，通过
     resaultHandle(obj) {
@@ -1264,10 +1154,7 @@ export default {
       });
     },
     // 点击开通产品
-    openProduct() {
-      // console.log()
-      let rowdata = { ...this.resaultData };
-      // console.log(rowdata);
+    openProduct(rowdata) {
       this.editFormVisible = true;
       this.customerTypeSelected = [
         {
@@ -1304,7 +1191,7 @@ export default {
               : true
         }
       ];
-      // this.resaultData = rowdata;
+      this.resaultData = rowdata;
       this.nextFn("openInfo");
     },
     // 聚合支付回显
@@ -1354,7 +1241,6 @@ export default {
               "fastBussinessImg", "fastCashImg", "fastHeaderImg"
             ]);
           }
-
           this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           this.payStatusDetails = {
             ...this.payStatusDetails,
@@ -1362,18 +1248,6 @@ export default {
             ...settleCardRow,
             ...productRow,
             ...imgsRow
-          }
-          for (var i in imgsRow) {
-            if (imgsRow[i].url) {
-              this.largeImgUrl = imgsRow[i].url
-              break;
-            }
-          }
-          for (var i in qrcodeImgs) {
-            if (qrcodeImgs[i].url) {
-              this.qrcodelargeImgUrl = qrcodeImgs[i].url
-              break;
-            }
           }
         }
         dialogLoading.close();
@@ -1431,15 +1305,11 @@ export default {
       let customerType = this.selectOptions.customerType;
       if (customerType == "qrcodeStatus") {
       } else if (customerType == "elecStatus") {
-        // this.detailsFormVisible = false;
-        // console.log(this.resaultData);
-        this.editFormVisible = true;
-        this.openProduct();
       } else if (customerType == "payStatus") {
-        // this.qrcodeStatusVisible = true;
-        // this.detailsFormVisible = false;
+        this.qrcodeStatusVisible = true;
+        this.detailsFormVisible = false;
         this.editFormVisible = true;
-        this.openProduct('payStatus');
+        this.openProduct(this.resaultData);
         console.log("聚合支付编辑");
       }
     },
@@ -1513,15 +1383,9 @@ export default {
       }
 
     },
-    deFaultData() {
-      // 恢复默认数据
-      this.resaultData = this.resaultDataDefault;
-      this.detailsForm = this.detailsFormDefault;
-      this.payStatusDetails = this.payStatusDetailsDefault;
-      this.elecStatusDetails = this.elecStatusDetailsDefault;
-      this.qrcodeImgs = this.qrcodeImgsDefault;
-      this.largeImgUrl = "";
-      this.qrcodelargeImgUrl = "";
+    customerTypeChange() {
+      // this.customerTypeSelect();
+      // this.changeVisibleFn();
     }
   },
   computed: {
@@ -1536,7 +1400,6 @@ export default {
       }
     },
     customerType(val) {
-      // this.deFaultData();
       this.payStatusVisible = false;
       this.qrcodeStatusVisible = false;
       this.elecStatusVisible = false;
@@ -1548,12 +1411,15 @@ export default {
         this.payStatusVisible = true;
       }
       this.changeVisibleFn();
-      // this.getCustomerEcho(); // 聚合支付回显
-      // this.getElectronicEcho(); // 电子发票回显
     },
     detailsFormVisible(val) {
       if (!val) {
-        this.deFaultData();
+        // 恢复默认数据
+        this.resaultData = this.resaultDataDefault;
+        this.detailsForm = this.detailsFormDefault;
+        this.payStatusDetails = this.payStatusDetailsDefault;
+        this.elecStatusDetails = this.elecStatusDetailsDefault;
+        this.qrcodeImgs = this.qrcodeImgsDefault;
       }
     }
   },

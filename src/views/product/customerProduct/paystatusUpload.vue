@@ -463,6 +463,8 @@ export default {
         this.saveLoading = false;
         return false;
       }
+      console.log(this.saveForm);
+      return false;
       // 点击下一步提交所有图片
       completeBussinessImg()(this.saveForm).then(res => {
         if (res.code == "00") {
@@ -504,7 +506,6 @@ export default {
       }).then(res => {
         if (res.code == "00") {
           console.log(res.data);
-          let imgs = res.data.imgs;
           if (imgs.identityFrontImg != null) {
             this.identityFrontImg = imgs.identityFrontImg.url;
             this.saveForm.identityFrontImg = imgs.identityFrontImg.id;
