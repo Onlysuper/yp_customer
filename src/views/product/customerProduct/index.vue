@@ -460,8 +460,9 @@
             padding: 10px;
             overflow: hidden;
             img {
-              max-width: 300px;
-              height: 100%;
+              max-width: 100%;
+              max-height: 100%;
+              // height: 100%;
             }
           }
         }
