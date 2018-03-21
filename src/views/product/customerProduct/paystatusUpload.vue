@@ -173,7 +173,16 @@ export default {
       // rowData_: rowData,
       // 身份证正面
       saveForm: {
-        customerNo: this.rowData.bussinessNo
+        customerNo: this.rowData.bussinessNo,
+        identityFrontImg: "",
+        identityBackImg: "",
+        identityHolderImg: "",
+        bussinessLicenseImg: "",
+        settleCardImg: "",
+        accountLicenseImg: "",
+        placeImg: "",
+        storeImg: "",
+        cashSpaceImg: ""
       },
       idcardData: {
         imgType: "LEGAL_PERSON_ID_POSITIVE",
@@ -415,7 +424,7 @@ export default {
       };
     },
     editSave() {
-      this.saveLoading = true;
+
       // 编辑内容保存
       // return false;
       for (var i in this.saveForm) {
@@ -426,44 +435,43 @@ export default {
             // 身份证正面
             case "identityFrontImg":
               this.warningMsg("请上传身份证正面照片");
-              break;
+              return false;
             // 身份证反面
             case "identityBackImg":
               this.warningMsg("请上传身份证反面照片");
-              break;
+              return false;
             // 营业执照
             case "bussinessLicenseImg":
               this.warningMsg("请上传营业执照");
-              break;
+              return false;
             // 结算
             case "settleCardImg":
               this.warningMsg("请上传结算卡照片");
-              break;
+              return false;
             // 开户许可证
             case "accountLicenseImg":
               this.warningMsg("请上传开户许可证照片");
-              break;
+              return false;
             // 门头照片
             case "placeImg":
               this.warningMsg("请上传门头照片");
-              break;
+              return false;
             // 店内照片
             case "storeImg":
               this.warningMsg("请上传店内照片");
-              break;
+              return false;
             // 收银台照片
             case "cashSpaceImg":
               this.warningMsg("请上传收银台照片");
-              break;
+              return false;
           }
-          this.saveLoading = false;
         }
       }
       if (!this.agreeOpen) {
         this.warningMsg("必须先勾选《同意开通支付协议》！");
-        this.saveLoading = false;
         return false;
       }
+      this.saveLoading = true;
       // 点击下一步提交所有图片
       completeBussinessImg()(this.saveForm).then(res => {
         if (res.code == "00") {
