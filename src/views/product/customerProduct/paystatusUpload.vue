@@ -420,7 +420,7 @@ export default {
       // return false;
       for (var i in this.saveForm) {
         console.log(this.saveForm[i]);
-        return false;
+        // return false;
         if (!this.saveForm[i]) {
           switch (i) {
             // 身份证正面
