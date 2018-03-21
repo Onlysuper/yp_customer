@@ -492,16 +492,8 @@ export default {
               text: "查看",
               color: "#00c1df",
               cb: rowdata => {
-                // downLoadVisible
-                //      if (data.pdfUrl != null && data.pdfUrl != "") {
-                //     $("#pdfUrlDiv").show();
-                //     $("#pdfUrlA").attr("href", data.pdfUrl);
-                // } else {
-                //     $("#pdfUrlDiv").hide();
-                //     $("#pdfUrlA").attr("href", "");
-                // }
                 this.detailsForm = rowdata;
-                if (rowdata.status == "BILLING_SUCCESS") {
+                if (rowdata.status == "BILLING_SUCCESS" || rowdata.invoiceMedia == 'ELECTRONIC') {
                   this.downLoadVisible = true;
                 } else {
                   this.downLoadVisible = false;

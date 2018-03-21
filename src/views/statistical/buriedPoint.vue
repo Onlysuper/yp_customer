@@ -227,7 +227,7 @@ export default {
           },
           {
             key: "IP地址",
-            width: "",
+            width: "180px",
             word: "ipAddress"
           },
           {

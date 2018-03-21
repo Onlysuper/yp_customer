@@ -292,15 +292,17 @@
     </el-dialog>
     <!-- 关闭end -->
     <el-dialog title="" center :visible.sync="styleVisible">
-      <el-form size="small" :model="closeForm" ref="closeForm" :rules="closeFormRules" label-width="100px">
-        <el-form-item prop="reason" label="关闭原因">
-          <el-input type="textarea" v-model="closeForm.reason"></el-input>
+      <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
+        <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
+          <el-checkbox-group v-model="styleForm.supportTypes">
+            <el-checkbox v-for="city in styleForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="styleVisible = false">取 消</el-button>
+          <el-button type="primary" @click="styleFormSave('styleForm')">确定</el-button>
+        </div>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="closeVisible = false">取 消</el-button>
-        <el-button type="primary" @click="closeSave('closeForm')">确定</el-button>
-      </div>
     </el-dialog>
     <transition name="slide-fade" class="fadeView">
       <div v-if="fadeViewVisible">
@@ -594,6 +596,11 @@ export default {
       }
     }
     return {
+      styleForm: {
+        serviceMode: "HX",
+        supportTypes: ["普票", "专票"],
+        supportTypesArr: ["普票", "专票", "特殊"]
+      },
       largeUrl: "",
       fadeViewVisible: false,
       styleVisible: false,
@@ -664,6 +671,11 @@ export default {
         reason: [
           { required: true, message: "请填写关闭原因", trigger: "blur,change" }
         ]
+      },
+      styleFormRules: {
+        // reason: [
+        //   { required: true, message: "请填写关闭原因", trigger: "blur,change" }
+        // ]
       },
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
@@ -1139,6 +1151,22 @@ export default {
     };
   },
   methods: {
+    // 排版保存
+    styleFormSave() {
+      let styleForm = this.styleForm;
+      let supportTypes1 = "";
+      let supportTypes2 = "";
+      let supportTypes3 = "";
+      styleForm.supportTypes.forEach((element, index) => {
+        if (element == "普票") {
+          supportTypes1 = 1;
+        } else if (element == "专票") {
+          supportTypes2 = 2;
+        } else if (element == "特殊") {
+          supportTypes3 = 4;
+        }
+      });
+    },
     hideImageView() {
       this.fadeViewVisible = false
     },
@@ -1280,6 +1308,14 @@ export default {
           this.resaultHandle(obj);
         });
       });
+    },
+    // 排版保存
+    styleFormSave(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+
+        }
+      })
     },
     // 点击开通产品
     openProduct() {
