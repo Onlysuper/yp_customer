@@ -6,9 +6,9 @@
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-
       <view-radius class="item" v-for="(item,index) in list" :key="index">
         <input-wrapper>
+          <!-- <div @click="stencilFn(item)">排版</div> -->
           <mt-cell :title="item.customerName"></mt-cell>
           <mt-cell title="快速开票" is-link>
             <span>{{item.qrcodeStatus | handleProductOpenStatus}}</span>
@@ -69,6 +69,12 @@ export default {
       this.count = count;
       this.$store.commit("CUSTOMER_PRODUCT_SET_LIST", watchDataList);
       this.$store.commit("CUSTOMER_PRODUCT_IS_SEARCH", false);
+    },
+    stencilFn(rowdata) {
+      this.$router.push({
+        path: "./stencil/" + rowdata.bussinessNo,
+        query: { type: "STENCIL" }
+      });
     },
     openPay(customer) {
       //判断开通状态

@@ -1,7 +1,7 @@
 
 // 商户产品
 
-import { getCustomerEchoProduct } from "@src/apis";
+import { getCustomerEchoProduct, getUserProductStatus } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -42,6 +42,15 @@ export default {
     //回显表单
     getCustomerEchoProduct({ commit, dispatch, getters, rootGetters, rootState, state }, query) {
       return getCustomerEchoProduct()({ ...query }).then(data => {
+        if (data.code == "00") {
+          return data.data;
+        } else {
+          Toast(data.msg);
+        }
+      })
+    },
+    getUserProductStatus({ commit, dispatch, getters, rootGetters, rootState, state }, formList) {
+      return getUserProductStatus()({ ...formList }).then(data => {
         if (data.code == "00") {
           return data.data;
         } else {

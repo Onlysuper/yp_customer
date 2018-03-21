@@ -293,16 +293,24 @@
     <!-- 关闭end -->
     <el-dialog title="" center :visible.sync="styleVisible">
       <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
-        <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
+        <el-form-item label="开票类型" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="styleForm.supportTypes">
-            <el-checkbox v-for="city in styleForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
+            <el-checkbox ref="editFormP" @change="nomalCheck" label="普票"></el-checkbox>
+            <el-checkbox ref="editFormZ" label="专票"></el-checkbox>
+            <el-checkbox ref="editFormT" @change="specialCheck" label="特殊"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="styleVisible = false">取 消</el-button>
-          <el-button type="primary" @click="styleFormSave('styleForm')">确定</el-button>
-        </div>
+        <el-form-item label="支付类型" prop="payTypes" :label-width="formLabelWidth">
+          <el-checkbox-group v-model="styleForm.payTypes">
+            <el-checkbox v-for="item in styleForm.payTypesArr" :label="item" :key="item">{{item}}</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="styleVisible = false">取 消</el-button>
+        <el-button type="primary" @click="styleFormSave('styleForm')">确定</el-button>
+      </div>
+
     </el-dialog>
     <transition name="slide-fade" class="fadeView">
       <div v-if="fadeViewVisible">
@@ -483,7 +491,8 @@ import {
   postCustomerOpenProductSearch,
   getCustomerEchoProduct,
   postHandleCustomerProduct,
-  getQueryCustomerElectronic
+  getQueryCustomerElectronic,
+  getUserProductStatus
 } from "@src/apis";
 
 export default {
@@ -597,10 +606,35 @@ export default {
     }
     return {
       styleForm: {
-        serviceMode: "HX",
         supportTypes: ["普票", "专票"],
-        supportTypesArr: ["普票", "专票", "特殊"]
+        supportTypesArr: ["普票", "专票", "特殊"],
+        payTypes: ["B扫C"],
+        payTypesArr: ["B扫C", "C扫B"]
       },
+      supportTypesObj: [
+        {
+          name: "普票",
+          code: 1
+        },
+        {
+          name: "专票",
+          code: 2
+        },
+        {
+          name: "特殊",
+          code: 4
+        }
+      ],
+      payTypesObj: [
+        {
+          name: "B扫C",
+          code: 1
+        },
+        {
+          name: "C扫B",
+          code: 2
+        }
+      ],
       largeUrl: "",
       fadeViewVisible: false,
       styleVisible: false,
@@ -673,9 +707,12 @@ export default {
         ]
       },
       styleFormRules: {
-        // reason: [
-        //   { required: true, message: "请填写关闭原因", trigger: "blur,change" }
-        // ]
+        payTypes: [
+          { required: true, message: "请选择支付类型", trigger: "blur,change" }
+        ],
+        supportTypes: [
+          { required: true, message: "请选择开票类型", trigger: "blur,change" }
+        ]
       },
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
@@ -1072,42 +1109,6 @@ export default {
                 this.detailsFormVisible = true;
               }
             },
-            {
-              text: "开通",
-              color: "#00c1df",
-              visibleFn: rowdata => {
-                if (
-                  isAdmin || !isBranchOffice
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              disabledFn: rowdata => {
-                if (
-                  rowdata.payStatus == "INIT" ||
-                  rowdata.payStatus == "WAITING_SUBMIT" ||
-                  rowdata.payStatus == "REJECT" ||
-                  rowdata.payStatus == "FALSE" ||
-                  rowdata.qrcodeStatus == "INIT" ||
-                  rowdata.qrcodeStatus == "FALSE" ||
-                  rowdata.elecStatus == "INIT" ||
-                  rowdata.elecStatus == "REJECT" ||
-                  rowdata.elecStatus == "FALSE"
-                ) {
-                  return false;
-                } else {
-                  return true;
-                }
-              },
-              cb: rowdata => {
-                this.resaultData = rowdata;
-                this.openProduct();
-              }
-            },
-
-
             // 一下按钮均为运营可操作
             {
               text: "关闭",
@@ -1151,22 +1152,6 @@ export default {
     };
   },
   methods: {
-    // 排版保存
-    styleFormSave() {
-      let styleForm = this.styleForm;
-      let supportTypes1 = "";
-      let supportTypes2 = "";
-      let supportTypes3 = "";
-      styleForm.supportTypes.forEach((element, index) => {
-        if (element == "普票") {
-          supportTypes1 = 1;
-        } else if (element == "专票") {
-          supportTypes2 = 2;
-        } else if (element == "特殊") {
-          supportTypes3 = 4;
-        }
-      });
-    },
     hideImageView() {
       this.fadeViewVisible = false
     },
@@ -1313,7 +1298,47 @@ export default {
     styleFormSave(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-
+          let styleForm = this.styleForm;
+          let supportTypes = "";
+          let payTypes = "";
+          let invoiceType = 0;//开票类型
+          let payType = 0; //支付类型
+          let bussinessNo = this.resaultData.bussinessNo;
+          for (let i of styleForm.supportTypes) {
+            for (let j of this.supportTypesObj) {
+              if (j.name == i) {
+                invoiceType += j.code
+              }
+            }
+          }
+          for (let i of styleForm.payTypes) {
+            for (let j of this.payTypesObj) {
+              if (j.name == i) {
+                payType += j.code
+              }
+            }
+          }
+          getUserProductStatus()({
+            bussinessNo: bussinessNo,
+            bussinessType: "customer",
+            invoiceType: invoiceType,
+            payType: payType
+          }).then(res => {
+            if (res.code == "00") {
+              this.$message({
+                message: "操作成功！",
+                type: "success",
+                center: true
+              });
+              this.styleVisible = false;
+            } else {
+              this.$message({
+                message: res.msg,
+                type: "warning",
+                center: true
+              });
+            }
+          })
         }
       })
     },
@@ -1576,6 +1601,24 @@ export default {
       this.qrcodeImgs = this.qrcodeImgsDefault;
       this.largeImgUrl = "";
       this.qrcodelargeImgUrl = "";
+    },
+    specialCheck(value) {
+      var have = this.styleForm.supportTypes.indexOf("普票");
+      if (value) {
+        if (have == "-1") {
+          this.styleForm.supportTypes.push("普票");
+        }
+      } else {
+        this.styleForm.supportTypes.pop();
+      }
+    },
+    nomalCheck(value) {
+      if (!value) {
+        var have = this.styleForm.supportTypes.indexOf("特殊");
+        if (have != "-1") {
+          this.styleForm.supportTypes.push("普票");
+        }
+      }
     }
   },
   computed: {
@@ -1584,11 +1627,6 @@ export default {
     }
   },
   watch: {
-    editFormVisible(value) {
-      if (!value) {
-        this.currentView = "";
-      }
-    },
     customerType(val) {
       // this.deFaultData();
       this.payStatusVisible = false;

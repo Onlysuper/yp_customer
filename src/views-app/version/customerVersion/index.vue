@@ -100,8 +100,6 @@ export default {
       }
     },
     edit(rowdata) {
-      // console.log(rowdata);
-      // return false;
       this.toUrl("EDIT", rowdata.customerNo, rowdata);
     }
   },

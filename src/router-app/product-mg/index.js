@@ -40,6 +40,15 @@ export default {
           },
         },
         {
+          path: "stencil/:productType",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/stencil")) }, "product-stencil-app")
+          },
+          meta: {
+            pageTitle: "排版"
+          },
+        },
+        {
           path: "search",
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/search")) }, "product-mg-app")
