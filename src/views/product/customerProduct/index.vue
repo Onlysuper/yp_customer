@@ -1056,7 +1056,9 @@ export default {
               },
               cb: rowdata => {
                 this.resaultData = rowdata;
-                this.openProduct();
+                // this.getCustomerEcho(); // 聚合支付回显
+                // this.getElectronicEcho(); // 电子发票回显
+                this.openProduct('payStatus');
               }
             },
             // 操作按钮
@@ -1105,7 +1107,6 @@ export default {
                   if (element.value != "elecStatus") {
                     element.disabled = true;
                     this.selectOptions.customerType = "elecStatus";
-                    console.log('改变了')
                   }
                 });
                 this.detailsFormVisible = true;
@@ -1167,12 +1168,6 @@ export default {
       // this.imageIndex = index
     },
     largeImageShow(url, type) {
-      console.log(url);
-      if (type == "qrcode") {
-
-      } else if (type == "qrcode") {
-
-      }
       this.largeUrl = [url];
       this.fadeViewVisible = true
       this.imageIndex = 0
@@ -1345,11 +1340,8 @@ export default {
       })
     },
     // 点击开通产品
-    openProduct() {
-      // console.log()
+    openProduct(type) {
       let rowdata = { ...this.resaultData };
-      // console.log(rowdata);
-      this.editFormVisible = true;
       this.customerTypeSelected = [
         {
           value: "payStatus",
@@ -1385,8 +1377,9 @@ export default {
               : true
         }
       ];
-      // this.resaultData = rowdata;
+      this.resaultData = { ...rowdata };
       this.nextFn("openInfo");
+      this.editFormVisible = true;
     },
     // 聚合支付回显
     getCustomerEcho() {
@@ -1512,16 +1505,11 @@ export default {
       let customerType = this.selectOptions.customerType;
       if (customerType == "qrcodeStatus") {
       } else if (customerType == "elecStatus") {
-        // this.detailsFormVisible = false;
-        // console.log(this.resaultData);
         this.editFormVisible = true;
-        this.openProduct();
+        this.openProduct('elecStatus');
       } else if (customerType == "payStatus") {
-        // this.qrcodeStatusVisible = true;
-        // this.detailsFormVisible = false;
         this.editFormVisible = true;
         this.openProduct('payStatus');
-        console.log("聚合支付编辑");
       }
     },
     // 下一步
@@ -1642,12 +1630,15 @@ export default {
         this.payStatusVisible = true;
       }
       this.changeVisibleFn();
-      // this.getCustomerEcho(); // 聚合支付回显
-      // this.getElectronicEcho(); // 电子发票回显
     },
     detailsFormVisible(val) {
       if (!val) {
         this.deFaultData();
+      }
+    },
+    editFormVisible(val) {
+      if (!val) {
+        this.currentView = "";
       }
     }
   },

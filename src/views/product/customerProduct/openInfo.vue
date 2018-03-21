@@ -113,7 +113,9 @@ export default {
       this.$emit("titleChange", value);
     }
   },
-  created() {},
+  created() {
+    console.log(this.rowData);
+  },
   computed: {},
   mounted() {
     // 默认选择开通第一个可选项
