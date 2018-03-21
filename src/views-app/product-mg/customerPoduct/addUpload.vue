@@ -8,7 +8,7 @@
       <view-radius class="uploads">
         <upload-view class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg" :label="'身份证正面'"></upload-view>
         <upload-view class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg" :label="'身份证反面'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'BUSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg" :label="'营业执照'"></upload-view>
+        <upload-view class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg" :label="'营业执照'"></upload-view>
         <upload-view class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg" :label="'店内照片'"></upload-view>
         <upload-view class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg" :label="'收银台照片'"></upload-view>
         <upload-view class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg" :label="'开户许可证'"></upload-view>

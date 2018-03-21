@@ -22,7 +22,10 @@
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
         </el-cascader>
       </el-form-item>
-      <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
+      <!-- <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      </el-form-item> -->
+      <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
@@ -157,9 +160,9 @@ export default {
         bussinessLicenseEffectiveBegin: [
           { required: true, message: "请选择经营执照开始时间", trigger: "blur,change" }
         ],
-        bussinessLicenseEffectiveEnd: [
-          { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
-        ],
+        // bussinessLicenseEffectiveEnd: [
+        //   { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
+        // ],
         Area: [{ required: true, message: "请输入经营区域", trigger: "blur,change" }],
         bussinessAddress: [
           { required: true, message: "请输入详细地址", trigger: "blur,change" }

@@ -102,7 +102,7 @@ let demoImg = {
   //结算卡
   SETTLE_CARD_IMG: require("./img/identityFrontImg.png"),
   //营业执照
-  BUSINESS_LICENSE: require("./img/identityFrontImg.png"),
+  BUSSINESS_LICENSE: require("./img/identityFrontImg.png"),
   //门头照片
   PLACE_IMG: require("./img/identityFrontImg.png"),
   //收银台

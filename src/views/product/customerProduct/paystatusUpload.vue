@@ -52,12 +52,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item class="full-width is-required" label="开户许可证" prop="account" :label-width="formLabelWidth">
-              <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
-                <img v-if="accountLicenseImg" :src="accountLicenseImg" class="avatar">
+            <el-form-item class="full-width is-required" label="门头照片" prop="cash" :label-width="formLabelWidth">
+              <el-upload :data="placeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="placebeforeUpload">
+                <img v-if="placeImg" :src="placeImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
+
           </el-col>
         </el-row>
         <el-row>
@@ -78,9 +79,9 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item class="full-width is-required" label="门头照片" prop="cash" :label-width="formLabelWidth">
-          <el-upload :data="placeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="placebeforeUpload">
-            <img v-if="placeImg" :src="placeImg" class="avatar">
+        <el-form-item v-if="accountType=='0'?true:false" class="full-width is-required" label="开户许可证" prop="account" :label-width="formLabelWidth">
+          <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
+            <img v-if="accountLicenseImg" :src="accountLicenseImg" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </el-form-item>
@@ -170,6 +171,7 @@ export default {
       currentChildView: paystatusAgreement,
       agreementVisible: false,
       formVisible: true,
+      accountType: "",
       // rowData_: rowData,
       // 身份证正面
       saveForm: {
@@ -514,6 +516,7 @@ export default {
         if (res.code == "00") {
           console.log(res.data);
           let imgs = res.data.imgs;
+
           if (imgs) {
             if (imgs.identityFrontImg != null) {
               this.identityFrontImg = imgs.identityFrontImg.url;
@@ -552,6 +555,10 @@ export default {
               this.saveForm.cashSpaceImg = imgs.cashSpaceImg.id;
             }
           }
+        }
+        let settleCard = res.data.settleCard;
+        if (settleCard) {
+          this.accountType = settleCard.accountType
         }
       });
     }
