@@ -190,7 +190,7 @@ export default {
       },
       // 营业执照
       businessData: {
-        imgType: "BUSINESS_LICENSE",
+        imgType: "BUSSINESS_LICENSE",
         businessNo: this.rowData.bussinessNo,
         businessType: "customer",
         imgString: ""
@@ -199,7 +199,6 @@ export default {
       settleData: {
         imgType: "SETTLE_CARD_IMG",
         businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
         imgString: ""
       },
       //开户许可证
@@ -418,7 +417,10 @@ export default {
     editSave() {
       this.saveLoading = true;
       // 编辑内容保存
+      // return false;
       for (var i in this.saveForm) {
+        console.log(this.saveForm[i]);
+        return false;
         if (!this.saveForm[i]) {
           switch (i) {
             // 身份证正面
@@ -442,15 +444,15 @@ export default {
               this.warningMsg("请上传开户许可证照片");
               break;
             // 门头照片
-            case "placeData":
+            case "placeImg":
               this.warningMsg("请上传门头照片");
               break;
             // 店内照片
-            case "storeData":
+            case "storeImg":
               this.warningMsg("请上传店内照片");
               break;
             // 收银台照片
-            case "cashData":
+            case "cashSpaceImg":
               this.warningMsg("请上传收银台照片");
               break;
           }
@@ -504,41 +506,43 @@ export default {
         if (res.code == "00") {
           console.log(res.data);
           let imgs = res.data.imgs;
-          if (imgs.identityFrontImg != null) {
-            this.identityFrontImg = imgs.identityFrontImg.url;
-            this.saveForm.identityFrontImg = imgs.identityFrontImg.id;
-          }
-          if (imgs.identityBackImg != null) {
-            this.identityBackImg = imgs.identityBackImg.url;
-            this.saveForm.identityBackImg = imgs.identityBackImg.id;
-          }
-          if (imgs.identityHolderImg != null) {
-            this.identityHolderImg = imgs.identityHolderImg.url;
-            this.saveForm.identityHolderImg = imgs.identityHolderImg.id;
-          }
-          if (imgs.bussinessLicenseImg != null) {
-            this.bussinessLicenseImg = imgs.bussinessLicenseImg.url;
-            this.saveForm.bussinessLicenseImg = imgs.bussinessLicenseImg.id;
-          }
-          if (imgs.settleCardImg != null) {
-            this.settleCardImg = imgs.settleCardImg.url;
-            this.saveForm.settleCardImg = imgs.settleCardImg.id;
-          }
-          if (imgs.accountLicenseImg != null) {
-            this.accountLicenseImg = imgs.accountLicenseImg.url;
-            this.saveForm.accountLicenseImg = imgs.accountLicenseImg.id;
-          }
-          if (imgs.placeImg != null) {
-            this.placeImg = imgs.placeImg.url;
-            this.saveForm.placeImg = imgs.placeImg.id;
-          }
-          if (imgs.storeImg != null) {
-            this.storeImg = imgs.storeImg.url;
-            this.saveForm.storeImg = imgs.storeImg.id;
-          }
-          if (imgs.cashSpaceImg != null) {
-            this.cashSpaceImg = imgs.cashSpaceImg.url;
-            this.saveForm.cashSpaceImg = imgs.cashSpaceImg.id;
+          if (imgs) {
+            if (imgs.identityFrontImg != null) {
+              this.identityFrontImg = imgs.identityFrontImg.url;
+              this.saveForm.identityFrontImg = imgs.identityFrontImg.id;
+            }
+            if (imgs.identityBackImg != null) {
+              this.identityBackImg = imgs.identityBackImg.url;
+              this.saveForm.identityBackImg = imgs.identityBackImg.id;
+            }
+            if (imgs.identityHolderImg != null) {
+              this.identityHolderImg = imgs.identityHolderImg.url;
+              this.saveForm.identityHolderImg = imgs.identityHolderImg.id;
+            }
+            if (imgs.bussinessLicenseImg != null) {
+              this.bussinessLicenseImg = imgs.bussinessLicenseImg.url;
+              this.saveForm.bussinessLicenseImg = imgs.bussinessLicenseImg.id;
+            }
+            if (imgs.settleCardImg != null) {
+              this.settleCardImg = imgs.settleCardImg.url;
+              this.saveForm.settleCardImg = imgs.settleCardImg.id;
+            }
+            if (imgs.accountLicenseImg != null) {
+              this.accountLicenseImg = imgs.accountLicenseImg.url;
+              this.saveForm.accountLicenseImg = imgs.accountLicenseImg.id;
+            }
+            if (imgs.placeImg != null) {
+              this.placeImg = imgs.placeImg.url;
+              this.saveForm.placeImg = imgs.placeImg.id;
+            }
+            if (imgs.storeImg != null) {
+              this.storeImg = imgs.storeImg.url;
+              this.saveForm.storeImg = imgs.storeImg.id;
+            }
+            if (imgs.cashSpaceImg != null) {
+              this.cashSpaceImg = imgs.cashSpaceImg.url;
+              this.saveForm.cashSpaceImg = imgs.cashSpaceImg.id;
+            }
           }
         }
       });
