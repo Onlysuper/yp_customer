@@ -426,12 +426,8 @@ export default {
       };
     },
     editSave() {
-
       // 编辑内容保存
-      // return false;
       for (var i in this.saveForm) {
-        console.log(this.saveForm[i]);
-        // return false;
         if (!this.saveForm[i]) {
           switch (i) {
             // 身份证正面

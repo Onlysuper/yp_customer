@@ -1080,6 +1080,7 @@ export default {
               text: "查询",
               color: "#00c1df",
               cb: rowdata => {
+                this.deFaultData();
                 this.resaultData = rowdata;
                 this.search = true;
                 this.check = false;
@@ -1110,6 +1111,7 @@ export default {
               },
               color: "#00c1df",
               cb: rowdata => {
+                this.deFaultData();
                 this.resaultData = rowdata;
                 this.search = false;
                 this.check = true;
@@ -1531,19 +1533,7 @@ export default {
         dialogLoading.close();
       });
     },
-    // 返回
-    backFn(path) {
-      if (path == "close") {
-        this.editFormVisible = false;
-        this.currentView = "";
-      } else if (path == "reload") {
-        this.editFormVisible = false;
-        this.currentView = "";
-        this.reloadData();
-      } else {
-        this.currentView = path;
-      }
-    },
+
     editFn() {
       let customerType = this.selectOptions.customerType;
       if (customerType == "qrcodeStatus") {
@@ -1554,10 +1544,26 @@ export default {
         this.editFormVisible = true;
         this.openProduct('payStatus');
       }
+      this.detailsFormVisible = false
     },
     // 下一步
     nextFn(next) {
       this.currentView = next;
+      this.reloadData()
+    },
+    // 返回
+    backFn(path) {
+      if (path == "close") {
+        this.editFormVisible = false;
+        this.currentView = "";
+      } else if (path == "reload") {
+        this.editFormVisible = false;
+        this.currentView = "";
+        // this.reloadData();
+      } else {
+        this.currentView = path;
+      }
+      this.reloadData()
     },
     titleChange(currentView) {
       if (currentView == "paystatusInfo") {
@@ -1697,11 +1703,11 @@ export default {
         this.resetScrollViewHeight();
       })
     },
-    detailsFormVisible(val) {
-      if (!val) {
-        this.deFaultData();
-      }
-    },
+    // detailsFormVisible(val) {
+    //   if (!val) {
+    //     this.deFaultData();
+    //   }
+    // },
     editFormVisible(val) {
       if (!val) {
         this.currentView = "";
