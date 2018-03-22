@@ -242,7 +242,7 @@ export default {
     handleClose(key, keyPath) {
       this.resetScrollViewHeight();
     },
-    handleSelect(key, keyPath) {},
+    handleSelect(key, keyPath) { },
     resetScrollViewHeight() {
       setTimeout(() => {
         this.$refs.iscroll.refresh();

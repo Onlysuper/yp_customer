@@ -92,7 +92,9 @@ export default {
       if (this.left > ($containerWidth - $wrapperWidth)) {
         this.left = this.left - targetWidth
       }
-
+    },
+    scrollPaneInit() {
+      this.left = 0;
     }
   }
 };

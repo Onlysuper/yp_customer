@@ -15,146 +15,148 @@
           <!-- 聚合详情 -->
           <div class="detail-body">
             <div class="detaile-left">
-              <div class="line-box-left">
-                <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
-                  </el-option>
-                </el-select>
-              </div>
-              <template v-if="payStatusVisible">
-                <div class="line-label-box">
-                  <span class="line-label">商户编号:</span>
-                  <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">商户名称:</span>
-                  <span class="line-label-last">{{detailsForm.customerName}}</span>
+              <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions">
+                <div class="line-box-left">
+                  <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
+                    <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+                    </el-option>
+                  </el-select>
                 </div>
 
-                <div class="line-label-box">
-                  <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">企业名称:</span>
-                  <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">企业税号:</span>
-                  <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">营业执照期限:</span>
-                  <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">微信费率:</span>{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | settleMode}}
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
-                </div>
-              </template>
-              <template v-if="qrcodeStatusVisible">
-                <div class="line-label-box">
-                  <span class="line-label">商户编号:</span>
-                  <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">商户名称:</span>
-                  <span class="line-label-last">{{detailsForm.customerName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
-                </div>
-              </template>
-              <template v-if="elecStatusVisible">
-                <!-- 电子详情 -->
-                <div class="line-label-box">
-                  <span class="line-label">商户编号:</span>
-                  <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">商户名称:</span>
-                  <span class="line-label-last">{{detailsForm.customerName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | handleProductOpenStatus}}
-                </div>
-                <!-- 电子发票查询详情 -->
-                <div class="line-label-box">
-                  <span class="line-label">注册省份:</span>
-                  <span class="line-label-last">
-                    {{elecStatusDetails.orgCode?utils.findCity(elecStatusDetails.orgCode).resultAddr:""}}
-                  </span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">注册地址:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bussinessAddress}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">联系电话:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bussinessPhone}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">经营名称:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bussinessName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">注册资金:</span>
-                  <span class="line-label-last">{{elecStatusDetails.registMoney}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">开户银行:</span>
-                  <span class="line-label-last">{{elecStatusDetails.branchName}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">银行账号:</span>
-                  <span class="line-label-last">{{elecStatusDetails.bankAccountNo}}</span>
-                </div>
-                <div class="line-label-box">
-                  <span class="line-label">月开票量:</span>
-                  <span class="line-label-last">{{elecStatusDetails.elecBillnum}}</span>
-                </div>
-                <div class="line-label-box" v-if="elecStatusDetails.elecReason==''||elecStatusDetails.elecReason==null?false:true">
-                  <span class="line-label">被拒原因:</span>
-                  <span class="line-label-last">{{elecStatusDetails.elecReason}}</span>
-                </div>
-              </template>
+                <template v-if="payStatusVisible">
+                  <div class="line-label-box">
+                    <span class="line-label">商户编号:</span>
+                    <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">商户名称:</span>
+                    <span class="line-label-last">{{detailsForm.customerName}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">企业名称:</span>
+                    <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">企业税号:</span>
+                    <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">营业执照期限:</span>
+                    <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">微信费率:</span>{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | settleMode}}
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
+                  </div>
+                </template>
+                <template v-if="qrcodeStatusVisible">
+                  <div class="line-label-box">
+                    <span class="line-label">商户编号:</span>
+                    <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">商户名称:</span>
+                    <span class="line-label-last">{{detailsForm.customerName}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
+                  </div>
+                </template>
+                <template v-if="elecStatusVisible">
+                  <!-- 电子详情 -->
+                  <div class="line-label-box">
+                    <span class="line-label">商户编号:</span>
+                    <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">商户名称:</span>
+                    <span class="line-label-last">{{detailsForm.customerName}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | handleProductOpenStatus}}
+                  </div>
+                  <!-- 电子发票查询详情 -->
+                  <div class="line-label-box">
+                    <span class="line-label">注册省份:</span>
+                    <span class="line-label-last">
+                      {{elecStatusDetails.orgCode?utils.findCity(elecStatusDetails.orgCode).resultAddr:""}}
+                    </span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">注册地址:</span>
+                    <span class="line-label-last">{{elecStatusDetails.bussinessAddress}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">联系电话:</span>
+                    <span class="line-label-last">{{elecStatusDetails.bussinessPhone}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">经营名称:</span>
+                    <span class="line-label-last">{{elecStatusDetails.bussinessName}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">注册资金:</span>
+                    <span class="line-label-last">{{elecStatusDetails.registMoney}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">开户银行:</span>
+                    <span class="line-label-last">{{elecStatusDetails.branchName}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">银行账号:</span>
+                    <span class="line-label-last">{{elecStatusDetails.bankAccountNo}}</span>
+                  </div>
+                  <div class="line-label-box">
+                    <span class="line-label">月开票量:</span>
+                    <span class="line-label-last">{{elecStatusDetails.elecBillnum}}</span>
+                  </div>
+                  <div class="line-label-box" v-if="elecStatusDetails.elecReason==''||elecStatusDetails.elecReason==null?false:true">
+                    <span class="line-label">被拒原因:</span>
+                    <span class="line-label-last">{{elecStatusDetails.elecReason}}</span>
+                  </div>
+                </template>
+              </iscroll-view>
             </div>
             <template v-if="payStatusVisible">
               <div class="detaile-right">
@@ -298,17 +300,11 @@
         <el-form-item label="开票类型:" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="styleForm.supportTypes">
             <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
-            <!-- <el-checkbox ref="editFormP" @change="nomalCheck" label="普票"></el-checkbox>
-            <el-checkbox ref="editFormZ" label="专票"></el-checkbox>
-            <el-checkbox ref="editFormT" @change="specialCheck" label="特殊"></el-checkbox> -->
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="支付类型:" prop="payTypes" :label-width="formLabelWidth">
-
           <el-checkbox-group v-model="styleForm.payTypes">
-
             <el-checkbox v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
-            <!-- <el-checkbox v-for="item in styleForm.payTypesArr" :label="item" :key="item">{{item}}</el-checkbox> -->
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -329,6 +325,16 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
 @media screen and (min-width: 500px) {
+  .scroll-view-cus {
+    touch-action: none;
+    /* -- Attention-- */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+  }
   .admin-page {
     .small-but {
       position: absolute;
@@ -388,11 +394,12 @@
 
         .detaile-left {
           margin-left: 10px;
-          overflow-y: auto;
+          // overflow-y: auto;
           // min-width: 300px;
           // flex-basis: 300px;
           flex: 4;
           flex-shrink: 0;
+          position: relative;
           // background: blue;
         }
         .detaile-right {
@@ -447,7 +454,15 @@
             flex: 1;
             padding: 10px;
             overflow: hidden;
+            &:after {
+              content: " ";
+              display: inline-block;
+              vertical-align: middle;
+              height: 100%;
+            }
             img {
+              display: inline-block;
+              vertical-align: middle;
               max-width: 100%;
               min-width: 300px;
               max-height: 100%;
@@ -461,6 +476,10 @@
 }
 </style>
 <script> 
+import Vue from "vue";
+import IScrollView from "vue-iscroll-view";
+import IScroll from "iscroll";
+Vue.use(IScrollView, IScroll);
 import imageView from 'vue-imageview'
 import ScrollPane from "@src/components/ScrollPane";
 import FullShade from "@src/components/FullShade";
@@ -596,6 +615,12 @@ export default {
       }
     }
     return {
+      iscrollOptions: {
+        scrollbars: true,
+        mouseWheel: true,
+        useTransform: true, //CSS转化
+        useTransition: true //CSS过渡
+      },
       styleForm: {
         supportTypes: [],
         // supportTypesArr: ["普票", "专票", "特殊"],
@@ -1067,6 +1092,7 @@ export default {
                   element.disabled = false;
                 });
                 this.detailsFormVisible = true;
+                this.resetScrollViewHeight();
               }
             },
             {
@@ -1139,8 +1165,6 @@ export default {
                 let invoiceType = rowdata.invoiceType;
                 this.styleForm.payTypes = [payType];
                 this.styleForm.supportTypes = [invoiceType];
-
-                // console.log(payType + "--" + invoiceType);
                 switch (payType) {
                   case 0:
                     this.styleForm.payTypes = [];
@@ -1634,6 +1658,11 @@ export default {
     },
     preNext() {
       this.$refs.scrollPane.preNext(90)
+    },
+    resetScrollViewHeight() {
+      this.$nextTick(() => {
+        this.$refs.iscroll.refresh();
+      })
     }
   },
   computed: {
@@ -1652,12 +1681,21 @@ export default {
       this.elecStatusVisible = false;
       if (val == "qrcodeStatus") {
         this.qrcodeStatusVisible = true;
+        this.$nextTick(() => {
+          this.$refs.scrollPane.scrollPaneInit()
+        })
       } else if (val == "elecStatus") {
         this.elecStatusVisible = true;
       } else if (val == "payStatus") {
         this.payStatusVisible = true;
+        this.$nextTick(() => {
+          this.$refs.scrollPane.scrollPaneInit()
+        })
       }
       this.changeVisibleFn();
+      this.$nextTick(() => {
+        this.resetScrollViewHeight();
+      })
     },
     detailsFormVisible(val) {
       if (!val) {
@@ -1680,8 +1718,6 @@ export default {
       }
     }
   },
-  mounted() {
-  }
 };
 </script>
 
