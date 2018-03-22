@@ -8,8 +8,9 @@
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
       <view-radius class="item" v-for="(item,index) in list" :key="index">
         <input-wrapper>
-          <!-- <div @click="stencilFn(item)">排版</div> -->
-          <mt-cell :title="item.customerName"></mt-cell>
+          <mt-cell :title="item.customerName">
+            <mt-button class="but" @click="stencilFn(item)" size="small">排版</mt-button>
+          </mt-cell>
           <mt-cell title="快速开票" is-link>
             <span>{{item.qrcodeStatus | handleProductOpenStatus}}</span>
           </mt-cell>
@@ -172,5 +173,13 @@ export default {
 }
 .item {
   margin: 30*$rem 0;
+}
+.but {
+  background-color: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  &:after {
+    background: none;
+  }
 }
 </style>

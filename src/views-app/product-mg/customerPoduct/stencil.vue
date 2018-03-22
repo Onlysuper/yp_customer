@@ -5,15 +5,21 @@
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" :disabled="btnDisabled" type="danger" @click="save">保存</mt-button>
     </mt-header>
+
     <view-radius>
       <input-wrapper>
-        <mt-field @click.native="$refs.statusPicker.open" type="text" label="升级状态" placeholder="请选择升级状态" :value="statusObj.name" v-readonly-ios :readonly="true" :disableClear="true">
-          <i class="icon-arrow"></i>
-        </mt-field>
-        <mt-field :disabled="true" type="text" label="商户编号" placeholder="请输入商户编号" v-model="dataList.customerNo"></mt-field>
+        <div>
+          <mt-cell title="开票类型" class="border-1px"></mt-cell>
+          <mt-checklist class="myp-chek-list border-1px" title="" v-model="dataList.invoiceTypes" :options="supportTypesOptions">
+          </mt-checklist>
+        </div>
+        <div>
+          <mt-cell title="支付类型" class="border-1px"></mt-cell>
+          <mt-checklist class="myp-chek-list border-1px" title="" v-model="dataList.payTypes" :options="payTypesOptions">
+          </mt-checklist>
+        </div>
       </input-wrapper>
     </view-radius>
-    <picker ref="statusPicker" v-model="statusObj" :slotsActions="status_options" @confirm="statusChange"></picker>
   </full-page>
 </template>
 <style lang="scss">
@@ -48,79 +54,139 @@ export default {
   data() {
     return {
       queryNo: this.$route.params["productType"],
-      statusObj: {},
       type: {},
-      status_options: [
+      supportTypesOptions: [
         {
-          name: "允许升级",
-          code: "TRUE"
+          label: "普票",
+          value: "1"
         },
         {
-          name: "不允许升级",
-          code: "FALSE"
+          label: "专票",
+          value: "2"
         },
         {
-          name: "升级成功",
-          code: "SUCCESS"
+          label: "特殊",
+          value: "4"
         }
       ],
-      // versionTypeOptions: versionTypeJson,
+      payTypesOptions: [
+        {
+          label: "B扫C",
+          value: "1"
+        },
+        {
+          label: "C扫B",
+          value: "2"
+        }
+      ],
       btnDisabled: false,
       pageType: this.$route.query["type"] || "STENCIL",
-      dataList: {},
+      dataList: {
+        bussinessNo: "",
+        invoiceTypes: [],
+        payTypes: []
+      },
       pageTitle: {
         STENCIL: "排版"
       },
     };
   },
-  computed: {},
-
+  computed: {
+    supportTypes() {
+      return this.dataList.invoiceTypes
+    }
+  },
   watch: {
-    statusObj(obj) {
-      this.statusObj = obj;
-      this.dataList.status = obj.code;
-    },
+    supportTypes(value) {
+      // 选择特殊的时候必须勾选普票
+      if (new Set(value).has("4")) {
+        let newCheck = Array.from(new Set(value).add("1"));
+        this.dataList.invoiceTypes = Object.assign(
+          this.dataList.invoiceTypes,
+          newCheck
+        );
+      }
+    }
   },
   created() {
     this.init();
   },
   methods: {
-    ...mapActions(["getCustomerEchoProduct"]),
+    ...mapActions(["getCustomerProductOne", "getUserProductStatus"]),
     init() {
-      this.pageType == "STENCIL" &&
-        this.getCustomerEchoProduct(this.queryNo).then(list => {
-          // this.statusObj = this.status_options.find(item => item.code == empowerList.status);
-          // this.dataList.customerNo = empowerList.customerNo
-          // this.dataList.type = empowerList.type
-        });
+      this.getCustomerProductOne(this.queryNo).then(resdata => {
+        let rowdata = resdata;
+        this.dataList.bussinessNo = rowdata.bussinessNo;
+        switch (rowdata.payType) {
+          case 0:
+            this.dataList.payTypes = [];
+            break
+          case 1:
+            this.dataList.payTypes = ["1"];
+            break
+          case 2:
+            this.dataList.payTypes = ["2"];
+            break
+          case 3:
+            this.dataList.payTypes = ["1", "2"];
+            break
+        }
+        switch (rowdata.invoiceType) {
+          case 0:
+            this.dataList.invoiceTypes = [];
+            break
+          case 1:
+            this.dataList.invoiceTypes = ["1"];
+            break
+          case 2:
+            this.dataList.invoiceTypes = ["2"];
+            break
+          case 4:
+            this.dataList.invoiceTypes = ["4"];
+            break
+          case 3:
+            this.dataList.invoiceTypes = ["1", "2"];
+            break
+          case 7:
+            this.dataList.invoiceTypes = ["1", "2", "4"];
+            break
+          case 5:
+            this.dataList.invoiceTypes = ["1", "4"];
+            break
+          case 6:
+            this.dataList.invoiceTypes = ["2", "4"];
+            break
+        }
+      });
     },
     save() {
-      // if (!this.validator.isEmpty(this.dataList.status)) {
-      //   this.MessageBox.alert("请选择升级状态！");
-      //   return;
-      // }
-      // if (!this.validator.isEmpty(this.dataList.customerNo)) {
-      //   this.MessageBox.alert("请输入商户编号！");
-      //   return;
-      // }
-      // this.btnDisabled = true;
-      // if (this.pageType == "EDIT") {
-      //   this.addCustomerVersionSave(this.dataList).then(flag => {
-      //     this.btnDisabled = false;
-      //     if (flag) {
-      //       this.$router.back();
-      //       this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH_INIT");
-      //       this.$store.commit("CUSTOMERVERSIONPLUGIN_SEARCH", true);
-      //     }
-      //   });
-      // }
-    },
-    // 类型
-    statusChange(obj) {
-      this.statusObj = obj;
-      this.dataList.statusObj = obj.code;
+      if (this.dataList.invoiceTypes.length == 0) {
+        this.MessageBox.alert("请选择开票类型！");
+        return;
+      }
+      if (this.dataList.payTypes.length == 0) {
+        this.MessageBox.alert("请选择支付类型！");
+        return;
+      }
+      this.btnDisabled = true;
+      if (this.pageType == "STENCIL") {
+        this.getUserProductStatus({
+          bussinessNo: this.dataList.bussinessNo,
+          bussinessType: "customer",
+          invoiceTypes: this.dataList.invoiceTypes,
+          payTypes: this.dataList.payTypes
+        }).then(flag => {
+          this.btnDisabled = false;
+          console.log(flag);
+          if (flag) {
+            this.$router.back();
+            this.$store.commit("CUSTOMER_PRODUCT_INIT");
+            this.$store.commit("CUSTOMER_PRODUCT_IS_SEARCH", true);
+          }
+        });
+      }
     }
-  }
+  },
 };
 </script>
 

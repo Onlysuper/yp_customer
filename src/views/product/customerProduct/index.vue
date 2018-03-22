@@ -297,7 +297,7 @@
       <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
         <el-form-item label="开票类型:" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="styleForm.supportTypes">
-            <el-checkbox v-for="item in supportTypesObj" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+            <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
             <!-- <el-checkbox ref="editFormP" @change="nomalCheck" label="普票"></el-checkbox>
             <el-checkbox ref="editFormZ" label="专票"></el-checkbox>
             <el-checkbox ref="editFormT" @change="specialCheck" label="特殊"></el-checkbox> -->
@@ -307,7 +307,7 @@
 
           <el-checkbox-group v-model="styleForm.payTypes">
 
-            <el-checkbox v-for="item in payTypesObj" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+            <el-checkbox v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
             <!-- <el-checkbox v-for="item in styleForm.payTypesArr" :label="item" :key="item">{{item}}</el-checkbox> -->
           </el-checkbox-group>
         </el-form-item>
@@ -602,7 +602,7 @@ export default {
         payTypes: [],
         // payTypesArr: ["B扫C", "C扫B"]
       },
-      supportTypesObj: [
+      supportTypesOptions: [
         {
           name: "普票",
           code: "1"
@@ -616,7 +616,7 @@ export default {
           code: "4"
         }
       ],
-      payTypesObj: [
+      payTypesOptions: [
         {
           name: "B扫C",
           code: "1"
