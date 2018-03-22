@@ -81,7 +81,16 @@ export default {
       const $wrapperLeft = this.$refs.scrollWrapper.offsetLeft; // 内部滚动的
       const $wrapperWidth = $wrapper.offsetWidth;
       if (this.left < 0) {
-        this.left = this.left + targetWidth
+        let count = 0;
+        let timer = setInterval(() => {
+          if (count <= targetWidth) {
+            count++;
+            this.left = this.left + 1;
+          } else {
+            clearInterval(timer);
+          }
+        }, 0.5);
+        // this.left = this.left + targetWidth
       }
     },
     preNext(targetWidth) {
@@ -90,7 +99,16 @@ export default {
       const $wrapper = this.$refs.scrollWrapper;
       const $wrapperWidth = $wrapper.offsetWidth;
       if (this.left > ($containerWidth - $wrapperWidth)) {
-        this.left = this.left - targetWidth
+        let count = 0;
+        let timer = setInterval(() => {
+          if (count <= targetWidth) {
+            count++;
+            this.left = this.left - 1;
+          } else {
+            clearInterval(timer);
+          }
+        }, 0.5);
+        // this.left = this.left - targetWidth
       }
     },
     scrollPaneInit() {

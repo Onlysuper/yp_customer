@@ -13,10 +13,12 @@
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
-          <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
-            <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
-            </el-option>
-          </el-select>
+          <div class="line-box-left">
+            <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
+              <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+              </el-option>
+            </el-select>
+          </div>
           <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="detailProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
           </component>
         </template>
@@ -131,6 +133,7 @@
         }
       }
       .el-dialog__body {
+        padding-top: 0px;
         padding-bottom: 0px !important;
         // height: 500px;
       }

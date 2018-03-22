@@ -70,8 +70,6 @@
   overflow: hidden;
 }
 .detail-body {
-  // height: 100%;
-  // overflow-y: auto;
   height: 550px;
   overflow-x: hidden;
   display: flex;
@@ -81,13 +79,10 @@
 
   .detaile-left {
     margin-left: 10px;
-    // overflow-y: auto;
-    // min-width: 300px;
-    // flex-basis: 300px;
     flex: 4;
     flex-shrink: 0;
     position: relative;
-    // background: blue;
+    padding-right: 10px;
   }
   .detaile-right {
     flex: 6;
@@ -122,7 +117,6 @@
             border: 1px solid #ebeef5;
             width: 100%;
             height: 70px;
-            // flex: 1;
             box-sizing: border-box;
             img {
               cursor: pointer;

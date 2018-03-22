@@ -75,6 +75,7 @@
     margin-left: 10px;
     flex: 4;
     flex-shrink: 0;
+    padding-right: 10px;
     position: relative;
   }
   .detaile-right {
@@ -116,8 +117,13 @@
               cursor: pointer;
               width: 100%;
               height: 100%;
+              transition: all 0.3s ease-in 0s;
               &:hover {
-                opacity: 0.5;
+                transform: translateY(-3px);
+                -ms-transform: translateY(-3px); /* IE 9 */
+                -webkit-transform: translateY(-3px); /* Safari and Chrome */
+                -o-transform: translateY(-3px); /* Opera */
+                -moz-transform: translateY(-3px);
               }
             }
           }
@@ -135,6 +141,7 @@
         vertical-align: middle;
         height: 100%;
       }
+
       img {
         display: inline-block;
         vertical-align: middle;
