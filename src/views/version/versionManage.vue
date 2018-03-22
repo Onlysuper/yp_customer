@@ -12,7 +12,7 @@
       <!-- search form end -->
       <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 上传新版本start -->
-      <el-dialog center :title="getDialogTitle()" :visible.sync="uploadDialogVisible" width="600px" @close="dialogClosed">
+      <el-dialog center :title="getDialogTitle()" :visible.sync="uploadDialogVisible" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
           <el-row>
             <el-col :span="12">
@@ -53,7 +53,7 @@
           <el-row>
             <el-col :span="22">
               <el-form-item label="版本描述" prop="info">
-                <el-input v-model="form.info" placeholder="请输入版本描述"></el-input>
+                <el-input type="textarea" v-model="form.info" placeholder="请输入版本描述"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -278,7 +278,7 @@ export default {
           },
           {
             key: "下载地址",
-            width: "",
+            width: "220px",
             word: "url"
           }
         ],
