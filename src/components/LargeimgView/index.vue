@@ -105,17 +105,23 @@ export default {
       let $img = $(".img-page-large");
       if (panel_width / panel_height < img_width / img_height) {
         if (type == "transfer") {
+          console.log(1);
           $img.width(panel_height);
+          $img.css('margin-top', "0px");
           $img.height("auto")
         } else {
+          console.log(2);
           $img.width(panel_width);
+          $img.css('margin-top', (panel_height - $img.height()) * 0.5);
           $img.height("auto");
         }
       } else {
         if (type == "transfer") {
-          $img.width(panel_height);
+          console.log(3);
+          $img.width(panel_width);
           $img.height("auto");
         } else {
+          console.log(4);
           $img.height(panel_height);
           $img.width("auto")
         }
@@ -132,7 +138,11 @@ export default {
         this.imgWidth = newImg.width;
         this.imgHeight = newImg.height;
         this.$nextTick(() => {
-          this.setImgMiddle();
+          if (this.rotateClass == "rotate270" || this.rotateClass == "rotate90") {
+            this.setImgMiddle('transfer');
+          } else {
+            this.setImgMiddle();
+          }
         })
       }
     }
