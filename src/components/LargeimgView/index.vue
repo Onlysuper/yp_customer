@@ -36,8 +36,8 @@
   img {
     position: relative;
     z-index: 10;
-    // max-width: 100%;
-    // max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     // min-height: 70%;
     text-align: center;
     vertical-align: middle;
@@ -58,6 +58,7 @@
     z-index: 1;
     height: 50px;
     text-align: right;
+    z-index: 999;
   }
   .rotate90 {
     transform: rotate(90deg);
@@ -74,7 +75,6 @@
 }
 </style>
 <script>
-import $ from "jQuery";
 export default {
   components: {},
   props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt",],
@@ -96,6 +96,7 @@ export default {
       this.$emit("rotateFn")
     },
     setImgMiddle(type) {
+      console.log(11111);
       //图片宽高
       let img_width = this.imgWidth;
       let img_height = this.imgHeight;
@@ -104,42 +105,41 @@ export default {
       let panel_height = $(".fullpate-img").height();
       let $img = $(".img-page-large");
       if (panel_width / panel_height < img_width / img_height) {
-        console.log("宽形");
         if (type == "transfer") {
-          console.log('旋转')
-          $img.height(panel_height);
-          $img.width("auto")
-        } else {
-          console.log('未旋转')
           $img.width(panel_height);
+          $img.height("auto")
+        } else {
+          $img.width(panel_width);
           $img.height("auto");
         }
       } else {
-        console.log("长形");
         if (type == "transfer") {
-          console.log('旋转')
           $img.width(panel_height);
           $img.height("auto");
         } else {
-          console.log('未旋转')
           $img.height(panel_height);
           $img.width("auto")
         }
       }
 
+    },
+    imgInit() {
+      var newImg = new Image()
+      newImg.src = this.src
+      newImg.onerror = () => {    // 图片加载错误时的替换图片
+        newImg.src = this.largeImgUrl
+      }
+      newImg.onload = () => {
+        this.imgWidth = newImg.width;
+        this.imgHeight = newImg.height;
+        this.$nextTick(() => {
+          this.setImgMiddle();
+        })
+      }
     }
   },
   mounted() {
-    var newImg = new Image()
-    newImg.src = this.src
-    newImg.onerror = () => {    // 图片加载错误时的替换图片
-      newImg.src = this.largeImgUrl
-    }
-    newImg.onload = () => {
-      this.imgWidth = newImg.width;
-      this.imgHeight = newImg.height;
-      this.setImgMiddle();
-    }
+    this.imgInit();
   },
   watch: {
     rotateClass(val) {
@@ -149,6 +149,10 @@ export default {
         this.setImgMiddle();
       }
     }
+  },
+  fadeViewVisible() {
+    console.log(555);
+    this.imgInit();
   }
 };
 </script>
