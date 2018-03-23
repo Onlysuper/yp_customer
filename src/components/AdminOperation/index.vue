@@ -60,23 +60,23 @@
   -webkit-transition: $attr $section;
   -o-transition: $attr $section;
 } //声明一个带有参数$radius的混合宏
-.detail-content {
-  .line-label-box {
-    padding: 4px 2px;
-    .line-label {
-      min-width: 100px;
-      display: inline-block;
-      padding: 0 10px;
-    }
-    &:nth-child(odd) {
-      // background-color: rgba(0, 193, 223, 0.1);
-      background: #fafafa;
-    }
-    &:nth-child(even) {
-      background-color: #fff;
-    }
-  }
-}
+// .detail-content {
+//   .line-label-box {
+//     padding: 4px 2px;
+//     .line-label {
+//       // max-width: 100px;
+//       display: inline-block;
+//       padding: 0 10px;
+//     }
+//     &:nth-child(odd) {
+//       // background-color: rgba(0, 193, 223, 0.1);
+//       background: #fafafa;
+//     }
+//     &:nth-child(even) {
+//       background-color: #fff;
+//     }
+//   }
+// }
 .admin-operation-box {
   .el-dropdown {
     height: 100%;

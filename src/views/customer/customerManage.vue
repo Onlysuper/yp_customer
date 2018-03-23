@@ -533,6 +533,7 @@ export default {
             sortable: true,
             word: "customerNo"
           },
+          { key: "入网时间", word: "createTime", width: "170px" },
           {
             key: "企业名称",
             width: "200px",
@@ -620,8 +621,7 @@ export default {
                 };
               }
             }
-          },
-          { key: "入网时间", word: "createTime", width: "" }
+          }
         ],
         operation: {
           width: "130px",

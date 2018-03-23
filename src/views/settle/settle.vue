@@ -405,7 +405,7 @@ export default {
           },
           {
             key: "时间",
-            width: "",
+            width: "170px",
             word: "dataTime"
           },
           {

@@ -16,6 +16,7 @@ import agent from "./agent";
 import productMg from "./product-mg";
 import order from "./order";
 import enterprise from "./enterprise";
+import statistical from "./statistical";
 
 
 Vue.use(Router)
@@ -42,6 +43,7 @@ const asyncRoutes = [
     enterprise,
     version,
     settle,
+    statistical
 ]
 
 

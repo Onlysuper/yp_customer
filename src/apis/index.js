@@ -118,6 +118,7 @@ const getCheckCustomerProduct = () => { return (params) => { return http.get(bas
 const getQueryCustomerProduct = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomer", params) } }
 const postHandleCustomerProduct = () => { return (params) => { return http.post(base.oaIp, "/userproduct/update/userProductSingle", params) } }
 const getQueryCustomerElectronic = () => { return (params) => { return http.get(base.oaIp, "/customer/queryCustomerElectronic", params) } }
+const getUserProductStatus = () => { return (params) => { return http.post(base.oaIp, "/userProductStatus/update", params) } }
 // end -------------------------------------------------
 /**
 **商户管理 start
@@ -332,6 +333,7 @@ export {
     postAddProduct,
     postEditProduct,
     postToggleProduct,
+    getUserProductStatus,
     // 商品管理
     getCustomerGoods,
     postAddCustomerGood,

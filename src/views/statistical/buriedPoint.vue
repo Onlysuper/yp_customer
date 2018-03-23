@@ -24,6 +24,7 @@ import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, today_ } from "@src/common/dateSerialize";
 import { getBurialPointManages, getBurialPointTotal } from "@src/apis";
+import buriedPointActionId from "@src/data/buriedPointActionId.json"
 export default {
   name: "operator_log",
   components: {
@@ -149,86 +150,7 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "1",
-              label: "插件登录"
-            },
-            {
-              value: "2",
-              label: "插件注册"
-            },
-            {
-              value: "3",
-              label: "广告安装"
-            },
-            {
-              value: "4",
-              label: "广告关闭"
-            },
-            {
-              value: "5",
-              label: "插件关闭"
-            },
-            {
-              value: "6",
-              label: "查看二维码"
-            },
-            {
-              value: "7",
-              label: "二维码下载"
-            },
-            {
-              value: "8",
-              label: "二维码关闭"
-            },
-            {
-              value: "9",
-              label: "扫码"
-            },
-            {
-              value: "10",
-              label: "导入"
-            },
-            {
-              value: "11",
-              label: "查看"
-            },
-            {
-              value: "12",
-              label: "重导"
-            },
-            {
-              value: "13",
-              label: "清空"
-            },
-            {
-              value: "14",
-              label: "刷新"
-            },
-            {
-              value: "15",
-              label: "关闭语音提示"
-            },
-            {
-              value: "16",
-              label: "取消开机启动"
-            },
-            {
-              value: "17",
-              label: "注销"
-            },
-            {
-              value: "18",
-              label: "反馈信息"
-            },
-            {
-              value: "19",
-              label: "静默转化"
-            },
-            {
-              value: "20",
-              label: "打印发票"
-            }
+            ...buriedPointActionId.map((item) => { return { label: item.name, value: item.code } })
           ],
           cb: value => {
             this.searchCondition.actionId = value;
@@ -285,9 +207,14 @@ export default {
                   text: "静默",
                   type: "success"
                 };
-              } else {
+              } else if (data === "0") {
                 return {
                   text: "普通",
+                  type: "success"
+                };
+              } else {
+                return {
+                  text: data,
                   type: ""
                 };
               }
@@ -300,7 +227,7 @@ export default {
           },
           {
             key: "IP地址",
-            width: "",
+            width: "180px",
             word: "ipAddress"
           },
           {
@@ -356,13 +283,13 @@ export default {
           this.$alert(content, "统计信息", {
             dangerouslyUseHTMLString: true,
             confirmButtonText: "确定",
-            callback: action => {}
+            callback: action => { }
           });
         }
       });
     }
   },
-  mounted() {}
+  mounted() { }
 };
 </script>
 

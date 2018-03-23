@@ -6,10 +6,11 @@
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-
       <view-radius class="item" v-for="(item,index) in list" :key="index">
         <input-wrapper>
-          <mt-cell :title="item.customerName"></mt-cell>
+          <mt-cell :title="item.customerName">
+            <!-- <mt-button class="but" @click="stencilFn(item)" size="small">排版</mt-button> -->
+          </mt-cell>
           <mt-cell title="快速开票" is-link>
             <span>{{item.qrcodeStatus | handleProductOpenStatus}}</span>
           </mt-cell>
@@ -69,6 +70,12 @@ export default {
       this.count = count;
       this.$store.commit("CUSTOMER_PRODUCT_SET_LIST", watchDataList);
       this.$store.commit("CUSTOMER_PRODUCT_IS_SEARCH", false);
+    },
+    stencilFn(rowdata) {
+      this.$router.push({
+        path: "./stencil/" + rowdata.bussinessNo,
+        query: { type: "STENCIL" }
+      });
     },
     openPay(customer) {
       //判断开通状态
@@ -166,5 +173,13 @@ export default {
 }
 .item {
   margin: 30*$rem 0;
+}
+.but {
+  background-color: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  &:after {
+    background: none;
+  }
 }
 </style>

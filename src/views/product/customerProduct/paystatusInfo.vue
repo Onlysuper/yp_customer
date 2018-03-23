@@ -1,6 +1,7 @@
 <template>
   <div class="paystatusInfo-box">
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="120px">
+
       <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.enterpriseName" auto-complete="off"></el-input>
       </el-form-item>
@@ -22,7 +23,10 @@
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
         </el-cascader>
       </el-form-item>
-      <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
+      <!-- <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+      </el-form-item> -->
+      <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
@@ -42,6 +46,9 @@
           <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item class="full-width" label="账户名称" prop="accountName" :label-width="formLabelWidth">
+        <el-input :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
@@ -119,6 +126,7 @@ export default {
   mixins: [mixinsPc],
   data() {
     return {
+      accountNameDis: false,
       currentChildView: "",
       formLabelWidth: "120px",
       bankOptions: banks,
@@ -142,6 +150,9 @@ export default {
           }
         ]
       },
+      getaccountName: "",
+      // getEnterpriseName,// 带入的企业名称
+      // getLegalPerson,// 带入的法人名称
       payStatusForm: {
         customerType: this.customerTypeSelected[0].value,
         bussinessLicenseEffectiveBegin: "",
@@ -157,9 +168,9 @@ export default {
         bussinessLicenseEffectiveBegin: [
           { required: true, message: "请选择经营执照开始时间", trigger: "blur,change" }
         ],
-        bussinessLicenseEffectiveEnd: [
-          { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
-        ],
+        // bussinessLicenseEffectiveEnd: [
+        //   { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
+        // ],
         Area: [{ required: true, message: "请输入经营区域", trigger: "blur,change" }],
         bussinessAddress: [
           { required: true, message: "请输入详细地址", trigger: "blur,change" }
@@ -224,7 +235,7 @@ export default {
           }
           // console.log(payStatusForm);
           let newRow = utils.pickObj(payStatusForm, [
-            'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+            'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
             'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType', 'phoneNo',
             'unionCode',
             'bankCode',
@@ -319,18 +330,59 @@ export default {
             'bussinessAddress', 'legalPerson', 'idCard', 'category'
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
-            'accountType', 'accountNo', 'phoneNo', 'bankCode', 'unionCode', 'branchName'
+            'accountType', 'accountName', 'accountNo', 'phoneNo', 'bankCode', 'unionCode', 'branchName'
           ]);
-          this.payStatusForm = { ...this.payStatusForm, ...newCustomer, ...newSettleCard }
+          this.getaccountName = newSettleCard.accountName;// 带入的企业名称
+          let accountName = "";// 账户名称
+          if (newSettleCard.accountType == "0") {
+            // 对公:带入企业名称 不可更改
+            accountName = newCustomer.enterpriseName
+            this.accountNameDis = true;
+          } else if (newSettleCard.accountType == "1") {
+            // 对私
+            accountName = newSettleCard.accountName == newCustomer.enterpriseName ? newCustomer.legalPerson : newSettleCard.accountName || newCustomer.legalPerson;
+            this.accountNameDis = false;
+          }
+          this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard }
         }
       });
+    },
+    accountNameChange() {
+      let accountType = this.accountType;
+      if (accountType == "0") {
+        // 对公:带入企业名称 不可更改
+        this.payStatusForm.accountName = this.payStatusForm.enterpriseName;
+        this.accountNameDis = true;
+      } else if (accountType == "1") {
+        // 对私
+        let accountName = this.getaccountName;
+        this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
+        this.accountNameDis = false;
+      }
     }
   },
   created() {
     this.getCustomerEcho();
   },
-  computed: {},
+  computed: {
+    accountType() {
+      return this.payStatusForm.accountType
+    }
+  },
   watch: {
+    accountType(val) {
+      this.accountNameChange();
+      // if (val == "0") {
+      //   // 对公:带入企业名称 不可更改
+      //   this.payStatusForm.accountName = this.payStatusForm.enterpriseName;
+      //   this.accountNameDis = true;
+      // } else if (val == "1") {
+      //   // 对私
+      //   let accountName = this.getaccountName;
+      //   this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
+      //   this.accountNameDis = false;
+      // }
+    },
     payStatusForm(value) {
       // console.log('改变了')
     }

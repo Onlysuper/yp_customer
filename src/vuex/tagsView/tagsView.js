@@ -27,7 +27,7 @@ export default {
       for (const i of state.cachedViews) {
         if (i === view.name) {
           const index = state.cachedViews.indexOf(i)
-          state.cachedViews.splice(index, index + 1)
+          state.cachedViews.splice(index, 1)
           break
         }
       }
@@ -48,7 +48,7 @@ export default {
       for (const i of state.cachedViews) {
         if (i === view.name) {
           const index = state.cachedViews.indexOf(i)
-          state.cachedViews = state.cachedViews.slice(index, i + 1)
+          state.cachedViews = state.cachedViews.slice(index, 1)
           break
         }
       }

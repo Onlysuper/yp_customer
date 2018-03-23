@@ -5,11 +5,13 @@ import userInfoAndMenu from "@src/vuex/userInfoAndMenu/userInfoAndMenu"
 import Base from "@src/vuex/base/base"
 import tagsView from "@src/vuex/tagsView/tagsView"
 import fullScreen from "@src/vuex/fullScreen/fullScreen"
+import acceptMessage from "@src/vuex/acceptMessage/acceptMessage"
 
+// 以下为手机端的vuex
 import {
     customerGoods, customerManage, profitBilling, convergePayComm, agent, billCount, billRecord, billDay, billStandard,
     empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply, orderQuery, customerVersion,
-    settle
+    settle, buriedPoint
 } from "./modules";
 Vue.use(Vuex);
 
@@ -57,7 +59,9 @@ const store = new Vuex.Store({
         enterpriseSupply,
         orderQuery,
         customerVersion,
-        settle
+        settle,
+        buriedPoint,
+        acceptMessage
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

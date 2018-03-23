@@ -28,7 +28,8 @@
             </mt-field>
             <!-- <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field> -->
             <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
-            <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称"></mt-field> -->
+            <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
+            <mt-field label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
             <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -48,8 +49,8 @@
     <bank-popup v-model="bankVisible" @bankresult="bankResult"></bank-popup>
     <bank-branch-popup v-model="bankBranchVisible" :bank="bank" @bankbranchresult="bankBranchResult"></bank-branch-popup>
     <bank-search-popup v-model="bankSearchVisible" :api="bankSearchApi" :queryKey="bankBranchQuery" @bankrsearchresult="bankRsearchResult"></bank-search-popup>
-    <mt-datetime-picker v-model="bussinessLicenseEffectiveBeginVal" type="date" :endDate="new Date()" @confirm="setStartDate" ref="bussinessLicenseEffectiveBegin" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
-    <mt-datetime-picker v-model="bussinessLicenseEffectiveEndVal" type="date" :endDate="new Date('2099-12-31')" @confirm="setEndDate" ref="bussinessLicenseEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+   <mt-datetime-picker v-model="bussinessLicenseEffectiveBeginVal" type="date" :startDate="new Date('2000-1-1')" :endDate="new Date()" @confirm="setStartDate" ref="bussinessLicenseEffectiveBegin" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+    <mt-datetime-picker v-model="bussinessLicenseEffectiveEndVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setEndDate" ref="bussinessLicenseEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
   </div>
 </template>
 
@@ -86,7 +87,7 @@ export default {
       enterpriseName: "",
       taxNo: "",
       form: {
-        accountType: "1",
+        accountType: "",
         legalPerson: "",
         bussinessLicenseEffectiveBegin: "",
         bussinessLicenseEffectiveEnd: ""
@@ -105,6 +106,12 @@ export default {
       bussinessLicenseEffectiveEndVal: new Date()
     };
   },
+  watch: {
+    "form.accountType"(v) {
+      if (v == "0") this.form.accountName = this.enterpriseName;
+      else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
+    }
+  },
   created() {
     getCustomerEchoProduct()({
       customerNo: this.customerNo,
@@ -119,6 +126,7 @@ export default {
         this.Toast(data.msg);
       }
     });
+
   },
   methods: {
     echoForm(data) {
@@ -131,17 +139,12 @@ export default {
         this.form.legalPerson = customer.legalPerson;
         this.form.bussinessAddress = customer.bussinessAddress;
         this.form.idCard = customer.idCard;
-
-        this.form.bussinessLicenseEffectiveBegin =
-          customer.bussinessLicenseEffectiveBegin;
-
-        this.form.bussinessLicenseEffectiveEnd =
-          customer.bussinessLicenseEffectiveEnd;
-
+        // this.form.bussinessLicenseEffectiveBegin = customer.bussinessLicenseEffectiveBegin;
+        customer.bussinessLicenseEffectiveBegin && this.setStartDate(new Date(customer.bussinessLicenseEffectiveBegin));
+        // this.form.bussinessLicenseEffectiveEnd = customer.bussinessLicenseEffectiveEnd;
+        customer.bussinessLicenseEffectiveEnd && this.setEndDate(new Date(customer.bussinessLicenseEffectiveEnd));
         this.form.contactEmail = customer.contactEmail;
-        let bussinessType = bussinessTypeJson.find(
-          item => item.code == customer.category
-        );
+        let bussinessType = bussinessTypeJson.find(item => item.code == customer.category);
         this.confirm(bussinessType || {});
       }
       if (settleCard instanceof Object) {
@@ -154,10 +157,18 @@ export default {
           unionCode: settleCard.unionCode
         });
         this.form.accountType = settleCard.accountType;
+        this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = settleCard.accountNo;
         this.form.phoneNo = settleCard.phoneNo;
+      } else {
+        // this.form.accountType = "0"; //如果需要默认值
       }
     },
+    //处理对公对私逻辑
+    handleAccountType(accountType) {
+
+    },
+
     //地区选择回调函数
     resultCallback(obj) {
       this.city = obj;
@@ -201,16 +212,12 @@ export default {
       this.bankBranch = resultObj;
     },
     setStartDate(date) {
-      this.form.bussinessLicenseEffectiveBegin = utils.formatDate(
-        date,
-        "yyyy-MM-dd"
-      );
+      this.form.bussinessLicenseEffectiveBegin = utils.formatDate(date, "yyyy-MM-dd");
+      this.bussinessLicenseEffectiveBeginVal = date;
     },
     setEndDate(date) {
-      this.form.bussinessLicenseEffectiveEnd = utils.formatDate(
-        date,
-        "yyyy-MM-dd"
-      );
+      this.form.bussinessLicenseEffectiveEnd = utils.formatDate(date, "yyyy-MM-dd");
+      this.bussinessLicenseEffectiveEndVal = date;
     },
     //提交
     submit() {

@@ -24,6 +24,7 @@
     "qrcode": "^1.2.0",
     "screenfull": "^3.3.2",
     "vue": "^2.5.2",
+    "vue-imageview": "^1.0.5",
     "vue-iscroll-view": "^1.0.3",
     "vue-router": "^2.8.1",
     "vuex": "^3.0.1"
@@ -72,6 +73,7 @@
     "shelljs": "^0.7.6",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.8",
+    "vue-imageview": "^1.0.5",
     "vue-loader": "^10.0.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",

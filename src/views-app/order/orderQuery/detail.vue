@@ -13,10 +13,10 @@
           <span>{{dataList.orderNo}}</span>
         </mt-cell>
         <mt-cell title="交易金额">
-          <span>{{utils.accMul(dataList.amount, 0.01)}}</span>
+          <span>{{utils.accMul(dataList.amount, 0.01)}} 元</span>
         </mt-cell>
-        <mt-cell title="手续费">
-          <span>{{utils.accMul(dataList.fee, 0.01)}}</span>
+        <mt-cell v-if="dataList.settleMode=='T0'?true:false" title="手续费">
+          <span>{{utils.accMul(dataList.fee, 0.01)}} 元</span>
         </mt-cell>
         <mt-cell title="交易费率">
           <span>{{utils.accMul(dataList.feeRate, 100)+'%'}}</span>

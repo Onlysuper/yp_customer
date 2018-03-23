@@ -16,7 +16,16 @@ export default {
   computed: {
     ...mapState({
       searchQuery: state => state.orderQuery.searchQuery
-    })
+    }),
+    isAdmin() {
+      var user = this.$store.state.userInfoAndMenu.userMessage.all;
+      var isAdmin = (
+        user.userType === "root" ||
+        user.userType === "admin" ||
+        user.userType === "operator"
+      ); // 运营
+      return isAdmin
+    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -30,16 +39,18 @@ export default {
           });
         }
       });
-      this.searchConfig.push({
-        title: "代理商编号",
-        type: "myp-text",
-        defaultValue: this.searchQuery.agentNo,
-        cb: value => {
-          this.$store.commit("ORDER_QUERY_SET_SEARCH", {
-            agentNo: value
-          });
-        }
-      });
+      if (this.isAdmin) {
+        this.searchConfig.push({
+          title: "代理商编号",
+          type: "myp-text",
+          defaultValue: this.searchQuery.agentNo,
+          cb: value => {
+            this.$store.commit("ORDER_QUERY_SET_SEARCH", {
+              agentNo: value
+            });
+          }
+        });
+      }
       this.searchConfig.push({
         title: "商户编号",
         type: "myp-text",

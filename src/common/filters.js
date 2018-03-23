@@ -648,6 +648,17 @@ mypFilters.install = function (Vue, options) {
         }
         return value;
     })
+    Vue.filter('userType', function (value) {
+        switch (value) {
+            case "0":
+                value = "普通";
+                break;
+            case "1":
+                value = "静默";
+                break;
+        }
+        return value;
+    })
     // 3. 添加实例方法
     //Vue.prototype.$myMethod = ...
 }
