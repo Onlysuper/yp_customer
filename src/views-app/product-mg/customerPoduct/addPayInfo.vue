@@ -20,8 +20,12 @@
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="营业执照起始日期:" type="text" v-model="form.bussinessLicenseEffectiveBegin" placeholder="例如：2000-12-31" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" placeholder="例如：2020-12-31" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="营业执照起始日期:" type="text" v-model="form.bussinessLicenseEffectiveBegin" @click.native="$refs.bussinessLicenseEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
+            <mt-field label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" @click.native="$refs.bussinessLicenseEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
             <!-- <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field> -->
             <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
             <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
@@ -45,6 +49,8 @@
     <bank-popup v-model="bankVisible" @bankresult="bankResult"></bank-popup>
     <bank-branch-popup v-model="bankBranchVisible" :bank="bank" @bankbranchresult="bankBranchResult"></bank-branch-popup>
     <bank-search-popup v-model="bankSearchVisible" :api="bankSearchApi" :queryKey="bankBranchQuery" @bankrsearchresult="bankRsearchResult"></bank-search-popup>
+   <mt-datetime-picker v-model="bussinessLicenseEffectiveBeginVal" type="date" :startDate="new Date('2000-1-1')" :endDate="new Date()" @confirm="setStartDate" ref="bussinessLicenseEffectiveBegin" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+    <mt-datetime-picker v-model="bussinessLicenseEffectiveEndVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setEndDate" ref="bussinessLicenseEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
   </div>
 </template>
 
@@ -96,6 +102,8 @@ export default {
       slotsActions: bussinessTypeJson,
       bussinessType: { name: "", code: "" },
       customerNo: this.$route.query["customerNo"],
+      bussinessLicenseEffectiveBeginVal: new Date(),
+      bussinessLicenseEffectiveEndVal: new Date()
     };
   },
   watch: {
@@ -131,8 +139,10 @@ export default {
         this.form.legalPerson = customer.legalPerson;
         this.form.bussinessAddress = customer.bussinessAddress;
         this.form.idCard = customer.idCard;
-        this.form.bussinessLicenseEffectiveBegin = customer.bussinessLicenseEffectiveBegin;
-        this.form.bussinessLicenseEffectiveEnd = customer.bussinessLicenseEffectiveEnd;
+        // this.form.bussinessLicenseEffectiveBegin = customer.bussinessLicenseEffectiveBegin;
+        customer.bussinessLicenseEffectiveBegin && this.setStartDate(new Date(customer.bussinessLicenseEffectiveBegin));
+        // this.form.bussinessLicenseEffectiveEnd = customer.bussinessLicenseEffectiveEnd;
+        customer.bussinessLicenseEffectiveEnd && this.setEndDate(new Date(customer.bussinessLicenseEffectiveEnd));
         this.form.contactEmail = customer.contactEmail;
         let bussinessType = bussinessTypeJson.find(item => item.code == customer.category);
         this.confirm(bussinessType || {});
@@ -200,6 +210,14 @@ export default {
       this.bankSearchVisible = false;
       this.bankBranchVisible = false;
       this.bankBranch = resultObj;
+    },
+    setStartDate(date) {
+      this.form.bussinessLicenseEffectiveBegin = utils.formatDate(date, "yyyy-MM-dd");
+      this.bussinessLicenseEffectiveBeginVal = date;
+    },
+    setEndDate(date) {
+      this.form.bussinessLicenseEffectiveEnd = utils.formatDate(date, "yyyy-MM-dd");
+      this.bussinessLicenseEffectiveEndVal = date;
     },
     //提交
     submit() {
