@@ -96,7 +96,6 @@ export default {
       this.$emit("rotateFn")
     },
     setImgMiddle(type) {
-      console.log(11111);
       //图片宽高
       let img_width = this.imgWidth;
       let img_height = this.imgHeight;
@@ -151,7 +150,6 @@ export default {
     }
   },
   fadeViewVisible() {
-    console.log(555);
     this.imgInit();
   }
 };
