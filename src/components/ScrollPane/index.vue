@@ -5,6 +5,8 @@
     <div class="scroll-wrapper" ref="scrollWrapper" :style="{left: left + 'px'}">
       <slot></slot>
     </div>
+    <slot name="preBut"></slot>
+    <slot name="nextBut"></slot>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -71,6 +73,46 @@ export default {
         // tag in the right
         this.left = -($targetLeft - ($containerWidth - $targetWidth) + padding);
       }
+    },
+    preFn(targetWidth) {
+      const $container = this.$refs.scrollContainer;
+      const $containerWidth = $container.offsetWidth;
+      const $wrapper = this.$refs.scrollWrapper; // 内部滚动的
+      const $wrapperLeft = this.$refs.scrollWrapper.offsetLeft; // 内部滚动的
+      const $wrapperWidth = $wrapper.offsetWidth;
+      if (this.left < 0) {
+        let count = 0;
+        let timer = setInterval(() => {
+          if (count <= targetWidth) {
+            count++;
+            this.left = this.left + 1;
+          } else {
+            clearInterval(timer);
+          }
+        }, 0.5);
+        // this.left = this.left + targetWidth
+      }
+    },
+    preNext(targetWidth) {
+      const $container = this.$refs.scrollContainer;
+      const $containerWidth = $container.offsetWidth;
+      const $wrapper = this.$refs.scrollWrapper;
+      const $wrapperWidth = $wrapper.offsetWidth;
+      if (this.left > ($containerWidth - $wrapperWidth)) {
+        let count = 0;
+        let timer = setInterval(() => {
+          if (count <= targetWidth) {
+            count++;
+            this.left = this.left - 1;
+          } else {
+            clearInterval(timer);
+          }
+        }, 0.5);
+        // this.left = this.left - targetWidth
+      }
+    },
+    scrollPaneInit() {
+      this.left = 0;
     }
   }
 };

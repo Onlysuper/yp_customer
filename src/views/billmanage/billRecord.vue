@@ -277,6 +277,7 @@ export default {
               value: "SUCCESS",
               label: "推送成功"
             },
+
             {
               value: "BILLING_SUCCESS",
               label: "开票成功"
@@ -284,6 +285,10 @@ export default {
             {
               value: "BILLING",
               label: "开票中"
+            },
+            {
+              value: "SUBMITTING",
+              label: "开电票中"
             },
             {
               value: "ORDER",
@@ -454,6 +459,11 @@ export default {
                   text: "开票中",
                   type: "danger"
                 };
+              } else if (data == "SUBMITTING") {
+                return {
+                  text: "开电票中",
+                  type: "danger"
+                };
               } else if (data == "ORDER") {
                 return {
                   text: "待开票",
@@ -493,7 +503,7 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.detailsForm = rowdata;
-                if (rowdata.status == "BILLING_SUCCESS" || rowdata.invoiceMedia == 'ELECTRONIC') {
+                if (rowdata.status == "BILLING_SUCCESS" && rowdata.invoiceMedia == 'ELECTRONIC') {
                   this.downLoadVisible = true;
                 } else {
                   this.downLoadVisible = false;

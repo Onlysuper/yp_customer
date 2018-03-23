@@ -1,7 +1,7 @@
 
 // 商户产品
 
-import { getCustomerEchoProduct, getUserProductStatus } from "@src/apis";
+import { getCustomerEchoProduct, getUserProductStatus, } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -40,8 +40,12 @@ export default {
   },
   actions: {
     //回显表单
+    getCustomerProductOne({ commit, dispatch, getters, rootGetters, rootState, state }, bussinessNo) {
+      return state.list.find(item => item.bussinessNo == bussinessNo);
+    },
     getCustomerEchoProduct({ commit, dispatch, getters, rootGetters, rootState, state }, query) {
       return getCustomerEchoProduct()({ ...query }).then(data => {
+        console.log(data);
         if (data.code == "00") {
           return data.data;
         } else {
@@ -50,13 +54,20 @@ export default {
       })
     },
     getUserProductStatus({ commit, dispatch, getters, rootGetters, rootState, state }, formList) {
-      return getUserProductStatus()({ ...formList }).then(data => {
-        if (data.code == "00") {
-          return data.data;
+      return getUserProductStatus()({
+        ...formList
+      }).then(res => {
+        console.log(res);
+        if (res.code == "00") {
+          Toast("操作成功");
+          return true;
         } else {
-          Toast(data.msg);
+          Toast(res.msg);
+          return false;
         }
       })
     }
-  }
+  },
+
+
 };

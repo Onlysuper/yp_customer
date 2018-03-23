@@ -12,7 +12,7 @@
 
       <div title="信息" class="hover-back message-box">
         <router-link to="/message-list">
-          <el-badge :value="messageCount" :max="9000" class="item" id="messageIcon">
+          <el-badge :value="messageCount" :max="999" class="item" id="messageIcon">
             <span class="icon-news"></span>
           </el-badge>
         </router-link>
