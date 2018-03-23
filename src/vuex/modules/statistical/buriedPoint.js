@@ -22,6 +22,7 @@ export default {
         version: "", // 版本号
         actionId: "", // 操作类型
         userId: "", // 授权码
+        userType: "",//用户类型
         createTimeStart: utils.formatDate(new Date(), "yyyy-MM-dd"), // 开始时间
         createTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd") // 结束时间
       };
