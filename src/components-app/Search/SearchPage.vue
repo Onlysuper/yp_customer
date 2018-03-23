@@ -144,9 +144,7 @@ const MypSelect = Vue.extend({
   },
   data() {
     return {
-      value: this.config.values.find(
-        item => item.code == this.config.defaultValue
-      )
+      value: this.config.values.find(item => item.code == this.config.defaultValue) || {}
     };
   },
   methods: {
@@ -157,7 +155,7 @@ const MypSelect = Vue.extend({
   },
   template: `
     <div>
-      <mt-field @click.native="$refs.Picker.open" v-model="value.name" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请选择'+config.title" >></mt-field>
+      <mt-field @click.native="$refs.Picker.open" v-model="value.name" :label="config.title" v-readonly-ios :disableClear="true" :readonly="true" :placeholder="'请选择'+config.title" ><i class="icon-arrow"></i></mt-field>
       <picker v-model="value" ref="Picker" :slotsActions="config.values" @confirm="confirm"></picker>
     </div>`
 });

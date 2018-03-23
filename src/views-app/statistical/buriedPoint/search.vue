@@ -33,22 +33,22 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "开始日期",
-        type: "myp-date",
-        defaultValue: this.searchQuery.createTimeStart,
+        title: "合伙人编号",
+        type: "myp-text",
+        defaultValue: this.searchQuery.agentNo,
         cb: value => {
-          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
-            createTimeStart: value
+          this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
+            agentNo: value
           });
         }
       });
       this.searchConfig.push({
-        title: "结束日期",
-        type: "myp-date",
-        defaultValue: this.searchQuery.createTimeEnd,
+        title: "版本号",
+        type: "myp-text",
+        defaultValue: this.searchQuery.version,
         cb: value => {
-          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
-            createTimeEnd: value
+          this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
+            version: value
           });
         }
       });
@@ -78,26 +78,6 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "合伙人编号",
-        type: "myp-text",
-        defaultValue: this.searchQuery.agentNo,
-        cb: value => {
-          this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
-            agentNo: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "版本号",
-        type: "myp-text",
-        defaultValue: this.searchQuery.version,
-        cb: value => {
-          this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
-            version: value
-          });
-        }
-      });
-      this.searchConfig.push({
         title: "操作类型",
         type: "myp-select",
         defaultValue: this.searchQuery.actionId,
@@ -111,6 +91,26 @@ export default {
         cb: value => {
           this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
             actionId: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "开始日期",
+        type: "myp-date",
+        defaultValue: this.searchQuery.createTimeStart,
+        cb: value => {
+          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
+            createTimeStart: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "结束日期",
+        type: "myp-date",
+        defaultValue: this.searchQuery.createTimeEnd,
+        cb: value => {
+          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
+            createTimeEnd: value
           });
         }
       });
