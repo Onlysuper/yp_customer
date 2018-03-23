@@ -430,6 +430,7 @@ export default {
       }).then(res => {
         if (res.code == "00") {
           // 聚合支付查询详情
+
           let data = res.data;
           let customerRow = {};
           let settleCardRow = {};
@@ -474,13 +475,12 @@ export default {
             ...imgsRow,
             ...{ accountName: accountName }
           }
-          for (var i in imgsRow) {
-            if (imgsRow[i].url) {
-              this.largeImgUrl = imgsRow[i].url
-              break;
-            }
-          }
-
+          // for (var i in imgsRow) {
+          //   if (imgsRow[i].url) {
+          //     this.largeImgUrl = imgsRow[i].url
+          //     // break;
+          //   }
+          // }
         }
         dialogLoading.close();
       });

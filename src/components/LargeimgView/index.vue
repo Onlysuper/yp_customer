@@ -1,7 +1,7 @@
 <template>
   <!-- 图片查看器 -->
-  <div class="fullpate-img" v-if="fadeViewVisible">
-    <img :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
+  <div ref="fullpate" class="fullpate-img" v-if="fadeViewVisible">
+    <img ref="imgLarge" :class="'img-page-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
     <div class="largeButgroup">
       <el-button @click="rotateFn" type="primary">转</el-button>
     </div>
@@ -16,6 +16,8 @@
   width: 100%;
   height: 100%;
   left: 0;
+  top: 0;
+  bottom: 0;
   top: 0;
   text-align: center;
   vertical-align: middle;
@@ -34,9 +36,9 @@
   img {
     position: relative;
     z-index: 10;
-    max-width: 100%;
-    max-height: 100%;
-    min-height: 70%;
+    // max-width: 100%;
+    // max-height: 100%;
+    // min-height: 70%;
     text-align: center;
     vertical-align: middle;
   }
@@ -72,12 +74,14 @@
 }
 </style>
 <script>
+import $ from "jQuery";
 export default {
   components: {},
   props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt",],
   data() {
     return {
-
+      imgWidth: "",
+      imgHeight: "",
     };
   },
   computed: {
@@ -90,9 +94,61 @@ export default {
     },
     rotateFn() {
       this.$emit("rotateFn")
+    },
+    setImgMiddle(type) {
+      //图片宽高
+      let img_width = this.imgWidth;
+      let img_height = this.imgHeight;
+      //图片容器宽高
+      let panel_width = $(".fullpate-img").width();
+      let panel_height = $(".fullpate-img").height();
+      let $img = $(".img-page-large");
+      if (panel_width / panel_height < img_width / img_height) {
+        console.log("宽形");
+        if (type == "transfer") {
+          console.log('旋转')
+          $img.height(panel_height);
+          $img.width("auto")
+        } else {
+          console.log('未旋转')
+          $img.width(panel_height);
+          $img.height("auto");
+        }
+      } else {
+        console.log("长形");
+        if (type == "transfer") {
+          console.log('旋转')
+          $img.width(panel_height);
+          $img.height("auto");
+        } else {
+          console.log('未旋转')
+          $img.height(panel_height);
+          $img.width("auto")
+        }
+      }
+
     }
   },
   mounted() {
+    var newImg = new Image()
+    newImg.src = this.src
+    newImg.onerror = () => {    // 图片加载错误时的替换图片
+      newImg.src = this.largeImgUrl
+    }
+    newImg.onload = () => {
+      this.imgWidth = newImg.width;
+      this.imgHeight = newImg.height;
+      this.setImgMiddle();
+    }
+  },
+  watch: {
+    rotateClass(val) {
+      if (val == "rotate270" || val == "rotate90") {
+        this.setImgMiddle('transfer');
+      } else {
+        this.setImgMiddle();
+      }
+    }
   }
 };
 </script>

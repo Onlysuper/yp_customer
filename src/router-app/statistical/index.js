@@ -32,7 +32,7 @@ export default {
         },
         //商品管理--搜索
         {
-          name: "operator_log",
+          // name: "operator_log",
           path: 'search',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/statistical/buriedPoint/search")) }, "statistical-search-app")
@@ -43,7 +43,7 @@ export default {
         },
         //商品管理--编辑
         {
-          name: "customerVersion",
+          // name: "customerVersion",
           path: 'edit/:queryNo',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/version/customerVersion/edit")) }, "customerVersion-edit-app")
