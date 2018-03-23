@@ -458,12 +458,21 @@ export default {
               "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
             ]);
           }
+          let accountName = "";// 账户名称
+          if (settleCardRow.accountType == "0") {
+            // 对公:带入企业名称 不可更改
+            accountName = customerRow.enterpriseName
+          } else if (settleCardRow.accountType == "1") {
+            // 对私
+            accountName = settleCardRow.accountName == customerRow.enterpriseName ? customerRow.legalPerson : settleCardRow.accountName || customerRow.legalPerson;
+          }
           this.payStatusDetails = {
             ...this.payStatusDetails,
             ...customerRow,
             ...settleCardRow,
             ...productRow,
-            ...imgsRow
+            ...imgsRow,
+            ...{ accountName: accountName }
           }
           for (var i in imgsRow) {
             if (imgsRow[i].url) {

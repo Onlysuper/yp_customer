@@ -79,12 +79,25 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item v-if="accountType=='0'?true:false" class="full-width is-required" label="开户许可证" prop="account" :label-width="formLabelWidth">
-          <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
-            <img v-if="accountLicenseImg" :src="accountLicenseImg" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item v-if="accountVisible" class="full-width is-required" label="开户许可证" prop="account" :label-width="formLabelWidth">
+              <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
+                <img v-if="accountLicenseImg" :src="accountLicenseImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="certificateVisible" class="full-width is-required" label="授权书" prop="certificate" :label-width="formLabelWidth">
+              <el-upload :data="certificateData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="certificatebeforeUpload">
+                <img v-if="certificateImg" :src="certificateImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
           <span>同意《开通支付协议》
@@ -166,7 +179,14 @@ export default {
     }
   },
   data() {
+    var allImgData = {
+      businessNo: this.rowData.bussinessNo,
+      businessType: "customer",
+      imgString: ""
+    }
     return {
+      accountVisible: false,// 开户行许可证 
+      certificateVisible: false,// 授权书
       agreeOpen: true, // 同意协议
       currentChildView: paystatusAgreement,
       agreementVisible: false,
@@ -184,68 +204,56 @@ export default {
         accountLicenseImg: "",
         placeImg: "",
         storeImg: "",
-        cashSpaceImg: ""
+        cashSpaceImg: "",
+        certificateImg: "",
       },
       idcardData: {
         imgType: "LEGAL_PERSON_ID_POSITIVE",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
       },
       // 身份证反面
       idcardBackData: {
         imgType: "LEGAL_PERSON_ID_BACK",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
       },
       // 营业执照
       businessData: {
         imgType: "BUSSINESS_LICENSE",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
       },
       // 结算卡
       settleData: {
         imgType: "SETTLE_CARD_IMG",
-        businessNo: this.rowData.bussinessNo,
-        imgString: ""
+        ...allImgData
       },
       //开户许可证
       accountData: {
         imgType: "ACCOUNT_OPENING_LICENSE",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
       },
       //门头照片
       placeData: {
         imgType: "PLACE_IMG",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
       },
       //店内照片
       storeData: {
         imgType: "STORE_IMG",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
       },
       //收银台照片
       cashData: {
         imgType: "CASH_SPACE_IMG",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
       },
       //手持身份证
       applicantData: {
         imgType: "APPLICANT_WITH_ID",
-        businessNo: this.rowData.bussinessNo,
-        businessType: "customer",
-        imgString: ""
+        ...allImgData
+      },
+      certificateData: {
+        imgType: "CERTIFICATE_IMG",
+        ...allImgData
       },
       identityFrontImg: "",
       identityBackImg: "",
@@ -256,6 +264,7 @@ export default {
       placeImg: "",
       storeImg: "",
       cashSpaceImg: "",
+      certificateImg: "",
       formLabelWidth: "130px",
       payStatusForm: {},
       payStatusFormRules: {}, // 编辑单个规则
@@ -315,6 +324,13 @@ export default {
       }
       return false;
     },
+    // 授权书
+    certificatebeforeUpload(file) {
+      if (this.checkUpload(file)) {
+        this.imgTransBase(file, "certificateData");
+      }
+      return false;
+    },
     //门头照片编号
     placebeforeUpload(file) {
       if (this.checkUpload(file)) {
@@ -366,7 +382,6 @@ export default {
         // utils.dealImage(this.result, { width: 200 }, function(data) {
         //   console.log("压缩后：" + data.length / 1024 + " " + data);
         upload()(self[where]).then(data => {
-          console.log(data);
           if (data.code == "00") {
             switch (where) {
               // 身份证正面
@@ -399,6 +414,11 @@ export default {
                 self.accountLicenseImg = self[where].imgString;
                 self.saveForm.accountLicenseImg = data.data;
                 break;
+              // 授权书
+              case "certificateData":
+                self.certificateImg = self[where].imgString;
+                self.saveForm.certificateImg = data.data;
+                break;
               // 门头照片
               case "placeData":
                 self.placeImg = self[where].imgString;
@@ -427,7 +447,9 @@ export default {
     },
     editSave() {
       // 编辑内容保存
+      console.log(this.saveForm);
       for (var i in this.saveForm) {
+        console.log(this.saveForm[i]);
         if (!this.saveForm[i]) {
           switch (i) {
             // 身份证正面
@@ -448,8 +470,10 @@ export default {
               return false;
             // 开户许可证
             case "accountLicenseImg":
-              this.warningMsg("请上传开户许可证照片");
-              return false;
+              if (this.accountVisible) {
+                this.warningMsg("请上传开户许可证照片");
+                return false;
+              }
             // 门头照片
             case "placeImg":
               this.warningMsg("请上传门头照片");
@@ -462,6 +486,11 @@ export default {
             case "cashSpaceImg":
               this.warningMsg("请上传收银台照片");
               return false;
+            case "certificateImg":
+              if (this.certificateVisible) {
+                this.warningMsg("请上传授权书照片");
+                return false;
+              }
           }
         }
       }
@@ -510,52 +539,84 @@ export default {
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {
-          console.log(res.data);
+          let customerData = res.data.customer;
           let imgs = res.data.imgs;
-
+          let settleCard = res.data.settleCard;
+          if (settleCard) {
+            let newCustomer = utils.pickObj(customerData, [
+              'legalPerson'
+            ]);
+            let newSettleCard = utils.pickObj(settleCard, [
+              'accountType', 'accountName'
+            ]);
+            if (newSettleCard.accountType == "0") {
+              // 对公:
+              this.accountVisible = true;
+              this.certificateVisible = false;
+            } else if (newSettleCard.accountType == "1") {
+              // 对私
+              if (newSettleCard.accountName == newCustomer.legalPerson) {
+                this.accountVisible = false;
+                this.certificateVisible = false;
+              } else {
+                this.accountVisible = false;
+                this.certificateVisible = true;
+              }
+            }
+            this.accountType = settleCard.accountType
+          }
           if (imgs) {
-            if (imgs.identityFrontImg != null) {
-              this.identityFrontImg = imgs.identityFrontImg.url;
-              this.saveForm.identityFrontImg = imgs.identityFrontImg.id;
-            }
-            if (imgs.identityBackImg != null) {
-              this.identityBackImg = imgs.identityBackImg.url;
-              this.saveForm.identityBackImg = imgs.identityBackImg.id;
-            }
-            if (imgs.identityHolderImg != null) {
-              this.identityHolderImg = imgs.identityHolderImg.url;
-              this.saveForm.identityHolderImg = imgs.identityHolderImg.id;
-            }
-            if (imgs.bussinessLicenseImg != null) {
-              this.bussinessLicenseImg = imgs.bussinessLicenseImg.url;
-              this.saveForm.bussinessLicenseImg = imgs.bussinessLicenseImg.id;
-            }
-            if (imgs.settleCardImg != null) {
-              this.settleCardImg = imgs.settleCardImg.url;
-              this.saveForm.settleCardImg = imgs.settleCardImg.id;
-            }
-            if (imgs.accountLicenseImg != null) {
-              this.accountLicenseImg = imgs.accountLicenseImg.url;
-              this.saveForm.accountLicenseImg = imgs.accountLicenseImg.id;
-            }
-            if (imgs.placeImg != null) {
-              this.placeImg = imgs.placeImg.url;
-              this.saveForm.placeImg = imgs.placeImg.id;
-            }
-            if (imgs.storeImg != null) {
-              this.storeImg = imgs.storeImg.url;
-              this.saveForm.storeImg = imgs.storeImg.id;
-            }
-            if (imgs.cashSpaceImg != null) {
-              this.cashSpaceImg = imgs.cashSpaceImg.url;
-              this.saveForm.cashSpaceImg = imgs.cashSpaceImg.id;
-            }
+            let imgsidArr = ["identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg",
+              "settleCardImg", "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg", "certificateImg"]
+            imgsidArr.forEach((item) => {
+              if (imgs[item] != null) {
+                this[item] = imgs[item].url;
+                this.saveForm[item] = imgs[item].id;
+              }
+            })
+            // if (imgs.identityFrontImg != null) {
+            //   this.identityFrontImg = imgs.identityFrontImg.url;
+            //   this.saveForm.identityFrontImg = imgs.identityFrontImg.id;
+            // }
+            // if (imgs.identityBackImg != null) {
+            //   this.identityBackImg = imgs.identityBackImg.url;
+            //   this.saveForm.identityBackImg = imgs.identityBackImg.id;
+            // }
+            // if (imgs.identityHolderImg != null) {
+            //   this.identityHolderImg = imgs.identityHolderImg.url;
+            //   this.saveForm.identityHolderImg = imgs.identityHolderImg.id;
+            // }
+            // if (imgs.bussinessLicenseImg != null) {
+            //   this.bussinessLicenseImg = imgs.bussinessLicenseImg.url;
+            //   this.saveForm.bussinessLicenseImg = imgs.bussinessLicenseImg.id;
+            // }
+            // if (imgs.settleCardImg != null) {
+            //   this.settleCardImg = imgs.settleCardImg.url;
+            //   this.saveForm.settleCardImg = imgs.settleCardImg.id;
+            // }
+            // if (imgs.accountLicenseImg != null) {
+            //   this.accountLicenseImg = imgs.accountLicenseImg.url;
+            //   this.saveForm.accountLicenseImg = imgs.accountLicenseImg.id;
+            // }
+            // if (imgs.placeImg != null) {
+            //   this.placeImg = imgs.placeImg.url;
+            //   this.saveForm.placeImg = imgs.placeImg.id;
+            // }
+            // if (imgs.storeImg != null) {
+            //   this.storeImg = imgs.storeImg.url;
+            //   this.saveForm.storeImg = imgs.storeImg.id;
+            // }
+            // if (imgs.cashSpaceImg != null) {
+            //   this.cashSpaceImg = imgs.cashSpaceImg.url;
+            //   this.saveForm.cashSpaceImg = imgs.cashSpaceImg.id;
+            // }
+            // if (imgs.certificateImg != null) {
+            //   this.certificateImg = imgs.certificateImg.url;
+            //   this.saveForm.certificateImg = imgs.certificateImg.id;
+            // }
           }
         }
-        let settleCard = res.data.settleCard;
-        if (settleCard) {
-          this.accountType = settleCard.accountType
-        }
+
       });
     }
   },
