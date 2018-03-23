@@ -37,7 +37,7 @@
     position: relative;
     z-index: 10;
     max-width: 100%;
-    // max-height: 100%;
+    max-height: 100%;
     // min-height: 70%;
     text-align: center;
     vertical-align: middle;
@@ -58,6 +58,7 @@
     z-index: 1;
     height: 50px;
     text-align: right;
+    z-index: 999;
   }
   .rotate90 {
     transform: rotate(90deg);
@@ -104,24 +105,18 @@ export default {
       let panel_height = $(".fullpate-img").height();
       let $img = $(".img-page-large");
       if (panel_width / panel_height < img_width / img_height) {
-        console.log("宽形");
         if (type == "transfer") {
-          console.log('旋转')
-          $img.height(panel_height);
-          $img.width("auto")
-        } else {
-          console.log('未旋转')
           $img.width(panel_height);
+          $img.height("auto")
+        } else {
+          $img.width(panel_width);
           $img.height("auto");
         }
       } else {
-        console.log("长形");
         if (type == "transfer") {
-          console.log('旋转')
           $img.width(panel_height);
           $img.height("auto");
         } else {
-          console.log('未旋转')
           $img.height(panel_height);
           $img.width("auto")
         }
@@ -148,7 +143,6 @@ export default {
   },
   watch: {
     rotateClass(val) {
-      console.log(222222);
       if (val == "rotate270" || val == "rotate90") {
         this.setImgMiddle('transfer');
       } else {
