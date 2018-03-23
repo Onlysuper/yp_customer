@@ -43,16 +43,44 @@
         <img @click="largeImageShow(qrcodelargeImgUrl,'qrcode')" class="img-large" :src="qrcodelargeImgUrl" alt="">
       </div>
     </div>
-    <transition name="slide-fade" class="fadeView">
+    <!-- <transition name="slide-fade" class="fadeView">
       <div v-if="fadeViewVisible">
         <image-view :imgArr="largeUrl" :showImageView="true" :imageIndex="0" v-on:hideImage="hideImageView"></image-view>
       </div>
+    </transition> -->
+    <transition name="slide-fade" class="fadeView">
+      <largeimg-view :largeImgUrl="qrcodelargeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
+      </largeimg-view>
     </transition>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
+.rotate90 {
+  transform: rotate(90deg);
+}
+.rotate180 {
+  transform: rotate(180deg);
+}
+.rotate270 {
+  transform: rotate(270deg);
+}
+.rotate0 {
+  transform: rotate(0deg);
+}
+.largeButgroup {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // background: red;
+  z-index: 1;
+  height: 50px;
+  text-align: right;
+  .but {
+  }
+}
 .scroll-view-cus {
   touch-action: none;
   /* -- Attention-- */
@@ -73,9 +101,9 @@
 
   .detaile-left {
     margin-left: 10px;
+    padding-right: 10px;
     flex: 4;
     flex-shrink: 0;
-    padding-right: 10px;
     position: relative;
   }
   .detaile-right {
@@ -111,9 +139,24 @@
             border: 1px solid #ebeef5;
             width: 100%;
             height: 70px;
-            // flex: 1;
             box-sizing: border-box;
+            position: relative;
+            &:after {
+              content: "暂无图片";
+              display: block;
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              background: #ebeef5;
+              text-align: center;
+              z-index: 1;
+              line-height: 70px;
+            }
             img {
+              position: relative;
+              z-index: 2;
               cursor: pointer;
               width: 100%;
               height: 100%;
@@ -135,13 +178,14 @@
       flex: 1;
       padding: 10px;
       overflow: hidden;
+      position: relative;
+
       &:after {
         content: " ";
         display: inline-block;
         vertical-align: middle;
         height: 100%;
       }
-
       img {
         display: inline-block;
         vertical-align: middle;
@@ -159,7 +203,8 @@ import Vue from "vue";
 import IScrollView from "vue-iscroll-view";
 import IScroll from "iscroll";
 Vue.use(IScrollView, IScroll);
-import imageView from 'vue-imageview'
+import imageView from 'vue-imageview';
+import LargeimgView from '@src/components/LargeimgView';
 import ScrollPane from "@src/components/ScrollPane";
 import bussinessTypeJson from "@src/data/bussinessType.json";
 import { mixinsPc } from "@src/common/mixinsPc";
@@ -187,7 +232,8 @@ export default {
   },
   components: {
     ScrollPane,
-    ImageView: imageView
+    ImageView: imageView,
+    LargeimgView
   },
   mixins: [mixinsPc],
   data() {
@@ -209,8 +255,12 @@ export default {
         useTransform: true, //CSS转化
         useTransition: true //CSS过渡
       },
+
       fadeViewVisible: false,
       largeUrl: "",
+      largeImgArt: "",
+      rotateClass: "",
+      rotateCurrent: 0,
       detailsForm: {},
       qrcodelargeImgUrl: "",
       qrcodeImgs: { ...qrcodeImgs },
@@ -255,6 +305,11 @@ export default {
         dialogLoading.close();
       });
     },
+    rotateFn() {
+      this.rotateCurrent = (this.rotateCurrent + 90) % 360;
+      this.rotateClass = "rotate" + this.rotateCurrent;
+      console.log(this.rotateClass);
+    },
     preFn() {
       this.$refs.scrollPane.preFn(90)
     },
@@ -272,6 +327,8 @@ export default {
       this.imageIndex = 0
     },
     showImg(val, type) {
+      this.rotateCurrent = 0
+      this.rotateClass = "";
       this.qrcodelargeImgUrl = val
     },
     hideImageView() {

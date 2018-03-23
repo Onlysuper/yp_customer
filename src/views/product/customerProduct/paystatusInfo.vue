@@ -1,6 +1,9 @@
 <template>
   <div class="paystatusInfo-box">
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="120px">
+      <el-form-item class="full-width" label="账户名称" prop="accountName" :label-width="formLabelWidth">
+        <el-input :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.enterpriseName" auto-complete="off"></el-input>
       </el-form-item>
@@ -122,6 +125,7 @@ export default {
   mixins: [mixinsPc],
   data() {
     return {
+      accountNameDis: false,
       currentChildView: "",
       formLabelWidth: "120px",
       bankOptions: banks,
@@ -317,14 +321,25 @@ export default {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
           }
           let newCustomer = utils.pickObj(customerData, [
-            'enterpriseName', 'taxNo',
+            'enterpriseName', 'accountName', 'taxNo',
             'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
             'bussinessAddress', 'legalPerson', 'idCard', 'category'
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
             'accountType', 'accountNo', 'phoneNo', 'bankCode', 'unionCode', 'branchName'
           ]);
-          this.payStatusForm = { ...this.payStatusForm, ...newCustomer, ...newSettleCard }
+
+          let accountName = "";// 账户名称
+          if (newSettleCard.accountType == "0") {
+            // 对公:带入企业名称 不可更改
+            accountName = newCustomer.enterpriseName
+            this.accountNameDis = true;
+          } else if (newSettleCard.accountType == "1") {
+            // 对私
+            newSettleCard.accountName ? accountName = newSettleCard.accountName : accountName = newCustomer.legalPerson;
+            this.accountNameDis = false;
+          }
+          this.payStatusForm = { ...this.payStatusForm, ...newCustomer, ...newSettleCard, ...{ accountName: accountName } }
         }
       });
     }

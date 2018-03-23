@@ -133,19 +133,50 @@
         </div>
       </scroll-pane>
       <div class="large-img">
-        <img @click="largeImageShow(largeImgUrl,'payStatus')" class="img-large" :src="largeImgUrl" :alt="largeImgArt">
+        <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
+        <div class="largeButgroup">
+          <el-button @click="rotateFn" type="primary">转</el-button>
+        </div>
       </div>
     </div>
-    <transition name="slide-fade" class="fadeView">
+    <!-- <transition name="slide-fade" class="fadeView">
       <div v-if="fadeViewVisible">
-        <image-view :imgArr="largeUrl" :showImageView="true" :imageIndex="0" v-on:hideImage="hideImageView"></image-view>
+        <image-view :class="rotateClass" :imgArr="largeUrl" :showImageView="true" :imageIndex="0" v-on:hideImage="hideImageView"></image-view>
       </div>
+    </transition> -->
+    <transition name="slide-fade" class="fadeView">
+      <largeimg-view :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
+      </largeimg-view>
     </transition>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
+.rotate90 {
+  transform: rotate(90deg);
+}
+.rotate180 {
+  transform: rotate(180deg);
+}
+.rotate270 {
+  transform: rotate(270deg);
+}
+.rotate0 {
+  transform: rotate(0deg);
+}
+.largeButgroup {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  // background: red;
+  z-index: 1;
+  height: 50px;
+  text-align: right;
+  .but {
+  }
+}
 .scroll-view-cus {
   touch-action: none;
   /* -- Attention-- */
@@ -243,6 +274,8 @@
       flex: 1;
       padding: 10px;
       overflow: hidden;
+      position: relative;
+
       &:after {
         content: " ";
         display: inline-block;
@@ -267,6 +300,7 @@ import IScrollView from "vue-iscroll-view";
 import IScroll from "iscroll";
 Vue.use(IScrollView, IScroll);
 import imageView from 'vue-imageview'
+import LargeimgView from '@src/components/LargeimgView'
 import ScrollPane from "@src/components/ScrollPane";
 import bussinessTypeJson from "@src/data/bussinessType.json";
 import { mixinsPc } from "@src/common/mixinsPc";
@@ -294,7 +328,8 @@ export default {
   },
   components: {
     ScrollPane,
-    ImageView: imageView
+    ImageView: imageView,
+    LargeimgView
   },
   mixins: [mixinsPc],
   data() {
@@ -367,6 +402,8 @@ export default {
         useTransition: true //CSS过渡
       },
       largeImgArt: "",
+      rotateClass: "",
+      rotateCurrent: 0,
       fadeViewVisible: false,
       largeUrl: "",
       largeImgUrl: "",
@@ -434,9 +471,15 @@ export default {
               break;
             }
           }
+
         }
         dialogLoading.close();
       });
+    },
+    rotateFn() {
+      this.rotateCurrent = (this.rotateCurrent + 90) % 360;
+      this.rotateClass = "rotate" + this.rotateCurrent;
+      console.log(this.rotateClass);
     },
     preFn() {
       this.$refs.scrollPane.preFn(90)
@@ -449,17 +492,22 @@ export default {
         this.$refs.iscroll.refresh();
       })
     },
-    largeImageShow(url, type, imgName) {
-      this.largeImgArt = imgName;
-      this.largeUrl = [url];
+    // largeImageShow(url, type, imgName) {
+    //   this.largeImgArt = imgName;
+    //   this.largeUrl = [url];
+    //   this.fadeViewVisible = true
+    //   this.imageIndex = 0
+    // },
+    largeImageShow() {
       this.fadeViewVisible = true
-      this.imageIndex = 0
     },
     showImg(val, type) {
+      this.rotateCurrent = 0
+      this.rotateClass = "";
       this.largeImgUrl = val
     },
     hideImageView() {
-      this.fadeViewVisible = false
+      this.fadeViewVisible = false;
     }
   }
 };
