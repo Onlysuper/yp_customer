@@ -1,5 +1,5 @@
 <template>
-  <div class="upload-container" @touchmove.prevent v-if="visible">
+  <div class="upload-container" v-if="visible">
     <!-- 主体 -->
     <mt-popup v-model="visible" position="bottom" class="upload-main" :modal="false">
       <full-page>
@@ -42,7 +42,7 @@
   }
   .upload-main {
     width: 100%;
-    height: 70%; // background: red;
+    height: 80%; // background: red;
     text-align: center;
   }
   .view-waper {
@@ -112,7 +112,7 @@ let demoImg = {
   //店内照片
   STORE_IMG: require("./img/identityFrontImg.png"),
   //授权书
-  CERTIFICATE_IMG: require("./img/identityFrontImg.png")
+  CERTIFICATE_IMG: require("./img/CERTIFICATE_IMG.png")
 };
 export default {
   props: {
