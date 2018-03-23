@@ -24,7 +24,8 @@
             <mt-field label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" placeholder="例如：2020-12-31" :attr="{maxlength:50}"></mt-field>
             <!-- <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field> -->
             <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
-            <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称"></mt-field> -->
+            <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
+            <mt-field label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
             <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -80,7 +81,7 @@ export default {
       enterpriseName: "",
       taxNo: "",
       form: {
-        accountType: "1",
+        accountType: "",
         legalPerson: "",
         bussinessLicenseEffectiveBegin: "",
         bussinessLicenseEffectiveEnd: ""
@@ -97,6 +98,12 @@ export default {
       customerNo: this.$route.query["customerNo"],
     };
   },
+  watch: {
+    "form.accountType"(v) {
+      if (v == "0") this.form.accountName = this.enterpriseName;
+      else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
+    }
+  },
   created() {
     getCustomerEchoProduct()({
       customerNo: this.customerNo,
@@ -111,6 +118,7 @@ export default {
         this.Toast(data.msg);
       }
     });
+
   },
   methods: {
     echoForm(data) {
@@ -139,10 +147,18 @@ export default {
           unionCode: settleCard.unionCode
         });
         this.form.accountType = settleCard.accountType;
+        this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = settleCard.accountNo;
         this.form.phoneNo = settleCard.phoneNo;
+      } else {
+        // this.form.accountType = "0"; //如果需要默认值
       }
     },
+    //处理对公对私逻辑
+    handleAccountType(accountType) {
+
+    },
+
     //地区选择回调函数
     resultCallback(obj) {
       this.city = obj;

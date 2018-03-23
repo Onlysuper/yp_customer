@@ -102,7 +102,7 @@ let demoImg = {
   //结算卡
   SETTLE_CARD_IMG: require("./img/identityFrontImg.png"),
   //营业执照
-  BUSINESS_LICENSE: require("./img/identityFrontImg.png"),
+  BUSSINESS_LICENSE: require("./img/identityFrontImg.png"),
   //门头照片
   PLACE_IMG: require("./img/identityFrontImg.png"),
   //收银台
@@ -110,7 +110,9 @@ let demoImg = {
   //开户许可证
   ACCOUNT_OPENING_LICENSE: require("./img/identityFrontImg.png"),
   //店内照片
-  STORE_IMG: require("./img/identityFrontImg.png")
+  STORE_IMG: require("./img/identityFrontImg.png"),
+  //授权书
+  CERTIFICATE_IMG: require("./img/identityFrontImg.png")
 };
 export default {
   props: {

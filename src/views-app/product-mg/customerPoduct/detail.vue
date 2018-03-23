@@ -16,9 +16,9 @@
           <mt-cell title="行业类别">{{customer.name}}</mt-cell>
           <mt-cell title="营业执照开始日期">{{customer.bussinessLicenseEffectiveBegin}}</mt-cell>
           <mt-cell title="营业执照结束日期">{{customer.bussinessLicenseEffectiveEnd}}</mt-cell>
-          <mt-cell title="行业类别">{{customer.name}}</mt-cell>
           <!-- <mt-cell title="邮箱">{{customer.contactEmail}}</mt-cell> -->
           <mt-cell title="结算信息">{{accountTypes[settleCard.accountType]}}</mt-cell>
+          <mt-cell title="账户名称">{{settleCard.accountName}}</mt-cell>
           <mt-cell title="开户银行">{{settleCard.bankName}}</mt-cell>
           <mt-cell title="开户支行">
             <div class="text-r">{{settleCard.branchName}}</div>
@@ -28,7 +28,7 @@
           <mt-cell title="微信费率">{{product.wechatRate}}%</mt-cell>
           <mt-cell title="支付宝费率">{{product.alipayRate}}%</mt-cell>
           <mt-cell title="结算方式">{{product.settleMode}}</mt-cell>
-          <mt-cell title="D0手续费">{{product.t0CashCostFixed}}元</mt-cell>
+          <mt-cell title="D0手续费" v-if="product.settleMode == 'T0'">{{product.t0CashCostFixed}}元</mt-cell>
         </input-wrapper>
       </view-radius>
       <view-radius class="uploads">
@@ -37,10 +37,11 @@
         <upload-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></upload-view>
         <upload-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></upload-view>
         <upload-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></upload-view>
         <upload-view class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></upload-view>
         <upload-view class="item" :disabled="true" ref="placeImg" :label="'门头照片'"></upload-view>
         <upload-view class="item" :disabled="true" ref="identityHolderImg" :label="'手持身份证照'"></upload-view>
+        <upload-view class="item" v-show="settleCard.accountType == '0'" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></upload-view>
+        <upload-view class="item" v-show="settleCard.accountType == '1' && settleCard.accountName != customer.legalPerson" :disabled="true" ref="certificateImg" :label="'授权书'"></upload-view>
       </view-radius>
     </template>
     <!-- 电票详情 -->
@@ -91,6 +92,7 @@ export default {
         bussinessLicenseEffectiveEnd: ""
       },
       settleCard: {
+        accountName: "",
         bankName: "",
         branchName: "",
         accountType: "",
@@ -158,13 +160,12 @@ export default {
         this.customer.legalPerson = customer.legalPerson;
         this.customer.idCard = customer.idCard;
         this.customer.contactEmail = customer.contactEmail;
-        this.customer.bussinessLicenseEffectiveBegin =
-          customer.bussinessLicenseEffectiveBegin;
-        this.customer.bussinessLicenseEffectiveEnd =
-          customer.bussinessLicenseEffectiveEnd;
+        this.customer.bussinessLicenseEffectiveBegin = customer.bussinessLicenseEffectiveBegin;
+        this.customer.bussinessLicenseEffectiveEnd = customer.bussinessLicenseEffectiveEnd;
         this.customer.name = utils.findBussinessType(customer.category).name;
       }
       if (settleCard instanceof Object) {
+        this.settleCard.accountName = settleCard.accountName;
         this.settleCard.bankName = settleCard.bankName;
         this.settleCard.branchName = settleCard.branchName;
         this.settleCard.accountType = settleCard.accountType;
