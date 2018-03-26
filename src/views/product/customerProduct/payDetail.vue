@@ -1,9 +1,10 @@
 <template>
   <!-- 聚合支付详情 -->
-  <div class="detail-body">
+  <div class="product-detail-body">
     <!-- {{detailsForm}}  -->
     <div class="detaile-left">
-      <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions">
+      <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
+      <div class="scroll-view-cus">
         <div class="line-label-box">
           <span class="line-label">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
@@ -69,7 +70,8 @@
         <div class="line-label-box">
           <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
         </div>
-      </iscroll-view>
+      </div>
+      <!-- </iscroll-view> -->
     </div>
     <div class="detaile-right">
       <div class="scroll-box">
@@ -158,173 +160,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-.rotate90 {
-  transform: rotate(90deg);
-}
-.rotate180 {
-  transform: rotate(180deg);
-}
-.rotate270 {
-  transform: rotate(270deg);
-}
-.rotate0 {
-  transform: rotate(0deg);
-}
-.largeButgroup {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  height: 50px;
-  text-align: right;
-  .but {
-    cursor: pointer;
-    font-size: 24px;
-  }
-}
-.scroll-view-cus {
-  touch-action: none;
-  /* -- Attention-- */
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-}
-.detail-body {
-  height: 550px;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-
-  .detaile-left {
-    margin-left: 10px;
-    padding-right: 10px;
-    flex: 4;
-    flex-shrink: 0;
-    position: relative;
-  }
-  .detaile-right {
-    flex: 6;
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid #ebeef5;
-    .scroll-box {
-      position: relative;
-      // width: 100%;
-      // flex-basis: 100px;
-      height: 100px;
-      padding: 0 20px;
-      // width: 90%;
-      overflow: hidden;
-    }
-    .tags-view-wrapper {
-      // background: red;
-      flex-shrink: 0;
-      border-bottom: 1px solid #ebeef5;
-      flex-basis: 100px;
-      .imgs-group {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        // padding: 5px;
-        .img-box {
-          margin: 5px;
-          width: 90px;
-          height: 90px;
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-          align-items: stretch;
-          .img-title {
-            width: 100%;
-            flex-basis: 20px;
-            line-height: 20px;
-            font-size: 10px;
-          }
-          .img-back {
-            border: 1px solid #ebeef5;
-            width: 100%;
-            height: 70px;
-            box-sizing: border-box;
-            position: relative;
-            text-align: center;
-            vertical-align: middle;
-            &:after {
-              content: "";
-              display: inline-block;
-              height: 100%;
-              vertical-align: middle;
-              text-align: center;
-              // content: "暂无图片";
-              // display: block;
-              // position: absolute;
-              // left: 0;
-              // top: 0;
-              // right: 0;
-              // bottom: 0;
-              // background: #ebeef5;
-              // text-align: center;
-              // z-index: 1;
-              // line-height: 70px;
-            }
-            img {
-              vertical-align: middle;
-              text-align: center;
-              position: relative;
-              z-index: 2;
-              cursor: pointer;
-              max-width: 100%;
-              max-height: 100%;
-              transition: all 0.3s ease-in 0s;
-              &:hover {
-                transform: translateY(-3px);
-                -ms-transform: translateY(-3px); /* IE 9 */
-                -webkit-transform: translateY(-3px); /* Safari and Chrome */
-                -o-transform: translateY(-3px); /* Opera */
-                -moz-transform: translateY(-3px);
-              }
-            }
-          }
-        }
-      }
-    }
-    .large-img-box {
-      text-align: center;
-      flex: 1;
-      display: flex;
-      align-items: stretch;
-      // padding: 10px;
-      overflow: hidden;
-      position: relative;
-    }
-    .large-img {
-      text-align: center;
-      flex: 1;
-      // padding: 10px;
-      overflow: hidden;
-      position: relative;
-      &:after {
-        content: " ";
-        display: inline-block;
-        vertical-align: middle;
-        height: 100%;
-      }
-      img {
-        display: inline-block;
-        vertical-align: middle;
-        max-width: 100%;
-        min-width: 300px;
-        max-height: 100%;
-        // height: 100%;
-      }
-    }
-  }
-}
+@import "../../../../src/assets/scss-pc/payDetail.scss";
 </style>
 <script>
 import Vue from "vue";

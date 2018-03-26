@@ -10,6 +10,21 @@
     <!-- 详情 start -->
     <el-dialog title="详情" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
+        <!-- change start -->
+        <el-row class="cross-back">
+          <el-col :span="12">
+            <div class="line-label-box">
+              <span class="line-label">销方名称:</span>
+              <span class="line-label-last">{{detailsForm.bussinessName}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="line-label-box">
+              <span class="line-label">开票时间:</span>
+              <span class="line-label-last">{{detailsForm.createTime}}</span>
+            </div>
+          </el-col>
+        </el-row>
         <el-row class="cross-back">
           <el-col :span="12">
             <div class="line-label-box">
@@ -38,13 +53,23 @@
             </div>
           </el-col>
         </el-row>
+        <div class="line-label-box">
+          <span class="line-label">购方名称:</span>
+          <span class="line-label-last">{{detailsForm.enterpriseName}}</span>
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">购方税号:</span>
+          <span class="line-label-last">{{detailsForm.taxNo}}</span>
+        </div>
+        <div class="line-label-box">
+          <span class="line-label">发票金额:</span>
+          <span class="line-label-last">{{detailsForm.billAmount}}元</span>
+        </div>
         <el-row class="cross-back">
           <el-col :span="12">
             <div class="line-label-box">
-              <span class="line-label">含税金额:</span>
-              <span class="line-label-last">{{detailsForm.billAmount}} 元</span>
-              <!-- <span class="line-label">含税金额:</span>
-              <span class="line-label-last">{{detailsForm.totalTax}}</span> -->
+              <span class="line-label">合计税额:</span>
+              <span class="line-label-last">{{detailsForm.totalTax}}元</span>
             </div>
           </el-col>
           <el-col :span="12">
@@ -54,56 +79,45 @@
             </div>
           </el-col>
         </el-row>
-
         <el-row class="cross-back">
           <el-col :span="12">
             <div class="line-label-box">
-              <span class="line-label">购方名称:</span>
-              <span class="line-label-last">{{detailsForm.enterpriseName}}</span>
+              <span class="line-label">购方邮箱:</span>
+              <span class="line-label-last">{{detailsForm.mail}}</span>
             </div>
           </el-col>
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">企业税号:</span>
-              <span class="line-label-last">{{detailsForm.taxNo}}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="cross-back">
           <el-col :span="12">
             <div class="line-label-box">
               <span class="line-label">公司电话:</span>
               <span class="line-label-last">{{detailsForm.companyPhone}}</span>
             </div>
           </el-col>
+        </el-row>
+        <el-row class="cross-back">
           <el-col :span="12">
             <div class="line-label-box">
-              <span class="line-label">销方名称:</span>
-              <span class="line-label-last">{{detailsForm.bussinessName}}</span>
+              <span class="line-label">银行账号:</span>
+              <span class="line-label-last">{{detailsForm.bankAccountNo}}</span>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="line-label-box">
+              <span class="line-label">开户银行:</span>
+              <span class="line-label-last">{{detailsForm.bankName}}</span>
             </div>
           </el-col>
         </el-row>
-        <div class="line-label-box cross-back">
-          <span class="line-label">银行帐号:</span>
-          <span class="line-label-last">{{detailsForm.bankAccountNo}}</span>
-        </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">开户银行:</span>
-          <span class="line-label-last">{{detailsForm.bankName}}</span>
-        </div>
-        <div class="line-label-box cross-back">
+        <div class="line-label-box">
           <span class="line-label">单位地址:</span>
           <span class="line-label-last">{{detailsForm.enterpriseAddress}}</span>
         </div>
-        <div v-if="detailsForm.status=='BILLING_FAIL'?true:false" class="line-label-box cross-back">
+        <div v-if="detailsForm.status=='BILLING_FAIL'?true:false" class="line-label-box">
           <span class="line-label">失败原因:</span>
           <span class="line-label-last">{{detailsForm.respMsg}}</span>
         </div>
-        <!-- <div class="line-label-box">
-          <span class="line-label">发票金额:</span>
-          <span class="line-label-last">{{detailsForm.billAmount}}</span>
-        </div> -->
+        <!-- change end -->
       </div>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
         <a v-if="downLoadVisible" :href="detailsForm.pdfUrl" target="_blank" download="发票" class="el-button el-button--primary">下载</a>

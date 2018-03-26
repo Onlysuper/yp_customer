@@ -2,7 +2,11 @@ import { getMessages } from "@src/apis";
 import { Toast } from "mint-ui";
 const acceptMessage = {
     state: {
-        messageCount: 0
+        // 消息数量
+        messageCount: 0,
+        // 通知数量
+        noticeCount: 0,
+        noticeData: {}
     },
     getters: {
     },
@@ -12,6 +16,10 @@ const acceptMessage = {
         },
         messageCountAdd(state) {
             state.messageCount = state.messageCount++
+        },
+        // 添加新通知
+        noticeCountAdd(state) {
+            state.noticeCount = state.noticeCount++
         }
     },
     actions: {

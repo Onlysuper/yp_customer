@@ -67,7 +67,17 @@ export default {
           name: "billEdit",
           path: 'edit/:billRecordNo',
           component: r => {
-            return require.ensure([], () => { return r(require("@src/views-app/billmanage/billRecord/edit")) }, "bill-record-app")
+            return require.ensure([], () => { return r(require("@src/views-app/billmanage/billRecord/edit")) }, "billrecord-edit-app")
+          },
+          meta: {
+            pageTitle: "开票记录"
+          }
+        },
+        {
+          name: "billDetail",
+          path: 'detail/:billRecordNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/billmanage/billRecord/detail")) }, "billrecord-detail-app")
           },
           meta: {
             pageTitle: "开票记录"

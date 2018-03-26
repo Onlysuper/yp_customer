@@ -82,7 +82,7 @@
 <style lang='scss'>
 @media screen and (min-width: 500px) {
   .scroll-view-cus {
-    touch-action: none;
+    // touch-action: none;
     /* -- Attention-- */
     position: absolute;
     top: 0;

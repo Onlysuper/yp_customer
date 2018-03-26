@@ -1,10 +1,12 @@
 <template>
   <!-- 图片查看器 -->
   <div ref="fullpate" class="fullpate-img" v-if="fadeViewVisible">
-    <img ref="imgLarge" :class="'img-page-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
+    <div @click.self="hideImageView" class="imgbox">
+      <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="largeImgUrl" :alt="largeImgArt">
+    </div>
     <div class="largeButgroup">
-      <i title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
-      <!-- <el-button @click="rotateFn" type="primary">转</el-button> -->
+      <i v-if="retateVisible" title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
+      <i @click="hideImageView" title="旋转" class="el-icon-close but"></i>
     </div>
     <div class="shadow-box" @click="hideImageView"></div>
   </div>
@@ -22,10 +24,27 @@
   top: 0;
   text-align: center;
   vertical-align: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  // -webkit-user-select: none;
+  // -moz-user-select: none;
+  // -ms-user-select: none;
+  // user-select: none;
+  overflow: hidden;
+  .imgbox {
+    overflow: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    &:after {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
   .shadow-box {
     position: absolute;
     left: 0;
@@ -33,6 +52,14 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    vertical-align: middle;
+    &:after {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
+    }
   }
   img {
     position: relative;
@@ -43,28 +70,31 @@
     text-align: center;
     vertical-align: middle;
   }
-  &:after {
-    content: "";
-    display: inline-block;
-    height: 100%;
-    text-align: center;
-    vertical-align: middle;
+
+  .smallImg {
+    cursor: zoom-in;
+  }
+  .bigImg {
+    cursor: zoom-out;
   }
   .largeButgroup {
     position: absolute;
-    bottom: 0;
+    // bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
     // background: red;
     z-index: 1;
     height: 50px;
     text-align: right;
-    z-index: 999;
-    padding-right: 50px;
+    z-index: 10001;
+    padding-right: 10px;
+    padding-top: 10px;
     cursor: pointer;
     .but {
       font-size: 24px;
       color: #fff;
+      padding-right: 10px;
     }
   }
   .rotate90 {
@@ -87,8 +117,10 @@ export default {
   props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt"],
   data() {
     return {
+      retateVisible: false,
       imgWidth: "",
       imgHeight: "",
+      biggeris: 'smallImg'
     };
   },
   methods: {
@@ -162,7 +194,8 @@ export default {
 
     },
     imgInit() {
-      console.log(this.rotateClass);
+      this.biggeris = "smallImg";
+      this.retateVisible = true;
       this.$nextTick(() => {
         if (this.rotateClass == "rotate270" || this.rotateClass == "rotate90") {
           this.setImgMiddle('transfer');
@@ -170,7 +203,25 @@ export default {
           this.setImgMiddle();
         }
       })
-
+    },
+    biggerFn() {
+      let biggeris = this.biggeris;
+      let $img = $(".img-page-large");
+      let $imgWidth = $img.width();
+      let $imgHeight = $img.height();
+      if (biggeris == "smallImg") {
+        // 放大
+        $img.width($imgWidth * 2);
+        $img.height($imgHeight * 2);
+        this.biggeris = "bigImg";
+        this.retateVisible = false;
+      } else if (biggeris == "bigImg") {
+        // 缩小
+        $img.width($imgWidth / 2);
+        $img.height($imgHeight / 2);
+        this.biggeris = "smallImg";
+        this.retateVisible = true;
+      }
     }
   },
   mounted() {

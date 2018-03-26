@@ -69,7 +69,8 @@ import {
   CheckboxGroup as eleCheckboxGroup,
   ColorPicker as eleColorPicker,
   Alert as eleAlert,
-
+  Tabs as eleTabs,
+  TabPane as eleTabPane,
   MessageBox,
   Message,
   Loading
@@ -117,7 +118,8 @@ Vue.component(eleTree.name, eleTree)
 Vue.component(eleCascader.name, eleCascader)
 Vue.component(eleColorPicker.name, eleColorPicker)
 Vue.component(eleAlert.name, eleAlert)
-
+Vue.component(eleTabs.name, eleTabs)
+Vue.component(eleTabPane.name, eleTabPane)
 Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }
 
