@@ -1,13 +1,16 @@
 
 <template>
   <!-- 面包屑滚动区域-->
+  <!-- <div> -->
   <div class="scroll-container" ref="scrollContainer" @wheel.prevent="handleScroll">
     <div class="scroll-wrapper" ref="scrollWrapper" :style="{left: left + 'px'}">
       <slot></slot>
     </div>
-    <slot name="preBut"></slot>
-    <slot name="nextBut"></slot>
+
   </div>
+  <!-- <slot name="preBut"></slot> -->
+  <!-- <slot name="nextBut"></slot> -->
+  <!-- </div> -->
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style rel="stylesheet/scss" lang="scss" scoped>
@@ -16,6 +19,7 @@
   position: relative;
   overflow: hidden;
   width: 100%;
+  height: 100%;
   .scroll-wrapper {
     position: absolute;
   }
@@ -87,9 +91,10 @@ export default {
             count++;
             this.left = this.left + 1;
           } else {
+            // this.left = 0;
             clearInterval(timer);
           }
-        }, 0.5);
+        }, 0.1);
         // this.left = this.left + targetWidth
       }
     },
@@ -105,9 +110,10 @@ export default {
             count++;
             this.left = this.left - 1;
           } else {
+            // this.left = $containerWidth - $wrapperWidth;
             clearInterval(timer);
           }
-        }, 0.5);
+        }, 0.1);
         // this.left = this.left - targetWidth
       }
     },

@@ -9,7 +9,7 @@
     </div>
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
-    <el-dialog class="special-dialog" title="商户状态" center :visible.sync="detailsFormVisible" id="dialogLoding">
+    <el-dialog class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
@@ -22,7 +22,6 @@
           <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="detailProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
           </component>
         </template>
-
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
@@ -76,9 +75,7 @@
         <el-button @click="styleVisible = false">取 消</el-button>
         <el-button type="primary" @click="styleFormSave('styleForm')">确定</el-button>
       </div>
-
     </el-dialog>
-
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->

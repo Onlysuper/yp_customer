@@ -72,72 +72,77 @@
       </iscroll-view>
     </div>
     <div class="detaile-right">
-      <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
+      <div class="scroll-box">
         <div class="small-but pre" @click="preFn" slot="preBut">《</div>
         <div class="small-but next" @click="preNext" slot="nextBut">》</div>
-        <div class="imgs-group">
-          <div class="img-box">
-            <p class="img-title">法人身份证正面:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.identityFrontImg.url||'','pay','法人身份证正面')" class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
+        <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
+          <div class="imgs-group">
+            <div class="img-box">
+              <p class="img-title">法人身份证正面:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.identityFrontImg.url||'','pay','法人身份证正面')" class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">法人身份证反面:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.identityBackImg.url||'','pay','法人身份证反面')" class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">营业执照:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.bussinessLicenseImg.url||'','pay','营业执照')" class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">手持身份证:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.identityHolderImg.url||'','pay','手持身份证')" class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">结算卡正面:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.settleCardImg.url||'','pay','结算卡正面')" class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">开户许可证:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.accountLicenseImg.url||'','pay','开户许可证')" class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">门头照片:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.placeImg.url||'','pay','门头照片')" class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">店内照片:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.storeImg.url||'','pay','店内照片')" class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
+              </div>
+            </div>
+            <div class="img-box">
+              <p class="img-title">收银台照片:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.cashSpaceImg.url||'','pay','收银台照片')" class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
+              </div>
             </div>
           </div>
-          <div class="img-box">
-            <p class="img-title">法人身份证反面:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.identityBackImg.url||'','pay','法人身份证反面')" class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">营业执照:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.bussinessLicenseImg.url||'','pay','营业执照')" class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">手持身份证:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.identityHolderImg.url||'','pay','手持身份证')" class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">结算卡正面:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.settleCardImg.url||'','pay','结算卡正面')" class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">开户许可证:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.accountLicenseImg.url||'','pay','开户许可证')" class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">门头照片:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.placeImg.url||'','pay','门头照片')" class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">店内照片:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.storeImg.url||'','pay','店内照片')" class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">收银台照片:</p>
-            <div class="img-back">
-              <img @click="showImg(payStatusDetails.cashSpaceImg.url||'','pay','收银台照片')" class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
-            </div>
-          </div>
-        </div>
-      </scroll-pane>
-      <div class="large-img">
-        <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
-        <div class="largeButgroup">
-          <el-button @click="rotateFn" type="primary">转</el-button>
+        </scroll-pane>
+      </div>
+      <div class="large-img-box">
+        <div class="large-img">
+          <!-- <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt"> -->
+          <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large'" :src="largeImgUrl" :alt="largeImgArt">
         </div>
       </div>
+      <!-- <div class="largeButgroup">
+        <i title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
+      </div> -->
     </div>
     <!-- <transition name="slide-fade" class="fadeView">
       <div v-if="fadeViewVisible">
@@ -145,7 +150,7 @@
       </div>
     </transition> -->
     <transition name="slide-fade" class="fadeView">
-      <largeimg-view :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
+      <largeimg-view ref="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>
     </transition>
   </div>
@@ -170,11 +175,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  // background: red;
   z-index: 1;
   height: 50px;
   text-align: right;
   .but {
+    cursor: pointer;
+    font-size: 24px;
   }
 }
 .scroll-view-cus {
@@ -207,6 +213,15 @@
     display: flex;
     flex-direction: column;
     border-left: 1px solid #ebeef5;
+    .scroll-box {
+      position: relative;
+      // width: 100%;
+      // flex-basis: 100px;
+      height: 100px;
+      padding: 0 20px;
+      // width: 90%;
+      overflow: hidden;
+    }
     .tags-view-wrapper {
       // background: red;
       flex-shrink: 0;
@@ -237,25 +252,34 @@
             height: 70px;
             box-sizing: border-box;
             position: relative;
+            text-align: center;
+            vertical-align: middle;
             &:after {
-              content: "暂无图片";
-              display: block;
-              position: absolute;
-              left: 0;
-              top: 0;
-              right: 0;
-              bottom: 0;
-              background: #ebeef5;
+              content: "";
+              display: inline-block;
+              height: 100%;
+              vertical-align: middle;
               text-align: center;
-              z-index: 1;
-              line-height: 70px;
+              // content: "暂无图片";
+              // display: block;
+              // position: absolute;
+              // left: 0;
+              // top: 0;
+              // right: 0;
+              // bottom: 0;
+              // background: #ebeef5;
+              // text-align: center;
+              // z-index: 1;
+              // line-height: 70px;
             }
             img {
+              vertical-align: middle;
+              text-align: center;
               position: relative;
               z-index: 2;
               cursor: pointer;
-              width: 100%;
-              height: 100%;
+              max-width: 100%;
+              max-height: 100%;
               transition: all 0.3s ease-in 0s;
               &:hover {
                 transform: translateY(-3px);
@@ -269,13 +293,21 @@
         }
       }
     }
+    .large-img-box {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      // padding: 10px;
+      overflow: hidden;
+      position: relative;
+    }
     .large-img {
       text-align: center;
       flex: 1;
-      padding: 10px;
+      // padding: 10px;
       overflow: hidden;
       position: relative;
-
       &:after {
         content: " ";
         display: inline-block;
@@ -508,7 +540,8 @@ export default {
     //   this.imageIndex = 0
     // },
     largeImageShow() {
-      this.fadeViewVisible = true
+      this.fadeViewVisible = true;
+      this.$refs.largeImg.imgInit()
     },
     showImg(val, type) {
       this.rotateCurrent = 0
