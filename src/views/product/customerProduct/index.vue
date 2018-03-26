@@ -9,7 +9,7 @@
     </div>
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
-    <el-dialog class="special-dialog" title="商户状态" center :visible.sync="detailsFormVisible" id="dialogLoding">
+    <el-dialog class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->

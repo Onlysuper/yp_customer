@@ -132,11 +132,13 @@
           </div>
         </div>
       </scroll-pane>
-      <div class="large-img">
-        <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
-        <div class="largeButgroup">
-          <el-button @click="rotateFn" type="primary">转</el-button>
+      <div class="large-img-box">
+        <div class="large-img">
+          <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
         </div>
+      </div>
+      <div class="largeButgroup">
+        <el-button @click="rotateFn" type="primary">转</el-button>
       </div>
     </div>
     <!-- <transition name="slide-fade" class="fadeView">
@@ -269,13 +271,21 @@
         }
       }
     }
+    .large-img-box {
+      text-align: center;
+      flex: 1;
+      display: flex;
+      align-items: stretch;
+      // padding: 10px;
+      overflow: hidden;
+      position: relative;
+    }
     .large-img {
       text-align: center;
       flex: 1;
-      padding: 10px;
+      // padding: 10px;
       overflow: hidden;
       position: relative;
-
       &:after {
         content: " ";
         display: inline-block;

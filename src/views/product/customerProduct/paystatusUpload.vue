@@ -447,50 +447,51 @@ export default {
     },
     editSave() {
       // 编辑内容保存
-      console.log(this.saveForm);
       for (var i in this.saveForm) {
-        console.log(this.saveForm[i]);
         if (!this.saveForm[i]) {
-          switch (i) {
-            // 身份证正面
-            case "identityFrontImg":
-              this.warningMsg("请上传身份证正面照片");
+          if (i == "identityFrontImg") {
+            this.warningMsg("请上传身份证正面照片");
+            return false;
+          }
+          if (i == "identityBackImg") {
+            this.warningMsg("请上传身份证反面照片");
+            return false;
+          }
+          if (i == "identityHolderImg") {
+            this.warningMsg("请上传手持身份证照片");
+            return false;
+          }
+          if (i == "bussinessLicenseImg") {
+            this.warningMsg("请上传营业执照");
+            return false;
+          }
+          if (i == "settleCardImg") {
+            this.warningMsg("请上传结算卡照片");
+            return false;
+          }
+          if (i == "accountLicenseImg") {
+            if (this.accountVisible) {
+              this.warningMsg("请上传开户许可证照片");
               return false;
-            // 身份证反面
-            case "identityBackImg":
-              this.warningMsg("请上传身份证反面照片");
+            }
+          }
+          if (i == "placeImg") {
+            this.warningMsg("请上传门头照片");
+            return false;
+          }
+          if (i == "storeImg") {
+            this.warningMsg("请上传店内照片");
+            return false;
+          }
+          if (i == "cashSpaceImg") {
+            this.warningMsg("请上传收银台照片");
+            return false;
+          }
+          if (i == "certificateImg") {
+            if (this.certificateVisible) {
+              this.warningMsg("请上传授权书照片");
               return false;
-            // 营业执照
-            case "bussinessLicenseImg":
-              this.warningMsg("请上传营业执照");
-              return false;
-            // 结算
-            case "settleCardImg":
-              this.warningMsg("请上传结算卡照片");
-              return false;
-            // 开户许可证
-            case "accountLicenseImg":
-              if (this.accountVisible) {
-                this.warningMsg("请上传开户许可证照片");
-                return false;
-              }
-            // 门头照片
-            case "placeImg":
-              this.warningMsg("请上传门头照片");
-              return false;
-            // 店内照片
-            case "storeImg":
-              this.warningMsg("请上传店内照片");
-              return false;
-            // 收银台照片
-            case "cashSpaceImg":
-              this.warningMsg("请上传收银台照片");
-              return false;
-            case "certificateImg":
-              if (this.certificateVisible) {
-                this.warningMsg("请上传授权书照片");
-                return false;
-              }
+            }
           }
         }
       }
@@ -574,46 +575,6 @@ export default {
                 this.saveForm[item] = imgs[item].id;
               }
             })
-            // if (imgs.identityFrontImg != null) {
-            //   this.identityFrontImg = imgs.identityFrontImg.url;
-            //   this.saveForm.identityFrontImg = imgs.identityFrontImg.id;
-            // }
-            // if (imgs.identityBackImg != null) {
-            //   this.identityBackImg = imgs.identityBackImg.url;
-            //   this.saveForm.identityBackImg = imgs.identityBackImg.id;
-            // }
-            // if (imgs.identityHolderImg != null) {
-            //   this.identityHolderImg = imgs.identityHolderImg.url;
-            //   this.saveForm.identityHolderImg = imgs.identityHolderImg.id;
-            // }
-            // if (imgs.bussinessLicenseImg != null) {
-            //   this.bussinessLicenseImg = imgs.bussinessLicenseImg.url;
-            //   this.saveForm.bussinessLicenseImg = imgs.bussinessLicenseImg.id;
-            // }
-            // if (imgs.settleCardImg != null) {
-            //   this.settleCardImg = imgs.settleCardImg.url;
-            //   this.saveForm.settleCardImg = imgs.settleCardImg.id;
-            // }
-            // if (imgs.accountLicenseImg != null) {
-            //   this.accountLicenseImg = imgs.accountLicenseImg.url;
-            //   this.saveForm.accountLicenseImg = imgs.accountLicenseImg.id;
-            // }
-            // if (imgs.placeImg != null) {
-            //   this.placeImg = imgs.placeImg.url;
-            //   this.saveForm.placeImg = imgs.placeImg.id;
-            // }
-            // if (imgs.storeImg != null) {
-            //   this.storeImg = imgs.storeImg.url;
-            //   this.saveForm.storeImg = imgs.storeImg.id;
-            // }
-            // if (imgs.cashSpaceImg != null) {
-            //   this.cashSpaceImg = imgs.cashSpaceImg.url;
-            //   this.saveForm.cashSpaceImg = imgs.cashSpaceImg.id;
-            // }
-            // if (imgs.certificateImg != null) {
-            //   this.certificateImg = imgs.certificateImg.url;
-            //   this.saveForm.certificateImg = imgs.certificateImg.id;
-            // }
           }
         }
 

@@ -87,9 +87,10 @@ export default {
             count++;
             this.left = this.left + 1;
           } else {
+            // this.left = 0;
             clearInterval(timer);
           }
-        }, 0.5);
+        }, 0.1);
         // this.left = this.left + targetWidth
       }
     },
@@ -105,9 +106,10 @@ export default {
             count++;
             this.left = this.left - 1;
           } else {
+            // this.left = $containerWidth - $wrapperWidth;
             clearInterval(timer);
           }
-        }, 0.5);
+        }, 0.1);
         // this.left = this.left - targetWidth
       }
     },

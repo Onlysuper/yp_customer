@@ -36,8 +36,8 @@
   img {
     position: relative;
     z-index: 10;
-    max-width: 100%;
-    max-height: 100%;
+    // max-width: 100%;
+    // max-height: 100%;
     // min-height: 70%;
     text-align: center;
     vertical-align: middle;
@@ -77,17 +77,13 @@
 <script>
 export default {
   components: {},
-  props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt",],
+  props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt"],
   data() {
     return {
       imgWidth: "",
       imgHeight: "",
     };
   },
-  computed: {
-
-  },
-
   methods: {
     hideImageView() {
       this.$emit("hideImageView")
@@ -97,58 +93,76 @@ export default {
     },
     setImgMiddle(type) {
       //图片宽高
-      let img_width = this.imgWidth;
-      let img_height = this.imgHeight;
-      //图片容器宽高
-      let panel_width = $(".fullpate-img").width();
-      let panel_height = $(".fullpate-img").height();
-      let $img = $(".img-page-large");
-      if (panel_width / panel_height < img_width / img_height) {
-        if (type == "transfer") {
-          console.log(1);
-          $img.width(panel_height);
-          $img.css('margin-top', "0px");
-          $img.height("auto")
-        } else {
-          console.log(2);
-          $img.width(panel_width);
-          $img.css('margin-top', (panel_height - $img.height()) * 0.5);
-          $img.height("auto");
-        }
-      } else {
-        if (type == "transfer") {
-          console.log(3);
-          $img.width(panel_width);
-          $img.height("auto");
-        } else {
-          console.log(4);
-          $img.height(panel_height);
-          $img.width("auto")
-        }
-      }
-
-    },
-    imgInit() {
       var newImg = new Image()
       newImg.src = this.src
       newImg.onerror = () => {    // 图片加载错误时的替换图片
         newImg.src = this.largeImgUrl
       }
       newImg.onload = () => {
-        this.imgWidth = newImg.width;
-        this.imgHeight = newImg.height;
-        this.$nextTick(() => {
-          if (this.rotateClass == "rotate270" || this.rotateClass == "rotate90") {
-            this.setImgMiddle('transfer');
+        let img_width = newImg.width;
+        let img_height = newImg.height;
+        //图片容器宽高
+        let panel_width = $(".fullpate-img").width();
+        let panel_height = $(".fullpate-img").height();
+        let $img = $(".img-page-large");
+        if (panel_width / panel_height < img_width / img_height) {
+          if (type == "transfer") {
+            console.log(panel_height < img_height);
+            if (panel_width < img_width) {
+              $img.width(img_height + "px");
+            } else {
+              $img.width(panel_height + "px");
+            }
+            $img.height("auto")
+            $img.css('margin-top', "0px");
           } else {
-            this.setImgMiddle();
+            if (panel_width < img_height) {
+              $img.width(panel_width + "px");
+            } else {
+              $img.width(img_width + "px");
+            }
+            $img.height("auto");
           }
-        })
+        } else {
+          if (type == "transfer") {
+            if (panel_height < img_height) {
+              $img.height(panel_height + "px");
+            } else {
+              $img.width(img_height + "px");
+            }
+            $img.height("auto");
+          } else {
+            if (panel_height < img_height) {
+              $img.height(panel_height);
+            } else {
+              $img.height(img_height);
+            }
+            $img.width("auto")
+          }
+        }
       }
+
+
+    },
+    imgInit() {
+      console.log(this.rotateClass);
+      this.$nextTick(() => {
+        if (this.rotateClass == "rotate270" || this.rotateClass == "rotate90") {
+          this.setImgMiddle('transfer');
+        } else {
+          this.setImgMiddle();
+        }
+      })
+
     }
   },
   mounted() {
     this.imgInit();
+  },
+  computed: {
+    fadeViewVisibleChange() {
+      return this.fadeViewVisible
+    }
   },
   watch: {
     rotateClass(val) {
@@ -159,7 +173,7 @@ export default {
       }
     }
   },
-  fadeViewVisible() {
+  fadeViewVisibleChange() {
     this.imgInit();
   }
 };
