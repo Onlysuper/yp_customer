@@ -1,7 +1,7 @@
 <template>
   <!-- 图片查看器 -->
   <div ref="fullpate" class="fullpate-img" v-if="fadeViewVisible">
-    <div class="imgbox">
+    <div @click.self="hideImageView" class="imgbox">
       <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="largeImgUrl" :alt="largeImgArt">
     </div>
     <div class="largeButgroup">
