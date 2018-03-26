@@ -107,18 +107,22 @@ export default {
         let $img = $(".img-page-large");
         if (panel_width / panel_height < img_width / img_height) {
           if (type == "transfer") {
-            console.log(panel_height < img_height);
+
             if (panel_width < img_width) {
+              console.log(1);
               $img.width(img_height + "px");
             } else {
+              console.log(2);
               $img.width(panel_height + "px");
             }
             $img.height("auto")
             $img.css('margin-top', "0px");
           } else {
             if (panel_width < img_height) {
+              console.log(3);
               $img.width(panel_width + "px");
             } else {
+              console.log(4);
               $img.width(img_width + "px");
             }
             $img.height("auto");
@@ -126,15 +130,21 @@ export default {
         } else {
           if (type == "transfer") {
             if (panel_height < img_height) {
+              console.log(5);
               $img.height(panel_height + "px");
+              $img.width("auto");
             } else {
+              console.log(6);
               $img.width(img_height + "px");
+              $img.height("auto");
             }
-            $img.height("auto");
+
           } else {
             if (panel_height < img_height) {
+              console.log(7);
               $img.height(panel_height);
             } else {
+              console.log(6);
               $img.height(img_height);
             }
             $img.width("auto")
@@ -159,10 +169,10 @@ export default {
   mounted() {
     this.imgInit();
   },
+  created() {
+    console.log(1111);
+  },
   computed: {
-    fadeViewVisibleChange() {
-      return this.fadeViewVisible
-    }
   },
   watch: {
     rotateClass(val) {
@@ -173,7 +183,8 @@ export default {
       }
     }
   },
-  fadeViewVisibleChange() {
+  fadeViewVisible() {
+    console.log(1222222);
     this.imgInit();
   }
 };

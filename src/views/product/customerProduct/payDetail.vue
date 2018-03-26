@@ -147,7 +147,7 @@
       </div>
     </transition> -->
     <transition name="slide-fade" class="fadeView">
-      <largeimg-view :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
+      <largeimg-view ref="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>
     </transition>
   </div>
@@ -518,7 +518,8 @@ export default {
     //   this.imageIndex = 0
     // },
     largeImageShow() {
-      this.fadeViewVisible = true
+      this.fadeViewVisible = true;
+      this.$refs.largeImg.imgInit()
     },
     showImg(val, type) {
       this.rotateCurrent = 0
