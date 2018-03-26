@@ -111,7 +111,7 @@
           <span class="line-label">单位地址:</span>
           <span class="line-label-last">{{detailsForm.enterpriseAddress}}</span>
         </div>
-        <div class="line-label-box">
+        <div v-if="detailsForm.status=='BILLING_FAIL'?true:false" class="line-label-box">
           <span class="line-label">失败原因:</span>
           <span class="line-label-last">{{detailsForm.respMsg}}</span>
         </div>

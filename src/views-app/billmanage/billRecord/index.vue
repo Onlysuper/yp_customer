@@ -15,7 +15,7 @@
         <!-- 状态 -->
         <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | billStatus}}</mt-badge>
         <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | billType}}</mt-badge>
-        <myp-cell class="list-item">
+        <myp-cell class="list-item" @click="detail(item)">
           <!-- 详情 -->
           <table>
             <myp-tr title="开票时间">{{item.createTime}}</myp-tr>
@@ -76,15 +76,26 @@ export default {
   },
   methods: {
     toUrl(type, billRecordNo) {
-      this.$router.push({
-        path: "./edit/" + billRecordNo,
-        query: { type: type }
-      });
+      if (type == "EDIT") {
+        this.$router.push({
+          path: "./edit/" + billRecordNo,
+          query: { type: type }
+        });
+      } else if (type == "DETAIL") {
+        this.$router.push({
+          path: "./detail/" + billRecordNo,
+          query: { type: type }
+        });
+      }
+
     },
     watchDataList(watchDataList, count) {
       this.count = count;
       this.$store.commit("BILLRECORD_SEARCH_LIST", watchDataList);
       this.$store.commit("BILLRECORD_SEARCH", false);
+    },
+    detail(rowdata) {
+      this.toUrl("DETAIL", rowdata.billRecordNo, rowdata);
     }
     // activated() {
     //   this.routeMenuCode = this.$route.name;
