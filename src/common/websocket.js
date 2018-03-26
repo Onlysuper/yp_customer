@@ -76,9 +76,8 @@ const websocket = {
             });
           });
         } else if (data.type == "TEXT") {
-          this.store.commit('messageCountAdd')
+          this.store.commit('noticeCountAdd')
         }
-
       }
       //连接关闭的回调方法
       this.ws.onclose = () => {

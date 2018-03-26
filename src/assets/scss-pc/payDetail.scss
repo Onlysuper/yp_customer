@@ -25,14 +25,15 @@
   }
 }
 .scroll-view-cus {
-  touch-action: none;
+  // touch-action: none;
   /* -- Attention-- */
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow: auto;
 }
 .product-detail-body {
   height: 450px;

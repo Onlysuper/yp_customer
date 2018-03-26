@@ -3,7 +3,8 @@
   <div class="product-detail-body">
     <!-- {{detailsForm}}  -->
     <div class="detaile-left">
-      <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions">
+      <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
+      <div class="scroll-view-cus">
         <div class="line-label-box">
           <span class="line-label">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
@@ -69,7 +70,8 @@
         <div class="line-label-box">
           <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
         </div>
-      </iscroll-view>
+      </div>
+      <!-- </iscroll-view> -->
     </div>
     <div class="detaile-right">
       <div class="scroll-box">

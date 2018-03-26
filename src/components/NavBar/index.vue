@@ -9,13 +9,37 @@
     <div class="head-r">
       <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
       <!-- <theme-picker class="theme-picker"></theme-picker> -->
-
+      <el-popover popper-class="msg-tooltip" placement="bottom-start" ref="popover2" width="300" trigger="click">
+        <el-tabs v-model="msgName" @tab-click="msgFn">
+          <el-tab-pane label="通知" name="first">
+            <div class="msg-list">
+              <div class="list notice">
+                通知1
+              </div>
+              <div class="but">
+                清空信息
+              </div>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="消息" name="second">
+            <div class="msg-list">
+              <div class="list">
+                消息1
+              </div>
+              <div class="but">
+                历史消息
+              </div>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </el-popover>
+      <!-- <div v-popover:popover2 title="信息" class="hover-back message-box"> -->
       <div title="信息" class="hover-back message-box">
-        <router-link to="/message-list">
-          <el-badge :value="messageCount" :max="999" class="item" id="messageIcon">
-            <span class="icon-news"></span>
-          </el-badge>
-        </router-link>
+        <!-- <router-link to="/message-list"> -->
+        <el-badge :value="noticeCount" :max="999" class="item" id="messageIcon">
+          <span class="icon-news"></span>
+        </el-badge>
+        <!-- </router-link> -->
       </div>
       <myp-admin-operation></myp-admin-operation>
     </div>
@@ -23,6 +47,30 @@
   </el-header>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang='scss'>
+// msg start
+.msg-list {
+  .list {
+    padding: 10px 10px;
+  }
+  .notice {
+    border-bottom: 1px solid #eee;
+  }
+  .but {
+    text-align: center;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    cursor: pointer;
+  }
+}
+.msg-tooltip {
+  padding: 0px !important;
+}
+.el-tabs__nav-scroll {
+  padding: 0 10px;
+}
+// msg end
+</style>
 <style lang='scss' scoped>
 /*重置样式*/
 @mixin my-transition($attr,$section) {
@@ -170,6 +218,7 @@ export default {
   data() {
     return {
       num: 0,
+      msgName: 'second'
     };
   },
   computed: {
@@ -177,8 +226,8 @@ export default {
       //菜单是否收起
       return this.$store.state.userInfoAndMenu.isCollapse;
     },
-    messageCount() {
-      return this.$store.state.acceptMessage.messageCount;
+    noticeCount() {
+      return this.$store.state.acceptMessage.noticeCount;
     }
   },
   created() {
@@ -187,7 +236,7 @@ export default {
     })
   },
   watch: {
-    messageCount(value) {
+    noticeCount(value) {
       this.$nextTick(() => {
         $('#messageIcon').addClass("tada");
       })
@@ -217,6 +266,8 @@ export default {
       }
       screenfull.toggle();
       this.$store.commit("changeFullScreen");
+    },
+    msgFn(tab, event) {
     }
   }
 };
