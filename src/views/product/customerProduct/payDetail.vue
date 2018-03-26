@@ -136,13 +136,13 @@
       </div>
       <div class="large-img-box">
         <div class="large-img">
-          <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
+          <!-- <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt"> -->
+          <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large'" :src="largeImgUrl" :alt="largeImgArt">
         </div>
       </div>
-      <div class="largeButgroup">
+      <!-- <div class="largeButgroup">
         <i title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
-        <!-- <el-button @click="rotateFn" type="primary">转</el-button> -->
-      </div>
+      </div> -->
     </div>
     <!-- <transition name="slide-fade" class="fadeView">
       <div v-if="fadeViewVisible">
