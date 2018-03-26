@@ -3,7 +3,8 @@
   <div ref="fullpate" class="fullpate-img" v-if="fadeViewVisible">
     <img ref="imgLarge" :class="'img-page-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt">
     <div class="largeButgroup">
-      <el-button @click="rotateFn" type="primary">转</el-button>
+      <i title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
+      <!-- <el-button @click="rotateFn" type="primary">转</el-button> -->
     </div>
     <div class="shadow-box" @click="hideImageView"></div>
   </div>
@@ -59,6 +60,12 @@
     height: 50px;
     text-align: right;
     z-index: 999;
+    padding-right: 50px;
+    cursor: pointer;
+    .but {
+      font-size: 24px;
+      color: #fff;
+    }
   }
   .rotate90 {
     transform: rotate(90deg);
