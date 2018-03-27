@@ -1,7 +1,7 @@
 <template>
   <!-- layout 左侧菜单区域 -->
   <div class="sidebar-box">
-    <div :class="'logo-box isCollapse'+isCollapse" ref="logoBox">
+    <div :class="'logo-box '+isCollapseSize" ref="logoBox">
       <div class="img-box">
         <img :src="require('@src/assets/images/logoSmall.png')" alt="">
       </div>
@@ -50,12 +50,12 @@
   width: 210px;
   position: relative;
 }
-.isCollapsetrue {
+.isCollapseSmall {
   animation: widthSmall 0.3s ease-in-out;
   -webkit-animation: widthSmall 0.3s ease-in-out;
   width: 66px;
 }
-.isCollapsefalse {
+.isCollapseBig {
   animation: widthBig 0.3s ease-in-out;
   -webkit-animation: widthBig 0.3s ease-in-out;
   width: 210px;
@@ -235,7 +235,8 @@ export default {
         mouseWheel: true,
         useTransform: true, //CSS转化
         useTransition: true //CSS过渡
-      }
+      },
+      isCollapseSize: "",
     };
   },
   computed: {
@@ -273,10 +274,12 @@ export default {
     isCollapse(value) {
       if (value) {
         // 菜单横向收缩
+        this.isCollapseSize = "isCollapseSmall"
       } else {
         // 菜单横向打开
         this.defaultActiveOpen();
         this.resetScrollViewHeight();
+        this.isCollapseSize = "isCollapseBig"
       }
     }
   }
