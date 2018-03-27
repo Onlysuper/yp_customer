@@ -3,6 +3,7 @@
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="right" :disabled="false" type="danger">
         <i class="icon-news"></i>
+        <!-- <mt-badge type="error" size="small">10</mt-badge> -->
       </mt-button>
     </mt-header>
 

@@ -57,7 +57,7 @@ const websocket = {
       this.ws.onmessage = (event) => {
         let data = JSON.parse(event.data)
         let content = JSON.parse(data.content);
-        // console.log(data);
+        console.log(data);
         if (data.type == "DOWNLOAD") {
           this.$confirm('excel已为您创建成功, 继续下载吗？', '提示', {
             confirmButtonText: '开始下载',

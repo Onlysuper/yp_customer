@@ -1,17 +1,17 @@
 <template>
   <!-- layout 左侧菜单区域 -->
-  <div class="sidebar-box">
-    <div class="logo-box" ref="logoBox">
+  <div :class="'sidebar-box'">
+    <div :class="'logo-box isCollapse'+isCollapse" ref="logoBox">
       <div class="img-box">
         <img :src="require('@src/assets/images/logoSmall.png')" alt="">
       </div>
-      <h1 v-show="!isCollapse" class="home-title">
+      <h1 v-if="!isCollapse" :class="'home-title'">
         <router-link to="/home">易票管理系统v1.0</router-link>
       </h1>
     </div>
     <div class="aside-box">
-      <iscroll-view class="scroll-view " ref="iscroll" :options="iscrollOptions">
-        <el-menu show-timeout="50" hide-timeout="50" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+      <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
+        <el-menu show-timeout="300" hide-timeout="300" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
           <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
@@ -29,6 +29,37 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
+@keyframes widthSmall {
+  from {
+    width: 210px;
+  }
+  to {
+    width: 66px;
+  }
+}
+@keyframes widthBig {
+  from {
+    width: 66px;
+  }
+  to {
+    width: 210px;
+  }
+}
+.el-menu-vertical:not(.el-menu--collapse) {
+  min-height: 400px;
+  width: 210px;
+  position: relative;
+}
+.isCollapsetrue {
+  animation: widthSmall 0.3s;
+  -webkit-animation: widthSmall 0.3s;
+  width: 66px;
+}
+.isCollapsefalse {
+  animation: widthBig 0.3s;
+  -webkit-animation: widthBig 0.3s;
+  width: 210px;
+}
 .my-transition(@attr) {
   transition: @attr 0.8s;
   -moz-transition: @attr 0.8s;
@@ -36,27 +67,16 @@
   -o-transition: @attr 0.8s;
 }
 .aside-box {
-  display: flex;
-  background: #001529;
-  box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
-  position: relative;
   z-index: 11;
-  flex: 1;
-  width: 100%;
+  display: flex;
+  position: relative;
   .scroll-view {
-    // display: flex;
-    // width: 100%;
-    // display: flex;
-    // flex: 1;
-    // overflow: auto;
-
-    /* -- Attention: This line is extremely important in chrome 55+! -- */
-    touch-action: none;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0px;
+    // touch-action: none;
+    // position: absolute;
+    // top: 0;
+    // bottom: 0;
+    // left: 0;
+    // right: 0px;
   }
   /*重置样式 start*/
   .el-dropdown-link {
@@ -79,23 +99,8 @@
     .icon {
       font-size: 24px;
     }
-    // 当前选中的颜色
-    // .el-submenu.is-active {
-    //   .el-submenu__title {
-    //     background: #000;
-    //     &:hover {
-    //       background: #000 !important;
-    //     }
-    //   }
-    // }
   }
-  // .el-menu-vertical {
-  //   margin-top: 54px;
-  // }
-  .el-menu-vertical:not(.el-menu--collapse) {
-    min-height: 400px;
-    position: relative;
-  }
+
   .icon-statistical_manage {
     &::before {
       display: inline-block;
@@ -138,36 +143,24 @@
     display: flex;
     height: 100%;
     flex-direction: column;
+    background: #000c17;
     .logo-box {
-      min-width: 66px;
-      // position: absolute;
-      // z-index: 999;
-      // height: 54px;
-      // right: 0;
-      // left: 0;
-      // overflow: hidden;
-      // display: flex;
-      // box-sizing: border-box;
-      // justify-content: start;
-      // align-items: center;
-      // padding: 0 16px;
-      // background: #002240;
-      // color: #fff;
-      // box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
-      overflow: hidden;
       display: flex;
       box-sizing: border-box;
       justify-content: start;
-      align-items: center;
-      padding: 0 16px;
+      align-items: stretch;
+      padding: 0 10px;
       background: #002240;
       color: #fff;
       box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
       position: relative;
-      z-index: 999;
+      z-index: 9999;
       height: 54px;
+      flex-shrink: 0;
       .img-box {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         img {
           height: 30px;
         }
@@ -187,6 +180,10 @@
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
         a {
           color: #fff;
         }
