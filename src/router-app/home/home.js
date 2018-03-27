@@ -36,6 +36,15 @@ export default {
       meta: {
         pageTitle: "个人信息"
       },
+    },
+    {
+      path: "notice",
+      component: r => {
+        return require.ensure([], () => { return r(require("@src/views-app/home/notice")) }, "home-notice-app")
+      },
+      meta: {
+        pageTitle: "信息通知"
+      },
     }
   ]
 }

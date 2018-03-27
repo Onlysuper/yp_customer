@@ -1,18 +1,16 @@
 <template>
   <full-page>
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
-      <mt-button slot="right" :disabled="false" type="danger">
+      <mt-button @click.native="$router.push({path:'./notice'})" slot="right" :disabled="false" type="danger">
         <i class="icon-news"></i>
-        <!-- <mt-badge type="error" size="small">10</mt-badge> -->
+        <mt-badge type="error" size="small">{{noticeCount}}</mt-badge>
       </mt-button>
     </mt-header>
-
     <mt-tab-container class="page-tabbar-container page" v-model="selected">
       <mt-tab-container-item id="首页" class="page">
         <content-home/>
       </mt-tab-container-item>
       <mt-tab-container-item id="业务">
-
         <content-business/>
       </mt-tab-container-item>
       <mt-tab-container-item id="我的">
@@ -39,12 +37,21 @@
 import contentHome from "./content-home";
 import contentBusiness from "./content-business";
 import contentMy from "./content-my";
+import { websocket } from "@src/common/websocket";
 export default {
   components: { contentHome, contentBusiness, contentMy },
+  mixins: [websocket],
   data() {
     return {
-      selected: "业务"
+      selected: "业务",
     };
+  },
+  computed: {
+    noticeCount() {
+      return this.$store.state.acceptMessage.noticeCount;
+    }
+  },
+  methods: {
   },
   watch: {
     selected(tabText) {
@@ -57,6 +64,9 @@ export default {
         document.querySelector(".full-main").scrollTop = 110;
       }
     }
+  },
+  mounted() {
+    this.websocketFn();
   }
 };
 </script>

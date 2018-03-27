@@ -198,34 +198,6 @@
     display: none;
   }
 }
-.animated {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
-@keyframes tada {
-  0% {
-    transform: scaleX(1);
-  }
-  10%,
-  20% {
-    transform: scale3d(0.9, 0.9, 0.9) rotate(-3deg);
-  }
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate(3deg);
-  }
-
-  40%,
-  60%,
-  80% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate(-3deg);
-  }
-  100% {
-    transform: scaleX(1);
-  }
-}
 </style>
 
 <script>
@@ -264,16 +236,6 @@ export default {
     this.noticeFn()
   },
   watch: {
-    noticeCount(value) {
-      // alert('有新通知！');
-      this.$nextTick(() => {
-        $('#messageIcon').addClass("tada");
-      })
-    },
-    // 新通知内容
-    noticeData(val) {
-      this.noticeFn();
-    },
     $route() {
       this.$nextTick(() => {
         if (this.$route.name == "message-list") {
@@ -282,7 +244,16 @@ export default {
           $(".hover-back").removeClass('active')
         }
       })
-    }
+    },
+    noticeCount(value) {
+      // alert('有新通知！');
+      this.$nextTick(() => {
+      })
+    },
+    // 新通知内容
+    noticeData(val) {
+      this.noticeFn();
+    },
   },
   methods: {
     isCollapsefn() {

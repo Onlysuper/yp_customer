@@ -286,12 +286,12 @@ export default {
           },
           {
             key: "采购单号",
-            width: "",
+            width: "100px",
             word: "receiptNo"
           },
           {
             key: "合伙人编号",
-            width: "",
+            width: "100px",
             word: "agentNo"
           },
           {
@@ -301,7 +301,7 @@ export default {
           },
           {
             key: "单价",
-            width: "",
+            width: "100px",
             word: "price"
           },
           {
