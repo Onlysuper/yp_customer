@@ -1,8 +1,9 @@
 <template>
   <!-- 聚合支付详情 -->
-  <div class="detail-body">
+  <div class="product-detail-body">
     <div class="detaile-left">
-      <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions">
+      <div class="scroll-view-cus">
+        <!-- <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions"> -->
         <div class="line-label-box">
           <span class="line-label">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
@@ -52,7 +53,8 @@
           <span class="line-label">被拒原因:</span>
           <span class="line-label-last">{{elecStatusDetails.elecReason}}</span>
         </div>
-      </iscroll-view>
+        <!-- </iscroll-view> -->
+      </div>
     </div>
   </div>
 </template>
