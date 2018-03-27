@@ -1,6 +1,6 @@
 <template>
   <!-- layout 左侧菜单区域 -->
-  <div :class="'sidebar-box'">
+  <div class="sidebar-box">
     <div :class="'logo-box isCollapse'+isCollapse" ref="logoBox">
       <div class="img-box">
         <img :src="require('@src/assets/images/logoSmall.png')" alt="">
@@ -51,13 +51,13 @@
   position: relative;
 }
 .isCollapsetrue {
-  animation: widthSmall 0.3s;
-  -webkit-animation: widthSmall 0.3s;
+  animation: widthSmall 0.3s ease-in-out;
+  -webkit-animation: widthSmall 0.3s ease-in-out;
   width: 66px;
 }
 .isCollapsefalse {
-  animation: widthBig 0.3s;
-  -webkit-animation: widthBig 0.3s;
+  animation: widthBig 0.3s ease-in-out;
+  -webkit-animation: widthBig 0.3s ease-in-out;
   width: 210px;
 }
 .my-transition(@attr) {
@@ -67,16 +67,24 @@
   -o-transition: @attr 0.8s;
 }
 .aside-box {
-  z-index: 11;
+  z-index: 999;
   display: flex;
   position: relative;
+  display: flex;
+  background: #001529;
+  box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
+  position: relative;
+  z-index: 11;
+  flex: 1;
+  width: 100%;
   .scroll-view {
-    // touch-action: none;
-    // position: absolute;
-    // top: 0;
-    // bottom: 0;
-    // left: 0;
-    // right: 0px;
+    touch-action: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0px;
+    // overflow: hidden
   }
   /*重置样式 start*/
   .el-dropdown-link {
@@ -99,8 +107,23 @@
     .icon {
       font-size: 24px;
     }
+    // 当前选中的颜色
+    // .el-submenu.is-active {
+    //   .el-submenu__title {
+    //     background: #000;
+    //     &:hover {
+    //       background: #000 !important;
+    //     }
+    //   }
+    // }
   }
-
+  // .el-menu-vertical {
+  //   margin-top: 54px;
+  // }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    min-height: 400px;
+    position: relative;
+  }
   .icon-statistical_manage {
     &::before {
       display: inline-block;
@@ -145,22 +168,21 @@
     flex-direction: column;
     background: #000c17;
     .logo-box {
+      min-width: 66px;
+      overflow: hidden;
       display: flex;
       box-sizing: border-box;
       justify-content: start;
-      align-items: stretch;
-      padding: 0 10px;
+      align-items: center;
+      padding: 0 16px;
       background: #002240;
       color: #fff;
       box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
       position: relative;
-      z-index: 9999;
+      z-index: 999;
       height: 54px;
-      flex-shrink: 0;
       .img-box {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: inline-block;
         img {
           height: 30px;
         }
@@ -180,10 +202,6 @@
         -moz-user-select: none; /* Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
         a {
           color: #fff;
         }
