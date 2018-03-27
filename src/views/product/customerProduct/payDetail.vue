@@ -264,6 +264,7 @@ export default {
     }
     return {
       iscrollOptions: {
+        preventDefault: false,
         scrollbars: true,
         mouseWheel: true,
         useTransform: true, //CSS转化

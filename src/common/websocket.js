@@ -57,9 +57,7 @@ const websocket = {
       this.ws.onmessage = (event) => {
         let data = JSON.parse(event.data)
         let content = JSON.parse(data.content);
-        console.log(event);
-        console.log(data);
-        console.log(content);
+        // console.log(data);
         if (data.type == "DOWNLOAD") {
           this.$confirm('excel已为您创建成功, 继续下载吗？', '提示', {
             confirmButtonText: '开始下载',
@@ -76,9 +74,8 @@ const websocket = {
             });
           });
         } else if (data.type == "TEXT") {
-          console.log(data);
-          this.store.commit('noticeCountAdd');
-          this.store.commit('noticeDataAdd', data);
+          this.$store.dispatch('noticeCountAddFetch');
+          this.$store.dispatch('noticeDataAddFetch', event)
         }
       }
       //连接关闭的回调方法
