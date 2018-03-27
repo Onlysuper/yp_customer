@@ -6,7 +6,7 @@ const acceptMessage = {
         messageCount: 0,
         // 通知数量
         noticeCount: 0,
-        noticeData: {}
+        noticeData: []
     },
     getters: {
     },
@@ -20,6 +20,10 @@ const acceptMessage = {
         // 添加新通知
         noticeCountAdd(state) {
             state.noticeCount = state.noticeCount++
+        },
+        noticeDataAdd(state, data) {
+            console.log(data);
+            state.noticeData.push(data);
         }
     },
     actions: {

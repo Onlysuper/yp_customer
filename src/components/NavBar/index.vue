@@ -27,22 +27,20 @@
                 消息1
               </div>
               <div class="but">
-                历史消息
+                <router-link to="/message-list">历史消息</router-link>
               </div>
             </div>
           </el-tab-pane>
         </el-tabs>
       </el-popover>
-      <!-- <div v-popover:popover2 title="信息" class="hover-back message-box"> -->
-      <div title="信息" class="hover-back message-box">
-        <!-- <router-link to="/message-list"> -->
+      <div v-popover:popover2 title="信息" class="hover-back message-box">
         <el-badge :value="noticeCount" :max="999" class="item" id="messageIcon">
           <span class="icon-news"></span>
         </el-badge>
-        <!-- </router-link> -->
       </div>
       <myp-admin-operation></myp-admin-operation>
     </div>
+
     <!-- 修改管理员密码 end -->
   </el-header>
 </template>
