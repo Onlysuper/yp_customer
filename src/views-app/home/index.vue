@@ -3,7 +3,7 @@
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button @click.native="$router.push({path:'./notice'})" slot="right" :disabled="false" type="danger">
         <i class="icon-news"></i>
-        <mt-badge type="error" size="small">{{noticeCount}}</mt-badge>
+        <mt-badge v-if="noticeCount=='0'?false:true" type="error" size="small">{{noticeCount}}</mt-badge>
       </mt-button>
     </mt-header>
     <mt-tab-container class="page-tabbar-container page" v-model="selected">

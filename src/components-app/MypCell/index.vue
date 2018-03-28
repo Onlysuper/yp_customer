@@ -37,6 +37,7 @@
   }
   .myp-cell-content {
     flex: 1;
+    font-size: pxTorem(30px);
     > div {
       color: #666;
       color: #666;

@@ -214,6 +214,10 @@ export default {
               label: "失败"
             },
             {
+              value: "CANCEL",
+              label: "撤单"
+            },
+            {
               value: "SUCCESS",
               label: "成功"
             }
@@ -309,6 +313,11 @@ export default {
               } else if (data == "SUCCESS") {
                 return {
                   text: "成功",
+                  type: "success"
+                };
+              } else if (data == "CANCEL") {
+                return {
+                  text: "撤单",
                   type: "success"
                 };
               } else {
