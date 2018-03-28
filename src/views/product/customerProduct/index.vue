@@ -282,6 +282,8 @@ export default {
       }
     }
     return {
+      accountVisible: false,// 开户行许可证 
+      certificateVisible: false,// 授权书
       detailProductView: "",
       iscrollOptions: {
         scrollbars: true,
@@ -1209,6 +1211,14 @@ export default {
           this.styleForm.supportTypes,
           newCheck
         );
+      }
+    },
+    detailsFormVisible(val) {
+      if (val) {
+        this.$nextTick(() => {
+          let windowHeight = $(window).height() - 200;
+          $(".product-detail-body").height(windowHeight)
+        })
       }
     }
   },

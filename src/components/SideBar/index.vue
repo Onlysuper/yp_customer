@@ -11,7 +11,7 @@
     </div>
     <div class="aside-box">
       <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
-        <el-menu show-timeout="300" hide-timeout="300" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+        <el-menu :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
           <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
@@ -56,8 +56,8 @@
   width: 66px;
 }
 .isCollapseBig {
-  animation: widthBig 0.3s ease-in-out;
-  -webkit-animation: widthBig 0.3s ease-in-out;
+  animation: widthBig 0.2s ease-in-out;
+  -webkit-animation: widthBig 0.2s ease-in-out;
   width: 210px;
 }
 .my-transition(@attr) {

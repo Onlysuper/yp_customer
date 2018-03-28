@@ -142,6 +142,9 @@
         <el-form-item label="公司电话" prop="bussinessPhone" :label-width="formLabelWidth">
           <el-input v-model="editForm.bussinessPhone" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bussinessName" auto-complete="off"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
