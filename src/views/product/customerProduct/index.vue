@@ -23,7 +23,7 @@
           </component>
         </template>
       </div>
-      <div slot="footer" class="dialog-footer">
+      <div v-if="editVisiblebut||checkVisiblebut||checkVisiblebut" slot="footer" class="dialog-footer">
         <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
@@ -141,12 +141,15 @@
       .el-dialog__body {
         padding-top: 0px;
         padding-bottom: 0px !important;
+        flex: 1;
         // height: 500px;
       }
       .detail-content {
         height: 100%;
         overflow: auto;
         position: relative;
+        display: flex;
+        flex-direction: column;
       }
     }
   }
