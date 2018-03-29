@@ -9,7 +9,7 @@
     </div>
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
-    <el-dialog class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
+    <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
@@ -116,14 +116,23 @@
     }
     .special-dialog {
       // overflow: hidden;
-      margin-top: -5vw;
-      // .el-dialog__header {
-      //   display: none;
-      // }
+      // margin-top: -5vw;
+      .el-dialog__header {
+        display: flex;
+        flex-grow: 0;
+        justify-content: center;
+      }
       .el-dialog {
         width: 90% !important;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
       }
       .el-dialog__footer {
+        height: 100px;
+        flex-shrink: 0;
         padding: 0;
         .el-button {
           margin: 10px;
@@ -1191,12 +1200,19 @@ export default {
       } else if (val == "payStatus") {
         this.detailProductView = "payDetail"
       }
-      // detailProductView
+      this.$nextTick(() => {
+        let windowHeight = $(window).height() - 160;
+        // $(".product-detail-body").height(windowHeight);
+      })
     },
     detailsFormVisible(val) {
       if (!val) {
         this.detailProductView = "";
       }
+      this.$nextTick(() => {
+        let windowHeight = $(window).height() - 160;
+        // $(".product-detail-body").height(windowHeight);
+      })
     },
     editFormVisible(val) {
       if (!val) {
@@ -1211,14 +1227,6 @@ export default {
           this.styleForm.supportTypes,
           newCheck
         );
-      }
-    },
-    detailsFormVisible(val) {
-      if (val) {
-        this.$nextTick(() => {
-          let windowHeight = $(window).height() - 200;
-          $(".product-detail-body").height(windowHeight)
-        })
       }
     }
   },

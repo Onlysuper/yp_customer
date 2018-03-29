@@ -313,7 +313,6 @@ export default {
       }).then(res => {
         if (res.code == "00") {
           // 聚合支付查询详情
-
           let data = res.data;
           let customerRow = {};
           let settleCardRow = {};
@@ -343,22 +342,16 @@ export default {
             let firstImg = "";
             let imgsArr = Object.entries(imgsRow);
             this.imgsArr = imgsArr;
-            console.log(imgsArr);
             firstImg = imgsArr.find(item => { return item.url != "" });
             let imgEntries = firstImg.entries();
-            // this.largeImgArt = this.imgs[imgEntries.next().value].name
-            // this.largeImgUrl = firstImg[largeImgArt].url
           }
-          let accountName = "";// 账户名称
           if (settleCardRow.accountType == "0") {
-            // 对公:带入企业名称 不可更改
+            // 对公
             this.accountVisible = true;
             this.certificateVisible = false;
-            accountName = customerRow.enterpriseName
           } else if (settleCardRow.accountType == "1") {
             // 对私
-            accountName = settleCardRow.accountName == customerRow.enterpriseName ? customerRow.legalPerson : settleCardRow.accountName || customerRow.legalPerson;
-            if (accountName == customerRow.legalPerson) {
+            if (settleCardRow.accountName == customerRow.legalPerson) {
               this.accountVisible = false;
               this.certificateVisible = false;
             } else {
@@ -371,8 +364,7 @@ export default {
             ...customerRow,
             ...settleCardRow,
             ...productRow,
-            ...imgsRow,
-            ...{ accountName: accountName }
+            ...imgsRow
           }
 
         }
@@ -382,7 +374,6 @@ export default {
     rotateFn() {
       this.rotateCurrent = (this.rotateCurrent + 90) % 360;
       this.rotateClass = "rotate" + this.rotateCurrent;
-      console.log(this.rotateClass);
     },
     preFn() {
       this.$refs.scrollPane.preFn(90)
@@ -395,12 +386,6 @@ export default {
         this.$refs.iscroll.refresh();
       })
     },
-    // largeImageShow(url, type, imgName) {
-    //   this.largeImgArt = imgName;
-    //   this.largeUrl = [url];
-    //   this.fadeViewVisible = true
-    //   this.imageIndex = 0
-    // },
     largeImageShow() {
       this.fadeViewVisible = true;
       this.$refs.largeImg.imgInit()

@@ -98,7 +98,7 @@ const websocket = {
   beforeDestroy() {
     //销毁之前，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
     console.log('已断开websocket链接')
-    this.websocket.close();
+    // this.ws.close();
   }
 }
 export {

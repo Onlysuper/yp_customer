@@ -1,9 +1,14 @@
 <template>
   <!-- 图片查看器 -->
   <div ref="fullpate" class="fullpate-img" v-if="fadeViewVisible">
-    <div @click.self="hideImageView" class="imgbox">
-      <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="imgUrlSelf" :alt="imgUrlSelf">
+    <!-- <transition name="imgChangeTrans-fade"> -->
+    <div class="imgsGroup">
+      <div v-for="(item,index) in imgsArrSelf" :key="index" @click.self="hideImageView" class="imgbox">
+        <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname">
+        <!-- <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="imgUrlSelf" :alt="imgUrlSelf"> -->
+      </div>
     </div>
+    <!-- </transition> -->
     <div class="largeButgroup">
       <i v-if="retateVisible" title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
       <i @click="hideImageView" title="关闭" class="el-icon-close but"></i>
@@ -26,11 +31,21 @@
   top: 0;
   text-align: center;
   vertical-align: middle;
-  // -webkit-user-select: none;
-  // -moz-user-select: none;
-  // -ms-user-select: none;
-  // user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   overflow: hidden;
+  .imgsGroup {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    // width: 100%;
+    height: 100%;
+    z-index: 9999;
+    // overflow: auto;
+  }
   .but {
     font-size: 24px;
     color: #fff;
@@ -67,9 +82,54 @@
     position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
+    // width: 100%;
     height: 100%;
     z-index: 9999;
+
+    // &:nth-of-type(1) {
+    //   background: #ffffff;
+    //   // opacity: 0.2;
+    // }
+    // &:nth-of-type(2) {
+    //   background: red;
+    //   // opacity: 0.2;
+    // }
+    // &:nth-of-type(3) {
+    //   background: blue;
+    //   // opacity: 0.2;
+    // }
+    // &:nth-of-type(4) {
+    //   background: black;
+    //   // opacity: 0.2;
+    // }
+    // &:nth-of-type(5) {
+    //   background: yellow;
+    //   // opacity: 0.2;
+    // }
+
+    // &:nth-of-type(6) {
+    //   background: green;
+    //   // opacity: 0.2;
+    // }
+    // &:nth-of-type(7) {
+    //   background: pink;
+    //   // opacity: 0.2;
+    // }
+    // &:nth-of-type(8) {
+    //   background: purple;
+    //   // opacity: 0.2;
+    // }
+    &:after {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      text-align: center;
+      vertical-align: middle;
+    }
+    img {
+      text-align: center;
+      vertical-align: middle;
+    }
     &:after {
       content: "";
       display: inline-block;
@@ -136,11 +196,13 @@
 }
 </style>
 <script>
+import utils from "@src/common/utils"
 export default {
   components: {},
   props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt", "imgsArr", "largeImg"],
   data() {
     return {
+      imgVisible: true,
       retateVisible: false,
       imgWidth: "",
       imgHeight: "",
@@ -153,19 +215,25 @@ export default {
   methods: {
     // 上一张
     preFn() {
+      let newIndex = this.nowIndex;
+      let windowWidth = $(".fullpate-img").width();
+      let imgboxLen_ = $(".imgbox").length;
       if (this.nowIndex > 0) {
-        this.nowIndex = this.nowIndex - 1;
+        newIndex = parseInt(this.nowIndex) - 1;
       } else {
-        this.nowInde = parseInt(this.imgsArrSelf.length) - 1
+        newIndex = 0
       }
+      this.imgsGroupMove(newIndex);
     },
     // 下一张
     nextFn() {
-      if (this.nowIndex < parseInt(this.imgsArrSelf.length)) {
-        this.nowIndex = parseInt(this.nowIndex) + 1;
+      let newIndex = this.nowIndex;
+      if (this.nowIndex < this.imgsArrSelf.length - 1) {
+        newIndex = parseInt(this.nowIndex) + 1;
       } else {
-        this.nowInde = 0
+        newIndex = this.imgsArrSelf.length - 1
       }
+      this.imgsGroupMove(newIndex);
     },
     hideImageView() {
       this.$emit("hideImageView")
@@ -174,77 +242,76 @@ export default {
       this.$emit("rotateFn")
     },
     setImgMiddle(type) {
-      // console.log(this.nowIndex);
-      let index = this.nowIndex;
+      let self = this;
       let imgsArrSelf = this.imgsArrSelf;
-      if (imgsArrSelf[index]) {
-        let imgurl_ = imgsArrSelf[index][1].url || "";
-        // console.log(imgurl_);
-        this.imgUrlSelf = imgurl_;
-        //图片宽高
-        var newImg = new Image()
-        // newImg.src = this.src;
-        newImg.src = imgurl_;
-        newImg.onerror = () => {    // 图片加载错误时的替换图片
-          newImg.src = this.imgUrlSelf
-        }
-        newImg.onload = () => {
-          let img_width = newImg.width;
-          let img_height = newImg.height;
-          //图片容器宽高
-          let panel_width = $(".fullpate-img").width();
-          let panel_height = $(".fullpate-img").height();
-          let $img = $(".img-page-large");
-          if (panel_width / panel_height < img_width / img_height) {
-            if (type == "transfer") {
-
-              if (panel_width < img_width) {
-                // console.log(1);
-                $img.width(img_height + "px");
-              } else {
-                // console.log(2);
-                $img.width(panel_height + "px");
-              }
-              $img.height("auto")
-              $img.css('margin-top', "0px");
-            } else {
-              if (panel_width < img_height) {
-                // console.log(3);
-                $img.width(panel_width + "px");
-              } else {
-                // console.log(4);
-                $img.width(img_width + "px");
-              }
-              $img.height("auto");
+      for (var index = 0; index < imgsArrSelf.length; index++) {
+        (function (index) {
+          if (imgsArrSelf[index]) {
+            let imgurl_ = imgsArrSelf[index][1].url || "";
+            var newImg = new Image();
+            newImg.src = imgurl_;
+            newImg.onerror = () => {    // 图片加载错误时的替换图片
+              // newImg.src = require("@src/assets/images/logo.png")
             }
-          } else {
-            if (type == "transfer") {
-              if (panel_height < img_height) {
-                // console.log(5);
-                $img.height(panel_height + "px");
-                $img.width("auto");
+            newImg.onload = () => {
+              let img_width = newImg.width;
+              let img_height = newImg.height;
+              //图片容器宽高
+              let panel_width = $(".fullpate-img").width();
+              let panel_height = $(".fullpate-img").height();
+              let $img = $(".imgbox").eq(index).find(".img-page-large");
+              if (panel_width / panel_height < img_width / img_height) {
+                if (type == "transfer") {
+                  if (panel_width < img_width) {
+                    // console.log(1);
+                    $img.width(img_height + "px");
+                  } else {
+                    // console.log(2);
+                    $img.width(panel_height + "px");
+                  }
+                  $img.height("auto")
+                  $img.css('margin-top', "0px");
+                } else {
+                  if (panel_width < img_height) {
+                    // console.log(3);
+                    $img.width(panel_width + "px");
+                  } else {
+                    // console.log(4);
+                    $img.width(img_width + "px");
+                  }
+                  $img.height("auto");
+                }
               } else {
-                // console.log(6);
-                $img.width(img_height + "px");
-                $img.height("auto");
-              }
+                if (type == "transfer") {
+                  if (panel_height < img_height) {
+                    // console.log(5);
+                    $img.height(panel_height + "px");
+                    $img.width("auto");
+                  } else {
+                    // console.log(6);
+                    $img.width(img_height + "px");
+                    $img.height("auto");
+                  }
 
-            } else {
-              if (panel_height < img_height) {
-                // console.log(7);
-                $img.height(panel_height);
-              } else {
-                // console.log(6);
-                $img.height(img_height);
+                } else {
+                  if (panel_height < img_height) {
+                    // console.log(7);
+                    $img.height(panel_height);
+                  } else {
+                    // console.log(6);
+                    $img.height(img_height);
+                  }
+                  $img.width("auto")
+                }
               }
-              $img.width("auto")
             }
           }
-        }
+        })(index)
       }
-
     },
     imgInit() {
+      this.biggeris = "smallImg";
+      this.retateVisible = true;
       let imgsArrSelf = "";
       let largeImg = this.largeImg;
       let arrSelf = [];
@@ -259,22 +326,66 @@ export default {
       imgsArrSelf = this.imgsArrSelf;
       for (let [index, elem] of imgsArrSelf) {
         if (elem.imgname == largeImg.imgname) {
-          this.nowIndex = index;
+          this.nowIndex = index; // 当前的路由
         }
       }
-      this.biggeris = "smallImg";
-      this.retateVisible = true;
       this.$nextTick(() => {
-        if (this.rotateClass == "rotate270" || this.rotateClass == "rotate90") {
-          this.setImgMiddle('transfer');
-        } else {
-          this.setImgMiddle();
+        let imgboxLen_ = $(".imgbox").length;
+        let windowWidth = $(".fullpate-img").width();
+        let windowHeight = $(".fullpate-img").height();
+        for (var i = 0; i < imgboxLen_; i++) {
+          $(".imgbox").eq(i).css({ "width": windowWidth, "height": windowHeight });
+          $(".imgbox").eq(i).css("left", i * windowWidth + "px")
         }
+        $(".imgsGroup").width(utils.accMul(windowWidth, imgboxLen_));
+
+        this.imgsGroupMove(this.nowIndex * 1);
       })
     },
-    biggerFn() {
+    imgsGroupMove(index) {
+      // if ($(".imgsGroup")) {
+      let windowWidth = $(".fullpate-img").width();
+      let nowLeft = $(".imgsGroup").position().left;
+      if (index < this.nowIndex) {
+        // 向左移动
+        console.log("向左移动");
+        let count = 0;
+        let timer = setInterval(() => {
+          if (count < windowWidth) {
+            count += 80;
+            $(".imgsGroup").css("left", (nowLeft + count) + "px")
+          } else {
+            clearInterval(timer);
+          }
+        }, 10);
+        this.nowIndex = index;
+      } else if (index > this.nowIndex) {
+        //向右移动
+        console.log("向右侧移动")
+        let count = 0;
+        let timer = setInterval(() => {
+          if (count < windowWidth) {
+            count += 80;
+            $(".imgsGroup").css("left", (nowLeft - count) + "px")
+          } else {
+            clearInterval(timer);
+          }
+        }, 10);
+        // $(".imgsGroup").css("left", parseInt(nowLeft - windowWidth) + "px")
+        this.nowIndex = index;
+      } else {
+        // 不动
+        console.log("不动");
+        $(".imgsGroup").css("left", -utils.accMul(index, windowWidth) + "px");
+        // console.log("索引：" + index + "位置:" + nowLeft);
+      }
+      console.log(this.nowIndex);
+      // }
+      this.setImgMiddle();
+    },
+    biggerFn(index) {
       let biggeris = this.biggeris;
-      let $img = $(".img-page-large");
+      let $img = $(".img-page-large").eq(index);
       let $imgWidth = $img.width();
       let $imgHeight = $img.height();
       if (biggeris == "smallImg") {
@@ -301,7 +412,7 @@ export default {
     }
   },
   mounted() {
-    this.imgInit();
+    // this.imgInit();
   },
   created() {
 
@@ -314,11 +425,12 @@ export default {
       this.initRotate();
     },
     nowIndex() {
-      this.$emit("rotateInit")
-      this.initRotate();
+      this.$emit("rotateInit"); // 旋转恢复默认值
     },
-    fadeViewVisible() {
-      this.imgInit();
+    fadeViewVisible(val) {
+      if (val) {
+        this.imgInit();
+      }
     }
   }
 };

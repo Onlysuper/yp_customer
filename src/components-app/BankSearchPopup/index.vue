@@ -1,8 +1,16 @@
 <template>
   <full-page-popup v-model="popupVisible" position="bottom" class="search-bank-branch-page" title="支行搜索">
+    <!-- <div>
+      <input type="text" placeholder="输入搜索内容" v-model="searchValue" />
+    </div> -->
+    <div class="mint-searchbar">
+      <div class="mint-searchbar-inner">
+        <i class="mintui mintui-search"></i>
+        <input v-model="searchValue" type="search" placeholder="搜索" class="mint-searchbar-core"></div>
+    </div>
     <div class="bank-list" ref="wrapper" :style="{ height: wrapperHeight + 'px' }">
       <ul class="scroll-wrapper" v-infinite-scroll="loadMore" :infinite-scroll-disabled="disabled" infinite-scroll-distance="10">
-        <li class="item" @click="confirm(item)" v-for="(item,index) in bankList" :key="index">
+        <li class="item" @click="confirm(item)" v-for="(item,index) in filterBankList" :key="index">
           {{item.branchName}}
         </li>
       </ul>
@@ -10,8 +18,8 @@
       <p v-show="loading" class="page-infinite-loading">
         <mt-spinner type="snake" color="#26a2ff"></mt-spinner>
       </p>
-      <p v-show="bankList.length > 0 && disabled" class="page-infinite-loading">没有更多记录了</p>
-      <p v-show="bankList.length === 0 && disabled" class="page-infinite-loading">暂无信息</p>
+      <p v-show="filterBankList.length > 0 && disabled" class="page-infinite-loading">没有更多记录了</p>
+      <p v-show="filterBankList.length === 0 && disabled" class="page-infinite-loading">暂无信息</p>
     </div>
   </full-page-popup>
 </template>
@@ -66,8 +74,10 @@ export default {
   },
   data() {
     return {
+      searchValue: "",
       popupVisible: false,
       bankList: [],
+      filterBankList: [],
       loading: false,
       disabled: false,
       allLoaded: false,
@@ -92,6 +102,10 @@ export default {
     queryKey(query) {
       this.query = Object.assign(this.query, query);
       this.resetLoadMore();
+    },
+    searchValue(val) {
+      let newList = this.bankList.filter(item => new RegExp(val, 'i').test(item.branchName));
+      this.filterBankList = newList
     }
   },
   methods: {
@@ -99,6 +113,8 @@ export default {
       this.query.page = 1;
       this.disabled = false;
       this.bankList = [];
+      this.filterBankList = [];
+      this.searchValue = "";
       this.loadMore();
     },
     loadMore() {
@@ -110,6 +126,7 @@ export default {
           this.loading = false;
           if (data.code === "00") {
             this.bankList = this.bankList.concat(data.data);
+            this.filterBankList = this.bankList.concat(data.data);
             this.query.page = this.query.page + 1;
             this.isAllLoad(data.data);
             //注：如果需要分页查询注释下面代码即可
@@ -130,9 +147,15 @@ export default {
       this.popupVisible = false;
       setTimeout(() => {
         this.bankList = [];
+        this.filterBankList = []
       }, 1000);
       this.$emit("bankrsearchresult", item);
-    }
+    },
+    // searchResult() {
+    //   // this.bankList.filter(item => new RegExp(this.searchValue, 'i').test(item.branchName))
+
+    //   // return this.bankList.filter(value => new RegExp(this.value, 'i').test(searchValue));
+    // }
   },
   created() {
     this.popupVisible = this.value;
