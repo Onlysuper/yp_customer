@@ -1204,8 +1204,13 @@ export default {
         this.detailProductView = "payDetail"
       }
       this.$nextTick(() => {
-        let windowHeight = $(window).height() - 160;
-        // $(".product-detail-body").height(windowHeight);
+        console.log($('.dialog-footer').height());
+        let reduceHeight = 180
+        if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+          reduceHeight += 30;
+        }
+        let windowHeight = $(window).height() - reduceHeight;
+        $(".product-detail-body").height(windowHeight);
       })
     },
     detailsFormVisible(val) {
@@ -1213,8 +1218,13 @@ export default {
         this.detailProductView = "";
       }
       this.$nextTick(() => {
-        let windowHeight = $(window).height() - 160;
-        // $(".product-detail-body").height(windowHeight);
+        console.log($('.dialog-footer').height());
+        let reduceHeight = 180
+        if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+          reduceHeight += 30;
+        }
+        let windowHeight = $(window).height() - reduceHeight;
+        $(".product-detail-body").height(windowHeight);
       })
     },
     editFormVisible(val) {

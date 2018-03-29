@@ -5,8 +5,11 @@
     <div class="imgsGroup">
       <div v-for="(item,index) in imgsArrSelf" :key="index" @click.self="hideImageView" class="imgbox">
         <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname">
+
         <!-- <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="imgUrlSelf" :alt="imgUrlSelf"> -->
+        <!-- <p class="name-box">{{item[1].imgname}}</p> -->
       </div>
+
     </div>
     <!-- </transition> -->
     <div class="largeButgroup">
@@ -119,13 +122,6 @@
     //   background: purple;
     //   // opacity: 0.2;
     // }
-    &:after {
-      content: "";
-      display: inline-block;
-      height: 100%;
-      text-align: center;
-      vertical-align: middle;
-    }
     img {
       text-align: center;
       vertical-align: middle;
@@ -137,6 +133,16 @@
       text-align: center;
       vertical-align: middle;
     }
+    // .name-box {
+    //   display: inline-block;
+    //   height: 100%;
+    //   text-align: center;
+    //   vertical-align: middle;
+    //   float: left;
+    //   font-size: 24px;
+    //   color: #fff;
+    //   padding: 20px;
+    // }
   }
   .shadow-box {
     position: absolute;
