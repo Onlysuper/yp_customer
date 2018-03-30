@@ -78,9 +78,10 @@ const userInfoAndMenu = {
                         // 管理员信息
                         context.commit('userData', data);
                     }
-                    //  else {
-                    //     Toast(data.msg);
-                    // }
+                    else {
+                        // 登陆失效
+                        // Toast(data.msg);
+                    }
                 })
             })
         }

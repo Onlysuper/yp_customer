@@ -303,12 +303,12 @@ export default {
               } else if (data == "PAY_WAIT") {
                 return {
                   text: "等待支付",
-                  type: "warning"
+                  type: ""
                 };
               } else if (data == "FAIL") {
                 return {
                   text: "失败",
-                  type: "info"
+                  type: "danger"
                 };
               } else if (data == "SUCCESS") {
                 return {
@@ -318,7 +318,7 @@ export default {
               } else if (data == "CANCEL") {
                 return {
                   text: "撤单",
-                  type: "success"
+                  type: "warning"
                 };
               } else {
                 return {

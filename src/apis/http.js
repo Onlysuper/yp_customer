@@ -30,7 +30,7 @@ axios.interceptors.response.use(function (response) {
             localStorage.setItem("isLogin", "0");
             setTimeout(() => {
                 location.reload();
-            }, 2000);
+            }, 100);
             return {
                 code: -103,
                 msg: "用户过期，请重新登录"

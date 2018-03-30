@@ -19,28 +19,16 @@
     <div class="detaile-right">
       <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
         <div class="imgs-group">
-          <div class="img-box">
-            <p class="img-title">营业执照:</p>
+          <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
+            <p class="img-title">{{item[1].imgname}}:</p>
             <div class="img-back">
-              <img @click="showImg(qrcodeImgs.fastBussinessImg.url||'','qrcode')" class="img-size" :src="qrcodeImgs.fastBussinessImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">收银台照片:</p>
-            <div class="img-back">
-              <img @click="showImg(qrcodeImgs.fastCashImg.url||'','qrcode')" class="img-size" :src="qrcodeImgs.fastCashImg.url||''" alt="">
-            </div>
-          </div>
-          <div class="img-box">
-            <p class="img-title">门头照片:</p>
-            <div class="img-back">
-              <img @click="showImg(qrcodeImgs.fastHeaderImg.url||'','qrcode')" class="img-size" :src="qrcodeImgs.fastHeaderImg.url||''" alt="">
+              <img @click="showImg(item[1].url||'',item[0],'qrcode',item[1].imgname)" class="img-size" :src="item[1].url" alt="">
             </div>
           </div>
         </div>
       </scroll-pane>
       <div class="large-img">
-        <img @click="largeImageShow(qrcodelargeImgUrl,'qrcode')" class="img-large" :src="qrcodelargeImgUrl" alt="">
+        <img @click="largeImageShow(largeImgUrl,'qrcode')" class="img-large" :src="largeImgUrl" alt="">
       </div>
     </div>
     <!-- <transition name="slide-fade" class="fadeView">
@@ -49,7 +37,7 @@
       </div>
     </transition> -->
     <transition name="slide-fade" class="fadeView">
-      <largeimg-view :largeImgUrl="qrcodelargeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
+      <largeimg-view ref="largeImg" :imgsArr="imgsArr" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>
     </transition>
   </div>
@@ -110,6 +98,8 @@ export default {
       }
     }
     return {
+      imgsArr: [],
+      largeImg: {},
       iscrollOptions: {
         scrollbars: true,
         mouseWheel: true,
@@ -123,7 +113,7 @@ export default {
       rotateClass: "",
       rotateCurrent: 0,
       detailsForm: {},
-      qrcodelargeImgUrl: "",
+      largeImgUrl: "",
       qrcodeImgs: { ...qrcodeImgs },
     }
   },
@@ -154,14 +144,41 @@ export default {
               "fastBussinessImg", "fastCashImg", "fastHeaderImg"
             ]);
           }
+
           // 默认显示第一张图
           this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
-          for (var i in qrcodeImgs) {
-            if (qrcodeImgs[i].url) {
-              this.qrcodelargeImgUrl = qrcodeImgs[i].url
-              break;
+          let imgsArr = Object.entries(this.qrcodeImgs);
+          for (var i = 0; i < imgsArr.length; i++) {
+            let item = imgsArr[i][1];
+            let index = imgsArr[i][0];
+            if (index == "fastBussinessImg") {
+              item["imgname"] = "营业执照"
+            } else if (index == "fastCashImg") {
+              item["imgname"] = "收银台照片"
+            } else if (index == "fastHeaderImg") {
+              item["imgname"] = "门头照片"
+            } else {
+              item["imgname"] = ""
             }
+            ((i) => {
+              let item = imgsArr[i][1];
+              let index = imgsArr[i][0];
+              var newImg = new Image();
+              newImg.src = item.url;
+              newImg.onerror = () => {
+                imgsArr[i][1].url = ""
+              }
+              newImg.onload = () => {
+                if (this.largeImgUrl == "") {
+                  // 默认显示的图片
+                  this.largeImg = { imgname: index, url: item.url };
+                  this.largeImgUrl = item.url
+                }
+              }
+            })(i)
+
           }
+          this.imgsArr = imgsArr;
         }
         dialogLoading.close();
       });
@@ -190,7 +207,12 @@ export default {
     showImg(val, type) {
       this.rotateCurrent = 0
       this.rotateClass = "";
-      this.qrcodelargeImgUrl = val
+      this.largeImgUrl = url;
+      this.largeImg = { imgname: imgname, url: url };
+    },
+    rotateInit() {
+      this.rotateCurrent = 0
+      this.rotateClass = "";
     },
     hideImageView() {
       this.fadeViewVisible = false

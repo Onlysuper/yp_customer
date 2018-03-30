@@ -5,28 +5,12 @@ mypFilters.install = function (Vue, options) {
     //Vue.myGlobalMethod = ...
     // 2. 添加全局资源
     Vue.filter('accMul', function (value, param) {
-        console.log(value + "-" + param)
         return accMul(value, param);
     })
 
     Vue.filter('channelName', function (value) {
         return value === "YEEPIAO" ? '易票' : '中付';
     })
-    // {
-    //     { #  if (d.status == 'SUCCESS') { } }
-    //     <span class="layui-btn layui-btn-mini">推送成功</span>
-    //     { { # } else if (d.status == 'BILLING_SUCCESS') { } }
-    //     <span class="layui-btn layui-btn-mini">开票成功</span>
-    //     { { # } else if (d.status == 'BILLING') { } }
-    //     <span class="layui-btn layui-btn-mini layui-btn-danger">开票中</span>
-    //     { { # } else if (d.status == 'ORDER') { } }
-    //     <span class="layui-btn layui-btn-mini layui-btn-danger">待开票</span>
-    //     { { # } else if (d.status == 'BILLING_FAIL') { } }
-    //     <span class="layui-btn layui-btn-mini layui-btn-danger">开票失败</span>
-    //     { { # } else if (d.status == 'QUERY_FAIL') { } }
-    //     <span class="layui-btn layui-btn-mini layui-btn-danger">查询失败</span>
-    //     { { # } }
-    // }
     /**
       * 交易订单-》交易类型
       */
