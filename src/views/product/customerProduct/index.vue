@@ -19,7 +19,7 @@
               </el-option>
             </el-select>
           </div>
-          <component v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="detailProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
+          <component ref="detailProductView" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="detailProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
           </component>
         </template>
       </div>
@@ -768,6 +768,7 @@ export default {
                 this.selectOptions.customerTypeOptions.forEach(element => {
                   element.disabled = false;
                 });
+                this.selectOptions.customerType = "payStatus";
                 this.detailsFormVisible = true;
               }
             },
@@ -1184,6 +1185,14 @@ export default {
             break;
         }
       }
+    },
+    dialogViewSize() {
+      let reduceHeight = 180
+      if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+        reduceHeight += 30;
+      }
+      let windowHeight = $(window).height() - reduceHeight;
+      $(".product-detail-body").height(windowHeight);
     }
   },
   computed: {
@@ -1204,13 +1213,7 @@ export default {
         this.detailProductView = "payDetail"
       }
       this.$nextTick(() => {
-        console.log($('.dialog-footer').height());
-        let reduceHeight = 180
-        if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
-          reduceHeight += 30;
-        }
-        let windowHeight = $(window).height() - reduceHeight;
-        $(".product-detail-body").height(windowHeight);
+        this.dialogViewSize();
       })
     },
     detailsFormVisible(val) {
@@ -1243,6 +1246,15 @@ export default {
       }
     }
   },
+  mounted() {
+    window.onresize = () => {
+      this.dialogViewSize();
+      if (this.$refs.detailProductView) {
+        let detailProductView = this.detailProductView;
+        if (detailProductView == "payDetail" || detailProductView == "elecDetail")
+          this.$refs.detailProductView.hideImageView();
+      }
+    }
+  }
 };
 </script>
-

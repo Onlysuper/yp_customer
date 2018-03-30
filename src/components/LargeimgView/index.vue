@@ -413,9 +413,7 @@ export default {
       }
     }
   },
-  mounted() {
-    // this.imgInit();
-  },
+
   created() {
 
   },
@@ -434,6 +432,8 @@ export default {
         this.imgInit();
       }
     }
+  },
+  mounted() {
   }
 };
 </script>
