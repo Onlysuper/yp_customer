@@ -3,13 +3,13 @@
   <div ref="fullpate" class="fullpate-img" v-if="fadeViewVisible">
     <!-- <transition name="imgChangeTrans-fade"> -->
     <div class="imgsGroup">
-      <div v-for="(item,index) in imgsArrSelf" :key="index" @click.self="hideImageView" class="imgbox">
-        <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname">
-
+      <div v-for="(item,index) in imgsArrSelf" :key="index" class="imgbox">
+        <div class="imgbox-in" @click.self="hideImageView">
+          <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname">
+        </div>
         <!-- <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="imgUrlSelf" :alt="imgUrlSelf"> -->
-        <!-- <p class="name-box">{{item[1].imgname}}</p> -->
+        <p class="name-box">{{item[1].imgname}}</p>
       </div>
-
     </div>
     <!-- </transition> -->
     <div class="largeButgroup">
@@ -58,37 +58,55 @@
   }
   .changebut {
     font-size: 24px;
-    color: #fff;
+    color: #000;
     text-align: center;
     font-weight: 900;
-    background: rgba(0, 193, 255, 0.2);
-    padding: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
     cursor: pointer;
     z-index: 9999;
     position: absolute;
     transition: all 0.8ms;
     -webkit-transition: all 0.8ms;
     &:hover {
-      background: rgba(0, 193, 255, 0.3);
+      background: rgba(255, 255, 255, 0.2);
     }
     &.prebut {
-      left: 10px;
+      left: 0px;
       top: 50%;
     }
     &.nextbut {
-      right: 10px;
+      right: 0px;
       top: 50%;
     }
   }
   .imgbox {
-    overflow: auto;
+    overflow: hidden;
     position: absolute;
     left: 0;
     top: 0;
     // width: 100%;
     height: 100%;
     z-index: 9999;
-
+    .imgbox-in {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      img {
+        text-align: center;
+        vertical-align: middle;
+      }
+      &:after {
+        content: "";
+        display: inline-block;
+        height: 100%;
+        text-align: center;
+        vertical-align: middle;
+      }
+    }
     // &:nth-of-type(1) {
     //   background: #ffffff;
     //   // opacity: 0.2;
@@ -122,27 +140,24 @@
     //   background: purple;
     //   // opacity: 0.2;
     // }
-    img {
-      text-align: center;
-      vertical-align: middle;
-    }
-    &:after {
-      content: "";
+
+    .name-box {
       display: inline-block;
-      height: 100%;
-      text-align: center;
       vertical-align: middle;
+      font-size: 14px;
+      font-weight: 900;
+      color: #fff;
+      padding: 10px;
+      // width: 100%;
+      position: absolute;
+      z-index: 999;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 9999;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
     }
-    // .name-box {
-    //   display: inline-block;
-    //   height: 100%;
-    //   text-align: center;
-    //   vertical-align: middle;
-    //   float: left;
-    //   font-size: 24px;
-    //   color: #fff;
-    //   padding: 20px;
-    // }
   }
   .shadow-box {
     position: absolute;
@@ -166,7 +181,6 @@
     text-align: center;
     vertical-align: middle;
   }
-
   .smallImg {
     cursor: zoom-in;
   }
@@ -323,15 +337,16 @@ export default {
       let arrSelf = [];
       for (let [index, elem] of this.imgsArr) {
         let obj = {};
-        obj.imgname = index;
+        obj.imgId = index;
         obj.url = elem.url;
         obj.id = elem.id;
+        obj.imgname = elem.imgname;
         arrSelf.push(obj)
       }
       this.imgsArrSelf = Object.entries(arrSelf) // 本页面需要的数组
       imgsArrSelf = this.imgsArrSelf;
       for (let [index, elem] of imgsArrSelf) {
-        if (elem.imgname == largeImg.imgname) {
+        if (elem.imgId == largeImg.imgname) {
           this.nowIndex = index; // 当前的路由
         }
       }
@@ -349,41 +364,22 @@ export default {
       })
     },
     imgsGroupMove(index) {
-      // if ($(".imgsGroup")) {
       let windowWidth = $(".fullpate-img").width();
       let nowLeft = $(".imgsGroup").position().left;
       if (index < this.nowIndex) {
         // 向左移动
         console.log("向左移动");
-        let count = 0;
-        let timer = setInterval(() => {
-          if (count < windowWidth) {
-            count += 80;
-            $(".imgsGroup").css("left", (nowLeft + count) + "px")
-          } else {
-            clearInterval(timer);
-          }
-        }, 10);
+        $(".imgsGroup").animate({ left: (nowLeft + windowWidth) + "px" }, 200)
         this.nowIndex = index;
       } else if (index > this.nowIndex) {
         //向右移动
         console.log("向右侧移动")
-        let count = 0;
-        let timer = setInterval(() => {
-          if (count < windowWidth) {
-            count += 80;
-            $(".imgsGroup").css("left", (nowLeft - count) + "px")
-          } else {
-            clearInterval(timer);
-          }
-        }, 10);
-        // $(".imgsGroup").css("left", parseInt(nowLeft - windowWidth) + "px")
+        $(".imgsGroup").animate({ left: (nowLeft - windowWidth) + "px" }, 200)
         this.nowIndex = index;
       } else {
         // 不动
         console.log("不动");
-        $(".imgsGroup").css("left", -utils.accMul(index, windowWidth) + "px");
-        // console.log("索引：" + index + "位置:" + nowLeft);
+        $(".imgsGroup").css({ left: -utils.accMul(index, windowWidth) + "px" });
       }
       console.log(this.nowIndex);
       // }

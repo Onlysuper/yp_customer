@@ -106,7 +106,7 @@ function filterRouter(resmenuList, asyncRoutes) {
 
 router.beforeEach((to, from, next) => {
     let menuList = store.state.userInfoAndMenu.menuList;
-    alert("isLogin:" + localStorage.getItem("isLogin") + " path:" + to.path)
+    // alert("isLogin:" + localStorage.getItem("isLogin") + " path:" + to.path)
     if (localStorage.getItem("isLogin") == "100") {
         if (to.path == "/login") {
             next('/home')

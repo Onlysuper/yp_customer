@@ -79,64 +79,10 @@
         <div class="small-but next" @click="preNext" slot="nextBut">》</div>
         <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
           <div class="imgs-group">
-            <div class="img-box">
-              <p class="img-title">法人身份证正面:</p>
+            <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
+              <p class="img-title">{{item[1].imgname}}:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.identityFrontImg||'','identityFrontImg','pay','法人身份证正面')" class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box">
-              <p class="img-title">法人身份证反面:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.identityBackImg||'','identityBackImg','pay','法人身份证反面')" class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box">
-              <p class="img-title">营业执照:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.bussinessLicenseImg||'','bussinessLicenseImg','pay','营业执照')" class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box">
-              <p class="img-title">手持身份证:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.identityHolderImg||'','identityHolderImg','pay','手持身份证')" class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box">
-              <p class="img-title">结算卡正面:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.settleCardImg||'','settleCardImg','pay','结算卡正面')" class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box" v-if="accountVisible">
-              <p class="img-title">开户许可证:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.accountLicenseImg||'','accountLicenseImg','pay','开户许可证')" class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box">
-              <p class="img-title">门头照片:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.placeImg||'','placeImg','pay','门头照片')" class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box">
-              <p class="img-title">店内照片:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.storeImg||'','storeImg','pay','店内照片')" class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
-              </div>
-            </div>
-            <div class="img-box">
-              <p class="img-title">收银台照片:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.cashSpaceImg||'','cashSpaceImg','pay','收银台照片')" class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
-              </div>
-            </div>
-            <div v-if="certificateVisible" class="img-box">
-              <p class="img-title">授权书照片:</p>
-              <div class="img-back">
-                <img @click="showImg(payStatusDetails.certificateImg||'','certificateImg','pay','授权书照片')" class="img-size" :src="payStatusDetails.certificateImg.url||''" alt="">
+                <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname)" class="img-size" :src="item[1].url" alt="">
               </div>
             </div>
           </div>
@@ -292,6 +238,8 @@ export default {
       detailsForm: detailsForm,
       payStatusDetails: { ...payStatusDetails },
       imgsArr: []
+      // imgsRow: {},
+
     }
   },
   created() {
@@ -335,36 +283,88 @@ export default {
             ]);
           }
           if (data.imgs) {
-            imgsRow = utils.pickObj(data.imgs, [
-              "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
-              "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
-            ]);
-            let firstImg = "";
-            let imgsArr = Object.entries(imgsRow);
-            this.imgsArr = imgsArr;
-            firstImg = imgsArr.find(item => { return item.url != "" });
-            let imgEntries = firstImg.entries();
-          }
-          if (settleCardRow.accountType == "0") {
-            // 对公
-            this.accountVisible = true;
-            this.certificateVisible = false;
-          } else if (settleCardRow.accountType == "1") {
-            // 对私
-            if (settleCardRow.accountName == customerRow.legalPerson) {
-              this.accountVisible = false;
-              this.certificateVisible = false;
+            if (settleCardRow.accountType == "0") {
+              // 对公  有开户许可证 没有授权证
+              imgsRow = utils.pickObj(data.imgs, [
+                "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
+                "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
+              ]);
+            } else if (settleCardRow.accountType == "1") {
+              // 对私
+              if (settleCardRow.accountName == customerRow.legalPerson) {
+                //没有开户许可证 没有授权证
+                imgsRow = utils.pickObj(data.imgs, [
+                  "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
+                  "placeImg", "storeImg", "cashSpaceImg"
+                ]);
+              } else {
+                //没有开户许可证 有授权证
+                imgsRow = utils.pickObj(data.imgs, [
+                  "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
+                  "placeImg", "storeImg", "cashSpaceImg", "certificateImg"
+                ]);
+              }
             } else {
-              this.accountVisible = false;
-              this.certificateVisible = true;
+              imgsRow = utils.pickObj(data.imgs, [
+                "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
+                "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
+              ]);
             }
+            let imgsArr = Object.entries(imgsRow);
+            for (var i = 0; i < imgsArr.length; i++) {
+              let item = imgsArr[i][1];
+              let index = imgsArr[i][0];
+              if (index == "identityFrontImg") {
+                item["imgname"] = "法人身份证正面"
+              } else if (index == "identityBackImg") {
+                item["imgname"] = "法人身份证反面"
+              } else if (index == "bussinessLicenseImg") {
+                item["imgname"] = "营业执照"
+              } else if (index == "identityHolderImg") {
+                item["imgname"] = "手持身份证"
+              } else if (index == "settleCardImg") {
+                item["imgname"] = "结算卡正面"
+              } else if (index == "accountLicenseImg") {
+                item["imgname"] = "开户许可证"
+              } else if (index == "placeImg") {
+                item["imgname"] = "门头照片"
+              } else if (index == "storeImg") {
+                item["imgname"] = "店内照片"
+              } else if (index == "cashSpaceImg") {
+                item["imgname"] = "收银台照片"
+              } else if (index == "certificateImg") {
+                item["imgname"] = "授权书照片"
+              } else {
+                item["imgname"] = ""
+              }
+              ((i) => {
+                let item = imgsArr[i][1];
+                let index = imgsArr[i][0];
+                var newImg = new Image();
+                newImg.src = item.url;
+                // console.log(item.url);
+                newImg.onerror = () => {
+                  imgsArr[i][1].url = ""
+                }
+                newImg.onload = () => {
+                  if (this.largeImgUrl == "") {
+                    // 默认显示的图片
+                    this.largeImg = { imgname: index, url: item.url };
+                    this.largeImgUrl = item.url
+                  }
+                }
+              })(i)
+
+            }
+            this.imgsArr = imgsArr;
           }
+          // this.imgsRow = imgsRow;
           this.payStatusDetails = {
             ...this.payStatusDetails,
             ...customerRow,
             ...settleCardRow,
             ...productRow,
-            ...imgsRow
+            // ...imgsRow
           }
 
         }
@@ -390,11 +390,16 @@ export default {
       this.fadeViewVisible = true;
       this.$refs.largeImg.imgInit()
     },
-    showImg(val, imgname, type) {
+    showImg(url, imgname, type) {
+      console.log(url + "--" + imgname + "--" + type)
       this.rotateCurrent = 0
       this.rotateClass = "";
-      this.largeImgUrl = val.url;
-      this.largeImg = { imgname: imgname, ...val };
+      this.largeImgUrl = url;
+      this.largeImg = { imgname: imgname, url: url };
+      // this.rotateCurrent = 0
+      // this.rotateClass = "";
+      // this.largeImgUrl = val.url;
+      // this.largeImg = { imgname: imgname, ...val };
     },
     rotateInit() {
       this.rotateCurrent = 0
