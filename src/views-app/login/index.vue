@@ -31,10 +31,10 @@
 import { Login } from "@src/apis";
 export default {
   name: "Login",
-  beforeCreate: function() {
+  beforeCreate: function () {
     document.getElementsByTagName("body")[0].className = "loginBackground";
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     document.body.removeAttribute("class", "loginBackground");
   },
   data() {
