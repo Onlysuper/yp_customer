@@ -10,40 +10,40 @@
     <!-- 详细信息 start -->
     <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">交易时间:</span>
           <span class="line-label-last">{{detailsForm.paySuccTime}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">交易单号:</span>
           <span class="line-label-last">{{detailsForm.orderNo}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">交易金额:</span>{{utils.accMul(detailsForm.amount, 0.01)}}元
         </div>
-        <div v-if="detailsForm.settleMode=='T0'?true:false" class="line-label-box">
+        <div v-if="detailsForm.settleMode=='T0'?true:false" class="line-label-box cross-back">
           <span class="line-label">手续费:</span>{{utils.accMul(detailsForm.fee, 0.01)}}元
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">交易费率:</span>{{utils.accMul(detailsForm.feeRate, 100)+'%'}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">代理商编号:</span>{{detailsForm.agentNo}}
         </div>
         <!-- <div class="line-label-box">
           <span class="line-label">代理商分润:</span>
         </div> -->
 
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">交易来源:</span>{{detailsForm.payFrom | payFrom}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">交易类型:</span>{{detailsForm.payType | payType}}
         </div>
-        <div v-if="detailsForm.status=='FAIL'?true:false" class="line-label-box">
+        <div v-if="detailsForm.status=='FAIL'?true:false" class="line-label-box cross-back">
           <span class="line-label">支付失败原因:</span>{{detailsForm.respCode}}
         </div>
       </div>
@@ -214,6 +214,10 @@ export default {
               label: "失败"
             },
             {
+              value: "CANCEL",
+              label: "撤单"
+            },
+            {
               value: "SUCCESS",
               label: "成功"
             }
@@ -309,6 +313,11 @@ export default {
               } else if (data == "SUCCESS") {
                 return {
                   text: "成功",
+                  type: "success"
+                };
+              } else if (data == "CANCEL") {
+                return {
+                  text: "撤单",
                   type: "success"
                 };
               } else {

@@ -73,7 +73,7 @@
     <!-- 详情 start -->
     <el-dialog title="资质补充单详情" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
-        <el-row class="line-label-box">
+        <el-row class="line-label-box cross-back">
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <span class="line-label">税号:</span>
@@ -87,7 +87,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="line-label-box">
+        <el-row class="line-label-box cross-back">
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <span class="line-label">电话:</span>
@@ -101,7 +101,7 @@
             </div>
           </el-col>
         </el-row>
-        <el-row class="line-label-box">
+        <el-row class="line-label-box cross-back">
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <span class="line-label">帐号:</span>
@@ -116,7 +116,7 @@
           </el-col>
 
         </el-row>
-        <el-row class="line-label-box">
+        <el-row class="line-label-box cross-back">
           <el-col :span="24">
             <div class="grid-content bg-purple-light">
               <span class="line-label">状态:</span>

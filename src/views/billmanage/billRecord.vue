@@ -53,15 +53,15 @@
             </div>
           </el-col>
         </el-row>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">购方名称:</span>
           <span class="line-label-last">{{detailsForm.enterpriseName}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">购方税号:</span>
           <span class="line-label-last">{{detailsForm.taxNo}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">发票金额:</span>
           <span class="line-label-last">{{detailsForm.billAmount}}元</span>
         </div>
@@ -107,11 +107,11 @@
             </div>
           </el-col>
         </el-row>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">单位地址:</span>
           <span class="line-label-last">{{detailsForm.enterpriseAddress}}</span>
         </div>
-        <div v-if="detailsForm.status=='BILLING_FAIL'?true:false" class="line-label-box">
+        <div v-if="detailsForm.status=='BILLING_FAIL'?true:false" class="line-label-box cross-back">
           <span class="line-label">失败原因:</span>
           <span class="line-label-last">{{detailsForm.respMsg}}</span>
         </div>

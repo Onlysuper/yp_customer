@@ -3,15 +3,15 @@
   <div class="product-detail-body">
     <div class="detaile-left">
       <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions">
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">商户名称:</span>
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
         </div>
       </iscroll-view>

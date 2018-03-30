@@ -68,7 +68,7 @@
       </el-form-item>
       <el-form-item class="full-width" prop="unionCode" label="选择支行">
         <el-input v-if="branchNameVisible" v-model="payStatusForm.branchName" auto-complete="off"></el-input>
-        <el-select v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
+        <el-select filterable v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
           <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
           </el-option>
         </el-select>

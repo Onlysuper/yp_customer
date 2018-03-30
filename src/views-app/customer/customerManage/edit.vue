@@ -16,6 +16,7 @@
         <mt-field type="text" label="身份证" placeholder="请输入身份证" v-model="customer.idCard"></mt-field>
         <mt-field type="text" label="经营地址" placeholder="请输经营地址" v-model="customer.bussinessAddress"></mt-field>
         <mt-field type="text" label="公司电话" placeholder="请输入公司电话" v-model="customer.bussinessPhone"></mt-field>
+        <mt-field type="text" label="经营名称" placeholder="请输入经营名称" v-model="customer.bussinessName"></mt-field>
       </input-wrapper>
     </view-radius>
   </full-page>

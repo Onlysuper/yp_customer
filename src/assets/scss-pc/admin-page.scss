@@ -84,20 +84,22 @@
         &:nth-child(odd) {
           // background-color: rgba(0, 193, 223, 0.1);
           //  background: #fafafa;
-           border-bottom: 1px solid #ebeef5
+          //  border-bottom: 1px solid #ebeef5
         }
         &:nth-child(even) {
-          border-bottom: 1px solid #ebeef5;
+          // border-bottom: 1px solid #ebeef5;
           // background-color: #fff;
         }
       }
       .cross-back{
         &:nth-child(odd) {
            background: #fafafa;
+           border-bottom: 1px solid #ebeef5;
           //  border-bottom: 1px solid #ebeef5
         }
         &:nth-child(even) {
           background-color: #fff;
+          border-bottom: 1px solid #ebeef5;
         }
       }
     }

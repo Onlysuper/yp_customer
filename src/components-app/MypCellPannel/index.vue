@@ -69,6 +69,7 @@ export default {
     display: flex;
   }
   .title {
+    font-size: pxTorem(28px);
     width: 600*$rem;
   }
   .btn {

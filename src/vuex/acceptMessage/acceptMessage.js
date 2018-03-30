@@ -6,7 +6,7 @@ const acceptMessage = {
         messageCount: 0,
         // 通知数量
         noticeCount: 0,
-        noticeData: {}
+        noticeData: []
     },
     getters: {
     },
@@ -19,10 +19,24 @@ const acceptMessage = {
         },
         // 添加新通知
         noticeCountAdd(state) {
-            state.noticeCount = state.noticeCount++
+            state.noticeCount += 1;
+            console.log(state.noticeCount);
+        },
+        noticeDataAdd(state, data) {
+            state.noticeData.push(data);
+        },
+        noticeClear(state) {
+            state.noticeCount = 0;
+            state.noticeData = []
         }
     },
     actions: {
+        noticeCountAddFetch(context) {
+            context.commit('noticeCountAdd')
+        },
+        noticeDataAddFetch(context, data) {
+            context.commit('noticeDataAdd', data)
+        },
         getMessagesFetch(context) { // 获取‘用户信息‘与‘菜单列表‘数据
             return new Promise((resolve, reject) => {
                 getMessages()({

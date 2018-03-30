@@ -286,12 +286,12 @@ export default {
           },
           {
             key: "采购单号",
-            width: "",
+            width: "100px",
             word: "receiptNo"
           },
           {
             key: "合伙人编号",
-            width: "",
+            width: "100px",
             word: "agentNo"
           },
           {
@@ -301,7 +301,7 @@ export default {
           },
           {
             key: "单价",
-            width: "",
+            width: "100px",
             word: "price"
           },
           {
@@ -497,35 +497,35 @@ export default {
     },
     // 审核拒绝保存
     checkRefuseSave(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.saveLoading2 = true;
-          this.buttonDisabled = true;
-          var thisForm = this[formName];
-          let sendata = utils.pickObj(thisForm, [
-            "agentNo", 'receiptNo', 'receiptType', 'qrcodeCount', 'price', 'prefixNo', 'migrateType',
-            "qrcodeStart", 'qrcodeEnd', 'qrcodes'
-          ]);
-          putRefuseArantNumExamine(thisForm.receiptNo)({ ...sendata }).then(data => {
-            if (data.code == "00") {
-              this.$message({
-                type: "success",
-                message: "已拒绝通过!"
-              });
-              this.reloadData(this.postPage, this.postLimit);
-              this.checkFormVisible = false;
-              this.checkFormVisible2 = false;
-            } else {
-              this.$message({
-                type: "warning",
-                message: data.msg
-              });
-            }
-            this.saveLoading2 = false;
-            this.buttonDisabled = false;
+      // this.$refs[formName].validate(valid => {
+      // if (valid) {
+      this.saveLoading2 = true;
+      this.buttonDisabled = true;
+      var thisForm = this[formName];
+      let sendata = utils.pickObj(thisForm, [
+        "agentNo", 'receiptNo', 'receiptType', 'qrcodeCount', 'price', 'prefixNo', 'migrateType',
+        "qrcodeStart", 'qrcodeEnd', 'qrcodes'
+      ]);
+      putRefuseArantNumExamine(thisForm.receiptNo)({ ...sendata }).then(data => {
+        if (data.code == "00") {
+          this.$message({
+            type: "success",
+            message: "已拒绝通过!"
+          });
+          this.reloadData(this.postPage, this.postLimit);
+          this.checkFormVisible = false;
+          this.checkFormVisible2 = false;
+        } else {
+          this.$message({
+            type: "warning",
+            message: data.msg
           });
         }
+        this.saveLoading2 = false;
+        this.buttonDisabled = false;
       });
+      // }
+      // });
     },
     migrateTypeChange1(value) {
       console.log(value);

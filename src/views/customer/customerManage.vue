@@ -142,6 +142,9 @@
         <el-form-item label="公司电话" prop="bussinessPhone" :label-width="formLabelWidth">
           <el-input v-model="editForm.bussinessPhone" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
+          <el-input v-model="editForm.bussinessName" auto-complete="off"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
@@ -222,34 +225,34 @@
     <!-- 详情 start -->
     <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
       <div class="detail-content">
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">企业法人:</span>{{detailsForm.legalPerson}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">身份证:</span>{{detailsForm.idCard}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">联系人:</span>{{detailsForm.linkMan}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">手机号:</span>{{detailsForm.phoneNo}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">商户编号:</span>{{detailsForm.customerNo}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | customerFrom}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">公司电话:</span>{{detailsForm.bussinessPhone}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">经营地址:</span>{{detailsForm.bussinessAddress}}
         </div>
       </div>

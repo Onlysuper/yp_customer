@@ -5,69 +5,69 @@
     <div class="detaile-left">
       <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
       <div class="scroll-view-cus">
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">商户名称:</span>
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">企业名称:</span>
           <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">企业税号:</span>
           <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">营业执照期限:</span>
           <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">微信费率:</span>{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | settleMode}}
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box cross-back">
           <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
         </div>
       </div>
@@ -82,55 +82,61 @@
             <div class="img-box">
               <p class="img-title">法人身份证正面:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.identityFrontImg.url||'','pay','法人身份证正面')" class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.identityFrontImg||'','identityFrontImg','pay','法人身份证正面')" class="img-size" :src="payStatusDetails.identityFrontImg.url||''" alt="">
               </div>
             </div>
             <div class="img-box">
               <p class="img-title">法人身份证反面:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.identityBackImg.url||'','pay','法人身份证反面')" class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.identityBackImg||'','identityBackImg','pay','法人身份证反面')" class="img-size" :src="payStatusDetails.identityBackImg.url||''" alt="">
               </div>
             </div>
             <div class="img-box">
               <p class="img-title">营业执照:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.bussinessLicenseImg.url||'','pay','营业执照')" class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.bussinessLicenseImg||'','bussinessLicenseImg','pay','营业执照')" class="img-size" :src="payStatusDetails.bussinessLicenseImg.url||''" alt="">
               </div>
             </div>
             <div class="img-box">
               <p class="img-title">手持身份证:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.identityHolderImg.url||'','pay','手持身份证')" class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.identityHolderImg||'','identityHolderImg','pay','手持身份证')" class="img-size" :src="payStatusDetails.identityHolderImg.url||''" alt="">
               </div>
             </div>
             <div class="img-box">
               <p class="img-title">结算卡正面:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.settleCardImg.url||'','pay','结算卡正面')" class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.settleCardImg||'','settleCardImg','pay','结算卡正面')" class="img-size" :src="payStatusDetails.settleCardImg.url||''" alt="">
               </div>
             </div>
-            <div class="img-box">
+            <div class="img-box" v-if="accountVisible">
               <p class="img-title">开户许可证:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.accountLicenseImg.url||'','pay','开户许可证')" class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.accountLicenseImg||'','accountLicenseImg','pay','开户许可证')" class="img-size" :src="payStatusDetails.accountLicenseImg.url||''" alt="">
               </div>
             </div>
             <div class="img-box">
               <p class="img-title">门头照片:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.placeImg.url||'','pay','门头照片')" class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.placeImg||'','placeImg','pay','门头照片')" class="img-size" :src="payStatusDetails.placeImg.url||''" alt="">
               </div>
             </div>
             <div class="img-box">
               <p class="img-title">店内照片:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.storeImg.url||'','pay','店内照片')" class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.storeImg||'','storeImg','pay','店内照片')" class="img-size" :src="payStatusDetails.storeImg.url||''" alt="">
               </div>
             </div>
             <div class="img-box">
               <p class="img-title">收银台照片:</p>
               <div class="img-back">
-                <img @click="showImg(payStatusDetails.cashSpaceImg.url||'','pay','收银台照片')" class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
+                <img @click="showImg(payStatusDetails.cashSpaceImg||'','cashSpaceImg','pay','收银台照片')" class="img-size" :src="payStatusDetails.cashSpaceImg.url||''" alt="">
+              </div>
+            </div>
+            <div v-if="certificateVisible" class="img-box">
+              <p class="img-title">授权书照片:</p>
+              <div class="img-back">
+                <img @click="showImg(payStatusDetails.certificateImg||'','certificateImg','pay','授权书照片')" class="img-size" :src="payStatusDetails.certificateImg.url||''" alt="">
               </div>
             </div>
           </div>
@@ -152,7 +158,7 @@
       </div>
     </transition> -->
     <transition name="slide-fade" class="fadeView">
-      <largeimg-view ref="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" :fadeViewVisible="fadeViewVisible">
+      <largeimg-view ref="largeImg" :imgsArr="imgsArr" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>
     </transition>
   </div>
@@ -224,7 +230,8 @@ export default {
       accountLicenseImg: "", //开户许可证
       placeImg: "", //门头照片
       storeImg: "", //店内照片
-      cashSpaceImg: "" //收银台照片
+      cashSpaceImg: "", //授权书照片
+      certificateImg: "", //收银台照片
     }
     var detailsForm = { // 查看一级数据详情 数据解构
       customer: {},
@@ -259,11 +266,17 @@ export default {
         },
         cashSpaceImg: {
           url: ""
+        },
+        certificateImg: {
+          url: ""
         }
       }
     }
     return {
+      accountVisible: false,// 开户行许可证 
+      certificateVisible: false,// 授权书
       iscrollOptions: {
+        preventDefault: false,
         scrollbars: true,
         mouseWheel: true,
         useTransform: true, //CSS转化
@@ -275,8 +288,10 @@ export default {
       fadeViewVisible: false,
       largeUrl: "",
       largeImgUrl: "",
+      largeImg: {},
       detailsForm: detailsForm,
-      payStatusDetails: { ...payStatusDetails }
+      payStatusDetails: { ...payStatusDetails },
+      imgsArr: []
     }
   },
   created() {
@@ -298,7 +313,6 @@ export default {
       }).then(res => {
         if (res.code == "00") {
           // 聚合支付查询详情
-
           let data = res.data;
           let customerRow = {};
           let settleCardRow = {};
@@ -320,35 +334,39 @@ export default {
               "wechatRate", 'alipayRate', 'settleMode', 't0CashCostFixed',
             ]);
           }
-
           if (data.imgs) {
             imgsRow = utils.pickObj(data.imgs, [
               "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
               "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
             ]);
+            let firstImg = "";
+            let imgsArr = Object.entries(imgsRow);
+            this.imgsArr = imgsArr;
+            firstImg = imgsArr.find(item => { return item.url != "" });
+            let imgEntries = firstImg.entries();
           }
-          let accountName = "";// 账户名称
           if (settleCardRow.accountType == "0") {
-            // 对公:带入企业名称 不可更改
-            accountName = customerRow.enterpriseName
+            // 对公
+            this.accountVisible = true;
+            this.certificateVisible = false;
           } else if (settleCardRow.accountType == "1") {
             // 对私
-            accountName = settleCardRow.accountName == customerRow.enterpriseName ? customerRow.legalPerson : settleCardRow.accountName || customerRow.legalPerson;
+            if (settleCardRow.accountName == customerRow.legalPerson) {
+              this.accountVisible = false;
+              this.certificateVisible = false;
+            } else {
+              this.accountVisible = false;
+              this.certificateVisible = true;
+            }
           }
           this.payStatusDetails = {
             ...this.payStatusDetails,
             ...customerRow,
             ...settleCardRow,
             ...productRow,
-            ...imgsRow,
-            ...{ accountName: accountName }
+            ...imgsRow
           }
-          // for (var i in imgsRow) {
-          //   if (imgsRow[i].url) {
-          //     this.largeImgUrl = imgsRow[i].url
-          //     // break;
-          //   }
-          // }
+
         }
         dialogLoading.close();
       });
@@ -356,7 +374,6 @@ export default {
     rotateFn() {
       this.rotateCurrent = (this.rotateCurrent + 90) % 360;
       this.rotateClass = "rotate" + this.rotateCurrent;
-      console.log(this.rotateClass);
     },
     preFn() {
       this.$refs.scrollPane.preFn(90)
@@ -369,20 +386,19 @@ export default {
         this.$refs.iscroll.refresh();
       })
     },
-    // largeImageShow(url, type, imgName) {
-    //   this.largeImgArt = imgName;
-    //   this.largeUrl = [url];
-    //   this.fadeViewVisible = true
-    //   this.imageIndex = 0
-    // },
     largeImageShow() {
       this.fadeViewVisible = true;
       this.$refs.largeImg.imgInit()
     },
-    showImg(val, type) {
+    showImg(val, imgname, type) {
       this.rotateCurrent = 0
       this.rotateClass = "";
-      this.largeImgUrl = val
+      this.largeImgUrl = val.url;
+      this.largeImg = { imgname: imgname, ...val };
+    },
+    rotateInit() {
+      this.rotateCurrent = 0
+      this.rotateClass = "";
     },
     hideImageView() {
       this.fadeViewVisible = false;

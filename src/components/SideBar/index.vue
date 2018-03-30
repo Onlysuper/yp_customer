@@ -1,17 +1,17 @@
 <template>
   <!-- layout 左侧菜单区域 -->
   <div class="sidebar-box">
-    <div class="logo-box" ref="logoBox">
+    <div :class="'logo-box '+isCollapseSize" ref="logoBox">
       <div class="img-box">
         <img :src="require('@src/assets/images/logoSmall.png')" alt="">
       </div>
-      <h1 v-show="!isCollapse" class="home-title">
+      <h1 v-if="!isCollapse" :class="'home-title'">
         <router-link to="/home">易票管理系统v1.0</router-link>
       </h1>
     </div>
     <div class="aside-box">
-      <iscroll-view class="scroll-view " ref="iscroll" :options="iscrollOptions">
-        <el-menu show-timeout="50" hide-timeout="50" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+      <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
+        <el-menu :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
           <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
@@ -29,6 +29,37 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
+@keyframes widthSmall {
+  from {
+    width: 210px;
+  }
+  to {
+    width: 66px;
+  }
+}
+@keyframes widthBig {
+  from {
+    width: 66px;
+  }
+  to {
+    width: 210px;
+  }
+}
+.el-menu-vertical:not(.el-menu--collapse) {
+  min-height: 400px;
+  width: 210px;
+  position: relative;
+}
+.isCollapseSmall {
+  animation: widthSmall 0.3s ease-in-out;
+  -webkit-animation: widthSmall 0.3s ease-in-out;
+  width: 66px;
+}
+.isCollapseBig {
+  animation: widthBig 0.2s ease-in-out;
+  -webkit-animation: widthBig 0.2s ease-in-out;
+  width: 210px;
+}
 .my-transition(@attr) {
   transition: @attr 0.8s;
   -moz-transition: @attr 0.8s;
@@ -36,6 +67,9 @@
   -o-transition: @attr 0.8s;
 }
 .aside-box {
+  z-index: 999;
+  display: flex;
+  position: relative;
   display: flex;
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
@@ -44,19 +78,13 @@
   flex: 1;
   width: 100%;
   .scroll-view {
-    // display: flex;
-    // width: 100%;
-    // display: flex;
-    // flex: 1;
-    // overflow: auto;
-
-    /* -- Attention: This line is extremely important in chrome 55+! -- */
     touch-action: none;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0px;
+    // overflow: hidden
   }
   /*重置样式 start*/
   .el-dropdown-link {
@@ -138,22 +166,9 @@
     display: flex;
     height: 100%;
     flex-direction: column;
+    background: #000c17;
     .logo-box {
       min-width: 66px;
-      // position: absolute;
-      // z-index: 999;
-      // height: 54px;
-      // right: 0;
-      // left: 0;
-      // overflow: hidden;
-      // display: flex;
-      // box-sizing: border-box;
-      // justify-content: start;
-      // align-items: center;
-      // padding: 0 16px;
-      // background: #002240;
-      // color: #fff;
-      // box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
       overflow: hidden;
       display: flex;
       box-sizing: border-box;
@@ -220,7 +235,8 @@ export default {
         mouseWheel: true,
         useTransform: true, //CSS转化
         useTransition: true //CSS过渡
-      }
+      },
+      isCollapseSize: "",
     };
   },
   computed: {
@@ -258,10 +274,12 @@ export default {
     isCollapse(value) {
       if (value) {
         // 菜单横向收缩
+        this.isCollapseSize = "isCollapseSmall"
       } else {
         // 菜单横向打开
         this.defaultActiveOpen();
         this.resetScrollViewHeight();
+        this.isCollapseSize = "isCollapseBig"
       }
     }
   }

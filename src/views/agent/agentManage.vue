@@ -85,7 +85,7 @@
             </el-select>
           </el-form-item>
           <el-form-item class="full-width" prop="unionCode" label="选择支行">
-            <el-select prop="unionCode" v-model="addForm.unionCode" clearable placeholder="请选择">
+            <el-select filterable prop="unionCode" v-model="addForm.unionCode" clearable placeholder="请选择">
               <el-option v-for="item in selectOptions.branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
               </el-option>
             </el-select>
@@ -292,7 +292,7 @@
             </el-select>
           </el-form-item>
           <el-form-item class="full-width" prop="unionCode" label="选择支行">
-            <el-select prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
+            <el-select filterable prop="unionCode" v-model="editForm.unionCode" clearable placeholder="请选择">
               <el-option v-for="item in selectOptions.branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
               </el-option>
             </el-select>

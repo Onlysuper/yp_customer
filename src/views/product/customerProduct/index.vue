@@ -9,7 +9,7 @@
     </div>
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
-    <el-dialog class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
+    <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
@@ -23,7 +23,7 @@
           </component>
         </template>
       </div>
-      <div slot="footer" class="dialog-footer">
+      <div v-if="editVisiblebut||checkVisiblebut||checkVisiblebut" slot="footer" class="dialog-footer">
         <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
@@ -116,14 +116,23 @@
     }
     .special-dialog {
       // overflow: hidden;
-      margin-top: -5vw;
-      // .el-dialog__header {
-      //   display: none;
-      // }
+      // margin-top: -5vw;
+      .el-dialog__header {
+        display: flex;
+        flex-grow: 0;
+        justify-content: center;
+      }
       .el-dialog {
         width: 90% !important;
+        height: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: stretch;
       }
       .el-dialog__footer {
+        height: 100px;
+        flex-shrink: 0;
         padding: 0;
         .el-button {
           margin: 10px;
@@ -132,12 +141,15 @@
       .el-dialog__body {
         padding-top: 0px;
         padding-bottom: 0px !important;
+        flex: 1;
         // height: 500px;
       }
       .detail-content {
         height: 100%;
         overflow: auto;
         position: relative;
+        display: flex;
+        flex-direction: column;
       }
     }
   }
@@ -282,6 +294,8 @@ export default {
       }
     }
     return {
+      accountVisible: false,// 开户行许可证 
+      certificateVisible: false,// 授权书
       detailProductView: "",
       iscrollOptions: {
         scrollbars: true,
@@ -1189,12 +1203,29 @@ export default {
       } else if (val == "payStatus") {
         this.detailProductView = "payDetail"
       }
-      // detailProductView
+      this.$nextTick(() => {
+        console.log($('.dialog-footer').height());
+        let reduceHeight = 180
+        if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+          reduceHeight += 30;
+        }
+        let windowHeight = $(window).height() - reduceHeight;
+        $(".product-detail-body").height(windowHeight);
+      })
     },
     detailsFormVisible(val) {
       if (!val) {
         this.detailProductView = "";
       }
+      this.$nextTick(() => {
+        console.log($('.dialog-footer').height());
+        let reduceHeight = 180
+        if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+          reduceHeight += 30;
+        }
+        let windowHeight = $(window).height() - reduceHeight;
+        $(".product-detail-body").height(windowHeight);
+      })
     },
     editFormVisible(val) {
       if (!val) {

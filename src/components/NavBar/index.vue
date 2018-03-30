@@ -11,50 +11,73 @@
       <!-- <theme-picker class="theme-picker"></theme-picker> -->
       <el-popover popper-class="msg-tooltip" placement="bottom-start" ref="popover2" width="300" trigger="click">
         <el-tabs v-model="msgName" @tab-click="msgFn">
-          <el-tab-pane label="通知" name="first">
-            <div class="msg-list">
-              <div class="list notice">
-                通知1
-              </div>
-              <div class="but">
-                清空信息
-              </div>
+          <el-tab-pane :label="'通知 ('+noticeCount+')'" name="notice">
+            <div v-if="noticeCount>0?false:true" class="nomsg-box">
+              <img :src="require('@src/assets/images/noNotice-pc.png')" alt="">
+              <p>你已查看所有通知</p>
             </div>
-          </el-tab-pane>
-          <el-tab-pane label="消息" name="second">
-            <div class="msg-list">
-              <div class="list">
-                消息1
+            <div v-if="noticeCount>0?true:false" class="msg-list">
+              <div v-for="(item,index) in noticeList" :key="index" class="list notice">
+                <div class="icon-box">
+                  <i class="el-icon-message"></i>
+                </div>
+                <div class="content">
+                  <p>{{item.content}}</p>
+                  <p class="time">{{item.time}}</p>
+                </div>
               </div>
-              <div class="but">
-                历史消息
+              <div @click="clearmgsFn" class="but">
+                清空信息
               </div>
             </div>
           </el-tab-pane>
         </el-tabs>
       </el-popover>
-      <!-- <div v-popover:popover2 title="信息" class="hover-back message-box"> -->
-      <div title="信息" class="hover-back message-box">
-        <!-- <router-link to="/message-list"> -->
+      <div v-popover:popover2 title="信息" class="hover-back message-box">
         <el-badge :value="noticeCount" :max="999" class="item" id="messageIcon">
           <span class="icon-news"></span>
         </el-badge>
-        <!-- </router-link> -->
       </div>
       <myp-admin-operation></myp-admin-operation>
     </div>
+
     <!-- 修改管理员密码 end -->
   </el-header>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
 // msg start
+.nomsg-box {
+  padding: 73px 0 88px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.45);
+}
 .msg-list {
   .list {
     padding: 10px 10px;
   }
   .notice {
     border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: stretch;
+    .icon-box {
+      font-size: 24px;
+      width: 40px;
+      flex-basis: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .content {
+      flex: 1;
+      .title {
+      }
+      .time {
+        font-size: 12px;
+        padding: 5px 0;
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
   }
   .but {
     text-align: center;
@@ -114,6 +137,9 @@
     vertical-align: middle;
     padding: 0 5px;
     min-width: 50px;
+    &.message-box {
+      margin-right: 10px;
+    }
     &:hover,
     &.message-box.active {
       outline: none;
@@ -159,7 +185,8 @@
     }
     .el-badge {
       line-height: 0;
-      margin-right: 30px;
+      // padding: 0 10px;
+      // margin-right: 30px;
       &.active {
         animation: tada 3s infinite !important;
       }
@@ -169,34 +196,6 @@
 @media screen and (max-width: 500px) {
   .el-header {
     display: none;
-  }
-}
-.animated {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
-@keyframes tada {
-  0% {
-    transform: scaleX(1);
-  }
-  10%,
-  20% {
-    transform: scale3d(0.9, 0.9, 0.9) rotate(-3deg);
-  }
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate(3deg);
-  }
-
-  40%,
-  60%,
-  80% {
-    transform: scale3d(1.1, 1.1, 1.1) rotate(-3deg);
-  }
-  100% {
-    transform: scaleX(1);
   }
 }
 </style>
@@ -217,8 +216,8 @@ export default {
   },
   data() {
     return {
-      num: 0,
-      msgName: 'second'
+      msgName: 'notice',
+      noticeList: []
     };
   },
   computed: {
@@ -228,19 +227,15 @@ export default {
     },
     noticeCount() {
       return this.$store.state.acceptMessage.noticeCount;
+    },
+    noticeData() {
+      return this.$store.state.acceptMessage.noticeData;
     }
   },
   created() {
-    this.$store.dispatch('getMessagesFetch').then(resmenuList => {
-      this.num = resmenuList.data.length;
-    })
+    this.noticeFn()
   },
   watch: {
-    noticeCount(value) {
-      this.$nextTick(() => {
-        $('#messageIcon').addClass("tada");
-      })
-    },
     $route() {
       this.$nextTick(() => {
         if (this.$route.name == "message-list") {
@@ -249,11 +244,35 @@ export default {
           $(".hover-back").removeClass('active')
         }
       })
-    }
+    },
+    noticeCount(value) {
+      // alert('有新通知！');
+      this.$nextTick(() => {
+      })
+    },
+    // 新通知内容
+    noticeData(val) {
+      this.noticeFn();
+    },
   },
   methods: {
     isCollapsefn() {
       this.$store.commit("SidebarHandle");
+    },
+    clearmgsFn() {
+      this.$store.commit("noticeClear");
+    },
+    noticeFn() {
+      let arr = [];
+      this.noticeData.forEach(item => {
+        let obj = JSON.parse(item.data);
+        arr.push({
+          content: JSON.parse(obj.content).data,
+          time: obj.triggerTime,
+          receiveBusinessNo: obj.receiveBusinessNo
+        })
+        this.noticeList = arr
+      });
     },
     // 全屏幕显示
     fullPageHandle(element) {
