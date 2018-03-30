@@ -644,6 +644,7 @@ mypFilters.install = function (Vue, options) {
                 break;
             case "SUCCESS":
                 value = "成功";
+                break;
             case "CANCEL":
                 value = "撤单";
                 break;
