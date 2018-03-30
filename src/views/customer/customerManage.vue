@@ -253,6 +253,9 @@
           <span class="line-label">公司电话:</span>{{detailsForm.bussinessPhone}}
         </div>
         <div class="line-label-box cross-back">
+          <span class="line-label">经营名称:</span>{{detailsForm.bussinessName}}
+        </div>
+        <div class="line-label-box cross-back">
           <span class="line-label">经营地址:</span>{{detailsForm.bussinessAddress}}
         </div>
       </div>
