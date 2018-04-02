@@ -144,13 +144,13 @@
         flex: 1;
         // height: 500px;
       }
-      .detail-content {
-        height: 100%;
-        overflow: auto;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-      }
+      // .detail-content {
+      // height: 100%;
+      // overflow: auto;
+      // position: relative;
+      // display: flex;
+      // flex-direction: column;
+      // }
     }
   }
 }
