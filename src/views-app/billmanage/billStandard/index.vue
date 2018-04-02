@@ -11,7 +11,7 @@
 
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
         <!-- 状态 -->
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.standard | billStandard}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.standard | statusFilter('billStandard')}}</mt-badge>
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>

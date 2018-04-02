@@ -8,7 +8,7 @@
       <mt-cell label="联系人">{{customer.linkMan}}</mt-cell>
       <mt-cell label="手机号">{{customer.phoneNo}}</mt-cell>
       <mt-cell label="商户编号">{{customer.customerNo}}</mt-cell>
-      <mt-cell label="商户来源">{{customer.customerFrom | handleFrom}}</mt-cell>
+      <mt-cell label="商户来源">{{customer.customerFrom | statusFilter("customerFrom")}}</mt-cell>
       <mt-cell label="所属合伙人">{{customer.levelDetail}}</mt-cell>
       <mt-cell label="经营名称">{{customer.bussinessName}}</mt-cell>
       <mt-cell label="经营地址">{{customer.bussinessAddress}}</mt-cell>

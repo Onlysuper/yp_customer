@@ -44,7 +44,7 @@
           <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | accountType}}
+          <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | statusFilter('accountType')}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
@@ -65,7 +65,7 @@
           <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | settleMode}}
+          <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | statusFilter('settleMode')}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}

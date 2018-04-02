@@ -12,13 +12,13 @@
             <!-- <mt-button class="but" @click="stencilFn(item)" size="small">排版</mt-button> -->
           </mt-cell>
           <mt-cell title="快速开票" is-link>
-            <span>{{item.qrcodeStatus | handleProductOpenStatus}}</span>
+            <span>{{item.qrcodeStatus | statusFilter('handleProductOpenStatus')}}</span>
           </mt-cell>
           <mt-cell title="聚合支付" is-link @click.native="openPay(item)">
-            <span>{{item.payStatus | handleProductOpenStatus}}</span>
+            <span>{{item.payStatus | statusFilter('handleProductOpenStatus')}}</span>
           </mt-cell>
           <mt-cell title="电子发票" is-link @click.native="openElec(item)">
-            <span>{{item.elecStatus | handleProductOpenStatus}}</span>
+            <span>{{item.elecStatus | statusFilter('handleProductOpenStatus')}}</span>
           </mt-cell>
         </input-wrapper>
       </view-radius>

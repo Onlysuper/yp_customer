@@ -13,7 +13,7 @@
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.createTime">
           <!-- 状态 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | empowerTransferStatus}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusFilter('empowerTransferStatus')}}</mt-badge>
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->

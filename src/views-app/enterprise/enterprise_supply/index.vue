@@ -10,7 +10,7 @@
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.name">
           <!-- 状态 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | enterprisesupplyStatus}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusFilter('enterprisesupplyStatus')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
@@ -73,7 +73,7 @@ export default {
       this.$store.commit("ENTERPRISE_SUPPLY_SET_LIST", watchDataList);
       this.$store.commit("ENTERPRISE_SUPPLY_IS_SEARCH", false);
     },
-    sum() {}
+    sum() { }
   },
   activated() {
     this.routeMenuCode = this.$route.name;

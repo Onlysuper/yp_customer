@@ -120,7 +120,7 @@
           <el-col :span="24">
             <div class="grid-content bg-purple-light">
               <span class="line-label">状态:</span>
-              <span class="line-label-last">{{detailsForm.status | enterprisesupplyStatus}}</span>
+              <span class="line-label-last">{{detailsForm.status | statusFilter('enterprisesupplyStatus')}}</span>
             </div>
           </el-col>
         </el-row>

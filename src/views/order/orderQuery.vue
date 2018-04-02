@@ -38,7 +38,7 @@
           <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | statusFilter('payTypeDetail')}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">交易来源:</span>{{detailsForm.payFrom | payFrom}}
+          <span class="line-label">交易来源:</span>{{detailsForm.payFrom | statusFilter('payFrom')}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">交易类型:</span>{{detailsForm.payType | statusFilter('payType')}}

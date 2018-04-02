@@ -13,8 +13,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" v-if="item.deviceType" class="g-min-badge" size="small" type="primary">{{item.deviceType | handleDeviceType}}</mt-badge>
-          <mt-badge slot="badge" v-if="item.clientType" class="g-min-badge" size="small" type="error">{{item.clientType | handleClientType}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.deviceType" class="g-min-badge" size="small" type="primary">{{item.deviceType | statusFilter('handleDeviceType')}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.clientType" class="g-min-badge" size="small" type="error">{{item.clientType | statusFilter('handleClientType')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>

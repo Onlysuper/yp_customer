@@ -9,5 +9,129 @@
   "payType": {
     "WECHAT": "微信",
     "ALIPAY": "支付宝"
+  },
+  "payFrom": {
+    "SMART_POS": "智能pos",
+    "PLUGIN": "插件",
+    "THIRD_PARTY": "第三方"
+  },
+  "accountType": {
+    "0": "对公",
+    "1": "对私"
+  },
+  "settleMode": {
+    "T0": "已开通",
+    "T1": "未开通"
+  },
+  "payStatus": {
+    "SUCCESS": "推送成功",
+    "BILLING_SUCCESS": "开票成功",
+    "BILLING": "开票中",
+    "ORDER": "待开票",
+    "BILLING_FAIL": "开票失败",
+    "QUERY_FAIL": "查询失败"
+  },
+  "OPEN_API": {
+    "OPEN_API": "第三方",
+    "PLUGIN": "插件",
+    "LOCAL": "后台",
+    "SCAN_CODE": "扫码",
+    "OFFICAL_ACCOUNT": "公众号",
+    "SLIENT": "静默"
+  },
+  "billStatus": {
+    "SUCCESS": "推送成功",
+    "BILLING_SUCCESS": "开票成功",
+    "BILLING": "开票中",
+    "ORDER": "待开票",
+    "BILLING_FAIL": "失败",
+    "QUERY_FAIL": "查询失败"
+  },
+  "billType": {
+    "1": "普票",
+    "2": "专票",
+    "3": "普票(个人)"
+  },
+  "billStandard": {
+    "TRUE": "已达标",
+    "FALSE": "未达标"
+  },
+  "empowerCheckIsPrint": {
+    "N": "否",
+    "Y": "带水牌"
+  },
+  "migrateType": {
+    "OUT_ORDER": "授权码序列号",
+    "ORDER": "授权码序列号转移"
+  },
+  "empowerCheckStatus": {
+    "SUCCESS": "审核通过",
+    "AUDITING": "待审核",
+    "REJECT": "拒绝"
+  },
+  "empowerManageStatus": {
+    "BINDED": "已绑定",
+    "TRUE": "未绑定",
+    "FALSE": "无效"
+  },
+  "empowerManageMateriel": {
+    "TRUE": "有物料",
+    "FALSE": "无物料"
+  },
+  "empowerTransferStatus": {
+    "SUCCESS": "审核通过",
+    "REJECT": "拒绝",
+    "AUDITING": "待审核"
+  },
+  "empowerCheckReceiptType": {
+    "AUTHCODE": "授权码",
+    "SCANCODEGUN": "扫码枪"
+  },
+  "enterprisesupplyStatus": {
+    "INIT": "未处理",
+    "SUCCESS": "已处理",
+    "FAIL": "失败"
+  },
+  "handleStatus": {
+    "TRUE": "开启",
+    "FALSE": "关闭"
+  },
+  "handleDeviceType": {
+    "HX_PAN": "金税盘",
+    "BW_PAN": "税控盘"
+  },
+  "handleClientType": {
+    "CLIENT": "桌面客户端",
+    "BROWER": "浏览器"
+  },
+  "handleDefaultType": {
+    "TRUE": "默认",
+    "FALSE": "不默认"
+  },
+  "handleProductOpenStatus": {
+    "TRUE": "已开通",
+    "INIT": "未开通",
+    "REJECT": "审核失败",
+    "CHECKING": "待审核",
+    "WAITING_SUBMIT": "待提交",
+    "PROCESSING": "开通待处理"
+  },
+  "typeCustomerVersion": {
+    "HOST_C": "c++主程序",
+    "UPDATE_C": "c++更新程序",
+    "HOST": "c#主程序",
+    "UPDATE": "c#更新程序",
+    "RELEASE": "官网版本",
+    "HOST_OLD": "c#老版本主程序",
+    "DATA_COLLECTION": "数据采集程序",
+    "HOST_DZFP": "电子发票版本",
+    "MANUAL": "其他"
+  },
+  "orderQueryStatus": {
+    "INIT": "订单初始化",
+    "PAY_WAIT": "等待支付",
+    "FAIL": "失败",
+    "SUCCESS": "成功",
+    "CANCEL": "撤单"
   }
 }

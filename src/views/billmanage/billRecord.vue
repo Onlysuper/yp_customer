@@ -23,7 +23,7 @@
           <span class="line-label">订单编号:</span>
           <span class="line-label-last">{{detailsForm.billRecordNo}}</span>
           <span class="line-label">交付状态:</span>
-          <span class="line-label-last">{{detailsForm.status | payStatus}}</span>
+          <span class="line-label-last">{{detailsForm.status | statusFilter("payStatus")}}</span>
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">发票代码:</span>

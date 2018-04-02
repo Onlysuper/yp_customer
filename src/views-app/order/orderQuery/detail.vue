@@ -28,7 +28,7 @@
           <span>{{dataList.payTypeDetail | statusFilter('payTypeDetail')}}</span>
         </mt-cell>
         <mt-cell title="交易来源">
-          <span>{{dataList.payFrom | payFrom}}</span>
+          <span>{{dataList.payFrom | statusFilter('payFrom')}}</span>
         </mt-cell>
         <mt-cell title="交易类型">
           <span>{{dataList.payType | statusFilter('payType')}}</span>

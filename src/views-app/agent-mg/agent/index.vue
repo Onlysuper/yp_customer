@@ -12,7 +12,7 @@
         <div slot="btn" @click="$router.push({path:`./edit/${item.agentNo}`})">编辑</div>
 
         <!-- 状态 -->
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | handleStatus}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusFilter('handleStatus')}}</mt-badge>
 
         <myp-cell class="list-item">
           <!-- 详情 -->

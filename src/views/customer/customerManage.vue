@@ -247,7 +247,7 @@
           <span class="line-label">商户编号:</span>{{detailsForm.customerNo}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | customerFrom}}
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | statusFilter("customerFrom")}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">公司电话:</span>{{detailsForm.bussinessPhone}}

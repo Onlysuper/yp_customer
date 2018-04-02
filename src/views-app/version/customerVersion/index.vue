@@ -14,7 +14,7 @@
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
           <div slot="btn" @click="edit(item)">编辑</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusCustomerVersion}}</mt-badge>
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.type | typeCustomerVersion}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.type | statusFilter('typeCustomerVersion')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
