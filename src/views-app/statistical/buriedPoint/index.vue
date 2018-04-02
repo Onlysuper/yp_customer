@@ -11,7 +11,7 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.createTime">
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.userType | userType}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.userType | statusFilter('userType')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>

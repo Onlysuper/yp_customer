@@ -13,7 +13,7 @@
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | handleProductOpenStatus}}
+          <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | statusFilter('handleProductOpenStatus')}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">注册省份:</span>

@@ -180,6 +180,8 @@
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+import invoiceType from "@src/data/invoiceType.json";
+import billRecordStatus from "@src/data/billRecordStatus.json";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
@@ -245,35 +247,7 @@ export default {
               value: "",
               label: "请选择"
             },
-            {
-              value: "SUCCESS",
-              label: "推送成功"
-            },
-
-            {
-              value: "BILLING_SUCCESS",
-              label: "开票成功"
-            },
-            {
-              value: "BILLING",
-              label: "开票中"
-            },
-            {
-              value: "SUBMITTING",
-              label: "开电票中"
-            },
-            {
-              value: "ORDER",
-              label: "待开票"
-            },
-            {
-              value: "BILLING_FAIL",
-              label: "失败"
-            },
-            {
-              value: "QUERY_FAIL",
-              label: "查询失败"
-            }
+            ...billRecordStatus.map(item => { return { label: item.name, value: item.code } })
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -323,18 +297,7 @@ export default {
               value: "",
               label: "所有"
             },
-            {
-              value: "1",
-              label: "普票"
-            },
-            {
-              value: "2",
-              label: "专票"
-            },
-            {
-              value: "3",
-              label: "电票"
-            }
+            ...invoiceType.map(item => { return { label: item.name, value: item.code } })
           ],
           cb: value => {
             this.searchCondition.invoiceType = value;

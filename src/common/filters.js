@@ -16,8 +16,6 @@ mypFilters.install = function (Vue, options) {
     Vue.filter('statusFilter', function (value, type) {
         return statusFilter[type][value] || value
     })
-
-
     /**
      * 税率
      */
@@ -108,18 +106,6 @@ mypFilters.install = function (Vue, options) {
                 break;
             case "SUCCESS":
                 value = "已结算";
-                break;
-        }
-        return value;
-    })
-
-    Vue.filter('userType', function (value) {
-        switch (value) {
-            case "0":
-                value = "普通";
-                break;
-            case "1":
-                value = "静默";
                 break;
         }
         return value;

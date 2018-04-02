@@ -17,7 +17,7 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
-        billType: "",
+        invoiceType: "",
         status: "",
         createTimeStart: utils.formatDate(new Date(), "yyyy-MM-dd"),
         createTimeEnd: utils.formatDate(new Date(), "yyyy-MM-dd")
@@ -30,8 +30,8 @@ export default {
     },
     //设置搜索条件
     ["BILLRECORD_SEARCH_QUERY"](state, searchObj) {
-      console.log(searchObj);
       state.searchQuery = Object.assign(state.searchQuery, searchObj)
+      console.log(state.searchQuery);
     },
     //是否开始搜索
     ["BILLRECORD_SEARCH"](state, flag) {

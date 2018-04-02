@@ -129,6 +129,36 @@ export default {
           }
         },
         {
+          corresattr: "oldOrNew",
+          type: "select",
+          label: "新老版本",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "new",
+              label: "新版本"
+            },
+            {
+              value: "old",
+              label: "老版本"
+            }
+          ],
+          cb: value => {
+            if (value == "new") {
+
+            } else if (value == "old") {
+
+            }
+            // console.log(value);
+            // this.searchCondition.actionId = value;
+          }
+        },
+        {
           corresattr: "version",
           type: "text", // 表单类型
           label: "版本号", // 输入框前面的文字

@@ -12,7 +12,7 @@
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
+          <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | statusFilter('handleProductOpenStatus')}}
         </div>
       </iscroll-view>
     </div>

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import billOrder from "@src/data/billOrder.json";
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
 export default {
@@ -86,12 +87,12 @@ export default {
       this.searchConfig.push({
         title: "包含关系",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.containChild || "ALL",
+        defaultValue: this.searchQuery.containChild || "TRUE",
         options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
+          // {
+          //   label: "全部",
+          //   value: "ALL"
+          // },
           {
             label: "包含下级",
             value: "TRUE"
@@ -110,34 +111,32 @@ export default {
       });
       this.searchConfig.push({
         title: "推送次数",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.billSuccess || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "5次以下",
-            value: "0-5"
-          },
-          {
-            label: "5-50次",
-            value: "5-50"
-          },
-          {
-            label: "50-100次",
-            value: "50-100"
-          },
-          {
-            label: "100次",
-            value: "100"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.billSuccess,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            ...billOrder
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
+          console.log(value);
+          let billSuccessBegin = "";
+          let billSuccessEnd = "";
+          if (value) {
+            var billSuccessArr = value.split("-");
+            if (billSuccessArr.length >= 2) {
+              billSuccessBegin = billSuccessArr[0];
+              billSuccessEnd = billSuccessArr[1];
+            } else if (billSuccessArr.length >= 1) {
+              billSuccessBegin = billSuccessArr[0];
+            }
+          }
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
-            billSuccess: value
+            billSuccessBegin: billSuccessBegin,
+            billSuccessEnd: billSuccessEnd
           });
         }
       });

@@ -62,12 +62,12 @@ export default {
       this.searchConfig.push({
         title: "包含关系",
         type: "myp-radio-list",
-        defaultValue: this.searchQuery.containChild || "ALL",
+        defaultValue: this.searchQuery.containChild || "TRUE",
         options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
+          // {
+          //   label: "全部",
+          //   value: "ALL"
+          // },
           {
             label: "包含下级",
             value: "TRUE"

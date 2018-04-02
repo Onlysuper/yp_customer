@@ -133,5 +133,17 @@
     "FAIL": "失败",
     "SUCCESS": "成功",
     "CANCEL": "撤单"
+  },
+  "userType": {
+    "0": "普通",
+    "1": "静默"
+  },
+  "customerFrom": {
+    "OPEN_API": "第三方",
+    "PLUGIN": "插件",
+    "LOCAL": "后台",
+    "SCAN_CODE": "扫码",
+    "OFFICAL_ACCOUNT": "公众号",
+    "SLIENT": "静默"
   }
 }

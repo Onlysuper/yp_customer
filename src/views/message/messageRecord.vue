@@ -175,7 +175,12 @@ export default {
           {
             key: "内容",
             width: "200px",
-            word: "content"
+            word: "content",
+            type: data => {
+              return {
+                text: JSON.parse(data).data,
+              };
+            }
           },
           {
             key: "状态",
@@ -222,7 +227,7 @@ export default {
     };
   },
   methods: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

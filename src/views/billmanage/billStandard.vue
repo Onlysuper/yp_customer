@@ -21,6 +21,7 @@
 </style>
 <script>
 import qs from "qs";
+import billOrder from "@src/data/billOrder.json";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
@@ -180,25 +181,15 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "0-5",
-              label: "5次以下"
-            },
-            {
-              value: "5-50",
-              label: "5-50次"
-            },
-            {
-              value: "50-100",
-              label: "50-100次"
-            },
-            {
-              value: "100",
-              label: "100次"
-            }
+            ...billOrder.map(item => {
+              return {
+                label: item.name,
+                value: item.code
+              }
+            })
           ],
           cb: value => {
-            if (value != null) {
+            if (value) {
               var billSuccessArr = value.split("-");
               if (billSuccessArr.length >= 2) {
                 this.searchCondition.billSuccessBegin = billSuccessArr[0];
@@ -206,6 +197,9 @@ export default {
               } else if (billSuccessArr.length >= 1) {
                 this.searchCondition.billSuccessBegin = billSuccessArr[0];
               }
+            } else {
+              this.searchCondition.billSuccessBegin = "";
+              this.searchCondition.billSuccessEnd = "";
             }
           }
         },

@@ -1,0 +1,30 @@
+[
+  {
+    "code": "SUCCESS",
+    "name": "推送成功"
+  },
+  {
+    "code": "BILLING_SUCCESS",
+    "name": "开票成功"
+  },
+  {
+    "code": "BILLING",
+    "name": "开票中"
+  },
+  {
+    "code": "SUBMITTING",
+    "name": "开电票中"
+  },
+  {
+    "code": "ORDER",
+    "name": "待开票"
+  },
+  {
+    "code": "BILLING_FAIL",
+    "name": "失败"
+  },
+  {
+    "code": "QUERY_FAIL",
+    "name": "查询失败"
+  }
+]

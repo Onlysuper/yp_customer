@@ -14,7 +14,7 @@
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | handleProductOpenStatus}}
+          <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">企业名称:</span>
