@@ -28,12 +28,23 @@
         <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="addForm.goodsType" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-select @change="taxRateChange($event,'ADD')" v-model="addForm.taxRate" placeholder="请选择">
-            <el-option v-for="item in taxRateOptions" :key="item.code" :label="item.name" :value="item.code">
-            </el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
+              <el-select @change="taxRateChange($event,'ADD')" v-model="addForm.taxRate" placeholder="请选择">
+                <el-option v-for="item in taxRateOptions" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <!-- <el-form-item label="是否成品" prop="customerNo" :label-width="formLabelWidth">
+              <el-switch v-model="addForm.customerNo" active-text="是" inactive-text="否" active-value="" inactive-value="">
+              </el-switch>
+            </el-form-item> -->
+          </el-col>
+        </el-row>
+
         <!-- <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
           <el-input v-model="addForm.taxRate" auto-complete="off"></el-input>
         </el-form-item> -->

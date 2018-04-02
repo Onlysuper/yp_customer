@@ -37,7 +37,7 @@
               <i class="icon-arrow"></i>
             </mt-field>
             <mt-field label="帐号:" type="tel" v-model="form.accountNo" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="预留手机号:" type="tel" v-model="form.phoneNo" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
+            <mt-field label="预留手机号:" type="tel" v-model="form.reservedPhoneNo" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
           </input-wrapper>
         </view-radius>
       </div>
@@ -159,7 +159,7 @@ export default {
         this.form.accountType = settleCard.accountType;
         this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = settleCard.accountNo;
-        this.form.phoneNo = settleCard.phoneNo;
+        this.form.reservedPhoneNo = settleCard.reservedPhoneNo;
       } else {
         // this.form.accountType = "0"; //如果需要默认值
       }

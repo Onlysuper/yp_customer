@@ -1,0 +1,13 @@
+{
+  "payTypeDetail": {
+    "trade.scanPay": "扫码支付",
+    "trade.microPay": "刷卡支付",
+    "trade.h5Pay": "h5支付",
+    "trade.appPay": "app支付",
+    "trade.jsPay": "公众号支付"
+  },
+  "payType": {
+    "WECHAT": "微信",
+    "ALIPAY": "支付宝"
+  }
+}

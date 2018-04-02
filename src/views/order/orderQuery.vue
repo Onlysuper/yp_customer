@@ -35,13 +35,13 @@
         </div> -->
 
         <div class="line-label-box cross-back">
-          <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
+          <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | statusFilter('payTypeDetail')}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">交易来源:</span>{{detailsForm.payFrom | payFrom}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">交易类型:</span>{{detailsForm.payType | payType}}
+          <span class="line-label">交易类型:</span>{{detailsForm.payType | statusFilter('payType')}}
         </div>
         <div v-if="detailsForm.status=='FAIL'?true:false" class="line-label-box cross-back">
           <span class="line-label">支付失败原因:</span>{{detailsForm.respCode}}
@@ -171,12 +171,8 @@ export default {
           type: "select",
           label: "包含关系",
           show: false, // 普通搜索显示
-          value: "",
+          value: "TRUE",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
             {
               value: "TRUE",
               label: "包含下级"

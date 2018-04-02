@@ -53,8 +53,8 @@
       <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
+      <el-form-item class="full-width" label="预留手机号" prop="reservedPhoneNo" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
         <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
@@ -187,7 +187,7 @@ export default {
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur,change" }
         ],
-        phoneNo: [
+        reservedPhoneNo: [
           { required: true, message: "请输入预留手机号码", trigger: "blur,change" }
         ],
         bankCode: [
@@ -236,7 +236,7 @@ export default {
           // console.log(payStatusForm);
           let newRow = utils.pickObj(payStatusForm, [
             'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType', 'phoneNo',
+            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType', 'reservedPhoneNo',
             'unionCode',
             'bankCode',
           ]);
@@ -330,7 +330,7 @@ export default {
             'bussinessAddress', 'legalPerson', 'idCard', 'category'
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
-            'accountType', 'accountName', 'accountNo', 'phoneNo', 'bankCode', 'unionCode', 'branchName'
+            'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName'
           ]);
           this.getaccountName = newSettleCard.accountName;// 带入的企业名称
           let accountName = "";// 账户名称

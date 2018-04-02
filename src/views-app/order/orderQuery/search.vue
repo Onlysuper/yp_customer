@@ -87,10 +87,6 @@ export default {
         defaultValue: this.searchQuery.hasChild || "ALL",
         options: [
           {
-            label: "全部",
-            value: "ALL"
-          },
-          {
             label: "含下级",
             value: "TRUE"
           },

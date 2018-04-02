@@ -12,19 +12,15 @@
           <mt-badge v-else-if="item.status=='SUCCESS'" slot="badge" class="g-min-badge" size="small" type="success">{{item.status | orderQueryStatus}}</mt-badge>
           <mt-badge v-else-if="item.status=='FAIL'" slot="badge" class="g-min-badge" size="small" type="error">{{item.status | orderQueryStatus}}</mt-badge>
           <mt-badge v-else slot="badge" class="g-min-badge" size="small" type="success">{{item.status | orderQueryStatus}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="success">{{item.payType | statusFilter('payType')}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
             <table>
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
               <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
-              <myp-tr title="商户名称">{{item.customerName}}</myp-tr>
               <myp-tr title="交易金额">{{utils.accMul(item.amount, 0.01)}}元</myp-tr>
-              <myp-tr title="状态">{{item.status | orderQueryStatus}}</myp-tr>
-              <!--   <myp-tr title="手续费">{{utils.accMul(item.fee, 0.01)}}元</myp-tr>
-              <myp-tr title="交易费率">{{utils.accMul(item.feeRate, 100)}}%元</myp-tr> -->
             </table>
           </myp-cell>
-
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
