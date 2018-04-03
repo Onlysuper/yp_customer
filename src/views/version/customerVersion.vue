@@ -12,7 +12,7 @@
         </el-button-group>
       </div>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 新增版本start -->
       <el-dialog center :title="getDialogTitle()" :visible.sync="dialogVisible" width="600px" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
@@ -162,11 +162,12 @@ export default {
         }
       ],
       // 列表数据
+      actionUrl: getCustomerVersions,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getCustomerVersions // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getCustomerVersions // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计

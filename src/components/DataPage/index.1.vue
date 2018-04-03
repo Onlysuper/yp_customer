@@ -206,7 +206,7 @@ import qs from "qs";
 import Vue from "vue";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 export default {
-  props: ["tableDataInit", "page", "limit", "search", "actionUrl"],
+  props: ["tableDataInit", "page", "limit", "search"],
   mixins: [mixinDataTable],
   data() {
     return {
@@ -220,14 +220,14 @@ export default {
       ifloading: false,
       tableData: [],
       tableHeight: 0, // 表单的高度
-      // getUrl: this.tableDataInit.getDataUrl.url, // 请求函数
+      getUrl: this.tableDataInit.getDataUrl.url, // 请求函数
       dataCount: 0,
       getSearch: this.search,
       getPage: this.page,
       getLimit: this.limit // 搜索条件
     };
   },
-
+  computed: {},
   methods: {
     visibleArrFn(rowdata, cb) {
       // 点击操作按钮
@@ -248,7 +248,7 @@ export default {
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
       this.ifloading = true;
-      this.actionUrl()({
+      this.getUrl()({
         page: page,
         limit: limit,
         ...searchCondition
@@ -380,15 +380,16 @@ export default {
       console.log(this.getLimit);
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
-    // getUrl(value) {
-    //   this.getUrl = value;
-    //   this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    // },
-    getSearch() {
-      this.getSearch = value;
+    getUrl(value) {
+      console.log(value);
+      this.getUrl = value;
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
-    actionUrl() {
+    getDataUrl(value) {
+      this.getUrl = value;
+    },
+    getSearch() {
+      this.getSearch = value;
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
     fullScreen(value) {

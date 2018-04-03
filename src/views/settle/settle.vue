@@ -12,7 +12,7 @@
           <span class="sumtext">达标商户数量:{{customerNumber}}个 结算金额:{{settlePrice}}元</span>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详情 start -->
     <el-dialog title="已结算清单" center :visible.sync="detailsFormVisible">
@@ -366,11 +366,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getSettles,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getSettles // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getSettles // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计

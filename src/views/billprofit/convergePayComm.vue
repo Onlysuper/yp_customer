@@ -11,7 +11,7 @@
           <span class="sumtext">分润金额:{{utils.accMul(customerSum, 0.01)}}元</span>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -159,11 +159,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getpayProfits,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getpayProfits // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getpayProfits // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计

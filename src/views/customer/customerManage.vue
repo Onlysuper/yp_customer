@@ -14,7 +14,7 @@
           <el-button v-if="adminFilter('customer_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增商户" :visible.sync="addFormVisible">
@@ -526,11 +526,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getCustomers,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getCustomers // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getCustomers // 初始化数据
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {

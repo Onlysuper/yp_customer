@@ -1,9 +1,5 @@
 [
   {
-    "name": "RELEASE: 官网版本",
-    "code": "RELEASE"
-  },
-  {
     "name": "HOST_C: c++主程序",
     "code": "HOST_C"
   },

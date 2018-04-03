@@ -11,7 +11,7 @@
           <el-button v-if="adminFilter('qr_code_migrate_recover')" size="small" @click="showDialog('payFormVisible')" type="primary" icon="">授权码上缴</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 授权码分配  start-->
     <el-dialog id="dialogLoding" ref="allotFormVisible" center title="授权码分配" :visible.sync="allotFormVisible">
@@ -335,11 +335,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getArantNumTransfers,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getArantNumTransfers // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getArantNumTransfers // 初始化数据
+        // },
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息

@@ -13,7 +13,7 @@
           <el-button v-if="adminFilter('bind_batch_qrcode')" size="small" @click="showDialog('batchBindVisible')" type="primary" icon="el-icon-sort">批量绑定</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 生成授权码start -->
     <el-dialog center title="生成授权码" :visible.sync="empoverCodeFormVisible">
@@ -657,11 +657,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getArantNumManages,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getArantNumManages // 初始化数据api
-        },
+        // getDataUrl: {
+        //   url: getArantNumManages // 初始化数据api
+        // },
         havecheck: true, //是否显示输入框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息

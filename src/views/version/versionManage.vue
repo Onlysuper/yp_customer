@@ -10,7 +10,7 @@
         </el-button-group>
       </div>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 上传新版本start -->
       <el-dialog center :title="getDialogTitle()" :visible.sync="uploadDialogVisible" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
@@ -149,11 +149,9 @@ export default {
         }
       ],
       // 列表数据
+      actionUrl: getVersions,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getVersions // 初始化数据
-        },
         summary: {
           is: false
         }, //显示合计
@@ -182,6 +180,7 @@ export default {
             word: "type",
             status: true,
             type: data => {
+              // typeCustomerVersion
               switch (data) {
                 case "HOST_C":
                   return {

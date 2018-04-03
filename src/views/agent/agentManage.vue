@@ -9,7 +9,7 @@
           <el-button v-if="adminFilter('agent_add')" class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog :modal-append-to-body="false" :append-to-body="false" center :title="addTitle" :visible.sync="addFormVisible">
@@ -637,11 +637,12 @@ export default {
         }
       ],
       // 列表数据
+      actionUrl: getAgentManages,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getAgentManages // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getAgentManages // 初始化数据
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {

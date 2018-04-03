@@ -10,7 +10,7 @@
           <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, today_ } from "@src/common/dateSerialize";
-import { getBurialPointManages, getBurialPointTotal } from "@src/apis";
+import { getBurialPointManages, getNewBurialPointManages, getBurialPointTotal, getNewBurialPointTotal } from "@src/apis";
 import buriedPointActionId from "@src/data/buriedPointActionId.json"
 export default {
   name: "operator_log",
@@ -51,6 +51,7 @@ export default {
       jmTotal: "",
       ptTotal: "",
       searchCondition: searchConditionVar,
+
       // 顶部搜索表单信息
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
@@ -150,12 +151,12 @@ export default {
           ],
           cb: value => {
             if (value == "new") {
-
-            } else if (value == "old") {
-
+              this.actionUrl = getNewBurialPointManages;
+              this.SumHandleUrl = getNewBurialPointTotal;
+            } else {
+              this.actionUrl = getBurialPointManages;
+              this.SumHandleUrl = getBurialPointTotal;
             }
-            // console.log(value);
-            // this.searchCondition.actionId = value;
           }
         },
         {
@@ -187,13 +188,14 @@ export default {
           }
         }
       ],
-
+      SumHandleUrl: getBurialPointTotal,
       // 列表数据
+      actionUrl: getBurialPointManages,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getBurialPointManages // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getBurialPointManages // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计
@@ -292,7 +294,7 @@ export default {
   methods: {
     SumHandle() {
       this.sumLoading = true;
-      getBurialPointTotal()(this.searchCondition).then(res => {
+      this.SumHandleUrl()(this.searchCondition).then(res => {
         console.log(res);
         if (res.ptNum > 0) {
           this.ptTotal = `普通商户共操作${res.ptNum}次,明细如下：<hr>`;

@@ -255,7 +255,9 @@ const getBillrecordCharts = () => { return (params) => { return http.post(base.o
 **埋点管理Start
  */
 const getBurialPointManages = () => { return (params) => { return http.get(base.oaIp, "/operatorlog/page", params) } }
+const getNewBurialPointManages = () => { return (params) => { return http.get(base.oaIp, "/operatorlogNew/page", params) } }
 const getBurialPointTotal = () => { return (params) => { return http.post(base.oaIp, "/operatorlog/total", params) } }
+const getNewBurialPointTotal = () => { return (params) => { return http.post(base.oaIp, "/operatorlogNew/total", params) } }
 // end -------------------------------------------------
 
 /**
@@ -420,6 +422,8 @@ export {
     // 统计管理
     getBurialPointManages,
     getBurialPointTotal,
+    getNewBurialPointManages,
+    getNewBurialPointTotal,
     // 合伙人转移
     getPartnerTransfer,
     getTransferBranchoffice,

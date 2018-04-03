@@ -35,7 +35,7 @@ export default {
     //   console.log(val);
     // },
     $route(val) {
-      console.log(this.cachedViews)
+      // console.log(this.cachedViews)
     }
     // cachedViews(value) {
     // console.log(value);

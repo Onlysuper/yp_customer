@@ -5,7 +5,7 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详细信息 start -->
     <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
@@ -249,11 +249,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getPayOrders,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getPayOrders // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getPayOrders // 初始化数据
+        // },
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息

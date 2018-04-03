@@ -11,7 +11,7 @@
           <el-button size="small" @click="importDialog" type="primary" icon="el-icon-download">导入</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
@@ -459,11 +459,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getCustomerGoods,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getCustomerGoods // 获取Table列表数据的后台url
-        },
+        // getDataUrl: {
+        //   url: getCustomerGoods // 获取Table列表数据的后台url
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {

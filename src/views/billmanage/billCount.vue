@@ -12,7 +12,7 @@
           <span class="sumtext">扫码次数:{{scanSum}} 推送次数:{{pushSum}} 入网商户:{{netSum}}</span>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -118,11 +118,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getBillcountagents,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getBillcountagents // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getBillcountagents // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计

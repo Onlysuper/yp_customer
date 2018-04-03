@@ -5,7 +5,7 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
@@ -566,11 +566,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getCustomerOpenProducts,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getCustomerOpenProducts // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getCustomerOpenProducts // 初始化数据
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
