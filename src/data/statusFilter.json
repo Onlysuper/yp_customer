@@ -1,149 +1,341 @@
 {
   "payTypeDetail": {
-    "trade.scanPay": "扫码支付",
-    "trade.microPay": "刷卡支付",
-    "trade.h5Pay": "h5支付",
-    "trade.appPay": "app支付",
-    "trade.jsPay": "公众号支付"
+    "trade.scanPay": {
+      "name": "扫码支付"
+    },
+    "trade.microPay": {
+      "name": "刷卡支付"
+    },
+    "trade.h5Pay": {
+      "name": "h5支付"
+    },
+    "trade.appPay": {
+      "name": "app支付"
+    },
+    "trade.jsPay": {
+      "name": "公众号支付"
+    }
   },
   "payType": {
-    "WECHAT": "微信",
-    "ALIPAY": "支付宝"
+    "WECHAT": {
+      "name": "微信"
+    },
+    "ALIPAY": {
+      "name": "支付宝"
+    }
   },
   "payFrom": {
-    "SMART_POS": "智能pos",
-    "PLUGIN": "插件",
-    "THIRD_PARTY": "第三方"
+    "SMART_POS": {
+      "name": "智能pos"
+    },
+    "PLUGIN": {
+      "name": "插件"
+    },
+    "THIRD_PARTY": {
+      "name": "第三方"
+    }
   },
   "accountType": {
-    "0": "对公",
-    "1": "对私"
+    "0": {
+      "name": "对公"
+    },
+    "1": {
+      "name": "对私"
+    }
   },
   "settleMode": {
-    "T0": "已开通",
-    "T1": "未开通"
+    "T0": {
+      "name": "已开通"
+    },
+    "T1": {
+      "name": "未开通"
+    }
   },
   "payStatus": {
-    "SUCCESS": "推送成功",
-    "BILLING_SUCCESS": "开票成功",
-    "BILLING": "开票中",
-    "ORDER": "待开票",
-    "BILLING_FAIL": "开票失败",
-    "QUERY_FAIL": "查询失败"
+    "SUCCESS": {
+      "name": "推送成功"
+    },
+    "BILLING_SUCCESS": {
+      "name": "开票成功"
+    },
+    "BILLING": {
+      "name": "开票中"
+    },
+    "ORDER": {
+      "name": "待开票"
+    },
+    "BILLING_FAIL": {
+      "name": "开票失败"
+    },
+    "QUERY_FAIL": {
+      "name": "查询失败"
+    }
   },
   "OPEN_API": {
-    "OPEN_API": "第三方",
-    "PLUGIN": "插件",
-    "LOCAL": "后台",
-    "SCAN_CODE": "扫码",
-    "OFFICAL_ACCOUNT": "公众号",
-    "SLIENT": "静默"
+    "OPEN_API": {
+      "name": "第三方"
+    },
+    "PLUGIN": {
+      "name": "插件"
+    },
+    "LOCAL": {
+      "name": "后台"
+    },
+    "SCAN_CODE": {
+      "name": "扫码"
+    },
+    "OFFICAL_ACCOUNT": {
+      "name": "公众号"
+    },
+    "SLIENT": {
+      "name": "静默"
+    }
   },
   "billStatus": {
-    "SUCCESS": "推送成功",
-    "BILLING_SUCCESS": "开票成功",
-    "BILLING": "开票中",
-    "ORDER": "待开票",
-    "BILLING_FAIL": "失败",
-    "QUERY_FAIL": "查询失败"
+    "SUCCESS": {
+      "name": "推送成功"
+    },
+    "BILLING_SUCCESS": {
+      "name": "开票成功"
+    },
+    "BILLING": {
+      "name": "开票中"
+    },
+    "ORDER": {
+      "name": "待开票"
+    },
+    "BILLING_FAIL": {
+      "name": "失败"
+    },
+    "QUERY_FAIL": {
+      "name": "查询失败"
+    }
   },
   "billType": {
-    "1": "普票",
-    "2": "专票",
-    "3": "普票(个人)"
+    "1": {
+      "name": "普票"
+    },
+    "2": {
+      "name": "专票"
+    },
+    "3": {
+      "name": "普票(个人)"
+    }
   },
   "billStandard": {
-    "TRUE": "已达标",
-    "FALSE": "未达标"
+    "TRUE": {
+      "name": "已达标"
+    },
+    "FALSE": {
+      "name": "未达标"
+    }
   },
   "empowerCheckIsPrint": {
-    "N": "否",
-    "Y": "带水牌"
+    "N": {
+      "name": "否"
+    },
+    "Y": {
+      "name": "带水牌"
+    }
   },
   "migrateType": {
-    "OUT_ORDER": "授权码序列号",
-    "ORDER": "授权码序列号转移"
+    "OUT_ORDER": {
+      "name": "授权码序列号"
+    },
+    "ORDER": {
+      "name": "授权码序列号转移"
+    }
   },
   "empowerCheckStatus": {
-    "SUCCESS": "审核通过",
-    "AUDITING": "待审核",
-    "REJECT": "拒绝"
+    "SUCCESS": {
+      "name": "审核通过"
+    },
+    "AUDITING": {
+      "name": "待审核"
+    },
+    "REJECT": {
+      "name": "拒绝"
+    }
   },
   "empowerManageStatus": {
-    "BINDED": "已绑定",
-    "TRUE": "未绑定",
-    "FALSE": "无效"
+    "BINDED": {
+      "name": "已绑定"
+    },
+    "TRUE": {
+      "name": "未绑定"
+    },
+    "FALSE": {
+      "name": "无效"
+    }
   },
   "empowerManageMateriel": {
-    "TRUE": "有物料",
-    "FALSE": "无物料"
+    "TRUE": {
+      "name": "有物料"
+    },
+    "FALSE": {
+      "name": "无物料"
+    }
   },
   "empowerTransferStatus": {
-    "SUCCESS": "审核通过",
-    "REJECT": "拒绝",
-    "AUDITING": "待审核"
+    "SUCCESS": {
+      "name": "审核通过"
+    },
+    "REJECT": {
+      "name": "拒绝"
+    },
+    "AUDITING": {
+      "name": "待审核"
+    }
   },
   "empowerCheckReceiptType": {
-    "AUTHCODE": "授权码",
-    "SCANCODEGUN": "扫码枪"
+    "AUTHCODE": {
+      "name": "授权码"
+    },
+    "SCANCODEGUN": {
+      "name": "扫码枪"
+    }
   },
   "enterprisesupplyStatus": {
-    "INIT": "未处理",
-    "SUCCESS": "已处理",
-    "FAIL": "失败"
+    "INIT": {
+      "name": "未处理"
+    },
+    "SUCCESS": {
+      "name": "已处理"
+    },
+    "FAIL": {
+      "name": "失败"
+    }
   },
   "handleStatus": {
-    "TRUE": "开启",
-    "FALSE": "关闭"
+    "TRUE": {
+      "name": "开启"
+    },
+    "FALSE": {
+      "name": "关闭"
+    }
   },
   "handleDeviceType": {
-    "HX_PAN": "金税盘",
-    "BW_PAN": "税控盘"
+    "HX_PAN": {
+      "name": "金税盘"
+    },
+    "BW_PAN": {
+      "name": "税控盘"
+    }
   },
   "handleClientType": {
-    "CLIENT": "桌面客户端",
-    "BROWER": "浏览器"
+    "CLIENT": {
+      "name": "桌面客户端"
+    },
+    "BROWER": {
+      "name": "浏览器"
+    }
   },
   "handleDefaultType": {
-    "TRUE": "默认",
-    "FALSE": "不默认"
+    "TRUE": {
+      "name": "默认"
+    },
+    "FALSE": {
+      "name": "不默认"
+    }
   },
   "handleProductOpenStatus": {
-    "TRUE": "已开通",
-    "INIT": "未开通",
-    "REJECT": "审核失败",
-    "CHECKING": "待审核",
-    "WAITING_SUBMIT": "待提交",
-    "PROCESSING": "开通待处理"
+    "TRUE": {
+      "name": "已开通"
+    },
+    "INIT": {
+      "name": "未开通"
+    },
+    "REJECT": {
+      "name": "审核失败"
+    },
+    "CHECKING": {
+      "name": "待审核"
+    },
+    "WAITING_SUBMIT": {
+      "name": "待提交"
+    },
+    "PROCESSING": {
+      "name": "开通待处理"
+    }
   },
   "typeCustomerVersion": {
-    "HOST_C": "c++主程序",
-    "UPDATE_C": "c++更新程序",
-    "HOST": "c#主程序",
-    "UPDATE": "c#更新程序",
-    "RELEASE": "官网版本",
-    "HOST_OLD": "c#老版本主程序",
-    "DATA_COLLECTION": "数据采集程序",
-    "HOST_DZFP": "电子发票版本",
-    "MANUAL": "其他"
+    "HOST_C": {
+      "name": "c++主程序",
+      "color": "success"
+    },
+    "UPDATE_C": {
+      "name": "c++更新程序",
+      "color": "danger"
+    },
+    "HOST": {
+      "name": "c#主程序"
+    },
+    "UPDATE": {
+      "name": "c#更新程序"
+    },
+    "RELEASE": {
+      "name": "官网版本"
+    },
+    "HOST_OLD": {
+      "name": "c#老版本主程序"
+    },
+    "DATA_COLLECTION": {
+      "name": "数据采集程序"
+    },
+    "HOST_DZFP": {
+      "name": "电子发票版本"
+    },
+    "HOST_ZF": {
+      "name": "HOST_ZF: 支付版本",
+      "color": "warning"
+    },
+    "MANUAL": {
+      "name": "其他"
+    }
   },
   "orderQueryStatus": {
-    "INIT": "订单初始化",
-    "PAY_WAIT": "等待支付",
-    "FAIL": "失败",
-    "SUCCESS": "成功",
-    "CANCEL": "撤单"
+    "INIT": {
+      "name": "订单初始化"
+    },
+    "PAY_WAIT": {
+      "name": "等待支付"
+    },
+    "FAIL": {
+      "name": "失败"
+    },
+    "SUCCESS": {
+      "name": "成功"
+    },
+    "CANCEL": {
+      "name": "撤单"
+    }
   },
   "userType": {
-    "0": "普通",
-    "1": "静默"
+    "0": {
+      "name": "普通"
+    },
+    "1": {
+      "name": "静默"
+    }
   },
   "customerFrom": {
-    "OPEN_API": "第三方",
-    "PLUGIN": "插件",
-    "LOCAL": "后台",
-    "SCAN_CODE": "扫码",
-    "OFFICAL_ACCOUNT": "公众号",
-    "SLIENT": "静默"
+    "OPEN_API": {
+      "name": "第三方"
+    },
+    "PLUGIN": {
+      "name": "插件"
+    },
+    "LOCAL": {
+      "name": "后台"
+    },
+    "SCAN_CODE": {
+      "name": "扫码"
+    },
+    "OFFICAL_ACCOUNT": {
+      "name": "公众号"
+    },
+    "SLIENT": {
+      "name": "静默"
+    }
   }
 }

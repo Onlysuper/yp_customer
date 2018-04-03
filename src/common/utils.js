@@ -1,5 +1,6 @@
 
 import bussinessTypeJson from "@src/data/bussinessType.json";
+import statusFilter from "@src/data/statusFilter.json"
 import org from "@src/data/org.json";
 export default {
     /**
@@ -62,6 +63,14 @@ export default {
         var str = Number(point * 100);
         str += "%";
         return str;
+    },
+    statusFilter(value, type) {
+        let newVal = statusFilter[type][value] ? statusFilter[type][value]['name'] ? statusFilter[type][value]['name'] : value : value
+        let color = statusFilter[type][value] ? statusFilter[type][value]['color'] ? statusFilter[type][value]['color'] : "" : ""
+        return {
+            text: newVal,
+            type: color
+        }
     },
     // 得到对象里面的部分属性组成心得对象
     pickObj(obj = {}, arr) {

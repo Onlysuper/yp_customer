@@ -14,7 +14,8 @@ mypFilters.install = function (Vue, options) {
     })
     // 数据过滤器
     Vue.filter('statusFilter', function (value, type) {
-        return statusFilter[type][value] || value
+        let newVal = statusFilter[type][value] ? statusFilter[type][value]['name'] ? statusFilter[type][value]['name'] : value : value
+        return newVal
     })
     /**
      * 税率

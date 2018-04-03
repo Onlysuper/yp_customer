@@ -1,4 +1,5 @@
 import { todayDate, yesterday } from "@src/common/dateSerialize";
+import utils from "@src/common/utils";
 // 公用table页与search页功能
 const mixinsPc = {
   data() {
@@ -36,6 +37,15 @@ const mixinsPc = {
         this.saveLoading = false
         this.saveLoading2 = false
       }
+    },
+    statusFilter(data, filterName) {
+      let obj = utils.statusFilter(data, filterName)
+      let promise = {
+        text: obj.text,
+        type: obj.type
+      }
+      console.log(promise);
+      return promise
     }
   },
   computed: {
