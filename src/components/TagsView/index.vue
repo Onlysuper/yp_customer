@@ -122,7 +122,7 @@ export default {
   },
   computed: {
     visitedViews() {
-      console.log(this.$store.state.tagsView.visitedViews);
+      // console.log(this.$store.state.tagsView.visitedViews);
       return this.$store.state.tagsView.visitedViews;
     }
   },
@@ -208,6 +208,8 @@ export default {
   },
   mounted() {
     this.addViewTags();
+    this.moveToCurrentTag();
+    console.log(this.$store.state.tagsView.cachedViews);
   }
 };
 </script>

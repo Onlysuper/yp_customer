@@ -197,6 +197,9 @@ export default {
   },
   mounted() {
     this.SumHandle();
+  },
+  activated() {
+    this.SumHandle();
   }
 };
 </script>

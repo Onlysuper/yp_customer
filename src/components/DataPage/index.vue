@@ -337,6 +337,11 @@ export default {
     // 初始化数据
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
   },
+  activated() {
+    // this.$emit("databoxSize");
+    // 初始化数据
+    // this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+  },
   computed: {
     userAll() {
       // 所有的用户信息

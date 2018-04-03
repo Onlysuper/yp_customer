@@ -14,7 +14,7 @@ export default {
         title: view.meta.title || 'no-name'
       })
       if (view.meta.keepAlive) {
-        state.cachedViews.push(view.name)
+        state.cachedViews.push(view.name);
       }
     },
     DEL_VISITED_VIEWS: (state, view) => {
@@ -42,20 +42,19 @@ export default {
             state.visitedViews.unshift(homeTag);
             break
           }
-
         }
       }
       for (const i of state.cachedViews) {
         if (i === view.name) {
-          const index = state.cachedViews.indexOf(i)
-          state.cachedViews = state.cachedViews.slice(index, 1)
+          state.cachedViews = [i];
           break
         }
       }
+
     },
     DEL_ALL_VIEWS: (state) => {
       state.visitedViews = [homeTag],
-        state.cachedViews = []
+        state.cachedViews = ['home']
     }
   },
   actions: {
