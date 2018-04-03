@@ -9,11 +9,15 @@
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">商户名称:</span>
-          <span class="line-label-last">{{detailsForm.customerName}}</span>
+          <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | statusFilter('handleProductOpenStatus')}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | statusFilter('handleProductOpenStatus')}}
+          <span class="line-label">更新时间:</span>
+          <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">商户名称:</span>
+          <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">注册省份:</span>

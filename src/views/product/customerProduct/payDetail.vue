@@ -10,11 +10,32 @@
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
         <div class="line-label-box cross-back">
+          <span class="line-label">聚合状态:</span>
+          <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">更新时间:</span>
+          <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
+        </div>
+        <div class="line-label-box cross-back">
           <span class="line-label">商户名称:</span>
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">聚合状态:</span>{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}
+          <span class="line-label">法人:</span>
+          <span class="line-label-last">{{payStatusDetails.legalPerson}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">微信费率:</span>
+          <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
+          <span class="line-label">支付宝费率:</span>
+          <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">开通即刷即到:</span>
+          <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
+          <span class="line-label">D0手续费:</span>
+          <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||""}}</span>
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">企业名称:</span>
@@ -24,19 +45,14 @@
           <span class="line-label">企业税号:</span>
           <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">营业执照期限:</span>
-          <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
-        </div>
+
         <div class="line-label-box cross-back">
           <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">法人:</span>{{payStatusDetails.legalPerson}}
-        </div>
+
         <div class="line-label-box cross-back">
           <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
         </div>
@@ -44,10 +60,14 @@
           <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">账户类型:</span>{{payStatusDetails.accountType | statusFilter('accountType')}}
+          <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">账户名称:</span>{{payStatusDetails.accountName||""}}
+          <span class="line-label">账户名称:</span>
+          <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
+          <span class="line-label">账户类型:</span>
+          <span class="line-label-last">
+            {{payStatusDetails.accountType | statusFilter('accountType')}}</span>
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
@@ -56,19 +76,8 @@
           <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
-        </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">微信费率:</span>{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}
-        </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">支付宝费率:</span>{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}
-        </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">开通即刷即到:</span>{{payStatusDetails.settleMode | statusFilter('settleMode')}}
-        </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">D0手续费:</span>{{payStatusDetails.t0CashCostFixed||""}}
+          <span class="line-label">营业执照期限:</span>
+          <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
         </div>
       </div>
       <!-- </iscroll-view> -->
@@ -265,7 +274,10 @@ export default {
           let customerRow = {};
           let settleCardRow = {};
           let productRow = {};
-          let imgsRow = {};
+          let imgsRow = utils.pickObj(data.imgs, [
+            "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg"
+          ]);
+          let addImgs = {};
           if (data.customer) {
             customerRow = utils.pickObj(data.customer, [
               "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
@@ -285,30 +297,23 @@ export default {
           if (data.imgs) {
             if (settleCardRow.accountType == "0") {
               // 对公  有开户许可证 没有授权证
-              imgsRow = utils.pickObj(data.imgs, [
-                "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
-                "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
-              ]);
+              imgsRow = {                ...utils.pickObj(data.imgs, [
+                  "accountLicenseImg",
+                ]), ...imgsRow              }
             } else if (settleCardRow.accountType == "1") {
               // 对私
               if (settleCardRow.accountName == customerRow.legalPerson) {
                 //没有开户许可证 没有授权证
-                imgsRow = utils.pickObj(data.imgs, [
-                  "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
-                  "placeImg", "storeImg", "cashSpaceImg"
-                ]);
               } else {
                 //没有开户许可证 有授权证
-                imgsRow = utils.pickObj(data.imgs, [
-                  "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
-                  "placeImg", "storeImg", "cashSpaceImg", "certificateImg"
-                ]);
+                imgsRow = {                  ...utils.pickObj(data.imgs, [
+                    "certificateImg"
+                  ]), ...imgsRow                };
               }
             } else {
-              imgsRow = utils.pickObj(data.imgs, [
-                "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg",
-                "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg"
-              ]);
+              // imgsRow = utils.pickObj(data.imgs, [
+              //   "accountLicenseImg"
+              // ]);
             }
             let imgsArr = Object.entries(imgsRow);
             for (var i = 0; i < imgsArr.length; i++) {
