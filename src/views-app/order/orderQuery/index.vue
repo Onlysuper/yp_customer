@@ -8,7 +8,7 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerName">
-          <mt-badge v-if="item.status=='CANCEL'" slot="badge" class="g-min-badge" size="small" type="">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
+          <mt-badge v-if="item.status=='CANCEL'" slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
           <mt-badge v-else-if="item.status=='SUCCESS'" slot="badge" class="g-min-badge" size="small" type="success">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
           <mt-badge v-else-if="item.status=='FAIL'" slot="badge" class="g-min-badge" size="small" type="error">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
           <mt-badge v-else slot="badge" class="g-min-badge" size="small" type="success">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
