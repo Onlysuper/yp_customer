@@ -380,47 +380,48 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data == "SUCCESS") {
-                return {
-                  text: "推送成功",
-                  type: "success"
-                };
-              } else if (data == "BILLING_SUCCESS") {
-                return {
-                  text: "开票成功",
-                  type: ""
-                };
-              } else if (data == "BILLING") {
-                return {
-                  text: "开票中",
-                  type: "danger"
-                };
-              } else if (data == "SUBMITTING") {
-                return {
-                  text: "开电票中",
-                  type: "danger"
-                };
-              } else if (data == "ORDER") {
-                return {
-                  text: "待开票",
-                  type: "danger"
-                };
-              } else if (data == "BILLING_FAIL") {
-                return {
-                  text: "失败",
-                  type: "danger"
-                };
-              } else if (data == "QUERY_FAIL") {
-                return {
-                  text: "查询失败",
-                  type: "danger"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "danger"
-                };
-              }
+              return this.statusFilter(data, 'payStatus')
+              // if (data == "SUCCESS") {
+              //   return {
+              //     text: "推送成功",
+              //     type: "success"
+              //   };
+              // } else if (data == "BILLING_SUCCESS") {
+              //   return {
+              //     text: "开票成功",
+              //     type: ""
+              //   };
+              // } else if (data == "BILLING") {
+              //   return {
+              //     text: "开票中",
+              //     type: "danger"
+              //   };
+              // } else if (data == "SUBMITTING") {
+              //   return {
+              //     text: "开电票中",
+              //     type: "danger"
+              //   };
+              // } else if (data == "ORDER") {
+              //   return {
+              //     text: "待开票",
+              //     type: "danger"
+              //   };
+              // } else if (data == "BILLING_FAIL") {
+              //   return {
+              //     text: "失败",
+              //     type: "danger"
+              //   };
+              // } else if (data == "QUERY_FAIL") {
+              //   return {
+              //     text: "查询失败",
+              //     type: "danger"
+              //   };
+              // } else {
+              //   return {
+              //     text: data,
+              //     type: "danger"
+              //   };
+              // }
             }
           },
           {

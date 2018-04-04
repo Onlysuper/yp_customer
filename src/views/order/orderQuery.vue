@@ -8,7 +8,7 @@
         <el-button-group v-if="adminFilter('pay_order_sum')" class="button-group">
           <!-- <el-button v-if="adminFilter('payOrder_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button> -->
           <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">交易金额:{{utils.accMul(amountSum,0.01)}}元 交易条数:{{amountCount}}</span>
+          <span v-if="sumVisible" class="sumtext">交易金额:{{utils.accMul(amountSum,0.01)}}元 交易条数:{{amountCount}}</span>
         </el-button-group>
       </div>
       <!-- search form end -->
@@ -88,11 +88,11 @@ export default {
       customerNo: "",
       agentNo: "",
       hasChild: true,
-      status: "",
+      status: "SUCCESS",
       payType: "",
-      status: ""
     };
     return {
+      sumVisible: true,
       amountSum: "0",
       amountCount: "0",
       sumLoading: false,
@@ -115,20 +115,39 @@ export default {
           }
         },
         {
-          corresattr: "agentNo",
-          type: "text", // 表单类型
-          label: "代理商编号", // 输入框前面的文字
-          visible:
-            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
-              "admin" ||
-              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
-              ? "FALSE"
-              : "TRUE",
+          corresattr: "status",
+          type: "select",
+          label: "交易状态",
           show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
+          value: "SUCCESS",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            {
+              value: "INIT",
+              label: "订单初始化"
+            },
+            {
+              value: "PAY_WAIT",
+              label: "等待支付"
+            },
+            {
+              value: "FAIL",
+              label: "失败"
+            },
+            {
+              value: "CANCEL",
+              label: "撤单"
+            },
+            {
+              value: "SUCCESS",
+              label: "成功"
+            }
+          ],
           cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.agentNo = value;
+            this.searchCondition.status = value;
           }
         },
         {
@@ -192,44 +211,27 @@ export default {
               label: "不包含下级"
             }
           ],
+
           cb: value => {
             this.searchCondition.hasChild = value;
           }
         },
+
         {
-          corresattr: "status",
-          type: "select",
-          label: "交易状态",
+          corresattr: "agentNo",
+          type: "text", // 表单类型
+          label: "代理商编号", // 输入框前面的文字
+          visible:
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
+              "admin" ||
+              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              ? "FALSE"
+              : "TRUE",
           show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "INIT",
-              label: "订单初始化"
-            },
-            {
-              value: "PAY_WAIT",
-              label: "等待支付"
-            },
-            {
-              value: "FAIL",
-              label: "失败"
-            },
-            {
-              value: "CANCEL",
-              label: "撤单"
-            },
-            {
-              value: "SUCCESS",
-              label: "成功"
-            }
-          ],
+          value: "", // 表单默认的内容
           cb: value => {
-            this.searchCondition.status = value;
+            // 表单输入之后回调函数
+            this.searchCondition.agentNo = value;
           }
         },
         {
@@ -374,6 +376,7 @@ export default {
   methods: {
     // 合计
     SumHandle() {
+      this.sumVisible = true;
       this.sumLoading = true;
       var searchCondition = this.searchCondition;
       getSumPayOrders()({
@@ -387,8 +390,15 @@ export default {
         this.sumLoading = false;
       });
     },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+      this.sumVisible = false;
+    },
   },
-  mounted() { },
+  mounted() {
+    this.SumHandle()
+  },
   computed: {
     isAdmin() {
       var user = this.$store.state.userInfoAndMenu.userMessage.all;
