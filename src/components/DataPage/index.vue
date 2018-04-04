@@ -44,7 +44,7 @@
   .el-tag {
     // background: rgb(64, 158, 255);
     // color: #fff;
-    border: 0px;
+    // border: 0px;
   }
   .table-outbox {
     flex: 1;
