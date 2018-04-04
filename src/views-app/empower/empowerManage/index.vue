@@ -60,10 +60,10 @@ import SliderNav from "@src/components-app/SliderNav";
 import { getArantNumManages, postUnBindEmpower } from "@src/apis";
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import { mapState, mapActions } from "vuex";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 // import edit from "./edit";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav, MypPopupActions },
   data() {
     return {

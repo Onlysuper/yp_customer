@@ -40,11 +40,22 @@ const mixinsPc = {
     },
     statusFilter(data, filterName) {
       let obj = utils.statusFilter(data, filterName)
+      let color_ = "";
+      if (obj.type == "#409EFF") {// blue
+        color_ = "primary";
+      } else if (obj.type == "#67C23A") { //green
+        color_ = "success";
+      } else if (obj.type == "#E6A23C") { //yellow
+        color_ = "warning";
+      } else if (obj.type == "#F56C6C") { // red
+        color_ = "danger";
+      } else if (obj.type == "#909399") { //gray
+        color_ = "info";
+      }
       let promise = {
         text: obj.text,
-        type: obj.type
+        type: color_
       }
-      console.log(promise);
       return promise
     }
   },

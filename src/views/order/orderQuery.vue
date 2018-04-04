@@ -4,6 +4,12 @@
     <div class="admin-main-box">
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <div class="operation-box">
+        <el-button-group class="button-group">
+          <el-button v-if="adminFilter('billcountagent_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
+          <span class="sumtext">交易金额:{{utils.accMul(amountSum,0.01)}}元 交易条数:{{amountCount}}</span>
+        </el-button-group>
+      </div>
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
@@ -63,7 +69,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
-import { getPayOrders } from "@src/apis";
+import { getPayOrders, getSumPayOrders } from "@src/apis";
 import utils from "@src/common/utils";
 export default {
   name: "orderQuery",
@@ -71,7 +77,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
@@ -86,6 +92,9 @@ export default {
       status: ""
     };
     return {
+      amountSum: "0",
+      amountCount: "0",
+      sumLoading: false,
       detailsFormVisible: false,
       detailsForm: {},
       formLabelWidth: "100px",
@@ -292,37 +301,39 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data == "INIT") {
-                return {
-                  text: "订单初始化",
-                  type: ""
-                };
-              } else if (data == "PAY_WAIT") {
-                return {
-                  text: "等待支付",
-                  type: ""
-                };
-              } else if (data == "FAIL") {
-                return {
-                  text: "失败",
-                  type: "danger"
-                };
-              } else if (data == "SUCCESS") {
-                return {
-                  text: "成功",
-                  type: "success"
-                };
-              } else if (data == "CANCEL") {
-                return {
-                  text: "撤单",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'orderQueryStatus')
+
+              // if (data == "INIT") {
+              //   return {
+              //     text: "订单初始化",
+              //     type: ""
+              //   };
+              // } else if (data == "PAY_WAIT") {
+              //   return {
+              //     text: "等待支付",
+              //     type: ""
+              //   };
+              // } else if (data == "FAIL") {
+              //   return {
+              //     text: "失败",
+              //     type: "danger"
+              //   };
+              // } else if (data == "SUCCESS") {
+              //   return {
+              //     text: "成功",
+              //     type: "success"
+              //   };
+              // } else if (data == "CANCEL") {
+              //   return {
+              //     text: "撤单",
+              //     type: "warning"
+              //   };
+              // } else {
+              //   return {
+              //     text: data,
+              //     type: ""
+              //   };
+              // }
             }
           }
         ],
@@ -359,7 +370,23 @@ export default {
       }
     };
   },
-  methods: {},
+  methods: {
+    // 合计
+    SumHandle() {
+      this.sumLoading = true;
+      var searchCondition = this.searchCondition;
+      getSumPayOrders()({
+        ...searchCondition
+      }).then(res => {
+        if (res.code == "00") {
+          var data = res.data;
+          this.amountCount = data.amountCount ? data.amountCount : 0;
+          this.amountSum = data.amountSum ? data.amountSum : 0;
+        }
+        this.sumLoading = false;
+      });
+    },
+  },
   mounted() { },
   computed: {
     userAll() {

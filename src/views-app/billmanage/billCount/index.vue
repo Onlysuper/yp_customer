@@ -33,10 +33,10 @@
 import SliderNav from "@src/components-app/SliderNav";
 import { getBillcountagents } from "@src/apis";
 import { mapState, mapActions } from "vuex";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import sum from "./sum";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav, sum },
   data() {
     return {

@@ -40,9 +40,9 @@ import SliderNav from "@src/components-app/SliderNav";
 import SearchPanelPopup from "@src/components-app/Search/SearchPanelPopup";
 import edit from "./edit";
 import { getCustomerConfigs } from "@src/apis";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav, SearchPanelPopup, edit },
   data() {
     return {

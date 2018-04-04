@@ -7,6 +7,9 @@ export default {
     searchQuery: {}, //搜索条件
     isSearch: false,//是否搜索操作，便于刷新
     isAdd: false,//是否添加操作，便于刷新
+    sumData: {
+
+    }
   },
   getters: {
   },
@@ -66,8 +69,7 @@ export default {
     //是否添加
     ["IS_RELOAD_GOOD"](state, flag) {
       state.isAdd = flag;
-    },
-
+    }
   },
   actions: {
     getGood({ commit, dispatch, getters, rootGetters, rootState, state }, goodsNo) {

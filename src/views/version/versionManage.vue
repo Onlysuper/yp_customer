@@ -193,12 +193,12 @@ export default {
                 case "TRUE":
                   return {
                     text: "是",
-                    type: "success"
+                    type: "#67C23A"
                   };
                 default:
                   return {
                     text: "否",
-                    type: "info"
+                    type: "#909399"
                   };
               }
             }
@@ -213,12 +213,12 @@ export default {
                 case "TRUE":
                   return {
                     text: "开启",
-                    type: "success"
+                    type: "#67C23A"
                   };
                 default:
                   return {
                     text: "未开启",
-                    type: "warning"
+                    type: "#909399"
                   };
               }
             }

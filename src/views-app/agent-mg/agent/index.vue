@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { getAgentManages } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   data() {
     return {
       munes: this.$store.state.userInfoAndMenu.menuList[

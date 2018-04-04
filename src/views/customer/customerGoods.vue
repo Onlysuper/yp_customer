@@ -38,13 +38,12 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <!-- <el-form-item label="是否成品" prop="customerNo" :label-width="formLabelWidth">
-              <el-switch v-model="addForm.customerNo" active-text="是" inactive-text="否" active-value="" inactive-value="">
+            <el-form-item label="是否成品油" prop="type" :label-width="formLabelWidth">
+              <el-switch v-model="addForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
               </el-switch>
-            </el-form-item> -->
+            </el-form-item>
           </el-col>
         </el-row>
-
         <!-- <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
           <el-input v-model="addForm.taxRate" auto-complete="off"></el-input>
         </el-form-item> -->
@@ -136,15 +135,22 @@
         <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editForm.goodsType" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-select @change="taxRateChange($event,'EDIT')" v-model="editForm.taxRate" placeholder="请选择">
-            <el-option v-for="item in taxRateOptions" :key="item.code" :label="item.name" :value="item.code">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <!-- <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
-          <el-input v-model="editForm.taxRate" auto-complete="off"></el-input>
-        </el-form-item> -->
+        <el-row>
+          <el-col :span="12">
+            <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
+              <el-select @change="taxRateChange($event,'EDIT')" v-model="editForm.taxRate" placeholder="请选择">
+                <el-option v-for="item in taxRateOptions" :key="item.code" :label="item.name" :value="item.code">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="是否成品油" prop="type" :label-width="formLabelWidth">
+              <el-switch v-model="editForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
         </el-form-item>
@@ -388,6 +394,7 @@ export default {
       batchNetFormVisible: false, // 批量入网框
       editFormVisible: false, // 编辑框
       addForm: {
+        type: "",
         unionNo: "",
         customerNo: "",
         goodsName: "",
@@ -816,7 +823,8 @@ export default {
                   "taxRate",
                   "enjoyDiscount",
                   "discountType",
-                  "goodsType"
+                  "goodsType",
+                  "type"
                 ]);
                 this.editForm = rowNew;
                 this.editForm.taxRate = rowNew.taxRate + "";
@@ -1020,7 +1028,6 @@ export default {
         if (valid) {
           // this.saveLoading = true;
           let sendata = { ...addForm };
-          console.log(sendata);
           if (!this.checkTaxRateHave(sendata.taxRate, "ADD")) {
             return false;
           }

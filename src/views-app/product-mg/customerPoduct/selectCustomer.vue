@@ -27,11 +27,11 @@
 
 <script>
 import { getCustomers } from "@src/apis";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import utils from "@src/common/utils";
 import { mapState, mapActions } from "vuex";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: {},
   data() {
     return {

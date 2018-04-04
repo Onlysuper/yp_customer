@@ -32,11 +32,11 @@
 
 <script>
 import SliderNav from "@src/components-app/SliderNav";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { postEnterpriseSupplys } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav },
   data() {
     return {

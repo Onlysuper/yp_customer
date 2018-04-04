@@ -67,7 +67,6 @@
             </div>
           </el-col>
         </el-row>
-
         <el-form-item label="经营地址" prop="bussinessAddress" :label-width="formLabelWidth">
           <el-input v-model="addForm.bussinessAddress" auto-complete="off"></el-input>
         </el-form-item>
@@ -149,6 +148,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
         <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
+        <el-button v-if="closeButVisible(editForm.status)" :loading="saveLoading" type="primary" @click="closeSave('editForm')">关 闭</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -316,6 +316,7 @@ import {
   getCustomers,
   postAddCustomer,
   postEditCustomer,
+  postCloseCustomer,
   postUploadFile, // 上传文件
   transferCustomer,
   perfectCustomer
@@ -690,6 +691,11 @@ export default {
   },
 
   methods: {
+    closeButVisible(status) {
+      if (status == 'TRUE' && this.isAdmin) {
+        return true
+      }
+    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
@@ -821,7 +827,6 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              console.log(this.searchCondition);
               this.reloadData(
                 this.postPage,
                 this.postLimit,
@@ -839,6 +844,39 @@ export default {
           });
         }
       });
+    },
+    // 关闭
+    closeSave() {
+      let editForm = this.editForm;
+      this.$confirm('该操作将关闭此条商户信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        postCloseCustomer()({
+          customerNo: editForm.customerNo
+        }).then(res => {
+          if (res.code == "00") {
+            this.$message({
+              type: 'success',
+              message: '关闭成功!'
+            });
+            this.reloadData(
+              this.postPage,
+              this.postLimit,
+              this.searchCondition
+            );
+            this.editFormVisible = false;
+          } else {
+            this.$message({
+              type: 'success',
+              message: res.msg
+            });
+          }
+        })
+      }).catch(() => {
+      });
+
     },
     transferSave(formName) {
       // 转移保存
@@ -900,6 +938,15 @@ export default {
     }
   },
   computed: {
+    isAdmin() {
+      var user = this.$store.state.userInfoAndMenu.userMessage.all;
+      var isAdmin = (
+        user.userType === "root" ||
+        user.userType === "admin" ||
+        user.userType === "operator"
+      ); // 运营
+      return isAdmin
+    }
     // editFormCustomerFrom() {
     //   // 表单内用户来源显示状态客户来源
     //   if (this.editForm.customerFrom == "OPEN_API") {

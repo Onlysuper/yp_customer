@@ -3,18 +3,16 @@
     <full-page ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
+        <!-- <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button> -->
+        <mt-button slot="right" :disabled="false" type="danger" @click="sumHandle()">合计</mt-button>
       </mt-header>
+      <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerName">
-          <mt-badge v-if="item.status=='CANCEL'" slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
-          <mt-badge v-else-if="item.status=='SUCCESS'" slot="badge" class="g-min-badge" size="small" type="success">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
-          <mt-badge v-else-if="item.status=='FAIL'" slot="badge" class="g-min-badge" size="small" type="error">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
-          <mt-badge v-else slot="badge" class="g-min-badge" size="small" type="success">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
-
-          <mt-badge v-if="item.payType=='WECHAT'?true:false" slot="badge" class="g-min-badge" size="small" type="success">{{item.payType | statusFilter('payType')}}</mt-badge>
-          <mt-badge v-if="item.payType=='ALIPAY'?true:false" slot="badge" class="g-min-badge" size="small" type="warning">{{item.payType | statusFilter('payType')}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'orderQueryStatus').type">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.payType,'payType').type">{{item.payType | statusFilter('payType')}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
             <table>
@@ -26,20 +24,33 @@
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
+    <sum ref="sum"></sum>
   </div>
 </template>
 
 <script>
+import sum from "./sum";
 import SliderNav from "@src/components-app/SliderNav";
-import { scrollBehavior } from "@src/common/mixins";
+import MypPopupActions from "@src/components-app/MypPopupActions";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { getPayOrders } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import utils from "@src/common/utils";
 export default {
-  mixins: [scrollBehavior],
-  components: { SliderNav },
+  mixins: [scrollBehavior, filterColor],
+  components: { SliderNav, MypPopupActions, sum },
   data() {
     return {
+      popupActionsVisible: false,
+      popupActions: [
+        {
+          name: "合计",
+          icon: "icon-admin",
+          method: () => {
+            this.sum();
+          }
+        }
+      ],
       munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
@@ -54,7 +65,8 @@ export default {
     ...mapState({
       list: state => state.orderQuery.list,
       isSearch: state => state.orderQuery.isSearch,
-      searchQuery: state => state.orderQuery.searchQuery
+      searchQuery: state => state.orderQuery.searchQuery,
+      sumData: state => state.orderQuery.sumData
     })
   },
   mounted() {
@@ -66,10 +78,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions([""]),
+    ...mapActions(["getOrderQuerySum"]),
+
     watchDataList(watchDataList) {
       this.$store.commit("ORDER_QUERY_SET_LIST", watchDataList);
       this.$store.commit("ORDER_QUERY_IS_SEARCH", false);
+    },
+    sumHandle() {
+      this.getOrderQuerySum().then(isSuccess => {
+        isSuccess && this.$refs.sum.open(this.sumData);
+      });
     },
     toUrl(type, itemId, rowdata) {
       if (type == "DETAIL") {

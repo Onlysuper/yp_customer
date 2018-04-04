@@ -36,12 +36,12 @@
 <script>
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import SliderNav from "@src/components-app/SliderNav";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { getSettles } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import sum from "./sum";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav, MypPopupActions, sum },
   data() {
     return {

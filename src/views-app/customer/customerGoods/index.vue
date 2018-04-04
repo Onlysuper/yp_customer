@@ -3,8 +3,11 @@
     <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({name:'goodsSearch'})">搜索</mt-button>
+      <!-- <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button> -->
       <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button>
     </mt-header>
+    <!-- actions操作 -->
+    <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
     <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.goodsName">
@@ -43,12 +46,24 @@
 import SliderNav from "@src/components-app/SliderNav";
 import { getCustomerGoods } from "@src/apis";
 import { mapState, mapActions } from "vuex";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
+import MypPopupActions from "@src/components-app/MypPopupActions";
+
 export default {
-  mixins: [scrollBehavior],
-  components: { SliderNav },
+  mixins: [scrollBehavior, filterColor],
+  components: { SliderNav, MypPopupActions },
   data() {
     return {
+      popupActionsVisible: false,
+      popupActions: [
+        {
+          name: "新增",
+          icon: "icon-admin",
+          method: () => {
+            this.toUrl('ADD')
+          }
+        }
+      ],
       munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
@@ -67,7 +82,8 @@ export default {
       list: state => state.customerGoods.list,
       searchQuery: state => state.customerGoods.searchQuery,
       isSearch: state => state.customerGoods.isSearch,
-      isAdd: state => state.customerGoods.isAdd
+      isAdd: state => state.customerGoods.isAdd,
+      sumData: state => state.customerGoods.sumData
     })
   },
   watch: {

@@ -109,6 +109,7 @@ const postDeleteCustomerGood = (path) => { return (params) => { return http.post
 const postDefaultCustomerGood = (path) => { return (params) => { return http.post(base.oaIp, "/customerGoods/configDefault/" + path, params) } }
 const postCancelDefaultCustomerGood = (path) => { return (params) => { return http.post(base.oaIp, "/customerGoods/cancelDefault/" + path, params) } }
 const getsmartgoodscodeCustomerGood = () => { return (params) => { return http.get(base.oaIp, "/invoice/query/smartgoodscode", params) } }
+
 // end -------------------------------------------------
 /**
 **商户产品start
@@ -132,6 +133,7 @@ const postEditCustomer = () => { return (params) => { return http.post(base.oaIp
 const transferCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/transfer", params) } }
 // 完善
 const perfectCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/complete", params) } }
+const postCloseCustomer = () => { return (params) => { return http.post(base.oaIp, "/customer/updateByStatus", params) } }
 // end -------------------------------------------------
 
 /**
@@ -295,7 +297,7 @@ const checkCustomerProduct = () => { return (params) => { return http.post(base.
 
 // const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/operator/page", params) } }
 const getPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/page?", params) } }
-
+const getSumPayOrders = () => { return (params) => { return http.get(base.oaIp, "/payOrder/sum", params) } }
 /**
  **商户版本管理Start
  */
@@ -344,6 +346,7 @@ export {
     postDefaultCustomerGood,
     postCancelDefaultCustomerGood,
     getsmartgoodscodeCustomerGood,
+    getSumPayOrders,
     // 商户产品
     getCustomerProducts,
     getCheckCustomerProduct,
@@ -355,6 +358,7 @@ export {
     getCustomers,
     postAddCustomer,
     postEditCustomer,
+    postCloseCustomer,
     postUploadFile,
     transferCustomer,
     // 开票配置

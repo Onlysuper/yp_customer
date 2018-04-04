@@ -18,10 +18,12 @@
   },
   "payType": {
     "WECHAT": {
-      "name": "微信"
+      "name": "微信",
+      "color": "success"
     },
     "ALIPAY": {
-      "name": "支付宝"
+      "name": "支付宝",
+      "color": "warning"
     }
   },
   "payFrom": {
@@ -261,53 +263,65 @@
   "typeCustomerVersion": {
     "HOST_C": {
       "name": "c++主程序",
-      "color": "success"
+      "color": "rgb(64, 158, 255)"
     },
     "UPDATE_C": {
       "name": "c++更新程序",
-      "color": "danger"
+      "color": "#F56C6C"
     },
     "HOST": {
-      "name": "c#主程序"
+      "name": "c#主程序",
+      "color": "#409EFF"
     },
     "UPDATE": {
-      "name": "c#更新程序"
+      "name": "c#更新程序",
+      "color": "#409EFF"
     },
     "RELEASE": {
-      "name": "官网版本"
+      "name": "官网版本",
+      "color": "#409EFF"
     },
     "HOST_OLD": {
-      "name": "c#老版本主程序"
+      "name": "c#老版本主程序",
+      "color": "#409EFF"
     },
     "DATA_COLLECTION": {
-      "name": "数据采集程序"
+      "name": "数据采集程序",
+      "color": "#409EFF"
     },
     "HOST_DZFP": {
-      "name": "电子发票版本"
+      "name": "电子发票版本",
+      "color": "#E6A23C"
     },
     "HOST_ZF": {
       "name": "HOST_ZF: 支付版本",
-      "color": "warning"
+      "color": "#409EFF"
     },
     "MANUAL": {
-      "name": "其他"
+      "name": "其他",
+      "color": "#909399"
     }
   },
   "orderQueryStatus": {
     "INIT": {
-      "name": "订单初始化"
+      "name": "订单初始化",
+      "color": "#409EFF"
     },
     "PAY_WAIT": {
-      "name": "等待支付"
+      "name": "等待支付",
+      "color": "#E6A23C"
     },
     "FAIL": {
-      "name": "失败"
+      "name": "失败",
+      "color": "#F56C6C"
     },
     "SUCCESS": {
-      "name": "成功"
+      "name": "成功",
+      "color": "#67C23A"
     },
     "CANCEL": {
-      "name": "撤单"
+      "name": "撤单",
+      "color": "#909399"
     }
   },
   "userType": {
