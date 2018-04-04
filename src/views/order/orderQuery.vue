@@ -6,7 +6,8 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button v-if="adminFilter('billcountagent_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
+          <!-- <el-button v-if="adminFilter('billcountagent_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button> -->
+          <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
           <span class="sumtext">交易金额:{{utils.accMul(amountSum,0.01)}}元 交易条数:{{amountCount}}</span>
         </el-button-group>
       </div>
@@ -389,6 +390,15 @@ export default {
   },
   mounted() { },
   computed: {
+    isAdmin() {
+      var user = this.$store.state.userInfoAndMenu.userMessage.all;
+      var isAdmin = (
+        user.userType === "root" ||
+        user.userType === "admin" ||
+        user.userType === "operator"
+      ); // 运营
+      return isAdmin
+    },
     userAll() {
       // 所有的用户信息
       return this.$store.state.userInfoAndMenu.userMessage.all;

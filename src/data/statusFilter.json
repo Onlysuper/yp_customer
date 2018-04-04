@@ -19,11 +19,11 @@
   "payType": {
     "WECHAT": {
       "name": "微信",
-      "color": "success"
+      "color": "#67C23A"
     },
     "ALIPAY": {
       "name": "支付宝",
-      "color": "warning"
+      "color": "#E6A23C"
     }
   },
   "payFrom": {
@@ -95,33 +95,42 @@
   },
   "billStatus": {
     "SUCCESS": {
-      "name": "推送成功"
+      "name": "推送成功",
+      "color": "#67C23A"
     },
     "BILLING_SUCCESS": {
-      "name": "开票成功"
+      "name": "开票成功",
+      "color": "#67C23A"
     },
     "BILLING": {
-      "name": "开票中"
+      "name": "开票中",
+      "color": "#E6A23C"
     },
     "ORDER": {
-      "name": "待开票"
+      "name": "待开票",
+      "color": "#409EFF"
     },
     "BILLING_FAIL": {
-      "name": "失败"
+      "name": "失败",
+      "color": "#F56C6C"
     },
     "QUERY_FAIL": {
-      "name": "查询失败"
+      "name": "查询失败",
+      "color": "#909399"
     }
   },
   "billType": {
     "1": {
-      "name": "普票"
+      "name": "普票",
+      "color": "#409EFF"
     },
     "2": {
-      "name": "专票"
+      "name": "专票",
+      "color": "#67C23A"
     },
     "3": {
-      "name": "普票(个人)"
+      "name": "普票(个人)",
+      "color": "#E6A23C"
     }
   },
   "billStandard": {
