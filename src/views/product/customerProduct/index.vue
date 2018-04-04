@@ -592,42 +592,7 @@ export default {
             word: "qrcodeStatus",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "已关闭",
-                  type: "info"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "error"
-                };
-              } else if (data == "CHECKING") {
-                return {
-                  text: "待审核",
-                  type: "warning"
-                };
-              } else if (data == "WAITING_SUBMIT") {
-                return {
-                  text: "待提交",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'handleProductOpenStatus')
             }
           },
           {
@@ -636,42 +601,7 @@ export default {
             word: "payStatus",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "已关闭",
-                  type: "info"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "error"
-                };
-              } else if (data == "CHECKING") {
-                return {
-                  text: "待审核",
-                  type: "warning"
-                };
-              } else if (data == "WAITING_SUBMIT") {
-                return {
-                  text: "待提交",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'handleProductOpenStatus')
             }
           },
           {
@@ -680,42 +610,7 @@ export default {
             word: "elecStatus",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "已关闭",
-                  type: "info"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "error"
-                };
-              } else if (data == "CHECKING") {
-                return {
-                  text: "待审核",
-                  type: "warning"
-                };
-              } else if (data == "WAITING_SUBMIT") {
-                return {
-                  text: "待提交",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'handleProductOpenStatus')
             }
           }
         ],

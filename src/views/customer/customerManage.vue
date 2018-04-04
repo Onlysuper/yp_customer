@@ -694,6 +694,8 @@ export default {
     closeButVisible(status) {
       if (status == 'TRUE' && this.isAdmin) {
         return true
+      } else {
+        return false;
       }
     },
     addSave(formName) {

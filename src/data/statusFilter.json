@@ -251,22 +251,28 @@
   },
   "handleProductOpenStatus": {
     "TRUE": {
-      "name": "已开通"
+      "name": "已开通",
+      "color": "#67C23A"
     },
     "INIT": {
-      "name": "未开通"
+      "name": "未开通",
+      "color": "#909399"
     },
     "REJECT": {
-      "name": "审核失败"
+      "name": "审核失败",
+      "color": "#F56C6C"
     },
     "CHECKING": {
-      "name": "待审核"
+      "name": "待审核",
+      "color": "#E6A23C"
     },
     "WAITING_SUBMIT": {
-      "name": "待提交"
+      "name": "待提交",
+      "color": "#E6A23C"
     },
     "PROCESSING": {
-      "name": "开通待处理"
+      "name": "开通待处理",
+      "color": "#E6A23C"
     }
   },
   "typeCustomerVersion": {
