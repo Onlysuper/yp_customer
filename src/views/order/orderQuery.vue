@@ -5,7 +5,7 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
-        <el-button-group v-if="adminFilter('payOrder_sum')" class="button-group">
+        <el-button-group v-if="adminFilter('pay_order_sum')" class="button-group">
           <!-- <el-button v-if="adminFilter('payOrder_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button> -->
           <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
           <span class="sumtext">交易金额:{{utils.accMul(amountSum,0.01)}}元 交易条数:{{amountCount}}</span>
