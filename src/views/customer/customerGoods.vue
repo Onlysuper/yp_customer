@@ -17,10 +17,11 @@
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
+          <el-autocomplete class="inline-input full-width" v-model="addForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'ADD')"></el-autocomplete>
+          <!-- <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
             <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
-          </el-select>
+          </el-select> -->
         </el-form-item>
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="addForm.unionNo" auto-complete="off"></el-input>
@@ -124,10 +125,11 @@
     <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-select v-model="editForm.goodsName" @change="goodsNameChange($event,'EDIT')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" placeholder="请选择">
+          <!-- <el-select v-model="editForm.goodsName" @change="goodsNameChange($event,'EDIT')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" placeholder="请选择">
             <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
-          </el-select>
+          </el-select> -->
+          <el-autocomplete class="inline-input full-width" v-model="editForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'EDIT')"></el-autocomplete>
         </el-form-item>
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editForm.unionNo" auto-complete="off"></el-input>
@@ -826,6 +828,7 @@ export default {
                   "goodsType",
                   "type"
                 ]);
+                // console.log(rowNew);
                 this.editForm = rowNew;
                 this.editForm.taxRate = rowNew.taxRate + "";
                 this.editFormVisible = true;
@@ -890,7 +893,23 @@ export default {
   methods: {
     taxRateChange(event, type) { },
     // 商品名称智能编码
-    goodsNameGet(value) {
+    // goodsNameGet(value) {
+    //   this.selectLoading = true;
+    //   getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
+    //     let data = res.data;
+    //     if (res.code == "00") {
+    //       this.goodsNameOptions = res.data;
+    //       this.selectLoading = false;
+    //     } else {
+    //       this.$message({
+    //         message: res.msg,
+    //         type: "warning"
+    //       });
+    //     }
+    //   });
+    //   this.goodsName = value;
+    // },
+    goodsNameGet(value, cb) {
       this.selectLoading = true;
       getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
         let data = res.data;
@@ -903,26 +922,54 @@ export default {
             type: "warning"
           });
         }
+        cb(this.goodsNameOptions);
       });
-      this.goodsName = value;
+      // this.goodsName = value;
+    },
+    // handleSelect(item) {
+    //   console.log(item);
+    // },
+    goodsNameChange(item, type) {
+      // console.log(item);
+      // console.log(type);
+      let selectObj = [];
+      if (item.code) {
+        selectObj = this.goodsNameOptions.find(item => {
+          return item.code == item.code;
+        });
+      }
+      if (selectObj.length > 0) {
+        if (type == "ADD") {
+          this.addForm.unionNo = selectObj.code;
+          this.addForm.goodsType = selectObj.name;
+          this.addForm.taxRate = selectObj.rate;
+          this.addForm.goodsName = this.goodsName;
+        } else if (type == "EDIT") {
+          this.editForm.unionNo = selectObj.code;
+          this.editForm.goodsType = selectObj.name;
+          this.editForm.taxRate = selectObj.rate;
+          this.editForm.goodsName = this.goodsName;
+        }
+      }
+
     },
     //商品名称被改变
-    goodsNameChange(value, type) {
-      let selectObj = this.goodsNameOptions.find(item => {
-        return item.code == value;
-      });
-      if (type == "ADD") {
-        this.addForm.unionNo = selectObj.code;
-        this.addForm.goodsType = selectObj.name;
-        this.addForm.taxRate = selectObj.rate;
-        this.addForm.goodsName = this.goodsName;
-      } else if (type == "EDIT") {
-        this.editForm.unionNo = selectObj.code;
-        this.editForm.goodsType = selectObj.name;
-        this.editForm.taxRate = selectObj.rate;
-        this.editForm.goodsName = this.goodsName;
-      }
-    },
+    // goodsNameChange(value, type) {
+    //   let selectObj = this.goodsNameOptions.find(item => {
+    //     return item.code == value;
+    //   });
+    //   if (type == "ADD") {
+    //     this.addForm.unionNo = selectObj.code;
+    //     this.addForm.goodsType = selectObj.name;
+    //     this.addForm.taxRate = selectObj.rate;
+    //     this.addForm.goodsName = this.goodsName;
+    //   } else if (type == "EDIT") {
+    //     this.editForm.unionNo = selectObj.code;
+    //     this.editForm.goodsType = selectObj.name;
+    //     this.editForm.taxRate = selectObj.rate;
+    //     this.editForm.goodsName = this.goodsName;
+    //   }
+    // },
     importDialog() {
       this.importVisible = true;
     },
@@ -1060,7 +1107,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let editForm = this.editForm;
-          editForm.goodsName = this.goodsName;
+          // editForm.goodsName = this.goodsName;
           let sendata = { ...editForm };
           console.log(sendata);
           if (!this.checkTaxRateHave(sendata.taxRate, "EDIT")) {

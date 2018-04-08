@@ -9,7 +9,7 @@
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('agentSettle_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span v-if="adminFilter('billprofit_sum')" class="sumtext">达标商户数量:{{customerNumber}}个 结算金额:{{settlePrice}}元</span>
+          <span v-if="sumVisible" class="sumtext">达标商户数量:{{customerNumber}}个 结算金额:{{settlePrice}}元</span>
         </el-button-group>
       </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -257,6 +257,7 @@ export default {
       user.userType === "operator"
     ); // 运营
     return {
+      sumVisible: false,
       detailsFormVisible: false,
       editFormVisible: false,
       sureFormVisible: false, // 待确认
@@ -533,9 +534,21 @@ export default {
           var data = res.data;
           this.customerNumber = data.customerNumber;
           this.settlePrice = data.settlePrice;
+          this.sumVisible = true;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            center: true
+          });
         }
         this.sumLoading = false;
       });
+    },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+      this.sumVisible = false;
     },
     // 运营确定结算
     editSave(formName) {
@@ -619,7 +632,7 @@ export default {
     }
   },
   mounted() {
-    this.SumHandle();
+    // this.SumHandle();
   },
   computed: {
     isAdmin() {

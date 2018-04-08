@@ -8,7 +8,7 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">分润金额:{{utils.accMul(customerSum, 0.01)}}元</span>
+          <span v-if="sumVisible" class="sumtext">分润金额:{{utils.accMul(customerSum, 0.01)}}元</span>
         </el-button-group>
       </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -46,6 +46,7 @@ export default {
       dataTime: lastMonth
     };
     return {
+      sumVisible: false,
       customerSum: 0,
       rebateSum: 0,
       subsidySum: 0,
@@ -251,13 +252,25 @@ export default {
           this.customerSum = data.customerSum;
           this.rebateSum = data.rebateSum;
           this.subsidySum = data.subsidySum;
+          this.sumVisible = true;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            center: true
+          });
         }
         this.sumLoading = false;
       });
+    },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+      this.sumVisible = false;
     }
   },
   mounted() {
-    this.SumHandle();
+    // this.SumHandle();
   }
 };
 </script>

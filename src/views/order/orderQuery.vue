@@ -6,7 +6,6 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group v-if="adminFilter('pay_order_sum')" class="button-group">
-          <!-- <el-button v-if="adminFilter('payOrder_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button> -->
           <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
           <span v-if="sumVisible" class="sumtext">交易金额:{{utils.accMul(amountSum,0.01)}}元 交易条数:{{amountCount}}</span>
         </el-button-group>
@@ -92,7 +91,7 @@ export default {
       payType: "",
     };
     return {
-      sumVisible: true,
+      sumVisible: false,
       amountSum: "0",
       amountCount: "0",
       sumLoading: false,
@@ -386,6 +385,13 @@ export default {
           var data = res.data;
           this.amountCount = data.amountCount ? data.amountCount : 0;
           this.amountSum = data.amountSum ? data.amountSum : 0;
+          this.sumVisible = true;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            center: true
+          });
         }
         this.sumLoading = false;
       });
@@ -394,10 +400,10 @@ export default {
       // 开始搜索
       this.reloadData();
       this.sumVisible = false;
-    },
+    }
   },
   mounted() {
-    this.SumHandle()
+    // this.SumHandle()
   },
   computed: {
     isAdmin() {

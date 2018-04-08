@@ -8,7 +8,7 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">达标商户数量:{{customerNumber}} 结算金额:{{settlePrice}}</span>
+          <span v-if="sumVisible" class="sumtext">达标商户数量:{{customerNumber}} 结算金额:{{settlePrice}}</span>
         </el-button-group>
       </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
@@ -47,6 +47,7 @@ export default {
       status: "" // 结算状态
     };
     return {
+      sumVisible: true,
       customerNumber: 0,
       settlePrice: 0,
       sumLoading: false,
@@ -238,6 +239,13 @@ export default {
           var data = res.data;
           this.customerNumber = data.customerNumber;
           this.settlePrice = data.settlePrice;
+          this.sumVisible = true;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            center: true
+          });
         }
         this.sumLoading = false;
       });
