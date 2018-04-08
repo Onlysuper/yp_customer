@@ -619,7 +619,7 @@ export default {
                 };
               } else if (data == "FALSE") {
                 return {
-                  text: "未开启",
+                  text: "关闭",
                   type: "info"
                 };
               } else {

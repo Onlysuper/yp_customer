@@ -219,10 +219,12 @@
   },
   "handleStatus": {
     "TRUE": {
-      "name": "开启"
+      "name": "开启",
+      "color": "#67C23A"
     },
     "FALSE": {
-      "name": "关闭"
+      "name": "关闭",
+      "color": "#909399"
     }
   },
   "handleDeviceType": {
@@ -349,22 +351,28 @@
   },
   "customerFrom": {
     "OPEN_API": {
-      "name": "第三方"
+      "name": "第三方",
+      "color": "#E6A23C"
     },
     "PLUGIN": {
-      "name": "插件"
+      "name": "插件",
+      "color": "#F56C6C"
     },
     "LOCAL": {
-      "name": "后台"
+      "name": "后台",
+      "color": "#67C23A"
     },
     "SCAN_CODE": {
-      "name": "扫码"
+      "name": "扫码",
+      "color": "#409EFF"
     },
     "OFFICAL_ACCOUNT": {
-      "name": "公众号"
+      "name": "公众号",
+      "color": "#409EFF"
     },
     "SLIENT": {
-      "name": "静默"
+      "name": "静默",
+      "color": "#409EFF"
     }
   }
 }
