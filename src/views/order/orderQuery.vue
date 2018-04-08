@@ -70,6 +70,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
 import { getPayOrders, getSumPayOrders } from "@src/apis";
+import orderStatus from "@src/data/orderStatus.json";
 import utils from "@src/common/utils";
 export default {
   name: "orderQuery",
@@ -124,26 +125,9 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "INIT",
-              label: "订单初始化"
-            },
-            {
-              value: "PAY_WAIT",
-              label: "等待支付"
-            },
-            {
-              value: "FAIL",
-              label: "失败"
-            },
-            {
-              value: "CANCEL",
-              label: "撤单"
-            },
-            {
-              value: "SUCCESS",
-              label: "成功"
-            }
+            ...orderStatus.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.status = value;

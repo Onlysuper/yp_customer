@@ -4,6 +4,7 @@
 
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
+import orderStatus from "@src/data/orderStatus.json";
 import { mapState } from "vuex";
 export default {
   components: { SearchPage },
@@ -28,6 +29,9 @@ export default {
     }
   },
   mounted() {
+    //  ...orderStatus.map(item => {
+    //           return { value: item.code, label: item.name }
+    //         })
     this.$nextTick(() => {
       this.searchConfig.push({
         title: "交易订单号",
@@ -104,24 +108,24 @@ export default {
       });
       this.searchConfig.push({
         title: "交易类型",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.payType || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "微信",
-            value: "WECHAT"
-          },
-          {
-            label: "支付宝",
-            value: "ALIPAY"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.payType,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            {
+              name: "微信",
+              code: "WECHAT"
+            },
+            {
+              name: "支付宝",
+              code: "ALIPAY"
+            }
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("ORDER_QUERY_SET_SEARCH", {
             payType: value
           });
@@ -129,32 +133,17 @@ export default {
       });
       this.searchConfig.push({
         title: "交易状态",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.status || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "订单初始化",
-            value: "INIT"
-          },
-          {
-            label: "待支付",
-            value: "PAY_WAIT"
-          },
-          {
-            label: "交易失败",
-            value: "FAIL"
-          },
-          {
-            label: "交易成功",
-            value: "SUCCESS"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.status,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            ...orderStatus
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("ORDER_QUERY_SET_SEARCH", {
             status: value
           });
