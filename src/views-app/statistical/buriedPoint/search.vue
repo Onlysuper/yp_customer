@@ -43,6 +43,33 @@ export default {
         }
       });
       this.searchConfig.push({
+        title: "新老版本",
+        type: "myp-select",
+        defaultValue: this.searchQuery.oldOrNew,
+        values: [
+          // {
+          //   code: "",
+          //   name: "全部"
+          // },
+          {
+            code: "new",
+            name: "新版本"
+          },
+          {
+            code: "old",
+            name: "老版本"
+          }
+        ],
+        cb: value => {
+          this.$store.commit("OPERATORLOG_NEW_OR_OLD", {
+            oldOrNew: value
+          });
+          this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
+            oldOrNew: value
+          });
+        }
+      });
+      this.searchConfig.push({
         title: "版本号",
         type: "myp-text",
         defaultValue: this.searchQuery.version,
@@ -99,7 +126,7 @@ export default {
         type: "myp-date",
         defaultValue: this.searchQuery.createTimeStart,
         cb: value => {
-          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
+          this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
             createTimeStart: value
           });
         }
@@ -109,7 +136,7 @@ export default {
         type: "myp-date",
         defaultValue: this.searchQuery.createTimeEnd,
         cb: value => {
-          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
+          this.$store.commit("OPERATORLOG_SEARCH_QUERY", {
             createTimeEnd: value
           });
         }

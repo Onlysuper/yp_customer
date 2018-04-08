@@ -134,12 +134,12 @@ export default {
           type: "select",
           label: "新老版本",
           show: false, // 普通搜索显示
-          value: "",
+          value: "old",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
+            // {
+            //   value: "",
+            //   label: "全部"
+            // },
             {
               value: "new",
               label: "新版本"

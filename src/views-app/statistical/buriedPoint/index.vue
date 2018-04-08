@@ -34,7 +34,7 @@
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import SliderNav from "@src/components-app/SliderNav";
 import { scrollBehavior, filterColor } from "@src/common/mixins";
-import { getBurialPointManages } from "@src/apis";
+import { getBurialPointManages, getNewBurialPointManages } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import sum from "./sum";
 export default {
@@ -57,17 +57,22 @@ export default {
       ].child,
       routeMenuCode: "",
       api: getBurialPointManages,
+      sumApi: "",
       count: 0
     };
   },
   created() {
     this.$store.commit("OPERATORLOG_SEARCH_INIT");
   },
+  activated() {
+
+  },
   computed: {
     ...mapState({
       list: state => state.buriedPoint.list,
       isSearch: state => state.buriedPoint.isSearch,
       searchQuery: state => state.buriedPoint.searchQuery,
+      oldOrNew: state => state.buriedPoint.oldOrNew,
       sumData: state => state.buriedPoint.sumData
     })
   },
@@ -77,17 +82,35 @@ export default {
   watch: {
     isSearch(flag) {
       flag && this.$refs.MypLoadmoreApi.load(this.searchQuery);
+      this.$store.commit("OPERATORLOG_SEARCH", false);
+    },
+    oldOrNew(val) {
+      if (val == "new") {
+        this.api = getNewBurialPointManages;
+      } else {
+        this.api = getBurialPointManages
+      }
+      this.sumUrlChange(val);
     }
   },
   methods: {
-    ...mapActions(["getBuriedPointSumAc"]),
+    ...mapActions(["getBuriedPointSumAc", "getNewBuriedPointSumAc"]),
     watchDataList(watchDataList, count) {
       this.count = count;
       this.$store.commit("OPERATORLOG_SEARCH_LIST", watchDataList);
       this.$store.commit("OPERATORLOG_SEARCH", false);
+      this.sumUrlChange(this.oldOrNew);
+      // this.sumApi = this.getBuriedPointSumAc;
+    },
+    sumUrlChange(val) {
+      if (val == "new") {
+        this.sumApi = this.getNewBuriedPointSumAc;
+      } else {
+        this.sumApi = this.getBuriedPointSumAc;
+      }
     },
     sum() {
-      this.getBuriedPointSumAc().then(isSuccess => {
+      this.sumApi().then(isSuccess => {
         isSuccess && this.$refs.sum.open(this.sumData);
       });
     }

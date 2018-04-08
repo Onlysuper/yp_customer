@@ -1,12 +1,15 @@
 import utils from "@src/common/utils";
 // 埋点管理
-import { getBurialPointTotal } from "@src/apis";
+import { getBurialPointTotal, getNewBurialPointTotal } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
     list: [],
     searchQuery: {}, //搜索条件
     isSearch: false,//是否搜索操作，便于刷新
+    oldOrNew: "",
+    sumData: {}
+
   },
   getters: {
   },
@@ -16,10 +19,12 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.isReload = false;
+      oldOrNew: "";
       state.searchQuery = {
         customerNo: "", // 商户编号
         agentNo: "", // 合伙人编号
         version: "", // 版本号
+        oldOrNew: "",
         actionId: "", // 操作类型
         userId: "", // 授权码
         userType: "",//用户类型
@@ -49,12 +54,23 @@ export default {
     // 合计
     ["OPERATORLOG_SUM"](state, data) {
       state.sumData = data;
+    },
+    ["OPERATORLOG_NEW_OR_OLD"](state, data) {
+      console.log(data);
+      // console.log(data);
+      state.oldOrNew = data.oldOrNew;
     }
   },
   actions: {
     // 合计
     getBuriedPointSumAc({ commit, dispatch, getters, rootGetters, rootState, state }) {
       return getBurialPointTotal()({ ...state.searchQuery }).then(data => {
+        commit("OPERATORLOG_SUM", data);
+        return true;
+      })
+    },
+    getNewBuriedPointSumAc({ commit, dispatch, getters, rootGetters, rootState, state }) {
+      return getNewBurialPointTotal()({ ...state.searchQuery }).then(data => {
         commit("OPERATORLOG_SUM", data);
         return true;
       })
