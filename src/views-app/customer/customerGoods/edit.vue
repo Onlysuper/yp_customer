@@ -37,7 +37,9 @@
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
-
+          <mt-cell :title="'是否成品油 '">
+            <mt-switch v-model="typeSwitch" @change="typeChange"></mt-switch>
+          </mt-cell>
           <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
           <mt-field type="text" label="含税单价" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
           <mt-field type="text" label="规格型号" placeholder="请输入规格型号" v-model="good.model"></mt-field>
@@ -105,6 +107,7 @@ export default {
       goodsName: "", // 商品名称
       goodsNameOptions: [], // 商品名称 智能编码
       btnDisabled: false,
+      typeSwitch: false,
       good: {
         goodsName: "",
         unionNo: "",
@@ -116,7 +119,8 @@ export default {
         model: "",
         taxRate: "0",
         enjoyDiscount: "0",
-        discountType: "10"
+        discountType: "10",
+        type: "FALSE"
       },
       pageType: this.$route.query["type"] || "ADD",
       pageTitle: {
@@ -148,6 +152,7 @@ export default {
 
     //回显信息
     echoForm(good) {
+
       //回显费率
       let tax = this.taxActions.find(item => item.code == good.taxRate);
       this.taxratePickerChange(tax || {});
@@ -163,6 +168,14 @@ export default {
         item => item.code == good.discountType
       );
       this.discountPickerChange(discountType || {});
+
+      if (good.type == "TRUE") {
+        this.good.type = good.type;
+        this.typeSwitch = true
+      } else if (good.type == "FALSE") {
+        this.good.type = good.type;
+        this.typeSwitch = false
+      }
     },
 
     //设置费率
@@ -193,6 +206,13 @@ export default {
     goodsInit(val) {
       this.goodsName = "";
     },
+    typeChange(obj) {
+      if (obj) {
+        this.good.type = "FALSE"
+      } else {
+        this.good.type = "TRUE"
+      }
+    },
     //商品名称被改变
     goodsNameChange(item) {
       this.good.unionNo = item.code;
@@ -217,6 +237,7 @@ export default {
       }
     },
     save() {
+      console.log(this.good);
       if (!this.validator.isEmpty(this.good.customerNo)) {
         this.MessageBox.alert("商户编号不能为空");
         return;
@@ -257,7 +278,7 @@ export default {
       }
       this.btnDisabled = true;
       let sendata = { ...this.good };
-      sendata.goodsName = this.goodsName;
+      sendata.goodsName = this.goodsName || sendata.goodsName;
       sendata.taxRate = this.taxModle.code;
       console.log(sendata);
       // console.log(this.good);

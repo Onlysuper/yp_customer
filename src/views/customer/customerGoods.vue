@@ -943,12 +943,12 @@ export default {
           this.addForm.unionNo = selectObj.code;
           this.addForm.goodsType = selectObj.name;
           this.addForm.taxRate = selectObj.rate;
-          this.addForm.goodsName = this.goodsName;
+          // this.addForm.goodsName = selectObj.goodsName;
         } else if (type == "EDIT") {
           this.editForm.unionNo = selectObj.code;
           this.editForm.goodsType = selectObj.name;
           this.editForm.taxRate = selectObj.rate;
-          this.editForm.goodsName = this.goodsName;
+          // this.editForm.goodsName = selectObj.goodsName;
         }
       }
 
@@ -1071,7 +1071,7 @@ export default {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
         let addForm = this.addForm;
-        addForm.goodsName = this.goodsName;
+        addForm.goodsName = this.goodsName || addForm.goodsName;
         if (valid) {
           // this.saveLoading = true;
           let sendata = { ...addForm };
@@ -1109,7 +1109,6 @@ export default {
           let editForm = this.editForm;
           // editForm.goodsName = this.goodsName;
           let sendata = { ...editForm };
-          console.log(sendata);
           if (!this.checkTaxRateHave(sendata.taxRate, "EDIT")) {
             return false;
           }

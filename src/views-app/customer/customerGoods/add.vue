@@ -14,6 +14,9 @@
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
+          <mt-cell :title="'是否成品油 '">
+            <mt-switch v-model="typeSwitch" @change="typeChange"></mt-switch>
+          </mt-cell>
           <mt-field type="text" label="商户编号" placeholder="请输入商户编号" v-model="good.customerNo"></mt-field>
           <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
           <mt-field type="text" label="含税单价" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
@@ -80,6 +83,7 @@ export default {
       goodsName: "", // 商品名称
       goodsNameOptions: [], // 商品名称 智能编码
       btnDisabled: false,
+      typeSwitch: false,
       good: {
         goodsName: "",
         unionNo: "",
@@ -91,7 +95,8 @@ export default {
         model: "",
         taxRate: "0",
         enjoyDiscount: "0",
-        discountType: "10"
+        discountType: "10",
+        type: "FALSE"
       },
       pageType: this.$route.query["type"] || "ADD",
       pageTitle: {
@@ -123,7 +128,13 @@ export default {
       this.enjoyModle = obj;
       this.good.enjoyDiscount = obj.code;
     },
-
+    typeChange(obj) {
+      if (obj) {
+        this.good.type = "FALSE"
+      } else {
+        this.good.type = "TRUE"
+      }
+    },
     //设置优惠类型
     discountPickerChange(obj) {
       this.discountModle = obj;
@@ -142,7 +153,7 @@ export default {
     goodsNameChange(item) {
       this.good.unionNo = item.code;
       this.good.goodsType = item.name;
-      this.good.goodsName = this.goodsName;
+      this.good.goodsName = this.goodsName || this.good.goodsName;
       let tax = this.taxActions.find(row => {
         return row.code == item.rate;
       });
