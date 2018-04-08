@@ -3,9 +3,21 @@
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
+    <transition name="fade">
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </transition>
   </div>
 </template>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
 
 <script>
 

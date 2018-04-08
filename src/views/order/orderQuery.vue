@@ -7,7 +7,11 @@
       <div class="operation-box">
         <el-button-group v-if="adminFilter('pay_order_sum')" class="button-group">
           <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span v-if="sumVisible" class="sumtext">交易金额:{{utils.accMul(amountSum,0.01)}}元 交易条数:{{amountCount}}</span>
+          <span v-if="sumVisible" class="sumtext">
+            <span>交易金额:{{utils.accMul(amountSum,0.01)}}元</span>
+            <span class="">|</span>
+            <span>交易笔数:{{amountCount}}笔</span>
+          </span>
         </el-button-group>
       </div>
       <!-- search form end -->

@@ -24,7 +24,7 @@ export default {
         customerNo: "", // 商户编号
         agentNo: "", // 合伙人编号
         version: "", // 版本号
-        oldOrNew: "",
+        oldOrNew: "old",
         actionId: "", // 操作类型
         userId: "", // 授权码
         userType: "",//用户类型
