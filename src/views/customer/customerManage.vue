@@ -568,42 +568,8 @@ export default {
             word: "customerFrom",
             status: true,
             type: data => {
-              if (data == "OPEN_API") {
-                return {
-                  text: "第三方",
-                  type: "danger"
-                };
-              } else if (data == "PLUGIN") {
-                return {
-                  text: "插件",
-                  type: "warning"
-                };
-              } else if (data == "LOCAL") {
-                return {
-                  text: "后台",
-                  type: ""
-                };
-              } else if (data == "SCAN_CODE") {
-                return {
-                  text: "扫码",
-                  type: ""
-                };
-              } else if (data == "OFFICAL_ACCOUNT") {
-                return {
-                  text: "公众号",
-                  type: ""
-                };
-              } else if (data == "SLIENT") {
-                return {
-                  text: "静默",
-                  type: ""
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'customerFrom')
+
             }
           },
           {
@@ -612,22 +578,7 @@ export default {
             width: "80px",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "开启",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "关闭",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: "没写",
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'handleStatus')
             }
           }
         ],
@@ -949,16 +900,6 @@ export default {
       ); // 运营
       return isAdmin
     }
-    // editFormCustomerFrom() {
-    //   // 表单内用户来源显示状态客户来源
-    //   if (this.editForm.customerFrom == "OPEN_API") {
-    //     return "第三方";
-    //   } else if (this.editForm.customerFrom == "PLUGIN") {
-    //     return "插件";
-    //   } else if (this.editForm.customerFrom == "LOCAL") {
-    //     return "后台";
-    //   }
-    // }
   },
   mounted() { }
 };

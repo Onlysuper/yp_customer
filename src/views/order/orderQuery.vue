@@ -303,8 +303,7 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              return this.statusFilter(data, 'orderQueryStatus')
-
+              return this.statusFilter(data, 'orderQueryStatus');
               // if (data == "INIT") {
               //   return {
               //     text: "订单初始化",

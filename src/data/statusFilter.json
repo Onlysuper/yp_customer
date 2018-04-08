@@ -73,26 +73,6 @@
       "name": "查询失败"
     }
   },
-  "OPEN_API": {
-    "OPEN_API": {
-      "name": "第三方"
-    },
-    "PLUGIN": {
-      "name": "插件"
-    },
-    "LOCAL": {
-      "name": "后台"
-    },
-    "SCAN_CODE": {
-      "name": "扫码"
-    },
-    "OFFICAL_ACCOUNT": {
-      "name": "公众号"
-    },
-    "SLIENT": {
-      "name": "静默"
-    }
-  },
   "billStatus": {
     "SUCCESS": {
       "name": "推送成功",
