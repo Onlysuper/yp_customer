@@ -1,8 +1,6 @@
 <template>
   <!-- 搜索 -->
-  <div>
-    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="授权码"></search-page>
-  </div>
+  <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="授权码"></search-page>
 </template>
 
 <script>

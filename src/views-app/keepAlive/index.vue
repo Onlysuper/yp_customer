@@ -1,23 +1,22 @@
 <template>
   <div v-on:scroll.passive="onScroll" class="keep-alive page">
-
     <keep-alive>
       <router-view v-if="$route.meta.keepAlive"></router-view>
     </keep-alive>
-    <transition name="slide-fade">
+    <transition name="keep-alive-fade">
       <router-view v-if="!$route.meta.keepAlive"></router-view>
     </transition>
   </div>
 </template>
 <style>
-.slide-fade-enter-active {
+.keep-alive-fade-enter-active {
   transition: all 0.3s ease;
 }
-.slide-fade-leave-active {
+.keep-alive-fade-leave-active {
   transition: all 0.3s ease;
 }
-.slide-fade-enter,
-.slide-fade-leave-to {
+.keep-alive-fade-enter,
+.keep-alive-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }

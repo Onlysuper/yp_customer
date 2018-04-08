@@ -3,7 +3,7 @@
     <full-page class="" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="searchVisible = true">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="searchBoxVisible = true">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="add">新增</mt-button>
       </mt-header>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
@@ -31,7 +31,7 @@
     </full-page>
     <!-- 编辑 -->
     <edit ref="edit"></edit>
-    <search-panel-popup v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-panel-popup>
+    <search-panel-popup v-model="searchBoxVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-panel-popup>
   </div>
 </template>
 
@@ -53,7 +53,7 @@ export default {
       api: getCustomerConfigs,
       count: 0,
       list: [],
-      searchVisible: false,
+      searchBoxVisible: false,
       searchQuery: {},
       searchConfig: [
         {

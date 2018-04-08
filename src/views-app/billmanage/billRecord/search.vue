@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
-  </div>
+  <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
 </template>
 
 <script>
