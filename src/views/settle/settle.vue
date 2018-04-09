@@ -9,7 +9,11 @@
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('agentSettle_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span v-if="sumVisible" class="sumtext">达标商户数量:{{customerNumber}}个 结算金额:{{settlePrice}}元</span>
+          <span v-if="sumVisible" class="sumtext">
+            <span>达标商户数量:{{customerNumber}}个</span>
+            <span class="split-line-v"></span>
+            <span> 结算金额:{{settlePrice}}元</span>
+          </span>
         </el-button-group>
       </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>

@@ -9,7 +9,13 @@
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billcountagent_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
           <el-button v-if="adminFilter('billcountagent_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span v-if="sumVisible" class="sumtext">扫码次数:{{scanSum}} 推送次数:{{pushSum}} 入网商户:{{netSum}}</span>
+          <span v-if="sumVisible" class="sumtext">
+            <span>扫码次数:{{scanSum}}</span>
+            <span class="split-line-v"></span>
+            <span>推送次数:{{pushSum}}</span>
+            <span class="split-line-v"></span>
+            <span>入网商户:{{netSum}}</span>
+          </span>
         </el-button-group>
       </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>

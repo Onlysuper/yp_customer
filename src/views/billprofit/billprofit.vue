@@ -8,7 +8,11 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span v-if="sumVisible" class="sumtext">商户:{{customerSum}}个 返利:{{subsidySum}}元
+          <span v-if="sumVisible" class="sumtext">
+            <span>商户:{{customerSum}}个 </span>
+            <span class="split-line-v"></span>
+            <span>返利:{{subsidySum}}元</span>
+            <span class="split-line-v"></span>
             <span v-if="isAdmin">中间人:{{rebateSum}}元</span>
           </span>
         </el-button-group>

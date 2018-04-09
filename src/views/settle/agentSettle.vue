@@ -8,7 +8,11 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span v-if="sumVisible" class="sumtext">达标商户数量:{{customerNumber}} 结算金额:{{settlePrice}}</span>
+          <span v-if="sumVisible" class="sumtext">
+            <span>达标商户数量:{{customerNumber}} </span>
+            <span class="split-line-v"></span>
+            <span>结算金额:{{settlePrice}}</span>
+          </span>
         </el-button-group>
       </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
