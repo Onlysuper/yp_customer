@@ -1,5 +1,5 @@
 <template>
-  <full-page-popup v-model="visible" position="bottom" title="分润详情">
+  <full-page-popup v-model="visible" transition="popup-fade" title="分润详情">
     <input-wrapper>
       <mt-cell title="达标商户数量" :value="sumData.customerNumber+'个'"></mt-cell>
       <mt-cell title="结算金额" :value="sumData.settlePrice+'元'"></mt-cell>

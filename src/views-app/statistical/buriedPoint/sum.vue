@@ -1,5 +1,5 @@
 <template>
-  <full-page-popup v-model="visible" position="bottom" title="埋点管理合计">
+  <full-page-popup v-model="visible" transition="popup-fade" title="埋点管理合计">
     <input-wrapper>
       <template v-if="sumData.ptNum > 0">
         <mt-cell :title="'普通商户共操作'+sumData.ptNum+'次,明细如下'"></mt-cell>
@@ -9,7 +9,6 @@
         <mt-cell :title="'静默商户共操作'+sumData.ptNum+'次,明细如下'"></mt-cell>
         <mt-cell v-for="(pt,index) in sumData.jm" :key="index" :title="pt.actionDesc" :value="pt.amount+'次'"></mt-cell>
       </template>
-
     </input-wrapper>
   </full-page-popup>
 </template>

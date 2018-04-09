@@ -1,7 +1,7 @@
 <template>
-  <mt-popup v-model="visible" :position="position" class="full-page-popup" :modal="false">
+  <!-- <mt-popup v-model="visible" :position="position" popup-transition="popup-fade" class="full-page-popup" :modal="false"> -->
+  <mt-popup v-model="visible" :position="position?position:''" :popup-transition="transition?transition:''" class="full-page-popup" :modal="false">
     <full-page>
-
       <template slot="header">
         <slot name="header">
           <mt-header slot="header" :title="title" class="re-mint-header">
@@ -46,6 +46,10 @@ export default {
       default: false
     },
     position: {
+      type: String,
+      default: "right"
+    },
+    transition: {
       type: String,
       default: "right"
     }

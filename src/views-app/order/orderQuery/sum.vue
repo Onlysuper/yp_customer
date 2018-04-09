@@ -1,5 +1,5 @@
 <template>
-  <full-page-popup v-model="visible" position="bottom" title="商品合计">
+  <full-page-popup v-model="visible" position="right" transition="popup-fade" title="商品合计">
     <input-wrapper>
       <mt-cell title="交易金额" :value="utils.accMul(sumData.amountSum,0.01)+'元'"></mt-cell>
       <mt-cell title="交易笔数" :value="sumData.amountCount+'笔'"></mt-cell>
