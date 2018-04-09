@@ -82,26 +82,43 @@ export default {
         }
       });
 
+      // this.searchConfig.push({
+      //   title: "包含关系",
+      //   type: "myp-radio-list",
+      //   defaultValue: this.searchQuery.containChild || "TRUE",
+      //   options: [
+      //     {
+      //       label: "包含下级",
+      //       value: "TRUE"
+      //     },
+      //     {
+      //       label: "不包含下级",
+      //       value: "FALSE"
+      //     }
+      //   ],
+      //   cb: value => {
+      //     if (value == "ALL") value = "";
+      //     this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
+      //       containChild: value
+      //     });
+      //   }
+      // });
       this.searchConfig.push({
         title: "包含关系",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.containChild || "TRUE",
-        options: [
-          // {
-          //   label: "全部",
-          //   value: "ALL"
-          // },
-          {
-            label: "包含下级",
-            value: "TRUE"
-          },
-          {
-            label: "不包含下级",
-            value: "FALSE"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.containChild,
+        values:
+          [
+            {
+              name: "含下级",
+              code: "TRUE"
+            },
+            {
+              name: "不含下级",
+              code: "FALSE"
+            }
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
             containChild: value
           });
@@ -134,30 +151,56 @@ export default {
           }
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
             billSuccessBegin: billSuccessBegin,
-            billSuccessEnd: billSuccessEnd
+            billSuccessEnd: billSuccessEnd,
+            billSuccess: value
           });
         }
       });
+      // this.searchConfig.push({
+      //   title: "达标情况",
+      //   type: "myp-radio-list",
+      //   defaultValue: this.searchQuery.standard || "ALL",
+      //   options: [
+      //     {
+      //       label: "全部",
+      //       value: "ALL"
+      //     },
+      //     {
+      //       label: "已达标",
+      //       value: "TRUE"
+      //     },
+      //     {
+      //       label: "未达标",
+      //       value: "FALSE"
+      //     }
+      //   ],
+      //   cb: value => {
+      //     if (value == "ALL") value = "";
+      //     this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
+      //       standard: value
+      //     });
+      //   }
+      // });
       this.searchConfig.push({
         title: "达标情况",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.standard || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "已达标",
-            value: "TRUE"
-          },
-          {
-            label: "未达标",
-            value: "FALSE"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.standard,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            {
+              name: "已达标",
+              code: "TRUE"
+            },
+            {
+              name: "未达标",
+              code: "FALSE"
+            }
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("BILLSTANDARD_SEARCH_QUERY", {
             standard: value
           });

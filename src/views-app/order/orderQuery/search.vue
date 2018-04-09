@@ -85,22 +85,44 @@ export default {
           });
         }
       });
+
+      // this.searchConfig.push({
+      //   title: "包含关系",
+      //   type: "myp-radio-list",
+      //   defaultValue: this.searchQuery.hasChild || "ALL",
+      //   options: [
+      //     {
+      //       label: "含下级",
+      //       value: "TRUE"
+      //     },
+      //     {
+      //       label: "不含下级",
+      //       value: "FALSE"
+      //     }
+      //   ],
+      //   cb: value => {
+      //     if (value == "ALL") value = "";
+      //     this.$store.commit("ORDER_QUERY_SET_SEARCH", {
+      //       hasChild: value
+      //     });
+      //   }
+      // });
       this.searchConfig.push({
         title: "包含关系",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.hasChild || "ALL",
-        options: [
-          {
-            label: "含下级",
-            value: "TRUE"
-          },
-          {
-            label: "不含下级",
-            value: "FALSE"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.hasChild,
+        values:
+          [
+            {
+              name: "含下级",
+              code: "TRUE"
+            },
+            {
+              name: "不含下级",
+              code: "FALSE"
+            }
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("ORDER_QUERY_SET_SEARCH", {
             hasChild: value
           });
