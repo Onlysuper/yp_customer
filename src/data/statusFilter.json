@@ -68,7 +68,7 @@
   "payStatus": {
     "SUCCESS": {
       "name": "推送成功",
-      "color": "#67C23A"
+      "color": "##409EFF"
     },
     "BILLING_SUCCESS": {
       "name": "开票成功",
