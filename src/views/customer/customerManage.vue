@@ -298,6 +298,7 @@
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
+
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
@@ -321,7 +322,7 @@ import {
   transferCustomer,
   perfectCustomer
 } from "@src/apis";
-
+import innetSourceQueryJSON from "@src/data/innetSourceQuery.json";
 export default {
   name: "customerlist",
   components: {
@@ -471,34 +472,9 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "PLUGIN",
-              label: "插件"
-            },
-            {
-              label: "扫码",
-              value: "SCAN_CODE"
-            },
-            {
-              label: "公众号",
-              value: "OFFICAL_ACCOUNT"
-            },
-            {
-              label: "静默",
-              value: "SLIENT"
-            },
-            {
-              label: "后台",
-              value: "LOCAL"
-            },
-            {
-              label: "第三方",
-              value: "OPEN_API"
-            }
+            ...innetSourceQueryJSON.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.customerFrom = value;
