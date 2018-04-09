@@ -37,4 +37,14 @@
       font-size: 30*$rem;
     }
   }
+
+  .mint-cell-title {
+    span {
+      white-space: nowrap;
+      padding-right: 10px;
+    }
+  }
+  .mint-cell-value{
+    line-height: 32*$rem;
+  }
 }

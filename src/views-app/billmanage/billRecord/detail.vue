@@ -60,6 +60,9 @@
     </view-radius>
   </full-page>
 </template>
+<style lang="scss">
+
+</style>
 
 <script>
 import { mapState, mapActions } from "vuex";

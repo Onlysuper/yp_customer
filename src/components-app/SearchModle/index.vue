@@ -3,11 +3,13 @@
   <div>
     <div class="_search-mask" @touchmove.prevent v-show="visible"></div>
     <div class="my-search" :class="{show:visible,hide:!visible}">
-      <input-wrapper class="input-bg">
-        <mt-field ref="mtField" class="input-field title-bold" v-model="myval" type="text" placeholder="请输入企业名称 / 关键字">
+      <!-- <input-wrapper class="input-bg"> -->
+      <div class="mint-searchbar">
+        <mt-field ref="mtField" class="input-field title-bold mint-searchbar-inner" v-model="myval" type="text" placeholder="请输入企业名称 / 关键字">
           <button class="input-return _av" @click="close">完成</button>
         </mt-field>
-      </input-wrapper>
+      </div>
+      <!-- </input-wrapper> -->
       <div class="query-list">
         <ul>
           <slot></slot>

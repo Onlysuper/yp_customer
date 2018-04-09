@@ -1,5 +1,5 @@
 <template>
-  <full-page-popup v-model="popupVisible" position="bottom" class="search-bank-branch-page" title="支行搜索">
+  <full-page-popup v-model="popupVisible" position="bottom" class="search-bank-branch-page" :closeBut="true" title="支行搜索">
     <!-- <div>
       <input type="text" placeholder="输入搜索内容" v-model="searchValue" />
     </div> -->
@@ -28,8 +28,14 @@
 @import "../../assets/scss/base.scss";
 .search-bank-branch-page {
   width: 100%;
-  height: 100%;
+  // height: 100%;
+  height: 70% !important;
   background: #eee;
+  z-index: 3000 !important;
+  .mint-header {
+    background: transparent;
+    color: #666;
+  }
   .bank-list {
     overflow: scroll;
     -webkit-overflow-scrolling: touch;
