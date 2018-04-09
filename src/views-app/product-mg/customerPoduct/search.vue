@@ -5,6 +5,7 @@
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
+import payStatusQueryJson from "@src/data/payStatusQuery.json";
 export default {
   components: { SearchPage },
   data() {
@@ -42,94 +43,43 @@ export default {
       });
       this.searchConfig.push({
         title: "快速开票",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.qrcodeStatus || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "已开通",
-            value: "TRUE"
-          },
-          {
-            label: "未开通",
-            value: "INIT"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.qrcodeStatus,
+        values:
+          [
+            ...payStatusQueryJson
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("CUSTOMER_PRODUCT_SET_SEARCH", {
             qrcodeStatus: value
           });
         }
       });
+
       this.searchConfig.push({
         title: "聚合支付",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.payStatus || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "已开通",
-            value: "TRUE"
-          },
-          {
-            label: "未开通",
-            value: "INIT"
-          },
-          {
-            label: "拒绝",
-            value: "REJECT"
-          },
-          {
-            label: "待审核",
-            value: "CHECKING"
-          },
-          {
-            label: "待提交",
-            value: "WAITING_SUBMIT"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.payStatus,
+        values:
+          [
+            ...payStatusQueryJson
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("CUSTOMER_PRODUCT_SET_SEARCH", {
             payStatus: value
           });
         }
       });
+
       this.searchConfig.push({
         title: "电子发票",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.elecStatus || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "已开通",
-            value: "TRUE"
-          },
-          {
-            label: "未开通",
-            value: "INIT"
-          },
-          {
-            label: "拒绝",
-            value: "REJECT"
-          },
-          {
-            label: "待审核",
-            value: "CHECKING"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.elecStatus,
+        values:
+          [
+            ...payStatusQueryJson
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("CUSTOMER_PRODUCT_SET_SEARCH", {
             elecStatus: value
           });

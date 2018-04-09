@@ -1,0 +1,30 @@
+  [
+    {
+      "name": "全部",
+      "code": ""
+    },
+    {
+      "name": "已开通",
+      "code": "TRUE"
+    },
+    {
+      "name": "未开通",
+      "code": "INIT"
+    },
+    {
+      "name": "拒绝",
+      "code": "REJECT"
+    },
+    {
+      "name": "待审核",
+      "code": "CHECKING"
+    },
+    {
+      "name": "待提交",
+      "code": "WAITING_SUBMIT"
+    },
+    {
+      "name": "已关闭",
+      "code": "FALSE"
+    }
+  ]

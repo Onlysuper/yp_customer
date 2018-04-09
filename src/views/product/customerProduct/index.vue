@@ -175,6 +175,7 @@ import paystatusSuccess from "./paystatusSuccess";
 import payDetail from "./payDetail";
 import elecDetail from "./elecDetail";
 import qrcodeDetail from "./qrcodeDetail";
+import payStatusQueryJson from "@src/data/payStatusQuery.json";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch,
@@ -450,34 +451,9 @@ export default {
           show: true, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            },
-            {
-              label: "拒绝",
-              value: "REJECT"
-            },
-            {
-              label: "待审核",
-              value: "CHECKING"
-            },
-            {
-              label: "待提交",
-              value: "WAITING_SUBMIT"
-            },
-            {
-              label: "已关闭",
-              value: "FALSE"
-            }
+            ...payStatusQueryJson.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.payStatus = value;
@@ -490,34 +466,9 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            },
-            {
-              label: "拒绝",
-              value: "REJECT"
-            },
-            {
-              label: "待审核",
-              value: "CHECKING"
-            },
-            {
-              label: "待提交",
-              value: "WAITING_SUBMIT"
-            },
-            {
-              label: "已关闭",
-              value: "FALSE"
-            }
+            ...payStatusQueryJson.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.qrcodeStatus = value;
@@ -530,34 +481,9 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            },
-            {
-              label: "拒绝",
-              value: "REJECT"
-            },
-            {
-              label: "待审核",
-              value: "CHECKING"
-            },
-            {
-              label: "待提交",
-              value: "WAITING_SUBMIT"
-            },
-            {
-              label: "已关闭",
-              value: "FALSE"
-            }
+            ...payStatusQueryJson.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.elecStatus = value;
