@@ -82,7 +82,7 @@
       </div>
       <!-- </iscroll-view> -->
     </div>
-    <div class="detaile-right">
+    <div class="detaile-right" v-if="detailRightVisible">
       <div class="scroll-box">
         <div class="small-but pre" @click="preFn" slot="preBut">《</div>
         <div class="small-but next" @click="preNext" slot="nextBut">》</div>
@@ -228,6 +228,7 @@ export default {
       }
     }
     return {
+      detailRightVisible: true,// 右侧是否显示
       accountVisible: false,// 开户行许可证 
       certificateVisible: false,// 授权书
       iscrollOptions: {
@@ -362,6 +363,13 @@ export default {
 
             }
             this.imgsArr = imgsArr;
+            if (this.imgsArr.length == 0) {
+              this.detailRightVisible = false;
+            } else {
+              this.detailRightVisible = true;
+            }
+          } else {
+            this.detailRightVisible = false;
           }
           // this.imgsRow = imgsRow;
           this.payStatusDetails = {

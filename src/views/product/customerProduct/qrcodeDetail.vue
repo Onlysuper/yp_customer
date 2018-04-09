@@ -22,7 +22,7 @@
       </div>
       <!-- </iscroll-view> -->
     </div>
-    <div class="detaile-right">
+    <div class="detaile-right" v-if="detailRightVisible">
       <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
         <div class="imgs-group">
           <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
@@ -104,6 +104,7 @@ export default {
       }
     }
     return {
+      detailRightVisible: true,
       imgsArr: [],
       largeImg: {},
       iscrollOptions: {
@@ -149,8 +150,16 @@ export default {
             qrcodeImgs = utils.pickObj(data.imgs, [
               "fastBussinessImg", "fastCashImg", "fastHeaderImg"
             ]);
-          }
 
+          } else {
+            console.log('隐藏');
+
+          }
+          if (qrcodeImgs) {
+            this.detailRightVisible = true;
+          } else {
+            this.detailRightVisible = false
+          }
           // 默认显示第一张图
           this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           let imgsArr = Object.entries(this.qrcodeImgs);
@@ -185,6 +194,11 @@ export default {
 
           }
           this.imgsArr = imgsArr;
+          // if (this.imgsArr.length == 0) {
+          //   this.detailRightVisible = false
+          // } else {
+          //   this.detailRightVisible = true
+          // }
         }
         dialogLoading.close();
       });
