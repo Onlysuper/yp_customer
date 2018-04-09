@@ -32,26 +32,51 @@ export default {
         }
       });
 
+      // this.searchConfig.push({
+      //   title: "转移类型",
+      //   type: "myp-radio-list",
+      //   defaultValue: this.searchQuery.migrateMode || "ALL",
+      //   options: [
+      // {
+      //   label: "全部",
+      //   value: "ALL"
+      // },
+      // {
+      //   label: "转入",
+      //   value: "INPUT"
+      // },
+      // {
+      //   label: "转出",
+      //   value: "OUTPUT"
+      // }
+      //   ],
+      //   cb: value => {
+      //     if (value == "ALL") value = "";
+      //     this.$store.commit("QRCODEMIGRATE_SEARCH_QUERY", {
+      //       migrateMode: value
+      //     });
+      //   }
+      // });
       this.searchConfig.push({
         title: "转移类型",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.migrateMode || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "转入",
-            value: "INPUT"
-          },
-          {
-            label: "转出",
-            value: "OUTPUT"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.migrateMode,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            {
+              name: "转入",
+              code: "INPUT"
+            },
+            {
+              name: "转出",
+              code: "OUTPUT"
+            }
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("QRCODEMIGRATE_SEARCH_QUERY", {
             migrateMode: value
           });
