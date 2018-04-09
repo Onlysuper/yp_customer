@@ -6,7 +6,7 @@
       <!-- {{adminOperationAll.qr_code_reciept_audit_all}} -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 审核授权码采购 -->
     <el-dialog center title="授权码采购清单" :visible.sync="checkFormVisible">
@@ -271,11 +271,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getArantNumExamines,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getArantNumExamines // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getArantNumExamines // 初始化数据
+        // },
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息

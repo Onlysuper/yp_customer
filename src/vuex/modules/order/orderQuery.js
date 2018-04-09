@@ -1,5 +1,5 @@
 
-import { getBillprofitSum } from "@src/apis";
+import { getSumPayOrders } from "@src/apis";
 import { Toast } from "mint-ui";
 
 import utils from "@src/common/utils";
@@ -31,9 +31,8 @@ export default {
         hasChild: "TRUE",
       };
       state.sumData = {
-        customerSum: 0,
-        rebateSum: 0,
-        subsidySum: 0
+        amountCount: 0,
+        amountSum: 0,
       }
     },
     //设置商品列表profitBilling
@@ -48,6 +47,10 @@ export default {
     ["ORDER_QUERY_IS_SEARCH"](state, flag) {
       state.isSearch = flag;
     },
+    //合计
+    ["ORDER_SUM"](state, data) {
+      state.sumData = data;
+    }
   },
   actions: {
     // 数据列表中获取当前编辑得数据
@@ -55,5 +58,16 @@ export default {
       console.log(itemId)
       return state.list.find(item => item.orderNo == itemId);
     },
+    // 合计
+    getOrderQuerySum({ commit, dispatch, getters, rootGetters, rootState, state }, good) {
+      return getSumPayOrders()({ ...state.searchQuery }).then(data => {
+        if (data.code == "00") {
+          commit("ORDER_SUM", data.data);
+          return true;
+        } else {
+          Toast(data.msg);
+        }
+      })
+    }
   }
 };

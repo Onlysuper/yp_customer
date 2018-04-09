@@ -10,6 +10,15 @@
   .small-line{
     padding: 0 10px;
   }
+  // 垂直分割线
+  .split-line-v{
+    margin: 0 5px;
+    width: 1px;
+    height: 14px;
+    background: #606266;
+    display: inline-block;
+    font-size: 0;
+  }
   .admin-page {
     position: relative;
     // background: #eff2f5;
@@ -41,24 +50,15 @@
         padding-bottom: 10px;
         border-bottom:1px solid #ebeef5
       }
-      // .detail-content{
-      //   display: table;
-      //   width: 100%;
-      //   .line-label-box{
-      //     display: table-row;
-      //      padding: 0 10px;
-      //      text-align:justify;
-      //      text-align-last: justify;
-      //     .line-label{
-      //       display: table-cell;
-      //     }
-      //     .line-label-last{
-      //        display: table-cell;
-      //     }
-      //   }
-      // }
     .detail-content {
-     
+        height: 100%;
+        overflow: auto;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        // display: table;
+        width: 100%;
+            // border-collapse: collapse;
       .line-label-box {
         padding: 4px 0;
         display: flex;
@@ -66,14 +66,17 @@
         flex-direction: row;
         justify-content: flex-start;
         align-items: stretch;
+        // display: table-row;
         //  text-align:justify;
           //  text-align-last: justify;
         .line-label {
+          // display: table-cell;
+    text-align-last: justify;
           // min-width: 100px;
           word-break: break-all;
           padding: 0 10px;
           white-space: nowrap;
-         
+          width: 90px;
         }
         .line-label-last{
            
@@ -200,15 +203,20 @@
       color: #67c23a;
     }
   }
-  .operation-box {
    
   .sumtext {
     font-size: 14px;
     padding-left: 10px;
-    line-height: 32px;
+    // line-height: 32px;
     color: #606266;
     display: inline-block;
     float: left;
+    height: 32px;
+    vertical-align: middle;
+    span{
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 32px;
+    }
   }
-}
 }

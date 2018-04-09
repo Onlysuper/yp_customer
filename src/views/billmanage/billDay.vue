@@ -10,7 +10,7 @@
           <el-button v-if="adminFilter('billcountday_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -140,11 +140,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getBillcountdays,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getBillcountdays // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getBillcountdays // 初始化数据
+        // },
         havecheck: false, //是否显示输入框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息

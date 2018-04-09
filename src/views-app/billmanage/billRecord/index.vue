@@ -3,7 +3,7 @@
   <full-page class="page" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({name:'billRecordSearch'})">搜索</mt-button>
+      <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
       <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
@@ -13,8 +13,9 @@
         <!-- 常用按钮 -->
         <div slot="btn" @click="toUrl('EDIT',item.billRecordNo)">编辑</div>
         <!-- 状态 -->
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | billStatus}}</mt-badge>
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | billType}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.status,'billStatus').type">{{item.status | statusFilter('billStatus')}}</mt-badge>
+        <mt-badge v-if="item.invoiceMedia=='PAPERY'?true:false" slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | statusFilter('billType')}}</mt-badge>
+        <mt-badge v-if="item.invoiceMedia=='ELECTRONIC'?true:false" slot="badge" class="g-min-badge" size="small" type="primary">{{"电票"}}</mt-badge>
         <myp-cell class="list-item" @click="detail(item)">
           <!-- 详情 -->
           <table>
@@ -38,9 +39,9 @@
 import SliderNav from "@src/components-app/SliderNav";
 import { getBillrecords } from "@src/apis";
 import { mapState, mapActions } from "vuex";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav },
   data() {
     return {

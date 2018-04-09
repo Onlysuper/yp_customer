@@ -11,7 +11,7 @@
         <el-button-group class="button-group">
           <el-button class="mybutton" @click="addFuncDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
-        <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+        <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       </div>
     </div>
     <!-- 新增功能 start -->
@@ -270,12 +270,13 @@ export default {
       addFormRules: {},
       formLabelWidth: "100px",
       // 列表数据
+      actionUrl: getMenuTreePage,
       postSearch: searchConditionVar,
       searchCondition: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getMenuTreePage // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getMenuTreePage // 初始化数据
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {

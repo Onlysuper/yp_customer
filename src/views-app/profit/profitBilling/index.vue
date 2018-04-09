@@ -29,12 +29,12 @@
 
 <script>
 import SliderNav from "@src/components-app/SliderNav";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { getBillprofits, getBillprofitSum } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 import sum from "./sum";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav, sum },
   data() {
     var user = this.$store.state.userInfoAndMenu.userMessage.all;

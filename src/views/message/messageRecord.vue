@@ -5,7 +5,7 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -114,11 +114,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getMessages,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getMessages // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getMessages // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计
@@ -175,7 +176,12 @@ export default {
           {
             key: "内容",
             width: "200px",
-            word: "content"
+            word: "content",
+            type: data => {
+              return {
+                text: JSON.parse(data).data,
+              };
+            }
           },
           {
             key: "状态",
@@ -222,7 +228,7 @@ export default {
     };
   },
   methods: {},
-  mounted() {}
+  mounted() { }
 };
 </script>
 

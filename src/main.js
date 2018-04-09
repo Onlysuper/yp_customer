@@ -71,6 +71,7 @@ import {
   Alert as eleAlert,
   Tabs as eleTabs,
   TabPane as eleTabPane,
+  Autocomplete as eleAutocomplete,
   MessageBox,
   Message,
   Loading
@@ -120,6 +121,7 @@ Vue.component(eleColorPicker.name, eleColorPicker)
 Vue.component(eleAlert.name, eleAlert)
 Vue.component(eleTabs.name, eleTabs)
 Vue.component(eleTabPane.name, eleTabPane)
+Vue.component(eleAutocomplete.name, eleAutocomplete)
 Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }
 

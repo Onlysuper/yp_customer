@@ -51,67 +51,93 @@ export default {
         }
       });
       if (this.isAdmin) {
+        // 只有运营显示
         this.searchConfig.push({
-          // 只有运营显示
           title: "级别",
-          type: "myp-radio-list",
-          defaultValue: this.searchQuery.level || "ALL",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "0",
-              label: "分公司"
-            },
-            {
-              value: "1",
-              label: "一级合伙人"
-            },
-            {
-              value: "2",
-              label: "二级合伙人"
-            },
-            {
-              value: "3",
-              label: "三级合伙人"
-            }
-          ],
+          type: "myp-select",
+          defaultValue: this.searchQuery.level,
+          values:
+            [
+              {
+                code: "",
+                name: "全部"
+              },
+              {
+                code: "0",
+                name: "分公司"
+              },
+              {
+                code: "1",
+                name: "一级合伙人"
+              },
+              {
+                code: "2",
+                name: "二级合伙人"
+              },
+              {
+                code: "3",
+                name: "三级合伙人"
+              }
+            ],
           cb: value => {
-            if (value == "ALL") value = "";
             this.$store.commit("AGENT_SET_SEARCH", {
               level: value
             });
           }
         });
+
       } else {
         // 非运营
         this.searchConfig.push({
           title: "级别",
-          type: "myp-radio-list",
-          defaultValue: this.searchQuery.level || "ALL",
-          options: [
-            {
-              label: "全部",
-              value: "ALL"
-            },
-            {
-              label: "本级合伙人",
-              value: "1"
-            },
-            {
-              label: "下级合伙人",
-              value: "2"
-            }
-          ],
+          type: "myp-select",
+          defaultValue: this.searchQuery.level,
+          values:
+            [
+              {
+                name: "全部",
+                code: "ALL"
+              },
+              {
+                name: "本级合伙人",
+                code: "1"
+              },
+              {
+                name: "下级合伙人",
+                code: "2"
+              }
+            ],
           cb: value => {
-            if (value == "ALL") value = "";
             this.$store.commit("AGENT_SET_SEARCH", {
               level: value
             });
           }
         });
+        // this.searchConfig.push({
+        //   title: "级别",
+        //   type: "myp-radio-list",
+        //   defaultValue: this.searchQuery.level || "ALL",
+        //   options: [
+        //     {
+        //       label: "全部",
+        //       value: "ALL"
+        //     },
+        //     {
+        //       label: "本级合伙人",
+        //       value: "1"
+        //     },
+        //     {
+        //       label: "下级合伙人",
+        //       value: "2"
+        //     }
+        //   ],
+        //   cb: value => {
+        //     if (value == "ALL") value = "";
+        //     this.$store.commit("AGENT_SET_SEARCH", {
+        //       level: value
+        //     });
+        //   }
+        // });
       }
     });
   },

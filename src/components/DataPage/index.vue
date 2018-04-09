@@ -12,7 +12,8 @@
         <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :min-width="item.width" :sortable="item.sortable">
           <!-- <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable"> -->
           <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
-            <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
+            <!-- <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag> -->
+            <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition disable-transitions> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
             <el-popover v-else trigger="click" placement="top">
               <p>{{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</p>
               <div slot="reference" class="name-wrapper">
@@ -40,6 +41,11 @@
 </template>
 <style lang="scss">
 .tablelist-box {
+  .el-tag {
+    // background: rgb(64, 158, 255);
+    // color: #fff;
+    // border: 0px;
+  }
   .table-outbox {
     flex: 1;
     overflow: auto;
@@ -206,7 +212,7 @@ import qs from "qs";
 import Vue from "vue";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 export default {
-  props: ["tableDataInit", "page", "limit", "search"],
+  props: ["tableDataInit", "page", "limit", "search", "actionUrl"],
   mixins: [mixinDataTable],
   data() {
     return {
@@ -220,7 +226,7 @@ export default {
       ifloading: false,
       tableData: [],
       tableHeight: 0, // 表单的高度
-      getUrl: this.tableDataInit.getDataUrl.url, // 请求函数
+      // getUrl: this.tableDataInit.getDataUrl.url, // 请求函数
       dataCount: 0,
       getSearch: this.search,
       getPage: this.page,
@@ -248,7 +254,7 @@ export default {
     //列表数据获取
     postDataInit(page, limit, searchCondition) {
       this.ifloading = true;
-      this.getUrl()({
+      this.actionUrl()({
         page: page,
         limit: limit,
         ...searchCondition
@@ -337,6 +343,11 @@ export default {
     // 初始化数据
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
   },
+  activated() {
+    // this.$emit("databoxSize");
+    // 初始化数据
+    // this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+  },
   computed: {
     userAll() {
       // 所有的用户信息
@@ -375,12 +386,15 @@ export default {
       console.log(this.getLimit);
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
-    getUrl(value) {
-      this.getUrl = value;
-      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
-    },
+    // getUrl(value) {
+    //   this.getUrl = value;
+    //   this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    // },
     getSearch() {
       this.getSearch = value;
+      this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    },
+    actionUrl() {
       this.postDataInit(this.getPage, this.getLimit, this.getSearch);
     },
     fullScreen(value) {

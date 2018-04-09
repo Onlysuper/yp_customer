@@ -3,7 +3,7 @@
   <full-page class="page" ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({name:'billStandardSearch'})">搜索</mt-button>
+      <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
       <!-- <mt-button slot="right" :disabled="false" type="danger" @click="toUrl('ADD')">新增</mt-button> -->
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
@@ -11,7 +11,7 @@
 
       <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
         <!-- 状态 -->
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.standard | billStandard}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.standard | statusFilter('billStandard')}}</mt-badge>
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
@@ -39,9 +39,9 @@
 import SliderNav from "@src/components-app/SliderNav";
 import { getBillcountcustomers } from "@src/apis";
 import { mapState, mapActions } from "vuex";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav },
   data() {
     return {

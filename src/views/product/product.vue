@@ -9,7 +9,7 @@
           <el-button v-if="adminFilter('product_add')" class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
@@ -295,10 +295,11 @@ export default {
       ],
       // 列表数据
       postSearch: searchConditionVar,
+      actionUrl: getProducts,
       tableData: {
-        getDataUrl: {
-          url: getProducts // 获取Table列表数据的后台url
-        },
+        // getDataUrl: {
+        //   url: getProducts // 获取Table列表数据的后台url
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {

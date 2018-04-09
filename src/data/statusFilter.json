@@ -1,0 +1,358 @@
+{
+  "payTypeDetail": {
+    "trade.scanPay": {
+      "name": "扫码支付"
+    },
+    "trade.microPay": {
+      "name": "刷卡支付"
+    },
+    "trade.h5Pay": {
+      "name": "h5支付"
+    },
+    "trade.appPay": {
+      "name": "app支付"
+    },
+    "trade.jsPay": {
+      "name": "公众号支付"
+    }
+  },
+  "payType": {
+    "WECHAT": {
+      "name": "微信",
+      "color": "#67C23A"
+    },
+    "ALIPAY": {
+      "name": "支付宝",
+      "color": "#E6A23C"
+    }
+  },
+  "payFrom": {
+    "SMART_POS": {
+      "name": "智能pos"
+    },
+    "PLUGIN": {
+      "name": "插件"
+    },
+    "THIRD_PARTY": {
+      "name": "第三方"
+    }
+  },
+  "accountType": {
+    "0": {
+      "name": "对公"
+    },
+    "1": {
+      "name": "对私"
+    }
+  },
+  "settleMode": {
+    "T0": {
+      "name": "已开通"
+    },
+    "T1": {
+      "name": "未开通"
+    }
+  },
+  "payStatus": {
+    "SUCCESS": {
+      "name": "推送成功"
+    },
+    "BILLING_SUCCESS": {
+      "name": "开票成功"
+    },
+    "BILLING": {
+      "name": "开票中"
+    },
+    "ORDER": {
+      "name": "待开票"
+    },
+    "BILLING_FAIL": {
+      "name": "开票失败"
+    },
+    "QUERY_FAIL": {
+      "name": "查询失败"
+    }
+  },
+  "billStatus": {
+    "SUCCESS": {
+      "name": "推送成功",
+      "color": "#67C23A"
+    },
+    "BILLING_SUCCESS": {
+      "name": "开票成功",
+      "color": "#67C23A"
+    },
+    "BILLING": {
+      "name": "开票中",
+      "color": "#E6A23C"
+    },
+    "ORDER": {
+      "name": "待开票",
+      "color": "#409EFF"
+    },
+    "BILLING_FAIL": {
+      "name": "失败",
+      "color": "#F56C6C"
+    },
+    "QUERY_FAIL": {
+      "name": "查询失败",
+      "color": "#909399"
+    }
+  },
+  "billType": {
+    "1": {
+      "name": "普票",
+      "color": "#409EFF"
+    },
+    "2": {
+      "name": "专票",
+      "color": "#67C23A"
+    },
+    "3": {
+      "name": "普票(个人)",
+      "color": "#E6A23C"
+    }
+  },
+  "billStandard": {
+    "TRUE": {
+      "name": "已达标"
+    },
+    "FALSE": {
+      "name": "未达标"
+    }
+  },
+  "empowerCheckIsPrint": {
+    "N": {
+      "name": "否"
+    },
+    "Y": {
+      "name": "带水牌"
+    }
+  },
+  "migrateType": {
+    "OUT_ORDER": {
+      "name": "授权码序列号"
+    },
+    "ORDER": {
+      "name": "授权码序列号转移"
+    }
+  },
+  "empowerCheckStatus": {
+    "SUCCESS": {
+      "name": "审核通过"
+    },
+    "AUDITING": {
+      "name": "待审核"
+    },
+    "REJECT": {
+      "name": "拒绝"
+    }
+  },
+  "empowerManageStatus": {
+    "BINDED": {
+      "name": "已绑定"
+    },
+    "TRUE": {
+      "name": "未绑定"
+    },
+    "FALSE": {
+      "name": "无效"
+    }
+  },
+  "empowerManageMateriel": {
+    "TRUE": {
+      "name": "有物料"
+    },
+    "FALSE": {
+      "name": "无物料"
+    }
+  },
+  "empowerTransferStatus": {
+    "SUCCESS": {
+      "name": "审核通过"
+    },
+    "REJECT": {
+      "name": "拒绝"
+    },
+    "AUDITING": {
+      "name": "待审核"
+    }
+  },
+  "empowerCheckReceiptType": {
+    "AUTHCODE": {
+      "name": "授权码"
+    },
+    "SCANCODEGUN": {
+      "name": "扫码枪"
+    }
+  },
+  "enterprisesupplyStatus": {
+    "INIT": {
+      "name": "未处理"
+    },
+    "SUCCESS": {
+      "name": "已处理"
+    },
+    "FAIL": {
+      "name": "失败"
+    }
+  },
+  "handleStatus": {
+    "TRUE": {
+      "name": "开启",
+      "color": "#67C23A"
+    },
+    "FALSE": {
+      "name": "关闭",
+      "color": "#909399"
+    }
+  },
+  "handleDeviceType": {
+    "HX_PAN": {
+      "name": "金税盘"
+    },
+    "BW_PAN": {
+      "name": "税控盘"
+    }
+  },
+  "handleClientType": {
+    "CLIENT": {
+      "name": "桌面客户端"
+    },
+    "BROWER": {
+      "name": "浏览器"
+    }
+  },
+  "handleDefaultType": {
+    "TRUE": {
+      "name": "默认"
+    },
+    "FALSE": {
+      "name": "不默认"
+    }
+  },
+  "handleProductOpenStatus": {
+    "TRUE": {
+      "name": "已开通",
+      "color": "#67C23A"
+    },
+    "INIT": {
+      "name": "未开通",
+      "color": "#909399"
+    },
+    "REJECT": {
+      "name": "审核失败",
+      "color": "#F56C6C"
+    },
+    "CHECKING": {
+      "name": "待审核",
+      "color": "#E6A23C"
+    },
+    "WAITING_SUBMIT": {
+      "name": "待提交",
+      "color": "#E6A23C"
+    },
+    "PROCESSING": {
+      "name": "开通待处理",
+      "color": "#E6A23C"
+    }
+  },
+  "typeCustomerVersion": {
+    "HOST_C": {
+      "name": "c++主程序",
+      "color": "rgb(64, 158, 255)"
+    },
+    "UPDATE_C": {
+      "name": "c++更新程序",
+      "color": "#F56C6C"
+    },
+    "HOST": {
+      "name": "c#主程序",
+      "color": "#409EFF"
+    },
+    "UPDATE": {
+      "name": "c#更新程序",
+      "color": "#409EFF"
+    },
+    "RELEASE": {
+      "name": "官网版本",
+      "color": "#409EFF"
+    },
+    "HOST_OLD": {
+      "name": "c#老版本主程序",
+      "color": "#409EFF"
+    },
+    "DATA_COLLECTION": {
+      "name": "数据采集程序",
+      "color": "#409EFF"
+    },
+    "HOST_DZFP": {
+      "name": "电子发票版本",
+      "color": "#E6A23C"
+    },
+    "HOST_ZF": {
+      "name": "HOST_ZF: 支付版本",
+      "color": "#409EFF"
+    },
+    "MANUAL": {
+      "name": "其他",
+      "color": "#909399"
+    }
+  },
+  "orderQueryStatus": {
+    "INIT": {
+      "name": "订单初始化",
+      "color": "#409EFF"
+    },
+    "PAY_WAIT": {
+      "name": "等待支付",
+      "color": "#E6A23C"
+    },
+    "FAIL": {
+      "name": "失败",
+      "color": "#F56C6C"
+    },
+    "SUCCESS": {
+      "name": "成功",
+      "color": "#67C23A"
+    },
+    "CANCEL": {
+      "name": "撤单",
+      "color": "#909399"
+    }
+  },
+  "userType": {
+    "0": {
+      "name": "普通"
+    },
+    "1": {
+      "name": "静默"
+    }
+  },
+  "customerFrom": {
+    "OPEN_API": {
+      "name": "第三方",
+      "color": "#E6A23C"
+    },
+    "PLUGIN": {
+      "name": "插件",
+      "color": "#F56C6C"
+    },
+    "LOCAL": {
+      "name": "后台",
+      "color": "#67C23A"
+    },
+    "SCAN_CODE": {
+      "name": "扫码",
+      "color": "#409EFF"
+    },
+    "OFFICAL_ACCOUNT": {
+      "name": "公众号",
+      "color": "#409EFF"
+    },
+    "SLIENT": {
+      "name": "静默",
+      "color": "#409EFF"
+    }
+  }
+}

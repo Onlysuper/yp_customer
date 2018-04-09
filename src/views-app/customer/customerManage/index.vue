@@ -17,8 +17,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="toUrl('EDIT',item.customerNo)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" v-if="item.customerFrom" class="g-min-badge" size="small" type="primary">{{item.customerFrom | handleFrom}}</mt-badge>
-          <mt-badge slot="badge" v-if="item.status" class="g-min-badge" size="small" type="error">{{item.status | handleStatus}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.customerFrom" class="g-min-badge" size="small" :color="filterColor(item.customerFrom,'customerFrom').type">{{item.customerFrom | statusFilter("customerFrom")}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.status" class="g-min-badge" size="small" :color="filterColor(item.status,'handleStatus').type">{{item.status | statusFilter('handleStatus')}}</mt-badge>
 
           <myp-cell class="list-item _av" @click="detail(item)">
             <!-- 详情 -->
@@ -48,16 +48,17 @@
 </template>
 
 <script>
+import { Toast } from "mint-ui";
 import SliderNav from "@src/components-app/SliderNav";
 import SearchPanelPopup from "@src/components-app/Search/SearchPanelPopup";
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import detail from "./detail";
-import { getCustomers } from "@src/apis";
+import { getCustomers, postCloseCustomer } from "@src/apis";
 import utils from "@src/common/utils";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { mapState, mapActions } from "vuex";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: {
     SliderNav,
     SearchPanelPopup,
@@ -65,7 +66,14 @@ export default {
     detail
   },
   data() {
+    let user = this.$store.state.userInfoAndMenu.userMessage.all;
+    let isAdmin = (
+      user.userType === "root" ||
+      user.userType === "admin" ||
+      user.userType === "operator"
+    ); // 运营
     return {
+      isAdmin: isAdmin,
       munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
@@ -78,6 +86,10 @@ export default {
         {
           name: "转移",
           method: this.transfer
+        },
+        {
+          name: "关闭",
+          method: this.closeSave
         }
       ],
       popupActionsVisible: false,
@@ -136,6 +148,25 @@ export default {
       });
     },
     operation(customer) {
+      if (customer.status == 'TRUE' && this.isAdmin) {
+        this.actions = [
+          {
+            name: "转移",
+            method: this.transfer
+          },
+          // {
+          //   name: "关闭",
+          //   method: this.closeSave
+          // }
+        ]
+      } else {
+        this.actions = [
+          {
+            name: "转移",
+            method: this.transfer
+          },
+        ]
+      }
       this.sheetVisible = true;
       this._customer = customer;
     },
@@ -143,6 +174,22 @@ export default {
       this.$router.push({
         path: "./transfer",
         query: { customerNo: this._customer.customerNo }
+      });
+    },
+    // 关闭商户
+    closeSave() {
+      this.MessageBox.confirm('确定要关闭该条用户信息吗?').then(action => {
+        postCloseCustomer()({
+          customerNo: this._customer.customerNo
+        }).then(data => {
+          if (data.code == "00") {
+            let row = { ...this._customer };
+            row.status = "FALSE";
+            this.$store.commit("CUSTOMER_MANAGE_UPDATA", row);
+            Toast("关闭成功");
+          } else {
+            Toast(data.msg);          }
+        })
       });
     }
   }

@@ -8,12 +8,16 @@
       <div class="operation-box">
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">商户:{{customerSum}}个 返利:{{subsidySum}}元
+          <span v-if="sumVisible" class="sumtext">
+            <span>商户:{{customerSum}}个 </span>
+            <span class="split-line-v"></span>
+            <span>返利:{{subsidySum}}元</span>
+            <span class="split-line-v"></span>
             <span v-if="isAdmin">中间人:{{rebateSum}}元</span>
           </span>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -47,6 +51,7 @@ export default {
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
     var isAdmin = user.userType === "admin" || user.userType === "branchOffice"; // 运营
     return {
+      sumVisible: false,
       customerSum: 0,
       rebateSum: 0,
       subsidySum: 0,
@@ -148,11 +153,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getBillprofits,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getBillprofits // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getBillprofits // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计
@@ -233,13 +239,25 @@ export default {
           this.customerSum = data.customerSum;
           this.rebateSum = data.rebateSum;
           this.subsidySum = data.subsidySum;
+          this.sumVisible = true;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            center: true
+          });
         }
         this.sumLoading = false;
       });
+    },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+      this.sumVisible = false;
     }
   },
   mounted() {
-    this.SumHandle();
+    // this.SumHandle();
   },
   computed: {
     isAdmin() {

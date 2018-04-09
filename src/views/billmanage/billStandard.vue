@@ -10,7 +10,7 @@
           <el-button v-if="adminFilter('billcountcustomer_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -21,6 +21,7 @@
 </style>
 <script>
 import qs from "qs";
+import billOrder from "@src/data/billOrder.json";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
@@ -180,25 +181,15 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "0-5",
-              label: "5次以下"
-            },
-            {
-              value: "5-50",
-              label: "5-50次"
-            },
-            {
-              value: "50-100",
-              label: "50-100次"
-            },
-            {
-              value: "100",
-              label: "100次"
-            }
+            ...billOrder.map(item => {
+              return {
+                label: item.name,
+                value: item.code
+              }
+            })
           ],
           cb: value => {
-            if (value != null) {
+            if (value) {
               var billSuccessArr = value.split("-");
               if (billSuccessArr.length >= 2) {
                 this.searchCondition.billSuccessBegin = billSuccessArr[0];
@@ -206,17 +197,21 @@ export default {
               } else if (billSuccessArr.length >= 1) {
                 this.searchCondition.billSuccessBegin = billSuccessArr[0];
               }
+            } else {
+              this.searchCondition.billSuccessBegin = "";
+              this.searchCondition.billSuccessEnd = "";
             }
           }
         },
 
       ],
       // 列表数据
+      actionUrl: getBillcountcustomers,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getBillcountcustomers // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getBillcountcustomers // 初始化数据
+        // },
         havecheck: false, //是否显示输入框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息

@@ -4,8 +4,18 @@
     <div class="admin-main-box">
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
+      <div class="operation-box">
+        <el-button-group v-if="adminFilter('pay_order_sum')" class="button-group">
+          <el-button class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
+          <span v-if="sumVisible" class="sumtext">
+            <span>交易金额:{{utils.accMul(amountSum,0.01)}}元</span>
+            <span class="split-line-v"></span>
+            <span>交易笔数:{{amountCount}}笔</span>
+          </span>
+        </el-button-group>
+      </div>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详细信息 start -->
     <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
@@ -35,13 +45,13 @@
         </div> -->
 
         <div class="line-label-box cross-back">
-          <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | payTypeDetail}}
+          <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | statusFilter('payTypeDetail')}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">交易来源:</span>{{detailsForm.payFrom | payFrom}}
+          <span class="line-label">交易来源:</span>{{detailsForm.payFrom | statusFilter('payFrom')}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">交易类型:</span>{{detailsForm.payType | payType}}
+          <span class="line-label">交易类型:</span>{{detailsForm.payType | statusFilter('payType')}}
         </div>
         <div v-if="detailsForm.status=='FAIL'?true:false" class="line-label-box cross-back">
           <span class="line-label">支付失败原因:</span>{{detailsForm.respCode}}
@@ -63,7 +73,8 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
-import { getPayOrders } from "@src/apis";
+import { getPayOrders, getSumPayOrders } from "@src/apis";
+import orderStatus from "@src/data/orderStatus.json";
 import utils from "@src/common/utils";
 export default {
   name: "orderQuery",
@@ -71,7 +82,7 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
   },
-  mixins: [mixinDataTable],
+  mixins: [mixinDataTable, mixinsPc],
   data() {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
@@ -81,11 +92,14 @@ export default {
       customerNo: "",
       agentNo: "",
       hasChild: true,
-      status: "",
+      status: "SUCCESS",
       payType: "",
-      status: ""
     };
     return {
+      sumVisible: false,
+      amountSum: "0",
+      amountCount: "0",
+      sumLoading: false,
       detailsFormVisible: false,
       detailsForm: {},
       formLabelWidth: "100px",
@@ -105,20 +119,22 @@ export default {
           }
         },
         {
-          corresattr: "agentNo",
-          type: "text", // 表单类型
-          label: "代理商编号", // 输入框前面的文字
-          visible:
-            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
-              "admin" ||
-              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
-              ? "FALSE"
-              : "TRUE",
+          corresattr: "status",
+          type: "select",
+          label: "交易状态",
           show: true, // 普通搜索显示
-          value: "", // 表单默认的内容
+          value: "SUCCESS",
+          options: [
+            {
+              value: "",
+              label: "全部"
+            },
+            ...orderStatus.map(item => {
+              return { value: item.code, label: item.name }
+            })
+          ],
           cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.agentNo = value;
+            this.searchCondition.status = value;
           }
         },
         {
@@ -171,12 +187,8 @@ export default {
           type: "select",
           label: "包含关系",
           show: false, // 普通搜索显示
-          value: "",
+          value: "TRUE",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
             {
               value: "TRUE",
               label: "包含下级"
@@ -186,44 +198,27 @@ export default {
               label: "不包含下级"
             }
           ],
+
           cb: value => {
             this.searchCondition.hasChild = value;
           }
         },
+
         {
-          corresattr: "status",
-          type: "select",
-          label: "交易状态",
+          corresattr: "agentNo",
+          type: "text", // 表单类型
+          label: "代理商编号", // 输入框前面的文字
+          visible:
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
+              "admin" ||
+              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              ? "FALSE"
+              : "TRUE",
           show: false, // 普通搜索显示
-          value: "",
-          options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "INIT",
-              label: "订单初始化"
-            },
-            {
-              value: "PAY_WAIT",
-              label: "等待支付"
-            },
-            {
-              value: "FAIL",
-              label: "失败"
-            },
-            {
-              value: "CANCEL",
-              label: "撤单"
-            },
-            {
-              value: "SUCCESS",
-              label: "成功"
-            }
-          ],
+          value: "", // 表单默认的内容
           cb: value => {
-            this.searchCondition.status = value;
+            // 表单输入之后回调函数
+            this.searchCondition.agentNo = value;
           }
         },
         {
@@ -253,11 +248,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getPayOrders,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getPayOrders // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getPayOrders // 初始化数据
+        // },
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
@@ -295,37 +291,38 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data == "INIT") {
-                return {
-                  text: "订单初始化",
-                  type: ""
-                };
-              } else if (data == "PAY_WAIT") {
-                return {
-                  text: "等待支付",
-                  type: ""
-                };
-              } else if (data == "FAIL") {
-                return {
-                  text: "失败",
-                  type: "danger"
-                };
-              } else if (data == "SUCCESS") {
-                return {
-                  text: "成功",
-                  type: "success"
-                };
-              } else if (data == "CANCEL") {
-                return {
-                  text: "撤单",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'orderQueryStatus');
+              // if (data == "INIT") {
+              //   return {
+              //     text: "订单初始化",
+              //     type: ""
+              //   };
+              // } else if (data == "PAY_WAIT") {
+              //   return {
+              //     text: "等待支付",
+              //     type: ""
+              //   };
+              // } else if (data == "FAIL") {
+              //   return {
+              //     text: "失败",
+              //     type: "danger"
+              //   };
+              // } else if (data == "SUCCESS") {
+              //   return {
+              //     text: "成功",
+              //     type: "success"
+              //   };
+              // } else if (data == "CANCEL") {
+              //   return {
+              //     text: "撤单",
+              //     type: "warning"
+              //   };
+              // } else {
+              //   return {
+              //     text: data,
+              //     type: ""
+              //   };
+              // }
             }
           }
         ],
@@ -362,9 +359,49 @@ export default {
       }
     };
   },
-  methods: {},
-  mounted() { },
+  methods: {
+    // 合计
+    SumHandle() {
+      this.sumVisible = true;
+      this.sumLoading = true;
+      var searchCondition = this.searchCondition;
+      getSumPayOrders()({
+        ...searchCondition
+      }).then(res => {
+        if (res.code == "00") {
+          var data = res.data;
+          this.amountCount = data.amountCount ? data.amountCount : 0;
+          this.amountSum = data.amountSum ? data.amountSum : 0;
+          this.sumVisible = true;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            center: true
+          });
+        }
+        this.sumLoading = false;
+      });
+    },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+      this.sumVisible = false;
+    }
+  },
+  mounted() {
+    // this.SumHandle()
+  },
   computed: {
+    isAdmin() {
+      var user = this.$store.state.userInfoAndMenu.userMessage.all;
+      var isAdmin = (
+        user.userType === "root" ||
+        user.userType === "admin" ||
+        user.userType === "operator"
+      ); // 运营
+      return isAdmin
+    },
     userAll() {
       // 所有的用户信息
       return this.$store.state.userInfoAndMenu.userMessage.all;

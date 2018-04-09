@@ -17,6 +17,12 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
+        // this.searchCondition.billSuccessBegin = billSuccessArr[0];
+        // this.searchCondition.billSuccessEnd = billSuccessArr[1];
+        standard: "",
+        billSuccess: "",
+        billSuccessBegin: "",
+        billSuccessEnd: "",
         startNetTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
         endNetTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
         standardTimeBegin: utils.formatDate(new Date(), "yyyy-MM-dd"),

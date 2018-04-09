@@ -255,7 +255,7 @@ export default {
       this.$emit("changeform", cb, val);
     },
     changeFoInput(cb, event, type, clearable) {
-      console.log(clearable);
+      // console.log(clearable);
     },
     //日期组合
     changeDateGroup(cb, event, type, limit, limitnum, option1) {
@@ -299,7 +299,7 @@ export default {
     // }
   },
   watch: {
-    visibleinput: function(val) {
+    visibleinput: function (val) {
       if (!val) {
         //普通搜索的时候
         this.$emit("visiblesome");

@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
-  </div>
+  <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
 </template>
 
 <script>
@@ -59,26 +57,43 @@ export default {
           });
         }
       });
+      // this.searchConfig.push({
+      //   title: "包含关系",
+      //   type: "myp-radio-list",
+      //   defaultValue: this.searchQuery.containChild || "TRUE",
+      //   options: [
+      //     {
+      //       label: "包含下级",
+      //       value: "TRUE"
+      //     },
+      //     {
+      //       label: "不包含下级",
+      //       value: "FALSE"
+      //     }
+      //   ],
+      //   cb: value => {
+      //     if (value == "ALL") value = "";
+      //     this.$store.commit("BILLDAY_SEARCH_QUERY", {
+      //       containChild: value
+      //     });
+      //   }
+      // });
       this.searchConfig.push({
         title: "包含关系",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.containChild || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "包含下级",
-            value: "TRUE"
-          },
-          {
-            label: "不包含下级",
-            value: "FALSE"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.containChild,
+        values:
+          [
+            {
+              name: "含下级",
+              code: "TRUE"
+            },
+            {
+              name: "不含下级",
+              code: "FALSE"
+            }
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("BILLDAY_SEARCH_QUERY", {
             containChild: value
           });

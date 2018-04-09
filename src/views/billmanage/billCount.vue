@@ -9,10 +9,16 @@
         <el-button-group class="button-group">
           <el-button v-if="adminFilter('billcountagent_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload">导出</el-button>
           <el-button v-if="adminFilter('billcountagent_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span class="sumtext">扫码次数:{{scanSum}} 推送次数:{{pushSum}} 入网商户:{{netSum}}</span>
+          <span v-if="sumVisible" class="sumtext">
+            <span>扫码次数:{{scanSum}}</span>
+            <span class="split-line-v"></span>
+            <span>推送次数:{{pushSum}}</span>
+            <span class="split-line-v"></span>
+            <span>入网商户:{{netSum}}</span>
+          </span>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
@@ -51,6 +57,7 @@ export default {
       containChild: "TRUE" // 下级
     };
     return {
+      sumVisible: false,
       scanSum: 0,
       pushSum: 0,
       netSum: 0,
@@ -118,11 +125,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getBillcountagents,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getBillcountagents // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getBillcountagents // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计
@@ -180,6 +188,13 @@ export default {
           this.scanSum = data.scan;
           this.netSum = data.register;
           this.pushSum = data.billSuccess;
+          this.sumVisible = true
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning",
+            center: true
+          });
         }
         this.sumLoading = false;
       });
@@ -187,6 +202,11 @@ export default {
     exportDialog() {
       // 导出
       this.$refs.dataTable.ExportExcel("/billcountagent/export");
+    },
+    seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+      this.sumVisible = false;
     }
   },
   computed: {
@@ -196,6 +216,9 @@ export default {
     }
   },
   mounted() {
+    // this.SumHandle();
+  },
+  activated() {
     this.SumHandle();
   }
 };

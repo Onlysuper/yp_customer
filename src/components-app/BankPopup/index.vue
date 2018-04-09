@@ -58,7 +58,7 @@ export default {
       }
     }
   },
-  created() {},
+  created() { },
   mounted() {
     this.popupVisible = this.value;
   },

@@ -15,9 +15,9 @@
 
 <script>
 import SliderNav from "@src/components-app/SliderNav";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav },
   data() {
     return {
@@ -27,7 +27,7 @@ export default {
       routeMenuCode: ""
     };
   },
-  mounted() {},
+  mounted() { },
   activated() {
     this.routeMenuCode = this.$route.name;
   },

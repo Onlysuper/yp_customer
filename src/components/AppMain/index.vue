@@ -6,7 +6,6 @@
         <router-view v-if="$route.meta.keepAlive"></router-view>
       </keep-alive>
       <router-view v-if="!$route.meta.keepAlive"></router-view> -->
-
       <keep-alive :include="cachedViews">
         <router-view></router-view>
       </keep-alive>
@@ -32,9 +31,15 @@ export default {
     }
   },
   watch: {
-    cachedViews(value) {
-      // console.log(value);
+    // cachedViews(val) {
+    //   console.log(val);
+    // },
+    $route(val) {
+      // console.log(this.cachedViews)
     }
+    // cachedViews(value) {
+    // console.log(value);
+    // }
   },
   mounted() {
     // console.log(cachedViews);

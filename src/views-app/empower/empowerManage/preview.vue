@@ -15,7 +15,7 @@
           <mt-field type="text" :disabled="true" label="申请数量" placeholder="请输入申请数量" v-model="unitData.qrcodeCount"></mt-field>
           <mt-field type="text" label="采购单价" placeholder="请输入采购单价" v-model="unitData.price"></mt-field>
           <div @click="openMigratePicker">
-            <mt-field type="text" label="分发方式" placeholder="请选择分发方式" :value="unitData.migrateType | migrateType">
+            <mt-field type="text" label="分发方式" placeholder="请选择分发方式" :value="unitData.migrateType | statusFilter('migrateType')">
             </mt-field>
           </div>
           <mt-field type="text" v-if="qrNumsVisible" label="号段开始" placeholder="请输入号段" v-model="unitData.qrcodeStart"></mt-field>

@@ -4,17 +4,17 @@
     <full-page class="page" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({name:'empowerCheckSearch'})">搜索</mt-button>
+        <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
       </mt-header>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.dataTime">
           <!-- 设备类型 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | empowerCheckReceiptType}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.receiptType | statusFilter('empowerCheckReceiptType')}}</mt-badge>
           <!-- 生产水牌 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="error" v-if="item.isPrint == 'Y'">{{item.isPrint | empowerCheckIsPrint}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="error" v-if="item.isPrint == 'Y'">{{item.isPrint | statusFilter('empowerCheckIsPrint')}}</mt-badge>
           <!-- 状态 -->
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="success">{{item.status | empowerCheckStatus}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="success">{{item.status | statusFilter('empowerCheckStatus')}}</mt-badge>
           <!-- 常用按钮 -->
           <myp-cell class="list-item">
             <!-- 详情 -->
@@ -40,9 +40,9 @@
 import SliderNav from "@src/components-app/SliderNav";
 import { getArantNumExamines } from "@src/apis";
 import { mapState, mapActions } from "vuex";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav },
   data() {
     return {

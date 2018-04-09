@@ -12,7 +12,7 @@
         <div slot="btn" @click="$router.push({path:`./edit/${item.agentNo}`})">编辑</div>
 
         <!-- 状态 -->
-        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | handleStatus}}</mt-badge>
+        <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusFilter('handleStatus')}}</mt-badge>
 
         <myp-cell class="list-item">
           <!-- 详情 -->
@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { getAgentManages } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   data() {
     return {
       munes: this.$store.state.userInfoAndMenu.menuList[

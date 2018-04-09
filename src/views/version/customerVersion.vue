@@ -12,7 +12,7 @@
         </el-button-group>
       </div>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 新增版本start -->
       <el-dialog center :title="getDialogTitle()" :visible.sync="dialogVisible" width="600px" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
@@ -162,11 +162,12 @@ export default {
         }
       ],
       // 列表数据
+      actionUrl: getCustomerVersions,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getCustomerVersions // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getCustomerVersions // 初始化数据
+        // },
         summary: {
           is: false
         }, //显示合计
@@ -195,58 +196,7 @@ export default {
             word: "type",
             status: true,
             type: data => {
-              switch (data) {
-                case "HOST_C":
-                  return {
-                    text: "c++主程序",
-                    type: ""
-                  };
-                case "UPDATE_C":
-                  return {
-                    text: "c++更新程序",
-                    type: ""
-                  };
-                case "HOST":
-                  return {
-                    text: "c#主程序",
-                    type: "danger"
-                  };
-                case "UPDATE":
-                  return {
-                    text: "c#更新程序",
-                    type: "danger"
-                  };
-                case "RELEASE":
-                  return {
-                    text: "官网版本",
-                    type: "danger"
-                  };
-                case "HOST_OLD":
-                  return {
-                    text: "c#老版本主程序",
-                    type: "danger"
-                  };
-                case "DATA_COLLECTION":
-                  return {
-                    text: "数据采集程序",
-                    type: "danger"
-                  };
-                case "MANUAL":
-                  return {
-                    text: "其他",
-                    type: "danger"
-                  };
-                case "HOST_DZFP":
-                  return {
-                    text: "电子发票版本",
-                    type: "danger"
-                  };
-                default:
-                  return {
-                    text: data,
-                    type: "danger"
-                  };
-              }
+              return this.statusFilter(data, 'typeCustomerVersion')
             }
           },
           {

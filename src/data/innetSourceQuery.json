@@ -1,0 +1,30 @@
+  [
+    {
+      "code": "",
+      "name": "全部"
+    },
+    {
+      "code": "PLUGIN",
+      "name": "插件"
+    },
+    {
+      "code": "SCAN_CODE",
+      "name": "扫码"
+    },
+    {
+      "code": "OFFICAL_ACCOUNT",
+      "name": "公众号"
+    },
+    {
+      "code": "SLIENT",
+      "name": "静默"
+    },
+    {
+      "code": "LOCAL",
+      "name": "后台"
+    },
+    {
+      "code": "OPEN_API",
+      "name": "第三方"
+    }
+  ]

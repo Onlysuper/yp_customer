@@ -25,13 +25,13 @@
           <span>{{dataList.agentNo}}</span>
         </mt-cell>
         <mt-cell title="收款方式">
-          <span>{{dataList.payTypeDetail | payTypeDetail}}</span>
+          <span>{{dataList.payTypeDetail | statusFilter('payTypeDetail')}}</span>
         </mt-cell>
         <mt-cell title="交易来源">
-          <span>{{dataList.payFrom | payFrom}}</span>
+          <span>{{dataList.payFrom | statusFilter('payFrom')}}</span>
         </mt-cell>
         <mt-cell title="交易类型">
-          <span>{{dataList.payType | payType}}</span>
+          <span>{{dataList.payType | statusFilter('payType')}}</span>
         </mt-cell>
         <mt-cell v-if="dataList.status=='FAIL'?true:false" title="支付失败原因">
           <span>{{dataList.respCode}}</span>

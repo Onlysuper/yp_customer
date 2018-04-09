@@ -5,7 +5,7 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
@@ -144,13 +144,13 @@
         flex: 1;
         // height: 500px;
       }
-      .detail-content {
-        height: 100%;
-        overflow: auto;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-      }
+      // .detail-content {
+      // height: 100%;
+      // overflow: auto;
+      // position: relative;
+      // display: flex;
+      // flex-direction: column;
+      // }
     }
   }
 }
@@ -175,6 +175,7 @@ import paystatusSuccess from "./paystatusSuccess";
 import payDetail from "./payDetail";
 import elecDetail from "./elecDetail";
 import qrcodeDetail from "./qrcodeDetail";
+import payStatusQueryJson from "@src/data/payStatusQuery.json";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch,
@@ -450,34 +451,9 @@ export default {
           show: true, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            },
-            {
-              label: "拒绝",
-              value: "REJECT"
-            },
-            {
-              label: "待审核",
-              value: "CHECKING"
-            },
-            {
-              label: "待提交",
-              value: "WAITING_SUBMIT"
-            },
-            {
-              label: "已关闭",
-              value: "FALSE"
-            }
+            ...payStatusQueryJson.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.payStatus = value;
@@ -490,34 +466,9 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            },
-            {
-              label: "拒绝",
-              value: "REJECT"
-            },
-            {
-              label: "待审核",
-              value: "CHECKING"
-            },
-            {
-              label: "待提交",
-              value: "WAITING_SUBMIT"
-            },
-            {
-              label: "已关闭",
-              value: "FALSE"
-            }
+            ...payStatusQueryJson.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.qrcodeStatus = value;
@@ -530,34 +481,9 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              label: "已开通",
-              value: "TRUE"
-            },
-            {
-              label: "未开通",
-              value: "INIT"
-            },
-            {
-              label: "拒绝",
-              value: "REJECT"
-            },
-            {
-              label: "待审核",
-              value: "CHECKING"
-            },
-            {
-              label: "待提交",
-              value: "WAITING_SUBMIT"
-            },
-            {
-              label: "已关闭",
-              value: "FALSE"
-            }
+            ...payStatusQueryJson.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.elecStatus = value;
@@ -566,11 +492,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getCustomerOpenProducts,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getCustomerOpenProducts // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getCustomerOpenProducts // 初始化数据
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
@@ -591,42 +518,7 @@ export default {
             word: "qrcodeStatus",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "已关闭",
-                  type: "info"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "error"
-                };
-              } else if (data == "CHECKING") {
-                return {
-                  text: "待审核",
-                  type: "warning"
-                };
-              } else if (data == "WAITING_SUBMIT") {
-                return {
-                  text: "待提交",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'handleProductOpenStatus')
             }
           },
           {
@@ -635,42 +527,7 @@ export default {
             word: "payStatus",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "已关闭",
-                  type: "info"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "error"
-                };
-              } else if (data == "CHECKING") {
-                return {
-                  text: "待审核",
-                  type: "warning"
-                };
-              } else if (data == "WAITING_SUBMIT") {
-                return {
-                  text: "待提交",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'handleProductOpenStatus')
             }
           },
           {
@@ -679,42 +536,7 @@ export default {
             word: "elecStatus",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "已开通",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "已关闭",
-                  type: "info"
-                };
-              } else if (data == "INIT") {
-                return {
-                  text: "未开通",
-                  type: "info"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "error"
-                };
-              } else if (data == "CHECKING") {
-                return {
-                  text: "待审核",
-                  type: "warning"
-                };
-              } else if (data == "WAITING_SUBMIT") {
-                return {
-                  text: "待提交",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'handleProductOpenStatus')
             }
           }
         ],

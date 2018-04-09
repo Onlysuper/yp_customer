@@ -3,7 +3,7 @@
     <full-page class="" ref="FullPage">
       <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="searchVisible = true">搜索</mt-button>
+        <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="searchBoxVisible = true">搜索</mt-button>
         <mt-button slot="right" :disabled="false" type="danger" @click="add">新增</mt-button>
       </mt-header>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
@@ -13,8 +13,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" v-if="item.deviceType" class="g-min-badge" size="small" type="primary">{{item.deviceType | handleDeviceType}}</mt-badge>
-          <mt-badge slot="badge" v-if="item.clientType" class="g-min-badge" size="small" type="error">{{item.clientType | handleClientType}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.deviceType" class="g-min-badge" size="small" type="primary">{{item.deviceType | statusFilter('handleDeviceType')}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.clientType" class="g-min-badge" size="small" type="error">{{item.clientType | statusFilter('handleClientType')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
@@ -31,7 +31,7 @@
     </full-page>
     <!-- 编辑 -->
     <edit ref="edit"></edit>
-    <search-panel-popup v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-panel-popup>
+    <search-panel-popup v-model="searchBoxVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-panel-popup>
   </div>
 </template>
 
@@ -40,9 +40,9 @@ import SliderNav from "@src/components-app/SliderNav";
 import SearchPanelPopup from "@src/components-app/Search/SearchPanelPopup";
 import edit from "./edit";
 import { getCustomerConfigs } from "@src/apis";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav, SearchPanelPopup, edit },
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
       api: getCustomerConfigs,
       count: 0,
       list: [],
-      searchVisible: false,
+      searchBoxVisible: false,
       searchQuery: {},
       searchConfig: [
         {

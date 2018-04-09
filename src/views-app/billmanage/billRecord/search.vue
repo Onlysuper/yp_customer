@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
-  </div>
+  <search-page v-model="searchVisible" :config="searchConfig" @result="searchPanelResult" title="商户"></search-page>
 </template>
 
 <script>
+import invoiceType from "@src/data/invoiceType.json";
+import billRecordStatus from "@src/data/billRecordStatus.json";
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
 export default {
@@ -43,7 +43,6 @@ export default {
         type: "myp-date",
         defaultValue: this.searchQuery.createTimeStart,
         cb: value => {
-          console.log(value);
           this.$store.commit("BILLRECORD_SEARCH_QUERY", {
             createTimeStart: value
           });
@@ -59,71 +58,38 @@ export default {
           });
         }
       });
+
       this.searchConfig.push({
         title: "开票类型",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.billType || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "普票",
-            value: "1"
-          },
-          {
-            label: "专票",
-            value: "2"
-          },
-          {
-            label: "电票",
-            value: "3"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.invoiceType,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            ...invoiceType
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("BILLRECORD_SEARCH_QUERY", {
-            billType: value
+            invoiceType: value
           });
         }
       });
       this.searchConfig.push({
         title: "状态",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.status || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "推送成功",
-            value: "SUCCESS"
-          },
-          {
-            label: "开票成功",
-            value: "BILLING_SUCCESS"
-          },
-          {
-            label: "开票中",
-            value: "BILLING3"
-          },
-          {
-            label: "待开票",
-            value: "ORDER"
-          },
-          {
-            label: "失败",
-            value: "BILLING_FAIL"
-          },
-          {
-            label: "查询失败",
-            value: "QUERY_FAIL"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.status,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            ...billRecordStatus
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("BILLRECORD_SEARCH_QUERY", {
             status: value
           });

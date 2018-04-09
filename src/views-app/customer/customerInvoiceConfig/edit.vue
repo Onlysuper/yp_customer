@@ -12,12 +12,12 @@
           <i class="icon-arrow"></i>
         </mt-field>
         <div @click="setSheet('deviceTypes')">
-          <mt-field type="text" label="设备类型" placeholder="请选择设备类型" :value="customer.deviceType | handleDeviceType" :disabled="true" :disableClear="true" :readonly="true">
+          <mt-field type="text" label="设备类型" placeholder="请选择设备类型" :value="customer.deviceType | statusFilter('handleDeviceType')" :disabled="true" :disableClear="true" :readonly="true">
             <i class="icon-arrow"></i>
           </mt-field>
         </div>
         <div @click="setSheet('clientTypes')">
-          <mt-field type="text" label="客户端类型" placeholder="请选择客户端类型" :value="customer.clientType | handleClientType" :disabled="true" :disableClear="true" :readonly="true">
+          <mt-field type="text" label="客户端类型" placeholder="请选择客户端类型" :value="customer.clientType | statusFilter('handleClientType')" :disabled="true" :disableClear="true" :readonly="true">
             <i class="icon-arrow"></i>
           </mt-field>
         </div>

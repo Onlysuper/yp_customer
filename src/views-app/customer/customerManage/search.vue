@@ -5,6 +5,7 @@
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
+import innetSourceQueryJSON from "@src/data/innetSourceQuery.json";
 export default {
   components: { SearchPage },
   data() {
@@ -60,24 +61,24 @@ export default {
       });
       this.searchConfig.push({
         title: "包含关系",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.containChild || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "含下级",
-            value: "TRUE"
-          },
-          {
-            label: "不含下级",
-            value: "FALSE"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.containChild,
+        values:
+          [
+            {
+              name: "全部",
+              code: "ALL"
+            },
+            {
+              name: "含下级",
+              code: "TRUE"
+            },
+            {
+              name: "不含下级",
+              code: "FALSE"
+            }
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("CUSTOMER_MANAGE_SET_SEARCH", {
             containChild: value
           });
@@ -85,40 +86,13 @@ export default {
       });
       this.searchConfig.push({
         title: "选择入网来源",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.customerFrom || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "插件",
-            value: "PLUGIN"
-          },
-          {
-            label: "扫码",
-            value: "SCAN_CODE"
-          },
-          {
-            label: "公众号",
-            value: "OFFICAL_ACCOUNT"
-          },
-          {
-            label: "静默",
-            value: "SLIENT"
-          },
-          {
-            label: "后台",
-            value: "LOCAL"
-          },
-          {
-            label: "第三方",
-            value: "OPEN_API"
-          }
-        ],
+        type: "myp-select",
+        defaultValue: this.searchQuery.customerFrom,
+        values:
+          [
+            ...innetSourceQueryJSON
+          ],
         cb: value => {
-          if (value == "ALL") value = "";
           this.$store.commit("CUSTOMER_MANAGE_SET_SEARCH", {
             customerFrom: value
           });

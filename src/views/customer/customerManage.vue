@@ -14,7 +14,7 @@
           <el-button v-if="adminFilter('customer_export')" size="small" @click="exportDialog" type="primary" icon="el-icon-upload2">导出</el-button>
         </el-button-group>
       </div>
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
     <el-dialog center title="新增商户" :visible.sync="addFormVisible">
@@ -67,7 +67,6 @@
             </div>
           </el-col>
         </el-row>
-
         <el-form-item label="经营地址" prop="bussinessAddress" :label-width="formLabelWidth">
           <el-input v-model="addForm.bussinessAddress" auto-complete="off"></el-input>
         </el-form-item>
@@ -149,6 +148,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
         <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
+        <!-- <el-button v-if="closeButVisible(editForm.status)" :loading="saveLoading" type="primary" @click="closeSave('editForm')">关 闭</el-button> -->
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -247,7 +247,7 @@
           <span class="line-label">商户编号:</span>{{detailsForm.customerNo}}
         </div>
         <div class="line-label-box cross-back">
-          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | customerFrom}}
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | statusFilter("customerFrom")}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">公司电话:</span>{{detailsForm.bussinessPhone}}
@@ -298,6 +298,7 @@
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
+
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
@@ -316,11 +317,12 @@ import {
   getCustomers,
   postAddCustomer,
   postEditCustomer,
+  postCloseCustomer,
   postUploadFile, // 上传文件
   transferCustomer,
   perfectCustomer
 } from "@src/apis";
-
+import innetSourceQueryJSON from "@src/data/innetSourceQuery.json";
 export default {
   name: "customerlist",
   components: {
@@ -470,34 +472,9 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
-            {
-              value: "PLUGIN",
-              label: "插件"
-            },
-            {
-              label: "扫码",
-              value: "SCAN_CODE"
-            },
-            {
-              label: "公众号",
-              value: "OFFICAL_ACCOUNT"
-            },
-            {
-              label: "静默",
-              value: "SLIENT"
-            },
-            {
-              label: "后台",
-              value: "LOCAL"
-            },
-            {
-              label: "第三方",
-              value: "OPEN_API"
-            }
+            ...innetSourceQueryJSON.map(item => {
+              return { value: item.code, label: item.name }
+            })
           ],
           cb: value => {
             this.searchCondition.customerFrom = value;
@@ -526,11 +503,12 @@ export default {
       ],
 
       // 列表数据
+      actionUrl: getCustomers,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getCustomers // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getCustomers // 初始化数据
+        // },
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
@@ -566,42 +544,8 @@ export default {
             word: "customerFrom",
             status: true,
             type: data => {
-              if (data == "OPEN_API") {
-                return {
-                  text: "第三方",
-                  type: "danger"
-                };
-              } else if (data == "PLUGIN") {
-                return {
-                  text: "插件",
-                  type: "warning"
-                };
-              } else if (data == "LOCAL") {
-                return {
-                  text: "后台",
-                  type: ""
-                };
-              } else if (data == "SCAN_CODE") {
-                return {
-                  text: "扫码",
-                  type: ""
-                };
-              } else if (data == "OFFICAL_ACCOUNT") {
-                return {
-                  text: "公众号",
-                  type: ""
-                };
-              } else if (data == "SLIENT") {
-                return {
-                  text: "静默",
-                  type: ""
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'customerFrom')
+
             }
           },
           {
@@ -610,22 +554,7 @@ export default {
             width: "80px",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "开启",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "未开启",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: "没写",
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'handleStatus')
             }
           }
         ],
@@ -689,6 +618,13 @@ export default {
   },
 
   methods: {
+    closeButVisible(status) {
+      if (status == 'TRUE' && this.isAdmin) {
+        return true
+      } else {
+        return false;
+      }
+    },
     addSave(formName) {
       // 新增内容保存
       this.$refs[formName].validate(valid => {
@@ -820,7 +756,6 @@ export default {
                 center: true
               });
               this.editFormVisible = false;
-              console.log(this.searchCondition);
               this.reloadData(
                 this.postPage,
                 this.postLimit,
@@ -838,6 +773,39 @@ export default {
           });
         }
       });
+    },
+    // 关闭
+    closeSave() {
+      let editForm = this.editForm;
+      this.$confirm('该操作将关闭此条商户信息, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        postCloseCustomer()({
+          customerNo: editForm.customerNo
+        }).then(res => {
+          if (res.code == "00") {
+            this.$message({
+              type: 'success',
+              message: '关闭成功!'
+            });
+            this.reloadData(
+              this.postPage,
+              this.postLimit,
+              this.searchCondition
+            );
+            this.editFormVisible = false;
+          } else {
+            this.$message({
+              type: 'success',
+              message: res.msg
+            });
+          }
+        })
+      }).catch(() => {
+      });
+
     },
     transferSave(formName) {
       // 转移保存
@@ -899,16 +867,15 @@ export default {
     }
   },
   computed: {
-    // editFormCustomerFrom() {
-    //   // 表单内用户来源显示状态客户来源
-    //   if (this.editForm.customerFrom == "OPEN_API") {
-    //     return "第三方";
-    //   } else if (this.editForm.customerFrom == "PLUGIN") {
-    //     return "插件";
-    //   } else if (this.editForm.customerFrom == "LOCAL") {
-    //     return "后台";
-    //   }
-    // }
+    isAdmin() {
+      var user = this.$store.state.userInfoAndMenu.userMessage.all;
+      var isAdmin = (
+        user.userType === "root" ||
+        user.userType === "admin" ||
+        user.userType === "operator"
+      ); // 运营
+      return isAdmin
+    }
   },
   mounted() { }
 };

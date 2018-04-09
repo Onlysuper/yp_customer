@@ -14,7 +14,7 @@
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
           <div slot="btn" @click="edit(item)">编辑</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusCustomerVersion}}</mt-badge>
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.type | typeCustomerVersion}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.type | statusFilter('typeCustomerVersion')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
@@ -33,11 +33,11 @@
 <script>
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import SliderNav from "@src/components-app/SliderNav";
-import { scrollBehavior } from "@src/common/mixins";
+import { scrollBehavior, filterColor } from "@src/common/mixins";
 import { getCustomerVersions } from "@src/apis";
 import { mapState, mapActions } from "vuex";
 export default {
-  mixins: [scrollBehavior],
+  mixins: [scrollBehavior, filterColor],
   components: { SliderNav, MypPopupActions },
   data() {
     return {

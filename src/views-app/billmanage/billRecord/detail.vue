@@ -15,7 +15,7 @@
           <span>{{dataList.billRecordNo}}</span>
         </mt-cell>
         <mt-cell title="交付状态">
-          <span>{{dataList.status | payStatus}}</span>
+          <span>{{dataList.status | statusFilter("payStatus")}}</span>
         </mt-cell>
         <mt-cell title="发票代码">
           <span>{{dataList.invoiceCode}}</span>
@@ -60,6 +60,9 @@
     </view-radius>
   </full-page>
 </template>
+<style lang="scss">
+
+</style>
 
 <script>
 import { mapState, mapActions } from "vuex";

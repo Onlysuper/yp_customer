@@ -1,30 +1,35 @@
 <template>
-  <full-page-popup v-model="popupVisible" position="bottom" class="bank-branch-page" title="选择支行">
-    <div class="pading">
-      <view-radius>
-        <input-wrapper>
-          <mt-field :value="bank.value" label="开户银行" type="text" state="" :readonly="true" placeholder=""></mt-field>
-        </input-wrapper>
-        <input-wrapper>
-          <mt-field :value="bankAddr.resultAddr" @click.native="cityVisible = true" label="开户地区" type="text" state="" v-readonly-ios :readonly="true" placeholder="请选择地区">
-            <i class="icon-arrow"></i>
-          </mt-field>
-        </input-wrapper>
-        <!-- <input-wrapper>
+  <full-page-popup v-model="popupVisible" :closeBut="true" position="bottom" class="bank-branch-page" title="选择支行">
+    <!-- <div class="pading"> -->
+    <view-radius>
+      <input-wrapper>
+        <mt-field :value="bank.value" label="开户银行" type="text" state="" :readonly="true" placeholder=""></mt-field>
+      </input-wrapper>
+      <input-wrapper>
+        <mt-field :value="bankAddr.resultAddr" @click.native="cityVisible = true" label="开户地区" type="text" state="" v-readonly-ios :readonly="true" placeholder="请选择地区">
+          <i class="icon-arrow"></i>
+        </mt-field>
+      </input-wrapper>
+      <!-- <input-wrapper>
           <mt-field v-model="keyVal" label="关键字" type="text" state="" :readonly="false" placeholder=""></mt-field>
         </input-wrapper> -->
-      </view-radius>
-      <br>
-      <mt-button size="large" type="danger" :disabled="queryBankDisabled" @click="queryBank">查询</mt-button>
-      <city-picher ref="CityPicher" v-model="cityVisible" :resultCallback="resultCallback"></city-picher>
-    </div>
+    </view-radius>
+    <br>
+    <mt-button size="large" type="danger" :disabled="queryBankDisabled" @click="queryBank">查询</mt-button>
+    <city-picher ref="CityPicher" v-model="cityVisible" :resultCallback="resultCallback"></city-picher>
+    <!-- </div> -->
   </full-page-popup>
 </template>
 <style lang="scss">
 @import "../../assets/scss/base.scss";
 .bank-branch-page {
   width: 100%;
-  height: 100%;
+  height: 70% !important;
+  z-index: 3000 !important;
+  .mint-header {
+    background: transparent;
+    color: #666;
+  }
   .pading {
     margin-top: 20*$rem;
     padding: 0 20*$rem;

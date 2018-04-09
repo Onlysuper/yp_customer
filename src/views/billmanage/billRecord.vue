@@ -5,54 +5,32 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <myp-data-page @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详情 start -->
     <el-dialog title="详情" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
         <!-- change start -->
-        <el-row class="cross-back">
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">销方名称:</span>
-              <span class="line-label-last">{{detailsForm.bussinessName}}</span>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">开票时间:</span>
-              <span class="line-label-last">{{detailsForm.createTime}}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="cross-back">
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">订单编号:</span>
-              <span class="line-label-last">{{detailsForm.billRecordNo}}</span>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">交付状态:</span>
-              <span class="line-label-last">{{detailsForm.status | payStatus}}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="cross-back">
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">发票代码:</span>
-              <span class="line-label-last">{{detailsForm.invoiceCode}}</span>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">发票号码:</span>
-              <span class="line-label-last">{{detailsForm.invoiceNo}}</span>
-            </div>
-          </el-col>
-        </el-row>
+        <!-- <el-row class="cross-back">
+          <el-col :span="12"> -->
+        <div class="line-label-box cross-back">
+          <span class="line-label">销方名称:</span>
+          <span class="line-label-last">{{detailsForm.bussinessName}}</span>
+          <span class="line-label">开票时间:</span>
+          <span class="line-label-last">{{detailsForm.createTime}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">订单编号:</span>
+          <span class="line-label-last">{{detailsForm.billRecordNo}}</span>
+          <span class="line-label">交付状态:</span>
+          <span class="line-label-last">{{detailsForm.status | statusFilter("payStatus")}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">发票代码:</span>
+          <span class="line-label-last">{{detailsForm.invoiceCode}}</span>
+          <span class="line-label">发票号码:</span>
+          <span class="line-label-last">{{detailsForm.invoiceNo}}</span>
+        </div>
         <div class="line-label-box cross-back">
           <span class="line-label">购方名称:</span>
           <span class="line-label-last">{{detailsForm.enterpriseName}}</span>
@@ -63,50 +41,30 @@
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">发票金额:</span>
-          <span class="line-label-last">{{detailsForm.billAmount}}元</span>
+          <span class="line-label-last">{{detailsForm.billAmount}} 元</span>
+          <span class="line-label">合计税额:</span>
+          <span class="line-label-last">{{detailsForm.totalTax}} 元</span>
         </div>
-        <el-row class="cross-back">
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">合计税额:</span>
-              <span class="line-label-last">{{detailsForm.totalTax}}元</span>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">手机号码:</span>
-              <span class="line-label-last">{{detailsForm.phoneNo}}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="cross-back">
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">购方邮箱:</span>
-              <span class="line-label-last">{{detailsForm.mail}}</span>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">公司电话:</span>
-              <span class="line-label-last">{{detailsForm.companyPhone}}</span>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row class="cross-back">
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">银行账号:</span>
-              <span class="line-label-last">{{detailsForm.bankAccountNo}}</span>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="line-label-box">
-              <span class="line-label">开户银行:</span>
-              <span class="line-label-last">{{detailsForm.bankName}}</span>
-            </div>
-          </el-col>
-        </el-row>
+
+        <div class="line-label-box cross-back">
+          <span class="line-label">手机号码:</span>
+          <span class="line-label-last">{{detailsForm.phoneNo}}</span>
+          <span class="line-label">购方邮箱:</span>
+          <span class="line-label-last">{{detailsForm.mail}}</span>
+        </div>
+
+        <div class="line-label-box cross-back">
+          <span class="line-label">公司电话:</span>
+          <span class="line-label-last">{{detailsForm.companyPhone}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">银行账号:</span>
+          <span class="line-label-last">{{detailsForm.bankAccountNo}}</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">开户银行:</span>
+          <span class="line-label-last">{{detailsForm.bankName}}</span>
+        </div>
         <div class="line-label-box cross-back">
           <span class="line-label">单位地址:</span>
           <span class="line-label-last">{{detailsForm.enterpriseAddress}}</span>
@@ -222,6 +180,8 @@
 </style>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+import invoiceType from "@src/data/invoiceType.json";
+import billRecordStatus from "@src/data/billRecordStatus.json";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
@@ -287,35 +247,7 @@ export default {
               value: "",
               label: "请选择"
             },
-            {
-              value: "SUCCESS",
-              label: "推送成功"
-            },
-
-            {
-              value: "BILLING_SUCCESS",
-              label: "开票成功"
-            },
-            {
-              value: "BILLING",
-              label: "开票中"
-            },
-            {
-              value: "SUBMITTING",
-              label: "开电票中"
-            },
-            {
-              value: "ORDER",
-              label: "待开票"
-            },
-            {
-              value: "BILLING_FAIL",
-              label: "失败"
-            },
-            {
-              value: "QUERY_FAIL",
-              label: "查询失败"
-            }
+            ...billRecordStatus.map(item => { return { label: item.name, value: item.code } })
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -365,18 +297,7 @@ export default {
               value: "",
               label: "所有"
             },
-            {
-              value: "1",
-              label: "普票"
-            },
-            {
-              value: "2",
-              label: "专票"
-            },
-            {
-              value: "3",
-              label: "电票"
-            }
+            ...invoiceType.map(item => { return { label: item.name, value: item.code } })
           ],
           cb: value => {
             this.searchCondition.invoiceType = value;
@@ -385,11 +306,12 @@ export default {
 
       ],
       // 列表数据
+      actionUrl: getBillrecords,
       postSearch: searchConditionVar,
       tableData: {
-        getDataUrl: {
-          url: getBillrecords // 初始化数据
-        },
+        // getDataUrl: {
+        //   url: getBillrecords // 初始化数据
+        // },
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
@@ -458,47 +380,48 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data == "SUCCESS") {
-                return {
-                  text: "推送成功",
-                  type: "success"
-                };
-              } else if (data == "BILLING_SUCCESS") {
-                return {
-                  text: "开票成功",
-                  type: ""
-                };
-              } else if (data == "BILLING") {
-                return {
-                  text: "开票中",
-                  type: "danger"
-                };
-              } else if (data == "SUBMITTING") {
-                return {
-                  text: "开电票中",
-                  type: "danger"
-                };
-              } else if (data == "ORDER") {
-                return {
-                  text: "待开票",
-                  type: "danger"
-                };
-              } else if (data == "BILLING_FAIL") {
-                return {
-                  text: "失败",
-                  type: "danger"
-                };
-              } else if (data == "QUERY_FAIL") {
-                return {
-                  text: "查询失败",
-                  type: "danger"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "danger"
-                };
-              }
+              return this.statusFilter(data, 'payStatus')
+              // if (data == "SUCCESS") {
+              //   return {
+              //     text: "推送成功",
+              //     type: "success"
+              //   };
+              // } else if (data == "BILLING_SUCCESS") {
+              //   return {
+              //     text: "开票成功",
+              //     type: ""
+              //   };
+              // } else if (data == "BILLING") {
+              //   return {
+              //     text: "开票中",
+              //     type: "danger"
+              //   };
+              // } else if (data == "SUBMITTING") {
+              //   return {
+              //     text: "开电票中",
+              //     type: "danger"
+              //   };
+              // } else if (data == "ORDER") {
+              //   return {
+              //     text: "待开票",
+              //     type: "danger"
+              //   };
+              // } else if (data == "BILLING_FAIL") {
+              //   return {
+              //     text: "失败",
+              //     type: "danger"
+              //   };
+              // } else if (data == "QUERY_FAIL") {
+              //   return {
+              //     text: "查询失败",
+              //     type: "danger"
+              //   };
+              // } else {
+              //   return {
+              //     text: data,
+              //     type: "danger"
+              //   };
+              // }
             }
           },
           {
@@ -517,6 +440,8 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.detailsForm = rowdata;
+                this.detailsForm.billAmount = this.detailsForm.billAmount ? this.detailsForm.billAmount : 0;
+                this.detailsForm.totalTax = this.detailsForm.totalTax ? this.detailsForm.totalTax : 0;
                 if (rowdata.status == "BILLING_SUCCESS" && rowdata.invoiceMedia == 'ELECTRONIC') {
                   this.downLoadVisible = true;
                 } else {

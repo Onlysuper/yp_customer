@@ -2,21 +2,27 @@
   <!-- 聚合支付详情 -->
   <div class="product-detail-body">
     <div class="detaile-left">
-      <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions">
+      <div class="scroll-view-cus">
+        <!-- <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions"> -->
         <div class="line-label-box cross-back">
           <span class="line-label">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
         <div class="line-label-box cross-back">
+          <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | statusFilter('handleProductOpenStatus')}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">更新时间:</span>
+          <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
+        </div>
+        <div class="line-label-box cross-back">
           <span class="line-label">商户名称:</span>
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | handleProductOpenStatus}}
-        </div>
-      </iscroll-view>
+      </div>
+      <!-- </iscroll-view> -->
     </div>
-    <div class="detaile-right">
+    <div class="detaile-right" v-if="detailRightVisible">
       <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
         <div class="imgs-group">
           <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
@@ -98,6 +104,7 @@ export default {
       }
     }
     return {
+      detailRightVisible: true,
       imgsArr: [],
       largeImg: {},
       iscrollOptions: {
@@ -143,8 +150,16 @@ export default {
             qrcodeImgs = utils.pickObj(data.imgs, [
               "fastBussinessImg", "fastCashImg", "fastHeaderImg"
             ]);
-          }
 
+          } else {
+            console.log('隐藏');
+
+          }
+          if (qrcodeImgs) {
+            this.detailRightVisible = true;
+          } else {
+            this.detailRightVisible = false
+          }
           // 默认显示第一张图
           this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           let imgsArr = Object.entries(this.qrcodeImgs);
@@ -179,6 +194,11 @@ export default {
 
           }
           this.imgsArr = imgsArr;
+          // if (this.imgsArr.length == 0) {
+          //   this.detailRightVisible = false
+          // } else {
+          //   this.detailRightVisible = true
+          // }
         }
         dialogLoading.close();
       });
