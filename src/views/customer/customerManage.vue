@@ -148,7 +148,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
         <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
-        <el-button v-if="closeButVisible(editForm.status)" :loading="saveLoading" type="primary" @click="closeSave('editForm')">关 闭</el-button>
+        <!-- <el-button v-if="closeButVisible(editForm.status)" :loading="saveLoading" type="primary" @click="closeSave('editForm')">关 闭</el-button> -->
       </div>
     </el-dialog>
     <!-- 编辑 end -->

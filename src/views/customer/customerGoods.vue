@@ -38,12 +38,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <el-form-item label="是否为成品油商品" prop="type" :label-width="210">
               <el-switch v-model="addForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
               </el-switch>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
         <!-- <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
           <el-input v-model="addForm.taxRate" auto-complete="off"></el-input>
@@ -146,12 +146,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <!-- <el-col :span="12">
             <el-form-item label="是否为成品油商品" prop="type" :label-width="210">
               <el-switch v-model="editForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
               </el-switch>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
         <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>

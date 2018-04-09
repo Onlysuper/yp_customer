@@ -154,10 +154,10 @@ export default {
             name: "转移",
             method: this.transfer
           },
-          {
-            name: "关闭",
-            method: this.closeSave
-          }
+          // {
+          //   name: "关闭",
+          //   method: this.closeSave
+          // }
         ]
       } else {
         this.actions = [

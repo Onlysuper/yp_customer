@@ -37,9 +37,9 @@
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
-          <mt-cell :title="'是否为成品油商品 '">
+          <!-- <mt-cell :title="'是否为成品油商品 '">
             <mt-switch v-model="typeSwitch" @change="typeChange"></mt-switch>
-          </mt-cell>
+          </mt-cell> -->
           <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
           <mt-field type="text" label="含税单价" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
           <mt-field type="text" label="规格型号" placeholder="请输入规格型号" v-model="good.model"></mt-field>
