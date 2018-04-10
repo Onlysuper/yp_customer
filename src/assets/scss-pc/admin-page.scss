@@ -12,14 +12,34 @@
   }
   .detail-box{
     .line-label-box{
+    justify-content: space-between !important;
       border-bottom: 1px solid #ebeef5;
-      padding: 0px;
+      padding: 0px !important;
+      width: auto !important;
+      .line-cell{
+        display: flex;
+        align-items: stretch;
+      }
+      .lable-title{
+        display: inline-block;
+        width: 80px;
+        text-align: right;
+        border-right: 1px solid #ebeef5;
+        border-left:1px solid #ebeef5;
+        padding-right: 10px;
+        padding-left: 10px;
+      }
+      .line-label-last{
+        display: inline-block;
+        min-width: 100px;
+      }
       span{
-        padding: 5px 0;
+        // display: table-cell;
+        padding: 5px !important;
       }
     }
     .gray-back{
-      background:  #fafafa;
+      background:  #acc2f0;;
     }
   }
   // 垂直分割线
@@ -28,7 +48,6 @@
     width: 1px;
     height: 14px;
     background: #606266;
-    display: inline-block;
     font-size: 0;
   }
   .admin-page {
