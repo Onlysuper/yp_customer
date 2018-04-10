@@ -9,8 +9,8 @@
     </div>
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
-    <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
-      <!-- <el-dialog :fullscreen="true" top="10px" class="" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
+    <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
+    <el-dialog class="special-dialog-new" bottom="10px" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
@@ -116,13 +116,47 @@
     .imageBox li {
       text-align: center;
     }
+    .special-dialog-new {
+      top: 20px !important;
+      left: 20px !important;
+      right: 20px !important;
+      bottom: 20px !important;
+      position: fixed;
+      align-items: stretch;
+      overflow: hidden;
+
+      .el-dialog {
+        margin: 0px !important;
+        width: 100%;
+        flex: 1;
+        flex-direction: column;
+        height: 100%;
+        align-items: stretch;
+        display: flex;
+      }
+      .el-dialog__header {
+        width: 100%;
+        flex: 1;
+        flex-grow: 0;
+      }
+      .el-dialog__body {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        flex: 1;
+        display: flex;
+        // flex-basis: 100%;
+      }
+      .el-dialog__footer {
+        flex-grow: 0;
+      }
+    }
     .special-dialog {
       // overflow: hidden;
-      // margin-top: -5vw;
       .el-dialog__header {
         display: flex;
         flex-grow: 0;
         justify-content: center;
+        // flex-grow: 0;
       }
       .el-dialog {
         width: 90% !important;
@@ -1041,12 +1075,12 @@ export default {
       }
     },
     dialogViewSize() {
-      let reduceHeight = 180
-      if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
-        reduceHeight += 30;
-      }
-      let windowHeight = $(window).height() - reduceHeight;
-      $(".product-detail-body").height(windowHeight);
+      // let reduceHeight = 180
+      // if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+      //   reduceHeight += 30;
+      // }
+      // let windowHeight = $(window).height() - reduceHeight;
+      // $(".product-detail-body").height(windowHeight);
     }
   },
   computed: {
@@ -1070,7 +1104,8 @@ export default {
         this.detailProductView = "payDetail"
       }
       this.$nextTick(() => {
-        this.dialogViewSize();
+        this.changeVisibleFn();
+        // this.dialogViewSize();
       })
     },
     detailsFormVisible(val) {
@@ -1078,13 +1113,13 @@ export default {
         this.detailProductView = "";
       }
       this.$nextTick(() => {
-        console.log($('.dialog-footer').height());
-        let reduceHeight = 180
-        if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
-          reduceHeight += 30;
-        }
-        let windowHeight = $(window).height() - reduceHeight;
-        $(".product-detail-body").height(windowHeight);
+        // console.log($('.dialog-footer').height());
+        // let reduceHeight = 180
+        // if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+        //   reduceHeight += 30;
+        // }
+        // let windowHeight = $(window).height() - reduceHeight;
+        // $(".product-detail-body").height(windowHeight);
       })
     },
     editFormVisible(val) {
@@ -1095,7 +1130,7 @@ export default {
   },
   mounted() {
     window.onresize = () => {
-      this.dialogViewSize();
+      // this.dialogViewSize();
       if (this.$refs.detailProductView) {
         let detailProductView = this.detailProductView;
         if (detailProductView == "payDetail" || detailProductView == "elecDetail")

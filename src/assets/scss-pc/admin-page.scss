@@ -10,6 +10,18 @@
   .small-line{
     padding: 0 10px;
   }
+  .detail-box{
+    .line-label-box{
+      border-bottom: 1px solid #ebeef5;
+      padding: 0px;
+      span{
+        padding: 5px 0;
+      }
+    }
+    .gray-back{
+      background:  #fafafa;
+    }
+  }
   // 垂直分割线
   .split-line-v{
     margin: 0 5px;
