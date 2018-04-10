@@ -46,6 +46,8 @@ export default {
   // height: 100vh;
   .layout-main {
     flex-direction: column;
+    // width: 100% !important;
+    flex: 100% !important;
   }
 }
 .layout-fade-enter-active,
