@@ -110,6 +110,10 @@ export default {
     "form.accountType"(v) {
       if (v == "0") this.form.accountName = this.enterpriseName;
       else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
+    },
+    phoneNo(value) {
+      console.log(value);
+      this.form.reservedPhoneNo = value
     }
   },
   created() {
@@ -127,6 +131,11 @@ export default {
       }
     });
 
+  },
+  computed: {
+    phoneNo() { // 预留手机号码
+      return this.form.phoneNo
+    }
   },
   methods: {
     echoForm(data) {
@@ -165,7 +174,7 @@ export default {
       }
       if (customer instanceof Object) {
         this.form.phoneNo = customer.phoneNo;
-        // this.form.reservedPhoneNo = customer.phoneNo;
+        this.form.reservedPhoneNo = customer.phoneNo;
       }
     },
     //处理对公对私逻辑
