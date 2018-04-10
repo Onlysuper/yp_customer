@@ -319,37 +319,7 @@ export default {
             word: "bussinessType",
             status: true,
             type: data => {
-              if (data == "AGENT_PROFIT_COST") {
-                return {
-                  text: "一级合伙人分润成本",
-                  type: "success"
-                };
-              } else if (data == "SECOND_AGENT_PROFIT_COST") {
-                return {
-                  text: "多级合伙人分润成本",
-                  type: "success"
-                };
-              } else if (data == "CUSTOMER_TRANSACTION_COST") {
-                return {
-                  text: "商户交易费率",
-                  type: "success"
-                };
-              } else if ((data = "CUSTOMER_QRCODE_BILLING")) {
-                return {
-                  text: "商户开票",
-                  type: "success"
-                };
-              } else if ((data = "CUSTOMER_ELECTRONIC")) {
-                return {
-                  text: "商户电票",
-                  type: "success"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "success"
-                };
-              }
+              return this.statusFilter(data, 'bussinessType');
             }
           },
           {

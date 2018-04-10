@@ -53,8 +53,8 @@
       <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item class="full-width" label="预留手机号" prop="reservedPhoneNo" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
+      <el-form-item class="full-width" label="预留手机号" prop="phoneNo" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.phoneNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
         <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
@@ -236,7 +236,8 @@ export default {
           // console.log(payStatusForm);
           let newRow = utils.pickObj(payStatusForm, [
             'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType', 'reservedPhoneNo',
+            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
+            'reservedPhoneNo', 'phoneNo',
             'unionCode',
             'bankCode',
           ]);
@@ -327,7 +328,8 @@ export default {
           let newCustomer = utils.pickObj(customerData, [
             'enterpriseName', 'taxNo',
             'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-            'bussinessAddress', 'legalPerson', 'idCard', 'category'
+            'bussinessAddress', 'legalPerson', 'idCard', 'category',
+            'phoneNo'
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
             'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName'
@@ -344,6 +346,7 @@ export default {
             this.accountNameDis = false;
           }
           this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard }
+          console.log(this.payStatusForm);
         }
       });
     },

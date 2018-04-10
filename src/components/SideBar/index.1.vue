@@ -1,7 +1,7 @@
 <template>
   <!-- layout 左侧菜单区域 -->
-  <div class="aside-box">
-    <div :class="'logo-box'" ref="logoBox">
+  <div class="sidebar-box">
+    <div :class="'logo-box '+isCollapseSize" ref="logoBox">
       <div class="img-box">
         <img :src="require('@src/assets/images/logoSmall.png')" alt="">
       </div>
@@ -9,7 +9,7 @@
         <router-link to="/home">易票管理系统v1.0</router-link>
       </h1>
     </div>
-    <div class="scroll-view-box">
+    <div class="aside-box">
       <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
         <el-menu :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
           <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
@@ -25,7 +25,6 @@
       </iscroll-view>
     </div>
   </div>
-  <!-- </div> -->
   <!-- 左侧菜单 -->
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -77,60 +76,16 @@
   position: relative;
   z-index: 11;
   flex: 1;
-  width: auto;
-  flex-direction: column;
-  align-items: stretch;
-  .logo-box {
-    // min-width: 66px;
-    overflow: hidden;
-    display: flex;
-    box-sizing: border-box;
-    justify-content: start;
-    align-items: center;
-    padding: 0 16px;
-    background: #002240;
-    color: #fff;
-    box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
-    position: relative;
-    z-index: 999;
-    height: 54px;
-    .img-box {
-      display: inline-block;
-      img {
-        height: 30px;
-      }
-    }
-    .home-title {
-      padding: 0px;
-      line-height: 0;
-      display: inline-block;
-      padding-left: 20px;
-      padding-left: 10px;
-      font-size: 18px;
-      font-weight: 400;
-      white-space: nowrap;
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Chrome/Safari/Opera */
-      -khtml-user-select: none; /* Konqueror */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none;
-      a {
-        color: #fff;
-      }
-    }
-  }
-  .scroll-view-box {
-    height: 100%;
-    display: flex;
-    overflow: hidden;
-  }
+  width: 100%;
   .scroll-view {
     touch-action: none;
-    position: relative;
-    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0px;
+    // overflow: hidden
   }
-
   /*重置样式 start*/
   .el-dropdown-link {
     cursor: pointer;
@@ -212,6 +167,46 @@
     height: 100%;
     flex-direction: column;
     background: #000c17;
+    .logo-box {
+      min-width: 66px;
+      overflow: hidden;
+      display: flex;
+      box-sizing: border-box;
+      justify-content: start;
+      align-items: center;
+      padding: 0 16px;
+      background: #002240;
+      color: #fff;
+      box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
+      position: relative;
+      z-index: 999;
+      height: 54px;
+      .img-box {
+        display: inline-block;
+        img {
+          height: 30px;
+        }
+      }
+      .home-title {
+        padding: 0px;
+        line-height: 0;
+        display: inline-block;
+        padding-left: 20px;
+        padding-left: 10px;
+        font-size: 18px;
+        font-weight: 400;
+        white-space: nowrap;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Chrome/Safari/Opera */
+        -khtml-user-select: none; /* Konqueror */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none;
+        a {
+          color: #fff;
+        }
+      }
+    }
   }
 }
 // }

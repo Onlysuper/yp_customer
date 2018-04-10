@@ -10,10 +10,10 @@
 </template>
 <style>
 .keep-alive-fade-enter-active {
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-out;
 }
 .keep-alive-fade-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-out;
 }
 .keep-alive-fade-enter,
 .keep-alive-fade-leave-to {
