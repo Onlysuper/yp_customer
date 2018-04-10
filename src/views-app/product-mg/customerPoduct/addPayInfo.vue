@@ -159,12 +159,13 @@ export default {
         this.form.accountType = settleCard.accountType;
         this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = settleCard.accountNo;
-        this.form.reservedPhoneNo = settleCard.reservedPhoneNo;
+        // this.form.reservedPhoneNo = settleCard.reservedPhoneNo;
       } else {
         // this.form.accountType = "0"; //如果需要默认值
       }
       if (customer instanceof Object) {
         this.form.phoneNo = customer.phoneNo;
+        // this.form.reservedPhoneNo = customer.phoneNo;
       }
     },
     //处理对公对私逻辑
