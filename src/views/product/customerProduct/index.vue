@@ -1040,12 +1040,13 @@ export default {
       }
     },
     dialogViewSize() {
-      let reduceHeight = 180
+      let reduceHeight = 100
       if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
         reduceHeight += 30;
       }
       let windowHeight = $(window).height() - reduceHeight;
-      $(".product-detail-body").height(windowHeight);
+      // $(".product-detail-body").height(windowHeight);
+      $(".el-dialog__body").height(windowHeight);
     }
   },
   computed: {
@@ -1078,12 +1079,13 @@ export default {
       }
       this.$nextTick(() => {
         console.log($('.dialog-footer').height());
-        let reduceHeight = 180
+        let reduceHeight = 100;
         if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
           reduceHeight += 30;
         }
         let windowHeight = $(window).height() - reduceHeight;
-        $(".product-detail-body").height(windowHeight);
+        // $(".product-detail-body").height(windowHeight);
+        $(".el-dialog__body").height(windowHeight);
       })
     },
     editFormVisible(val) {
