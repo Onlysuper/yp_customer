@@ -10,12 +10,12 @@
       <input-wrapper>
         <div>
           <mt-cell title="开票类型" class="border-1px"></mt-cell>
-          <mt-checklist class="myp-chek-list border-1px" title="" v-model="dataList.invoiceTypes" :options="supportTypesOptions">
+          <mt-checklist @input="supportTypesChange" class="myp-chek-list border-1px" title="" v-model="dataList.invoiceTypes" :options="supportTypesOptions">
           </mt-checklist>
         </div>
         <div>
           <mt-cell title="支付类型" class="border-1px"></mt-cell>
-          <mt-checklist class="myp-chek-list border-1px" title="" v-model="dataList.payTypes" :options="payTypesOptions">
+          <mt-checklist @input="payTypesChange" class="myp-chek-list border-1px" title="" v-model="dataList.payTypes" :options="payTypesOptions">
           </mt-checklist>
         </div>
       </input-wrapper>
@@ -77,6 +77,10 @@ export default {
         {
           label: "C扫B",
           value: "2"
+        },
+        {
+          label: "纯支付",
+          value: "4"
         }
       ],
       btnDisabled: false,
@@ -94,6 +98,9 @@ export default {
   computed: {
     supportTypes() {
       return this.dataList.invoiceTypes
+    },
+    payTypes() {
+      return this.dataList.payTypes
     }
   },
   watch: {
@@ -106,6 +113,17 @@ export default {
           newCheck
         );
       }
+    },
+    payTypes(value) {
+      let payTypes = this.dataList.payTypes;
+      if (new Set(payTypes).has("4") && payTypes.length > 1) {
+        let index = payTypes.findIndex(function (value, index, arr) {
+          return value == 4;
+        })
+        let length = this.dataList.payTypes.length;
+        this.dataList.payTypes = Object.assign(['4'])
+        this.dataList.payTypes.splice(1);
+      }
     }
   },
   created() {
@@ -113,6 +131,32 @@ export default {
   },
   methods: {
     ...mapActions(["getCustomerProductOne", "getUserProductStatus"]),
+    payTypesChange(value) {
+      // console.log(value);
+      // let payTypes = this.dataList.payTypes;
+      // if (new Set(payTypes).has("4")) {
+      //   console.log('4444');
+      //   let index = payTypes.findIndex(function (value, index, arr) {
+      //     return value == 4;
+      //   })
+      //   let length = this.dataList.payTypes.length;
+      //   this.dataList.payTypes = Object.assign(['4'])
+      //   this.dataList.payTypes.splice(1);
+      // }
+    },
+    supportTypesChange(value) {
+      // console.log(value);
+      // let payTypes = this.dataList.payTypes;
+      // if (new Set(payTypes).has("4")) {
+      //   console.log('4444');
+      //   let index = payTypes.findIndex(function (value, index, arr) {
+      //     return value == 4;
+      //   })
+      //   let length = this.dataList.payTypes.length;
+      //   this.dataList.payTypes = Object.assign(['4'])
+      //   this.dataList.payTypes.splice(1);
+      // }
+    },
     init() {
       this.getCustomerProductOne(this.queryNo).then(resdata => {
         let rowdata = resdata;

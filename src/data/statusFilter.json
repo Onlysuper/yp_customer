@@ -402,5 +402,27 @@
       "name": "静默",
       "color": "#409EFF"
     }
+  },
+  "bussinessType": {
+    "AGENT_PROFIT_COST": {
+      "name": "一级合伙人分润成本",
+      "color": "#67C23A"
+    },
+    "SECOND_AGENT_PROFIT_COST": {
+      "name": "多级合伙人分润成本",
+      "color": "#E6A23C"
+    },
+    "CUSTOMER_TRANSACTION_COST": {
+      "name": "商户交易费率",
+      "color": "#409EFF"
+    },
+    "CUSTOMER_QRCODE_BILLING": {
+      "name": "商户开票",
+      "color": "#F56C6C"
+    },
+    "CUSTOMER_ELECTRONIC": {
+      "name": "商户电票",
+      "color": "#67C23A"
+    }
   }
 }

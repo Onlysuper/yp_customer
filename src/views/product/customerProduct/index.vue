@@ -58,16 +58,17 @@
       </div>
     </el-dialog>
     <!-- 关闭end -->
+    <!-- 排版 -->
     <el-dialog title="" center :visible.sync="styleVisible">
       <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
         <el-form-item label="开票类型:" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="styleForm.supportTypes">
-            <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+            <el-checkbox @input="supportTypesChange" v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="支付类型:" prop="payTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="styleForm.payTypes">
-            <el-checkbox v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+            <el-checkbox @input="payTypesChange" v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -332,6 +333,10 @@ export default {
         {
           name: "C扫B",
           code: "2"
+        },
+        {
+          name: "纯支付",
+          code: "4"
         }
       ],
       largeUrl: "",
@@ -673,6 +678,9 @@ export default {
             //         break
             //       case 3:
             //         this.styleForm.payTypes = ["1", "2"];
+            //         break;
+            //       case 4:
+            //         this.styleForm.payTypes = ["4"];
             //         break
             //     }
             //     switch (invoiceType) {
@@ -710,6 +718,29 @@ export default {
     };
   },
   methods: {
+    payTypesChange(value) {
+      let payTypes = this.styleForm.payTypes;
+      if (new Set(payTypes).has("4") && payTypes.length > 1) {
+        let index = payTypes.findIndex(function (value, index, arr) {
+          return value == 4;
+        })
+        let length = this.styleForm.payTypes.length;
+        payTypes.splice(0, index);
+        payTypes.splice(1);
+        console.log(payTypes);
+      }
+    },
+    supportTypesChange(value) {
+      let supportTypes = this.styleForm.supportTypes
+      // 选择特殊的时候必须勾选普票
+      if (new Set(supportTypes).has("4")) {
+        let newCheck = Array.from(new Set(supportTypes).add("1"));
+        this.styleForm.supportTypes = Object.assign(
+          this.styleForm.supportTypes,
+          newCheck
+        );
+      }
+    },
     // 关闭，拒绝，通过
     resaultHandle(obj) {
       postHandleCustomerProduct()(obj).then(res => {
@@ -1023,6 +1054,9 @@ export default {
     },
     supportTypes() {
       return this.styleForm.supportTypes;
+    },
+    payTypesType() {
+      return this.styleForm.payTypes;
     }
   },
   watch: {
@@ -1055,16 +1089,6 @@ export default {
     editFormVisible(val) {
       if (!val) {
         this.openProductView = "";
-      }
-    },
-    supportTypes(value) {
-      // 选择特殊的时候必须勾选普票
-      if (new Set(value).has("4")) {
-        let newCheck = Array.from(new Set(value).add("1"));
-        this.styleForm.supportTypes = Object.assign(
-          this.styleForm.supportTypes,
-          newCheck
-        );
       }
     }
   },
