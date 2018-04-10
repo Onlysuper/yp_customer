@@ -56,9 +56,14 @@
         position: relative;
         display: flex;
         flex-direction: column;
-        // display: table;
         width: 100%;
-            // border-collapse: collapse;
+        // position: absolute;
+        // top: 35px;
+        // bottom: 0px;
+        // left: 0px;
+        // right: 0px;
+        // background: red;
+        // padding: 10px;
       .line-label-box {
         padding: 4px 0;
         display: flex;
@@ -71,7 +76,7 @@
           //  text-align-last: justify;
         .line-label {
           // display: table-cell;
-    text-align-last: justify;
+    // text-align-last: justify;
           // min-width: 100px;
           word-break: break-all;
           padding: 0 10px;

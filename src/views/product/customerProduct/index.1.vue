@@ -10,7 +10,6 @@
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
     <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
-      <!-- <el-dialog :fullscreen="true" top="10px" class="" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
