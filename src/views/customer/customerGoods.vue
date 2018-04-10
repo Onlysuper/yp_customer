@@ -24,10 +24,10 @@
           </el-select> -->
         </el-form-item>
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="addForm.unionNo" auto-complete="off"></el-input>
+          <el-input v-model="addForm.unionNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="addForm.goodsType" auto-complete="off"></el-input>
+          <el-input v-model="addForm.goodsType" auto-complete="off"></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="12">
@@ -892,6 +892,46 @@ export default {
 
   methods: {
     taxRateChange(event, type) { },
+
+    goodsNameGet(value, cb) {
+      this.selectLoading = true;
+      getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
+        let data = res.data;
+        if (res.code == "00") {
+          this.goodsNameOptions = res.data;
+          this.selectLoading = false;
+        } else {
+          this.$message({
+            message: res.msg,
+            type: "warning"
+          });
+        }
+        cb(this.goodsNameOptions.map(item => {
+          return { value: item.name }
+        }));
+      });
+      this.goodsName = value;
+    },
+    goodsNameChange(item, type) {
+      let selectObj = {};
+      if (item.value) {
+        selectObj = this.goodsNameOptions.find(data => {
+          return data.name == item.value;
+        });
+      }
+      console.log(selectObj);
+      if (Object.keys(selectObj).length != 0) {
+        if (type == "ADD") {
+          this.addForm.unionNo = selectObj.code;
+          this.addForm.goodsType = selectObj.name;
+          this.addForm.taxRate = selectObj.rate;
+        } else if (type == "EDIT") {
+          this.editForm.unionNo = selectObj.code;
+          this.editForm.goodsType = selectObj.name;
+          this.editForm.taxRate = selectObj.rate;
+        }
+      }
+    },
     // 商品名称智能编码
     // goodsNameGet(value) {
     //   this.selectLoading = true;
@@ -909,50 +949,11 @@ export default {
     //   });
     //   this.goodsName = value;
     // },
-    goodsNameGet(value, cb) {
-      this.selectLoading = true;
-      getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
-        let data = res.data;
-        if (res.code == "00") {
-          this.goodsNameOptions = res.data;
-          this.selectLoading = false;
-        } else {
-          this.$message({
-            message: res.msg,
-            type: "warning"
-          });
-        }
-        cb(this.goodsNameOptions);
-      });
-      // this.goodsName = value;
-    },
+
     // handleSelect(item) {
     //   console.log(item);
     // },
-    goodsNameChange(item, type) {
-      // console.log(item);
-      // console.log(type);
-      let selectObj = [];
-      if (item.code) {
-        selectObj = this.goodsNameOptions.find(item => {
-          return item.code == item.code;
-        });
-      }
-      if (selectObj.length > 0) {
-        if (type == "ADD") {
-          this.addForm.unionNo = selectObj.code;
-          this.addForm.goodsType = selectObj.name;
-          this.addForm.taxRate = selectObj.rate;
-          // this.addForm.goodsName = selectObj.goodsName;
-        } else if (type == "EDIT") {
-          this.editForm.unionNo = selectObj.code;
-          this.editForm.goodsType = selectObj.name;
-          this.editForm.taxRate = selectObj.rate;
-          // this.editForm.goodsName = selectObj.goodsName;
-        }
-      }
 
-    },
     //商品名称被改变
     // goodsNameChange(value, type) {
     //   let selectObj = this.goodsNameOptions.find(item => {

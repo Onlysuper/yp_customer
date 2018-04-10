@@ -9,8 +9,8 @@
         <!-- 添加表单 -->
         <template v-if="pageType == 'ADD'">
           <mt-field @click.native="$refs.searchList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
-          <mt-field type="text" :disabled="true" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
-          <mt-field type="text" :disabled="true" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
+          <mt-field type="text" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
+          <mt-field type="text" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
