@@ -17,12 +17,11 @@
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <!-- <el-autocomplete class="inline-input full-width" v-model="addForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'ADD')"></el-autocomplete> -->
-          <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
+          <el-autocomplete class="inline-input full-width" v-model="addForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'ADD')"></el-autocomplete>
+          <!-- <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
             <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
-          </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-select> -->
         </el-form-item>
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input v-model="addForm.unionNo" auto-complete="off"></el-input>
@@ -40,7 +39,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否为成品油商品" prop="type" :label-width="'210px'">
+            <el-form-item label="是否为成品油商品" prop="type" :label-width="210">
               <el-switch v-model="addForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
               </el-switch>
             </el-form-item>
@@ -126,11 +125,11 @@
     <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-select v-model="editForm.goodsName" @change="goodsNameChange($event,'EDIT')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" placeholder="请选择">
+          <!-- <el-select v-model="editForm.goodsName" @change="goodsNameChange($event,'EDIT')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" placeholder="请选择">
             <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
-          </el-select>
-          <!-- <el-autocomplete class="inline-input full-width" v-model="editForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'EDIT')"></el-autocomplete> -->
+          </el-select> -->
+          <el-autocomplete class="inline-input full-width" v-model="editForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'EDIT')"></el-autocomplete>
         </el-form-item>
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editForm.unionNo" auto-complete="off"></el-input>
@@ -147,12 +146,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="是否为成品油商品" prop="type" :label-width="'210px'">
+          <!-- <el-col :span="12">
+            <el-form-item label="是否为成品油商品" prop="type" :label-width="210">
               <el-switch v-model="editForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
               </el-switch>
             </el-form-item>
-          </el-col>
+          </el-col> -->
         </el-row>
         <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
@@ -268,7 +267,6 @@ export default {
         name: "",
         code: ""
       },
-      formLabelWidth: "100px",
       taxRateOptions: tax,
       goodsName: "", // 商品名称
       selectLoading: false,
@@ -392,7 +390,7 @@ export default {
       },
       // 查询条件数据
       searchCondition: searchConditionVar,
-
+      formLabelWidth: "100px",
       addFormVisible: false, // 新增框
       importVisible: false,
       batchNetFormVisible: false, // 批量入网框
@@ -895,47 +893,7 @@ export default {
   methods: {
     taxRateChange(event, type) { },
 
-    // goodsNameGet(value, cb) {
-    //   this.selectLoading = true;
-    //   getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
-    //     let data = res.data;
-    //     if (res.code == "00") {
-    //       this.goodsNameOptions = res.data;
-    //       this.selectLoading = false;
-    //     } else {
-    //       this.$message({
-    //         message: res.msg,
-    //         type: "warning"
-    //       });
-    //     }
-    //     cb(this.goodsNameOptions.map(item => {
-    //       return { value: item.name }
-    //     }));
-    //   });
-    //   this.goodsName = value;
-    // },
-    // goodsNameChange(item, type) {
-    //   let selectObj = {};
-    //   if (item.value) {
-    //     selectObj = this.goodsNameOptions.find(data => {
-    //       return data.name == item.value;
-    //     });
-    //   }
-    //   console.log(selectObj);
-    //   if (Object.keys(selectObj).length != 0) {
-    //     if (type == "ADD") {
-    //       this.addForm.unionNo = selectObj.code;
-    //       this.addForm.goodsType = selectObj.name;
-    //       this.addForm.taxRate = selectObj.rate;
-    //     } else if (type == "EDIT") {
-    //       this.editForm.unionNo = selectObj.code;
-    //       this.editForm.goodsType = selectObj.name;
-    //       this.editForm.taxRate = selectObj.rate;
-    //     }
-    //   }
-    // },
-    // 商品名称智能编码select start----------
-    goodsNameGet(value) {
+    goodsNameGet(value, cb) {
       this.selectLoading = true;
       getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
         let data = res.data;
@@ -948,31 +906,71 @@ export default {
             type: "warning"
           });
         }
+        cb(this.goodsNameOptions.map(item => {
+          return { value: item.name }
+        }));
       });
       this.goodsName = value;
     },
-    //商品名称被改变
-    goodsNameChange(value, type) {
-      let selectObj = this.goodsNameOptions.find(item => {
-        return item.code == value;
-      });
-      if (type == "ADD") {
-        this.addForm.unionNo = selectObj.code;
-        this.addForm.goodsType = selectObj.name;
-        this.addForm.taxRate = selectObj.rate;
-        this.addForm.goodsName = this.goodsName;
-      } else if (type == "EDIT") {
-        this.editForm.unionNo = selectObj.code;
-        this.editForm.goodsType = selectObj.name;
-        this.editForm.taxRate = selectObj.rate;
-        this.editForm.goodsName = this.goodsName;
+    goodsNameChange(item, type) {
+      let selectObj = {};
+      if (item.value) {
+        selectObj = this.goodsNameOptions.find(data => {
+          return data.name == item.value;
+        });
+      }
+      console.log(selectObj);
+      if (Object.keys(selectObj).length != 0) {
+        if (type == "ADD") {
+          this.addForm.unionNo = selectObj.code;
+          this.addForm.goodsType = selectObj.name;
+          this.addForm.taxRate = selectObj.rate;
+        } else if (type == "EDIT") {
+          this.editForm.unionNo = selectObj.code;
+          this.editForm.goodsType = selectObj.name;
+          this.editForm.taxRate = selectObj.rate;
+        }
       }
     },
+    // 商品名称智能编码
+    // goodsNameGet(value) {
+    //   this.selectLoading = true;
+    //   getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
+    //     let data = res.data;
+    //     if (res.code == "00") {
+    //       this.goodsNameOptions = res.data;
+    //       this.selectLoading = false;
+    //     } else {
+    //       this.$message({
+    //         message: res.msg,
+    //         type: "warning"
+    //       });
+    //     }
+    //   });
+    //   this.goodsName = value;
+    // },
+
     // handleSelect(item) {
     //   console.log(item);
     // },
 
-
+    //商品名称被改变
+    // goodsNameChange(value, type) {
+    //   let selectObj = this.goodsNameOptions.find(item => {
+    //     return item.code == value;
+    //   });
+    //   if (type == "ADD") {
+    //     this.addForm.unionNo = selectObj.code;
+    //     this.addForm.goodsType = selectObj.name;
+    //     this.addForm.taxRate = selectObj.rate;
+    //     this.addForm.goodsName = this.goodsName;
+    //   } else if (type == "EDIT") {
+    //     this.editForm.unionNo = selectObj.code;
+    //     this.editForm.goodsType = selectObj.name;
+    //     this.editForm.taxRate = selectObj.rate;
+    //     this.editForm.goodsName = this.goodsName;
+    //   }
+    // },
     importDialog() {
       this.importVisible = true;
     },

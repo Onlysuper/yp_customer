@@ -692,61 +692,61 @@ export default {
                 this.closeVisible = true;
               }
             },
-            // {
-            //   text: "排版",
-            //   color: "#00c1df",
-            //   cb: rowdata => {
-            //     this.resaultData = rowdata;
-            //     let payType = rowdata.payType;
-            //     let invoiceType = rowdata.invoiceType;
-            //     this.styleForm.payTypes = [payType];
-            //     this.styleForm.supportTypes = [invoiceType];
-            //     switch (payType) {
-            //       case 0:
-            //         this.styleForm.payTypes = [];
-            //         break
-            //       case 1:
-            //         this.styleForm.payTypes = ["1"];
-            //         break
-            //       case 2:
-            //         this.styleForm.payTypes = ["2"];
-            //         break
-            //       case 3:
-            //         this.styleForm.payTypes = ["1", "2"];
-            //         break;
-            //       case 4:
-            //         this.styleForm.payTypes = ["4"];
-            //         break
-            //     }
-            //     switch (invoiceType) {
-            //       case 0:
-            //         this.styleForm.supportTypes = [];
-            //         break
-            //       case 1:
-            //         this.styleForm.supportTypes = ["1"];
-            //         break
-            //       case 2:
-            //         this.styleForm.supportTypes = ["2"];
-            //         break
-            //       case 4:
-            //         this.styleForm.supportTypes = ["4"];
-            //         break
-            //       case 3:
-            //         this.styleForm.supportTypes = ["1", "2"];
-            //         break
-            //       case 7:
-            //         this.styleForm.supportTypes = ["1", "2", "4"];
-            //         break
-            //       case 5:
-            //         this.styleForm.supportTypes = ["1", "4"];
-            //         break
-            //       case 6:
-            //         this.styleForm.supportTypes = ["2", "4"];
-            //         break
-            //     }
-            //     this.styleVisible = true;
-            //   }
-            // }
+            {
+              text: "排版",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.resaultData = rowdata;
+                let payType = rowdata.payType;
+                let invoiceType = rowdata.invoiceType;
+                this.styleForm.payTypes = [payType];
+                this.styleForm.supportTypes = [invoiceType];
+                switch (payType) {
+                  case 0:
+                    this.styleForm.payTypes = [];
+                    break
+                  case 1:
+                    this.styleForm.payTypes = ["1"];
+                    break
+                  case 2:
+                    this.styleForm.payTypes = ["2"];
+                    break
+                  case 3:
+                    this.styleForm.payTypes = ["1", "2"];
+                    break;
+                  case 4:
+                    this.styleForm.payTypes = ["4"];
+                    break
+                }
+                switch (invoiceType) {
+                  case 0:
+                    this.styleForm.supportTypes = [];
+                    break
+                  case 1:
+                    this.styleForm.supportTypes = ["1"];
+                    break
+                  case 2:
+                    this.styleForm.supportTypes = ["2"];
+                    break
+                  case 4:
+                    this.styleForm.supportTypes = ["4"];
+                    break
+                  case 3:
+                    this.styleForm.supportTypes = ["1", "2"];
+                    break
+                  case 7:
+                    this.styleForm.supportTypes = ["1", "2", "4"];
+                    break
+                  case 5:
+                    this.styleForm.supportTypes = ["1", "4"];
+                    break
+                  case 6:
+                    this.styleForm.supportTypes = ["2", "4"];
+                    break
+                }
+                this.styleVisible = true;
+              }
+            }
           ]
         }
       }
