@@ -6,7 +6,8 @@
       <!-- <input-wrapper class="input-bg"> -->
       <div class="mint-searchbar">
         <mt-field ref="mtField" class="input-field title-bold mint-searchbar-inner" v-model="myval" type="text" placeholder="请输入企业名称 / 关键字">
-          <button class="input-return _av" @click="close">完成</button>
+          <button class="input-return _av" @click="close">取消</button>
+          <button class="input-return _av" @click="searchHandle">搜索</button>
         </mt-field>
       </div>
       <!-- </input-wrapper> -->
@@ -47,8 +48,10 @@ export default {
   watch: {
     defaultVal(val) {
       this.myval = val;
+      // this.$emit("initData");
     },
     myval(val) {
+
       //点击×自动清空表单中回显的历史数据
       if (!val) {
         this.$emit("initData");
@@ -68,8 +71,8 @@ export default {
       //模糊查询
       let key = val;
       if (!this.visible) return;
-      this.getsmartgoodscodeCustomerGood({ name: val, tax: "0" });
-      this.$emit("goodsNameInput", val);
+      // this.getsmartgoodscodeCustomerGood({ name: val, tax: "0" });
+      this.$emit("watchDataList", []);
     }
   },
   created() {
@@ -78,6 +81,9 @@ export default {
     this.myval = this.value;
   },
   methods: {
+    searchHandle() {
+      this.getsmartgoodscodeCustomerGood({ name: this.myval, tax: "0" });
+    },
     getsmartgoodscodeCustomerGood(obj) {
       getsmartgoodscodeCustomerGood()(obj).then(res => {
         if (res.code == "00") {
