@@ -306,8 +306,6 @@ import { taxNumVerify, idCardVerify, phoneNumVerify, phoneNumVerify_r, taxNumVer
 
 import {
   provinceAndCityData,
-  regionData,
-  provinceAndCityDataPlus,
   regionDataPlus,
   CodeToText,
   TextToCode

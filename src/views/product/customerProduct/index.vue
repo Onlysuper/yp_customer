@@ -202,7 +202,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
+import { regionDataPlus } from "element-china-area-data";
 import utils from "@src/common/utils";
 import openInfo from "./openInfo";
 import paystatusGoods from "./paystatusGoods";
@@ -402,7 +402,7 @@ export default {
       productOpenTitle: "完善信息",
       openProductView: "openInfo",
       customerTypeSelected: [],
-      optionsArea: regionData, //省市县插件
+      optionsArea: regionDataPlus, //省市县插件
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
       qrcodeStatusVisible: false, // 快速

@@ -380,7 +380,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate, yesterday } from "@src/common/dateSerialize";
-import { regionData } from "element-china-area-data";
+import { regionDataPlus } from "element-china-area-data";
 import { phoneNumVerify } from "@src/common/regexp";
 import utils from "@src/common/utils"
 // 省市区一转三格式
@@ -503,7 +503,7 @@ export default {
       }, // 编辑单个表单
       // 查询条件数据
       searchCondition: searchConditionVar,
-      optionsArea: regionData, //省市县插件
+      optionsArea: regionDataPlus, //省市县插件
       selectOptions: {
         branchBankOptions: [], // 支行
         isCreateKeyOptions: [

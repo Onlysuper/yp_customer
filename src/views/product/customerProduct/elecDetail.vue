@@ -79,7 +79,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, idCardVerify_r } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
+import { regionDataPlus } from "element-china-area-data";
 import { areaOrgcode } from "@src/common/orgcode";
 import utils from "@src/common/utils"
 import {

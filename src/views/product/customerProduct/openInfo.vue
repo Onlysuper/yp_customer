@@ -26,7 +26,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
+import { regionDataPlus } from "element-china-area-data";
 import { areaOrgcode } from "@src/common/orgcode";
 import paystatusInfo from "./paystatusInfo";
 import paystatusGoods from "./paystatusGoods";
