@@ -63,13 +63,13 @@
     <el-dialog title="" center :visible.sync="styleVisible">
       <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
         <el-form-item label="开票类型:" prop="supportTypes" :label-width="formLabelWidth">
-          <el-checkbox-group v-model="styleForm.supportTypes">
-            <el-checkbox @input="supportTypesChange" v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+          <el-checkbox-group @input="supportTypesChange" v-model="styleForm.supportTypes">
+            <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="支付类型:" prop="payTypes" :label-width="formLabelWidth">
-          <el-checkbox-group v-model="styleForm.payTypes">
-            <el-checkbox @input="payTypesChange" v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+          <el-checkbox-group @input="payTypesChange" v-model="styleForm.payTypes">
+            <el-checkbox v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
