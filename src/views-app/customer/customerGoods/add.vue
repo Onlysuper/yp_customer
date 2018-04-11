@@ -9,6 +9,7 @@
         <!-- 添加表单 -->
         <template v-if="pageType == 'ADD'">
           <mt-field @click.native="$refs.searchList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
+          <!-- <mt-field @click.native="$refs.searchNameList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field> -->
           <mt-field type="text" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
           <mt-field type="text" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
@@ -34,7 +35,7 @@
     <picker ref="TaxratePicker" v-model="taxModle" :slotsActions="taxActions" @confirm="taxratePickerChange"></picker>
     <picker ref="DiscountPicker" v-model="discountModle" :slotsActions="discountActions" @confirm="discountPickerChange"></picker>
     <picker ref="EnjoyPicker" v-model="enjoyModle" :slotsActions="enjoyActions" @confirm="enjoyPickerChange"></picker>
-    <search-modle @watchDataList="watchDataList" :defaultVal="good.goodsName" @initData="goodsInit" @goodsNameInput="goodsNameInput" s ref="searchList">
+    <search-modle @changeName="changeName" @watchDataList="watchDataList" :defaultVal="good.goodsName" @initData="goodsInit" ref="searchList">
       <li class="border-bottom-1px _av" @click="goodsNameChange(item)" v-for="(item,index) in queryList" :key="index">
         {{item.name}}
       </li>
@@ -70,11 +71,13 @@ import enjoyJson from "@src/data/enjoy.json";
 import goodsNoJson from "@src/data/goodsNo.json";
 import { getsmartgoodscodeCustomerGood } from "@src/apis";
 import SearchModle from "@src/components-app/SearchModle";
+// import SearchNameList from "@src/components-app/SearchNameList";
 import utils from "@src/common/utils";
 export default {
   components: {
     Picker,
     SearchModle
+    // SearchNameList
   },
   data() {
     return {
@@ -140,28 +143,34 @@ export default {
       this.discountModle = obj;
       this.good.discountType = obj.code;
     },
-    // 商品名称智能编码
-    goodsNameInput(val) {
-      this.goodsName = val;
-      this.good.goodsName = this.goodsName;
-    },
+
     // 商品名称智能编码
     goodsInit(val) {
       this.goodsName = "";
     },
     //商品名称被改变
+    // 商品名称智能编码
+    // goodsNameInput(val) {
+    //   // this.goodsName = val;
+    //   console.log(val);
+    //   this.good.goodsName = val;
+    // },
     goodsNameChange(item) {
+      console.log(item);
       this.good.unionNo = item.code;
       this.good.goodsType = item.name;
-      this.good.goodsName = this.goodsName || this.good.goodsName;
+      this.good.goodsName = item.goodsName || this.good.goodsName;
       let tax = this.taxActions.find(row => {
         return row.code == item.rate;
       });
       this.taxratePickerChange(tax || {});
-      this.$refs.searchList.close();
+      this.$refs.searchList.getNameClose(this.good.goodsName);
     },
     watchDataList(data) {
       this.queryList = data;
+    },
+    changeName(val) {
+      this.good.goodsName = val;
     },
     // 检验税号是否存在
     checkTaxRateHave(code, type) {
@@ -215,6 +224,8 @@ export default {
         return false;
       }
       let sendata = { ...this.good };
+      console.log(sendata);
+      // return false;
       this.btnDisabled = true;
       this.addGood({ ...sendata }).then(flag => {
         this.btnDisabled = false;

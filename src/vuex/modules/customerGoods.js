@@ -77,20 +77,10 @@ export default {
     },
     updataGood({ commit, dispatch, getters, rootGetters, rootState, state }, good) {
       return postEditCustomerGood()({
-        unionNo: good.unionNo,
-        goodsNo: good.goodsNo,
-        customerNo: good.customerNo,
-        goodsName: good.goodsName,
-        model: good.model,
-        unit: good.unit,
-        unitPrice: good.unitPrice,
-        taxRate: good.taxRate,
-        enjoyDiscount: good.enjoyDiscount,
-        discountType: good.discountType,
+        ...good
       }).then(data => {
         if (data.code == "00") {
           Toast("修改成功");
-
           commit("UPDATA_GOOD", good);
           return true;
         } else {
@@ -101,16 +91,7 @@ export default {
     },
     addGood({ commit, dispatch, getters, rootGetters, rootState, state }, good) {
       return postAddCustomerGood()({
-        unionNo: good.unionNo,
-        goodsNo: good.goodsNo,
-        customerNo: good.customerNo,
-        goodsName: good.goodsName,
-        model: good.model,
-        unit: good.unit,
-        unitPrice: good.unitPrice,
-        taxRate: good.taxRate,
-        enjoyDiscount: good.enjoyDiscount,
-        discountType: good.discountType,
+        ...good
       }).then(data => {
         if (data.code == "00") {
           Toast("添加成功");
