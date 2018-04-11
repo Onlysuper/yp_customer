@@ -1,5 +1,10 @@
 <template>
   <full-page-popup v-model="popupVisible" position="bottom" class="bank-page" title="选择银行">
+    <div class="mint-searchbar">
+      <div class="mint-searchbar-inner">
+        <i class="mintui mintui-search"></i>
+        <input v-model="searchValue" type="search" placeholder="搜索" class="mint-searchbar-core"></div>
+    </div>
     <mt-index-list :show-indicator="true" :height="wrapperHeight">
       <mt-index-section v-for="item in alphabet" :index="item.initial" :key="item.initial">
         <div v-for="(cell,index) in item.cells" :key="index" @click="emitEvent(cell)">
@@ -38,6 +43,7 @@ export default {
   },
   data() {
     return {
+      searchValue: "",
       popupVisible: false,
       wrapperHeight: document.documentElement.clientHeight - 45,
       alphabet: []
@@ -46,6 +52,13 @@ export default {
   watch: {
     value(val) {
       this.popupVisible = val;
+    },
+    searchValue(val) {
+      let listNew = [];
+      listNew = bankJson.filter(element => {
+        return element.cells.find(item => { return new RegExp(val, 'i').test(item.value) })
+      });
+      this.alphabet = listNew
     },
     popupVisible(val) {
       this.$emit("input", val);

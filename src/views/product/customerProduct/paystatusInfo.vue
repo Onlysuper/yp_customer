@@ -57,7 +57,7 @@
         <el-input v-model="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-        <el-select @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
+        <el-select filterable @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
           <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
