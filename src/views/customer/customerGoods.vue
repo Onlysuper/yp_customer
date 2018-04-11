@@ -16,13 +16,24 @@
     <!-- 新增start -->
     <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
-        <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+        <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
           <!-- <el-autocomplete class="inline-input full-width" v-model="addForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'ADD')"></el-autocomplete> -->
-          <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
+          <!-- <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择"> -->
+          <!-- <el-select popper-class="selectOptionVisible" @change="goodsNameChange($event,'ADD')" filterable remote :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
             <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
-          </el-select>
-          <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-select> -->
+          <el-input placeholder="请输入内容" v-model="addForm.goodsName" class="input-with-select">
+            <el-dropdown @command="goodsNameChange($event,'ADD')" slot="append">
+              <span class="el-dropdown-link">
+                <el-button @click="goodsNameGet(addForm.goodsName)" slot="append" icon="el-icon-search"></el-button>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="item in goodsNameOptions" :key="item.name" :command="item.name">{{item.name}}</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-input>
+
         </el-form-item>
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input v-model="addForm.unionNo" auto-complete="off"></el-input>
@@ -126,17 +137,27 @@
     <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-select v-model="editForm.goodsName" @change="goodsNameChange($event,'EDIT')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" placeholder="请选择">
+          <el-input placeholder="请输入内容" v-model="editForm.goodsName" class="input-with-select">
+            <el-dropdown @command="goodsNameChange($event,'EDIT')" slot="append">
+              <span class="el-dropdown-link">
+                <el-button @click="goodsNameGet(editForm.goodsName)" slot="append" icon="el-icon-search"></el-button>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="item in goodsNameOptions" :key="item.name" :command="item.name">{{item.name}}</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </el-input>
+          <!-- <el-select v-model="editForm.goodsName" @change="goodsNameChange($event,'EDIT')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" placeholder="请选择">
             <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
-          </el-select>
+          </el-select> -->
           <!-- <el-autocomplete class="inline-input full-width" v-model="editForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'EDIT')"></el-autocomplete> -->
         </el-form-item>
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.unionNo" auto-complete="off"></el-input>
+          <el-input v-model="editForm.unionNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.goodsType" auto-complete="off"></el-input>
+          <el-input v-model="editForm.goodsType" auto-complete="off"></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="12">
@@ -942,6 +963,7 @@ export default {
         if (res.code == "00") {
           this.goodsNameOptions = res.data;
           this.selectLoading = false;
+          console.log(this.goodsNameOptions);
         } else {
           this.$message({
             message: res.msg,
@@ -954,7 +976,7 @@ export default {
     //商品名称被改变
     goodsNameChange(value, type) {
       let selectObj = this.goodsNameOptions.find(item => {
-        return item.code == value;
+        return item.name == value;
       });
       if (type == "ADD") {
         this.addForm.unionNo = selectObj.code;
