@@ -7,14 +7,12 @@
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
-    <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
     <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
-    <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding">
+    <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
-
           <div class="line-box-left dialog-title-box">
             <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
               <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
@@ -778,7 +776,7 @@ export default {
     payTypesChange(value) {
       let thisChecked = value[value.length - 1];
       let payTypes = this.styleForm.payTypes;
-      if (thisChecked == '4' && payTypesThis.length > 1) {
+      if (thisChecked == '4' && payTypes.length > 1) {
         let index = payTypes.findIndex(function (value, index, arr) {
           return value == 4;
         })
