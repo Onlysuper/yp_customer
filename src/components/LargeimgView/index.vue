@@ -13,9 +13,8 @@
     </div>
     <!-- </transition> -->
     <div class="largeButgroup">
-      <!-- <a :href="downloadUrl" :download="downloadName" title="下载" class="el-icon-download but"></a> -->
-      <!-- <a :href="downloadUrl" :download="downloadName"> -->
-      <i @click="downLoad(downloadUrl,downloadName)" title="下载" class="el-icon-download but"></i>
+      <a :href="downloadUrl" :download="downloadName" target="view_window" title="下载" class="el-icon-download but"></a>
+      <!-- <i @click="downLoadImg(downloadUrl,downloadName)" title="下载" class="el-icon-download but"></i> -->
       <!-- </a> -->
       <i v-if="retateVisible" title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
       <i @click="hideImageView" title="关闭" class="el-icon-close but"></i>
@@ -240,12 +239,7 @@ export default {
   },
   methods: {
     // 下载
-    downLoad(url, name) {
-      let reader = new FileReader();
-      reader.readAsDataURL(url);
-      reader.onload = function (e) {
-        console.log(this.result);
-      }
+    downLoadImg(imgSrc, name) {
     },
     // 上一张
     preFn() {
