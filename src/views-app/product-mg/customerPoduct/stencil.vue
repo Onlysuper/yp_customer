@@ -208,10 +208,10 @@ export default {
         this.MessageBox.alert("请选择开票类型！");
         return;
       }
-      if (this.dataList.payTypes.length == 0) {
-        this.MessageBox.alert("请选择支付类型！");
-        return;
-      }
+      // if (this.dataList.payTypes.length == 0) {
+      //   this.MessageBox.alert("请选择支付类型！");
+      //   return;
+      // }
       this.btnDisabled = true;
       if (this.pageType == "STENCIL") {
         this.getUserProductStatus({

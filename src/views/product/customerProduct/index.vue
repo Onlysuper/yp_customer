@@ -67,7 +67,7 @@
             <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="支付类型:" prop="payTypes" :label-width="formLabelWidth">
+        <el-form-item label="支付类型:" prop="" :label-width="formLabelWidth">
           <el-checkbox-group @input="payTypesChange" v-model="styleForm.payTypes">
             <el-checkbox v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>

@@ -13,6 +13,10 @@
     </div>
     <!-- </transition> -->
     <div class="largeButgroup">
+      <!-- <a :href="downloadUrl" :download="downloadName" title="下载" class="el-icon-download but"></a> -->
+      <!-- <a :href="downloadUrl" :download="downloadName"> -->
+      <i @click="downLoad(downloadUrl,downloadName)" title="下载" class="el-icon-download but"></i>
+      <!-- </a> -->
       <i v-if="retateVisible" title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
       <i @click="hideImageView" title="关闭" class="el-icon-close but"></i>
     </div>
@@ -230,9 +234,19 @@ export default {
       nowIndex: 0,
       imgsArrSelf: [],
       imgUrlSelf: "",
+      downloadUrl: "",
+      downloadName: ""
     };
   },
   methods: {
+    // 下载
+    downLoad(url, name) {
+      let reader = new FileReader();
+      reader.readAsDataURL(url);
+      reader.onload = function (e) {
+        console.log(this.result);
+      }
+    },
     // 上一张
     preFn() {
       let newIndex = this.nowIndex;
@@ -368,22 +382,28 @@ export default {
       let nowLeft = $(".imgsGroup").position().left;
       if (index < this.nowIndex) {
         // 向左移动
-        console.log("向左移动");
+        // console.log("向左移动");
         $(".imgsGroup").animate({ left: (nowLeft + windowWidth) + "px" }, 200)
         this.nowIndex = index;
       } else if (index > this.nowIndex) {
         //向右移动
-        console.log("向右侧移动")
+        // console.log("向右侧移动")
         $(".imgsGroup").animate({ left: (nowLeft - windowWidth) + "px" }, 200)
         this.nowIndex = index;
       } else {
         // 不动
-        console.log("不动");
+        // console.log("不动");
         $(".imgsGroup").css({ left: -utils.accMul(index, windowWidth) + "px" });
       }
-      console.log(this.nowIndex);
+      // console.log(this.nowIndex);
       // }
-      this.setImgMiddle();
+      this.$nextTick(item => {
+        let imgsrc = $(".imgbox").eq(this.nowIndex).find("img").attr('src');
+        let imgalt = $(".imgbox").eq(this.nowIndex).find("img").attr('alt');
+        this.downloadUrl = imgsrc;
+        this.downloadName = imgalt;
+      })
+      // this.setImgMiddle();
     },
     biggerFn(index) {
       let biggeris = this.biggeris;
@@ -431,7 +451,10 @@ export default {
       if (val) {
         this.imgInit();
       }
-    }
+    },
+    // nowIndex(val) {
+    //   console.log(val);
+    // }
   },
   mounted() {
   }
