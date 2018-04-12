@@ -19,7 +19,7 @@
             <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
           </div>
         </div>
-
+        <div class="split－padding"></div>
         <div class="line-label-box">
           <div class="line-cell">
             <span class="lable-title gray-back">微信费率:</span>
@@ -40,7 +40,7 @@
             <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||"0"}}</span>
           </div>
         </div>
-
+        <div class="split－padding"></div>
         <div class="line-label-box">
           <span class="lable-title gray-back">企业名称:</span>
           <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
@@ -75,7 +75,7 @@
           <span class="lable-title gray-back">详细地址:</span>
           <span class="line-label-last">{{payStatusDetails.bussinessAddress}}</span>
         </div>
-
+        <div class="split－padding"></div>
         <div class="line-label-box">
           <span class="lable-title gray-back">账户名称:</span>
           <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>

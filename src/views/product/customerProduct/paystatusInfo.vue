@@ -47,7 +47,7 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item class="full-width" label="账户名称" prop="accountName" :label-width="formLabelWidth">
+      <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
         <el-input :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
@@ -183,6 +183,9 @@ export default {
         ],
         category: [
           { required: true, message: "请选择行业类型", trigger: "blur,change" }
+        ],
+        accountName: [
+          { required: true, message: "请输入账户名称", trigger: "blur,change" }
         ],
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur,change" }

@@ -3,7 +3,7 @@
  */
 import utils from "@src/common/utils";
 const scrollBehavior = {
-  cactivated() {
+  activated() {
     this.$refs.FullPage.setScrollTop(
       this.$store.state.scrollTop[this.$route.name]
     );

@@ -10,15 +10,17 @@
     <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
     <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
-    <el-dialog class="special-dialog-new" bottom="10px" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
+    <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
-          <div class="line-box-left">
+
+          <div class="line-box-left dialog-title-box">
             <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
               <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
               </el-option>
             </el-select>
+            <span class="title-box">信息详情</span>
           </div>
           <component ref="detailProductView" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="detailProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
           </component>
@@ -68,8 +70,8 @@
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="支付类型:" prop="" :label-width="formLabelWidth">
-          <el-checkbox-group @input="payTypesChange" v-model="styleForm.payTypes">
-            <el-checkbox v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+          <el-checkbox-group @change="payTypesChange" v-model="styleForm.payTypes">
+            <el-checkbox v-for="item in payTypesOptions" :disabled="item.disabled" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -124,7 +126,20 @@
       position: fixed;
       align-items: stretch;
       overflow: hidden;
-
+      .dialog-title-box {
+        display: flex;
+        padding: 4px 0;
+        padding-bottom: 10px;
+        position: relative;
+        .title-box {
+          // flex: 1;
+          flex: 1;
+          align-self: center;
+          text-align: center;
+          font-size: 20px;
+          padding-right: 120px;
+        }
+      }
       .el-dialog {
         margin: 0px !important;
         width: 100%;
@@ -138,6 +153,9 @@
         width: 100%;
         flex: 1;
         flex-grow: 0;
+        margin: 0;
+        padding: 0;
+        height: 0;
       }
       .el-dialog__body {
         padding-top: 0px;
@@ -753,16 +771,24 @@ export default {
     };
   },
   methods: {
+    //开票类型
     payTypesChange(value) {
+      let thisChecked = value[value.length - 1];
       let payTypes = this.styleForm.payTypes;
-      if (new Set(payTypes).has("4") && payTypes.length > 1) {
+      if (thisChecked == '4' && payTypesThis.length > 1) {
         let index = payTypes.findIndex(function (value, index, arr) {
           return value == 4;
         })
         let length = this.styleForm.payTypes.length;
         payTypes.splice(0, index);
         payTypes.splice(1);
-        console.log(payTypes);
+      } else {
+        if (new Set(payTypes).has("4") && payTypes.length > 1) {
+          let index = payTypes.findIndex(function (value, index, arr) {
+            return value == 4;
+          })
+          payTypes.splice(index, 1);
+        }
       }
     },
     supportTypesChange(value) {
@@ -899,8 +925,8 @@ export default {
     styleFormSave(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let invoiceType = this.styleForm.supportTypes;//开票类型
-          let payType = this.styleForm.payTypes; //支付类型
+          let invoiceType = this.styleForm.supportTypes.length == 0 ? ['0'] : this.styleForm.supportTypes;//开票类型
+          let payType = this.styleForm.payTypes.length == 0 ? ['0'] : this.styleForm.payTypes; //支付类型
           let bussinessNo = this.resaultData.bussinessNo;
           getUserProductStatus()({
             bussinessNo: bussinessNo,
