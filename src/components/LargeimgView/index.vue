@@ -5,10 +5,13 @@
     <div class="imgsGroup">
       <div v-for="(item,index) in imgsArrSelf" :key="index" class="imgbox">
         <div class="imgbox-in" @click.self="hideImageView">
-          <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname">
+          <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname" :id="item[1].imgId">
         </div>
         <!-- <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="imgUrlSelf" :alt="imgUrlSelf"> -->
-        <p class="name-box">{{item[1].imgname}}</p>
+        <p class="name-box">{{item[1].imgname}}
+          <span v-if="idcardVisible">身份证号：{{payStatusDetails.idCard}}</span>
+          <span v-if="accountNoVisible">账号：{{payStatusDetails.accountNo}}</span>
+        </p>
       </div>
     </div>
     <!-- </transition> -->
@@ -160,6 +163,10 @@
       z-index: 9999;
       bottom: 0;
       background: rgba(0, 0, 0, 0.4);
+      span {
+        display: inline-block;
+        padding: 0 10px;
+      }
     }
   }
   .shadow-box {
@@ -222,7 +229,7 @@
 import utils from "@src/common/utils"
 export default {
   components: {},
-  props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt", "imgsArr", "largeImg"],
+  props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt", "imgsArr", "largeImg", "payStatusDetails"],
   data() {
     return {
       imgVisible: true,
@@ -234,7 +241,9 @@ export default {
       imgsArrSelf: [],
       imgUrlSelf: "",
       downloadUrl: "",
-      downloadName: ""
+      downloadName: "",
+      idcardVisible: false,
+      accountNoVisible: false
     };
   },
   methods: {
@@ -397,7 +406,24 @@ export default {
         this.downloadUrl = imgsrc;
         this.downloadName = imgalt;
       })
+      this.showImgNow();
       // this.setImgMiddle();
+    },
+    showImgNow() {
+      this.$nextTick(item => {
+        let img = $(".imgbox").eq(this.nowIndex).find("img");
+        let imgId = img.attr("id");
+        this.idcardVisible = false;
+        this.accountNoVisible = false;
+        if (imgId == "identityHolderImg" || imgId == "identityFrontImg" || imgId == "identityBackImg") {
+          this.idcardVisible = true
+        }
+        if (imgId == "settleCardImg") {
+          this.accountNoVisible = true
+        }
+
+
+      })
     },
     biggerFn(index) {
       let biggeris = this.biggeris;

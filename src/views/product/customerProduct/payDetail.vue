@@ -136,7 +136,7 @@
       </div>
     </transition> -->
     <transition name="slide-fade" class="fadeView">
-      <largeimg-view ref="largeImg" :imgsArr="imgsArr" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
+      <largeimg-view :payStatusDetails="payStatusDetails" ref="largeImg" :imgsArr="imgsArr" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>
     </transition>
   </div>
