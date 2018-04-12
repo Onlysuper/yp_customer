@@ -175,6 +175,9 @@
         flex-grow: 0;
         justify-content: center;
         // flex-grow: 0;
+        .el-dialog__headerbtn {
+          z-index: 999;
+        }
       }
       .el-dialog {
         width: 90% !important;
@@ -711,7 +714,7 @@ export default {
               }
             },
             {
-              text: "排版",
+              text: "配置",
               color: "#00c1df",
               cb: rowdata => {
                 this.resaultData = rowdata;

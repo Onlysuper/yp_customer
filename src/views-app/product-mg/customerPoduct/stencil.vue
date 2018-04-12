@@ -91,7 +91,7 @@ export default {
         payTypes: []
       },
       pageTitle: {
-        STENCIL: "排版"
+        STENCIL: "配置"
       },
     };
   },
