@@ -30,6 +30,9 @@
     background: transparent;
     color: #666;
   }
+  .full-main {
+    background: #f2f2f2;
+  }
   .pading {
     margin-top: 20*$rem;
     padding: 0 20*$rem;
