@@ -7,7 +7,10 @@
         <li>功能更加全面</li>
         <li>操作更加便捷</li>
         <li v-if="downloadPower">
-          <a target="_blank" class="docUrl" :href="docUrl">操作手册下载</a>
+          <a target="_blank" class="docUrl" :href="docUrl" download="操作手册">操作手册下载</a>
+        </li>
+        <li v-if="downloadPower">
+          <a target="_blank" class="docUrl" href="http://www.yeepiao.com/download/plugin/MANUAL/1.1.0.pdf" download="速票通非法人清算授权书">速票通非法人清算授权书下载</a>
         </li>
       </ul>
     </div>
