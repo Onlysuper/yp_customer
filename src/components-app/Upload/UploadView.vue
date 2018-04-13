@@ -81,14 +81,15 @@ export default {
   data() {
     return {
       showUpload: false,
-      base64: ""
+      base64: "",
+      imgList: []
     };
   },
   methods: {
     handleClick() {
       WeixinJSBridge.invoke("imagePreview", {
-        // "current": this.invoiceUrl,
-        urls: [this.base64]
+        "current": this.base64,
+        urls: [this.imgList]
       });
       if (this.disabled) {
       } else {
@@ -117,6 +118,7 @@ export default {
     },
     setImg(base64) {
       this.base64 = base64;
+      this.imgList = push(base64);
     }
   }
 };
