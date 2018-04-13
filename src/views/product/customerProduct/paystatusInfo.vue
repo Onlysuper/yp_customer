@@ -352,7 +352,6 @@ export default {
           }
           this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard }
           this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
-          console.log(this.payStatusForm);
         }
       });
     },

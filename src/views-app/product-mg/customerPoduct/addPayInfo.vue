@@ -20,10 +20,10 @@
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="营业执照起始日期:" type="text" v-model="form.bussinessLicenseEffectiveBegin" @click.native="$refs.bussinessLicenseEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+            <mt-field class="addpay-long-title" label="营业执照起始日期:" type="text" v-model="form.bussinessLicenseEffectiveBegin" @click.native="$refs.bussinessLicenseEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" @click.native="$refs.bussinessLicenseEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+            <mt-field class="addpay-long-title" label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" @click.native="$refs.bussinessLicenseEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
             <!-- <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field> -->
@@ -36,7 +36,7 @@
             <mt-field label="开户支行:" type="text" v-model="bankBranch.branchName" @click.native="openBankBranch" placeholder="选择开户支行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="帐号:" type="tel" v-model="form.accountNo" @change="cacheFrom" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="银行帐号:" type="tel" @input="validateNum($event,'form','accountNo')" v-model="form.accountNo" @change="cacheFrom" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
             <mt-field label="预留手机号:" type="tel" v-model="form.reservedPhoneNo" @change="cacheFrom" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
           </input-wrapper>
         </view-radius>
@@ -93,7 +93,8 @@ export default {
         accountType: "",
         legalPerson: "",
         bussinessLicenseEffectiveBegin: "",
-        bussinessLicenseEffectiveEnd: ""
+        bussinessLicenseEffectiveEnd: "",
+        accountNo: ""
       },
       city: {},
       //银行信息
@@ -266,8 +267,9 @@ export default {
     submit() {
 
       let form = this.sendParams();
+      form.accountNo = form.accountNo.replace(/\s/g, '');
       // console.log(form);
-
+      // this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
       completeSettleInfo()(form).then(data => {
         if (data.code == "00") {
           this.clearcacheFrom();
@@ -305,7 +307,19 @@ export default {
   }
 }
 </style>
-
+<style lang="scss">
+@import "../../../assets/scss/base.scss";
+.addpay-long-title {
+  .mint-cell-title {
+    span {
+      white-space: nowrap;
+    }
+  }
+  input {
+    padding-left: 80*$rem;
+  }
+}
+</style>
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
 .add-playinfo {
