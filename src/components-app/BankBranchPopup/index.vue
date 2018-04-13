@@ -3,7 +3,7 @@
     <!-- <div class="pading"> -->
     <view-radius>
       <input-wrapper>
-        <mt-field :value="bank.value" label="开户银行" type="text" state="" :readonly="true" placeholder=""></mt-field>
+        <mt-field :value="bank.value" label="开户银行" type="text" state="" :disabled="true" placeholder=""></mt-field>
       </input-wrapper>
       <input-wrapper>
         <mt-field :value="bankAddr.resultAddr" @click.native="cityVisible = true" label="开户地区" type="text" state="" v-readonly-ios :readonly="true" placeholder="请选择地区">

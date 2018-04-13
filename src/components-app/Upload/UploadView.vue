@@ -90,8 +90,8 @@ export default {
       if (this.disabled) {
         if (this.imgList.length > 0) {
           WeixinJSBridge.invoke("imagePreview", {
-            // "current": this.base64,
-            urls: [this.imgList]
+            "current": this.base64,
+            urls: this.imgList
           });
         } else {
           WeixinJSBridge.invoke("imagePreview", {

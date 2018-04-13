@@ -301,6 +301,10 @@
     "PROCESSING": {
       "name": "开通待处理",
       "color": "#E6A23C"
+    },
+    "FALSE": {
+      "name": "已关闭",
+      "color": "#909399"
     }
   },
   "typeCustomerVersion": {
