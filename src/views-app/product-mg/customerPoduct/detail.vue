@@ -184,7 +184,7 @@ export default {
           if (imgs[key] instanceof Object) {
             this.$refs[key].setImg(imgs[key].url);
             imgUrlList.push(imgs[key].url);
-            this.$refs[key].setImg(imgs[key].url);
+            this.$refs[key].setImgList(imgUrlList);
           }
         }
       }

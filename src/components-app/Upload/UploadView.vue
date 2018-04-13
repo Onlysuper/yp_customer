@@ -90,7 +90,7 @@ export default {
       if (this.disabled) {
         if (this.imgList.length > 0) {
           WeixinJSBridge.invoke("imagePreview", {
-            "current": this.base64,
+            // "current": this.base64,
             urls: [this.imgList]
           });
         } else {
@@ -127,7 +127,7 @@ export default {
       this.base64 = base64;
     },
     setImgList(imgUrls) {
-      this.imgList = imgUrls
+      this.imgList = imgUrls;
     }
   }
 };
