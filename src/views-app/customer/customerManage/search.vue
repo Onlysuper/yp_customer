@@ -60,6 +60,31 @@ export default {
         }
       });
       this.searchConfig.push({
+        title: "状态",
+        type: "myp-select",
+        defaultValue: this.searchQuery.status,
+        values:
+          [
+            {
+              name: "全部",
+              code: ""
+            },
+            {
+              name: "开启",
+              code: "TRUE"
+            },
+            {
+              name: "关闭",
+              code: "FALSE"
+            }
+          ],
+        cb: value => {
+          this.$store.commit("CUSTOMER_MANAGE_SET_SEARCH", {
+            status: value
+          });
+        }
+      });
+      this.searchConfig.push({
         title: "包含关系",
         type: "myp-select",
         defaultValue: this.searchQuery.containChild,
@@ -67,7 +92,7 @@ export default {
           [
             {
               name: "全部",
-              code: "ALL"
+              code: ""
             },
             {
               name: "含下级",
