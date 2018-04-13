@@ -39,4 +39,12 @@ const filterColor = {
     }
   }
 }
-export { scrollBehavior, filterColor }
+const validateInput = {
+  methods: {
+    validateNum(val, dataWhere, dataKey) {
+      let newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
+      this.$set(this.$data[dataWhere], dataKey, newval);
+    }
+  }
+}
+export { scrollBehavior, filterColor, validateInput }

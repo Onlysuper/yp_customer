@@ -87,11 +87,11 @@ export default {
   },
   methods: {
     handleClick() {
-      WeixinJSBridge.invoke("imagePreview", {
-        "current": this.base64,
-        urls: [this.imgList]
-      });
       if (this.disabled) {
+        WeixinJSBridge.invoke("imagePreview", {
+          "current": this.base64,
+          urls: [this.imgList]
+        });
       } else {
         this.showUpload = true;
       }
@@ -118,7 +118,7 @@ export default {
     },
     setImg(base64) {
       this.base64 = base64;
-      this.imgList = push(base64);
+      this.imgList.push(base64);
     }
   }
 };

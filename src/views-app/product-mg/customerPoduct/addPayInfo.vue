@@ -36,7 +36,7 @@
             <mt-field label="开户支行:" type="text" v-model="bankBranch.branchName" @click.native="openBankBranch" placeholder="选择开户支行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <mt-field label="帐号:" type="tel" v-model="form.accountNo" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
+            <mt-field @input="validateNum($event,'form','accountNo')" label="银行帐号:" type="tel" v-model="form.accountNo" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
             <mt-field label="预留手机号:" type="tel" v-model="form.reservedPhoneNo" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
           </input-wrapper>
         </view-radius>
@@ -62,6 +62,7 @@ import BankPopup from "@src/components-app/BankPopup";
 import BankBranchPopup from "@src/components-app/BankBranchPopup";
 import BankSearchPopup from "@src/components-app/BankSearchPopup";
 import utils from "@src/common/utils";
+import { validateInput } from "@src/common/mixins";
 import {
   getBankList,
   getCustomerEchoProduct,
@@ -69,6 +70,7 @@ import {
 } from "@src/apis";
 import { mapActions, install } from "vuex";
 export default {
+  mixins: [validateInput],
   components: {
     CityPicher,
     Picker,
@@ -223,8 +225,12 @@ export default {
     },
     //提交
     submit() {
+
+      let newForm = { ...this.form };
+      newForm.accountNo = newForm.accountNo.replace(/\s/g, '');
+      console.log(newForm);
       let form = {
-        ...this.form,
+        ...newForm,
         customerNo: this.customerNo,
         orgCode: this.city.resultCode,
         category: this.bussinessType.code,

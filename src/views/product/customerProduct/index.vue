@@ -124,6 +124,9 @@
       position: fixed;
       align-items: stretch;
       overflow: hidden;
+      .el-dialog__headerbtn {
+        z-index: 999;
+      }
       .dialog-title-box {
         display: flex;
         padding: 4px 0;
@@ -165,47 +168,6 @@
       .el-dialog__footer {
         flex-grow: 0;
       }
-    }
-    .special-dialog {
-      // overflow: hidden;
-      .el-dialog__header {
-        display: flex;
-        flex-grow: 0;
-        justify-content: center;
-        // flex-grow: 0;
-        .el-dialog__headerbtn {
-          z-index: 999;
-        }
-      }
-      .el-dialog {
-        width: 90% !important;
-        height: 90%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-      }
-      .el-dialog__footer {
-        height: 100px;
-        flex-shrink: 0;
-        padding: 0;
-        .el-button {
-          margin: 10px;
-        }
-      }
-      .el-dialog__body {
-        padding-top: 0px;
-        padding-bottom: 0px !important;
-        flex: 1;
-        // height: 500px;
-      }
-      // .detail-content {
-      // height: 100%;
-      // overflow: auto;
-      // position: relative;
-      // display: flex;
-      // flex-direction: column;
-      // }
     }
   }
 }
