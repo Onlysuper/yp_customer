@@ -179,8 +179,11 @@ export default {
         this.product.t0CashCostFixed = product.t0CashCostFixed;
       }
       if (imgs instanceof Object) {
+        let imgUrlList = [];
         for (let key in imgs) {
           if (imgs[key] instanceof Object) {
+            this.$refs[key].setImg(imgs[key].url);
+            imgUrlList.push(imgs[key].url);
             this.$refs[key].setImg(imgs[key].url);
           }
         }
