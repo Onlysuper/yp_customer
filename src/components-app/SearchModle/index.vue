@@ -56,6 +56,9 @@ export default {
       }
       this.$emit("initData");
       this.$emit("changeName", val);
+    },
+    visible(val) {
+
     }
   },
   created() {

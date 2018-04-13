@@ -47,11 +47,11 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item class="full-width" label="账户名称" prop="accountName" :label-width="formLabelWidth">
+      <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
         <el-input :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="账号" prop="accountNo" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
+      <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
+        <el-input @input="validateNum($event,'payStatusForm','accountNo')" v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="预留手机号" prop="reservedPhoneNo" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
@@ -184,6 +184,9 @@ export default {
         category: [
           { required: true, message: "请选择行业类型", trigger: "blur,change" }
         ],
+        accountName: [
+          { required: true, message: "请输入账户名称", trigger: "blur,change" }
+        ],
         accountType: [
           { required: true, message: "请选择结算信息", trigger: "blur,change" }
         ],
@@ -241,6 +244,7 @@ export default {
             'unionCode',
             'bankCode',
           ]);
+          newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
           let sendata = {
             customerNo: this.rowData.bussinessNo,
             orgCode:
@@ -334,6 +338,7 @@ export default {
           let newSettleCard = utils.pickObj(settleCard, [
             'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName'
           ]);
+
           this.getaccountName = newSettleCard.accountName;// 带入的企业名称
           let accountName = "";// 账户名称
           if (newSettleCard.accountType == "0") {
@@ -346,6 +351,7 @@ export default {
             this.accountNameDis = false;
           }
           this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard }
+          this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
           console.log(this.payStatusForm);
         }
       });

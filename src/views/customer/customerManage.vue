@@ -444,6 +444,26 @@ export default {
           ]
         },
         {
+          corresattr: "status",
+          type: "select",
+          label: "状态",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "TRUE",
+              label: "开启"
+            },
+            {
+              value: "FALSE",
+              label: "关闭"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.status = value;
+          }
+        },
+        {
           corresattr: "taxNo",
           type: "text",
           label: "企业税号",

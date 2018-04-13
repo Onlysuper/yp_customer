@@ -19,7 +19,7 @@
             <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
           </div>
         </div>
-
+        <div class="split－padding"></div>
         <div class="line-label-box">
           <div class="line-cell">
             <span class="lable-title gray-back">微信费率:</span>
@@ -40,7 +40,7 @@
             <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||"0"}}</span>
           </div>
         </div>
-
+        <div class="split－padding"></div>
         <div class="line-label-box">
           <span class="lable-title gray-back">企业名称:</span>
           <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
@@ -75,7 +75,7 @@
           <span class="lable-title gray-back">详细地址:</span>
           <span class="line-label-last">{{payStatusDetails.bussinessAddress}}</span>
         </div>
-
+        <div class="split－padding"></div>
         <div class="line-label-box">
           <span class="lable-title gray-back">账户名称:</span>
           <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
@@ -200,8 +200,8 @@ export default {
       wechatRate: "", //微信费率
       settleMode: "", //开通即刷即到
       t0CashCostFixed: "", //D0手续费
-      identityFrontImg: "", //法人身份证正面
-      identityBackImg: "", //法人身份证反面
+      identityFrontImg: "", //法人身份证人像面
+      identityBackImg: "", //法人身份证国徽面
       identityHolderImg: "", //手持身份证
       bussinessLicenseImg: "", //营业执照
       settleCardImg: "", //结算卡正面
@@ -344,9 +344,9 @@ export default {
               let item = imgsArr[i][1];
               let index = imgsArr[i][0];
               if (index == "identityFrontImg") {
-                item["imgname"] = "法人身份证正面"
+                item["imgname"] = "法人身份证人像面"
               } else if (index == "identityBackImg") {
-                item["imgname"] = "法人身份证反面"
+                item["imgname"] = "法人身份证国徽面"
               } else if (index == "bussinessLicenseImg") {
                 item["imgname"] = "营业执照"
               } else if (index == "identityHolderImg") {

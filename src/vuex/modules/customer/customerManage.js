@@ -16,6 +16,7 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
+        status: "",
         //商户编号
         customerNo: "",
         //企业税号

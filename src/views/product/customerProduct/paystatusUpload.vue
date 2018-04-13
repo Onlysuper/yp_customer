@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item class="full-width is-required" label="法人身份证正面" prop="idcard" :label-width="formLabelWidth">
+              <el-form-item class="full-width is-required" label="法人身份证人像面" prop="idcard" :label-width="formLabelWidth">
                 <el-upload :data="idcardData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="idcardbeforeUpload">
                   <img v-if="identityFrontImg" :src="identityFrontImg" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -15,7 +15,7 @@
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
-              <el-form-item class="full-width is-required" label="法人身份证反面" prop="idcardBack" :label-width="formLabelWidth">
+              <el-form-item class="full-width is-required" label="法人身份证国徽面" prop="idcardBack" :label-width="formLabelWidth">
                 <el-upload :data="idcardBackData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="idcardBackbeforeUpload">
                   <img v-if="identityBackImg!=''&&identityBackImg!=null" :src="identityBackImg" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -97,6 +97,24 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <!-- <el-row>
+          <el-col :span="12">
+            <el-form-item v-if="certificateVisible" class="full-width is-required" label="结算人身份证头面" prop="certificate" :label-width="formLabelWidth">
+              <el-upload :data="certificateData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="certificatebeforeUpload">
+                <img v-if="certificateImg" :src="certificateImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item v-if="certificateVisible" class="full-width is-required" label="结算人身份证国徽面" prop="certificate" :label-width="formLabelWidth">
+              <el-upload :data="certificateData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="certificatebeforeUpload">
+                <img v-if="certificateImg" :src="certificateImg" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row> -->
 
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>

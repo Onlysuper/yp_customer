@@ -129,6 +129,7 @@
     touch-action: none;
     position: relative;
     height: 100%;
+    width: 100%;
   }
 
   /*重置样式 start*/

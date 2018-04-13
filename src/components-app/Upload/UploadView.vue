@@ -81,12 +81,24 @@ export default {
   data() {
     return {
       showUpload: false,
-      base64: ""
+      base64: "",
+      imgList: []
     };
   },
   methods: {
     handleClick() {
       if (this.disabled) {
+        if (this.imgList.length > 0) {
+          WeixinJSBridge.invoke("imagePreview", {
+            // "current": this.base64,
+            urls: [this.imgList]
+          });
+        } else {
+          WeixinJSBridge.invoke("imagePreview", {
+            // "current": this.base64,
+            urls: [this.base64]
+          });
+        }
       } else {
         this.showUpload = true;
       }
@@ -113,6 +125,9 @@ export default {
     },
     setImg(base64) {
       this.base64 = base64;
+    },
+    setImgList(imgUrls) {
+      this.imgList = imgUrls;
     }
   }
 };

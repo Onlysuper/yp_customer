@@ -9,7 +9,7 @@
       <view-radius class="item" v-for="(item,index) in list" :key="index">
         <input-wrapper>
           <mt-cell :title="item.customerName">
-            <mt-button class="but" @click="stencilFn(item)" size="small">排版</mt-button>
+            <mt-button class="but" @click="stencilFn(item)" size="small">配置</mt-button>
           </mt-cell>
           <mt-cell title="快速开票" is-link>
             <span>{{item.qrcodeStatus | statusFilter('handleProductOpenStatus')}}</span>

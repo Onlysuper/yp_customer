@@ -62,6 +62,7 @@ import BankPopup from "@src/components-app/BankPopup";
 import BankBranchPopup from "@src/components-app/BankBranchPopup";
 import BankSearchPopup from "@src/components-app/BankSearchPopup";
 import utils from "@src/common/utils";
+import { validateInput } from "@src/common/mixins";
 import {
   getBankList,
   getCustomerEchoProduct,
@@ -69,6 +70,7 @@ import {
 } from "@src/apis";
 import { mapActions, install } from "vuex";
 export default {
+  mixins: [validateInput],
   components: {
     CityPicher,
     Picker,
