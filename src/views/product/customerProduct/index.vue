@@ -279,8 +279,8 @@ export default {
       wechatRate: "", //微信费率
       settleMode: "", //开通即刷即到
       t0CashCostFixed: "", //D0手续费
-      identityFrontImg: "", //法人身份证正面
-      identityBackImg: "", //法人身份证反面
+      identityFrontImg: "", //法人身份证人像面
+      identityBackImg: "", //法人身份证国徽面
       identityHolderImg: "", //手持身份证
       bussinessLicenseImg: "", //营业执照
       settleCardImg: "", //结算卡正面

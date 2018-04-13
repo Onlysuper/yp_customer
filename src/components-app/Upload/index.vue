@@ -93,9 +93,9 @@
 import lrz from "lrz";
 import { Toast, Indicator } from "mint-ui";
 let demoImg = {
-  //身份证正面
+  //身份证人像面
   LEGAL_PERSON_ID_POSITIVE: require("./img/identityFrontImg.png"),
-  //身份证反面
+  //身份证国徽面
   LEGAL_PERSON_ID_BACK: require("./img/identityBackImg.png"),
   //手持正面
   APPLICANT_WITH_ID: require("./img/identityFrontImg.png"),

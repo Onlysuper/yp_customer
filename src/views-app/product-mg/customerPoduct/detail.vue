@@ -32,8 +32,8 @@
         </input-wrapper>
       </view-radius>
       <view-radius class="uploads">
-        <upload-view class="item" :disabled="true" ref="identityFrontImg" :label="'身份证正面'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="identityBackImg" :label="'身份证反面'"></upload-view>
+        <upload-view class="item" :disabled="true" ref="identityFrontImg" :label="'身份证人像面'"></upload-view>
+        <upload-view class="item" :disabled="true" ref="identityBackImg" :label="'身份证国徽面'"></upload-view>
         <upload-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></upload-view>
         <upload-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></upload-view>
         <upload-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></upload-view>
