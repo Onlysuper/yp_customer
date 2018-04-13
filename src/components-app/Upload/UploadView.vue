@@ -86,6 +86,10 @@ export default {
   },
   methods: {
     handleClick() {
+      WeixinJSBridge.invoke("imagePreview", {
+        // "current": this.invoiceUrl,
+        urls: [this.base64]
+      });
       if (this.disabled) {
       } else {
         this.showUpload = true;
