@@ -415,7 +415,8 @@ export default {
       // console.log('改变了')
     },
     "payStatusForm.legalPerson"(val) {
-      this.payStatusForm.accountName = val
+      this.accountNameChange();
+      // this.payStatusForm.accountName = val
     }
   }
 };
