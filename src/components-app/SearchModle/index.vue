@@ -52,8 +52,8 @@ export default {
       //   console.log("插入父节点");
       //   el.focus()
       // },
-      update: function (el) {
-        console.log("更新");
+      componentUpdated: function (el) {
+        alert("更新");
         el.focus()
       }
     }
