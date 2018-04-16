@@ -1,12 +1,28 @@
 <template>
   <div class="paystatusInfo-box">
     <el-form size="small" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="120px">
-
+      <!-- <city-picher></city-picher> -->
       <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.enterpriseName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.taxNo" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
+      </el-form-item>
+
+      <el-form-item class="is-required" label="身份证号" prop="idCard" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="contactEmail" :label-width="formLabelWidth">
+        <el-input v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
+        <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
+          <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
+          </el-option>
+        </el-select>
       </el-form-item>
       <div class="bussinessLicense-box">
         <el-form-item class="" label="营业执照期限" prop="bussinessLicenseEffectiveBegin" :label-width="formLabelWidth">
@@ -22,6 +38,7 @@
       <el-form-item class="full-width" prop="Area" label="所在地区">
         <el-cascader :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
         </el-cascader>
+        <!-- <city-picher :areaSelected="payStatusForm.Area"></city-picher> -->
       </el-form-item>
       <!-- <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
@@ -29,18 +46,7 @@
       <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item class="is-required" label="身份证号" prop="idCard" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
-        <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
-          <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
-          </el-option>
-        </el-select>
-      </el-form-item>
+
       <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
         <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
           <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
@@ -106,6 +112,7 @@ import { taxNumVerify, idCardVerify, phoneNumVerify, idCardVerify_r } from "@src
 import { regionData } from "element-china-area-data";
 import { areaOrgcode } from "@src/common/orgcode";
 import utils from "@src/common/utils"
+import CityPicher from "@src/components/CityPicher"
 import {
   getBankList,
   completeSettleInfo,
@@ -122,7 +129,7 @@ export default {
       type: Object
     }
   },
-  components: {},
+  components: { CityPicher },
   mixins: [mixinsPc],
   data() {
     return {
@@ -178,6 +185,10 @@ export default {
         legalPerson: [
           { required: true, message: "请输入法人名称", trigger: "blur,change" }
         ],
+        contactEmail: [
+          { required: true, message: "请输入邮箱地址", trigger: "blur,change" },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+        ],
         idCard: [
           { validator: idCardVerify_r, trigger: "blur,change" }
         ],
@@ -191,7 +202,8 @@ export default {
           { required: true, message: "请选择结算信息", trigger: "blur,change" }
         ],
         reservedPhoneNo: [
-          { required: true, message: "请输入预留手机号码", trigger: "blur,change" }
+          { required: true, message: "请输入手机号", trigger: "blur,change" },
+          { required: true, validator: phoneNumVerify, trigger: "blur,change" }
         ],
         bankCode: [
           { required: true, message: "请输入开户银行", trigger: "blur,change" }
@@ -243,6 +255,7 @@ export default {
             'reservedPhoneNo',
             'unionCode',
             'bankCode',
+            'contactEmail'
           ]);
           newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
           let sendata = {
@@ -328,12 +341,13 @@ export default {
           let settleCard = res.data.settleCard;
           if (customerData.orgCode) {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
+            console.log(this.payStatusForm.Area)
           }
           let newCustomer = utils.pickObj(customerData, [
             'enterpriseName', 'taxNo',
             'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
             'bussinessAddress', 'legalPerson', 'idCard', 'category',
-
+            'contactEmail'
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
             'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName'

@@ -13,7 +13,7 @@
             <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
             <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="身份证号:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
-            <!-- <mt-field label="邮箱:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field> -->
+            <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（必填）" :attr="{maxlength:50}"></mt-field>
             <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -27,7 +27,6 @@
             <mt-field class="addpay-long-title" label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" @click.native="$refs.bussinessLicenseEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
-            <!-- <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field> -->
             <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
             <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
             <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field> -->
@@ -161,7 +160,8 @@ export default {
         bussinessLicenseEffectiveBegin && this.setStartDate(new Date(bussinessLicenseEffectiveBegin));
         let bussinessLicenseEffectiveEnd = cacheForm.bussinessLicenseEffectiveEnd || customer.bussinessLicenseEffectiveEnd;
         bussinessLicenseEffectiveEnd && this.setEndDate(new Date(bussinessLicenseEffectiveEnd));
-        this.form.contactEmail = cacheForm.contactEmail || customer.contactEmail;
+        // this.form.contactEmail = cacheForm.contactEmail || customer.contactEmail;
+        this.form.contactEmail = customer.contactEmail;
         let category = cacheForm.category || customer.category;
         let bussinessType = bussinessTypeJson.find(item => item.code == category);
         this.confirm(bussinessType || {});

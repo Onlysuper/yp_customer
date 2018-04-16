@@ -97,24 +97,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col :span="12">
-            <el-form-item v-if="certificateVisible" class="full-width is-required" label="结算人身份证头面" prop="certificate" :label-width="formLabelWidth">
-              <el-upload :data="certificateData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="certificatebeforeUpload">
-                <img v-if="certificateImg" :src="certificateImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="certificateVisible" class="full-width is-required" label="结算人身份证国徽面" prop="certificate" :label-width="formLabelWidth">
-              <el-upload :data="certificateData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="certificatebeforeUpload">
-                <img v-if="certificateImg" :src="certificateImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-        </el-row> -->
 
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
