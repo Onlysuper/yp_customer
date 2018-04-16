@@ -69,7 +69,6 @@
 }
 .aside-box {
   z-index: 999;
-  display: flex;
   position: relative;
   display: flex;
   background: #001529;
@@ -122,6 +121,7 @@
   }
   .scroll-view-box {
     height: 100%;
+    width: 100%;
     display: flex;
     overflow: hidden;
   }

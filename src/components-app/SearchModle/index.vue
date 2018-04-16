@@ -49,10 +49,16 @@ export default {
     focus: {
       // 指令的定义
       componentUpdated: (el, binding) => {
-        if (binding.value) {
-          console.log('聚焦');
-          el.focus()
-        }
+        // if (binding.value) {
+        console.log('聚焦');
+        el.focus()
+        // }
+      },
+      inserted: (el, binding) => {
+        // if (binding.value) {
+        console.log('聚焦');
+        el.focus()
+        // }
       }
     }
   },
