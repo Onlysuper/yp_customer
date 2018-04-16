@@ -7,7 +7,7 @@
       <div class="mint-searchbar">
         <a @click="close" class="mint-searchbar-cancel">取消</a>
         <div class="mint-searchbar-inner">
-          <input autofocus placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
+          <input v-focus placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
         <span class="searchbut" @click="searchHandle">
           <i class="mintui mintui-search"></i>
         </span>
@@ -45,6 +45,19 @@ export default {
       queryList: []
     };
   },
+  directives: {
+    focus: {
+      // 指令的定义
+      // inserted: function (el) {
+      //   console.log("插入父节点");
+      //   el.focus()
+      // },
+      update: function (el) {
+        console.log("更新");
+        el.focus()
+      }
+    }
+  },
   watch: {
     defaultVal(val) {
       this.myval = val;
@@ -58,7 +71,7 @@ export default {
       this.$emit("changeName", val);
     },
     visible(val) {
-
+      console.log(val);
     }
   },
   created() {

@@ -32,9 +32,9 @@
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input v-model="addForm.unionNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label=" 一级名称" prop="goodsFirstType" :label-width="formLabelWidth">
+        <!-- <el-form-item label="一级名称" prop="goodsFirstType" :label-width="formLabelWidth">
           <el-input v-model="addForm.goodsFirstType" auto-complete="off"></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
           <el-input v-model="addForm.goodsType" auto-complete="off"></el-input>
         </el-form-item>
@@ -131,110 +131,6 @@
       </div>
     </el-dialog>
     <!-- 导入 end -->
-    <!-- 编辑start -->
-    <!-- <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
-      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
-          <el-input placeholder="请输入内容" v-model="editForm.goodsName" class="input-with-select">
-            <el-dropdown @command="goodsNameChange($event,'EDIT')" slot="append">
-              <span class="el-dropdown-link">
-                <el-button @click="goodsNameGet(editForm.goodsName)" slot="append" icon="el-icon-search"></el-button>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item v-for="item in goodsNameOptions" :key="item.name" :command="item.name">{{item.name}}</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
-          <el-input v-model="editForm.unionNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="一级名称" prop="shortName" :label-width="formLabelWidth">
-          <el-input v-model="editForm.shortName" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
-          <el-input v-model="editForm.goodsType" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item class="full-width" label="税率" prop="taxRate" :label-width="formLabelWidth">
-              <el-select @change="taxRateChange($event,'EDIT')" v-model="editForm.taxRate" placeholder="请选择">
-                <el-option v-for="item in taxRateOptions" :key="item.code" :label="item.name" :value="item.code">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="是否为成品油商品" prop="type" :label-width="'210px'">
-              <el-switch v-model="editForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
-              </el-switch>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="editForm.goodsNo" auto-complete="off"></el-input>
-        </el-form-item>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-                <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="单位" prop="unit" :label-width="formLabelWidth">
-                <el-input v-model="editForm.unit" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="含税单价" prop="unitPrice" :label-width="formLabelWidth">
-                <el-input v-model="editForm.unitPrice" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="规格型号" prop="model" :label-width="formLabelWidth">
-                <el-input v-model="editForm.model" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width" label="享受优惠" prop="enjoyDiscount" :label-width="formLabelWidth">
-                <el-select v-model="editForm.enjoyDiscount" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.enjoyDiscountOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item class="full-width" label="优惠类型" prop="phoneNo" :label-width="formLabelWidth">
-                <el-select v-model="editForm.discountType" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.discountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editFormVisible=false">关闭</el-button>
-        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
-      </div>
-    </el-dialog> -->
-    <!-- 编辑end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -415,7 +311,7 @@ export default {
         taxRate: "",
         enjoyDiscount: "",
         discountType: "",
-        goodsFirstType: ""
+        // goodsFirstType: ""
       },
       importForm: {
         customerNo: ""
@@ -826,7 +722,7 @@ export default {
                   "discountType",
                   "goodsType",
                   "type",
-                  "goodsFirstType"
+                  // "goodsFirstType"
                 ]);
                 // console.log(rowNew);
                 this.addForm = rowNew;
@@ -920,7 +816,7 @@ export default {
       this.addForm.unionNo = selectObj.code;
       this.addForm.goodsType = selectObj.name;
       this.addForm.taxRate = selectObj.rate;
-      this.addForm.goodsFirstType = selectObj.shortName;
+      // this.addForm.goodsFirstType = selectObj.shortName;
       this.addForm.goodsName = this.goodsName;
     },
     // handleSelect(item) {
@@ -946,8 +842,8 @@ export default {
         unitPrice: "",
         taxRate: "",
         enjoyDiscount: "",
-        discountType: "",
-        goodsFirstType: ""
+        discountType: ""
+        // goodsFirstType: ""
       }
     },
     // 导入成功

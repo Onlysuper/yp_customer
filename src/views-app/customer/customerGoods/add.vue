@@ -9,8 +9,8 @@
         <!-- 添加表单 -->
         <template v-if="pageType == 'ADD'">
           <mt-field @click.native="$refs.searchList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
-          <!-- <mt-field @click.native="$refs.searchNameList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field> -->
           <mt-field type="text" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
+          <!-- <mt-field type="text" label="一级名称" placeholder="请输入一级名称" v-model="good.goodsFirstType"></mt-field> -->
           <mt-field type="text" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
@@ -90,6 +90,7 @@ export default {
       good: {
         goodsName: "",
         unionNo: "",
+        // goodsFirstType: "",
         goodsType: "",
         goodsNo: "",
         customerNo: "",
@@ -148,17 +149,11 @@ export default {
     goodsInit(val) {
       this.goodsName = "";
     },
-    //商品名称被改变
-    // 商品名称智能编码
-    // goodsNameInput(val) {
-    //   // this.goodsName = val;
-    //   console.log(val);
-    //   this.good.goodsName = val;
-    // },
     goodsNameChange(item) {
       console.log(item);
       this.good.unionNo = item.code;
       this.good.goodsType = item.name;
+      // this.good.goodsFirstType = item.shortName;
       this.good.goodsName = item.goodsName || this.good.goodsName;
       let tax = this.taxActions.find(row => {
         return row.code == item.rate;

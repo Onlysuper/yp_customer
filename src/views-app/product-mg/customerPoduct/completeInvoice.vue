@@ -10,8 +10,8 @@
         <view-radius>
           <input-wrapper>
             <mt-field label="商户编号:" type="text" v-model="customerNo" :disabled="true" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="商户名称:" type="text" v-model="form.enterpriseName" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="经营名称:" type="text" v-model="form.enterpriseName" placeholder="请输入经营名称" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="商户名称:"  :disabled="true" type="text" v-model="form.enterpriseName" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="经营名称:" type="text" v-model="form.bussinessName" placeholder="请输入经营名称" :attr="{maxlength:50}"></mt-field>
             <mt-field label="经营区域:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -80,6 +80,7 @@ export default {
       form: {
         customerNo: "",
         enterpriseName: "",
+        bussinessName: "",
         province: "",
         city: "",
         orgCode: "",
@@ -125,7 +126,7 @@ export default {
       let { customer, customerInvoiceConfig, product } = data;
       if (customer instanceof Object) {
         this.form.enterpriseName = customer.enterpriseName;
-        this.form.enterpriseName = customer.enterpriseName;
+        this.form.bussinessName = customer.bussinessName;
         this.form.bussinessAddress = customer.bussinessAddress;
         this.form.bussinessPhone = customer.bussinessPhone;
         this.form.registMoney = customer.registMoney;
