@@ -214,4 +214,9 @@ export default {
     queryJsonVal: function (json, code) {
         return json.find(item => item.code == code) || {};
     },
+    // 银行卡号四个
+    validateNum: function (val) {
+        let newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
+        return val
+    }
 }

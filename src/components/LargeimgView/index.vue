@@ -5,14 +5,20 @@
     <div class="imgsGroup">
       <div v-for="(item,index) in imgsArrSelf" :key="index" class="imgbox">
         <div class="imgbox-in" @click.self="hideImageView">
-          <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname">
+          <img @click="biggerFn(index)" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="item[1].url" :alt="item[1].imgname" :id="item[1].imgId">
         </div>
         <!-- <img @click="biggerFn" ref="imgLarge" :class="'img-page-large '+rotateClass+' '+biggeris" :src="imgUrlSelf" :alt="imgUrlSelf"> -->
-        <p class="name-box">{{item[1].imgname}}</p>
+        <p class="name-box">{{item[1].imgname}}
+          <span v-if="idcardVisible">身份证号：{{payStatusDetails.idCard}}</span>
+          <span v-if="accountNoVisible">账号：{{payStatusDetails.accountNo}}</span>
+        </p>
       </div>
     </div>
     <!-- </transition> -->
     <div class="largeButgroup">
+      <a :href="downloadUrl" :download="downloadName" target="view_window" title="下载" class="el-icon-download but"></a>
+      <!-- <i @click="downLoadImg(downloadUrl,downloadName)" title="下载" class="el-icon-download but"></i> -->
+      <!-- </a> -->
       <i v-if="retateVisible" title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
       <i @click="hideImageView" title="关闭" class="el-icon-close but"></i>
     </div>
@@ -157,6 +163,10 @@
       z-index: 9999;
       bottom: 0;
       background: rgba(0, 0, 0, 0.4);
+      span {
+        display: inline-block;
+        padding: 0 10px;
+      }
     }
   }
   .shadow-box {
@@ -219,7 +229,7 @@
 import utils from "@src/common/utils"
 export default {
   components: {},
-  props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt", "imgsArr", "largeImg"],
+  props: ["fadeViewVisible", "rotateClass", "largeImgUrl", "largeImgArt", "imgsArr", "largeImg", "payStatusDetails"],
   data() {
     return {
       imgVisible: true,
@@ -230,9 +240,16 @@ export default {
       nowIndex: 0,
       imgsArrSelf: [],
       imgUrlSelf: "",
+      downloadUrl: "",
+      downloadName: "",
+      idcardVisible: false,
+      accountNoVisible: false
     };
   },
   methods: {
+    // 下载
+    downLoadImg(imgSrc, name) {
+    },
     // 上一张
     preFn() {
       let newIndex = this.nowIndex;
@@ -368,22 +385,45 @@ export default {
       let nowLeft = $(".imgsGroup").position().left;
       if (index < this.nowIndex) {
         // 向左移动
-        console.log("向左移动");
+        // console.log("向左移动");
         $(".imgsGroup").animate({ left: (nowLeft + windowWidth) + "px" }, 200)
         this.nowIndex = index;
       } else if (index > this.nowIndex) {
         //向右移动
-        console.log("向右侧移动")
+        // console.log("向右侧移动")
         $(".imgsGroup").animate({ left: (nowLeft - windowWidth) + "px" }, 200)
         this.nowIndex = index;
       } else {
         // 不动
-        console.log("不动");
+        // console.log("不动");
         $(".imgsGroup").css({ left: -utils.accMul(index, windowWidth) + "px" });
       }
-      console.log(this.nowIndex);
+      // console.log(this.nowIndex);
       // }
-      this.setImgMiddle();
+      this.$nextTick(item => {
+        let imgsrc = $(".imgbox").eq(this.nowIndex).find("img").attr('src');
+        let imgalt = $(".imgbox").eq(this.nowIndex).find("img").attr('alt');
+        this.downloadUrl = imgsrc;
+        this.downloadName = imgalt;
+      })
+      this.showImgNow();
+      // this.setImgMiddle();
+    },
+    showImgNow() {
+      this.$nextTick(item => {
+        let img = $(".imgbox").eq(this.nowIndex).find("img");
+        let imgId = img.attr("id");
+        this.idcardVisible = false;
+        this.accountNoVisible = false;
+        if (imgId == "identityHolderImg" || imgId == "identityFrontImg" || imgId == "identityBackImg") {
+          this.idcardVisible = true
+        }
+        if (imgId == "settleCardImg") {
+          this.accountNoVisible = true
+        }
+
+
+      })
     },
     biggerFn(index) {
       let biggeris = this.biggeris;
@@ -431,7 +471,10 @@ export default {
       if (val) {
         this.imgInit();
       }
-    }
+    },
+    // nowIndex(val) {
+    //   console.log(val);
+    // }
   },
   mounted() {
   }

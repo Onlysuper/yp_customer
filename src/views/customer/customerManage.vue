@@ -148,7 +148,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
         <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确 定</el-button>
-        <!-- <el-button v-if="closeButVisible(editForm.status)" :loading="saveLoading" type="primary" @click="closeSave('editForm')">关 闭</el-button> -->
+        <el-button v-if="closeButVisible(editForm.status)" :loading="saveLoading" type="primary" @click="closeSave('editForm')">关 闭</el-button>
       </div>
     </el-dialog>
     <!-- 编辑 end -->
@@ -307,8 +307,6 @@ import { taxNumVerify, idCardVerify, phoneNumVerify, phoneNumVerify_r, taxNumVer
 import {
   provinceAndCityData,
   regionData,
-  provinceAndCityDataPlus,
-  regionDataPlus,
   CodeToText,
   TextToCode
 } from "element-china-area-data";
@@ -444,6 +442,26 @@ export default {
               }
             }
           ]
+        },
+        {
+          corresattr: "status",
+          type: "select",
+          label: "状态",
+          show: false, // 普通搜索显示
+          value: "",
+          options: [
+            {
+              value: "TRUE",
+              label: "开启"
+            },
+            {
+              value: "FALSE",
+              label: "关闭"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.status = value;
+          }
         },
         {
           corresattr: "taxNo",

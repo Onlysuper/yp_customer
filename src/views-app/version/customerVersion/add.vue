@@ -51,7 +51,7 @@ export default {
   components: { Picker },
   data() {
     return {
-      versionTypeOptions: versionTypeJson,
+      versionTypeOptions: versionTypeJson.filter(item => { return item['code'] != 'RELEASE' }),
       status: {},
       type: {},
       status_options: [

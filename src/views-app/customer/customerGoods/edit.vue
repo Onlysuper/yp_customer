@@ -37,9 +37,9 @@
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
-          <!-- <mt-cell :title="'是否为成品油商品 '">
+          <mt-cell :title="'是否为成品油商品 '">
             <mt-switch v-model="typeSwitch" @change="typeChange"></mt-switch>
-          </mt-cell> -->
+          </mt-cell>
           <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
           <mt-field type="text" label="含税单价" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
           <mt-field type="text" label="规格型号" placeholder="请输入规格型号" v-model="good.model"></mt-field>
@@ -58,7 +58,12 @@
     <picker ref="TaxratePicker" v-model="taxModle" :slotsActions="taxActions" @confirm="taxratePickerChange"></picker>
     <picker ref="DiscountPicker" v-model="discountModle" :slotsActions="discountActions" @confirm="discountPickerChange"></picker>
     <picker ref="EnjoyPicker" v-model="enjoyModle" :slotsActions="enjoyActions" @confirm="enjoyPickerChange"></picker>
-    <search-modle @watchDataList="watchDataList" :defaultVal="good.goodsName" @initData="goodsInit" @goodsNameInput="goodsNameInput" ref="searchList">
+    <!-- <search-modle @watchDataList="watchDataList" :defaultVal="good.goodsName" @initData="goodsInit" @goodsNameInput="goodsNameInput" ref="searchList">
+      <li class="border-bottom-1px _av" @click="goodsNameChange(item)" v-for="(item,index) in queryList" :key="index">
+        {{item.name}}
+      </li>
+    </search-modle> -->
+    <search-modle @changeName="changeName" @watchDataList="watchDataList" :defaultVal="good.goodsName" @initData="goodsInit" ref="searchList">
       <li class="border-bottom-1px _av" @click="goodsNameChange(item)" v-for="(item,index) in queryList" :key="index">
         {{item.name}}
       </li>
@@ -149,7 +154,9 @@ export default {
   },
   methods: {
     ...mapActions(["getGood", "updataGood", "addGood"]),
-
+    changeName(val) {
+      this.good.goodsName = val;
+    },
     //回显信息
     echoForm(good) {
 
@@ -199,9 +206,10 @@ export default {
       this.queryList = data;
     },
     // 商品名称智能编码
-    goodsNameInput(val) {
-      this.goodsName = val;
-    },
+    // goodsNameInput(val) {
+    //   // this.goodsName = val;
+    //   this.good.goodsName = val;
+    // },
     // 商品名称智能编码
     goodsInit(val) {
       this.goodsName = "";
@@ -217,12 +225,14 @@ export default {
     goodsNameChange(item) {
       this.good.unionNo = item.code;
       this.good.goodsType = item.name;
-      this.good.goodsName = this.goodsName;
+      // this.good.goodsName = this.goodsName;
+      this.good.goodsName = item.goodsName || this.good.goodsName;
       let tax = this.taxActions.find(row => {
         return row.code == item.rate;
       });
       this.taxratePickerChange(tax || {});
-      this.$refs.searchList.close();
+      // this.$refs.searchList.close();
+      this.$refs.searchList.getNameClose(this.good.goodsName);
     },
     // 检验税号是否存在
     checkTaxRateHave(code, type) {
@@ -237,7 +247,6 @@ export default {
       }
     },
     save() {
-      console.log(this.good);
       if (!this.validator.isEmpty(this.good.customerNo)) {
         this.MessageBox.alert("商户编号不能为空");
         return;

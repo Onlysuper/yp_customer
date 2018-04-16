@@ -91,7 +91,7 @@ export default {
         payTypes: []
       },
       pageTitle: {
-        STENCIL: "排版"
+        STENCIL: "配置"
       },
     };
   },
@@ -104,27 +104,6 @@ export default {
     }
   },
   watch: {
-    supportTypes(value) {
-      // 选择特殊的时候必须勾选普票
-      if (new Set(value).has("4")) {
-        let newCheck = Array.from(new Set(value).add("1"));
-        this.dataList.invoiceTypes = Object.assign(
-          this.dataList.invoiceTypes,
-          newCheck
-        );
-      }
-    },
-    payTypes(value) {
-      let payTypes = this.dataList.payTypes;
-      if (new Set(payTypes).has("4") && payTypes.length > 1) {
-        let index = payTypes.findIndex(function (value, index, arr) {
-          return value == 4;
-        })
-        let length = this.dataList.payTypes.length;
-        this.dataList.payTypes = Object.assign(['4'])
-        this.dataList.payTypes.splice(1);
-      }
-    }
   },
   created() {
     this.init();
@@ -132,30 +111,32 @@ export default {
   methods: {
     ...mapActions(["getCustomerProductOne", "getUserProductStatus"]),
     payTypesChange(value) {
-      // console.log(value);
-      // let payTypes = this.dataList.payTypes;
-      // if (new Set(payTypes).has("4")) {
-      //   console.log('4444');
-      //   let index = payTypes.findIndex(function (value, index, arr) {
-      //     return value == 4;
-      //   })
-      //   let length = this.dataList.payTypes.length;
-      //   this.dataList.payTypes = Object.assign(['4'])
-      //   this.dataList.payTypes.splice(1);
-      // }
+      let thisChecked = value[value.length - 1];
+      let payTypesThis = this.dataList.payTypes;
+      if (thisChecked == '4' && payTypesThis.length > 1) {
+        let index = payTypesThis.findIndex(function (value, index, arr) {
+          return value == 4;
+        })
+        let length = payTypesThis.length;
+        payTypesThis.splice(0, index);
+        payTypesThis.splice(1);
+      } else {
+        if (new Set(payTypesThis).has("4") && payTypesThis.length > 1) {
+          let index = payTypesThis.findIndex(function (value, index, arr) {
+            return value == 4;
+          })
+          payTypesThis.splice(index, 1);
+        }
+      }
     },
     supportTypesChange(value) {
-      // console.log(value);
-      // let payTypes = this.dataList.payTypes;
-      // if (new Set(payTypes).has("4")) {
-      //   console.log('4444');
-      //   let index = payTypes.findIndex(function (value, index, arr) {
-      //     return value == 4;
-      //   })
-      //   let length = this.dataList.payTypes.length;
-      //   this.dataList.payTypes = Object.assign(['4'])
-      //   this.dataList.payTypes.splice(1);
-      // }
+      if (new Set(value).has("4")) {
+        let newCheck = Array.from(new Set(value).add("1"));
+        this.dataList.invoiceTypes = Object.assign(
+          this.dataList.invoiceTypes,
+          newCheck
+        );
+      }
     },
     init() {
       this.getCustomerProductOne(this.queryNo).then(resdata => {
@@ -208,10 +189,10 @@ export default {
         this.MessageBox.alert("请选择开票类型！");
         return;
       }
-      if (this.dataList.payTypes.length == 0) {
-        this.MessageBox.alert("请选择支付类型！");
-        return;
-      }
+      // if (this.dataList.payTypes.length == 0) {
+      //   this.MessageBox.alert("请选择支付类型！");
+      //   return;
+      // }
       this.btnDisabled = true;
       if (this.pageType == "STENCIL") {
         this.getUserProductStatus({

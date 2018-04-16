@@ -6,77 +6,100 @@
       <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
       <div class="scroll-view-cus detail-box">
         <div class="line-label-box">
-          <span class="line-label gray-back">商户编号:</span>
+          <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">聚合状态:</span>
-          <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
+          <div class="line-cell">
+            <span class="lable-title gray-back">开通时间:</span>
+            <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">开通状态:</span>
+            <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
+          </div>
         </div>
+        <div class="split－padding"></div>
         <div class="line-label-box">
-          <span class="line-label">更新时间:</span>
-          <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">商户名称:</span>
-          <span class="line-label-last">{{detailsForm.customerName}}</span>
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">法人:</span>
-          <span class="line-label-last">{{payStatusDetails.legalPerson}}</span>
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">微信费率:</span>
-          <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
-          <span class="line-label">支付宝费率:</span>
-          <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
+          <div class="line-cell">
+            <span class="lable-title gray-back">微信费率:</span>
+            <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">支付宝费率:</span>
+            <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
+          </div>
         </div>
         <div class="line-label-box ">
-          <span class="line-label">开通即刷即到:</span>
-          <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
-          <span class="line-label">D0手续费:</span>
-          <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||""}}</span>
+          <div class="line-cell">
+            <span class="lable-title gray-back">开通秒到:</span>
+            <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">D0手续费:</span>
+            <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||"0"}}</span>
+          </div>
         </div>
+        <div class="split－padding"></div>
         <div class="line-label-box">
-          <span class="line-label">企业名称:</span>
+          <span class="lable-title gray-back">企业名称:</span>
           <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">企业税号:</span>
-          <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
-        </div>
-
-        <div class="line-label-box">
-          <span class="line-label">所在地区:</span>{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}
-        </div>
-        <div class="line-label-box">
-          <span class="line-label">详细地址:</span>{{payStatusDetails.bussinessAddress}}
-        </div>
-
-        <div class="line-label-box">
-          <span class="line-label">身份证号:</span>{{payStatusDetails.idCard}}
+          <div class="line-cell">
+            <span class="lable-title gray-back">企业税号:</span>
+            <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">行业类型:</span>
+            <span class="line-label-last">{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}</span>
+          </div>
         </div>
         <div class="line-label-box">
-          <span class="line-label">行业类型:</span>{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}
+          <div class="line-cell">
+            <span class="lable-title gray-back">身份证号:</span>
+            <span class="line-label-last">{{payStatusDetails.idCard}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">法人:</span>
+            <span class="line-label-last">{{payStatusDetails.legalPerson}}</span>
+          </div>
         </div>
         <div class="line-label-box">
-          <span class="line-label">账号:</span>{{payStatusDetails.accountNo||""}}
+          <div class="line-cell">
+            <span class="lable-title gray-back">所在地区:</span>
+            <span class="line-label-last">{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}</span>
+          </div>
         </div>
         <div class="line-label-box">
-          <span class="line-label">账户名称:</span>
+          <span class="lable-title gray-back">详细地址:</span>
+          <span class="line-label-last">{{payStatusDetails.bussinessAddress}}</span>
+        </div>
+        <div class="split－padding"></div>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">账户名称:</span>
           <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
-          <span class="line-label">账户类型:</span>
-          <span class="line-label-last">
-            {{payStatusDetails.accountType | statusFilter('accountType')}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">开户银行:</span>{{payStatusDetails.bankName||""}}
+          <div class="line-cell">
+            <span class="lable-title gray-back">账号:</span>
+            <span class="line-label-last">{{payStatusDetails.accountNo||""}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">账户类型:</span>
+            <span class="line-label-last">{{payStatusDetails.accountType | statusFilter('accountType')}}</span>
+          </div>
         </div>
         <div class="line-label-box">
-          <span class="line-label">开户支行:</span>{{payStatusDetails.branchName||""}}
+          <span class="lable-title gray-back">开户银行:</span>
+          <span class="line-label-last">{{payStatusDetails.bankName||""}}</span>
         </div>
         <div class="line-label-box">
-          <span class="line-label">营业执照期限:</span>
+          <span class="lable-title gray-back">开户支行:</span>
+          <span class="line-label-last">{{payStatusDetails.branchName||""}}</span>
+        </div>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">营业期限:</span>
           <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
         </div>
       </div>
@@ -113,7 +136,7 @@
       </div>
     </transition> -->
     <transition name="slide-fade" class="fadeView">
-      <largeimg-view ref="largeImg" :imgsArr="imgsArr" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
+      <largeimg-view :payStatusDetails="payStatusDetails" ref="largeImg" :imgsArr="imgsArr" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>
     </transition>
   </div>
@@ -177,8 +200,8 @@ export default {
       wechatRate: "", //微信费率
       settleMode: "", //开通即刷即到
       t0CashCostFixed: "", //D0手续费
-      identityFrontImg: "", //法人身份证正面
-      identityBackImg: "", //法人身份证反面
+      identityFrontImg: "", //法人身份证人像面
+      identityBackImg: "", //法人身份证国徽面
       identityHolderImg: "", //手持身份证
       bussinessLicenseImg: "", //营业执照
       settleCardImg: "", //结算卡正面
@@ -321,9 +344,9 @@ export default {
               let item = imgsArr[i][1];
               let index = imgsArr[i][0];
               if (index == "identityFrontImg") {
-                item["imgname"] = "法人身份证正面"
+                item["imgname"] = "法人身份证人像面"
               } else if (index == "identityBackImg") {
-                item["imgname"] = "法人身份证反面"
+                item["imgname"] = "法人身份证国徽面"
               } else if (index == "bussinessLicenseImg") {
                 item["imgname"] = "营业执照"
               } else if (index == "identityHolderImg") {

@@ -7,18 +7,18 @@
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
-    <!-- <full-shade></full-shade> -->
     <!-- 商户状态 start -->
     <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
-    <el-dialog class="special-dialog-new" bottom="10px" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding">
+    <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
       <div class="detail-content">
         <template>
           <!-- 聚合详情 -->
-          <div class="line-box-left">
+          <div class="line-box-left dialog-title-box">
             <el-select size="small" v-model="selectOptions.customerType" placeholder="请选择">
               <el-option v-for="item in selectOptions.customerTypeOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
               </el-option>
             </el-select>
+            <span class="title-box">信息详情</span>
           </div>
           <component ref="detailProductView" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="detailProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
           </component>
@@ -63,13 +63,13 @@
     <el-dialog title="" center :visible.sync="styleVisible">
       <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
         <el-form-item label="开票类型:" prop="supportTypes" :label-width="formLabelWidth">
-          <el-checkbox-group v-model="styleForm.supportTypes">
-            <el-checkbox @input="supportTypesChange" v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+          <el-checkbox-group @input="supportTypesChange" v-model="styleForm.supportTypes">
+            <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="支付类型:" prop="payTypes" :label-width="formLabelWidth">
-          <el-checkbox-group v-model="styleForm.payTypes">
-            <el-checkbox @input="payTypesChange" v-for="item in payTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
+        <el-form-item label="支付类型:" prop="" :label-width="formLabelWidth">
+          <el-checkbox-group @change="payTypesChange" v-model="styleForm.payTypes">
+            <el-checkbox v-for="item in payTypesOptions" :disabled="item.disabled" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -124,7 +124,23 @@
       position: fixed;
       align-items: stretch;
       overflow: hidden;
-
+      .el-dialog__headerbtn {
+        z-index: 999;
+      }
+      .dialog-title-box {
+        display: flex;
+        padding: 4px 0;
+        padding-bottom: 10px;
+        position: relative;
+        .title-box {
+          // flex: 1;
+          flex: 1;
+          align-self: center;
+          text-align: center;
+          font-size: 20px;
+          padding-right: 120px;
+        }
+      }
       .el-dialog {
         margin: 0px !important;
         width: 100%;
@@ -138,6 +154,9 @@
         width: 100%;
         flex: 1;
         flex-grow: 0;
+        margin: 0;
+        padding: 0;
+        height: 0;
       }
       .el-dialog__body {
         padding-top: 0px;
@@ -149,44 +168,6 @@
       .el-dialog__footer {
         flex-grow: 0;
       }
-    }
-    .special-dialog {
-      // overflow: hidden;
-      .el-dialog__header {
-        display: flex;
-        flex-grow: 0;
-        justify-content: center;
-        // flex-grow: 0;
-      }
-      .el-dialog {
-        width: 90% !important;
-        height: 90%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: stretch;
-      }
-      .el-dialog__footer {
-        height: 100px;
-        flex-shrink: 0;
-        padding: 0;
-        .el-button {
-          margin: 10px;
-        }
-      }
-      .el-dialog__body {
-        padding-top: 0px;
-        padding-bottom: 0px !important;
-        flex: 1;
-        // height: 500px;
-      }
-      // .detail-content {
-      // height: 100%;
-      // overflow: auto;
-      // position: relative;
-      // display: flex;
-      // flex-direction: column;
-      // }
     }
   }
 }
@@ -298,8 +279,8 @@ export default {
       wechatRate: "", //微信费率
       settleMode: "", //开通即刷即到
       t0CashCostFixed: "", //D0手续费
-      identityFrontImg: "", //法人身份证正面
-      identityBackImg: "", //法人身份证反面
+      identityFrontImg: "", //法人身份证人像面
+      identityBackImg: "", //法人身份证国徽面
       identityHolderImg: "", //手持身份证
       bussinessLicenseImg: "", //营业执照
       settleCardImg: "", //结算卡正面
@@ -692,77 +673,85 @@ export default {
                 this.closeVisible = true;
               }
             },
-            // {
-            //   text: "排版",
-            //   color: "#00c1df",
-            //   cb: rowdata => {
-            //     this.resaultData = rowdata;
-            //     let payType = rowdata.payType;
-            //     let invoiceType = rowdata.invoiceType;
-            //     this.styleForm.payTypes = [payType];
-            //     this.styleForm.supportTypes = [invoiceType];
-            //     switch (payType) {
-            //       case 0:
-            //         this.styleForm.payTypes = [];
-            //         break
-            //       case 1:
-            //         this.styleForm.payTypes = ["1"];
-            //         break
-            //       case 2:
-            //         this.styleForm.payTypes = ["2"];
-            //         break
-            //       case 3:
-            //         this.styleForm.payTypes = ["1", "2"];
-            //         break;
-            //       case 4:
-            //         this.styleForm.payTypes = ["4"];
-            //         break
-            //     }
-            //     switch (invoiceType) {
-            //       case 0:
-            //         this.styleForm.supportTypes = [];
-            //         break
-            //       case 1:
-            //         this.styleForm.supportTypes = ["1"];
-            //         break
-            //       case 2:
-            //         this.styleForm.supportTypes = ["2"];
-            //         break
-            //       case 4:
-            //         this.styleForm.supportTypes = ["4"];
-            //         break
-            //       case 3:
-            //         this.styleForm.supportTypes = ["1", "2"];
-            //         break
-            //       case 7:
-            //         this.styleForm.supportTypes = ["1", "2", "4"];
-            //         break
-            //       case 5:
-            //         this.styleForm.supportTypes = ["1", "4"];
-            //         break
-            //       case 6:
-            //         this.styleForm.supportTypes = ["2", "4"];
-            //         break
-            //     }
-            //     this.styleVisible = true;
-            //   }
-            // }
+            {
+              text: "配置",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.resaultData = rowdata;
+                let payType = rowdata.payType;
+                let invoiceType = rowdata.invoiceType;
+                this.styleForm.payTypes = [payType];
+                this.styleForm.supportTypes = [invoiceType];
+                switch (payType) {
+                  case 0:
+                    this.styleForm.payTypes = [];
+                    break
+                  case 1:
+                    this.styleForm.payTypes = ["1"];
+                    break
+                  case 2:
+                    this.styleForm.payTypes = ["2"];
+                    break
+                  case 3:
+                    this.styleForm.payTypes = ["1", "2"];
+                    break;
+                  case 4:
+                    this.styleForm.payTypes = ["4"];
+                    break
+                }
+                switch (invoiceType) {
+                  case 0:
+                    this.styleForm.supportTypes = [];
+                    break
+                  case 1:
+                    this.styleForm.supportTypes = ["1"];
+                    break
+                  case 2:
+                    this.styleForm.supportTypes = ["2"];
+                    break
+                  case 4:
+                    this.styleForm.supportTypes = ["4"];
+                    break
+                  case 3:
+                    this.styleForm.supportTypes = ["1", "2"];
+                    break
+                  case 7:
+                    this.styleForm.supportTypes = ["1", "2", "4"];
+                    break
+                  case 5:
+                    this.styleForm.supportTypes = ["1", "4"];
+                    break
+                  case 6:
+                    this.styleForm.supportTypes = ["2", "4"];
+                    break
+                }
+                this.styleVisible = true;
+              }
+            }
           ]
         }
       }
     };
   },
   methods: {
+    //开票类型
     payTypesChange(value) {
+      let thisChecked = value[value.length - 1];
       let payTypes = this.styleForm.payTypes;
-      if (new Set(payTypes).has("4") && payTypes.length > 1) {
+      if (thisChecked == '4' && payTypes.length > 1) {
         let index = payTypes.findIndex(function (value, index, arr) {
           return value == 4;
         })
         let length = this.styleForm.payTypes.length;
         payTypes.splice(0, index);
         payTypes.splice(1);
-        console.log(payTypes);
+      } else {
+        if (new Set(payTypes).has("4") && payTypes.length > 1) {
+          let index = payTypes.findIndex(function (value, index, arr) {
+            return value == 4;
+          })
+          payTypes.splice(index, 1);
+        }
       }
     },
     supportTypesChange(value) {
@@ -899,8 +888,8 @@ export default {
     styleFormSave(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let invoiceType = this.styleForm.supportTypes;//开票类型
-          let payType = this.styleForm.payTypes; //支付类型
+          let invoiceType = this.styleForm.supportTypes.length == 0 ? ['0'] : this.styleForm.supportTypes;//开票类型
+          let payType = this.styleForm.payTypes.length == 0 ? ['0'] : this.styleForm.payTypes; //支付类型
           let bussinessNo = this.resaultData.bussinessNo;
           getUserProductStatus()({
             bussinessNo: bussinessNo,

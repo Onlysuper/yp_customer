@@ -37,7 +37,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bussinessName"></el-input>
+                <el-input :disabled="true" v-model="editForm.bussinessName"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -74,7 +74,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="银行账号" prop="bankAccountNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bankAccountNo"></el-input>
+                <el-input @input="validateNum($event,'editForm','bankAccountNo')" v-model="editForm.bankAccountNo"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -325,6 +325,7 @@ export default {
     goback(path) {
       this.$emit("backFn", path);
     },
+    // 回显
     editInfo() {
       let rowdata = this.rowData;
       this.editForm.featureType = "ELECTRONIC";
@@ -354,6 +355,7 @@ export default {
               this.editForm.mounthCount = product.elecBillnum;
             }
             this.editForm = { ...this.editForm, ...newCustomer, ...newCustomerInvoiceConfig }
+            // this.validateNum(this.editForm.bankAccountNo, 'editForm', 'bankAccountNo');
           }
         } else {
           this.editFormVisible = false;

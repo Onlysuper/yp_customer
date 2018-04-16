@@ -1,15 +1,17 @@
 
 <template>
-  <div>
+  <div class="searchModle-box">
     <div class="_search-mask" @touchmove.prevent v-show="visible"></div>
+    <!-- <div class="my-search" :class="{show:visible,hide:!visible}"> -->
     <div class="my-search" :class="{show:visible,hide:!visible}">
-      <!-- <input-wrapper class="input-bg"> -->
       <div class="mint-searchbar">
-        <mt-field ref="mtField" class="input-field title-bold mint-searchbar-inner" v-model="myval" type="text" placeholder="请输入企业名称 / 关键字">
-          <button class="input-return _av" @click="close">完成</button>
-        </mt-field>
+        <a @click="close" class="mint-searchbar-cancel">取消</a>
+        <div class="mint-searchbar-inner">
+          <input v-focus placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
+        <span class="searchbut" @click="searchHandle">
+          <i class="mintui mintui-search"></i>
+        </span>
       </div>
-      <!-- </input-wrapper> -->
       <div class="query-list">
         <ul>
           <slot></slot>
@@ -21,7 +23,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import {
   getsmartgoodscodeCustomerGood,
@@ -44,40 +45,39 @@ export default {
       queryList: []
     };
   },
+  directives: {
+    focus: {
+      // 指令的定义
+      componentUpdated: (el) => {
+        el.focus()
+      }
+    }
+  },
   watch: {
     defaultVal(val) {
       this.myval = val;
     },
     myval(val) {
-      //点击×自动清空表单中回显的历史数据
       if (!val) {
         this.$emit("initData");
-      }
-      //处理BUG
-      if (val) {
-        this.$refs.mtField.$el.querySelector(
-          ".mint-field-clear"
-        ).style.display =
-          "block";
       } else {
-        this.$refs.mtField.$el.querySelector(
-          ".mint-field-clear"
-        ).style.display =
-          "none";
       }
-      //模糊查询
-      let key = val;
-      if (!this.visible) return;
-      this.getsmartgoodscodeCustomerGood({ name: val, tax: "0" });
-      this.$emit("goodsNameInput", val);
+      this.$emit("initData");
+      this.$emit("changeName", val);
     }
+    // visible(val) {
+    //   console.log(val);
+    // }
   },
   created() {
   },
   mounted() {
-    this.myval = this.value;
+    this.myval = this.defaultVal;
   },
   methods: {
+    searchHandle() {
+      this.getsmartgoodscodeCustomerGood({ name: this.myval, tax: "0" });
+    },
     getsmartgoodscodeCustomerGood(obj) {
       getsmartgoodscodeCustomerGood()(obj).then(res => {
         if (res.code == "00") {
@@ -105,96 +105,100 @@ export default {
     },
     open() {
       this.visible = true;
-      document
-        .querySelector(".input-field")
-        .querySelector("input")
-        .focus();
-
-      //处理BUG
-      if (this.myval) {
-        //由于input是自动获取焦点，所以不会显示删除input的内容的icon
-        this.$refs.mtField.$el.querySelector(
-          ".mint-field-clear"
-        ).style.display =
-          "block";
-      }
     },
     close() {
       this.visible = false;
+    },
+    getNameClose(val) {
+      this.visible = false;
+      this.myval = val
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "../../assets/scss/base.scss";
-._search-mask {
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  background: rgba(0, 0, 0, 0.5);
-}
-.my-search {
-  height: auto;
-  overflow: hidden;
-  position: fixed;
-  left: 0;
-  right: 0;
-  margin: auto;
-  border-radius: 10px;
-  width: 95%;
-  background-color: rgba(255, 255, 255, 1);
-  transition: opacity 0.5s;
-}
-
-.input-bg {
-  background: #ff5959;
-  box-shadow: 0 0 5px #000;
-  padding: 20*$rem;
-}
-.input-field {
-  border-radius: 3px;
-  .mint-cell-wrapper {
+.searchModle-box {
+  .mint-searchbar {
+    width: 100%;
   }
-}
-.query-list {
-  position: relative;
-  padding: 50*$rem 30*$rem;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  // -webkit-overflow-scrolling: touch;
-  height: 800*$rem;
-  li {
-    line-height: 100*$rem;
+  .searchbut {
+    display: flex;
+    display: inline-block;
+    padding: 10px 20px;
+    z-index: 10;
+    i {
+      display: inline-block;
+      text-align: center;
+    }
   }
-}
-
-.show {
-  top: 50px;
-  // bottom: 0%;
-  opacity: 1;
-}
-.hide {
-  top: -100%;
-  opacity: 0;
-}
-
-.no-search {
-  text-align: center;
-  // padding: 10px;
-  span {
-    text-decoration: underline;
-    color: red;
+  .mint-searchbar-cancel {
+    padding: 10px;
   }
-}
+  ._search-mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .my-search {
+    height: auto;
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: auto;
+    // border-radius: 10px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    transition: opacity 0.5s;
+    top: 50px;
+    bottom: 0;
+  }
 
-.input-return {
-  // padding: 20*$rem 30*$rem;
-  margin-left: 30*$rem;
-  // background: #ef4f4f;
-  // color: #fff;
-  border-radius: 5px;
+  .input-bg {
+    background: #ff5959;
+    box-shadow: 0 0 5px #000;
+    padding: 20*$rem;
+  }
+  .input-field {
+    border-radius: 3px;
+    .mint-cell-wrapper {
+    }
+  }
+  .query-list {
+    position: relative;
+    padding: 50*$rem 30*$rem;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    // -webkit-overflow-scrolling: touch;
+    height: 800*$rem;
+    li {
+      line-height: 100*$rem;
+    }
+  }
+
+  .show {
+    // top: 50px;
+    // bottom: 0%;
+    // opacity: 1;
+    display: block;
+  }
+  .hide {
+    // top: -100%;
+    // opacity: 0;
+    display: none;
+  }
+
+  .no-search {
+    text-align: center;
+    span {
+      text-decoration: underline;
+      color: red;
+    }
+  }
 }
 </style>

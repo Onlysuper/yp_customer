@@ -31,17 +31,17 @@
           <mt-cell title="D0手续费" v-if="product.settleMode == 'T0'">{{product.t0CashCostFixed}}元</mt-cell>
         </input-wrapper>
       </view-radius>
-      <view-radius class="uploads">
-        <upload-view class="item" :disabled="true" ref="identityFrontImg" :label="'身份证正面'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="identityBackImg" :label="'身份证反面'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="placeImg" :label="'门头照片'"></upload-view>
-        <upload-view class="item" :disabled="true" ref="identityHolderImg" :label="'手持身份证照'"></upload-view>
-        <upload-view class="item" v-show="settleCard.accountType == '0'" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></upload-view>
-        <upload-view class="item" v-show="settleCard.accountType == '1' && settleCard.accountName != customer.legalPerson" :disabled="true" ref="certificateImg" :label="'授权书'"></upload-view>
+      <view-radius class="uploads imagesParent" id="WeixinJSBridge">
+        <show-img-view class="item" :disabled="true" ref="identityFrontImg" :label="'身份证人像面'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="identityBackImg" :label="'身份证国徽面'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="placeImg" :label="'门头照片'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="identityHolderImg" :label="'手持身份证照'"></show-img-view>
+        <show-img-view class="item" v-show="settleCard.accountType == '0'" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></show-img-view>
+        <show-img-view class="item" v-show="settleCard.accountType == '1' && settleCard.accountName != customer.legalPerson" :disabled="true" ref="certificateImg" :label="'授权书'"></show-img-view>
       </view-radius>
     </template>
     <!-- 电票详情 -->
@@ -71,10 +71,11 @@
 <script>
 import { getCustomerEchoProduct, getQueryCustomerElectronic } from "@src/apis";
 import bussinessTypeJson from "@src/data/bussinessType.json";
-import UploadView from "@src/components-app/Upload/UploadView";
+// import UploadView from "@src/components-app/Upload/UploadView";
+import ShowImgView from "@src/components-app/Upload/ShowImgView";
 import utils from "@src/common/utils";
 export default {
-  components: { UploadView },
+  components: { ShowImgView },
   data() {
     return {
       productType: this.$route.params["productType"],
@@ -178,6 +179,7 @@ export default {
         this.product.settleMode = product.settleMode;
         this.product.t0CashCostFixed = product.t0CashCostFixed;
       }
+      // 图片预览
       if (imgs instanceof Object) {
         for (let key in imgs) {
           if (imgs[key] instanceof Object) {
@@ -185,6 +187,25 @@ export default {
           }
         }
       }
+      this.$nextTick(() => {
+        this.initWeixinJSBridge($("#WeixinJSBridge"));
+      })
+    },
+    initWeixinJSBridge(imgParent) {
+      let img = imgParent.find("img");
+      let imgArr = [];
+      for (var i = 0; i < img.length; i++) {
+        let item = img.eq(i);
+        let imgUrl = item.attr('src');
+        imgArr.push(imgUrl);
+      }
+      img.click(function () {
+        let thisSrc = $(this).attr('src');
+        WeixinJSBridge.invoke("imagePreview", {
+          "current": thisSrc,
+          urls: imgArr
+        });
+      })
     },
     echoFormElec(data) {
       let { customer, customerInvoiceConfig, product } = data;

@@ -27,7 +27,7 @@ export default {
         agentNo: "",
         customerNo: "",
         payType: "",
-        status: "",
+        status: "SUCCESS",
         hasChild: "TRUE",
       };
       state.sumData = {

@@ -83,7 +83,7 @@ export default {
       status: "" // 状态
     };
     return {
-      versionTypeOptions: versionTypeJson,
+      versionTypeOptions: versionTypeJson.filter(item => { return item['code'] != 'RELEASE' }),
       dialogVisible: false, //上传面板是否可见
       isUpdate: true,
       isBatchUpdate: false,
@@ -152,9 +152,10 @@ export default {
               value: "",
               label: "全部"
             },
-            ...versionTypeJson.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            // versionTypeJson.filter(item => { if (item['code'] != 'RELEASE') return { value: item['code'], label: item['name'] } })
+            ...versionTypeJson.filter(item => {
+              return item['code'] != 'RELEASE'
+            }).map(item => { return { value: item.code, label: item.name } })
           ],
           cb: value => {
             this.searchCondition.type = value;
@@ -357,7 +358,9 @@ export default {
       this.isBatchUpdate = false;
     }
   },
-  mounted() { },
+  mounted() {
+    // console.log(versionTypeJson.map(item => { console.log(item); return item }));
+  },
   watch: {
     dialogVisible(val) {
       this.saveLoadingStop(val);

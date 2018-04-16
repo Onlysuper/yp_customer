@@ -45,7 +45,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/stencil")) }, "product-stencil-app")
           },
           meta: {
-            pageTitle: "排版"
+            pageTitle: "配置"
           },
         },
         {
