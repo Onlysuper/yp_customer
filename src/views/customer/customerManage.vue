@@ -306,7 +306,7 @@ import { taxNumVerify, idCardVerify, phoneNumVerify, phoneNumVerify_r, taxNumVer
 
 import {
   provinceAndCityData,
-  regionDataPlus,
+  regionData,
   CodeToText,
   TextToCode
 } from "element-china-area-data";

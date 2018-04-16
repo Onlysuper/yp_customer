@@ -11,12 +11,13 @@
           <input-wrapper>
             <mt-field label="企业名称:" type="text" v-model="enterpriseName" :disabled="true"></mt-field>
             <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
+            <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
+            <mt-field label="身份证号:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
+            <!-- <mt-field label="邮箱:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field> -->
             <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
             <mt-field label="详细地址:" type="text" v-model="form.bussinessAddress" @change="cacheFrom" placeholder="例如：古美路18号" v-required :attr="{maxlength:50}"></mt-field>
-            <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
-            <mt-field label="身份证号:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>

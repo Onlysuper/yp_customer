@@ -31,7 +31,7 @@
           <mt-cell title="D0手续费" v-if="product.settleMode == 'T0'">{{product.t0CashCostFixed}}元</mt-cell>
         </input-wrapper>
       </view-radius>
-      <view-radius class="uploads">
+      <view-radius class="uploads imagesParent" id="WeixinJSBridge">
         <upload-view class="item" :disabled="true" ref="identityFrontImg" :label="'身份证人像面'"></upload-view>
         <upload-view class="item" :disabled="true" ref="identityBackImg" :label="'身份证国徽面'"></upload-view>
         <upload-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></upload-view>
@@ -178,16 +178,46 @@ export default {
         this.product.settleMode = product.settleMode;
         this.product.t0CashCostFixed = product.t0CashCostFixed;
       }
+      // 图片预览
       if (imgs instanceof Object) {
-        let imgUrlList = [];
+        // let imgUrlList = [];
         for (let key in imgs) {
           if (imgs[key] instanceof Object) {
             this.$refs[key].setImg(imgs[key].url);
-            imgUrlList.push(imgs[key].url);
-            this.$refs[key].setImgList(imgUrlList);
+            // this.$refs[key].setImgId(key);
+            // imgUrlList.push(imgs[key].url);
+            // this.$refs[key].setImgList(imgUrlList);
           }
         }
       }
+      this.$nextTick(() => {
+        // let img = $(".imagesParent").find("img");
+        // let imgArr = [];
+        // for (var i = 0; i < img.length; i++) {
+        //   let item = img.eq(i);
+        //   let imgUrl = item.attr('src');
+        //   let imgId = item.attr('imgId');
+        //   imgArr.push(imgUrl);
+        //   this.$refs[imgId].setImgList(imgArr);
+        // }
+        this.initWeixinJSBridge($("#WeixinJSBridge"));
+      })
+    },
+    initWeixinJSBridge(img) {
+      // let img = $(".imagesParent").find("img");
+      let imgArr = [];
+      for (var i = 0; i < img.length; i++) {
+        let item = img.eq(i);
+        let imgUrl = item.attr('src');
+        imgArr.push(imgUrl);
+      }
+      img.click(function () {
+        let thisSrc = $(this).attr('src');
+        WeixinJSBridge.invoke("imagePreview", {
+          "current": thisSrc,
+          urls: imgArr
+        });
+      })
     },
     echoFormElec(data) {
       let { customer, customerInvoiceConfig, product } = data;

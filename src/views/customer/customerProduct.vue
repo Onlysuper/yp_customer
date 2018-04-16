@@ -222,7 +222,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-import { regionDataPlus } from "element-china-area-data";
+import { regionData } from "element-china-area-data";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
@@ -253,7 +253,7 @@ export default {
       addFeatureTypeVisible: false, //新增的产品类型默认隐藏
       editFormVisible: false, // 编辑
       addSubmitBut: true, // 新增提交按钮不可点击
-      optionsArea: regionDataPlus, //省市县插件
+      optionsArea: regionData, //省市县插件
       electronicVisible: false, // 电票开通
       wechatVisible: false, //  微信开通暂不支持
       alipayVisible: false, //  支付宝开通暂不支持

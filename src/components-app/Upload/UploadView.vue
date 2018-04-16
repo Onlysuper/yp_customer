@@ -1,7 +1,7 @@
 <template>
   <div class="upload-view">
     <div class="upload-view-btn" @click="handleClick">
-      <img v-if="base64" :src="base64" alt="">
+      <img v-if="base64" :src="base64" :imgId="imgId" alt="">
       <i v-if="!base64" class="icon-camera icon"></i>
     </div>
     <span>{{label}}</span>
@@ -82,6 +82,7 @@ export default {
     return {
       showUpload: false,
       base64: "",
+      imgId: "",
       imgList: []
     };
   },
@@ -89,10 +90,10 @@ export default {
     handleClick() {
       if (this.disabled) {
         if (this.imgList.length > 0) {
-          WeixinJSBridge.invoke("imagePreview", {
-            "current": this.base64,
-            urls: this.imgList
-          });
+          // WeixinJSBridge.invoke("imagePreview", {
+          //   "current": this.base64,
+          //   urls: this.imgList
+          // });
         } else {
           WeixinJSBridge.invoke("imagePreview", {
             // "current": this.base64,
@@ -125,10 +126,26 @@ export default {
     },
     setImg(base64) {
       this.base64 = base64;
+
     },
-    setImgList(imgUrls) {
-      this.imgList = imgUrls;
-    }
+    // setImgId(imgId) {
+    //   this.imgId = imgId
+    // },
+    // setImgList(imgUrls) {
+    //   this.imgList = imgUrls;
+    //   console.log(imgUrls);
+    // },
+    // buildImgShow() {
+    //   let img = $(".imagesParent").find("img");
+    //   let imgArr = [];
+    //   for (var i = 0; i < img.length; i++) {
+    //     let item = img.eq(i);
+    //     let imgUrl = item.attr('src');
+    //     let imgId = item.attr('imgId');
+    //     imgArr.push(imgUrl);
+    //     this.$refs[imgId].setImgList(imgArr);
+    //   }
+    // }
   }
 };
 </script>
