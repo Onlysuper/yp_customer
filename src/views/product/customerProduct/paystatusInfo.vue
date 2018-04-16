@@ -126,7 +126,7 @@ export default {
   mixins: [mixinsPc],
   data() {
     return {
-      accountNameDis: false,
+      accountNameDis: true,
       currentChildView: "",
       formLabelWidth: "120px",
       bankOptions: banks,
@@ -348,7 +348,8 @@ export default {
           } else if (newSettleCard.accountType == "1") {
             // 对私
             accountName = newSettleCard.accountName == newCustomer.enterpriseName ? newCustomer.legalPerson : newSettleCard.accountName || newCustomer.legalPerson;
-            this.accountNameDis = false;
+            // this.accountNameDis = false;
+            this.accountNameDis = true;
           }
           this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard }
           this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
@@ -365,7 +366,8 @@ export default {
         // 对私
         let accountName = this.getaccountName;
         this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
-        this.accountNameDis = false;
+        // this.accountNameDis = false;
+        this.accountNameDis = true;
       }
     }
   },

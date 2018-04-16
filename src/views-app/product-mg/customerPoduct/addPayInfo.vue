@@ -30,7 +30,8 @@
             <!-- <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（选填）" :attr="{maxlength:50}"></mt-field> -->
             <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
             <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
-            <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
+            <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field> -->
+            <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="true"></mt-field>
             <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
