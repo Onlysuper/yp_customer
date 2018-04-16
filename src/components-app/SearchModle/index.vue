@@ -7,7 +7,7 @@
       <div class="mint-searchbar">
         <a @click="close" class="mint-searchbar-cancel">取消</a>
         <div class="mint-searchbar-inner">
-          <input v-focus placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
+          <input v-focus="visible" placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
         <span class="searchbut" @click="searchHandle">
           <i class="mintui mintui-search"></i>
         </span>
@@ -49,8 +49,10 @@ export default {
     focus: {
       // 指令的定义
       componentUpdated: (el, binding) => {
-        // console.log(binding);
-        el.focus()
+        if (binding.value) {
+          console.log('聚焦');
+          el.focus()
+        }
       }
     }
   },
