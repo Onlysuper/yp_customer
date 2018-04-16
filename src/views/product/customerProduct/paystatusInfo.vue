@@ -382,7 +382,8 @@ export default {
       } else if (accountType == "1") {
         // 对私
         let accountName = this.getaccountName;
-        this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
+        // this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
+        this.payStatusForm.accountName = this.payStatusForm.legalPerson;
         // this.accountNameDis = false;
         this.accountNameDis = true;
       }
@@ -412,8 +413,10 @@ export default {
     },
     payStatusForm(value) {
       // console.log('改变了')
+    },
+    "payStatusForm.legalPerson"(val) {
+      this.payStatusForm.accountName = val
     }
-
   }
 };
 </script>

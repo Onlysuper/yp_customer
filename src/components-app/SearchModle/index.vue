@@ -3,7 +3,7 @@
   <div class="searchModle-box">
     <div class="_search-mask" @touchmove.prevent v-show="visible"></div>
     <!-- <div class="my-search" :class="{show:visible,hide:!visible}"> -->
-    <div class="my-search" :class="{show:visible,hide:!visible}">
+    <div class="my-search my-search-visible" :class="{show:visible,hide:!visible}">
       <div class="mint-searchbar">
         <a @click="close" class="mint-searchbar-cancel">取消</a>
         <div class="mint-searchbar-inner">
@@ -48,7 +48,7 @@ export default {
   directives: {
     focus: {
       // 指令的定义
-      componentUpdated: (el) => {
+      componentUpdated: (el, binding) => {
         el.focus()
       }
     }
@@ -185,12 +185,12 @@ export default {
     // top: 50px;
     // bottom: 0%;
     // opacity: 1;
-    display: block;
+    // display: block;
   }
   .hide {
     // top: -100%;
     // opacity: 0;
-    display: none;
+    // display: none;
   }
 
   .no-search {
