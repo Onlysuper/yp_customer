@@ -49,10 +49,7 @@ export default {
     focus: {
       // 指令的定义
       componentUpdated: (el) => {
-        let focusTime = setTimeout(() => {
-          el.focus()
-          clearTimeout(focusTime)
-        }, 100)
+        el.focus()
       }
     }
   },
