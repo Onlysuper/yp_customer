@@ -49,6 +49,7 @@ export default {
     focus: {
       // 指令的定义
       componentUpdated: (el, binding) => {
+        // console.log(binding);
         el.focus()
       }
     }
@@ -185,12 +186,12 @@ export default {
     // top: 50px;
     // bottom: 0%;
     // opacity: 1;
-    // display: block;
+    display: block;
   }
   .hide {
     // top: -100%;
     // opacity: 0;
-    // display: none;
+    display: none;
   }
 
   .no-search {
