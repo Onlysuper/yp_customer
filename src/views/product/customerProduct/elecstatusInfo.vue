@@ -37,7 +37,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
-                <el-input v-model="editForm.bussinessName"></el-input>
+                <el-input :disabled="true" v-model="editForm.bussinessName"></el-input>
               </el-form-item>
             </div>
           </el-col>

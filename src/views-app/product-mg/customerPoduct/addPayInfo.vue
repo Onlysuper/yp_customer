@@ -11,6 +11,7 @@
           <input-wrapper>
             <mt-field label="企业名称:" type="text" v-model="enterpriseName" :disabled="true"></mt-field>
             <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
+            <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
             <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="身份证号:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（必填）" :attr="{maxlength:50}"></mt-field>
@@ -88,6 +89,7 @@ export default {
       bankSearchVisible: false,
       bankSearchApi: getBankList,
       enterpriseName: "",
+      bussinessName: "",// 经营名称
       taxNo: "",
       form: {
         bussinessAddress: "",
@@ -149,6 +151,7 @@ export default {
         // console.log("取出", cacheForm)
 
         this.enterpriseName = cacheForm.enterpriseName || customer.enterpriseName;
+        this.bussinessName = cacheForm.bussinessName || customer.bussinessName;
         this.taxNo = cacheForm.taxNo || customer.taxNo;
 
         let city = this.$refs.CityPicher.findCity(cacheForm.orgCode || customer.orgCode);

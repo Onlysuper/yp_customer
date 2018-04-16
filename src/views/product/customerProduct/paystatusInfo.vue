@@ -8,6 +8,9 @@
       <el-form-item class="full-width" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
         <el-input :disabled="true" v-model="payStatusForm.taxNo" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item class="full-width" label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
+        <el-input :disabled="true" v-model="payStatusForm.bussinessName" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
       </el-form-item>
@@ -347,7 +350,7 @@ export default {
             'enterpriseName', 'taxNo',
             'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
             'bussinessAddress', 'legalPerson', 'idCard', 'category',
-            'contactEmail'
+            'contactEmail', "bussinessName"
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
             'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName'
