@@ -1,5 +1,5 @@
 <template>
-  <el-cascader :options="options" v-model="areaOptions" @change="changeHandle()"></el-cascader>
+  <el-cascader :options="options" v-model="areaSelected" @change="changeHandle"></el-cascader>
 </template>
 
 <style lang="scss">
@@ -18,8 +18,7 @@ export default {
   props: ["areaSelected"],
   data() {
     return {
-      options: [],
-      areaOptions: ["130000", "130100", "130101"]
+      options: []
     };
   },
 
@@ -58,16 +57,14 @@ export default {
     }
     console.log(provinceNew);
     this.options = provinceNew;
-    // 默认选中
-    this.areaOptions = this.areaSelected
-  },
-  mounted() {
 
   },
   methods: {
     changeHandle(val) {
-      console.log(val);
+      this.$emit('areaChange', val)
     }
   },
+  computed: {
+  }
 };
 </script>

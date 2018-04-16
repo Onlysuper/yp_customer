@@ -36,13 +36,10 @@
       </div>
       <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
-        <el-cascader :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
-        </el-cascader>
-        <!-- <city-picher :areaSelected="payStatusForm.Area"></city-picher> -->
+        <!-- <el-cascader :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
+        </el-cascader> -->
+        <city-picher :areaSelected="payStatusForm.Area" @areaChange="areaChange"></city-picher>
       </el-form-item>
-      <!-- <el-form-item class="full-width" label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
-      </el-form-item> -->
       <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
       </el-form-item>
@@ -217,6 +214,9 @@ export default {
     };
   },
   methods: {
+    areaChange(val) {
+      this.payStatusForm.Area = val;
+    },
     // 将表单里面的区域转化成需要往后台传送的数据
     changeAgentArea(agentArea) {
       let obj = {};
@@ -410,6 +410,7 @@ export default {
     payStatusForm(value) {
       // console.log('改变了')
     }
+
   }
 };
 </script>
