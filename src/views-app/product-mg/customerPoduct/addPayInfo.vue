@@ -116,9 +116,13 @@ export default {
   watch: {
     "form.accountType"(v) {
       if (v == "0") this.form.accountName = this.enterpriseName;
-      else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
+      // else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
+      else this.form.accountName = this.form.legalPerson;
 
       this.cacheFrom(); //缓存数据
+    },
+    "form.legalPerson"(val) {
+      this.form.accountName = val;
     }
   },
   created() {
