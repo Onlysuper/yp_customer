@@ -48,13 +48,11 @@ export default {
   directives: {
     focus: {
       // 指令的定义
-      // inserted: function (el) {
-      //   console.log("插入父节点");
-      //   el.focus()
-      // },
-      componentUpdated: function (el) {
-        alert("更新");
-        el.focus()
+      componentUpdated: (el) => {
+        let focusTime = setTimeout(() => {
+          el.focus()
+          clearTimeout(focusTime)
+        }, 100)
       }
     }
   },
@@ -69,10 +67,10 @@ export default {
       }
       this.$emit("initData");
       this.$emit("changeName", val);
-    },
-    visible(val) {
-      console.log(val);
     }
+    // visible(val) {
+    //   console.log(val);
+    // }
   },
   created() {
   },
