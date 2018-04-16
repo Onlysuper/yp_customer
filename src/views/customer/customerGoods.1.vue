@@ -14,9 +14,15 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增商品信息" :visible.sync="formDialogVisible">
+    <el-dialog center title="新增商品信息" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
+          <!-- <el-autocomplete class="inline-input full-width" v-model="addForm.goodsName" :fetch-suggestions="goodsNameGet" placeholder="请输入内容" :trigger-on-focus="false" @select="goodsNameChange($event,'ADD')"></el-autocomplete> -->
+          <!-- <el-select @change="goodsNameChange($event,'ADD')" filterable remote :remote-method="goodsNameGet" :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择"> -->
+          <!-- <el-select popper-class="selectOptionVisible" @change="goodsNameChange($event,'ADD')" filterable remote :loading="selectLoading" v-model="addForm.goodsName" placeholder="请选择">
+            <el-option v-for="item in goodsNameOptions" :key="item.code" :label="item.name" :value="item.code">
+            </el-option>
+          </el-select> -->
           <el-input placeholder="请输入内容" v-model="addForm.goodsName" class="input-with-select">
             <el-dropdown @command="goodsNameChange($event,'ADD')" slot="append">
               <span class="el-dropdown-link">
@@ -32,8 +38,8 @@
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input v-model="addForm.unionNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label=" 一级名称" prop="goodsFirstType" :label-width="formLabelWidth">
-          <el-input v-model="addForm.goodsFirstType" auto-complete="off"></el-input>
+        <el-form-item label=" 一级名称" prop="shortName" :label-width="formLabelWidth">
+          <el-input v-model="addForm.shortName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
           <el-input v-model="addForm.goodsType" auto-complete="off"></el-input>
@@ -54,11 +60,11 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item v-if="editFormVisible" label="商品编号" prop="goodsNo" :label-width="formLabelWidth">
-          <el-input :disabled="true" v-model="addForm.goodsNo" auto-complete="off"></el-input>
+        <el-form-item label="税率" prop="taxRate" :label-width="formLabelWidth">
+          <el-input v-model="addForm.taxRate" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-          <el-input :disabled="editFormVisible?true:false" v-model="addForm.customerNo" auto-complete="off"></el-input>
+          <el-input v-model="addForm.customerNo" auto-complete="off"></el-input>
         </el-form-item>
         <el-row>
           <el-col :span="12">
@@ -104,8 +110,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
-        <el-button v-if="addFormVisible" :loading="saveLoading" type="primary" @click="submitSave('addForm','add')">确定</el-button>
-        <el-button v-if="editFormVisible" :loading="saveLoading" type="primary" @click="submitSave('addForm','edit')">确定</el-button>
+        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
@@ -132,7 +137,7 @@
     </el-dialog>
     <!-- 导入 end -->
     <!-- 编辑start -->
-    <!-- <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
+    <el-dialog center title="修改商品信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item class="full-width" label="商品名称" prop="goodsName" :label-width="formLabelWidth">
           <el-input placeholder="请输入内容" v-model="editForm.goodsName" class="input-with-select">
@@ -233,7 +238,7 @@
         <el-button @click="editFormVisible=false">关闭</el-button>
         <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
       </div>
-    </el-dialog> -->
+    </el-dialog>
     <!-- 编辑end -->
   </div>
 </template>
@@ -291,6 +296,16 @@ export default {
       selectLoading: false,
       goodsNameOptions: [], // 商品名称 智能编码
       selectOptions: {
+        // unionNumOptions: [
+        //   {
+        //     value: "3070402000000000000",
+        //     label: "住宿服务"
+        //   },
+        //   {
+        //     value: "3070401000000000000",
+        //     label: "餐饮服务"
+        //   }
+        // ],
         enjoyDiscountOptions: [
           {
             value: "0",
@@ -384,6 +399,7 @@ export default {
           }
         ]
       },
+
       addFormRules: {
         unionNo: [
           { required: true, message: "请输入活动名称", trigger: "blur,change" }
@@ -400,7 +416,6 @@ export default {
       searchCondition: searchConditionVar,
 
       addFormVisible: false, // 新增框
-      formDialogVisible: false,
       importVisible: false,
       batchNetFormVisible: false, // 批量入网框
       editFormVisible: false, // 编辑框
@@ -415,12 +430,24 @@ export default {
         taxRate: "",
         enjoyDiscount: "",
         discountType: "",
-        goodsFirstType: ""
+        shortName: ""
       },
       importForm: {
         customerNo: ""
       },
-
+      editForm: {
+        unionNo: "",
+        customerNo: "",
+        goodsName: "",
+        model: "",
+        unit: "",
+        unitPrice: "",
+        taxRate: "",
+        enjoyDiscount: "",
+        discountType: "",
+        shortName: ""
+      }, // 编辑单个表单
+      editFormRules: {}, // 编辑单个规则
       importFormRules: {
         customerNo: [
           { required: true, message: "请输入商户编号", trigger: "blur,change" }
@@ -825,15 +852,12 @@ export default {
                   "enjoyDiscount",
                   "discountType",
                   "goodsType",
-                  "type",
-                  "goodsFirstType"
+                  "type"
                 ]);
                 // console.log(rowNew);
-                this.addForm = rowNew;
-                this.addForm.taxRate = rowNew.taxRate + "";
-                this.addFormVisible = false;
+                this.editForm = rowNew;
+                this.editForm.taxRate = rowNew.taxRate + "";
                 this.editFormVisible = true;
-                this.formDialogVisible = true;
               }
             },
             {
@@ -894,6 +918,46 @@ export default {
 
   methods: {
     taxRateChange(event, type) { },
+
+    // goodsNameGet(value, cb) {
+    //   this.selectLoading = true;
+    //   getsmartgoodscodeCustomerGood()({ name: value, tax: "0" }).then(res => {
+    //     let data = res.data;
+    //     if (res.code == "00") {
+    //       this.goodsNameOptions = res.data;
+    //       this.selectLoading = false;
+    //     } else {
+    //       this.$message({
+    //         message: res.msg,
+    //         type: "warning"
+    //       });
+    //     }
+    //     cb(this.goodsNameOptions.map(item => {
+    //       return { value: item.name }
+    //     }));
+    //   });
+    //   this.goodsName = value;
+    // },
+    // goodsNameChange(item, type) {
+    //   let selectObj = {};
+    //   if (item.value) {
+    //     selectObj = this.goodsNameOptions.find(data => {
+    //       return data.name == item.value;
+    //     });
+    //   }
+    //   console.log(selectObj);
+    //   if (Object.keys(selectObj).length != 0) {
+    //     if (type == "ADD") {
+    //       this.addForm.unionNo = selectObj.code;
+    //       this.addForm.goodsType = selectObj.name;
+    //       this.addForm.taxRate = selectObj.rate;
+    //     } else if (type == "EDIT") {
+    //       this.editForm.unionNo = selectObj.code;
+    //       this.editForm.goodsType = selectObj.name;
+    //       this.editForm.taxRate = selectObj.rate;
+    //     }
+    //   }
+    // },
     // 商品名称智能编码select start----------
     goodsNameGet(value) {
       this.selectLoading = true;
@@ -917,11 +981,19 @@ export default {
       let selectObj = this.goodsNameOptions.find(item => {
         return item.name == value;
       });
-      this.addForm.unionNo = selectObj.code;
-      this.addForm.goodsType = selectObj.name;
-      this.addForm.taxRate = selectObj.rate;
-      this.addForm.goodsFirstType = selectObj.shortName;
-      this.addForm.goodsName = this.goodsName;
+      if (type == "ADD") {
+        this.addForm.unionNo = selectObj.code;
+        this.addForm.goodsType = selectObj.name;
+        this.addForm.taxRate = selectObj.rate;
+        this.addForm.shortName = selectObj.shortName;
+        this.addForm.goodsName = this.goodsName;
+      } else if (type == "EDIT") {
+        this.editForm.unionNo = selectObj.code;
+        this.editForm.goodsType = selectObj.name;
+        this.editForm.taxRate = selectObj.rate;
+        this.editForm.shortName = selectObj.shortName;
+        this.editForm.goodsName = this.goodsName;
+      }
     },
     // handleSelect(item) {
     //   console.log(item);
@@ -934,21 +1006,6 @@ export default {
     addDialog() {
       // 新增数据 弹出框
       this.addFormVisible = true;
-      this.editFormVisible = false;
-      this.formDialogVisible = true;
-      this.addForm = {
-        type: "",
-        unionNo: "",
-        customerNo: "",
-        goodsName: "",
-        model: "",
-        unit: "",
-        unitPrice: "",
-        taxRate: "",
-        enjoyDiscount: "",
-        discountType: "",
-        goodsFirstType: ""
-      }
     },
     // 导入成功
     uploadSuccess(res, file, fileList) {
@@ -1019,12 +1076,12 @@ export default {
     checkTaxRateHave(code, type) {
       let index_ = this.taxRateOptions.findIndex(item => {
         if (item.code == code) {
-          // if (type == "ADD") {
-          this.addForm.taxRate = item.name;
-          // }
-          // if (type == "EDIT") {
-          //   this.editForm.taxRate = item.name;
-          // }
+          if (type == "ADD") {
+            this.addForm.taxRate = item.name;
+          }
+          if (type == "EDIT") {
+            this.editForm.taxRate = item.name;
+          }
         }
         return item.code == code;
       });
@@ -1040,75 +1097,74 @@ export default {
       }
     },
     // 新增保存
-    submitSave(formName, type) {
+    addSave(formName) {
       // 新增内容保存
-      if (type == 'add') {
-        // 新增保存
-        this.$refs[formName].validate(valid => {
-          let addForm = this.addForm;
-          addForm.goodsName = this.goodsName || addForm.goodsName;
-          if (valid) {
-            // this.saveLoading = true;
-            let sendata = { ...addForm };
-            if (!this.checkTaxRateHave(sendata.taxRate, "ADD")) {
-              return false;
-            }
-            postAddCustomerGood()({ ...sendata }).then(data => {
-              if (data.code === "00") {
-                this.$message({
-                  message: "恭喜你，新增数据成功",
-                  type: "success",
-                  center: true
-                });
-                this.formDialogVisible = false;
-                this.resetForm("addForm");
-                this.reloadData();
-              } else {
-                this.$message({
-                  message: data.msg,
-                  type: "warning",
-                  center: true
-                });
-              }
-              this.saveLoading = false;
-              console.log(data);
-            });
+      this.$refs[formName].validate(valid => {
+        let addForm = this.addForm;
+        addForm.goodsName = this.goodsName || addForm.goodsName;
+        if (valid) {
+          // this.saveLoading = true;
+          let sendata = { ...addForm };
+          if (!this.checkTaxRateHave(sendata.taxRate, "ADD")) {
+            return false;
           }
-        });
-      } else if (type == 'edit') {
-        // 编辑内容保存
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            let addForm = this.addForm;
-            // editForm.goodsName = this.goodsName;
-            let sendata = { ...addForm };
-            if (!this.checkTaxRateHave(sendata.taxRate, "EDIT")) {
-              return false;
+          postAddCustomerGood()({ ...sendata }).then(data => {
+            if (data.code === "00") {
+              this.$message({
+                message: "恭喜你，新增数据成功",
+                type: "success",
+                center: true
+              });
+              this.addFormVisible = false;
+              this.resetForm("addForm");
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
             }
-            this.saveLoading = true;
-            postEditCustomerGood(addForm.goodsNo)({ ...sendata }).then(data => {
-              if (data.code === "00") {
-                this.$message({
-                  message: "恭喜你，修改数据成功",
-                  type: "success",
-                  center: true
-                });
-                this.formDialogVisible = false;
-                this.reloadData();
-              } else {
-                this.$message({
-                  message: data.msg,
-                  type: "warning",
-                  center: true
-                });
-              }
-              this.saveLoading = false;
-              console.log(data);
-            });
-          }
-        });
-      }
+            this.saveLoading = false;
+            console.log(data);
+          });
+        }
+      });
     },
+    // 保存编辑
+    editSave(formName) {
+      // 编辑内容保存
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let editForm = this.editForm;
+          // editForm.goodsName = this.goodsName;
+          let sendata = { ...editForm };
+          if (!this.checkTaxRateHave(sendata.taxRate, "EDIT")) {
+            return false;
+          }
+          this.saveLoading = true;
+          postEditCustomerGood(editForm.goodsNo)({ ...sendata }).then(data => {
+            if (data.code === "00") {
+              this.$message({
+                message: "恭喜你，修改数据成功",
+                type: "success",
+                center: true
+              });
+              this.editFormVisible = false;
+              this.reloadData();
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "warning",
+                center: true
+              });
+            }
+            this.saveLoading = false;
+            console.log(data);
+          });
+        }
+      });
+    }
   },
   computed: {},
   mounted() { }
