@@ -203,8 +203,8 @@ export default {
         this.initWeixinJSBridge($("#WeixinJSBridge"));
       })
     },
-    initWeixinJSBridge(img) {
-      // let img = $(".imagesParent").find("img");
+    initWeixinJSBridge(imgParent) {
+      let img = imgParent.find("img");
       let imgArr = [];
       for (var i = 0; i < img.length; i++) {
         let item = img.eq(i);
@@ -213,6 +213,8 @@ export default {
       }
       img.click(function () {
         let thisSrc = $(this).attr('src');
+        // console.log(thisSrc);
+        // console.log(imgArr);
         WeixinJSBridge.invoke("imagePreview", {
           "current": thisSrc,
           urls: imgArr
