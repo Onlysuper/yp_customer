@@ -79,7 +79,7 @@ export default {
             name: "全部",
             code: "ALL"
           },
-          ...versionTypeJson
+          ...versionTypeJson.filter(item => { return item['code'] != 'RELEASE' }),
         ],
         cb: value => {
           if (value == "ALL") value = "";

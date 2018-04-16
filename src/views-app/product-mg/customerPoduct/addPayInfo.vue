@@ -176,7 +176,7 @@ export default {
           unionCode: cacheForm.unionCode || settleCard.unionCode
         });
         this.form.accountType = cacheForm.accountType || settleCard.accountType;
-        this.form.accountName = this._accountName = cacheForm.accountName || settleCard.accountName;
+        this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = cacheForm.accountNo || settleCard.accountNo;
         this.form.reservedPhoneNo = cacheForm.reservedPhoneNo || settleCard.reservedPhoneNo;
       } else {
