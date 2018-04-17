@@ -44,22 +44,29 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  // background: red;
+  align-items: stretch;
+  overflow: hidden;
   .table-outbox {
     flex: 1;
-    // display: flex;
-    overflow: auto;
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    background: yellow;
     .el-table {
+      flex: 1;
       position: relative;
-      overflow: hidden;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
-      width: 100%;
-      max-width: 100%;
-      height: 100%;
       background-color: #fff;
+      background-color: green;
       font-size: 14px;
       color: #606266;
+      height: 100% !important;
+      overflow: auto;
+      .el-table__body-wrapper {
+        height: 100%;
+      }
     }
     &::after {
       content: "";
@@ -68,9 +75,7 @@
   }
   .el-pagination {
     flex-shrink: 0;
-    text-align: right;
-    flex: 1;
-    max-height: 30px;
+    flex-grow: 0;
     height: 30px;
   }
   .scroll-view {

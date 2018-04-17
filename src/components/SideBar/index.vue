@@ -49,6 +49,8 @@
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
   .logo-box {
+    // width: 220px;
+    width: 100%;
     // min-width: 66px;
     overflow: hidden;
     display: flex;
@@ -124,10 +126,10 @@
       font-size: 26px;
     }
   }
-  .el-menu-vertical:not(.el-menu--collapse) {
-    min-height: 400px;
-    position: relative;
-  }
+  // .el-menu-vertical:not(.el-menu--collapse) {
+  //   min-height: 400px;
+  //   position: relative;
+  // }
   .icon-statistical_manage {
     &::before {
       display: inline-block;
