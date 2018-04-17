@@ -12,7 +12,7 @@
           </h1>
         </div>
         <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
-          <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
+          <el-submenu popper-class="menu-active" background-color="red" v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
               <span slot="title">{{item.menuName}}</span>
@@ -30,6 +30,15 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
+.menu-active {
+  li {
+    background: #000c17;
+    &:hover {
+      background: #00c1df;
+      color: #fff;
+    }
+  }
+}
 .el-menu-vertical:not(.el-menu--collapse) {
   min-height: 400px;
   width: 230px;
@@ -48,6 +57,7 @@
   height: 100%;
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
+  z-index: 999;
   .logo-box {
     // width: 220px;
     width: 100%;
@@ -62,7 +72,7 @@
     color: #fff;
     box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
     position: relative;
-    z-index: 9999;
+    z-index: 1;
     height: 54px;
     .img-box {
       display: inline-block;
