@@ -45,24 +45,26 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  overflow: hidden;
+  overflow: auto;
+  height: 80%;
+  flex-shrink: 1;
   .table-outbox {
     flex: 1;
     height: 100%;
     display: flex;
     align-items: stretch;
     overflow: hidden;
-    background: yellow;
+    flex-shrink: 1;
     .el-table {
       flex: 1;
       position: relative;
       -webkit-box-sizing: border-box;
       box-sizing: border-box;
       background-color: #fff;
-      background-color: green;
       font-size: 14px;
       color: #606266;
       height: 100% !important;
+      flex-shrink: 1;
       overflow: auto;
       .el-table__body-wrapper {
         height: 100%;
@@ -77,6 +79,7 @@
     flex-shrink: 0;
     flex-grow: 0;
     height: 30px;
+    text-align: right;
   }
   .scroll-view {
     /* -- Attention: This line is extremely important in chrome 55+! -- */
