@@ -4,36 +4,36 @@
     <!-- DataTable 数据表格 start -->
     <!-- <el-table border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" :height="tableHeight" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true"> -->
 
-    <div class="table-outbox">
-      <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" width="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
-        <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
-        </el-table-column>
+    <!-- <div class="table-outbox"> -->
+    <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" width="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
+      <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
+      </el-table-column>
 
-        <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :min-width="item.width" :sortable="item.sortable">
-          <!-- <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable"> -->
-          <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
-            <!-- <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag> -->
-            <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition disable-transitions> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
-            <el-popover v-else trigger="click" placement="top">
-              <p>{{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</p>
-              <div slot="reference" class="name-wrapper">
-                <div class="inline-text">
-                  {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
-                </div>
+      <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :min-width="item.width" :sortable="item.sortable">
+        <!-- <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" :width="item.width" :sortable="item.sortable"> -->
+        <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
+          <!-- <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag> -->
+          <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition disable-transitions> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
+          <el-popover v-else trigger="click" placement="top">
+            <p>{{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</p>
+            <div slot="reference" class="name-wrapper">
+              <div class="inline-text">
+                {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
               </div>
-            </el-popover>
-          </template>
-        </el-table-column>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
 
-        <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
-          <template slot-scope="scope">
-            <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" :disabled="item.disabledFn?item.disabledFn(scope.row,item.disabledFn):false" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
-              {{item.text}}
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
+      <el-table-column v-if="tableDataInit.operation" fixed="right" label="操作" :width="tableDataInit.operation.width">
+        <template slot-scope="scope">
+          <el-button v-for="(item,index) in tableDataInit.operation.options" :ref="item.ref" :privilege-code="item.ref" :key="index" size="small" type="text" v-if="item.visibleFn?item.visibleFn(scope.row,item.visibleFn):true" :disabled="item.disabledFn?item.disabledFn(scope.row,item.disabledFn):false" @click="operationHandle(scope.row,item.cb)" :style="item.color?'color:'+item.color:'color:#00c1df'">
+            {{item.text}}
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- </div> -->
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="getPage" :page-sizes="[10, 20,30]" :page-size="limit" layout="total, sizes, prev, pager, next, jumper" :total="dataCount">
     </el-pagination>
     <!-- DataTable end -->
@@ -46,34 +46,31 @@
   flex-direction: column;
   align-items: stretch;
   overflow: auto;
-  height: 80%;
+  height: 100%;
   flex-shrink: 1;
   .table-outbox {
-    flex: 1;
-    height: 100%;
-    display: flex;
-    align-items: stretch;
-    overflow: hidden;
-    flex-shrink: 1;
+    // flex: 1;
+    // height: 100%;
+    // display: flex;
+    // align-items: stretch;
+    // flex-shrink: 1;
+    // overflow: auto;
     .el-table {
-      flex: 1;
-      position: relative;
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      background-color: #fff;
-      font-size: 14px;
-      color: #606266;
-      height: 100% !important;
-      flex-shrink: 1;
-      overflow: auto;
-      .el-table__body-wrapper {
-        height: 100%;
-      }
+      // flex: 1;
+      // position: relative;
+      // -webkit-box-sizing: border-box;
+      // box-sizing: border-box;
+      // background-color: #fff;
+      // font-size: 14px;
+      // color: #606266;
+      // height: 100% !important;
+      // flex-shrink: 1;
+      // overflow: auto;
     }
-    &::after {
-      content: "";
-      display: flex;
-    }
+    // &::after {
+    //   content: "";
+    //   display: flex;
+    // }
   }
   .el-pagination {
     flex-shrink: 0;
@@ -193,26 +190,26 @@
     padding: 12px 0 !important;
   }
 }
-.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
-  width: 0.8rem;
-  background-color: #f5f5f5;
-}
-.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar:horizontal {
-  height: 0.8rem;
-  background-color: #f5f5f5;
-}
-/*定义滚动条的轨道，内阴影及圆角*/
-.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-track {
-  // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
-  border-radius: 0.2rem;
-  background-color: #f5f5f5;
-}
-/*定义滑块，内阴影及圆角*/
-.__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-thumb {
-  border-radius: 0.2rem;
-  // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #989797;
-}
+// .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
+//   width: 0.8rem;
+//   background-color: #f5f5f5;
+// }
+// .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar:horizontal {
+//   height: 0.8rem;
+//   background-color: #f5f5f5;
+// }
+// /*定义滚动条的轨道，内阴影及圆角*/
+// .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-track {
+//   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
+//   border-radius: 0.2rem;
+//   background-color: #f5f5f5;
+// }
+// /*定义滑块，内阴影及圆角*/
+// .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar-thumb {
+//   border-radius: 0.2rem;
+//   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+//   background-color: #989797;
+// }
 </style>
 <script>
 import $ from "jquery";
