@@ -676,7 +676,18 @@ export default {
             {
               text: "配置",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                console.log(this.adminFilter("userProductStatus_config"));
+                if (
+                  this.adminFilter("userProductStatus_config")
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
+                // adminFilter
                 this.resaultData = rowdata;
                 let payType = rowdata.payType;
                 let invoiceType = rowdata.invoiceType;
