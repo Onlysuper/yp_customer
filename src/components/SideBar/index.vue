@@ -1,17 +1,17 @@
 <template>
   <!-- layout 左侧菜单区域 -->
   <div class="aside-box">
-    <div :class="'logo-box'" ref="logoBox">
-      <div class="img-box">
-        <img :src="require('@src/assets/images/logoSmall.png')" alt="">
-      </div>
-      <h1 v-if="!isCollapse" :class="'home-title'">
-        <router-link to="/home">易票管理系统v1.0</router-link>
-      </h1>
-    </div>
     <div class="scroll-view-box">
-      <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
-        <el-menu :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+      <el-menu :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+        <div :class="'logo-box'" ref="logoBox">
+          <div class="img-box">
+            <img :src="require('@src/assets/images/logoSmall.png')" alt="">
+          </div>
+          <h1 v-if="!isCollapse" :class="'home-title'">
+            <router-link to="/home">易票管理系统v1.0</router-link>
+          </h1>
+        </div>
+        <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
           <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
@@ -21,8 +21,8 @@
               {{item2.menuName}}
             </el-menu-item>
           </el-submenu>
-        </el-menu>
-      </iscroll-view>
+        </iscroll-view>
+      </el-menu>
     </div>
   </div>
   <!-- </div> -->
@@ -30,37 +30,13 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='less'>
-@keyframes widthSmall {
-  from {
-    width: 210px;
-  }
-  to {
-    width: 66px;
-  }
-}
-@keyframes widthBig {
-  from {
-    width: 66px;
-  }
-  to {
-    width: 210px;
-  }
-}
 .el-menu-vertical:not(.el-menu--collapse) {
   min-height: 400px;
-  width: 210px;
+  width: 230px;
   position: relative;
+  height: 100%;
 }
-.isCollapseSmall {
-  animation: widthSmall 0.3s ease-in-out;
-  -webkit-animation: widthSmall 0.3s ease-in-out;
-  width: 66px;
-}
-.isCollapseBig {
-  animation: widthBig 0.2s ease-in-out;
-  -webkit-animation: widthBig 0.2s ease-in-out;
-  width: 210px;
-}
+
 .my-transition(@attr) {
   transition: @attr 0.8s;
   -moz-transition: @attr 0.8s;
@@ -68,30 +44,21 @@
   -o-transition: @attr 0.8s;
 }
 .aside-box {
-  z-index: 999;
   position: relative;
-  display: flex;
-  background: #001529;
-  box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
-  position: relative;
-  z-index: 11;
-  flex: 1;
-  width: auto;
-  flex-direction: column;
-  align-items: stretch;
+  height: 100%;
   .logo-box {
     // min-width: 66px;
     overflow: hidden;
     display: flex;
-    box-sizing: border-box;
     justify-content: start;
+    box-sizing: border-box;
     align-items: center;
     padding: 0 16px;
     background: #002240;
     color: #fff;
     box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
     position: relative;
-    z-index: 999;
+    z-index: 9999;
     height: 54px;
     .img-box {
       display: inline-block;
@@ -126,10 +93,10 @@
     overflow: hidden;
   }
   .scroll-view {
-    touch-action: none;
-    position: relative;
-    height: 100%;
     width: 100%;
+    top: 60px;
+    position: absolute;
+    bottom: 0px;
   }
 
   /*重置样式 start*/
@@ -151,21 +118,9 @@
       }
     }
     .icon {
-      font-size: 24px;
+      font-size: 26px;
     }
-    // 当前选中的颜色
-    // .el-submenu.is-active {
-    //   .el-submenu__title {
-    //     background: #000;
-    //     &:hover {
-    //       background: #000 !important;
-    //     }
-    //   }
-    // }
   }
-  // .el-menu-vertical {
-  //   margin-top: 54px;
-  // }
   .el-menu-vertical:not(.el-menu--collapse) {
     min-height: 400px;
     position: relative;
