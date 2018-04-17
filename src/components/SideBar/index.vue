@@ -46,6 +46,8 @@
 .aside-box {
   position: relative;
   height: 100%;
+  background: #001529;
+  box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
   .logo-box {
     // min-width: 66px;
     overflow: hidden;
@@ -118,6 +120,7 @@
       }
     }
     .icon {
+      // padding-right: 12px;
       font-size: 26px;
     }
   }
@@ -134,10 +137,16 @@
   .el-submenu__title:hover {
     background: transparent !important;
   }
-  .el-menu--collapse .el-submenu:hover {
-    background: #000c17 !important;
+  .el-menu--collapse {
+    .el-submenu:hover {
+      background: #000c17 !important;
+    }
+    .icon {
+      padding-right: 17px;
+    }
   }
-  .el-submenu .el-menu-item {
+  // .el-submenu
+  .el-menu-item {
     background: #000c17 !important;
     color: #878d99 !important;
     text-indent: 18px;

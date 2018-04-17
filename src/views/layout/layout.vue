@@ -45,9 +45,11 @@ export default {
   overflow: hidden;
   // height: 100vh;
   .layout-main {
+    display: flex;
     flex-direction: column;
-    // width: 100% !important;
-    flex: 100% !important;
+    height: 100%;
+    align-items: stretch;
+    // background: blue;
   }
 }
 .layout-fade-enter-active,

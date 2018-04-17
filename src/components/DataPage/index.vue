@@ -41,13 +41,13 @@
 </template>
 <style lang="scss">
 .tablelist-box {
-  .el-tag {
-    // background: rgb(64, 158, 255);
-    // color: #fff;
-    // border: 0px;
-  }
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  // background: red;
   .table-outbox {
     flex: 1;
+    // display: flex;
     overflow: auto;
     .el-table {
       position: relative;
