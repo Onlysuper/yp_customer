@@ -1,60 +1,64 @@
 <template>
   <!-- 聚合支付详情 -->
   <div class="product-detail-body">
+    <!-- <div class="scroll-view-cus detail-box">
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户编号:</span>
+          <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+        </div> -->
     <div class="detaile-left">
-      <div class="scroll-view-cus">
+      <div class="scroll-view-cus detail-box-pro">
         <!-- <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions"> -->
-        <div class="line-label-box cross-back">
-          <span class="line-label">商户编号:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">开通状态:</span>{{detailsForm.elecStatus | statusFilter('handleProductOpenStatus')}}
+        <div class="line-label-box">
+          <span class="lable-title gray-back">开通状态:</span>
+          <span class="line-label-last">{{detailsForm.elecStatus | statusFilter('handleProductOpenStatus')}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">更新时间:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">更新时间:</span>
           <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">商户名称:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户名称:</span>
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">注册省份:</span>
-          <span class="line-label-last">
-            {{elecStatusDetails.orgCode?utils.findCity(elecStatusDetails.orgCode).resultAddr:""}}
-          </span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">注册省份:</span>
+          <span class="line-label-last"> {{elecStatusDetails.orgCode?utils.findCity(elecStatusDetails.orgCode).resultAddr:""}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">注册地址:</span>
-          <span class="line-label-last">{{elecStatusDetails.bussinessAddress}}</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">注册地址:</span>
+          <span class="line-label-last"> {{elecStatusDetails.bussinessAddress}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">联系电话:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">联系电话:</span>
           <span class="line-label-last">{{elecStatusDetails.bussinessPhone}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">经营名称:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">经营名称:</span>
           <span class="line-label-last">{{elecStatusDetails.bussinessName}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">注册资金:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">注册资金:</span>
           <span class="line-label-last">{{elecStatusDetails.registMoney}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">开户银行:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">开户银行:</span>
           <span class="line-label-last">{{elecStatusDetails.branchName}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">银行账号:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">银行账号:</span>
           <span class="line-label-last">{{elecStatusDetails.bankAccountNo}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">月开票量:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">月开票量:</span>
           <span class="line-label-last">{{elecStatusDetails.elecBillnum}}</span>
         </div>
-        <div class="line-label-box cross-back" v-if="elecStatusDetails.elecReason==''||elecStatusDetails.elecReason==null?false:true">
-          <span class="line-label">被拒原因:</span>
+        <div class="line-label-box" v-if="elecStatusDetails.elecReason==''||elecStatusDetails.elecReason==null?false:true">
+          <span class="lable-title gray-back">被拒原因:</span>
           <span class="line-label-last">{{elecStatusDetails.elecReason}}</span>
         </div>
         <!-- </iscroll-view> -->

@@ -4,12 +4,12 @@
     <!-- {{detailsForm}}  -->
     <div class="detaile-left">
       <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
-      <div class="scroll-view-cus detail-box">
+      <div class="scroll-view-cus detail-box-pro">
         <div class="line-label-box">
           <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">更新时间:</span>
             <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="split－padding"></div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">微信费率:</span>
             <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
@@ -30,7 +30,7 @@
             <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
           </div>
         </div>
-        <div class="line-label-box ">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">开通秒到:</span>
             <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
@@ -45,7 +45,7 @@
           <span class="lable-title gray-back">企业名称:</span>
           <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">企业税号:</span>
             <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
@@ -55,7 +55,7 @@
             <span class="line-label-last">{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}</span>
           </div>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">身份证号:</span>
             <span class="line-label-last">{{payStatusDetails.idCard}}</span>
@@ -80,7 +80,7 @@
           <span class="lable-title gray-back">账户名称:</span>
           <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">账号:</span>
             <span class="line-label-last">{{payStatusDetails.accountNo||""}}</span>

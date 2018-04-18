@@ -1,22 +1,28 @@
 <template>
   <!-- 聚合支付详情 -->
+  <!-- <div class="scroll-view-cus detail-box">
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户编号:</span>
+          <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+        </div> -->
   <div class="product-detail-body">
     <div class="detaile-left">
-      <div class="scroll-view-cus">
+      <div class="scroll-view-cus detail-box-pro">
         <!-- <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions"> -->
-        <div class="line-label-box cross-back">
-          <span class="line-label">商户编号:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | statusFilter('handleProductOpenStatus')}}
+        <div class="line-label-box">
+          <span class="lable-title gray-back">快速开票:</span>
+          <span class="line-label-last">{{detailsForm.qrcodeStatus | statusFilter('handleProductOpenStatus')}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">更新时间:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">更新时间:</span>
           <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">商户名称:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户名称:</span>
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
       </div>
