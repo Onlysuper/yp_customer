@@ -11,7 +11,7 @@
         </div>
         <div class="line-label-box">
           <div class="line-cell">
-            <span class="lable-title gray-back">开通时间:</span>
+            <span class="lable-title gray-back">更新时间:</span>
             <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
           </div>
           <div class="line-cell">

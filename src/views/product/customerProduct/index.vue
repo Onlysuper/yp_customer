@@ -10,7 +10,7 @@
     <!-- 商户状态 start -->
     <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
     <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
-      <div class="detail-content">
+      <div class="detail-content-pro">
         <template>
           <!-- 聚合详情 -->
           <div class="line-box-left dialog-title-box">
@@ -117,6 +117,7 @@
       text-align: center;
     }
     .special-dialog-new {
+      // height: 100%;
       top: 20px !important;
       left: 20px !important;
       right: 20px !important;
@@ -124,6 +125,7 @@
       position: fixed;
       align-items: stretch;
       overflow: hidden;
+      flex-direction: column;
       .el-dialog__headerbtn {
         z-index: 999;
       }
@@ -132,6 +134,8 @@
         padding: 4px 0;
         padding-bottom: 10px;
         position: relative;
+        flex-shrink: 0;
+        box-sizing: border-box;
         .title-box {
           // flex: 1;
           flex: 1;
@@ -164,11 +168,23 @@
         flex: 1;
         display: flex;
         // flex-basis: 100%;
+        height: 100%;
       }
       .el-dialog__footer {
         flex-grow: 0;
+        flex-shrink: 0;
       }
     }
+  }
+  .detail-content-pro {
+    flex: 1;
+    height: 100%;
+    // overflow: auto;
+    // position: relative;
+    display: flex;
+    flex-direction: column;
+    // width: 100%;
+    // background: red;
   }
 }
 </style>

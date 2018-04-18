@@ -14,7 +14,7 @@
             <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
             <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="身份证号:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
-            <mt-field label="邮箱:" type="email" v-model="form.contactEmail" placeholder="接收开通信息（必填）" :attr="{maxlength:50}"></mt-field>
+            <mt-field label="邮箱:" type="email" @change="cacheFrom" v-model="form.contactEmail" placeholder="接收开通信息（必填）" :attr="{maxlength:50}"></mt-field>
             <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -113,23 +113,7 @@ export default {
       bussinessLicenseEffectiveEndVal: new Date()
     };
   },
-  watch: {
-    "form.accountType"(v) {
-      if (v == "0") this.form.accountName = this.enterpriseName;
-      // else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
-      else this.form.accountName = this.form.legalPerson;
 
-      this.cacheFrom(); //缓存数据
-    },
-    "form.legalPerson"(val) {
-
-      if (this.form.accountType == "0") this.form.accountName = this.enterpriseName;
-      // else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
-      else this.form.accountName = this.form.legalPerson;
-
-      this.cacheFrom(); //缓存数据
-    }
-  },
   created() {
     getCustomerEchoProduct()({
       customerNo: this.customerNo,
@@ -295,6 +279,22 @@ export default {
           this.Toast(data.msg);
         }
       });
+    },
+    // 账户名称与企业名称跟法人名称的关联
+    accountNameChange() {
+      if (this.form.accountType == "0") this.form.accountName = this.enterpriseName;
+      // else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
+      else this.form.accountName = this.form.legalPerson;
+
+      this.cacheFrom(); //缓存数据
+    }
+  },
+  watch: {
+    "form.accountType"(v) {
+      this.accountNameChange();
+    },
+    "form.legalPerson"(val) {
+      this.accountNameChange();
     }
   }
 };
