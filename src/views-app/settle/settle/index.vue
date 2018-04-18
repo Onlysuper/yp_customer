@@ -12,8 +12,8 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="isAdmin?item.agentName:''">
-          <div v-if="isAdmin && item.status == 'TRUE'" slot="btn" @click="settlement(item,'settle')">结算</div>
-          <div v-if="!isAdmin && item.status == 'FALSE'" slot="btn" @click="settlement(item,'sure')">确认</div>
+          <div v-if="adminFilter('admin_settle_updateSettle') && item.status == 'TRUE'" slot="btn" @click="settlement(item,'settle')">结算</div>
+          <div v-if="adminFilter('agent_settle_updateSettle') && item.status == 'FALSE'" slot="btn" @click="settlement(item,'sure')">确认</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.status | statusSettle}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->

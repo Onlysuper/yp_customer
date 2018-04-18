@@ -458,7 +458,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 //已确认
-                if (rowdata.status == "TRUE" && !isAdmin) {
+                if (rowdata.status == "TRUE" && this.adminFilter('admin_settle_updateSettle')) {
                   return true;
                 } else {
                   return false;
@@ -469,20 +469,36 @@ export default {
                 this.editFormVisible = true;
               }
             },
+            // 代理商确认
+            {
+              text: "确认",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                //已确认
+                if (rowdata.status == "FALSE" && this.adminFilter('agent_settle_updateSettle')) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                this.editForm = Object.assign(this.editForm, rowdata);
+                this.sureFormVisible = true;
+              }
+            },
             {
               text: "查看",
               color: "#e6a23c",
               visibleFn: rowdata => {
-                if (isAdmin) {
-                  // alert("运营");
+                if (this.adminFilter('agent_settle_updateSettle')) {
                   // 运营
                   if (rowdata.status == "TRUE" || rowdata.status == "SUCCESS") {
                     return true;
                   } else {
                     return false;
                   }
-                } else {
-                  // alert("代理商");
+                }
+                if (this.adminFilter('admin_settle_updateSettle')) {
                   // 代理商
                   if (
                     rowdata.status == "FALSE" ||
@@ -497,23 +513,6 @@ export default {
               cb: rowdata => {
                 this.detailsForm = rowdata;
                 this.detailsFormVisible = true;
-              }
-            },
-            // 代理商确认
-            {
-              text: "确认",
-              color: "#00c1df",
-              visibleFn: rowdata => {
-                //已确认
-                if (rowdata.status == "FALSE" && isAdmin) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              cb: rowdata => {
-                this.editForm = Object.assign(this.editForm, rowdata);
-                this.sureFormVisible = true;
               }
             }
           ]
