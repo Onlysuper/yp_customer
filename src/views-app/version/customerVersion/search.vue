@@ -6,7 +6,9 @@
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
 import versionTypeJson from "@src/data/versionType"
+import { statusFilterQuery } from "@src/common/mixins";
 export default {
+  mixins: [statusFilterQuery],
   components: { SearchPage },
   data() {
     return {
@@ -50,18 +52,7 @@ export default {
             name: "全部",
             code: ""
           },
-          {
-            name: "允许升级",
-            code: "TRUE"
-          },
-          {
-            name: "不允许升级",
-            code: "FALSE"
-          },
-          {
-            name: "升级成功",
-            code: "SUCCESS"
-          }
+          ...this.statusFilterQuery('versionStatus')
         ],
         cb: value => {
           // if (value == "ALL") value = "";
@@ -79,7 +70,7 @@ export default {
             name: "全部",
             code: "ALL"
           },
-          ...versionTypeJson.filter(item => { return item['code'] != 'RELEASE' }),
+          ...this.statusFilterQuery('typeCustomerVersion').filter(item => { return item['code'] != 'RELEASE' })
         ],
         cb: value => {
           if (value == "ALL") value = "";
