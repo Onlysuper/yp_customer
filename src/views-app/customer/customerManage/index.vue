@@ -148,24 +148,17 @@ export default {
       });
     },
     operation(customer) {
-      if (customer.status == 'TRUE' && this.isAdmin) {
-        this.actions = [
-          {
-            name: "转移",
-            method: this.transfer
-          },
-          {
-            name: "关闭",
-            method: this.closeSave
-          }
-        ]
-      } else {
-        this.actions = [
-          {
-            name: "转移",
-            method: this.transfer
-          },
-        ]
+      this.actions = [
+        {
+          name: "转移",
+          method: this.transfer
+        },
+      ]
+      if (customer.status == 'TRUE' && this.adminFilter('customer_updateByStatus')) {
+        this.actions.push({
+          name: "关闭",
+          method: this.closeSave
+        })
       }
       this.sheetVisible = true;
       this._customer = customer;

@@ -136,6 +136,8 @@
   flex-direction: row;
   .tree-box {
     flex-shrink: 0;
+    overflow: auto;
+    width: 250px;
   }
   .table-box {
     flex-shrink: 1;

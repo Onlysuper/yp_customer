@@ -637,7 +637,7 @@ export default {
 
   methods: {
     closeButVisible(status) {
-      if (status == 'TRUE' && this.isAdmin) {
+      if (status == 'TRUE' && this.adminFilter('customer_updateByStatus')) {
         return true
       } else {
         return false;
