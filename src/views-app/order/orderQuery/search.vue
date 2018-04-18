@@ -4,7 +4,6 @@
 
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
-import orderStatus from "@src/data/orderStatus.json";
 import { mapState } from "vuex";
 import { statusFilterQuery } from "@src/common/mixins";
 export default {
@@ -31,9 +30,6 @@ export default {
     }
   },
   mounted() {
-    //  ...orderStatus.map(item => {
-    //           return { value: item.code, label: item.name }
-    //         })
     this.$nextTick(() => {
       this.searchConfig.push({
         title: "交易订单号",
