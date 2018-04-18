@@ -11,8 +11,8 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerName">
-          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'orderQueryStatus').type">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
-          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.payType,'payType').type">{{item.payType | statusFilter('payType')}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'orderQueryStatus')">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.payType,'payType')">{{item.payType | statusFilter('payType')}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
             <table>

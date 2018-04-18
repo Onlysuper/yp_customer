@@ -1,4 +1,18 @@
 {
+  "settleStatus": {
+    "TRUE": {
+      "name": "已确认",
+      "color": "#409EFF"
+    },
+    "FALSE": {
+      "name": "待确认",
+      "color": "#E6A23C"
+    },
+    "SUCCESS": {
+      "name": "已结算",
+      "color": "#67C23A"
+    }
+  },
   "payTypeDetail": {
     "trade.scanPay": {
       "name": "扫码支付",

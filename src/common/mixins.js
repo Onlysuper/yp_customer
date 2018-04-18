@@ -26,7 +26,7 @@ const filterColor = {
         text: obj.text,
         type: color_
       }
-      return promise
+      return color_
     },
     // 按钮权限
     adminFilter(fileterName) {

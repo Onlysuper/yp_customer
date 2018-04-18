@@ -17,8 +17,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="toUrl('EDIT',item.customerNo)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" v-if="item.customerFrom" class="g-min-badge" size="small" :color="filterColor(item.customerFrom,'customerFrom').type">{{item.customerFrom | statusFilter("customerFrom")}}</mt-badge>
-          <mt-badge slot="badge" v-if="item.status" class="g-min-badge" size="small" :color="filterColor(item.status,'handleStatus').type">{{item.status | statusFilter('handleStatus')}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.customerFrom" class="g-min-badge" size="small" :color="filterColor(item.customerFrom,'customerFrom')">{{item.customerFrom | statusFilter("customerFrom")}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.status" class="g-min-badge" size="small" :color="filterColor(item.status,'handleStatus')">{{item.status | statusFilter('handleStatus')}}</mt-badge>
 
           <myp-cell class="list-item _av" @click="detail(item)">
             <!-- 详情 -->

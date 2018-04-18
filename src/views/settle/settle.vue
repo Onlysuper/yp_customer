@@ -351,18 +351,7 @@ export default {
               value: "",
               label: "所有"
             },
-            {
-              value: "TRUE",
-              label: "已确认"
-            },
-            {
-              value: "FALSE",
-              label: "待确认"
-            },
-            {
-              value: "SUCCESS",
-              label: "已结算"
-            }
+            ...this.statusFilterQuery('settleStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -425,27 +414,7 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data === "TRUE") {
-                return {
-                  text: "已确认",
-                  type: ""
-                };
-              } else if (data === "FALSE") {
-                return {
-                  text: "待确认",
-                  type: "info"
-                };
-              } else if (data === "SUCCESS") {
-                return {
-                  text: "已结算",
-                  type: "success"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'settleStatus');
             }
           }
         ],

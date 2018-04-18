@@ -5,9 +5,10 @@
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
-import versionTypeJson from "@src/data/versionType"
+import { statusFilterQuery } from "@src/common/mixins";
 export default {
   components: { SearchPage },
+  mixins: [statusFilterQuery],
   data() {
     return {
       searchVisible: true,
@@ -62,18 +63,7 @@ export default {
             name: "全部",
             code: ""
           },
-          {
-            name: "已确认",
-            code: "TRUE"
-          },
-          {
-            name: "待确认",
-            code: "FALSE"
-          },
-          {
-            name: "已结算",
-            code: "SUCCESS"
-          }
+          ...this.statusFilterQuery('settleStatus')
         ],
         cb: value => {
           this.$store.commit("SETTLE_SEARCH_QUERY", {
