@@ -5,8 +5,9 @@
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
-import payStatusQueryJson from "@src/data/payStatusQuery.json";
+import { statusFilterQuery } from "@src/common/mixins";
 export default {
+  mixins: [statusFilterQuery],
   components: { SearchPage },
   data() {
     return {
@@ -47,7 +48,8 @@ export default {
         defaultValue: this.searchQuery.qrcodeStatus,
         values:
           [
-            ...payStatusQueryJson
+            { name: "全部", code: "" },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
         cb: value => {
           this.$store.commit("CUSTOMER_PRODUCT_SET_SEARCH", {
@@ -61,8 +63,8 @@ export default {
         type: "myp-select",
         defaultValue: this.searchQuery.payStatus,
         values:
-          [
-            ...payStatusQueryJson
+          [{ name: "全部", code: "" },
+          ...this.statusFilterQuery('handleProductOpenStatus')
           ],
         cb: value => {
           this.$store.commit("CUSTOMER_PRODUCT_SET_SEARCH", {
@@ -77,7 +79,8 @@ export default {
         defaultValue: this.searchQuery.elecStatus,
         values:
           [
-            ...payStatusQueryJson
+            { name: "全部", code: "" },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
         cb: value => {
           this.$store.commit("CUSTOMER_PRODUCT_SET_SEARCH", {

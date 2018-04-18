@@ -63,7 +63,6 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
-import versionTypeJson from "@src/data/versionType"
 import {
   postCustomerVersion,
   patchCustomerVersion,

@@ -208,7 +208,6 @@ import paystatusSuccess from "./paystatusSuccess";
 import payDetail from "./payDetail";
 import elecDetail from "./elecDetail";
 import qrcodeDetail from "./qrcodeDetail";
-import payStatusQueryJson from "@src/data/payStatusQuery.json";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch,
@@ -488,9 +487,11 @@ export default {
           show: true, // 普通搜索显示
           value: "",
           options: [
-            ...payStatusQueryJson.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            {
+              label: "全部",
+              value: ""
+            },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
           cb: value => {
             this.searchCondition.payStatus = value;
@@ -503,9 +504,11 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            ...payStatusQueryJson.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            {
+              label: "全部",
+              value: ""
+            },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
           cb: value => {
             this.searchCondition.qrcodeStatus = value;
@@ -518,9 +521,11 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            ...payStatusQueryJson.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            {
+              label: "全部",
+              value: ""
+            },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
           cb: value => {
             this.searchCondition.elecStatus = value;
