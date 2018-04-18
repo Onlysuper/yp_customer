@@ -72,6 +72,10 @@ export default {
             type: color
         }
     },
+    // 状态查询
+    statusFilterQuery(type) {
+        return statusFilter[type];
+    },
     // 得到对象里面的部分属性组成心得对象
     pickObj(obj = {}, arr) {
         if (obj) {

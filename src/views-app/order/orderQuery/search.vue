@@ -6,8 +6,10 @@
 import SearchPage from "@src/components-app/Search/SearchPage";
 import orderStatus from "@src/data/orderStatus.json";
 import { mapState } from "vuex";
+import { statusFilterQuery } from "@src/common/mixins";
 export default {
   components: { SearchPage },
+  mixins: [statusFilterQuery],
   data() {
     return {
       searchVisible: true,
@@ -163,7 +165,7 @@ export default {
               name: "全部",
               code: ""
             },
-            ...orderStatus
+            ...this.statusFilterQuery('orderQueryStatus')
           ],
         cb: value => {
           this.$store.commit("ORDER_QUERY_SET_SEARCH", {

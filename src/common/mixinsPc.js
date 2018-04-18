@@ -62,6 +62,17 @@ const mixinsPc = {
         type: color_
       }
       return promise
+    },
+    statusFilterQuery(type) {
+      let resault = Object.entries(utils.statusFilterQuery(type));
+      let queryArr = [];
+      for (let [key, value] of resault) {
+        queryArr.push({
+          value: key,
+          label: value.name
+        })
+      }
+      return queryArr
     }
   },
   computed: {

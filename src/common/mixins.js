@@ -39,6 +39,21 @@ const filterColor = {
     }
   }
 }
+const statusFilterQuery = {
+  methods: {
+    statusFilterQuery(type) {
+      let resault = Object.entries(utils.statusFilterQuery(type));
+      let queryArr = [];
+      for (let [key, value] of resault) {
+        queryArr.push({
+          code: key,
+          name: value.name
+        })
+      }
+      return queryArr
+    }
+  }
+}
 const validateInput = {
   methods: {
     validateNum(val, dataWhere, dataKey) {
@@ -47,4 +62,4 @@ const validateInput = {
     }
   }
 }
-export { scrollBehavior, filterColor, validateInput }
+export { scrollBehavior, filterColor, validateInput, statusFilterQuery }
