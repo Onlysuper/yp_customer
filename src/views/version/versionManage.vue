@@ -236,11 +236,12 @@ export default {
               text: "编辑",
               color: "#3685FD",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.agent_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('agent_edit')
+                // if (this.adminOperationAll.agent_edit == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.uploadDialogVisible = true;
@@ -251,11 +252,12 @@ export default {
             {
               text: "启用",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.agent_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('agent_edit')
+                // if (this.adminOperationAll.agent_edit == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               color: "#3685FD",
               visibleFn: rowdata => {

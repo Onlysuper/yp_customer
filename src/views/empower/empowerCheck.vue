@@ -399,7 +399,7 @@ export default {
               text: "审核",
               visibleFn: rowdata => {
                 if (
-                  this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+                  this.adminFilter('qr_code_reciept_audit_all') &&
                   rowdata.status == "AUDITING" &&
                   rowdata.receiptType == "AUTHCODE"
                 ) {
@@ -428,15 +428,16 @@ export default {
               text: "审核",
               ref: "qr_code_reciept_audit_agent",
               visibleFn: rowdata => {
-                if (
-                  this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
-                  rowdata.status == "AUDITING" &&
-                  rowdata.receiptType == "SCANCODEGUN"
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('qr_code_reciept_audit_all') && rowdata.status == "AUDITING" && rowdata.receiptType == "SCANCODEGUN"
+                // if (
+                //   this.adminOperationAll.qr_code_reciept_audit_all == "TRUE" &&
+                //   rowdata.status == "AUDITING" &&
+                //   rowdata.receiptType == "SCANCODEGUN"
+                // ) {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               color: "#00c1df",
               cb: rowdata => {

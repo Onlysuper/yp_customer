@@ -584,11 +584,12 @@ export default {
               text: "详情",
               color: "#00c1df",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.customer_detail == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('customer_detail')
+                // if (this.adminOperationAll.customer_detail == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.detailsForm = rowdata;
@@ -598,15 +599,18 @@ export default {
             {
               text: "编辑",
               visibleFn: rowdata => {
-                if (
-                  this.adminOperationAll.customer_edit == "TRUE" &&
+                return this.adminFilter('customer_edit') &&
                   (rowdata.agentNo == this.userBussinessNo ||
                     this.userType == "admin")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
+                // if (
+                //   this.adminOperationAll.customer_edit == "TRUE" &&
+                //   (rowdata.agentNo == this.userBussinessNo ||
+                //     this.userType == "admin")
+                // ) {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               color: "#00c1df",
               cb: rowdata => {
@@ -617,11 +621,12 @@ export default {
             {
               text: "转移",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.customer_transfer == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('customer_transfer')
+                // if (this.adminOperationAll.customer_transfer == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               color: "#00c1df",
               cb: rowdata => {

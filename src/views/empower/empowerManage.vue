@@ -844,17 +844,23 @@ export default {
               text: "绑定",
               color: "#67c23a",
               visibleFn: rowdata => {
-                if (
-                  this.adminOperationAll.qrcode_bind == "TRUE" &&
+
+                return this.adminFilter('qrcode_bind') &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "TRUE" &&
                   (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
                     this.adminOperationAll.userType == "admin")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
+                // if (
+                //   this.adminOperationAll.qrcode_bind == "TRUE" &&
+                //   rowdata.deviceType == "AUTHCODE" &&
+                //   rowdata.status == "TRUE" &&
+                //   (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+                //     this.adminOperationAll.userType == "admin")
+                // ) {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 // this.bindForm = rowdata;
@@ -874,7 +880,7 @@ export default {
               color: "#F56C6C",
               visibleFn: rowdata => {
                 if (
-                  this.adminOperationAll.qrcode_unbind == "TRUE" &&
+                  this.adminFilter('qrcode_unbind') &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "BINDED" &&
                   (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
@@ -940,8 +946,9 @@ export default {
               text: "绑定子码",
               color: "#909399",
               visibleFn: rowdata => {
+
                 if (
-                  (this.adminOperationAll.qrcode_bind_child == "TRUE" &&
+                  (this.adminFilter('qrcode_bind_child') &&
                     (rowdata.deviceType == "AUTHCODE" &&
                       rowdata.status == "BINDED" &&
                       rowdata.parentCode == null)) ||

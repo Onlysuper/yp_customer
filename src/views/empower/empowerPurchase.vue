@@ -468,8 +468,9 @@ export default {
             {
               text: "编辑",
               visibleFn: rowdata => {
+
                 if (
-                  this.adminOperationAll.qr_code_reciept_edit == "TRUE" &&
+                  this.adminFilter('qr_code_reciept_edit') &&
                   (rowdata.status == "AUDITING" ||
                     rowdata.status == "REJECT") &&
                   rowdata.receiptType == "SCANCODEGUN"
@@ -489,7 +490,7 @@ export default {
               text: "编辑",
               visibleFn: rowdata => {
                 if (
-                  this.adminOperationAll.qr_code_reciept_edit == "TRUE" &&
+                  this.adminFilter('qr_code_reciept_edit') &&
                   (rowdata.status == "AUDITING" ||
                     rowdata.status == "REJECT") &&
                   rowdata.receiptType == "AUTHCODE"

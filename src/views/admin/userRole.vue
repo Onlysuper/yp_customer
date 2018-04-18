@@ -239,11 +239,12 @@ export default {
               color: "#67C23A",
               text: "编辑",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.role_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('role_edit')
+                // if (this.adminOperationAll.role_edit == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.editForm = rowdata;
@@ -254,11 +255,12 @@ export default {
               text: "配置权限",
               color: "#E6A23C",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.role_privilege_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('role_privilege_edit')
+                // if (this.adminOperationAll.role_privilege_edit == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.roleForm = rowdata;
@@ -282,11 +284,12 @@ export default {
               text: "删除",
               color: "#00c1df",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.role_delete == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('role_delete')
+                // if (this.adminOperationAll.role_delete == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.$confirm("此操作将删除该条管理员数据, 是否继续?", "提示", {
