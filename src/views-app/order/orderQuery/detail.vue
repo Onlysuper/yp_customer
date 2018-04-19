@@ -66,7 +66,6 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Picker from "@src/components-app/SelectPicker/Picker";
-import versionTypeJson from "@src/data/versionType"
 import utils from "@src/common/utils"
 export default {
   components: { Picker },
@@ -83,7 +82,6 @@ export default {
       isAdmin: isAdmin,
       statusObj: {},
       type: {},
-      // versionTypeOptions: versionTypeJson,
       btnDisabled: false,
       pageType: this.$route.query["type"] || "DETAIL",
       dataList: {},

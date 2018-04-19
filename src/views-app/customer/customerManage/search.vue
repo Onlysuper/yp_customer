@@ -5,8 +5,9 @@
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
-import innetSourceQueryJSON from "@src/data/innetSourceQuery.json";
+import { statusFilterQuery } from "@src/common/mixins";
 export default {
+  mixins: [statusFilterQuery],
   components: { SearchPage },
   data() {
     return {
@@ -115,7 +116,11 @@ export default {
         defaultValue: this.searchQuery.customerFrom,
         values:
           [
-            ...innetSourceQueryJSON
+            {
+              name: "全部",
+              code: ""
+            },
+            ...this.statusFilterQuery('customerFrom')
           ],
         cb: value => {
           this.$store.commit("CUSTOMER_MANAGE_SET_SEARCH", {

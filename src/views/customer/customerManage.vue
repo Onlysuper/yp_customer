@@ -320,7 +320,6 @@ import {
   transferCustomer,
   perfectCustomer
 } from "@src/apis";
-import innetSourceQueryJSON from "@src/data/innetSourceQuery.json";
 export default {
   name: "customerlist",
   components: {
@@ -490,9 +489,7 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            ...innetSourceQueryJSON.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            ...this.statusFilterQuery('customerFrom')
           ],
           cb: value => {
             this.searchCondition.customerFrom = value;

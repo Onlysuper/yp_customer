@@ -42,7 +42,6 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Picker from "@src/components-app/SelectPicker/Picker";
-import versionTypeJson from "@src/data/versionType"
 export default {
   components: { Picker },
   data() {
@@ -64,7 +63,6 @@ export default {
           code: "SUCCESS"
         }
       ],
-      // versionTypeOptions: versionTypeJson,
       btnDisabled: false,
       pageType: this.$route.query["type"] || "EDIT",
       dataList: {},
