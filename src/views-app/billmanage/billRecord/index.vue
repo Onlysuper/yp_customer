@@ -14,8 +14,8 @@
         <div slot="btn" @click="toUrl('EDIT',item.billRecordNo)">编辑</div>
         <!-- 状态 -->
         <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.status,'billStatus')">{{item.status | statusFilter('billStatus')}}</mt-badge>
-        <mt-badge v-if="item.invoiceMedia=='PAPERY'?true:false" slot="badge" class="g-min-badge" size="small" type="primary">{{item.billType | statusFilter('billType')}}</mt-badge>
-        <mt-badge v-if="item.invoiceMedia=='ELECTRONIC'?true:false" slot="badge" class="g-min-badge" size="small" type="primary">{{"电票"}}</mt-badge>
+        <mt-badge v-if="item.invoiceMedia=='PAPERY'?true:false" slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.billType,'billType')">{{item.billType | statusFilter('billType')}}</mt-badge>
+        <mt-badge v-if="item.invoiceMedia=='ELECTRONIC'?true:false" slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.billType,'billType')">{{"电票"}}</mt-badge>
         <myp-cell class="list-item" @click="detail(item)">
           <!-- 详情 -->
           <table>
