@@ -222,12 +222,12 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-import { regionData } from "element-china-area-data";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { phoneNumVerify } from "@src/common/regexp";
 import { areaOrgcode } from "@src/common/orgcode";
+import utils from "@src/common/utils";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
@@ -253,7 +253,7 @@ export default {
       addFeatureTypeVisible: false, //新增的产品类型默认隐藏
       editFormVisible: false, // 编辑
       addSubmitBut: true, // 新增提交按钮不可点击
-      optionsArea: regionData, //省市县插件
+      optionsArea: utils.areaPicherOptions(), //省市县数据
       electronicVisible: false, // 电票开通
       wechatVisible: false, //  微信开通暂不支持
       alipayVisible: false, //  支付宝开通暂不支持

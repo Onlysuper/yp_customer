@@ -13,8 +13,10 @@ const mixinsPc = {
   methods: {
     // 设置银行卡号,每四位添加一个空格  
     validateNum(val, dataWhere, dataKey) {
-      let newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
-      this.$set(this.$data[dataWhere], dataKey, newval);
+      if (val) {
+        let newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
+        this.$set(this.$data[dataWhere], dataKey, newval);
+      }
     },
     showDialog(dialogName) {
       // 打开dialog框

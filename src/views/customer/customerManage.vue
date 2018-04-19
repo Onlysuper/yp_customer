@@ -303,14 +303,6 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, phoneNumVerify_r, taxNumVerify_r } from "@src/common/regexp";
-
-import {
-  provinceAndCityData,
-  regionData,
-  CodeToText,
-  TextToCode
-} from "element-china-area-data";
-
 import {
   getCustomers,
   postAddCustomer,

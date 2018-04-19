@@ -39,9 +39,8 @@
       </div>
       <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
-        <!-- <el-cascader :options="optionsArea" v-model="payStatusForm.Area" ref="payStatusForm_area">
-        </el-cascader> -->
-        <city-picher :areaSelected="payStatusForm.Area" @areaChange="areaChange"></city-picher>
+        <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
+        </el-cascader>
       </el-form-item>
       <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
         <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
@@ -109,10 +108,9 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, idCardVerify_r } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
 import { areaOrgcode } from "@src/common/orgcode";
 import utils from "@src/common/utils"
-import CityPicher from "@src/components/CityPicher"
+// import CityPicher from "@src/components/CityPicher"
 import {
   getBankList,
   completeSettleInfo,
@@ -129,7 +127,6 @@ export default {
       type: Object
     }
   },
-  components: { CityPicher },
   mixins: [mixinsPc],
   data() {
     return {
@@ -138,7 +135,7 @@ export default {
       formLabelWidth: "120px",
       bankOptions: banks,
       slotsActions: bussinessTypeJson,
-      optionsArea: regionData, //省市县插件
+      optionsArea: utils.areaPicherOptions(), //省市县数据
       bankCity: "",
       bankCode: "",
       branchBankOptions: [],
@@ -178,7 +175,7 @@ export default {
         // bussinessLicenseEffectiveEnd: [
         //   { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
         // ],
-        Area: [{ required: true, message: "请输入经营区域", trigger: "blur,change" }],
+        Area: [{ required: true, type: 'array', message: "请输入经营区域", trigger: "blur,change" }],
         bussinessAddress: [
           { required: true, message: "请输入详细地址", trigger: "blur,change" }
         ],
