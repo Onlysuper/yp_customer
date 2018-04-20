@@ -57,7 +57,7 @@
   height: 100%;
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
-  z-index: 999;
+  // z-index: 999;
   .logo-box {
     // width: 220px;
     width: 100%;
@@ -104,7 +104,7 @@
     height: 100%;
     width: 100%;
     display: flex;
-    overflow: hidden;
+    // overflow: hidden;
   }
   .scroll-view {
     width: 100%;
