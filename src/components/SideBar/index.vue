@@ -2,7 +2,7 @@
   <!-- layout 左侧菜单区域 -->
   <div class="aside-box">
     <div class="scroll-view-box">
-      <el-menu :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+      <el-menu :collapse-transition='true' popper-class="menu-active" background-color="#001529" :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#878d99" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
         <div :class="'logo-box'" ref="logoBox">
           <div class="img-box">
             <img :src="require('@src/assets/images/logoSmall.png')" alt="">
@@ -12,10 +12,10 @@
           </h1>
         </div>
         <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
-          <el-submenu popper-class="menu-active" background-color="red" v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
+          <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
-              <span slot="title">{{item.menuName}}</span>
+              <span v-if="!isCollapse" slot="title">{{item.menuName}}</span>
             </template>
             <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
               {{item2.menuName}}
@@ -25,33 +25,10 @@
       </el-menu>
     </div>
   </div>
-  <!-- </div> -->
   <!-- 左侧菜单 -->
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
-.menu-active {
-  li {
-    background: #000c17;
-    &:hover {
-      background: #00c1df;
-      color: #fff;
-    }
-  }
-}
-.el-menu-vertical:not(.el-menu--collapse) {
-  min-height: 400px;
-  width: 230px;
-  position: relative;
-  height: 100%;
-}
-
-.my-transition(@attr) {
-  transition: @attr 0.8s;
-  -moz-transition: @attr 0.8s;
-  -webkit-transition: @attr 0.8s;
-  -o-transition: @attr 0.8s;
-}
+<style lang='scss'>
 .aside-box {
   position: relative;
   height: 100%;
@@ -59,9 +36,7 @@
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
   z-index: 999;
   .logo-box {
-    // width: 220px;
     width: 100%;
-    // min-width: 66px;
     overflow: hidden;
     display: flex;
     justify-content: start;
@@ -104,94 +79,78 @@
     height: 100%;
     width: 100%;
     display: flex;
-    overflow: hidden;
-  }
-  .scroll-view {
-    width: 100%;
-    top: 60px;
-    position: absolute;
-    bottom: 0px;
+    .scroll-view {
+      width: 100%;
+      top: 60px;
+      position: absolute;
+      bottom: 0px;
+    }
   }
 
   /*重置样式 start*/
-  .el-dropdown-link {
-    cursor: pointer;
+  // .el-dropdown-link {
+  //   cursor: pointer;
+  // }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    min-height: 400px;
+    width: 220px;
+    position: relative;
+    height: 100%;
   }
   .el-menu {
     border-right: 0;
-    background: #001529 !important;
     .el-submenu__title {
-      color: #878d99 !important;
+      text-indent: 10px;
+      padding-left: 8px !important;
+      i {
+        padding-right: 8px;
+      }
       &:hover {
+        background: transparent !important;
         color: #fff !important;
-        .my-transition(color);
         .icon {
           color: #fff !important;
-          .my-transition(color);
         }
       }
     }
     .icon {
-      // padding-right: 12px;
-      font-size: 26px;
+      font-size: 30px;
     }
-  }
-  // .el-menu-vertical:not(.el-menu--collapse) {
-  //   min-height: 400px;
-  //   position: relative;
-  // }
-  .icon-statistical_manage {
-    &::before {
-      display: inline-block;
-      transform: translateX(2px);
+    .menu-active {
+      li {
+        background: #00c1df;
+        &:hover,
+        &:focus {
+          background: #00c1df;
+          color: #fff;
+        }
+      }
     }
-  }
-  .el-submenu__title:hover {
-    background: transparent !important;
-  }
-  .el-menu--collapse {
-    .el-submenu:hover {
+
+    .el-menu--collapse {
+      .el-submenu:hover {
+        background: #000c17 !important;
+      }
+      .icon {
+        padding-right: 17px;
+      }
+    }
+    .el-menu-item {
       background: #000c17 !important;
-    }
-    .icon {
-      padding-right: 17px;
-    }
-  }
-  // .el-submenu
-  .el-menu-item {
-    background: #000c17 !important;
-    color: #878d99 !important;
-    text-indent: 18px;
-    &:hover {
-      color: #fff !important;
-      transition: color 0.8s;
-      .my-transition(color);
-    }
-    &.is-active {
-      background: #00c1df !important;
-      color: #fff !important;
-      .my-transition(color);
+      color: #878d99 !important;
+      text-indent: 18px;
+      &:hover {
+        color: #fff !important;
+        transition: color 0.8s;
+      }
+      &.is-active {
+        background: #00c1df !important;
+        color: #fff !important;
+      }
     }
   }
   // 重置样式end
 }
-
-@media screen and (max-width: 500px) {
-  .aside-box {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 500px) {
-  .sidebar-box {
-    position: relative;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    background: #000c17;
-  }
-}
-// }
 </style>
 
 <script>
