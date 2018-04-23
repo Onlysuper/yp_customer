@@ -27,6 +27,7 @@
               <myp-tr title="企业税号">{{item.taxNo}}</myp-tr>
               <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
               <myp-tr title="入网时间">{{item.createTime}}</myp-tr>
+              <myp-tr title="手机号码">{{item.phoneNo}}</myp-tr>
             </table>
             <!-- 更多操作 -->
             <div slot="right" @click="operation(item)">更多</div>

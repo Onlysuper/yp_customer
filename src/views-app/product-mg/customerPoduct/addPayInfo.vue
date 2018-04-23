@@ -14,6 +14,12 @@
             <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
             <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field label="身份证号:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
+            <mt-field class="addpay-long-title" label="身份证生效时间:" type="text" v-model="form.idNoEffectiveBegin" @click.native="$refs.idNoEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
+            <mt-field class="addpay-long-title" label="身份证截止时间:" type="text" v-model="form.idNoEffectiveEnd" @click.native="$refs.idNoEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+              <i class="icon-arrow"></i>
+            </mt-field>
             <mt-field label="邮箱:" type="email" @change="cacheFrom" v-model="form.contactEmail" placeholder="接收开通信息（必填）" :attr="{maxlength:50}"></mt-field>
             <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
@@ -53,6 +59,8 @@
     <bank-search-popup v-model="bankSearchVisible" :api="bankSearchApi" :queryKey="bankBranchQuery" @bankrsearchresult="bankRsearchResult"></bank-search-popup>
     <mt-datetime-picker v-model="bussinessLicenseEffectiveBeginVal" type="date" :startDate="new Date('2000-01-01')" :endDate="new Date()" @confirm="setStartDate" ref="bussinessLicenseEffectiveBegin" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
     <mt-datetime-picker v-model="bussinessLicenseEffectiveEndVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setEndDate" ref="bussinessLicenseEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+    <mt-datetime-picker v-model="idNoEffectiveBeginVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setstartDate_Idcar" ref="idNoEffectiveBegin" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
+    <mt-datetime-picker v-model="idNoEffectiveEndVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setEndDate_Idcar" ref="idNoEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
   </div>
 </template>
 
@@ -97,6 +105,8 @@ export default {
         legalPerson: "",
         bussinessLicenseEffectiveBegin: "",
         bussinessLicenseEffectiveEnd: "",
+        idNoEffectiveBegin: "",
+        idNoEffectiveEnd: "",
         accountNo: ""
       },
       city: {},
@@ -110,7 +120,9 @@ export default {
       bussinessType: { name: "", code: "" },
       customerNo: this.$route.query["customerNo"],
       bussinessLicenseEffectiveBeginVal: new Date(),
-      bussinessLicenseEffectiveEndVal: new Date()
+      bussinessLicenseEffectiveEndVal: new Date(),
+      idNoEffectiveBeginVal: new Date(),
+      idNoEffectiveEndVal: new Date(),
     };
   },
 
@@ -156,6 +168,11 @@ export default {
         bussinessLicenseEffectiveBegin && this.setStartDate(new Date(bussinessLicenseEffectiveBegin));
         let bussinessLicenseEffectiveEnd = cacheForm.bussinessLicenseEffectiveEnd || customer.bussinessLicenseEffectiveEnd;
         bussinessLicenseEffectiveEnd && this.setEndDate(new Date(bussinessLicenseEffectiveEnd));
+
+        let idNoEffectiveBegin = cacheForm.idNoEffectiveBegin || customer.idNoEffectiveBegin;
+        idNoEffectiveBegin && this.setEndDate(new Date(idNoEffectiveBegin));
+        let idNoEffectiveEnd = cacheForm.idNoEffectiveEnd || customer.idNoEffectiveEnd;
+        idNoEffectiveEnd && this.setEndDate(new Date(idNoEffectiveEnd));
         // this.form.contactEmail = cacheForm.contactEmail || customer.contactEmail;
         this.form.contactEmail = customer.contactEmail;
         let category = cacheForm.category || customer.category;
@@ -239,6 +256,16 @@ export default {
     setEndDate(date) {
       this.form.bussinessLicenseEffectiveEnd = utils.formatDate(date, "yyyy-MM-dd");
       this.bussinessLicenseEffectiveEndVal = date;
+      this.cacheFrom(); //缓存数据
+    },
+    setstartDate_Idcar(date) {
+      this.form.idNoEffectiveBegin = utils.formatDate(date, "yyyy-MM-dd");
+      this.idNoEffectiveBeginVal = date;
+      this.cacheFrom(); //缓存数据
+    },
+    setEndDate_Idcar(date) {
+      this.form.idNoEffectiveEnd = utils.formatDate(date, "yyyy-MM-dd");
+      this.idNoEffectiveEndVal = date;
       this.cacheFrom(); //缓存数据
     },
     sendParams() {

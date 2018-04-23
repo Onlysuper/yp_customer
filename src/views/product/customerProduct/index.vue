@@ -589,15 +589,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
-                  isAdmin || !isBranchOffice
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              disabledFn: rowdata => {
-                if (
+                  (isAdmin || !isBranchOffice) &&
                   rowdata.payStatus == "INIT" ||
                   rowdata.payStatus == "WAITING_SUBMIT" ||
                   rowdata.payStatus == "REJECT" ||
@@ -608,11 +600,28 @@ export default {
                   rowdata.elecStatus == "REJECT" ||
                   rowdata.elecStatus == "FALSE"
                 ) {
-                  return false;
-                } else {
                   return true;
+                } else {
+                  return false;
                 }
               },
+              // disabledFn: rowdata => {
+              //   if (
+              //     rowdata.payStatus == "INIT" ||
+              //     rowdata.payStatus == "WAITING_SUBMIT" ||
+              //     rowdata.payStatus == "REJECT" ||
+              //     rowdata.payStatus == "FALSE" ||
+              //     rowdata.qrcodeStatus == "INIT" ||
+              //     rowdata.qrcodeStatus == "FALSE" ||
+              //     rowdata.elecStatus == "INIT" ||
+              //     rowdata.elecStatus == "REJECT" ||
+              //     rowdata.elecStatus == "FALSE"
+              //   ) {
+              //     return false;
+              //   } else {
+              //     return true;
+              //   }
+              // },
               cb: rowdata => {
                 this.resaultData = rowdata;
                 this.openProduct('payStatus');

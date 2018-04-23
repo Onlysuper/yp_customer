@@ -7,7 +7,7 @@
       <div class="mint-searchbar">
         <a @click="close" class="mint-searchbar-cancel">取消</a>
         <div class="mint-searchbar-inner">
-          <input v-focus="visible" placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
+          <input v-focus="true" placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
         <span class="searchbut" @click="searchHandle">
           <i class="mintui mintui-search"></i>
         </span>
@@ -47,12 +47,12 @@ export default {
   },
   directives: {
     focus: {
+      inserted: function (el) {
+        el.focus()
+      },
       // 指令的定义
       componentUpdated: (el, binding) => {
-        // if (binding.value) {
-        console.log('聚焦');
         el.focus()
-        // }
       },
       inserted: (el, binding) => {
         // if (binding.value) {
@@ -165,7 +165,7 @@ export default {
     background-color: rgba(255, 255, 255, 1);
     transition: opacity 0.5s;
     top: 50px;
-    bottom: 0;
+    // bottom: 0;
   }
 
   .input-bg {
@@ -191,15 +191,15 @@ export default {
   }
 
   .show {
-    // top: 50px;
-    // bottom: 0%;
-    // opacity: 1;
-    display: block;
+    top: 50px;
+    bottom: 0%;
+    opacity: 1;
+    // display: block;
   }
   .hide {
-    // top: -100%;
-    // opacity: 0;
-    display: none;
+    top: -100%;
+    opacity: 0;
+    // display: none;
   }
 
   .no-search {

@@ -2,7 +2,7 @@
   <!-- layout 左侧菜单区域 -->
   <div class="aside-box">
     <div class="scroll-view-box">
-      <el-menu :collapse-transition='true' popper-class="menu-active" background-color="#001529" :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#878d99" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+      <el-menu :collapse-transition='true' popper-class="myp-menu-active" background-color="#001529" :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#878d99" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
         <div :class="'logo-box'" ref="logoBox">
           <div class="img-box">
             <img :src="require('@src/assets/images/logoSmall.png')" alt="">
@@ -34,7 +34,7 @@
   height: 100%;
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
-  z-index: 999;
+  z-index: 1000;
   .logo-box {
     width: 100%;
     overflow: hidden;
@@ -88,22 +88,33 @@
   }
 
   /*重置样式 start*/
-  // .el-dropdown-link {
-  //   cursor: pointer;
-  // }
   .el-menu-vertical:not(.el-menu--collapse) {
-    min-height: 400px;
+    /*设置宽度才会有缓动动画*/
     width: 220px;
+    min-height: 400px;
     position: relative;
     height: 100%;
   }
+  .myp-menu-active {
+    li {
+      background: #00c1df;
+      &:hover,
+      &:focus {
+        background: #00c1df;
+        color: #fff;
+      }
+    }
+  }
   .el-menu {
     border-right: 0;
+    .el-dropdown-link {
+      cursor: pointer;
+    }
     .el-submenu__title {
       text-indent: 10px;
       padding-left: 8px !important;
       i {
-        padding-right: 8px;
+        padding-right: 5px;
       }
       &:hover {
         background: transparent !important;
@@ -115,16 +126,6 @@
     }
     .icon {
       font-size: 30px;
-    }
-    .menu-active {
-      li {
-        background: #00c1df;
-        &:hover,
-        &:focus {
-          background: #00c1df;
-          color: #fff;
-        }
-      }
     }
 
     .el-menu--collapse {

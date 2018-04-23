@@ -400,6 +400,17 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
+        // {
+        //   corresattr: "phoneNo",
+        //   type: "text", // 表单类型
+        //   label: "手机号", // 输入框前面的文字
+        //   show: true, // 普通搜索显示
+        //   value: "", // 表单默认的内容
+        //   cb: value => {
+        //     // 表单输入之后回调函数
+        //     this.searchCondition.phoneNo = value;
+        //   }
+        // },
 
         {
           corresattr: "enterpriseName",
@@ -537,8 +548,13 @@ export default {
           },
           {
             key: "联系人",
-            width: "80px",
+            width: "100px",
             word: "linkMan"
+          },
+          {
+            key: "手机号",
+            width: "120px",
+            word: "phoneNo"
           },
           {
             key: "合伙人编号",
@@ -552,7 +568,6 @@ export default {
             status: true,
             type: data => {
               return this.statusFilter(data, 'customerFrom')
-
             }
           },
           {

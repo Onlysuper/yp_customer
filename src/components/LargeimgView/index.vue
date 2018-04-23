@@ -407,7 +407,7 @@ export default {
         this.downloadName = imgalt;
       })
       this.showImgNow();
-      // this.setImgMiddle();
+      this.setImgMiddle();
     },
     showImgNow() {
       this.$nextTick(item => {
@@ -415,7 +415,7 @@ export default {
         let imgId = img.attr("id");
         this.idcardVisible = false;
         this.accountNoVisible = false;
-        if (imgId == "identityHolderImg" || imgId == "identityFrontImg" || imgId == "identityBackImg") {
+        if (imgId == "identityHolderImg" || imgId == "identityBackImg") {
           this.idcardVisible = true
         }
         if (imgId == "settleCardImg") {

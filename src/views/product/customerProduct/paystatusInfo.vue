@@ -12,57 +12,67 @@
         <el-input :disabled="true" v-model="payStatusForm.bussinessName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
+        <el-input @change="setCache" v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
       </el-form-item>
 
       <el-form-item class="is-required" label="身份证号" prop="idCard" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.idCard" auto-complete="off"></el-input>
+        <el-input @change="setCache" v-model="payStatusForm.idCard" auto-complete="off"></el-input>
       </el-form-item>
+      <div class="timestartandend-box">
+        <el-form-item class="" label="身份证有效期" prop="idNoEffectiveBegin" :label-width="formLabelWidth">
+          <el-date-picker @change="setCache" value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.idNoEffectiveBegin" type="date" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item class="full-width" label="至" prop="idNoEffectiveEnd" label-width="50px">
+          <el-date-picker @change="setCache" value-format="yyyy-MM-dd" v-model="payStatusForm.idNoEffectiveEnd" type="date" placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>
+      </div>
       <el-form-item label="邮箱" prop="contactEmail" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
+        <el-input @change="setCache" v-model="payStatusForm.contactEmail" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="行业类型" prop="category" :label-width="formLabelWidth">
-        <el-select size="small" v-model="payStatusForm.category" placeholder="请选择">
+        <el-select @change="setCache" size="small" v-model="payStatusForm.category" placeholder="请选择">
           <el-option v-for="item in slotsActions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
       </el-form-item>
-      <div class="bussinessLicense-box">
+      <div class="timestartandend-box">
         <el-form-item class="" label="营业执照期限" prop="bussinessLicenseEffectiveBegin" :label-width="formLabelWidth">
-          <el-date-picker value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.bussinessLicenseEffectiveBegin" type="date" placeholder="选择日期">
+          <el-date-picker @change="setCache" value-format="yyyy-MM-dd" class="full-width" v-model="payStatusForm.bussinessLicenseEffectiveBegin" type="date" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
         <el-form-item class="full-width" label="至" prop="bussinessLicenseEffectiveEnd" label-width="50px">
-          <el-date-picker value-format="yyyy-MM-dd" v-model="payStatusForm.bussinessLicenseEffectiveEnd" type="date" placeholder="选择日期">
+          <el-date-picker @change="setCache" value-format="yyyy-MM-dd" v-model="payStatusForm.bussinessLicenseEffectiveEnd" type="date" placeholder="选择日期">
           </el-date-picker>
         </el-form-item>
       </div>
       <!-- 以上为新加内容 -->
       <el-form-item class="full-width" prop="Area" label="所在地区">
-        <el-cascader :options="optionsArea" v-model="payStatusForm.Area">
+        <el-cascader @change="setCache" :options="optionsArea" v-model="payStatusForm.Area">
         </el-cascader>
       </el-form-item>
       <el-form-item label="详细地址" prop="bussinessAddress" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
+        <el-input @change="setCache" v-model="payStatusForm.bussinessAddress" auto-complete="off"></el-input>
       </el-form-item>
 
       <el-form-item class="full-width" label="账户类型" prop="accountType" :label-width="formLabelWidth">
-        <el-select size="small" v-model="payStatusForm.accountType" placeholder="请选择">
+        <el-select @change="setCache" size="small" v-model="payStatusForm.accountType" placeholder="请选择">
           <el-option v-for="item in selectOptions.accountTypeOptions" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
-        <el-input :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
+        <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
-        <el-input @input="validateNum($event,'payStatusForm','accountNo')" v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
+        <el-input @change="setCache" @input="validateNum($event,'payStatusForm','accountNo')" v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="预留手机号" prop="reservedPhoneNo" :label-width="formLabelWidth">
-        <el-input v-model="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
+        <el-input @change="setCache" v-model="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-        <el-select filterable @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
+        <el-select @change="setCache" filterable @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">
           <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
           </el-option>
         </el-select>
@@ -73,7 +83,7 @@
       </el-form-item>
       <el-form-item class="full-width" prop="unionCode" label="选择支行">
         <el-input v-if="branchNameVisible" v-model="payStatusForm.branchName" auto-complete="off"></el-input>
-        <el-select filterable v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
+        <el-select @change="setCache" filterable v-if="bankAreaVisible" prop="unionCode" v-model="payStatusForm.unionCode" clearable placeholder="请选择">
           <el-option v-for="item in branchBankOptions" :key="item.branchName" :label="item.branchName" :value="item.unionCode">
           </el-option>
         </el-select>
@@ -92,7 +102,7 @@
   .dialog-footer {
     text-align: center;
   }
-  .bussinessLicense-box {
+  .timestartandend-box {
     display: flex;
   }
   .full-width {
@@ -130,6 +140,7 @@ export default {
   mixins: [mixinsPc],
   data() {
     return {
+      cacheForm: "",
       accountNameDis: true,
       currentChildView: "",
       formLabelWidth: "120px",
@@ -161,6 +172,8 @@ export default {
         customerType: this.customerTypeSelected[0].value,
         bussinessLicenseEffectiveBegin: "",
         bussinessLicenseEffectiveEnd: "",
+        idNoEffectiveBegin: "",
+        idNoEffectiveEnd: "",
         category: "",
         accountType: "",
         bankCode: "",
@@ -169,22 +182,28 @@ export default {
         bankArea: [] // 必须为数组
       },
       payStatusFormRules: {
+        idNoEffectiveBegin: [
+          { required: true, message: "请选择身份证有效期开始时间", trigger: "blur,change" }
+        ],
+        idNoEffectiveEnd: [
+          { required: true, message: "请选择身份证有效期结束时间", trigger: "blur,change" }
+        ],
         bussinessLicenseEffectiveBegin: [
           { required: true, message: "请选择经营执照开始时间", trigger: "blur,change" }
         ],
-        // bussinessLicenseEffectiveEnd: [
-        //   { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
-        // ],
+        bussinessLicenseEffectiveEnd: [
+          { required: true, message: "请选择经营执照结束时间", trigger: "blur,change" }
+        ],
         Area: [{ required: true, type: 'array', message: "请输入经营区域", trigger: "blur,change" }],
         bussinessAddress: [
-          { required: true, message: "请输入详细地址", trigger: "blur,change" }
+          { required: true, message: "请输入详细地址", trigger: "blur" }
         ],
         legalPerson: [
           { required: true, message: "请输入法人名称", trigger: "blur,change" }
         ],
         contactEmail: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur,change" },
-          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'change' }
         ],
         idCard: [
           { validator: idCardVerify_r, trigger: "blur,change" }
@@ -251,6 +270,7 @@ export default {
           // console.log(payStatusForm);
           let newRow = utils.pickObj(payStatusForm, [
             'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+            'idNoEffectiveBegin', 'idNoEffectiveEnd',
             'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
             'reservedPhoneNo',
             'unionCode',
@@ -273,6 +293,7 @@ export default {
           completeSettleInfo()({ ...sendata }).then(data => {
             if (data.code === "00") {
               // 下一步
+              this.clearCache();
               this.$emit("nextFn", "paystatusGoods");
             } else {
               this.$message({
@@ -290,6 +311,7 @@ export default {
       //选择银行区域
       this.bankCity = value[2] || value[1] || value[0];
       this.getBankListHandle();
+      this.setCache();
     },
     banksChange(value) {
       // 选择所属银行
@@ -336,6 +358,7 @@ export default {
         customerNo: this.rowData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
+        this.getCache();
         if (res.code == "00") {
           let customerData = res.data.customer;
           let settleCard = res.data.settleCard;
@@ -346,6 +369,7 @@ export default {
           let newCustomer = utils.pickObj(customerData, [
             'enterpriseName', 'taxNo',
             'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+            'idNoEffectiveBegin', 'idNoEffectiveEnd',
             'bussinessAddress', 'legalPerson', 'idCard', 'category',
             'contactEmail', "bussinessName"
           ]);
@@ -365,7 +389,11 @@ export default {
             // this.accountNameDis = false;
             this.accountNameDis = true;
           }
-          this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard }
+          this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard };
+          this.payStatusForm = Object.assign(this.payStatusForm, this.cacheForm);
+          this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
+        } else {
+          this.payStatusForm = Object.assign({}, this.cacheForm);
           this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
         }
       });
@@ -384,6 +412,17 @@ export default {
         // this.accountNameDis = false;
         this.accountNameDis = true;
       }
+    },
+    getCache() {
+      this.cacheForm = JSON.parse(window.localStorage.getItem('productForm_pc' + this.bussinessNo)) || {};
+      // return JSON.parse(window.localStorage.getItem('productForm_pc' + this.bussinessNo)) || {};
+    },
+    setCache() {
+      console.log(this.payStatusForm);
+      window.localStorage.setItem('productForm_pc' + this.bussinessNo, JSON.stringify(this.payStatusForm));
+    },
+    clearCache() {
+      window.localStorage.removeItem('productForm_pc' + this.bussinessNo);
     }
   },
   created() {
@@ -392,6 +431,9 @@ export default {
   computed: {
     accountType() {
       return this.payStatusForm.accountType
+    },
+    bussinessNo() {
+      return this.rowData.bussinessNo
     }
   },
   watch: {
