@@ -15,6 +15,7 @@
           <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
+              <!-- <span v-if="!isCollapse" slot="title">{{item.menuName}}</span> -->
               <span v-if="!isCollapse" slot="title">{{item.menuName}}</span>
             </template>
             <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
@@ -86,7 +87,17 @@
       bottom: 0px;
     }
   }
-
+  .el-menu--collapse {
+    .el-submenu:hover {
+      background: #000c17 !important;
+    }
+    .el-submenu__icon-arrow {
+      display: none;
+    }
+    .icon {
+      padding-right: 17px;
+    }
+  }
   /*重置样式 start*/
   .el-menu-vertical:not(.el-menu--collapse) {
     /*设置宽度才会有缓动动画*/
@@ -126,15 +137,6 @@
     }
     .icon {
       font-size: 30px;
-    }
-
-    .el-menu--collapse {
-      .el-submenu:hover {
-        background: #000c17 !important;
-      }
-      .icon {
-        padding-right: 17px;
-      }
     }
     .el-menu-item {
       background: #000c17 !important;

@@ -5,14 +5,17 @@
       <div class="user-name">{{$store.state.userInfoAndMenu.userMessage.realname}}</div>
     </div>
     <mt-cell class="border-bottom-1px _av" title="个人信息" is-link @click.native="$router.push({path:'./userInfo'})">
-      <i slot="icon" class="icon mintui-info2"></i>
+      <i slot="icon" class="iconfont icon-geren11"></i>
+      <!-- <i slot="icon" class="icon mintui-info2"></i> -->
     </mt-cell>
     <!-- is-link to="" -->
     <mt-cell class="border-bottom-1px _av" title="密码修改" is-link @click.native="$router.push({path:'./repass'})">
-      <i slot="icon" class="icon mintui-policy"></i>
+      <i slot="icon" class="iconfont icon-Password"></i>
+      <!-- <i slot="icon" class="icon mintui-policy"></i> -->
     </mt-cell>
     <mt-cell class="_av" title="退出" @click.native="logout">
-      <i slot="icon" class="icon mintui-policy"></i>
+      <i slot="icon" class="iconfont icon-tuichu"></i>
+      <!-- <i slot="icon" class="icon mintui-policy"></i> -->
     </mt-cell>
   </div>
 </template>
@@ -61,5 +64,16 @@ export default {
   text-align: center;
   font-size: 35*$rem;
   margin-top: 20*$rem;
+}
+.iconfont {
+  position: relative;
+  width: 50*$rem;
+  display: inline-block;
+  &::before {
+    // position: absolute;
+    left: 0;
+  }
+  padding-right: 10*$rem;
+  font-size: 36*$rem;
 }
 </style>

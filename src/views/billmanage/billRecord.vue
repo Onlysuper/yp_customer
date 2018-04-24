@@ -143,21 +143,22 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="公司电话" prop="companyPhone" :label-width="formLabelWidth">
-                <el-input v-model="editForm.companyPhone" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
               <el-form-item label="销方名称" prop="bussinessName" :label-width="formLabelWidth">
                 <el-input v-model="editForm.bussinessName" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="发票金额" prop="billAmount" :label-width="formLabelWidth">
+                <el-input v-model="editForm.billAmount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
         </el-row>
-        <el-form-item label="发票金额" prop="billAmount" :label-width="formLabelWidth">
-          <el-input v-model="editForm.billAmount" auto-complete="off"></el-input>
+
+        <el-form-item label="公司电话" prop="companyPhone" :label-width="formLabelWidth">
+          <el-input v-model="editForm.companyPhone" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
