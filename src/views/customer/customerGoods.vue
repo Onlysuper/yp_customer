@@ -32,10 +32,10 @@
         <el-form-item label="统一编码" prop="unionNo" :label-width="formLabelWidth">
           <el-input v-model="addForm.unionNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="一级名称" prop="goodsFirstType" :label-width="formLabelWidth">
+        <el-form-item label="商品类别简称" prop="goodsFirstType" :label-width="formLabelWidth">
           <el-input v-model="addForm.goodsFirstType" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="标准名称" prop="goodsType" :label-width="formLabelWidth">
+        <el-form-item label="商品类别名称" prop="goodsType" :label-width="formLabelWidth">
           <el-input v-model="addForm.goodsType" auto-complete="off"></el-input>
         </el-form-item>
         <el-row>

@@ -10,8 +10,8 @@
         <template v-if="pageType == 'ADD'">
           <mt-field @click.native="$refs.searchList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
           <mt-field type="text" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
-          <mt-field type="text" label="一级名称" placeholder="请输入一级名称" v-model="good.goodsFirstType"></mt-field>
-          <mt-field type="text" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
+          <mt-field type="text" label="商品类别简称" placeholder="请输入商品类别简称" v-model="good.goodsFirstType"></mt-field>
+          <mt-field type="text" label="商品类别名称" placeholder="请输入商品类别名称" v-model="good.goodsType"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
             <i class="icon-arrow"></i>
           </mt-field>
@@ -219,8 +219,6 @@ export default {
         return false;
       }
       let sendata = { ...this.good };
-      console.log(sendata);
-      // return false;
       this.btnDisabled = true;
       this.addGood({ ...sendata }).then(flag => {
         this.btnDisabled = false;
