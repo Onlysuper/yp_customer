@@ -277,7 +277,10 @@ export default {
             'bankCode',
             'contactEmail'
           ]);
-          newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
+          // newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
+          for (var i in newRow) {
+            newRow[i] = newRow[i].replace(/\s/g, '');
+          }
           let sendata = {
             customerNo: this.rowData.bussinessNo,
             orgCode:

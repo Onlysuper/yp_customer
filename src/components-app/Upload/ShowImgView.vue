@@ -1,7 +1,7 @@
 <template>
   <div class="upload-view">
     <div class="upload-view-btn">
-      <img v-if="base64" :src="base64" :imgId="imgId" alt="">
+      <img v-if="base64" :src="base64" alt="">
       <i v-if="!base64" class="icon-camera icon"></i>
     </div>
     <span>{{label}}</span>

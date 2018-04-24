@@ -295,6 +295,9 @@ export default {
       form.accountNo = form.accountNo.replace(/\s/g, '');
       // console.log(form);
       // this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
+      for (var i in form) {
+        form[i] = form[i].replace(/\s/g, '');
+      }
       completeSettleInfo()(form).then(data => {
         if (data.code == "00") {
           this.clearcacheFrom();
