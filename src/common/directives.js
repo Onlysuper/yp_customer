@@ -123,18 +123,25 @@ mypDirective.install = function (Vue, options) {
                 if (sty.left.includes('%')) {
                     styL = +document.body.clientWidth * (+sty.left.replace(/\%/g, '') / 100);
                     styT = +document.body.clientHeight * (+sty.top.replace(/\%/g, '') / 100);
+                } else if (sty.left == 'auto') {
+                    styL = 0;
+                    styT = 0;
                 } else {
                     styL = +sty.left.replace(/\px/g, '');
                     styT = +sty.top.replace(/\px/g, '');
                 };
-
                 document.onmousemove = function (e) {
                     // 通过事件委托，计算移动的距离 
                     const l = e.clientX - disX;
                     const t = e.clientY - disY;
                     // 移动当前元素  
+                    console.log('t:');
+                    console.log(t);
+                    console.log('styT:');
+                    console.log(styT);
                     dragDom.style.left = `${l + styL}px`;
                     dragDom.style.top = `${t + styT}px`;
+                    console.log(`${t + styT}px`);
                     //将此时的位置传出去
                     //binding.value({x:e.pageX,y:e.pageY})
                 };
