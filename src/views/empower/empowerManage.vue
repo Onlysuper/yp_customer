@@ -254,7 +254,7 @@
     </el-dialog>
     <!-- 绑定end -->
     <!-- 详情 start -->
-    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
+    <el-dialog v-dialogDrag title="详情" center :visible.sync="detailsFormVisible" width="400px">
       <div class="detail-content">
         <div class="line-label-box cross-back">
           <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
