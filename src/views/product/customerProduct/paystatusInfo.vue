@@ -255,9 +255,16 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           let payStatusForm = this.payStatusForm;
-          let bankName = this.bankOptions.find(
+          let bankName = "";
+          if (this.bankOptions.find(
             r => r.code == payStatusForm.bankCode
-          ).name;
+          )) {
+            bankName = this.bankOptions.find(
+              r => r.code == payStatusForm.bankCode
+            ).name
+          } else {
+            bankName = payStatusForm.bankName
+          }
           let branchName = "";
           if (this.branchBankOptions.length == 0) {
             branchName = payStatusForm.branchName;
@@ -417,8 +424,11 @@ export default {
       }
     },
     getCache() {
-      this.cacheForm = JSON.parse(window.localStorage.getItem('productForm_pc' + this.bussinessNo)) || {};
-      // return JSON.parse(window.localStorage.getItem('productForm_pc' + this.bussinessNo)) || {};
+      try {
+        this.cacheForm = JSON.parse(window.localStorage.getItem('productForm_pc' + this.bussinessNo)) || {};
+      } catch (e) {
+        console.log('error：暂无cache');
+      }
     },
     setCache() {
       console.log(this.payStatusForm);
