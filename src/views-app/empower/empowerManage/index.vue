@@ -27,7 +27,9 @@
               <!-- <myp-tr title="日期">{{item.dataTime}}</myp-tr> -->
               <myp-tr title="批次号">{{item.batchNo}}</myp-tr>
               <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
-              <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
+              <myp-tr title="商户编号">
+                <span @click="customerDedaile(item.customerNo)">{{item.customerNo}}</span>
+              </myp-tr>
               <myp-tr title="序列号">{{item.qrcode}}</myp-tr>
               <myp-tr title="授权码">{{item.authCode}}</myp-tr>
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
@@ -42,29 +44,21 @@
     </full-page>
     <!-- 更多操作 -->
     <mt-actionsheet :actions="actions" v-model="sheetVisible" cancelText="取消"></mt-actionsheet>
+    <detail ref="detail"></detail>
   </div>
 </template>
-<style lang="scss" scoped>
-// @media screen and (max-width: 500px) {
-//   .empower-page {
-//     td {
-//       width: 300px !important;
-//     }
-//   }
-// }
-</style>
 
 <script>
 import { Toast } from "mint-ui";
 import SliderNav from "@src/components-app/SliderNav";
-import { getArantNumManages, postUnBindEmpower } from "@src/apis";
+import { getArantNumManages, postUnBindEmpower, getCustomers } from "@src/apis";
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import { mapState, mapActions } from "vuex";
 import { scrollBehavior, filterColor } from "@src/common/mixins";
-// import edit from "./edit";
+import detail from "./detail";
 export default {
   mixins: [scrollBehavior, filterColor],
-  components: { SliderNav, MypPopupActions },
+  components: { SliderNav, MypPopupActions, detail },
   data() {
     return {
       munes: this.$store.state.userInfoAndMenu.menuList[
@@ -122,6 +116,25 @@ export default {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   methods: {
+    customerDedaile(customerNo) {
+      getCustomers()({
+        page: 1,
+        limit: 10,
+        customerNo: customerNo,
+        taxNo: "",
+        enterpriseName: "",
+        createTimeStart: "",
+        createTimeEnd: "",
+        agentNo: "",
+        customerFrom: "",
+        containChild: ''
+      }).then((res) => {
+        if (res.code == '00') {
+          let detailsForm = res.data[0];
+          this.$refs.detail.open(detailsForm);
+        }
+      })
+    },
     test() {
       this.$refs.MypLoadmoreApi.load(this.searchQuery);
     },

@@ -236,6 +236,7 @@
       </div>
     </el-dialog>
     <!-- 绑定end -->
+
     <!-- 绑定子码 start -->
     <el-dialog center title="绑定子码" :visible.sync="bindChildFormVisible">
       <el-form size="small" :model="bindChildForm" ref="bindChildForm" :rules="bindChildFormRules">
@@ -252,6 +253,44 @@
       </div>
     </el-dialog>
     <!-- 绑定end -->
+    <!-- 详情 start -->
+    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
+      <div class="detail-content">
+        <div class="line-label-box cross-back">
+          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">企业法人:</span>{{detailsForm.legalPerson}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">身份证:</span>{{detailsForm.idCard}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">联系人:</span>{{detailsForm.linkMan}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">手机号:</span>{{detailsForm.phoneNo}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">商户编号:</span>{{detailsForm.customerNo}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | statusFilter("customerFrom")}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">公司电话:</span>{{detailsForm.bussinessPhone}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">经营名称:</span>{{detailsForm.bussinessName}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">经营地址:</span>{{detailsForm.bussinessAddress}}
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -283,7 +322,8 @@ import {
   postBindEmpower,
   postUnBindEmpower,
   postBindChildEmpower,
-  postMakeTorageEmpower
+  postMakeTorageEmpower,
+  getCustomers
 } from "@src/apis";
 
 export default {
@@ -308,6 +348,8 @@ export default {
       materiel: "" // 是否有物料
     };
     return {
+      detailsFormVisible: false,
+      detailsForm: {},
       deviceType: "AUTHCODE",
       formLabelWidth: "100px",
       qrcodeUrl: "",
@@ -680,7 +722,28 @@ export default {
           {
             key: "商户编号",
             width: "100px",
-            word: "customerNo"
+            word: "customerNo",
+            event: true,
+            cb: value => {
+              getCustomers()({
+                page: 1,
+                limit: 10,
+                customerNo: value.customerNo,
+                taxNo: "",
+                enterpriseName: "",
+                createTimeStart: "",
+                createTimeEnd: "",
+                agentNo: "",
+                customerFrom: "",
+                containChild: ''
+              }).then((res) => {
+                if (res.code == '00') {
+                  this.detailsForm = res.data[0];
+                  console.log(res.data)
+                  this.detailsFormVisible = true
+                }
+              })
+            }
           },
           {
             key: "序列号",

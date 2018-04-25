@@ -198,7 +198,7 @@ export default {
           { required: true, message: "请输入二维码序列号", trigger: "blur,change" }
         ],
         agentNo: [
-          { required: true, message: "采购单价不能为空", trigger: "blur,change" }
+          { required: true, message: "合伙人编号不能为空", trigger: "blur,change" }
         ],
         qrcodeStart: [
           { required: true, message: "开始号段不能为空", trigger: "blur,change" }
