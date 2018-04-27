@@ -353,8 +353,6 @@ export default {
               ]);
             }
             let imgsArr = Object.entries(imgsRow);
-            console.log(imgsArr);
-            console.log("长度：" + imgsArr.length);
             for (var i = 0; i < imgsArr.length; i++) {
               let item = imgsArr[i][1];
               let index = imgsArr[i][0];
