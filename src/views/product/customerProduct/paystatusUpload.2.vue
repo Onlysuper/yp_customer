@@ -3,20 +3,21 @@
     <div v-if="formVisible" class="paystatusUpload-box">
       <el-form size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
         <div class="upload-group">
-          <upload-img :label="'营业执照'" :upType="'BUSSINESS_LICENSE'" :imgKey="'bussinessLicenseImg'" :defaultImg='bussinessLicenseImg' ref="bussinessLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人身份证人像面'" :upType="'LEGAL_PERSON_ID_POSITIVE'" :imgKey="'identityFrontImg'" :defaultImg='identityFrontImg' ref="identityFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人身份证国徽面'" :upType="'LEGAL_PERSON_ID_BACK'" :imgKey="'identityBackImg'" :defaultImg='identityBackImg' ref="identityBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'门头照片'" :upType="'PLACE_IMG'" :imgKey="'placeImg'" :defaultImg='placeImg' ref="placeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'收银台照片'" :upType="'CASH_SPACE_IMG'" :imgKey="'cashSpaceImg'" :defaultImg='cashSpaceImg' ref="cashSpaceImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'店内照片'" :upType="'STORE_IMG'" :imgKey="'storeImg'" :defaultImg='storeImg' ref="storeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'开户许可证'" v-if="publicPerson" :upType="'ACCOUNT_OPENING_LICENSE'" :imgKey="'accountLicenseImg'" :defaultImg='accountLicenseImg' ref="accountLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人手持身份证照'" v-if="corporatePerson" :upType="'APPLICANT_WITH_ID'" :imgKey="'identityHolderImg'" :defaultImg='identityHolderImg' ref="identityHolderImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算卡正面'" v-if="corporatePerson" :upType="'SETTLE_CARD_IMG'" :imgKey="'settleCardImg'" :defaultImg='settleCardImg' ref="settleCardImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'授权书加盖公章'" v-if="unCorporatePerson" :upType="'CERTIFICATE_IMG'" :imgKey="'certificateImg'" :defaultImg='certificateImg' ref="certificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算人身份证人像面'" v-if="unCorporatePerson" :upType="'CARDHOLDER_ID_POSITIVE'" :imgKey="'cardHolderFrontImg'" :defaultImg='cardHolderFrontImg' ref="cardHolderFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算人身份证国徽面'" v-if="unCorporatePerson" :upType="'CARDHOLDER_ID_BACK'" :imgKey="'cardHolderBackImg'" :defaultImg='cardHolderBackImg' ref="cardHolderBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人手持授权照片'" v-if="unCorporatePerson" :upType="'HOLD_CERTIFICATE_IMG'" :imgKey="'holdCertificateImg'" :defaultImg='holdCertificateImg' ref="holdCertificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算人手持身份证'" v-if="unCorporatePerson" :upType="'CARDHOLDER_WITH_ID'" :imgKey="'cardHolderIdImg'" :defaultImg='cardHolderIdImg' ref="cardHolderIdImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'营业执照'" v-if="bussinessLicenseVisible" :upType="'BUSSINESS_LICENSE'" :imgKey="'bussinessLicenseImg'" :defaultImg='bussinessLicenseImg' ref="bussinessLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人身份证人像面'" v-if="identityFrontVisible" :upType="'LEGAL_PERSON_ID_POSITIVE'" :imgKey="'identityFrontImg'" :defaultImg='identityFrontImg' ref="identityFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人身份证国徽面'" v-if="identityBackVisible" :upType="'LEGAL_PERSON_ID_BACK'" :imgKey="'identityBackImg'" :defaultImg='identityBackImg' ref="identityBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'门头照片'" v-if="placeVisible" :upType="'PLACE_IMG'" :imgKey="'placeImg'" :defaultImg='placeImg' ref="placeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'收银台照片'" v-if="cashSpaceVisible" :upType="'CASH_SPACE_IMG'" :imgKey="'cashSpaceImg'" :defaultImg='cashSpaceImg' ref="cashSpaceImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'开户许可证'" v-if="accountVisible" :upType="'ACCOUNT_OPENING_LICENSE'" :imgKey="'accountLicenseImg'" :defaultImg='accountLicenseImg' ref="accountLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+
+          <upload-img :label="'法人手持身份证照'" v-if="identityHolderVisible" :upType="'APPLICANT_WITH_ID'" :imgKey="'identityHolderImg'" :defaultImg='identityHolderImg' ref="identityHolderImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'结算卡正面'" v-if="settleCardVisible" :upType="'SETTLE_CARD_IMG'" :imgKey="'settleCardImg'" :defaultImg='settleCardImg' ref="settleCardImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'店内照片'" v-if="storeVisible" :upType="'STORE_IMG'" :imgKey="'storeImg'" :defaultImg='storeImg' ref="storeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'授权书'" v-if="certificateVisible" :upType="'CERTIFICATE_IMG'" :imgKey="'certificateImg'" :defaultImg='certificateImg' ref="certificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'持卡人身份证人像面'" v-if="cardHolderFrontVisible" :upType="'CARDHOLDER_ID_POSITIVE'" :imgKey="'cardHolderFrontImg'" :defaultImg='cardHolderFrontImg' ref="cardHolderFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'持卡人身份证国徽面'" v-if="cardHolderBackVisible" :upType="'CARDHOLDER_ID_BACK'" :imgKey="'cardHolderBackImg'" :defaultImg='cardHolderBackImg' ref="cardHolderBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人手持授权照片'" v-if="holdCertificateVisible" :upType="'HOLD_CERTIFICATE_IMG'" :imgKey="'holdCertificateImg'" :defaultImg='holdCertificateImg' ref="holdCertificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'持卡人手持身份证'" v-if="cardHolderIdVisible" :upType="'CARDHOLDER_WITH_ID'" :imgKey="'cardHolderIdImg'" :defaultImg='cardHolderIdImg' ref="cardHolderIdImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
         </div>
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
@@ -121,7 +122,22 @@ export default {
       agreementVisible: false,
       formVisible: true,
       accountType: "",
-
+      // 图片显示隐藏start
+      identityFrontVisible: false,// 法人身份证正面
+      identityBackVisible: false,// 法人身份证国徽面
+      identityHolderVisible: false,// 法人手持身份证照
+      bussinessLicenseVisible: false,//营业执照
+      settleCardVisible: false,// 结算卡正面
+      placeVisible: false, //门头照片
+      storeVisible: false,// 店内照片
+      cashSpaceVisible: false,// 收银台照片
+      accountVisible: false,// 开户许可证
+      certificateVisible: false,// 授权书
+      cardHolderFrontVisible: false,// 持卡人身份证人像面
+      cardHolderBackVisible: false,// 持卡人身份证国徽面
+      holdCertificateVisible: false,//法人手持授权照片
+      cardHolderIdVisible: false,//持卡人手持身份证
+      // 图片显示隐藏end
       // 身份证正面
       saveForm: {
         customerNo: this.rowData.bussinessNo,
@@ -275,15 +291,43 @@ export default {
             ]);
             if (newSettleCard.accountType == "0") {
               // 对公:
-              this.publicPerson = true;
+              this.publicPerson = true,
+                this.bussinessLicenseVisible = true;//营业执照
+              this.identityFrontVisible = true;// 法人身份证正面
+              this.identityBackVisible = true;// 法人身份证国徽面
+              this.cashSpaceVisible = true;// 收银台照片
+              this.accountVisible = true;// 开户许可证
+              this.placeVisible = true; //门头照片
+              this.storeVisible = true;// 店内照片
             } else if (newSettleCard.accountType == "1") {
               // 对私
+
               if (newSettleCard.accountName == newCustomer.legalPerson) {
                 // 法人
                 this.corporatePerson = true;
+                this.bussinessLicenseVisible = true;//营业执照
+                this.identityFrontVisible = true;// 法人身份证正面
+                this.identityBackVisible = true;// 法人身份证国徽面
+                this.identityHolderVisible = true;// 法人手持身份证照
+                this.placeVisible = true; //门头照片
+                this.storeVisible = true;// 店内照片
+                this.cashSpaceVisible = true;// 收银台照片
+                this.settleCardVisible = true;// 结算卡正面
               } else {
                 // 非法人
                 this.unCorporatePerson = true;
+                this.bussinessLicenseVisible = true;//营业执照
+                this.cardHolderFrontVisible = true;// 结算人身份证人像面
+                this.cardHolderBackVisible = true;// 结算人身份证国徽面
+                this.identityFrontVisible = true;// 法人身份证正面
+                this.identityBackVisible = true;// 法人身份证国徽面
+                this.placeVisible = true; //门头照片
+                this.cashSpaceVisible = true;// 收银台照片
+                this.storeVisible = true;// 店内照片
+                this.settleCardVisible = true;// 结算卡正面
+                this.cardHolderIdVisible = true;//结算人手持身份证
+                this.certificateVisible = true;// 授权书
+                this.holdCertificateVisible = true;//法人手持授权授权书照片
               }
             }
             this.accountType = settleCard.accountType

@@ -298,10 +298,12 @@ export default {
           let settleCardRow = {};
           let productRow = {};
           let imgsRow = {};
-          // imgsRow =utils.pickObj(data.imgs, [
-          //   "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg",
-          //   "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg"
-          // ]);
+         
+          imgsRow =utils.pickObj(data.imgs, [
+            "bussinessLicenseImg","identityFrontImg","placeImg","cashSpaceImg","storeImg"
+            // "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg",
+            // "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg"
+          ]);
           let addImgs = {};
           if (data.customer) {
             customerRow = utils.pickObj(data.customer, [
@@ -321,102 +323,145 @@ export default {
           }
           if (data.imgs) {
             if (settleCardRow.accountType == "0") {
-              // 对公 
-              imgsRow = utils.pickObj(data.imgs, [
-                "bussinessLicenseImg",
-                "identityFrontImg",
-                "identityBackImg",
-                "cashSpaceImg",
-                "accountLicenseImg",
-                "placeImg",
-                "storeImg"
-              ]);
+              // 对公  有开户许可证 没有授权证
+              imgsRow = {                
+                ...utils.pickObj(data.imgs, [
+                  "accountLicenseImg",
+                ]), 
+                ...imgsRow
+                }
             } else if (settleCardRow.accountType == "1") {
               // 对私
               if (settleCardRow.accountName == customerRow.legalPerson) {
-                //法人
-                imgsRow = utils.pickObj(data.imgs, [
-                  "bussinessLicenseImg",
-                  "identityFrontImg",
-                  "identityBackImg",
-                  "identityHolderImg",
-                  "placeImg",
-                  "storeImg",
-                  "cashSpaceImg",
-                  "settleCardImg",
-                ]);
-
+                //对私法人
+                  imgsRow = {                  
+                    ...utils.pickObj(data.imgs, [
+                      "identityHolderImg","settleCardImg"
+                    ]), ...imgsRow               
+                   };
               } else {
                 //非法人
-                imgsRow = utils.pickObj(data.imgs, [
-                  "bussinessLicenseImg",
-                  "cardHolderFrontImg",
-                  "cardHolderBackImg",
-                  "identityFrontImg",
-                  "identityBackImg",
-                  "placeImg",
-                  "cashSpaceImg",
-                  "storeImg",
-                  "settleCardImg",
-                  "cardHolderIdImg",
-                  "holdCertificateImg",
-                  "certificateImg"
-                ]);
+                imgsRow = {                  
+                  ...utils.pickObj(data.imgs, [
+                    "certificateImg"
+                  ]), ...imgsRow               
+                   };
               }
             } else {
               imgsRow = utils.pickObj(data.imgs, [
-                "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg",
-                "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg",
                 "accountLicenseImg"
               ]);
             }
             let imgsArr = Object.entries(imgsRow);
-            for (var i = 0; i < imgsArr.length; i++) {
+            console.log(imgsArr);
+            console.log("长度："+imgsArr.length);
+            for(var i = 0; i < imgsArr.length; i++){
               let item = imgsArr[i][1];
               let index = imgsArr[i][0];
+              let imgname ="";
               if (index == "identityFrontImg") {
-                item["imgname"] = "法人身份证人像面"
+                imgname = "法人身份证人像面"
               } else if (index == "identityBackImg") {
-                item["imgname"] = "法人身份证国徽面"
+                imgname = "法人身份证国徽面"
               } else if (index == "bussinessLicenseImg") {
-                item["imgname"] = "营业执照"
+                imgname = "营业执照"
               } else if (index == "identityHolderImg") {
-                item["imgname"] = "手持身份证"
+                imgname = "手持身份证"
               } else if (index == "settleCardImg") {
-                item["imgname"] = "结算卡正面"
+                imgname = "结算卡正面"
               } else if (index == "accountLicenseImg") {
-                item["imgname"] = "开户许可证"
+                imgname = "开户许可证"
               } else if (index == "placeImg") {
-                item["imgname"] = "门头照片"
+                imgname = "门头照片"
               } else if (index == "storeImg") {
-                item["imgname"] = "店内照片"
+                imgname = "店内照片"
               } else if (index == "cashSpaceImg") {
-                item["imgname"] = "收银台照片"
+                imgname = "收银台照片"
               } else if (index == "certificateImg") {
-                item["imgname"] = "授权书照片"
-              } else {
-                item["imgname"] = ""
-              }
-              ((i) => {
-                let item = imgsArr[i][1];
-                let index = imgsArr[i][0];
-                var newImg = new Image();
-                newImg.src = item.url;
-                // console.log(item.url);
-                newImg.onerror = () => {
-                  imgsArr[i][1].url = ""
-                }
-                newImg.onload = () => {
-                  if (this.largeImgUrl == "") {
-                    // 默认显示的图片
-                    this.largeImg = { imgname: index, url: item.url };
-                    this.largeImgUrl = item.url
+                imgname = "授权书照片"
+              }else if (index == "holdCertificateImg") {
+                imgname = "法人手持授权照片"
+              } else if (index == "cardHolderFrontImg") {
+                imgname = "结算人人面像"
+              }else if (index == "cardHolderBackImg") {
+                imgname = "结算人人国徽面"
+              }else if (index == "cardHolderIdImg") {
+                imgname = "结算人手持身份证合影"
+              } 
+              console.log(index);
+              if(item){
+                item["imgname"] = imgname;
+                ((i) => {
+                  let item = imgsArr[i][1];
+                  let index = imgsArr[i][0];
+                  var newImg = new Image();
+                  newImg.src = item.url;
+                  newImg.onerror = () => {
+                    imgsArr[i][1].url = ""
                   }
+                  newImg.onload = () => {
+                    if (this.largeImgUrl == "") {
+                      // 默认显示的图片
+                      this.largeImg = { imgname: index, url: item.url };
+                      this.largeImgUrl = item.url
+                    }
+                  }
+                })(i)
+              }
+              else{
+                imgsArr[i][1]={
+                  imgname : imgname,
+                  url : ""
                 }
-              })(i)
-
+              }
             }
+            // for (var i = 0; i < imgsArr.length; i++) {
+            //   let item = imgsArr[i][1];
+            //   let index = imgsArr[i][0];
+            //   if (index == "identityFrontImg") {
+            //     item["imgname"] = "法人身份证人像面"
+            //   } else if (index == "identityBackImg") {
+            //     item["imgname"] = "法人身份证国徽面"
+            //   } else if (index == "bussinessLicenseImg") {
+            //     item["imgname"] = "营业执照"
+            //   } else if (index == "identityHolderImg") {
+            //     item["imgname"] = "手持身份证"
+            //   } else if (index == "settleCardImg") {
+            //     item["imgname"] = "结算卡正面"
+            //   } else if (index == "accountLicenseImg") {
+            //     item["imgname"] = "开户许可证"
+            //   } else if (index == "placeImg") {
+            //     item["imgname"] = "门头照片"
+            //   } else if (index == "storeImg") {
+            //     item["imgname"] = "店内照片"
+            //   } else if (index == "cashSpaceImg") {
+            //     item["imgname"] = "收银台照片"
+            //   } else if (index == "certificateImg") {
+            //     item["imgname"] = "授权书照片"
+            //   } else {
+            //     item["imgname"] = ""
+            //   }
+            //   ((i) => {
+            //     let item = imgsArr[i][1];
+            //     let index = imgsArr[i][0];
+            //     var newImg = new Image();
+            //     newImg.src = item.url;
+            //     // console.log(item.url);
+            //     newImg.onerror = () => {
+            //       imgsArr[i][1].url = ""
+            //     }
+            //     newImg.onload = () => {
+            //       if (this.largeImgUrl == "") {
+            //         // 默认显示的图片
+            //         this.largeImg = { imgname: index, url: item.url };
+            //         this.largeImgUrl = item.url
+            //       }
+            //     }
+            //   })(i)
+
+            // }
             this.imgsArr = imgsArr;
+            console.log(this.imgsArr);
             if (this.imgsArr.length == 0) {
               this.detailRightVisible = false;
             } else {

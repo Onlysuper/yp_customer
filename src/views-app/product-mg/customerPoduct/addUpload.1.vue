@@ -14,14 +14,14 @@
         <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg" ></upload-view>
         <upload-view :label="'店内照片'" class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg" ></upload-view>
         
-        <upload-view :label="'开户许可证'" v-show="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg" ></upload-view>
-        <upload-view :label="'法人手持授权照片'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'HOLD_CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'holdCertificateImg'" ref="holdCertificateImg" ></upload-view>
-        <upload-view :label="'结算卡正面'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg" ></upload-view>
-        <upload-view :label="'手持身份证照'"  v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg" ></upload-view>
-        <upload-view :label="'授权书加盖公章'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg" ></upload-view>
-        <upload-view :label="'结算人人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg" ></upload-view>
-        <upload-view :label="'结算人国徽面'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_BACK'" @result="resultMediaId" :dataKey="'cardHolderBackImg'" ref="cardHolderBackImg"></upload-view>
-        <upload-view :label="'结算人手持身份证合影'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_WITH_ID'" @result="resultMediaId" :dataKey="'cardHolderIdImg'" ref="cardHolderIdImg"></upload-view>
+        <upload-view :label="'开户许可证'" v-if="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg" ></upload-view>
+        <upload-view :label="'法人手持授权照片'" v-if="corporatePerson" class="item" :customerNo="customerNo" :upType="'HOLD_CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'holdCertificateImg'" ref="holdCertificateImg" ></upload-view>
+        <upload-view :label="'结算卡正面'" v-if="corporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg" ></upload-view>
+        <upload-view :label="'手持身份证照'"  v-if="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg" ></upload-view>
+        <upload-view :label="'授权书加盖公章'" v-if="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg" ></upload-view>
+        <upload-view :label="'结算人人面像'" v-if="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg" ></upload-view>
+        <upload-view :label="'结算人国徽面'" v-if="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_BACK'" @result="resultMediaId" :dataKey="'cardHolderBackImg'" ref="cardHolderBackImg"></upload-view>
+        <upload-view :label="'结算人手持身份证合影'" v-if="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_WITH_ID'" @result="resultMediaId" :dataKey="'cardHolderIdImg'" ref="cardHolderIdImg"></upload-view>
         <!-- 非法人添加end -->
       </view-radius>
       <mt-radio v-model="value" v-targetTo style="text-align: center;" @click.native="visible = true" :options="['同意《支付开通协议》']"></mt-radio>
@@ -193,12 +193,12 @@ export default {
         this.accountType = settleCard.accountType;
         this.accountName = settleCard.accountName;
       }
-      if (this.accountType == "0") {
+      if (accountType == "0") {
         // 对公:
         this.publicPerson = true;
-      } else if (this.accountType == "1") {
+      } else if (accountType == "1") {
         // 对私
-        if (this.accountName == this.legalPerson) {
+        if (accountName == legalPerson) {
           // 法人
           this.corporatePerson = true;
         } else {

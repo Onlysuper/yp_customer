@@ -357,7 +357,7 @@ export default {
         obj.imgId = index;
         obj.url = elem.url;
         obj.id = elem.id;
-        obj.imgname = elem.imgname;
+        obj.imgname = elem.imgname||"";
         arrSelf.push(obj)
       }
       this.imgsArrSelf = Object.entries(arrSelf) // 本页面需要的数组
