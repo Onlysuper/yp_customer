@@ -396,8 +396,8 @@ export default {
           } else if (newSettleCard.accountType == "1") {
             // 对私
             accountName = newSettleCard.accountName == newCustomer.enterpriseName ? newCustomer.legalPerson : newSettleCard.accountName || newCustomer.legalPerson;
-            // this.accountNameDis = false;
-            this.accountNameDis = true;
+            this.accountNameDis = false;
+            // this.accountNameDis = true;
           }
           this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard };
           this.payStatusForm = Object.assign(this.payStatusForm, this.cacheForm);
@@ -417,10 +417,10 @@ export default {
       } else if (accountType == "1") {
         // 对私
         let accountName = this.getaccountName;
-        // this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
-        this.payStatusForm.accountName = this.payStatusForm.legalPerson;
-        // this.accountNameDis = false;
-        this.accountNameDis = true;
+        this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
+        this.accountNameDis = false;
+        // this.payStatusForm.accountName = this.payStatusForm.legalPerson;
+        // this.accountNameDis = true;
       }
     },
     getCache() {

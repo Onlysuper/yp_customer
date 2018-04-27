@@ -152,6 +152,36 @@ export default {
         }
       ]
 
+    },
+    {
+      name: "bankCustomer",
+      path: 'bankCustomer',
+      redirect: "bankCustomer/index",
+      component: App,
+      children: [
+        {
+          path: "index",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/bankCustomer")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "银行商户",
+            keepAlive: true,
+            menuCode: "bankCustomer"
+          }
+        },
+        //商品管理--搜索
+        {
+          name: "bankCustomerSearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/bankCustomer/search")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "商品搜索"
+          }
+        }
+      ]
     }
   ]
 }

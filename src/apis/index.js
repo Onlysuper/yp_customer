@@ -291,6 +291,9 @@ const upload = () => { return (params) => { return http.post(base.oaIp, "/bussin
 const checkCustomerProduct = () => { return (params) => { return http.post(base.oaIp, "/customer/query/checkCustomerProduct", params) } }
 // end -------------------------------------------------
 
+// bankCustomer
+const getbankCustomers = () => { return (params) => { return http.get(base.oaIp, "/bankCustomer/page", params) } }
+
 /**
 **交易管理-订单查询
  */
@@ -459,5 +462,6 @@ export {
     upload,
     //交易订单查询
     getPayOrders,
+    getbankCustomers
 };
 

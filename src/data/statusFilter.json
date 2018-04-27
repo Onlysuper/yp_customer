@@ -1,4 +1,32 @@
 {
+  "bankCustomerStatus": {
+    "WAIT_AUDIT": {
+      "name": "待审核",
+      "color": "#409EFF"
+    },
+    "SUCCESS": {
+      "name": "审核通过",
+      "color": "#E6A23C"
+    },
+    "REJECT": {
+      "name": "审核拒绝",
+      "color": "#67C23A"
+    },
+    "INIT": {
+      "name": "初始化",
+      "color": "#67C23A"
+    }
+  },
+  "channelWay": {
+    "CONVERGE": {
+      "name": "中付通道",
+      "color": "#67C23A"
+    },
+    "SHOUYINJIA": {
+      "name": "收银家通道",
+      "color": "#67C23A"
+    }
+  },
   "settleStatus": {
     "TRUE": {
       "name": "已确认",

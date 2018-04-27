@@ -321,54 +321,24 @@ export default {
           }
           if (data.imgs) {
             if (settleCardRow.accountType == "0") {
-              // 对公 
-              imgsRow = utils.pickObj(data.imgs, [
-                "bussinessLicenseImg",
-                "identityFrontImg",
-                "identityBackImg",
-                "cashSpaceImg",
-                "accountLicenseImg",
-                "placeImg",
-                "storeImg"
-              ]);
+              // 对公  有开户许可证 没有授权证
+              imgsRow = {                ...utils.pickObj(data.imgs, [
+                  "accountLicenseImg",
+                ]), ...imgsRow              }
             } else if (settleCardRow.accountType == "1") {
               // 对私
               if (settleCardRow.accountName == customerRow.legalPerson) {
-                //法人
-                imgsRow = utils.pickObj(data.imgs, [
-                  "bussinessLicenseImg",
-                  "identityFrontImg",
-                  "identityBackImg",
-                  "identityHolderImg",
-                  "placeImg",
-                  "storeImg",
-                  "cashSpaceImg",
-                  "settleCardImg",
-                ]);
-
+                //对私法人
               } else {
                 //非法人
-                imgsRow = utils.pickObj(data.imgs, [
-                  "bussinessLicenseImg",
-                  "cardHolderFrontImg",
-                  "cardHolderBackImg",
-                  "identityFrontImg",
-                  "identityBackImg",
-                  "placeImg",
-                  "cashSpaceImg",
-                  "storeImg",
-                  "settleCardImg",
-                  "cardHolderIdImg",
-                  "holdCertificateImg",
-                  "certificateImg"
-                ]);
+                imgsRow = {                  ...utils.pickObj(data.imgs, [
+                    "certificateImg"
+                  ]), ...imgsRow                };
               }
             } else {
-              imgsRow = utils.pickObj(data.imgs, [
-                "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg",
-                "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg",
-                "accountLicenseImg"
-              ]);
+              // imgsRow = utils.pickObj(data.imgs, [
+              //   "accountLicenseImg"
+              // ]);
             }
             let imgsArr = Object.entries(imgsRow);
             for (var i = 0; i < imgsArr.length; i++) {
