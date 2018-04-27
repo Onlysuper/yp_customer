@@ -378,7 +378,7 @@ export default {
               } else if (index == "certificateImg") {
                 imgname = "授权书照片"
               } else if (index == "holdCertificateImg") {
-                imgname = "法人手持授权照片"
+                imgname = "法人手持身份证与授权书"
               } else if (index == "cardHolderFrontImg") {
                 imgname = "结算人人面像"
               } else if (index == "cardHolderBackImg") {

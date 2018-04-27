@@ -16,7 +16,7 @@
           <upload-img :label="'授权书'" v-if="certificateVisible" :upType="'CERTIFICATE_IMG'" :imgKey="'certificateImg'" :defaultImg='certificateImg' ref="certificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'持卡人身份证人像面'" v-if="cardHolderFrontVisible" :upType="'CARDHOLDER_ID_POSITIVE'" :imgKey="'cardHolderFrontImg'" :defaultImg='cardHolderFrontImg' ref="cardHolderFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'持卡人身份证国徽面'" v-if="cardHolderBackVisible" :upType="'CARDHOLDER_ID_BACK'" :imgKey="'cardHolderBackImg'" :defaultImg='cardHolderBackImg' ref="cardHolderBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人手持授权照片'" v-if="holdCertificateVisible" :upType="'HOLD_CERTIFICATE_IMG'" :imgKey="'holdCertificateImg'" :defaultImg='holdCertificateImg' ref="holdCertificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人手持身份证与授权书'" v-if="holdCertificateVisible" :upType="'HOLD_CERTIFICATE_IMG'" :imgKey="'holdCertificateImg'" :defaultImg='holdCertificateImg' ref="holdCertificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'持卡人手持身份证'" v-if="cardHolderIdVisible" :upType="'CARDHOLDER_WITH_ID'" :imgKey="'cardHolderIdImg'" :defaultImg='cardHolderIdImg' ref="cardHolderIdImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
         </div>
         <div class="agree-box">
@@ -135,7 +135,7 @@ export default {
       certificateVisible: false,// 授权书
       cardHolderFrontVisible: false,// 持卡人身份证人像面
       cardHolderBackVisible: false,// 持卡人身份证国徽面
-      holdCertificateVisible: false,//法人手持授权照片
+      holdCertificateVisible: false,//法人手持身份证与授权书
       cardHolderIdVisible: false,//持卡人手持身份证
       // 图片显示隐藏end
       // 身份证正面

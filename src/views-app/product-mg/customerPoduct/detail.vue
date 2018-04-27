@@ -43,7 +43,7 @@
 
         <show-img-view v-show="corporatePerson" class="item" :disabled="true" ref="identityHolderImg" :label="'结算身份证照'"></show-img-view>
         <show-img-view v-show="corporatePerson || unCorporatePerson" class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="holdCertificateImg" :label="'法人手持授权照片'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="holdCertificateImg" :label="'法人手持身份证与授权书'"></show-img-view>
         <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderFrontImg" :label="'结算人人面像'"></show-img-view>
         <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderBackImg" :label="'结算人国徽面'"></show-img-view>
         <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderIdImg" :label="'结算人手持身份证合影'"></show-img-view>

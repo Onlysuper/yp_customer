@@ -104,7 +104,7 @@
             </el-form-item>
           </el-col>
           <el-col v-if="holdCertificateVisible" :span="12">
-            <el-form-item class="full-width is-required" label="法人手持授权照片" prop="holdCertificate" :label-width="formLabelWidth">
+            <el-form-item class="full-width is-required" label="法人手持身份证与授权书" prop="holdCertificate" :label-width="formLabelWidth">
               <el-upload :data="holdCertificateData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="holdCertificatebeforeUpload">
                 <img v-if="holdCertificateImg" :src="holdCertificateImg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -235,7 +235,7 @@ export default {
       certificateVisible: false,// 授权书
       cardHolderFrontVisible: false,// 持卡人身份证人像面
       cardHolderBackVisible: false,// 持卡人身份证国徽面
-      holdCertificateVisible: false,//法人手持授权照片
+      holdCertificateVisible: false,//法人手持身份证与授权书
       cardHolderIdVisible: false,//持卡人手持身份证
       // 图片显示隐藏end
       // 身份证正面
@@ -424,7 +424,7 @@ export default {
       }
       return;
     },
-    //法人手持授权照片
+    //法人手持身份证与授权书
     holdCertificatebeforeUpload(file) {
       if (this.checkUpload(file)) {
         this.imgTransBase(file, "holdCertificateData");
@@ -533,7 +533,7 @@ export default {
                 self.cashSpaceImg = self[where].imgString;
                 self.saveForm.cashSpaceImg = data.data;
                 break;
-              case "holdCertificateData":// 法人手持授权照片
+              case "holdCertificateData":// 法人手持身份证与授权书
                 self.holdCertificateImg = self[where].imgString;
                 self.saveForm.holdCertificateImg = data.data;
                 break;
