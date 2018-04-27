@@ -37,11 +37,16 @@
         <show-img-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></show-img-view>
         <show-img-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></show-img-view>
         <show-img-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
         <show-img-view class="item" :disabled="true" ref="placeImg" :label="'门头照片'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="identityHolderImg" :label="'手持身份证照'"></show-img-view>
-        <show-img-view class="item" v-show="settleCard.accountType == '0'" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></show-img-view>
-        <show-img-view class="item" v-show="settleCard.accountType == '1' && settleCard.accountName != customer.legalPerson" :disabled="true" ref="certificateImg" :label="'授权书'"></show-img-view>
+        <show-img-view class="item" v-show="publicPerson" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></show-img-view>
+        <show-img-view class="item" v-show="unCorporatePerson" :disabled="true" ref="certificateImg" :label="'授权书加盖公章'"></show-img-view>
+
+        <show-img-view v-show="corporatePerson" class="item" :disabled="true" ref="identityHolderImg" :label="'结算身份证照'"></show-img-view>
+        <show-img-view v-show="corporatePerson || unCorporatePerson" class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="holdCertificateImg" :label="'法人手持授权照片'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderFrontImg" :label="'结算人人面像'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderBackImg" :label="'结算人国徽面'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderIdImg" :label="'结算人手持身份证合影'"></show-img-view>
       </view-radius>
     </template>
     <!-- 电票详情 -->
@@ -78,6 +83,9 @@ export default {
   components: { ShowImgView },
   data() {
     return {
+      publicPerson: false,//对公
+      corporatePerson: false,//对私法人
+      unCorporatePerson: false,//对私非法人
       productType: this.$route.params["productType"],
       customerNo: this.$route.query["customerNo"],
       customer: {
@@ -179,6 +187,20 @@ export default {
         this.product.settleMode = product.settleMode;
         this.product.t0CashCostFixed = product.t0CashCostFixed;
       }
+      if (this.settleCard.accountType == '0') {
+        //对公
+        this.publicPerson = true;
+      } else if (this.settleCard.accountType == '1') {
+        // 对私
+        if (this.settleCard.accountName == this.customer.legalPerson) {
+          //法人
+          this.corporatePerson = true;
+        } else {
+          // 非法人
+          this.unCorporatePerson = true;
+        }
+      }
+
       // 图片预览
       if (imgs instanceof Object) {
         for (let key in imgs) {

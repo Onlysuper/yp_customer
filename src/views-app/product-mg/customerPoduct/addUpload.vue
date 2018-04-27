@@ -16,7 +16,7 @@
         
         <upload-view :label="'开户许可证'" v-show="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg" ></upload-view>
         <upload-view :label="'法人手持授权照片'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'HOLD_CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'holdCertificateImg'" ref="holdCertificateImg" ></upload-view>
-        <upload-view :label="'结算卡正面'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg" ></upload-view>
+        <upload-view :label="'结算卡正面'" v-show="corporatePerson || unCorporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg" ></upload-view>
         <upload-view :label="'手持身份证照'"  v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg" ></upload-view>
         <upload-view :label="'授权书加盖公章'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg" ></upload-view>
         <upload-view :label="'结算人人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg" ></upload-view>
