@@ -298,9 +298,9 @@ export default {
           let settleCardRow = {};
           let productRow = {};
           let imgsRow = {};
-         
-          imgsRow =utils.pickObj(data.imgs, [
-            "bussinessLicenseImg","identityFrontImg","placeImg","cashSpaceImg","storeImg"
+
+          imgsRow = utils.pickObj(data.imgs, [
+            "bussinessLicenseImg", "identityFrontImg", "placeImg", "cashSpaceImg", "storeImg"
             // "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg",
             // "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg"
           ]);
@@ -324,28 +324,28 @@ export default {
           if (data.imgs) {
             if (settleCardRow.accountType == "0") {
               // 对公  有开户许可证 没有授权证
-              imgsRow = {                
+              imgsRow = {
                 ...utils.pickObj(data.imgs, [
                   "accountLicenseImg",
-                ]), 
+                ]),
                 ...imgsRow
-                }
+              }
             } else if (settleCardRow.accountType == "1") {
               // 对私
               if (settleCardRow.accountName == customerRow.legalPerson) {
                 //对私法人
-                  imgsRow = {                  
-                    ...utils.pickObj(data.imgs, [
-                      "identityHolderImg","settleCardImg"
-                    ]), ...imgsRow               
-                   };
+                imgsRow = {
+                  ...utils.pickObj(data.imgs, [
+                    "identityHolderImg", "settleCardImg"
+                  ]), ...imgsRow
+                };
               } else {
                 //非法人
-                imgsRow = {                  
+                imgsRow = {
                   ...utils.pickObj(data.imgs, [
-                    "certificateImg"
-                  ]), ...imgsRow               
-                   };
+                    "certificateImg", "cardHolderFrontImg", "cardHolderBackImg", "holdCertificateImg", "cardHolderIdImg"
+                  ]), ...imgsRow
+                };
               }
             } else {
               imgsRow = utils.pickObj(data.imgs, [
@@ -354,11 +354,11 @@ export default {
             }
             let imgsArr = Object.entries(imgsRow);
             console.log(imgsArr);
-            console.log("长度："+imgsArr.length);
-            for(var i = 0; i < imgsArr.length; i++){
+            console.log("长度：" + imgsArr.length);
+            for (var i = 0; i < imgsArr.length; i++) {
               let item = imgsArr[i][1];
               let index = imgsArr[i][0];
-              let imgname ="";
+              let imgname = "";
               if (index == "identityFrontImg") {
                 imgname = "法人身份证人像面"
               } else if (index == "identityBackImg") {
@@ -379,17 +379,17 @@ export default {
                 imgname = "收银台照片"
               } else if (index == "certificateImg") {
                 imgname = "授权书照片"
-              }else if (index == "holdCertificateImg") {
+              } else if (index == "holdCertificateImg") {
                 imgname = "法人手持授权照片"
               } else if (index == "cardHolderFrontImg") {
                 imgname = "结算人人面像"
-              }else if (index == "cardHolderBackImg") {
+              } else if (index == "cardHolderBackImg") {
                 imgname = "结算人人国徽面"
-              }else if (index == "cardHolderIdImg") {
+              } else if (index == "cardHolderIdImg") {
                 imgname = "结算人手持身份证合影"
-              } 
+              }
               console.log(index);
-              if(item){
+              if (item) {
                 item["imgname"] = imgname;
                 ((i) => {
                   let item = imgsArr[i][1];
@@ -408,10 +408,10 @@ export default {
                   }
                 })(i)
               }
-              else{
-                imgsArr[i][1]={
-                  imgname : imgname,
-                  url : ""
+              else {
+                imgsArr[i][1] = {
+                  imgname: imgname,
+                  url: ""
                 }
               }
             }
