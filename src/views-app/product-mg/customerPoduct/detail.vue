@@ -13,8 +13,8 @@
           <mt-cell title="详细地址">{{customer.bussinessAddress}}</mt-cell>
           <mt-cell title="法人">{{customer.legalPerson}}</mt-cell>
           <mt-cell title="身份证号">{{customer.idCard}}</mt-cell>
-          <mt-cell title="身份证有效期">{{customer.idNoEffectiveBegin}}</mt-cell>
-          <mt-cell title="身份证有效期">{{customer.idNoEffectiveEnd}}</mt-cell>
+          <mt-cell title="身份证生效期">{{customer.idNoEffectiveBegin}}</mt-cell>
+          <mt-cell title="身份证结束期">{{customer.idNoEffectiveEnd}}</mt-cell>
           <mt-cell title="行业类别">{{customer.name}}</mt-cell>
           <mt-cell title="营业执照开始日期">{{customer.bussinessLicenseEffectiveBegin}}</mt-cell>
           <mt-cell title="营业执照结束日期">{{customer.bussinessLicenseEffectiveEnd}}</mt-cell>
