@@ -221,17 +221,10 @@ export default {
           value: "",
           options: [
             {
-              value: "AUDITING",
-              label: "待审核"
+              value: "",
+              label: "全部"
             },
-            {
-              value: "SUCCESS",
-              label: "审核通过"
-            },
-            {
-              value: "REJECT",
-              label: "拒绝"
-            }
+            ...this.statusFilterQuery('empowerCheckStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -245,13 +238,10 @@ export default {
           value: "",
           options: [
             {
-              value: "AUTHCODE",
-              label: "授权码"
+              value: "",
+              label: "全部"
             },
-            {
-              value: "SCANCODEGUN",
-              label: "扫码枪"
-            }
+            ...this.statusFilterQuery('empowerCheckReceiptType')
           ],
           cb: value => {
             this.searchCondition.receiptType = value;
@@ -274,12 +264,8 @@ export default {
       actionUrl: getArantNumExamines,
       postSearch: searchConditionVar,
       tableData: {
-        // getDataUrl: {
-        //   url: getArantNumExamines // 初始化数据
-        // },
         havecheck: false, //是否显示选择框
         dataHeader: [
-          // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "创建时间",
             width: "180px",
@@ -311,52 +297,16 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data == "SUCCESS") {
-                return {
-                  text: "审核通过",
-                  type: "success"
-                };
-              } else if (data == "AUDITING") {
-                return {
-                  text: "待审核",
-                  type: "warning"
-                };
-              } else if (data == "REJECT") {
-                return {
-                  text: "拒绝",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'empowerCheckStatus')
             }
           },
-
           {
             key: "设备类型",
             width: "100px",
             word: "receiptType",
             status: true,
             type: data => {
-              if (data == "AUTHCODE") {
-                return {
-                  text: "授权码",
-                  type: "success"
-                };
-              } else if (data == "SCANCODEGUN") {
-                return {
-                  text: "扫码枪",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'empowerCheckReceiptType')
             }
           },
           {

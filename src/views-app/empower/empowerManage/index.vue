@@ -16,8 +16,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="edit(item)">编辑</div>
           <!-- 状态 -->
-          <mt-badge v-if="item.status=='TRUE'" slot="badge" class="g-min-badge" size="small" type="warning">{{item.status | statusFilter('empowerManageStatus')}}</mt-badge>
-          <mt-badge v-if="item.status=='BINDED'" slot="badge" class="g-min-badge" size="small" type="success">{{item.status | statusFilter('empowerManageStatus')}}</mt-badge>
+          <mt-badge v-if="item.status=='TRUE'" slot="badge" class="g-min-badge" size="small" type="warning">{{item.status | statusFilter('empowerBindStatus')}}</mt-badge>
+          <mt-badge v-if="item.status=='BINDED'" slot="badge" class="g-min-badge" size="small" type="success">{{item.status | statusFilter('empowerBindStatus')}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.materiel | statusFilter('empowerManageMateriel')}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary">{{item.deviceType | statusFilter('empowerCheckReceiptType')}}</mt-badge>
           <!-- 常用按钮 -->

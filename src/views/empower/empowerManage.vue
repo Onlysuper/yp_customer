@@ -630,22 +630,12 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
+            // empowerBindStatus
             {
-              value: "",
-              label: "全部"
+              label: "全部",
+              value: ""
             },
-            {
-              value: "BINDED",
-              label: "已绑定"
-            },
-            {
-              value: "TRUE",
-              label: "未绑定"
-            },
-            {
-              value: "FALSE",
-              label: "无效"
-            }
+            ...this.statusFilterQuery('empowerBindStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -658,14 +648,7 @@ export default {
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
-            {
-              value: "TRUE",
-              label: "包含下级"
-            },
-            {
-              value: "FALSE",
-              label: "不包含下级"
-            }
+            ...this.statusFilterQuery('containChild')
           ],
           cb: value => {
             this.searchCondition.containChild = value;
@@ -683,14 +666,7 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "TRUE",
-              label: "有物料"
-            },
-            {
-              value: "FALSE",
-              label: "无物料"
-            }
+            ...this.statusFilterQuery('empowerManageMateriel')
           ],
           cb: value => {
             this.searchCondition.materiel = value;
@@ -790,27 +766,7 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data == "BINDED") {
-                return {
-                  text: "已绑定",
-                  type: "success"
-                };
-              } else if (data == "TRUE") {
-                return {
-                  text: "未绑定",
-                  type: "warning"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "无效",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'empowerBindStatus')
             }
           },
           {
@@ -819,22 +775,7 @@ export default {
             word: "materiel",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "有物料",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "无物料",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'empowerManageMateriel')
             }
           },
 

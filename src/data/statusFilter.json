@@ -1,4 +1,28 @@
 {
+  "containChild": {
+    "TRUE": {
+      "name": "包含下级",
+      "color": "#E6A23C"
+    },
+    "FALSE": {
+      "name": "不包含下级",
+      "color": "#E6A23C"
+    }
+  },
+  "empowerBindStatus": {
+    "BINDED": {
+      "name": "已绑定",
+      "color": "#E6A23C"
+    },
+    "TRUE": {
+      "name": "未绑定",
+      "color": "#E6A23C"
+    },
+    "FALSE": {
+      "name": "无效",
+      "color": "#67C23A"
+    }
+  },
   "bankCustomerStatus": {
     "WAIT_AUDIT": {
       "name": "待审核",
@@ -228,20 +252,6 @@
     },
     "REJECT": {
       "name": "拒绝",
-      "color": "#909399"
-    }
-  },
-  "empowerManageStatus": {
-    "BINDED": {
-      "name": "已绑定",
-      "color": "#67C23A"
-    },
-    "TRUE": {
-      "name": "未绑定",
-      "color": "#E6A23C"
-    },
-    "FALSE": {
-      "name": "无效",
       "color": "#909399"
     }
   },
