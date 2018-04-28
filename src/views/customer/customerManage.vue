@@ -73,6 +73,9 @@
         <el-form-item label="公司电话" prop="bussinessPhone" :label-width="formLabelWidth">
           <el-input v-model="addForm.bussinessPhone" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
+          <el-input v-model="addForm.bussinessName" auto-complete="off"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm('addForm')">重置</el-button>
