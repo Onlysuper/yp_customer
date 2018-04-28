@@ -37,8 +37,7 @@ export default {
   },
   computed: {
   },
-  watch: {
-  },
+
   methods: {
     imgBeforeUpload(file) {
       if (this.checkUpload(file)) {
@@ -88,15 +87,28 @@ export default {
         });
         // });
       };
+    },
+    init() {
+      this.imgData_ = {
+        imgType: this.upType,
+        ...this.sendData
+      };
+      this.imgUrl = this.defaultImg;
     }
   },
   mounted() {
-    this.imgData_ = {
-      imgType: this.upType,
-      ...this.sendData
-    };
-    this.imgUrl = this.defaultImg;
+    this.init();
   },
-
+  watch: {
+    defaultImg(val) {
+      this.init();
+    },
+    upType() {
+      this.init();
+    },
+    sendData() {
+      this.init();
+    }
+  }
 };
 </script>

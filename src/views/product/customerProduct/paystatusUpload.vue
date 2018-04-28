@@ -294,6 +294,7 @@ export default {
               "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg"]
             imgsidArr.forEach((item) => {
               if (imgs[item] != null) {
+                console.log(item + ":" + imgs[item].url);
                 this[item] = imgs[item].url;
                 this.saveForm[item] = imgs[item].id;
               }
