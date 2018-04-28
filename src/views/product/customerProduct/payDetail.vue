@@ -4,7 +4,7 @@
     <!-- {{detailsForm}}  -->
     <div class="detaile-left">
       <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
-      <div class="scroll-view-cus detail-box-pro">
+      <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
         <div class="line-label-box">
           <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
@@ -145,6 +145,14 @@
 
 <style lang='scss' scoped>
 @import "../../../../src/assets/scss-pc/payDetail.scss";
+.rightVsiblefalse {
+  .line-label-box.split {
+    justify-content: flex-start !important;
+  }
+  .line-label-last {
+    min-width: 250px !important;
+  }
+}
 </style>
 <script>
 import Vue from "vue";
@@ -298,11 +306,8 @@ export default {
           let settleCardRow = {};
           let productRow = {};
           let imgsRow = {};
-
           imgsRow = utils.pickObj(data.imgs, [
             "bussinessLicenseImg", "identityFrontImg", "placeImg", "cashSpaceImg", "storeImg"
-            // "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg",
-            // "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg"
           ]);
           let addImgs = {};
           if (data.customer) {
@@ -386,7 +391,6 @@ export default {
               } else if (index == "cardHolderIdImg") {
                 imgname = "结算人手持身份证合影"
               }
-              console.log(index);
               if (item) {
                 item["imgname"] = imgname;
                 ((i) => {
