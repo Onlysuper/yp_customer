@@ -9,7 +9,7 @@
         <mt-cell value="" title="商户编号">
           <span>{{dataList.customerNo}}</span>
         </mt-cell>
-        <mt-cell value="" title="通道编号">
+        <mt-cell value="" title="通道">
           <span>{{dataList.channelNo | statusFilter('channelWay')}}</span>
         </mt-cell>
         <mt-cell value="" title="状态">
@@ -21,7 +21,7 @@
         <mt-cell title="备注">
           <span>{{dataList.remark}}</span>
         </mt-cell>
-        <mt-cell title="审核原因">
+        <mt-cell title="审核结果">
           <span>{{dataList.checkReason}}</span>
         </mt-cell>
 

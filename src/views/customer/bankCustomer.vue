@@ -16,7 +16,7 @@
             <span class="line-label-last">{{detailsForm.bankCustomerNo}}</span>
           </div>
           <div class="line-label-box cross-back">
-            <span class="line-label">通道编号:</span>
+            <span class="line-label">通道:</span>
             <span class="line-label-last">{{statusFilter(detailsForm.channelNo, 'channelWay').text}}</span>
             <span class="line-label">状态:</span>
             <span class="line-label-last">{{statusFilter(detailsForm.status, 'bankCustomerStatus').text}}</span>
@@ -26,7 +26,7 @@
             <span class="line-label-last">{{detailsForm.remark}}</span>
           </div>
           <div class="line-label-box cross-back">
-            <span class="line-label">审核原因:</span>
+            <span class="line-label">审核结果:</span>
             <span class="line-label-last">{{detailsForm.checkReason}}</span>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default {
         {
           corresattr: "channelWay",
           type: "select",
-          label: "通道编号",
+          label: "通道",
           show: true, // 普通搜索显示
           value: "",
           options: [
@@ -159,7 +159,7 @@ export default {
             word: "bankCustomerNo"
           },
           {
-            key: "通道编号",
+            key: "通道",
             width: "100px",
             word: "channelNo",
             status: true,

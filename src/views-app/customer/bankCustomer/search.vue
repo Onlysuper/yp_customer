@@ -39,7 +39,7 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "通道方式",
+        title: "通道",
         type: "myp-select",
         defaultValue: this.searchQuery.channelWay,
         values:
