@@ -13,6 +13,8 @@
           <mt-cell title="详细地址">{{customer.bussinessAddress}}</mt-cell>
           <mt-cell title="法人">{{customer.legalPerson}}</mt-cell>
           <mt-cell title="身份证号">{{customer.idCard}}</mt-cell>
+          <mt-cell title="身份证有效期">{{customer.idNoEffectiveBegin}}</mt-cell>
+          <mt-cell title="身份证有效期">{{customer.idNoEffectiveEnd}}</mt-cell>
           <mt-cell title="行业类别">{{customer.name}}</mt-cell>
           <mt-cell title="营业执照开始日期">{{customer.bussinessLicenseEffectiveBegin}}</mt-cell>
           <mt-cell title="营业执照结束日期">{{customer.bussinessLicenseEffectiveEnd}}</mt-cell>
@@ -24,7 +26,7 @@
             <div class="text-r">{{settleCard.branchName}}</div>
           </mt-cell>
           <mt-cell title="帐号">{{settleCard.accountNo}}</mt-cell>
-          <mt-cell title="预留手机号">{{settleCard.phoneNo}}</mt-cell>
+          <mt-cell title="预留手机号">{{settleCard.reservedPhoneNo}}</mt-cell>
           <mt-cell title="微信费率">{{product.wechatRate}}%</mt-cell>
           <mt-cell title="支付宝费率">{{product.alipayRate}}%</mt-cell>
           <mt-cell title="结算方式">{{product.settleMode}}</mt-cell>
@@ -97,7 +99,9 @@ export default {
         idCard: "",
         contactEmail: "",
         bussinessLicenseEffectiveBegin: "",
-        bussinessLicenseEffectiveEnd: ""
+        bussinessLicenseEffectiveEnd: "",
+        idNoEffectiveBegin: "",
+        idNoEffectiveEnd: ""
       },
       settleCard: {
         accountName: "",
@@ -105,7 +109,7 @@ export default {
         branchName: "",
         accountType: "",
         accountNo: "",
-        phoneNo: ""
+        reservedPhoneNo: ""
       },
       product: {
         alipayRate: "",
@@ -170,6 +174,8 @@ export default {
         this.customer.contactEmail = customer.contactEmail;
         this.customer.bussinessLicenseEffectiveBegin = customer.bussinessLicenseEffectiveBegin;
         this.customer.bussinessLicenseEffectiveEnd = customer.bussinessLicenseEffectiveEnd;
+        this.customer.idNoEffectiveBegin = customer.idNoEffectiveBegin;
+        this.customer.idNoEffectiveEnd = customer.idNoEffectiveEnd;
         this.customer.name = utils.findBussinessType(customer.category).name;
       }
       if (settleCard instanceof Object) {
@@ -178,7 +184,7 @@ export default {
         this.settleCard.branchName = settleCard.branchName;
         this.settleCard.accountType = settleCard.accountType;
         this.settleCard.accountNo = settleCard.accountNo;
-        this.settleCard.phoneNo = settleCard.phoneNo;
+        this.settleCard.reservedPhoneNo = settleCard.reservedPhoneNo;
       }
       if (product instanceof Object) {
         this.product.alipayRate = utils.accMul(product.alipayRate, 100);

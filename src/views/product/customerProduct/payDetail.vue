@@ -5,10 +5,24 @@
     <div class="detaile-left">
       <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
       <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
+        <div class="line-label-box split">
+          <div class="line-cell">
+            <span class="lable-title gray-back">商户编号:</span>
+            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">预留手机号:</span>
+            <span class="line-label-last">{{payStatusDetails.reservedPhoneNo}}</span>
+          </div>
+        </div>
         <div class="line-label-box">
+          <span class="lable-title gray-back">身份证有效期:</span>
+          <span class="line-label-last">{{payStatusDetails.idNoEffectiveBegin}} 至 {{payStatusDetails.idNoEffectiveEnd}}</span>
+        </div>
+        <!-- <div class="line-label-box">
           <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
-        </div>
+        </div> -->
         <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">更新时间:</span>
@@ -311,14 +325,16 @@ export default {
           ]);
           let addImgs = {};
           if (data.customer) {
+            console.log(data.customer);
             customerRow = utils.pickObj(data.customer, [
               "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
-              'taxNo', 'enterpriseName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd'
+              'taxNo', 'enterpriseName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+              'idNoEffectiveBegin', 'idNoEffectiveEnd'
             ]);
           }
           if (data.settleCard) {
             settleCardRow = utils.pickObj(data.settleCard, [
-              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo',
+              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo', 'reservedPhoneNo'
             ]);
           }
           if (data.product) {
