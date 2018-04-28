@@ -307,7 +307,7 @@ export default {
           let productRow = {};
           let imgsRow = {};
           imgsRow = utils.pickObj(data.imgs, [
-            "bussinessLicenseImg", "identityFrontImg", "placeImg", "cashSpaceImg", "storeImg"
+            "bussinessLicenseImg", "identityFrontImg", "identityBackImg", "placeImg", "cashSpaceImg", "storeImg"
           ]);
           let addImgs = {};
           if (data.customer) {
@@ -336,19 +336,24 @@ export default {
                 ...imgsRow
               }
             } else if (settleCardRow.accountType == "1") {
-              // 对私
               if (settleCardRow.accountName == customerRow.legalPerson) {
                 //对私法人
                 imgsRow = {
                   ...utils.pickObj(data.imgs, [
-                    "identityHolderImg", "settleCardImg"
+                    "settleCardImg",
+                    "identityHolderImg"
                   ]), ...imgsRow
                 };
               } else {
                 //非法人
                 imgsRow = {
                   ...utils.pickObj(data.imgs, [
-                    "certificateImg", "cardHolderFrontImg", "cardHolderBackImg", "holdCertificateImg", "cardHolderIdImg"
+                    "settleCardImg",
+                    "certificateImg",
+                    "cardHolderFrontImg",
+                    "cardHolderBackImg",
+                    "holdCertificateImg",
+                    "cardHolderIdImg"
                   ]), ...imgsRow
                 };
               }
@@ -369,7 +374,7 @@ export default {
               } else if (index == "bussinessLicenseImg") {
                 imgname = "营业执照"
               } else if (index == "identityHolderImg") {
-                imgname = "手持身份证"
+                imgname = "法人手持身份证"
               } else if (index == "settleCardImg") {
                 imgname = "结算卡正面"
               } else if (index == "accountLicenseImg") {

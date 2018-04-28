@@ -32,21 +32,20 @@
         </input-wrapper>
       </view-radius>
       <view-radius class="uploads imagesParent" id="WeixinJSBridge">
-        <show-img-view class="item" :disabled="true" ref="identityFrontImg" :label="'身份证人像面'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="identityBackImg" :label="'身份证国徽面'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="identityFrontImg" :label="'法人身份证人像面'"></show-img-view>
+        <show-img-view class="item" :disabled="true" ref="identityBackImg" :label="'法人身份证国徽面'"></show-img-view>
+        <show-img-view v-show="corporatePerson" class="item" :disabled="true" ref="identityHolderImg" :label="'法人手持身份证照'"></show-img-view>
         <show-img-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></show-img-view>
         <show-img-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></show-img-view>
         <show-img-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></show-img-view>
         <show-img-view class="item" :disabled="true" ref="placeImg" :label="'门头照片'"></show-img-view>
         <show-img-view class="item" v-show="publicPerson" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></show-img-view>
-        <show-img-view class="item" v-show="unCorporatePerson" :disabled="true" ref="certificateImg" :label="'授权书加盖公章'"></show-img-view>
-
-        <show-img-view v-show="corporatePerson" class="item" :disabled="true" ref="identityHolderImg" :label="'结算身份证照'"></show-img-view>
-        <show-img-view v-show="corporatePerson || unCorporatePerson" class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
         <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="holdCertificateImg" :label="'法人手持身份证与授权书'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderFrontImg" :label="'结算人人面像'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderBackImg" :label="'结算人国徽面'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderIdImg" :label="'结算人手持身份证合影'"></show-img-view>
+        <show-img-view class="item" v-show="unCorporatePerson" :disabled="true" ref="certificateImg" :label="'授权书加盖公章'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderFrontImg" :label="'结算人身份证人面像'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderBackImg" :label="'结算人身份证国徽面'"></show-img-view>
+        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderIdImg" :label="'结算人手持身份证'"></show-img-view>
+        <show-img-view v-show="corporatePerson || unCorporatePerson" class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
       </view-radius>
     </template>
     <!-- 电票详情 -->
