@@ -68,7 +68,7 @@ export default {
         {
           corresattr: "bankCustomerNo",
           type: "text",
-          label: "商户编号",
+          label: "银行商户编号",
           show: true, // 普通搜索显示
           value: "",
           cb: value => {
@@ -124,7 +124,7 @@ export default {
             word: "customerNo"
           },
           {
-            key: "商户编号",
+            key: "银行商户编号",
             width: "100px",
             word: "bankCustomerNo"
           },

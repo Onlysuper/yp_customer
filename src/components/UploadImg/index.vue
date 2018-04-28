@@ -15,7 +15,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-top: 1px solid #ebeef5;
+  border-left: 1px solid #ebeef5;
   h3 {
+    padding: 10px 0px 5px;
     font-size: 16px;
     font-weight: 500;
   }

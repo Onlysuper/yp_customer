@@ -16,7 +16,7 @@
             <!-- 详情 -->
             <table>
               <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
-              <myp-tr title="商户编号">{{item.bankCustomerNo}}</myp-tr>
+              <myp-tr title="银行商户编号">{{item.bankCustomerNo}}</myp-tr>
               <myp-tr title="备注">{{item.remark}}</myp-tr>
               <myp-tr title="审核原因">{{item.checkReason}}</myp-tr>
             </table>

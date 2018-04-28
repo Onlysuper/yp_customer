@@ -50,6 +50,8 @@
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
+    border-right: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
   }
   .paystatusUpload-box {
     .avatar-uploader .el-upload {
@@ -294,7 +296,6 @@ export default {
               "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg"]
             imgsidArr.forEach((item) => {
               if (imgs[item] != null) {
-                console.log(item + ":" + imgs[item].url);
                 this[item] = imgs[item].url;
                 this.saveForm[item] = imgs[item].id;
               }

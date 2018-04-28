@@ -31,7 +31,7 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "商户编号",
+        title: "银行商户编号",
         type: "myp-text",
         defaultValue: this.searchQuery.bankCustomerNo,
         cb: value => {
