@@ -395,7 +395,7 @@ export default {
           options: [
             // 操作按钮
             {
-              text: "查看",
+              text: "详情",
               color: "#00c1df",
               cb: rowdata => {
                 this.detailsForm = rowdata;

@@ -53,16 +53,9 @@ export default {
     },
   },
   actions: {
-    // 合计
-    getBillcountSum({ commit, dispatch, getters, rootGetters, rootState, state }) {
-      return getBillcountSum()({ ...state.searchQuery }).then(data => {
-        if (data.code == "00") {
-          commit("BANKCUSTOMER_SUM", data.data);
-          return true;
-        } else {
-          Toast(data.msg);
-        }
-      })
+    // 数据列表中获取当前编辑得数据
+    getBankCustomer({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
+      return state.list.find(item => item.customerNo == itemId);
     }
   }
 };

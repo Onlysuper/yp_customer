@@ -14,7 +14,7 @@
           <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.channelNo,'channelWay')">{{item.channelNo | statusFilter('channelWay')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
-            <table>
+            <table @click="detail(item)">
               <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
               <myp-tr title="银行商户编号">{{item.bankCustomerNo}}</myp-tr>
               <myp-tr title="备注">{{item.remark}}</myp-tr>
@@ -73,6 +73,12 @@ export default {
     watchDataList(watchDataList) {
       this.$store.commit("BANKCUSTOMER_SEARCH_INIT_list", watchDataList);
       this.$store.commit("BANKCUSTOMER_SEARCH", false);
+    },
+    detail(rowdata) {
+      this.$router.push({
+        path: "./detail/" + rowdata.customerNo,
+        query: { type: "DETAIL" }
+      });
     }
   },
   activated() {

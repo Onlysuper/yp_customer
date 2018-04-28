@@ -6,6 +6,35 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
+      <!-- 详情 start -->
+      <el-dialog title="详情" center :visible.sync="detailsFormVisible">
+        <div class="detail-content">
+          <div class="line-label-box cross-back">
+            <span class="line-label">商户编号:</span>
+            <span class="line-label-last">{{detailsForm.customerNo}}</span>
+            <span class="line-label">银行商户编号:</span>
+            <span class="line-label-last">{{detailsForm.bankCustomerNo}}</span>
+          </div>
+          <div class="line-label-box cross-back">
+            <span class="line-label">通道编号:</span>
+            <span class="line-label-last">{{statusFilter(detailsForm.channelNo, 'channelWay').text}}</span>
+            <span class="line-label">状态:</span>
+            <span class="line-label-last">{{statusFilter(detailsForm.status, 'bankCustomerStatus').text}}</span>
+          </div>
+          <div class="line-label-box cross-back">
+            <span class="line-label">备注:</span>
+            <span class="line-label-last">{{detailsForm.remark}}</span>
+          </div>
+          <div class="line-label-box cross-back">
+            <span class="line-label">审核原因:</span>
+            <span class="line-label-last">{{detailsForm.checkReason}}</span>
+          </div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="detailsFormVisible = false">取 消</el-button>
+        </div>
+      </el-dialog>
+      <!-- 详情 end -->
     </div>
   </div>
 </template>
@@ -47,7 +76,8 @@ export default {
       channelNo: "" // 商品名称
     };
     return {
-
+      detailsFormVisible: false,
+      detailsForm: {},
       formLabelWidth: "100px",
       // 查询条件数据
       searchCondition: searchConditionVar,
@@ -146,18 +176,32 @@ export default {
             type: data => {
               return this.statusFilter(data, 'bankCustomerStatus')
             }
-          },
-          {
-            key: "备注",
-            width: "100px",
-            word: "remark"
-          },
-          {
-            key: "审核原因",
-            width: "80px",
-            word: "checkReason"
           }
-        ]
+          // {
+          //   key: "备注",
+          //   width: "100px",
+          //   word: "remark"
+          // },
+          // {
+          //   key: "审核原因",
+          //   width: "80px",
+          //   word: "checkReason"
+          // }
+        ],
+        operation: {
+          width: "80px",
+          options: [
+            // 操作按钮
+            {
+              text: "详情",
+              color: "#00c1df",
+              cb: rowdata => {
+                this.detailsForm = rowdata;
+                this.detailsFormVisible = true
+              }
+            }
+          ]
+        }
       }
     };
   },

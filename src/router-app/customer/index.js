@@ -180,6 +180,15 @@ export default {
           meta: {
             pageTitle: "商品搜索"
           }
+        },
+        {
+          path: 'detail/:customerNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/customer/bankCustomer/detail")) }, "customer-app")
+          },
+          meta: {
+            pageTitle: "详情",
+          }
         }
       ]
     }
