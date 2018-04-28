@@ -169,33 +169,42 @@ export default {
           this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           let imgsArr = Object.entries(this.qrcodeImgs);
           for (var i = 0; i < imgsArr.length; i++) {
+            let imgname = " ";
             let item = imgsArr[i][1];
             let index = imgsArr[i][0];
             if (index == "fastBussinessImg") {
-              item["imgname"] = "营业执照"
+              imgname = "营业执照"
             } else if (index == "fastCashImg") {
-              item["imgname"] = "收银台照片"
+              imgname = "收银台照片"
             } else if (index == "fastHeaderImg") {
-              item["imgname"] = "门头照片"
-            } else {
-              item["imgname"] = ""
+              imgname = "门头照片"
             }
-            ((i) => {
-              let item = imgsArr[i][1];
-              let index = imgsArr[i][0];
-              var newImg = new Image();
-              newImg.src = item.url;
-              newImg.onerror = () => {
-                imgsArr[i][1].url = ""
-              }
-              newImg.onload = () => {
-                if (this.largeImgUrl == "") {
-                  // 默认显示的图片
-                  this.largeImg = { imgname: index, url: item.url };
-                  this.largeImgUrl = item.url
+            if (item) {
+              item["imgname"] = imgname;
+              console.log(item);
+              ((i) => {
+                let item = imgsArr[i][1];
+                let index = imgsArr[i][0];
+                var newImg = new Image();
+                newImg.src = item.url;
+                newImg.onerror = () => {
+                  imgsArr[i][1].url = ""
                 }
+                newImg.onload = () => {
+                  if (this.largeImgUrl == "") {
+                    // 默认显示的图片
+                    this.largeImg = { imgname: index, url: item.url };
+                    this.largeImgUrl = item.url
+                  }
+                }
+              })(i)
+            } else {
+              imgsArr[i][1] = {
+                imgname: imgname,
+                url: ""
               }
-            })(i)
+            }
+
 
           }
           this.imgsArr = imgsArr;
