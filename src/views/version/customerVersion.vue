@@ -143,10 +143,6 @@ export default {
             ...this.statusFilterQuery('typeCustomerVersion').filter(item => {
               return item['code'] != 'RELEASE'
             })
-            // versionTypeJson.filter(item => { if (item['code'] != 'RELEASE') return { value: item['code'], label: item['name'] } })
-            // ...versionTypeJson.filter(item => {
-            //   return item['code'] != 'RELEASE'
-            // }).map(item => { return { value: item.code, label: item.name } })
           ],
           cb: value => {
             this.searchCondition.type = value;
@@ -334,7 +330,6 @@ export default {
     }
   },
   mounted() {
-    // console.log(versionTypeJson.map(item => { console.log(item); return item }));
   },
   watch: {
     dialogVisible(val) {

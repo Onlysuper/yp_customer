@@ -11,7 +11,7 @@ export default {
 function getUrl() {
     switch (process.env.NODE_ENV) {
         case "development":
-            return "http://172.16.0.113:8090/tm";
+            return "http://172.16.0.35:8090/tm";
         case "productionTest":
             return location.protocol + "//tm.yeepiao.com/";
         case "production":
