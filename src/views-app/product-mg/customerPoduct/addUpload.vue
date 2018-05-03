@@ -17,7 +17,7 @@
         <upload-view :label="'店内照片'" class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg"></upload-view>
         <upload-view :label="'开户许可证'" v-show="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg"></upload-view>
         <upload-view :label="'结算卡正面'" v-show="corporatePerson || unCorporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg"></upload-view>
-        <upload-view :label="'结算身份证人人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg"></upload-view>
+        <upload-view :label="'结算人身份证人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg"></upload-view>
         <upload-view :label="'结算人身份证国徽面'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_BACK'" @result="resultMediaId" :dataKey="'cardHolderBackImg'" ref="cardHolderBackImg"></upload-view>
         <upload-view :label="'结算人手持身份证'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_WITH_ID'" @result="resultMediaId" :dataKey="'cardHolderIdImg'" ref="cardHolderIdImg"></upload-view>
         <!-- 非法人添加end -->
