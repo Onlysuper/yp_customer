@@ -88,7 +88,8 @@ export default {
               localStorage.setItem("isLogin", "100");
               location.reload();
             } else {
-              this.$message.error("登录出错,请稍后重试");
+              // console.log(data);
+              this.$message.error(data.msg);
             }
           });
         } else {

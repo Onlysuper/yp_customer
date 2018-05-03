@@ -35,12 +35,12 @@
           </el-col>
         </el-row>
 
-        <el-form-item label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
           <el-radio v-model="empoverCodeForm.serviceMode" label="HX">航信</el-radio>
           <el-radio v-model="empoverCodeForm.serviceMode" label="YP">易票</el-radio>
           <el-radio v-model="empoverCodeForm.serviceMode" label="HX_YP">航信_易票</el-radio>
         </el-form-item>
-        <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="empoverCodeForm.supportTypes">
             <el-checkbox v-for="city in empoverCodeForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
           </el-checkbox-group>
@@ -194,12 +194,12 @@
           <el-input v-model="editForm.extensionNum" auto-complete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
           <el-radio v-model="editForm.serviceMode" label="HX">航信</el-radio>
           <el-radio v-model="editForm.serviceMode" label="YP">易票</el-radio>
           <el-radio v-model="editForm.serviceMode" label="HX_YP">航信_易票</el-radio>
         </el-form-item>
-        <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="editForm.supportTypes">
             <el-checkbox ref="editFormP" @change="nomalCheck" label="普票"></el-checkbox>
             <el-checkbox ref="editFormZ" label="专票"></el-checkbox>
@@ -395,9 +395,9 @@ export default {
       },
 
       empoverCodeForm: {
-        serviceMode: "HX",
-        supportTypes: ["普票", "专票"],
-        supportTypesArr: ["普票", "专票", "特殊"]
+        serviceMode: "",
+        supportTypes: [],
+        supportTypesArr: []
       },
       empoverCodeRules: {
         agentNo: [
@@ -407,7 +407,7 @@ export default {
           { required: true, message: "批次数量不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          { required: true, message: "请选择支持类型", trigger: "blur,change" }
+          // { required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       editForm: {
