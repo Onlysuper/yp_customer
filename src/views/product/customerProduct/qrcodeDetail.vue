@@ -155,17 +155,12 @@ export default {
             qrcodeImgs = utils.pickObj(data.imgs, [
               "fastBussinessImg", "fastCashImg", "fastHeaderImg"
             ]);
-
-          } else {
-            console.log('隐藏');
-
           }
           if (qrcodeImgs) {
             this.detailRightVisible = true;
           } else {
             this.detailRightVisible = false
           }
-          // 默认显示第一张图
           this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           let imgsArr = Object.entries(this.qrcodeImgs);
           for (var i = 0; i < imgsArr.length; i++) {
@@ -204,15 +199,11 @@ export default {
                 url: ""
               }
             }
-
-
           }
           this.imgsArr = imgsArr;
-          // if (this.imgsArr.length == 0) {
-          //   this.detailRightVisible = false
-          // } else {
-          //   this.detailRightVisible = true
-          // }
+          if (this.detailsForm.qrcodeStatus == 'INIT') {
+            this.detailRightVisible = false;
+          }
         }
         dialogLoading.close();
       });

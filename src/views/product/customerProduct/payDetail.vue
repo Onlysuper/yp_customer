@@ -438,70 +438,19 @@ export default {
                 }
               }
             }
-            // for (var i = 0; i < imgsArr.length; i++) {
-            //   let item = imgsArr[i][1];
-            //   let index = imgsArr[i][0];
-            //   if (index == "identityFrontImg") {
-            //     item["imgname"] = "法人身份证人像面"
-            //   } else if (index == "identityBackImg") {
-            //     item["imgname"] = "法人身份证国徽面"
-            //   } else if (index == "bussinessLicenseImg") {
-            //     item["imgname"] = "营业执照"
-            //   } else if (index == "identityHolderImg") {
-            //     item["imgname"] = "手持身份证"
-            //   } else if (index == "settleCardImg") {
-            //     item["imgname"] = "结算卡正面"
-            //   } else if (index == "accountLicenseImg") {
-            //     item["imgname"] = "开户许可证"
-            //   } else if (index == "placeImg") {
-            //     item["imgname"] = "门头照片"
-            //   } else if (index == "storeImg") {
-            //     item["imgname"] = "店内照片"
-            //   } else if (index == "cashSpaceImg") {
-            //     item["imgname"] = "收银台照片"
-            //   } else if (index == "certificateImg") {
-            //     item["imgname"] = "授权书照片"
-            //   } else {
-            //     item["imgname"] = ""
-            //   }
-            //   ((i) => {
-            //     let item = imgsArr[i][1];
-            //     let index = imgsArr[i][0];
-            //     var newImg = new Image();
-            //     newImg.src = item.url;
-            //     // console.log(item.url);
-            //     newImg.onerror = () => {
-            //       imgsArr[i][1].url = ""
-            //     }
-            //     newImg.onload = () => {
-            //       if (this.largeImgUrl == "") {
-            //         // 默认显示的图片
-            //         this.largeImg = { imgname: index, url: item.url };
-            //         this.largeImgUrl = item.url
-            //       }
-            //     }
-            //   })(i)
-
-            // }
             this.imgsArr = imgsArr;
-            console.log(this.imgsArr);
-            if (this.imgsArr.length == 0) {
-              this.detailRightVisible = false;
-            } else {
-              this.detailRightVisible = true;
-            }
           } else {
             this.detailRightVisible = false;
           }
-          // this.imgsRow = imgsRow;
+          if (this.detailsForm.payStatus == 'INIT') {
+            this.detailRightVisible = false;
+          }
           this.payStatusDetails = {
             ...this.payStatusDetails,
             ...customerRow,
             ...settleCardRow,
-            ...productRow,
-            // ...imgsRow
+            ...productRow
           }
-
         }
         dialogLoading.close();
       });

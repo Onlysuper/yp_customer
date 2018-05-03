@@ -206,7 +206,9 @@ export default {
           { type: 'email', message: '请输入正确的邮箱地址', trigger: 'change' }
         ],
         idCard: [
-          { validator: idCardVerify_r, trigger: "blur,change" }
+          { required: true, message: "请输入有效身份证号", trigger: "blur,change" },
+          { required: true, validator: idCardVerify, trigger: "blur,change" },
+          // { validator: idCardVerify_r, trigger: "blur,change" }
         ],
         category: [
           { required: true, message: "请选择行业类型", trigger: "blur,change" }

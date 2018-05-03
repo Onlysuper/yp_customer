@@ -290,13 +290,22 @@ export default {
     },
     //提交
     submit() {
-
+      if (!this.validator.isCardNo(this.form.idCard)) {
+        this.MessageBox.alert("请输入有效身份证号码！");
+        return;
+      }
+      if (!this.validator.isMobile(this.form.reservedPhoneNo)) {
+        this.MessageBox.alert("请输入正确的手机号！");
+        return;
+      }
       let form = this.sendParams();
-      form.accountNo = form.accountNo.replace(/\s/g, '');
-      // console.log(form);
-      // this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
+      if (form.accountNo) {
+        form.accountNo = form.accountNo.replace(/\s/g, '');
+      }
       for (var i in form) {
-        form[i] = form[i].replace(/\s/g, '');
+        if (form[i]) {
+          form[i] = form[i].replace(/\s/g, '');
+        }
       }
       completeSettleInfo()(form).then(data => {
         if (data.code == "00") {
