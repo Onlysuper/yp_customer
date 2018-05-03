@@ -6,18 +6,21 @@
 
     <div class="add-playinfo">
       <view-radius class="uploads">
-        <upload-view class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg" :label="'身份证人像面'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg" :label="'身份证国徽面'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg" :label="'营业执照'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg" :label="'店内照片'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg" :label="'收银台照片'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg" :label="'结算卡正面'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg" :label="'门头照片'"></upload-view>
-        <upload-view class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg" :label="'手持身份证照'"></upload-view>
-        <!-- 如果是对私账户、不需要上传开户许可证 -->
-        <upload-view v-show="accountType == '0'" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg" :label="'开户许可证'"></upload-view>
-        <!-- 如果是对私账户、并且结算卡名称与法人名称不一致时需要上传授权书协议 -->
-        <upload-view v-show="accountType == '1' && accountName != legalPerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg" :label="'授权书'"></upload-view>
+        <upload-view :label="'营业执照'" class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg"></upload-view>
+        <upload-view :label="'法人身份证人像面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg"></upload-view>
+        <upload-view :label="'法人身份证国徽面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg"></upload-view>
+        <upload-view :label="'法人手持身份证'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg"></upload-view>
+        <upload-view :label="'法人手持身份证与授权书'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'HOLD_CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'holdCertificateImg'" ref="holdCertificateImg"></upload-view>
+        <upload-view :label="'授权书加盖公章'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg"></upload-view>
+        <upload-view :label="'门头照片'" class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg"></upload-view>
+        <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg"></upload-view>
+        <upload-view :label="'店内照片'" class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg"></upload-view>
+        <upload-view :label="'开户许可证'" v-show="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg"></upload-view>
+        <upload-view :label="'结算卡正面'" v-show="corporatePerson || unCorporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg"></upload-view>
+        <upload-view :label="'结算身份证人人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg"></upload-view>
+        <upload-view :label="'结算人身份证国徽面'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_BACK'" @result="resultMediaId" :dataKey="'cardHolderBackImg'" ref="cardHolderBackImg"></upload-view>
+        <upload-view :label="'结算人手持身份证'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_WITH_ID'" @result="resultMediaId" :dataKey="'cardHolderIdImg'" ref="cardHolderIdImg"></upload-view>
+        <!-- 非法人添加end -->
       </view-radius>
       <mt-radio v-model="value" v-targetTo style="text-align: center;" @click.native="visible = true" :options="['同意《支付开通协议》']"></mt-radio>
     </div>
@@ -131,6 +134,11 @@ export default {
   },
   data() {
     return {
+      // 图片显示隐藏start
+      publicPerson: false,//对公
+      corporatePerson: false,//对私法人
+      unCorporatePerson: false,//对私非法人
+      // 图片显示隐藏end
       visible: false,
       value: "",
       customerNo: this.$route.query["customerNo"],
@@ -183,6 +191,19 @@ export default {
         this.accountType = settleCard.accountType;
         this.accountName = settleCard.accountName;
       }
+      if (this.accountType == "0") {
+        // 对公:
+        this.publicPerson = true;
+      } else if (this.accountType == "1") {
+        // 对私
+        if (this.accountName == this.legalPerson) {
+          // 法人
+          this.corporatePerson = true;
+        } else {
+          // 非法人
+          this.unCorporatePerson = true;
+        }
+      }
     },
     //图片上传结果
     resultMediaId(dataKey, mediaId) {
@@ -194,21 +215,6 @@ export default {
       else this.value = "";
     },
     submit() {
-      // //如果是对公账户
-      // if (this.accountType == "0") {
-      //   delete this.imgs["certificateImg"]
-      // }
-
-      // //如果是对私账户 结算卡和法人名称一致时
-      // if (this.accountType == "1") {
-      //   delete this.imgs["accountLicenseImg"]
-      //   delete this.imgs["certificateImg"]
-      // }
-
-      // //如果是对私账户 结算卡和法人名称不一致时
-      // if (this.accountType == "1") {
-      //   delete this.imgs["accountLicenseImg"] //禁止上传开户许可证
-      // }
       completeBussinessImg()({
         ...this.imgs,
         customerNo: this.customerNo

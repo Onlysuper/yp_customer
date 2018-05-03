@@ -17,8 +17,8 @@
           <!-- 常用按钮 -->
           <div slot="btn" @click="toUrl('EDIT',item.customerNo)">编辑</div>
           <!-- 状态 -->
-          <mt-badge slot="badge" v-if="item.customerFrom" class="g-min-badge" size="small" :color="filterColor(item.customerFrom,'customerFrom').type">{{item.customerFrom | statusFilter("customerFrom")}}</mt-badge>
-          <mt-badge slot="badge" v-if="item.status" class="g-min-badge" size="small" :color="filterColor(item.status,'handleStatus').type">{{item.status | statusFilter('handleStatus')}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.customerFrom" class="g-min-badge" size="small" :color="filterColor(item.customerFrom,'customerFrom')">{{item.customerFrom | statusFilter("customerFrom")}}</mt-badge>
+          <mt-badge slot="badge" v-if="item.status" class="g-min-badge" size="small" :color="filterColor(item.status,'handleStatus')">{{item.status | statusFilter('handleStatus')}}</mt-badge>
 
           <myp-cell class="list-item _av" @click="detail(item)">
             <!-- 详情 -->
@@ -27,6 +27,7 @@
               <myp-tr title="企业税号">{{item.taxNo}}</myp-tr>
               <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
               <myp-tr title="入网时间">{{item.createTime}}</myp-tr>
+              <myp-tr title="手机号码">{{item.phoneNo}}</myp-tr>
             </table>
             <!-- 更多操作 -->
             <div slot="right" @click="operation(item)">更多</div>
@@ -148,24 +149,17 @@ export default {
       });
     },
     operation(customer) {
-      if (customer.status == 'TRUE' && this.isAdmin) {
-        this.actions = [
-          {
-            name: "转移",
-            method: this.transfer
-          },
-          {
-            name: "关闭",
-            method: this.closeSave
-          }
-        ]
-      } else {
-        this.actions = [
-          {
-            name: "转移",
-            method: this.transfer
-          },
-        ]
+      this.actions = [
+        {
+          name: "转移",
+          method: this.transfer
+        },
+      ]
+      if (customer.status == 'TRUE' && this.adminFilter('customer_updateByStatus')) {
+        this.actions.push({
+          name: "关闭",
+          method: this.closeSave
+        })
       }
       this.sheetVisible = true;
       this._customer = customer;

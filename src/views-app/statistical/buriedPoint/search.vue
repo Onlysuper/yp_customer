@@ -5,7 +5,6 @@
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
-import versionTypeJson from "@src/data/versionType";
 import buriedPointActionId from "@src/data/buriedPointActionId.json"
 export default {
   components: { SearchPage },

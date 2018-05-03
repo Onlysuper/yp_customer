@@ -1,97 +1,54 @@
 <template>
   <!-- layout 左侧菜单区域 -->
   <div class="aside-box">
-    <div :class="'logo-box'" ref="logoBox">
-      <div class="img-box">
-        <img :src="require('@src/assets/images/logoSmall.png')" alt="">
-      </div>
-      <h1 v-if="!isCollapse" :class="'home-title'">
-        <router-link to="/home">易票管理系统v1.0</router-link>
-      </h1>
-    </div>
     <div class="scroll-view-box">
-      <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
-        <el-menu :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#fff" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+      <el-menu :collapse-transition='true' popper-class="myp-menu-active" background-color="#001529" :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#878d99" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+        <div :class="'logo-box'" ref="logoBox">
+          <div class="img-box">
+            <img :src="require('@src/assets/images/logoSmall.png')" alt="">
+          </div>
+          <h1 v-if="!isCollapse" :class="'home-title'">
+            <router-link to="/home">易票管理系统v1.0</router-link>
+          </h1>
+        </div>
+        <iscroll-view class="scroll-view" ref="iscroll" :options="iscrollOptions">
           <el-submenu v-for="(item, index) in menuList" :index="item.menuCode" :key="index">
             <template slot="title">
               <i :class="'icon icon-'+item.menuCode"></i>
-              <span slot="title">{{item.menuName}}</span>
+              <!-- <span v-if="!isCollapse" slot="title">{{item.menuName}}</span> -->
+              <span v-if="!isCollapse" slot="title">{{item.menuName}}</span>
             </template>
             <el-menu-item v-for="(item2, index2) in item.child" :key="index2" :index="item2.menuCode">
               {{item2.menuName}}
             </el-menu-item>
           </el-submenu>
-        </el-menu>
-      </iscroll-view>
+        </iscroll-view>
+      </el-menu>
     </div>
   </div>
-  <!-- </div> -->
   <!-- 左侧菜单 -->
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='less'>
-@keyframes widthSmall {
-  from {
-    width: 210px;
-  }
-  to {
-    width: 66px;
-  }
-}
-@keyframes widthBig {
-  from {
-    width: 66px;
-  }
-  to {
-    width: 210px;
-  }
-}
-.el-menu-vertical:not(.el-menu--collapse) {
-  min-height: 400px;
-  width: 210px;
-  position: relative;
-}
-.isCollapseSmall {
-  animation: widthSmall 0.3s ease-in-out;
-  -webkit-animation: widthSmall 0.3s ease-in-out;
-  width: 66px;
-}
-.isCollapseBig {
-  animation: widthBig 0.2s ease-in-out;
-  -webkit-animation: widthBig 0.2s ease-in-out;
-  width: 210px;
-}
-.my-transition(@attr) {
-  transition: @attr 0.8s;
-  -moz-transition: @attr 0.8s;
-  -webkit-transition: @attr 0.8s;
-  -o-transition: @attr 0.8s;
-}
+<style lang='scss'>
 .aside-box {
-  z-index: 999;
   position: relative;
-  display: flex;
+  height: 100%;
   background: #001529;
   box-shadow: 2px 3px 8px rgba(105, 105, 105, 0.8);
-  position: relative;
-  z-index: 11;
-  flex: 1;
-  width: auto;
-  flex-direction: column;
-  align-items: stretch;
+  z-index: 1000;
   .logo-box {
-    // min-width: 66px;
+    width: 100%;
     overflow: hidden;
     display: flex;
-    box-sizing: border-box;
     justify-content: start;
+    box-sizing: border-box;
     align-items: center;
     padding: 0 16px;
     background: #002240;
     color: #fff;
     box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
     position: relative;
-    z-index: 999;
+    z-index: 1;
     height: 54px;
     .img-box {
       display: inline-block;
@@ -123,99 +80,80 @@
     height: 100%;
     width: 100%;
     display: flex;
-    overflow: hidden;
+    .scroll-view {
+      width: 100%;
+      top: 60px;
+      position: absolute;
+      bottom: 0px;
+    }
   }
-  .scroll-view {
-    touch-action: none;
+  .el-menu--collapse {
+    .el-submenu:hover {
+      background: #000c17 !important;
+    }
+    .el-submenu__icon-arrow {
+      display: none;
+    }
+    .icon {
+      padding-right: 17px;
+    }
+  }
+  /*重置样式 start*/
+  .el-menu-vertical:not(.el-menu--collapse) {
+    /*设置宽度才会有缓动动画*/
+    width: 220px;
+    min-height: 400px;
     position: relative;
     height: 100%;
-    width: 100%;
   }
-
-  /*重置样式 start*/
-  .el-dropdown-link {
-    cursor: pointer;
+  .myp-menu-active {
+    li {
+      background: #00c1df;
+      &:hover,
+      &:focus {
+        background: #00c1df;
+        color: #fff;
+      }
+    }
   }
   .el-menu {
     border-right: 0;
-    background: #001529 !important;
+    .el-dropdown-link {
+      cursor: pointer;
+    }
     .el-submenu__title {
-      color: #878d99 !important;
+      text-indent: 10px;
+      padding-left: 8px !important;
+      i {
+        padding-right: 5px;
+      }
       &:hover {
+        background: transparent !important;
         color: #fff !important;
-        .my-transition(color);
         .icon {
           color: #fff !important;
-          .my-transition(color);
         }
       }
     }
     .icon {
-      font-size: 24px;
+      font-size: 30px;
     }
-    // 当前选中的颜色
-    // .el-submenu.is-active {
-    //   .el-submenu__title {
-    //     background: #000;
-    //     &:hover {
-    //       background: #000 !important;
-    //     }
-    //   }
-    // }
-  }
-  // .el-menu-vertical {
-  //   margin-top: 54px;
-  // }
-  .el-menu-vertical:not(.el-menu--collapse) {
-    min-height: 400px;
-    position: relative;
-  }
-  .icon-statistical_manage {
-    &::before {
-      display: inline-block;
-      transform: translateX(2px);
-    }
-  }
-  .el-submenu__title:hover {
-    background: transparent !important;
-  }
-  .el-menu--collapse .el-submenu:hover {
-    background: #000c17 !important;
-  }
-  .el-submenu .el-menu-item {
-    background: #000c17 !important;
-    color: #878d99 !important;
-    text-indent: 18px;
-    &:hover {
-      color: #fff !important;
-      transition: color 0.8s;
-      .my-transition(color);
-    }
-    &.is-active {
-      background: #00c1df !important;
-      color: #fff !important;
-      .my-transition(color);
+    .el-menu-item {
+      background: #000c17 !important;
+      color: #878d99 !important;
+      text-indent: 18px;
+      &:hover {
+        color: #fff !important;
+        transition: color 0.8s;
+      }
+      &.is-active {
+        background: #00c1df !important;
+        color: #fff !important;
+      }
     }
   }
   // 重置样式end
 }
-
-@media screen and (max-width: 500px) {
-  .aside-box {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 500px) {
-  .sidebar-box {
-    position: relative;
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    background: #000c17;
-  }
-}
-// }
 </style>
 
 <script>

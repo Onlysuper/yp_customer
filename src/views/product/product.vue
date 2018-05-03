@@ -404,11 +404,7 @@ export default {
               text: "编辑",
               color: "#00c1df",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.product_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('product_edit')
               },
               cb: rowdata => {
                 this.editForm = rowdata;
@@ -422,7 +418,7 @@ export default {
               color: "#67c23a",
               visibleFn: rowdata => {
                 if (
-                  this.adminOperationAll.product_true == "TRUE" &&
+                  this.adminFilter('product_true') &&
                   rowdata.status == "FALSE"
                 ) {
                   return true;
@@ -471,7 +467,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
-                  this.adminOperationAll.product_false == "TRUE" &&
+                  this.adminFilter('product_false') &&
                   rowdata.status == "TRUE"
                 ) {
                   return true;

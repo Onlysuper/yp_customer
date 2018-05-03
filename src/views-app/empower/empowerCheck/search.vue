@@ -4,9 +4,11 @@
 
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
+import { statusFilterQuery } from "@src/common/mixins";
 import { mapState } from "vuex";
 export default {
   components: { SearchPage },
+  mixins: [statusFilterQuery],
   data() {
     return {
       searchVisible: true,
@@ -90,18 +92,7 @@ export default {
               name: "全部",
               code: ""
             },
-            {
-              name: "待审核",
-              code: "AUDITING"
-            },
-            {
-              name: "审核通过",
-              code: "SUCCESS"
-            },
-            {
-              name: "拒绝",
-              code: "REJECT"
-            }
+            ...this.statusFilterQuery('empowerCheckStatus')
           ],
         cb: value => {
           this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {
@@ -120,14 +111,7 @@ export default {
               name: "全部",
               code: ""
             },
-            {
-              name: "授权码",
-              code: "AUTHCODE"
-            },
-            {
-              name: "扫码枪",
-              code: "SCANCODEGUN"
-            }
+            ...this.statusFilterQuery('empowerCheckReceiptType')
           ],
         cb: value => {
           this.$store.commit("QRCODERECIEPTAUDIT_SEARCH_QUERY", {

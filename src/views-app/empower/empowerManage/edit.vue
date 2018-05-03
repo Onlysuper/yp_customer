@@ -12,12 +12,12 @@
         <mt-field type="text" :disabled="true" label="合伙人编号" placeholder="请输入合伙人编号" v-model="empowerList.agentNo"></mt-field>
         <mt-field type="text" :disabled="true" label="商户编号" placeholder="请输入商户编号" v-model="empowerList.customerNo"></mt-field>
         <mt-field type="text" label="分机号" placeholder="请输入分机号" v-model="empowerList.extensionNum"></mt-field>
-        <div>
+        <div v-show="false">
           <mt-cell title="服务方式" class="border-1px"></mt-cell>
           <mt-radio class="myp-chek-list border-1px" title="" v-model="empowerList.serviceMode" :options="serviceModeOptions">
           </mt-radio>
         </div>
-        <div>
+        <div v-show="false">
           <mt-cell title="支持类型" class="border-1px"></mt-cell>
           <mt-checklist class="myp-chek-list border-1px" title="" v-model="empowerList.supportTypes" :options="supportTypesOptions">
           </mt-checklist>
@@ -67,7 +67,6 @@ export default {
       empowerList: {
         serviceMode: "",
         supportTypes: [],
-        bb: []
       },
       pageTitle: {
         ADD: "添加",

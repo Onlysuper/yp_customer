@@ -2,7 +2,8 @@
   <full-page ref="FullPage">
     <mt-header slot="header" :title="$route.meta.pageTitle+'('+count+')'">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
+      <!-- <mt-button class="iconfont icon-sousuo1" slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})"></mt-button> -->
+      <mt-button slot="right" style="float:left;" class="iconfont icon-sousuo1"></mt-button>
       <mt-button slot="right" :disabled="false" type="danger" @click="$router.push({path:'./add'})">新增</mt-button>
     </mt-header>
     <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>

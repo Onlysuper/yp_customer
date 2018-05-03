@@ -43,11 +43,12 @@ export default {
   left: 0;
   right: 0;
   overflow: hidden;
-  // height: 100vh;
+  align-items: stretch;
   .layout-main {
+    display: flex;
     flex-direction: column;
-    // width: 100% !important;
-    flex: 100% !important;
+    height: 100%;
+    align-items: stretch;
   }
 }
 .layout-fade-enter-active,

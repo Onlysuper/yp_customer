@@ -20,7 +20,7 @@
             <el-col :span="11">
               <el-form-item label="版本类型" prop="type" v-if="!isUpdate">
                 <el-select v-model="form.type" placeholder="请选择">
-                  <el-option v-for="item in versionTypeOptions" :key="item.code" :label="item.name" :value="item.code">
+                  <el-option v-for="item in versionTypeOptions" :key="item.code" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -63,7 +63,6 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
-import versionTypeJson from "@src/data/versionType"
 import {
   postCustomerVersion,
   patchCustomerVersion,
@@ -83,7 +82,7 @@ export default {
       status: "" // 状态
     };
     return {
-      versionTypeOptions: versionTypeJson.filter(item => { return item['code'] != 'RELEASE' }),
+      versionTypeOptions: [],
       dialogVisible: false, //上传面板是否可见
       isUpdate: true,
       isBatchUpdate: false,
@@ -124,18 +123,7 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "TRUE",
-              label: "允许升级"
-            },
-            {
-              value: "FALSE",
-              label: "不允许升级"
-            },
-            {
-              value: "SUCCESS",
-              label: "升级成功"
-            }
+            ...this.statusFilterQuery('versionStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -152,10 +140,9 @@ export default {
               value: "",
               label: "全部"
             },
-            // versionTypeJson.filter(item => { if (item['code'] != 'RELEASE') return { value: item['code'], label: item['name'] } })
-            ...versionTypeJson.filter(item => {
+            ...this.statusFilterQuery('typeCustomerVersion').filter(item => {
               return item['code'] != 'RELEASE'
-            }).map(item => { return { value: item.code, label: item.name } })
+            })
           ],
           cb: value => {
             this.searchCondition.type = value;
@@ -206,23 +193,7 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              switch (data) {
-                case "TRUE":
-                  return {
-                    text: "允许升级",
-                    type: ""
-                  };
-                case "SUCCESS":
-                  return {
-                    text: "升级成功",
-                    type: "success"
-                  };
-                default:
-                  return {
-                    text: "不允许升级",
-                    type: "warning"
-                  };
-              }
+              return this.statusFilter(data, 'versionStatus')
             }
           },
           {
@@ -359,12 +330,14 @@ export default {
     }
   },
   mounted() {
-    // console.log(versionTypeJson.map(item => { console.log(item); return item }));
   },
   watch: {
     dialogVisible(val) {
       this.saveLoadingStop(val);
     },
+  },
+  created() {
+    this.versionTypeOptions = this.statusFilterQuery('typeCustomerVersion').filter(item => { return item['code'] != 'RELEASE' })
   }
 };
 </script>

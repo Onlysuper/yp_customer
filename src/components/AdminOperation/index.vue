@@ -14,10 +14,23 @@
       </span>
       <el-dropdown-menu class="dropdown-menu" slot="dropdown">
         <el-dropdown-item @click.native="dialogFormVisiblefn">
-          密码修改
+          <div class="icon-back">
+            <i class="iconfont icon-Password"></i>
+          </div>
+          <span class="icon-text">密码修改</span>
         </el-dropdown-item>
-        <el-dropdown-item @click.native="dialogUserVisiblefn">个人信息</el-dropdown-item>
-        <el-dropdown-item class="esc-item" :show-timeout="100" divided @click.native="escloginfn">退出</el-dropdown-item>
+        <el-dropdown-item @click.native="dialogUserVisiblefn">
+          <div class="icon-back">
+            <i class="iconfont icon-geren11"></i>
+          </div>
+          <span class="icon-text">个人信息</span>
+        </el-dropdown-item>
+        <el-dropdown-item class="esc-item" :show-timeout="100" divided @click.native="escloginfn">
+          <div class="icon-back">
+            <i class="iconfont icon-tuichu"></i>
+          </div>
+          <span class="icon-text">退出</span>
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     <!-- 管理员信息弹出框 -->
@@ -32,7 +45,7 @@
       </div>
     </el-dialog>
     <!-- 修改管理员密码 start -->
-    <el-dialog center title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="450px">
+    <el-dialog :show-close="closeVisible"  center title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="450px">
       <el-form :model="resetPwform" ref="resetPwform" :rules="passwordRules">
         <el-form-item label="旧密码" prop="oldPassword" :label-width="formLabelWidth">
           <el-input id="oldPassword" type="password" v-model="resetPwform.oldPassword" auto-complete="off"></el-input>
@@ -45,7 +58,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="resetFormfn('resetPwform')">取 消</el-button>
+        <el-button v-if="closeVisible" @click="resetFormfn('resetPwform')">取 消</el-button>
         <el-button type="primary" @click="submitFormfn('resetPwform')">确 定</el-button>
       </div>
     </el-dialog>
@@ -115,12 +128,36 @@
   }
 }
 .dropdown-menu {
+  padding: 0px !important;
+  // display: flex;
+  // align-items: stretch;
+  .icon-back {
+    display: inline-block;
+    background: #f8f7f7;
+    width: 30px;
+    line-height: 35px;
+    text-align: center;
+    .iconfont {
+      font-size: 14px;
+    }
+  }
+  .icon-text {
+    // border-left: 1px solid #e6ebf5;
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 20px;
+  }
   .el-dropdown-menu__item {
     white-space: nowrap;
-    line-height: 30px;
+    // line-height: 30px;
+    border-bottom: 1px solid #e6ebf5;
+    padding: 0px;
   }
-  .el-dropdown-menu__item--divided:before {
-    height: 1px;
+  .el-dropdown-menu__item--divided {
+    border-top: 0px;
+    &:before {
+      height: 1px;
+    }
   }
   .esc-item {
     margin-top: 0px !important;
@@ -165,6 +202,7 @@ export default {
       }
     };
     return {
+      closeVisible:true,//关闭按钮
       defaultPickerColor: "#00c1df",
       realname: "",
       dialogUserVisible: false, //管理员信息弹出框
@@ -187,6 +225,7 @@ export default {
   },
 
   methods: {
+     
     dialogUserVisiblefn() {
       // 管理员信息弹出框
       this.dialogUserVisible = true;
@@ -194,6 +233,7 @@ export default {
     dialogFormVisiblefn() {
       // 修改密码弹出框
       this.dialogFormVisible = true;
+      this.closeVisible = true;
     },
     submitFormfn(formName) {
       this.$refs[formName].validate(valid => {
@@ -242,6 +282,15 @@ export default {
     resetFormfn(formName) {
       this.$refs[formName].resetFields();
       this.dialogFormVisible = false;
+    },
+     // 按钮权限
+    adminFilter(fileterName) {
+      let fileter = this.$store.state.userInfoAndMenu.userMessage.all[fileterName]
+      if (fileter == "TRUE") {
+        return true
+      } else {
+        return false
+      }
     }
   },
   computed: {
@@ -249,6 +298,11 @@ export default {
       return this.$store.state.userInfoAndMenu.userMessage;
     }
   },
-  mounted() { }
+  mounted() { 
+    if(this.adminFilter('resetPasswordStatus')){
+      this.closeVisible = false;
+      this.dialogFormVisible = true;
+    }
+  }
 };
 </script>

@@ -4,10 +4,11 @@
 
 <script>
 import invoiceType from "@src/data/invoiceType.json";
-import billRecordStatus from "@src/data/billRecordStatus.json";
+import { statusFilterQuery } from "@src/common/mixins";
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
 export default {
+  mixins: [statusFilterQuery],
   components: { SearchPage },
   data() {
     return {
@@ -87,7 +88,7 @@ export default {
               name: "全部",
               code: ""
             },
-            ...billRecordStatus
+            ...this.statusFilterQuery('payStatus')
           ],
         cb: value => {
           this.$store.commit("BILLRECORD_SEARCH_QUERY", {

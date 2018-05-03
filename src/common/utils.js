@@ -72,6 +72,10 @@ export default {
             type: color
         }
     },
+    // 状态查询
+    statusFilterQuery(type) {
+        return statusFilter[type];
+    },
     // 得到对象里面的部分属性组成心得对象
     pickObj(obj = {}, arr) {
         if (obj) {
@@ -216,7 +220,46 @@ export default {
     },
     // 银行卡号四个
     validateNum: function (val) {
-        let newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
-        return val
+        let newval = val;
+        if (val) {
+            newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ')
+        }
+        return newval
+    },
+    // 　将地区json转成数组格式
+    areaPicherOptions() {
+        let provinceNew = [];
+        let cityNew = [];
+        let areaNew = [];
+        let provinCode = "";
+        let areaCode = "";
+        for (let [provinceKey, province] of Object.entries(org)) {
+            // 省
+            cityNew = [];
+            for (let [cityKey, city] of Object.entries(province)) {
+                // 市
+                areaNew = [];
+                for (let [areaKey, area] of Object.entries(city)) {
+                    // 区
+                    areaNew.push({
+                        value: area,
+                        label: areaKey,
+                    });
+                    areaCode = area.slice(0, 4) + '00';
+                    provinCode = area.slice(0, 2) + '0000'
+                }
+                cityNew.push({
+                    value: areaCode,
+                    label: cityKey,
+                    children: areaNew
+                })
+            }
+            provinceNew.push({
+                value: provinCode,
+                label: provinceKey,
+                children: cityNew
+            })
+        }
+        return provinceNew;
     }
 }

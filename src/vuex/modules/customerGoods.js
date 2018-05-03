@@ -95,7 +95,6 @@ export default {
       }).then(data => {
         if (data.code == "00") {
           Toast("添加成功");
-
           commit("ADD_GOOD", good);
           return true;
         } else {

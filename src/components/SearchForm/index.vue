@@ -3,7 +3,7 @@
 
   <div class="search-page" @keyup.enter="searchStart">
     <!-- Form 表单编写 start -->
-    <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="90px">
+    <el-form size="small" :class="[visibleinput?'showform-box':'visibleform-box','form-box']" ref="searchform" label-width="100px">
       <el-form-item :class="itemWidth(item.type)" v-for="(item,index) in searchOptions" :key="index+'in'" :label="item.label" v-show="item.show?showinput:visibleinput" v-if="item.visible=='TRUE'?false:true">
 
         <!-- 文本框 -->
@@ -317,6 +317,7 @@ export default {
     border-bottom: 1px solid #eee;
     display: flex;
     flex-shrink: 0;
+    flex-wrap: wrap;
     &::after {
       content: "";
       display: block;
@@ -326,6 +327,7 @@ export default {
       width: 170px;
       flex-grow: 0;
       flex-shrink: 0;
+      flex-wrap: wrap;
       // display: flex;
       // white-space: nowrap;
     }
@@ -432,8 +434,8 @@ export default {
       }
     }
     /*普通样式start*/
-    .visibleform-box,
-    .showform-box {
+    .showform-box,
+    .visibleform-box {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
@@ -443,6 +445,7 @@ export default {
         flex: 1;
         flex-wrap: wrap;
         padding-bottom: 10px;
+        // display: inline-block;
         button {
           margin-left: 10px;
         }
@@ -451,24 +454,17 @@ export default {
     /*普通搜索样式end*/
 
     /*高级搜索样式start*/
-    // .showform-box {
-    //   overflow: hidden;
-    //   margin-top: 5px !important;
-    //   display: flex;
-    //   flex-wrap: wrap;
-    //   justify-content: baseline;
-    //   .el-form-item {
-    //     margin-bottom: 5px;
-    //   }
-
-    //   .button-box {
-    //     display: flex;
-    //     justify-content: flex-end;
-    //     padding: 5px 5px 10px 5px;
-    //     width: 100%;
-    //     overflow: hidden;
-    //   }
-    // }
+    .showform-box {
+      .button-box {
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        padding-bottom: 10px;
+        width: 400px;
+        flex-basis: 400px;
+        flex-shrink: 0;
+      }
+    }
     /*高级搜索样式end*/
   }
   .el-form-item__label {

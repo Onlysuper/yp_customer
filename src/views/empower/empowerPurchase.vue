@@ -236,18 +236,7 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "AUDITING",
-              label: "待审核"
-            },
-            {
-              value: "SUCCESS",
-              label: "审核通过"
-            },
-            {
-              value: "REJECT",
-              label: "拒绝"
-            }
+            ...this.statusFilterQuery('empowerCheckStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -264,14 +253,7 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "AUTHCODE",
-              label: "授权码"
-            },
-            {
-              value: "SCANCODEGUN",
-              label: "扫码枪"
-            }
+            ...this.statusFilterQuery('empowerCheckReceiptType')
           ],
           cb: value => {
             this.searchCondition.receiptType = value;
@@ -468,8 +450,9 @@ export default {
             {
               text: "编辑",
               visibleFn: rowdata => {
+
                 if (
-                  this.adminOperationAll.qr_code_reciept_edit == "TRUE" &&
+                  this.adminFilter('qr_code_reciept_edit') &&
                   (rowdata.status == "AUDITING" ||
                     rowdata.status == "REJECT") &&
                   rowdata.receiptType == "SCANCODEGUN"
@@ -489,7 +472,7 @@ export default {
               text: "编辑",
               visibleFn: rowdata => {
                 if (
-                  this.adminOperationAll.qr_code_reciept_edit == "TRUE" &&
+                  this.adminFilter('qr_code_reciept_edit') &&
                   (rowdata.status == "AUDITING" ||
                     rowdata.status == "REJECT") &&
                   rowdata.receiptType == "AUTHCODE"

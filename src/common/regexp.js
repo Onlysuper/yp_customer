@@ -1,14 +1,5 @@
 // pc端表单验证
-const regRule = {
-    tax: /^[a-zA-Z0-9]{15,20}$/, // 税号
-    mobel: /^1[3|4|5|6|8|7|9][0-9]\d{8}$/, // 
-    email: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/,
-    money: /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/,
-    name: /^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/,
-    bankno: /^\d{16,19}$/,
-    idCard: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, // 身份证号码
-    positiveNum: /^([0-9]*[0-9][0-9]*(.[0-9]+)?|[0]+.[0-9]*[0-9][0-9]*)$/ // 大于等于0
-}
+import regRule from "@src/common/formRegexp.js";
 // 税号 可以为空
 const taxNumVerify = (rule, value, callback) => {
     if (!!value && !regRule['tax'].test(value)) {

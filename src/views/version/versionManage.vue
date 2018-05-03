@@ -84,7 +84,6 @@ import DataPage from "@src/components/DataPage";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { todayDate } from "@src/common/dateSerialize";
-import versionType from "@src/data/versionType"
 import {
   patchVersion,
   getVersions,
@@ -104,7 +103,7 @@ export default {
       status: "" // 状态
     };
     return {
-      versionTypeOptions: versionType,
+      versionTypeOptions: [],
       uploadDialogVisible: false, //上传面板是否可见
       isUpdate: true,
       editType: false,
@@ -236,11 +235,12 @@ export default {
               text: "编辑",
               color: "#3685FD",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.agent_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('agent_edit')
+                // if (this.adminOperationAll.agent_edit == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.uploadDialogVisible = true;
@@ -251,11 +251,12 @@ export default {
             {
               text: "启用",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.agent_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('agent_edit')
+                // if (this.adminOperationAll.agent_edit == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               color: "#3685FD",
               visibleFn: rowdata => {
@@ -421,6 +422,9 @@ export default {
     }
   },
   mounted() { },
+  created() {
+    this.versionTypeOptions = this.statusFilterQuery('typeCustomerVersion')
+  },
   watch: {
     uploadDialogVisible(val) {
       this.saveLoadingStop(val);

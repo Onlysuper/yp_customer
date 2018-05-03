@@ -6,16 +6,7 @@ const ERROR = "error";
 /**
  * 定义验证规则
  */
-let rule = {
-  tax: /^[a-zA-Z0-9]{15,20}$/,
-  mobel: /^1[3|4|5|8|7|9][0-9]\d{8}$/,
-  email: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/,
-  money: /^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/,
-  name: /^([\u4e00-\u9fa5]+|[a-zA-Z0-9]+)$/,
-  bankno: /^\d{16,19}$/,
-  idCard: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
-}
-
+import rule from "@src/common/formRegexp.js";
 function isRule(regText, value) {
   const reg = new RegExp(regText);
   return value ? reg.test(value) ? SUCCESS : DEFAULT : DEFAULT;

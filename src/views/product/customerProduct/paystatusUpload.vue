@@ -2,102 +2,22 @@
   <div>
     <div v-if="formVisible" class="paystatusUpload-box">
       <el-form size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width is-required" label="法人身份证人像面" prop="idcard" :label-width="formLabelWidth">
-                <el-upload :data="idcardData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="idcardbeforeUpload">
-                  <img v-if="identityFrontImg" :src="identityFrontImg" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item class="full-width is-required" label="法人身份证国徽面" prop="idcardBack" :label-width="formLabelWidth">
-                <el-upload :data="idcardBackData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="idcardBackbeforeUpload">
-                  <img v-if="identityBackImg!=''&&identityBackImg!=null" :src="identityBackImg" class="avatar">
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item class="full-width is-required" label="手持身份证照" prop="applicant" :label-width="formLabelWidth">
-              <el-upload :data="applicantData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="applicantbeforeUpload">
-                <img v-if="identityHolderImg" :src="identityHolderImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item class="full-width is-required" label="营业执照" prop="business" :label-width="formLabelWidth">
-              <el-upload :data="businessData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="businessbeforeUpload">
-                <img v-if="bussinessLicenseImg" :src="bussinessLicenseImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item class="full-width is-required" label="结算卡正面" prop="settle" :label-width="formLabelWidth">
-              <el-upload :data="settleData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="settlebeforeUpload">
-                <img v-if="settleCardImg" :src="settleCardImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item class="full-width is-required" label="门头照片" prop="cash" :label-width="formLabelWidth">
-              <el-upload :data="placeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="placebeforeUpload">
-                <img v-if="placeImg" :src="placeImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item class="full-width is-required" label="店内照片" prop="store" :label-width="formLabelWidth">
-              <el-upload :data="storeData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="storebeforeUpload">
-                <img v-if="storeImg" :src="storeImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item class="full-width is-required" label="收银台照片" prop="cash" :label-width="formLabelWidth">
-              <el-upload :data="cashData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="cashbeforeUpload">
-                <img v-if="cashSpaceImg" :src="cashSpaceImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item v-if="accountVisible" class="full-width is-required" label="开户许可证" prop="account" :label-width="formLabelWidth">
-              <el-upload :data="accountData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="accountbeforeUpload">
-                <img v-if="accountLicenseImg" :src="accountLicenseImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="certificateVisible" class="full-width is-required" label="授权书" prop="certificate" :label-width="formLabelWidth">
-              <el-upload :data="certificateData" :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :action="oaIp+'/bussinessImg/upload'" class="avatar-uploader" :show-file-list="false" :before-upload="certificatebeforeUpload">
-                <img v-if="certificateImg" :src="certificateImg" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
+        <div class="upload-group">
+          <upload-img :label="'营业执照'" :upType="'BUSSINESS_LICENSE'" :imgKey="'bussinessLicenseImg'" :defaultImg='bussinessLicenseImg' ref="bussinessLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人身份证人像面'" :upType="'LEGAL_PERSON_ID_POSITIVE'" :imgKey="'identityFrontImg'" :defaultImg='identityFrontImg' ref="identityFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人身份证国徽面'" :upType="'LEGAL_PERSON_ID_BACK'" :imgKey="'identityBackImg'" :defaultImg='identityBackImg' ref="identityBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人手持身份证'" v-if="corporatePerson" :upType="'APPLICANT_WITH_ID'" :imgKey="'identityHolderImg'" :defaultImg='identityHolderImg' ref="identityHolderImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'法人手持身份证与授权书'" v-if="unCorporatePerson" :upType="'HOLD_CERTIFICATE_IMG'" :imgKey="'holdCertificateImg'" :defaultImg='holdCertificateImg' ref="holdCertificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'授权书加盖公章'" v-if="unCorporatePerson" :upType="'CERTIFICATE_IMG'" :imgKey="'certificateImg'" :defaultImg='certificateImg' ref="certificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'门头照片'" :upType="'PLACE_IMG'" :imgKey="'placeImg'" :defaultImg='placeImg' ref="placeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'收银台照片'" :upType="'CASH_SPACE_IMG'" :imgKey="'cashSpaceImg'" :defaultImg='cashSpaceImg' ref="cashSpaceImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'店内照片'" :upType="'STORE_IMG'" :imgKey="'storeImg'" :defaultImg='storeImg' ref="storeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'开户许可证'" v-if="publicPerson" :upType="'ACCOUNT_OPENING_LICENSE'" :imgKey="'accountLicenseImg'" :defaultImg='accountLicenseImg' ref="accountLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'结算卡正面'" v-if="corporatePerson || unCorporatePerson" :upType="'SETTLE_CARD_IMG'" :imgKey="'settleCardImg'" :defaultImg='settleCardImg' ref="settleCardImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'结算人身份证人像面'" v-if="unCorporatePerson" :upType="'CARDHOLDER_ID_POSITIVE'" :imgKey="'cardHolderFrontImg'" :defaultImg='cardHolderFrontImg' ref="cardHolderFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'结算人身份证国徽面'" v-if="unCorporatePerson" :upType="'CARDHOLDER_ID_BACK'" :imgKey="'cardHolderBackImg'" :defaultImg='cardHolderBackImg' ref="cardHolderBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+          <upload-img :label="'结算人手持身份证'" v-if="unCorporatePerson" :upType="'CARDHOLDER_WITH_ID'" :imgKey="'cardHolderIdImg'" :defaultImg='cardHolderIdImg' ref="cardHolderIdImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
+        </div>
         <div class="agree-box">
           <el-checkbox v-model="agreeOpen"> </el-checkbox>
           <span>同意《开通支付协议》
@@ -125,6 +45,13 @@
       cursor: pointer;
       color: rgb(0, 193, 223);
     }
+  }
+  .upload-group {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    border-right: 1px solid #ebeef5;
+    border-bottom: 1px solid #ebeef5;
   }
   .paystatusUpload-box {
     .avatar-uploader .el-upload {
@@ -162,6 +89,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
+import UploadImg from "@src/components/UploadImg";
 import {
   upload,
   completeBussinessImg,
@@ -171,7 +99,7 @@ import paystatusAgreement from "./paystatusAgreement.vue";
 
 export default {
   name: "",
-  components: {},
+  components: { UploadImg },
   mixins: [mixinsPc],
   props: {
     rowData: {
@@ -185,14 +113,17 @@ export default {
       imgString: ""
     }
     return {
-      accountVisible: false,// 开户行许可证 
-      certificateVisible: false,// 授权书
+      uploadApi: upload,
+      allImgData: allImgData,
+      publicPerson: false,//对公
+      corporatePerson: false,//对私法人
+      unCorporatePerson: false,//对私非法人
       agreeOpen: true, // 同意协议
       currentChildView: paystatusAgreement,
       agreementVisible: false,
       formVisible: true,
       accountType: "",
-      // rowData_: rowData,
+
       // 身份证正面
       saveForm: {
         customerNo: this.rowData.bussinessNo,
@@ -206,55 +137,17 @@ export default {
         storeImg: "",
         cashSpaceImg: "",
         certificateImg: "",
+        holdCertificateImg: "",
+        cardHolderFrontImg: "",
+        cardHolderBackImg: "",
+        cardHolderIdImg: ""
       },
       idcardData: {
         imgType: "LEGAL_PERSON_ID_POSITIVE",
         ...allImgData
       },
-      // 身份证反面
-      idcardBackData: {
-        imgType: "LEGAL_PERSON_ID_BACK",
-        ...allImgData
-      },
-      // 营业执照
-      businessData: {
-        imgType: "BUSSINESS_LICENSE",
-        ...allImgData
-      },
-      // 结算卡
-      settleData: {
-        imgType: "SETTLE_CARD_IMG",
-        ...allImgData
-      },
-      //开户许可证
-      accountData: {
-        imgType: "ACCOUNT_OPENING_LICENSE",
-        ...allImgData
-      },
-      //门头照片
-      placeData: {
-        imgType: "PLACE_IMG",
-        ...allImgData
-      },
-      //店内照片
-      storeData: {
-        imgType: "STORE_IMG",
-        ...allImgData
-      },
-      //收银台照片
-      cashData: {
-        imgType: "CASH_SPACE_IMG",
-        ...allImgData
-      },
-      //手持身份证
-      applicantData: {
-        imgType: "APPLICANT_WITH_ID",
-        ...allImgData
-      },
-      certificateData: {
-        imgType: "CERTIFICATE_IMG",
-        ...allImgData
-      },
+
+      // 图片start
       identityFrontImg: "",
       identityBackImg: "",
       identityHolderImg: "",
@@ -265,236 +158,68 @@ export default {
       storeImg: "",
       cashSpaceImg: "",
       certificateImg: "",
+      holdCertificateImg: "",
+      cardHolderFrontImg: "",
+      cardHolderBackImg: "",
+      cardHolderIdImg: "",
+      // 图片end
       formLabelWidth: "130px",
       payStatusForm: {},
-      payStatusFormRules: {}, // 编辑单个规则
-      settleModeOptions: [
-        {
-          code: "T0",
-          name: "开通"
-        },
-        {
-          code: "T1",
-          name: "不开通"
-        }
-      ]
+      payStatusFormRules: {} // 编辑单个规则
     };
   },
 
   methods: {
-    // 身份证正面
-    idcardbeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "idcardData");
-      }
-      return false;
-    },
-    // 身份证反面
-    idcardBackbeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "idcardBackData");
-      }
-      return false;
-    },
-    // 身份证反面
-    applicantbeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "applicantData");
-      }
-      return false;
-    },
-    // 营业执照
-    businessbeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "businessData");
-      }
-      return false;
-    },
-    // 结算卡
-    settlebeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "settleData");
-      }
-      return false;
-    },
-    // 开户许可证
-    accountbeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "accountData");
-      }
-      return false;
-    },
-    // 授权书
-    certificatebeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "certificateData");
-      }
-      return false;
-    },
-    //门头照片编号
-    placebeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "placeData");
-      }
-      return false;
-    },
-    //店内照片
-
-    storebeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "storeData");
-      }
-      return;
-    },
-    //收银台照片
-    cashbeforeUpload(file) {
-      if (this.checkUpload(file)) {
-        this.imgTransBase(file, "cashData");
-      }
-      return;
-    },
-    // 上传文件格式校验
-    checkUpload(file) {
-      const isJPEG = file.type === "image/jpeg";
-      const isPNG = file.type === "image/png";
-      const isJPG = file.type === "image/jpg";
-      const isLt2M = file.size / 1024 / 1024 < 1;
-      if (!isJPEG && !isPNG && !isJPG) {
-        this.$message.error("上传图片只能是 jpeg,jpg,png 格式!");
-      }
-      if (!isLt2M) {
-        this.$message.error("上传图片大小不能超过 1MB!");
-      }
-      return (isJPEG || isPNG || isJPG) && isLt2M;
-    },
-    //img转化base64
-    imgTransBase(file, where) {
-      let reader = new FileReader();
-      let self = this;
-      reader.readAsDataURL(file);
-      reader.onload = function (e) {
-        // base64编码
-        self[where].imgString = this.result;
-        // base64编码压缩成更小的
-        // console.log(
-        //   "压缩前：" + this.result.length / 1024 / 1024 + " " + this.result
-        // );
-        // utils.dealImage(this.result, { width: 200 }, function(data) {
-        //   console.log("压缩后：" + data.length / 1024 + " " + data);
-        upload()(self[where]).then(data => {
-          if (data.code == "00") {
-            switch (where) {
-              // 身份证正面
-              case "idcardData":
-                self.identityFrontImg = self[where].imgString;
-                self.saveForm.identityFrontImg = data.data;
-                break;
-              // 身份证反面
-              case "idcardBackData":
-                self.identityBackImg = self[where].imgString;
-                self.saveForm.identityBackImg = data.data;
-                break;
-              // 手持身份证
-              case "applicantData":
-                self.identityHolderImg = self[where].imgString;
-                self.saveForm.identityHolderImg = data.data;
-                break;
-              // 营业执照
-              case "businessData":
-                self.bussinessLicenseImg = self[where].imgString;
-                self.saveForm.bussinessLicenseImg = data.data;
-                break;
-              // 结算
-              case "settleData":
-                self.settleCardImg = self[where].imgString;
-                self.saveForm.settleCardImg = data.data;
-                break;
-              // 开户许可证
-              case "accountData":
-                self.accountLicenseImg = self[where].imgString;
-                self.saveForm.accountLicenseImg = data.data;
-                break;
-              // 授权书
-              case "certificateData":
-                self.certificateImg = self[where].imgString;
-                self.saveForm.certificateImg = data.data;
-                break;
-              // 门头照片
-              case "placeData":
-                self.placeImg = self[where].imgString;
-                self.saveForm.placeImg = data.data;
-                break;
-              // 店内照片
-              case "storeData":
-                self.storeImg = self[where].imgString;
-                self.saveForm.storeImg = data.data;
-                break;
-              // 收银台照片
-              case "cashData":
-                self.cashSpaceImg = self[where].imgString;
-                self.saveForm.cashSpaceImg = data.data;
-                break;
-            }
-          } else {
-            self.$message({
-              message: data.msg,
-              type: "warning"
-            });
-          }
-        });
-        // });
-      };
-    },
     editSave() {
       // 编辑内容保存
-      for (var i in this.saveForm) {
-        if (!this.saveForm[i]) {
-          if (i == "identityFrontImg") {
-            this.warningMsg("请上传身份证正面照片");
-            return false;
-          }
-          if (i == "identityBackImg") {
-            this.warningMsg("请上传身份证反面照片");
-            return false;
-          }
-          if (i == "identityHolderImg") {
-            this.warningMsg("请上传手持身份证照片");
-            return false;
-          }
-          if (i == "bussinessLicenseImg") {
-            this.warningMsg("请上传营业执照");
-            return false;
-          }
-          if (i == "settleCardImg") {
-            this.warningMsg("请上传结算卡照片");
-            return false;
-          }
-          if (i == "accountLicenseImg") {
-            if (this.accountVisible) {
-              this.warningMsg("请上传开户许可证照片");
-              return false;
-            }
-          }
-          if (i == "placeImg") {
-            this.warningMsg("请上传门头照片");
-            return false;
-          }
-          if (i == "storeImg") {
-            this.warningMsg("请上传店内照片");
-            return false;
-          }
-          if (i == "cashSpaceImg") {
-            this.warningMsg("请上传收银台照片");
-            return false;
-          }
-          if (i == "certificateImg") {
-            if (this.certificateVisible) {
-              this.warningMsg("请上传授权书照片");
-              return false;
-            }
-          }
-        }
-      }
+      // for (var i in this.saveForm) {
+      //   if (!this.saveForm[i]) {
+      //     if (i == "identityFrontImg") {
+      //       this.warningMsg("请上传身份证正面照片");
+      //       return false;
+      //     }
+      //     if (i == "identityBackImg") {
+      //       this.warningMsg("请上传身份证反面照片");
+      //       return false;
+      //     }
+      //     if (i == "identityHolderImg") {
+      //       this.warningMsg("请上传手持身份证照片");
+      //       return false;
+      //     }
+      //     if (i == "bussinessLicenseImg") {
+      //       this.warningMsg("请上传营业执照");
+      //       return false;
+      //     }
+      //     if (i == "settleCardImg") {
+      //       this.warningMsg("请上传结算卡照片");
+      //       return false;
+      //     }
+      //     if (i == "accountLicenseImg") {
+      //       if (this.accountVisible) {
+      //         this.warningMsg("请上传开户许可证照片");
+      //         return false;
+      //       }
+      //     }
+      //     if (i == "placeImg") {
+      //       this.warningMsg("请上传门头照片");
+      //       return false;
+      //     }
+      //     if (i == "storeImg") {
+      //       this.warningMsg("请上传店内照片");
+      //       return false;
+      //     }
+      //     if (i == "cashSpaceImg") {
+      //       this.warningMsg("请上传收银台照片");
+      //       return false;
+      //     }
+      //     if (i == "certificateImg") {
+      //       if (this.certificateVisible) {
+      //         this.warningMsg("请上传授权书照片");
+      //         return false;
+      //       }
+      //     }
+      //   }
+      // }
       if (!this.agreeOpen) {
         this.warningMsg("必须先勾选《同意开通支付协议》！");
         return false;
@@ -552,23 +277,23 @@ export default {
             ]);
             if (newSettleCard.accountType == "0") {
               // 对公:
-              this.accountVisible = true;
-              this.certificateVisible = false;
+              this.publicPerson = true;
             } else if (newSettleCard.accountType == "1") {
               // 对私
               if (newSettleCard.accountName == newCustomer.legalPerson) {
-                this.accountVisible = false;
-                this.certificateVisible = false;
+                // 法人
+                this.corporatePerson = true;
               } else {
-                this.accountVisible = false;
-                this.certificateVisible = true;
+                // 非法人
+                this.unCorporatePerson = true;
               }
             }
             this.accountType = settleCard.accountType
           }
           if (imgs) {
             let imgsidArr = ["identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg",
-              "settleCardImg", "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg", "certificateImg"]
+              "settleCardImg", "accountLicenseImg", "placeImg", "storeImg", "cashSpaceImg", "certificateImg",
+              "holdCertificateImg", "cardHolderFrontImg", "cardHolderBackImg", "cardHolderIdImg"]
             imgsidArr.forEach((item) => {
               if (imgs[item] != null) {
                 this[item] = imgs[item].url;
@@ -579,6 +304,11 @@ export default {
         }
 
       });
+    },
+    saveOneImg(imgkey, data) {
+      console.log(imgkey);
+      console.log(data);
+      this.saveForm[imgkey] = data;
     }
   },
   created() {

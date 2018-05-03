@@ -1,22 +1,28 @@
 <template>
   <!-- 聚合支付详情 -->
+  <!-- <div class="scroll-view-cus detail-box">
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户编号:</span>
+          <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+        </div> -->
   <div class="product-detail-body">
     <div class="detaile-left">
-      <div class="scroll-view-cus">
+      <div class="scroll-view-cus detail-box-pro">
         <!-- <iscroll-view class="scroll-view-cus " ref="iscroll" :options="iscrollOptions"> -->
-        <div class="line-label-box cross-back">
-          <span class="line-label">商户编号:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">快速开票:</span>{{detailsForm.qrcodeStatus | statusFilter('handleProductOpenStatus')}}
+        <div class="line-label-box">
+          <span class="lable-title gray-back">快速开票:</span>
+          <span class="line-label-last">{{detailsForm.qrcodeStatus | statusFilter('handleProductOpenStatus')}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">更新时间:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">更新时间:</span>
           <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
         </div>
-        <div class="line-label-box cross-back">
-          <span class="line-label">商户名称:</span>
+        <div class="line-label-box">
+          <span class="lable-title gray-back">商户名称:</span>
           <span class="line-label-last">{{detailsForm.customerName}}</span>
         </div>
       </div>
@@ -66,7 +72,6 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, idCardVerify_r } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
 import { areaOrgcode } from "@src/common/orgcode";
 import utils from "@src/common/utils"
 import {
@@ -150,55 +155,61 @@ export default {
             qrcodeImgs = utils.pickObj(data.imgs, [
               "fastBussinessImg", "fastCashImg", "fastHeaderImg"
             ]);
-
-          } else {
-            console.log('隐藏');
-
           }
           if (qrcodeImgs) {
             this.detailRightVisible = true;
           } else {
             this.detailRightVisible = false
           }
-          // 默认显示第一张图
           this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
           let imgsArr = Object.entries(this.qrcodeImgs);
           for (var i = 0; i < imgsArr.length; i++) {
+            let imgname = " ";
             let item = imgsArr[i][1];
             let index = imgsArr[i][0];
             if (index == "fastBussinessImg") {
-              item["imgname"] = "营业执照"
+              imgname = "营业执照"
             } else if (index == "fastCashImg") {
-              item["imgname"] = "收银台照片"
+              imgname = "收银台照片"
             } else if (index == "fastHeaderImg") {
-              item["imgname"] = "门头照片"
-            } else {
-              item["imgname"] = ""
+              imgname = "门头照片"
             }
-            ((i) => {
-              let item = imgsArr[i][1];
-              let index = imgsArr[i][0];
-              var newImg = new Image();
-              newImg.src = item.url;
-              newImg.onerror = () => {
-                imgsArr[i][1].url = ""
-              }
-              newImg.onload = () => {
-                if (this.largeImgUrl == "") {
-                  // 默认显示的图片
-                  this.largeImg = { imgname: index, url: item.url };
-                  this.largeImgUrl = item.url
+            if (item) {
+              item["imgname"] = imgname;
+              console.log(item);
+              ((i) => {
+                let item = imgsArr[i][1];
+                let index = imgsArr[i][0];
+                var newImg = new Image();
+                newImg.src = item.url;
+                newImg.onerror = () => {
+                  imgsArr[i][1].url = ""
                 }
+                newImg.onload = () => {
+                  if (this.largeImgUrl == "") {
+                    // 默认显示的图片
+                    this.largeImg = { imgname: index, url: item.url };
+                    this.largeImgUrl = item.url
+                  }
+                }
+              })(i)
+            } else {
+              imgsArr[i][1] = {
+                imgname: imgname,
+                url: ""
               }
-            })(i)
-
+            }
           }
           this.imgsArr = imgsArr;
-          // if (this.imgsArr.length == 0) {
-          //   this.detailRightVisible = false
-          // } else {
-          //   this.detailRightVisible = true
-          // }
+          if (this.detailsForm.qrcodeStatus == 'INIT') {
+            this.detailRightVisible = false;
+          }
+        } else {
+          this.$message({
+            message: data.msg,
+            type: "warning",
+            center: true
+          });
         }
         dialogLoading.close();
       });

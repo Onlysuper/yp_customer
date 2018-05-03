@@ -9,12 +9,12 @@
       <input-wrapper>
         <mt-field type="text" label="合伙人编号" placeholder="请输入合伙人编号" v-model="empowerList.agentNo"></mt-field>
         <mt-field type="text" label="数量" placeholder="请输入数量" v-model="empowerList.qrcodeCount"></mt-field>
-        <div>
+        <div v-show="false">
           <mt-cell title="服务方式" class="border-1px"></mt-cell>
           <mt-radio class="myp-chek-list border-1px" title="" v-model="empowerList.serviceMode" :options="serviceModeOptions">
           </mt-radio>
         </div>
-        <div>
+        <div v-show="false">
           <mt-cell title="支持类型" class="border-1px"></mt-cell>
           <mt-checklist class="myp-chek-list border-1px" title="" v-model="empowerList.supportTypes" :options="supportTypesOptions">
           </mt-checklist>
@@ -56,8 +56,8 @@ export default {
       btnDisabled: false,
       pageType: this.$route.query["type"] || "BUILD",
       empowerList: {
-        serviceMode: "HX",
-        supportTypes: ["1", "2"]
+        serviceMode: "",
+        supportTypes: []
       },
       pageTitle: {
         BUILD: "生成授权码"
@@ -92,7 +92,7 @@ export default {
       ]
     };
   },
-  mounted() {},
+  mounted() { },
   computed: {
     serviceMode() {
       return this.empowerList.serviceMode;
@@ -102,7 +102,7 @@ export default {
     }
   },
   watch: {
-    serviceMode(value) {},
+    serviceMode(value) { },
     supportTypes(value) {
       // 选择特殊的时候必须勾选普票
       if (new Set(value).has("4")) {

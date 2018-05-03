@@ -13,6 +13,7 @@ import empowerPurchase from "./empower/empowerPurchase";
 import empowerTransfer from "./empower/empowerTransfer";
 
 import customerManage from "./customer/customerManage";
+import bankCustomer from "./customer/bankCustomer";
 
 
 import customerProduct from "./customerProduct";
@@ -27,6 +28,7 @@ import buriedPoint from "./statistical/buriedPoint";
 export {
   customerGoods,
   customerManage,
+  bankCustomer,
   profitBilling,
   convergePayComm,
   agent,

@@ -143,21 +143,22 @@
         <el-row>
           <el-col :span="12">
             <div class="grid-content bg-purple">
-              <el-form-item label="公司电话" prop="companyPhone" :label-width="formLabelWidth">
-                <el-input v-model="editForm.companyPhone" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
               <el-form-item label="销方名称" prop="bussinessName" :label-width="formLabelWidth">
                 <el-input v-model="editForm.bussinessName" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
+          <el-col :span="12">
+            <div class="grid-content bg-purple-light">
+              <el-form-item label="发票金额" prop="billAmount" :label-width="formLabelWidth">
+                <el-input v-model="editForm.billAmount" auto-complete="off"></el-input>
+              </el-form-item>
+            </div>
+          </el-col>
         </el-row>
-        <el-form-item label="发票金额" prop="billAmount" :label-width="formLabelWidth">
-          <el-input v-model="editForm.billAmount" auto-complete="off"></el-input>
+
+        <el-form-item label="公司电话" prop="companyPhone" :label-width="formLabelWidth">
+          <el-input v-model="editForm.companyPhone" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -181,7 +182,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
 import invoiceType from "@src/data/invoiceType.json";
-import billRecordStatus from "@src/data/billRecordStatus.json";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
@@ -245,9 +245,9 @@ export default {
           options: [
             {
               value: "",
-              label: "请选择"
+              label: "全部"
             },
-            ...billRecordStatus.map(item => { return { label: item.name, value: item.code } })
+            ...this.statusFilterQuery('payStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -381,47 +381,6 @@ export default {
             status: true,
             type: data => {
               return this.statusFilter(data, 'payStatus')
-              // if (data == "SUCCESS") {
-              //   return {
-              //     text: "推送成功",
-              //     type: "success"
-              //   };
-              // } else if (data == "BILLING_SUCCESS") {
-              //   return {
-              //     text: "开票成功",
-              //     type: ""
-              //   };
-              // } else if (data == "BILLING") {
-              //   return {
-              //     text: "开票中",
-              //     type: "danger"
-              //   };
-              // } else if (data == "SUBMITTING") {
-              //   return {
-              //     text: "开电票中",
-              //     type: "danger"
-              //   };
-              // } else if (data == "ORDER") {
-              //   return {
-              //     text: "待开票",
-              //     type: "danger"
-              //   };
-              // } else if (data == "BILLING_FAIL") {
-              //   return {
-              //     text: "失败",
-              //     type: "danger"
-              //   };
-              // } else if (data == "QUERY_FAIL") {
-              //   return {
-              //     text: "查询失败",
-              //     type: "danger"
-              //   };
-              // } else {
-              //   return {
-              //     text: data,
-              //     type: "danger"
-              //   };
-              // }
             }
           },
           {
@@ -436,7 +395,7 @@ export default {
           options: [
             // 操作按钮
             {
-              text: "查看",
+              text: "详情",
               color: "#00c1df",
               cb: rowdata => {
                 this.detailsForm = rowdata;

@@ -35,12 +35,12 @@
           </el-col>
         </el-row>
 
-        <el-form-item label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
           <el-radio v-model="empoverCodeForm.serviceMode" label="HX">航信</el-radio>
           <el-radio v-model="empoverCodeForm.serviceMode" label="YP">易票</el-radio>
           <el-radio v-model="empoverCodeForm.serviceMode" label="HX_YP">航信_易票</el-radio>
         </el-form-item>
-        <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="empoverCodeForm.supportTypes">
             <el-checkbox v-for="city in empoverCodeForm.supportTypesArr" :label="city" :key="city">{{city}}</el-checkbox>
           </el-checkbox-group>
@@ -194,12 +194,12 @@
           <el-input v-model="editForm.extensionNum" auto-complete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="服务方式" prop="serviceMode" :label-width="formLabelWidth">
           <el-radio v-model="editForm.serviceMode" label="HX">航信</el-radio>
           <el-radio v-model="editForm.serviceMode" label="YP">易票</el-radio>
           <el-radio v-model="editForm.serviceMode" label="HX_YP">航信_易票</el-radio>
         </el-form-item>
-        <el-form-item label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
+        <el-form-item v-show="false" label="支持类型" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group v-model="editForm.supportTypes">
             <el-checkbox ref="editFormP" @change="nomalCheck" label="普票"></el-checkbox>
             <el-checkbox ref="editFormZ" label="专票"></el-checkbox>
@@ -236,6 +236,7 @@
       </div>
     </el-dialog>
     <!-- 绑定end -->
+
     <!-- 绑定子码 start -->
     <el-dialog center title="绑定子码" :visible.sync="bindChildFormVisible">
       <el-form size="small" :model="bindChildForm" ref="bindChildForm" :rules="bindChildFormRules">
@@ -252,6 +253,44 @@
       </div>
     </el-dialog>
     <!-- 绑定end -->
+    <!-- 详情 start -->
+    <el-dialog v-dialogDrag title="详情" center :visible.sync="detailsFormVisible" width="400px">
+      <div class="detail-content">
+        <div class="line-label-box cross-back">
+          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">企业法人:</span>{{detailsForm.legalPerson}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">身份证:</span>{{detailsForm.idCard}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">联系人:</span>{{detailsForm.linkMan}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">手机号:</span>{{detailsForm.phoneNo}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">商户编号:</span>{{detailsForm.customerNo}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">商户来源:</span>{{detailsForm.customerFrom | statusFilter("customerFrom")}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">公司电话:</span>{{detailsForm.bussinessPhone}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">经营名称:</span>{{detailsForm.bussinessName}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">经营地址:</span>{{detailsForm.bussinessAddress}}
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -283,7 +322,8 @@ import {
   postBindEmpower,
   postUnBindEmpower,
   postBindChildEmpower,
-  postMakeTorageEmpower
+  postMakeTorageEmpower,
+  getCustomers
 } from "@src/apis";
 
 export default {
@@ -308,6 +348,8 @@ export default {
       materiel: "" // 是否有物料
     };
     return {
+      detailsFormVisible: false,
+      detailsForm: {},
       deviceType: "AUTHCODE",
       formLabelWidth: "100px",
       qrcodeUrl: "",
@@ -353,9 +395,9 @@ export default {
       },
 
       empoverCodeForm: {
-        serviceMode: "HX",
-        supportTypes: ["普票", "专票"],
-        supportTypesArr: ["普票", "专票", "特殊"]
+        serviceMode: "",
+        supportTypes: [],
+        supportTypesArr: []
       },
       empoverCodeRules: {
         agentNo: [
@@ -365,7 +407,7 @@ export default {
           { required: true, message: "批次数量不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          { required: true, message: "请选择支持类型", trigger: "blur,change" }
+          // { required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       editForm: {
@@ -588,22 +630,12 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
+            // empowerBindStatus
             {
-              value: "",
-              label: "全部"
+              label: "全部",
+              value: ""
             },
-            {
-              value: "BINDED",
-              label: "已绑定"
-            },
-            {
-              value: "TRUE",
-              label: "未绑定"
-            },
-            {
-              value: "FALSE",
-              label: "无效"
-            }
+            ...this.statusFilterQuery('empowerBindStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -616,14 +648,7 @@ export default {
           show: false, // 普通搜索显示
           value: "TRUE",
           options: [
-            {
-              value: "TRUE",
-              label: "包含下级"
-            },
-            {
-              value: "FALSE",
-              label: "不包含下级"
-            }
+            ...this.statusFilterQuery('containChild')
           ],
           cb: value => {
             this.searchCondition.containChild = value;
@@ -641,14 +666,7 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "TRUE",
-              label: "有物料"
-            },
-            {
-              value: "FALSE",
-              label: "无物料"
-            }
+            ...this.statusFilterQuery('empowerManageMateriel')
           ],
           cb: value => {
             this.searchCondition.materiel = value;
@@ -680,7 +698,28 @@ export default {
           {
             key: "商户编号",
             width: "100px",
-            word: "customerNo"
+            word: "customerNo",
+            event: true,
+            cb: value => {
+              getCustomers()({
+                page: 1,
+                limit: 10,
+                customerNo: value.customerNo,
+                taxNo: "",
+                enterpriseName: "",
+                createTimeStart: "",
+                createTimeEnd: "",
+                agentNo: "",
+                customerFrom: "",
+                containChild: ''
+              }).then((res) => {
+                if (res.code == '00') {
+                  this.detailsForm = res.data[0];
+                  console.log(res.data)
+                  this.detailsFormVisible = true
+                }
+              })
+            }
           },
           {
             key: "序列号",
@@ -727,27 +766,7 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data == "BINDED") {
-                return {
-                  text: "已绑定",
-                  type: "success"
-                };
-              } else if (data == "TRUE") {
-                return {
-                  text: "未绑定",
-                  type: "warning"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "无效",
-                  type: "info"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'empowerBindStatus')
             }
           },
           {
@@ -756,22 +775,7 @@ export default {
             word: "materiel",
             status: true,
             type: data => {
-              if (data == "TRUE") {
-                return {
-                  text: "有物料",
-                  type: "success"
-                };
-              } else if (data == "FALSE") {
-                return {
-                  text: "无物料",
-                  type: "warning"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: ""
-                };
-              }
+              return this.statusFilter(data, 'empowerManageMateriel')
             }
           },
 
@@ -844,17 +848,23 @@ export default {
               text: "绑定",
               color: "#67c23a",
               visibleFn: rowdata => {
-                if (
-                  this.adminOperationAll.qrcode_bind == "TRUE" &&
+
+                return this.adminFilter('qrcode_bind') &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "TRUE" &&
                   (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
                     this.adminOperationAll.userType == "admin")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
+                // if (
+                //   this.adminOperationAll.qrcode_bind == "TRUE" &&
+                //   rowdata.deviceType == "AUTHCODE" &&
+                //   rowdata.status == "TRUE" &&
+                //   (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
+                //     this.adminOperationAll.userType == "admin")
+                // ) {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 // this.bindForm = rowdata;
@@ -874,7 +884,7 @@ export default {
               color: "#F56C6C",
               visibleFn: rowdata => {
                 if (
-                  this.adminOperationAll.qrcode_unbind == "TRUE" &&
+                  this.adminFilter('qrcode_unbind') &&
                   rowdata.deviceType == "AUTHCODE" &&
                   rowdata.status == "BINDED" &&
                   (rowdata.agentNo == this.adminOperationAll.userBussinessNo ||
@@ -940,8 +950,9 @@ export default {
               text: "绑定子码",
               color: "#909399",
               visibleFn: rowdata => {
+
                 if (
-                  (this.adminOperationAll.qrcode_bind_child == "TRUE" &&
+                  (this.adminFilter('qrcode_bind_child') &&
                     (rowdata.deviceType == "AUTHCODE" &&
                       rowdata.status == "BINDED" &&
                       rowdata.parentCode == null)) ||

@@ -26,7 +26,7 @@ const filterColor = {
         text: obj.text,
         type: color_
       }
-      return promise
+      return color_
     },
     // 按钮权限
     adminFilter(fileterName) {
@@ -39,12 +39,29 @@ const filterColor = {
     }
   }
 }
-const validateInput = {
+const statusFilterQuery = {
   methods: {
-    validateNum(val, dataWhere, dataKey) {
-      let newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
-      this.$set(this.$data[dataWhere], dataKey, newval);
+    statusFilterQuery(type) {
+      let resault = Object.entries(utils.statusFilterQuery(type));
+      let queryArr = [];
+      for (let [key, value] of resault) {
+        queryArr.push({
+          code: key,
+          name: value.name
+        })
+      }
+      return queryArr
     }
   }
 }
-export { scrollBehavior, filterColor, validateInput }
+const validateInput = {
+  methods: {
+    validateNum(val, dataWhere, dataKey) {
+      if (val) {
+        let newval = val.replace(/\s/g, '').replace(/[^\d]/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+        this.$set(this.$data[dataWhere], dataKey, newval);
+      }
+    }
+  }
+}
+export { scrollBehavior, filterColor, validateInput, statusFilterQuery }

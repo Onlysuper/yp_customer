@@ -46,12 +46,13 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import Picker from "@src/components-app/SelectPicker/Picker";
-import versionTypeJson from "@src/data/versionType"
+import { statusFilterQuery } from "@src/common/mixins";
 export default {
   components: { Picker },
+  mixins: [statusFilterQuery],
   data() {
     return {
-      versionTypeOptions: versionTypeJson.filter(item => { return item['code'] != 'RELEASE' }),
+      versionTypeOptions: [],
       status: {},
       type: {},
       status_options: [
@@ -72,9 +73,7 @@ export default {
       },
     };
   },
-  mounted() { },
-  computed: {},
-  watch: {},
+
   methods: {
     ...mapActions(["addCustomerVersionSave"]),
     save() {
@@ -112,7 +111,12 @@ export default {
       this.status = obj;
       this.dataList.status = obj.code;
     }
-  }
+  },
+  created() {
+    this.versionTypeOptions = this.statusFilterQuery('typeCustomerVersion').filter(item => { return item['code'] != 'RELEASE' })
+  },
+  computed: {},
+  watch: {}
 };
 </script>
 

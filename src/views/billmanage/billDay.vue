@@ -197,8 +197,8 @@ export default {
       console.log("发送信号:" + searchForm);
       getExportBillcountdays(searchForm)().then(data => {
         if (data.code == "00") {
-          this.$notify.info({
-            title: "消息",
+          this.$notify.success({
+            title: "通知",
             message: "导出任务已发送，请耐心等待通知"
           });
         }

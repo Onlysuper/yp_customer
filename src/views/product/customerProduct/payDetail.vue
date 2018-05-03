@@ -4,14 +4,28 @@
     <!-- {{detailsForm}}  -->
     <div class="detaile-left">
       <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
-      <div class="scroll-view-cus detail-box">
-        <div class="line-label-box">
-          <span class="lable-title gray-back">商户编号:</span>
-          <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+      <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
+        <div class="line-label-box split">
+          <div class="line-cell">
+            <span class="lable-title gray-back">商户编号:</span>
+            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+          </div>
+          <div class="line-cell">
+            <span class="lable-title gray-back">预留手机号:</span>
+            <span class="line-label-last">{{payStatusDetails.reservedPhoneNo}}</span>
+          </div>
         </div>
         <div class="line-label-box">
+          <span class="lable-title gray-back">身份证有效期:</span>
+          <span class="line-label-last">{{payStatusDetails.idNoEffectiveBegin}} 至 {{payStatusDetails.idNoEffectiveEnd}}</span>
+        </div>
+        <!-- <div class="line-label-box">
+          <span class="lable-title gray-back">商户编号:</span>
+          <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+        </div> -->
+        <div class="line-label-box split">
           <div class="line-cell">
-            <span class="lable-title gray-back">开通时间:</span>
+            <span class="lable-title gray-back">更新时间:</span>
             <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
           </div>
           <div class="line-cell">
@@ -20,7 +34,7 @@
           </div>
         </div>
         <div class="split－padding"></div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">微信费率:</span>
             <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
@@ -30,7 +44,7 @@
             <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
           </div>
         </div>
-        <div class="line-label-box ">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">开通秒到:</span>
             <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
@@ -45,7 +59,7 @@
           <span class="lable-title gray-back">企业名称:</span>
           <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">企业税号:</span>
             <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
@@ -55,7 +69,7 @@
             <span class="line-label-last">{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}</span>
           </div>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">身份证号:</span>
             <span class="line-label-last">{{payStatusDetails.idCard}}</span>
@@ -80,7 +94,7 @@
           <span class="lable-title gray-back">账户名称:</span>
           <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
         </div>
-        <div class="line-label-box">
+        <div class="line-label-box split">
           <div class="line-cell">
             <span class="lable-title gray-back">账号:</span>
             <span class="line-label-last">{{payStatusDetails.accountNo||""}}</span>
@@ -145,6 +159,14 @@
 
 <style lang='scss' scoped>
 @import "../../../../src/assets/scss-pc/payDetail.scss";
+.rightVsiblefalse {
+  .line-label-box.split {
+    justify-content: flex-start !important;
+  }
+  .line-label-last {
+    min-width: 250px !important;
+  }
+}
 </style>
 <script>
 import Vue from "vue";
@@ -159,7 +181,6 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, idCardVerify_r } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
 import { areaOrgcode } from "@src/common/orgcode";
 import utils from "@src/common/utils"
 import {
@@ -298,19 +319,22 @@ export default {
           let customerRow = {};
           let settleCardRow = {};
           let productRow = {};
-          let imgsRow = utils.pickObj(data.imgs, [
-            "identityFrontImg", "identityBackImg", "identityHolderImg", "bussinessLicenseImg", "settleCardImg", "placeImg", "storeImg", "cashSpaceImg"
+          let imgsRow = {};
+          imgsRow = utils.pickObj(data.imgs, [
+            "bussinessLicenseImg", "identityFrontImg", "identityBackImg", "placeImg", "cashSpaceImg", "storeImg"
           ]);
           let addImgs = {};
           if (data.customer) {
+            console.log(data.customer);
             customerRow = utils.pickObj(data.customer, [
               "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
-              'taxNo', 'enterpriseName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd'
+              'taxNo', 'enterpriseName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+              'idNoEffectiveBegin', 'idNoEffectiveEnd'
             ]);
           }
           if (data.settleCard) {
             settleCardRow = utils.pickObj(data.settleCard, [
-              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo',
+              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo', 'reservedPhoneNo'
             ]);
           }
           if (data.product) {
@@ -321,88 +345,118 @@ export default {
           if (data.imgs) {
             if (settleCardRow.accountType == "0") {
               // 对公  有开户许可证 没有授权证
-              imgsRow = {                ...utils.pickObj(data.imgs, [
+              imgsRow = {
+                ...utils.pickObj(data.imgs, [
                   "accountLicenseImg",
-                ]), ...imgsRow              }
+                ]),
+                ...imgsRow
+              }
             } else if (settleCardRow.accountType == "1") {
-              // 对私
               if (settleCardRow.accountName == customerRow.legalPerson) {
-                //没有开户许可证 没有授权证
+                //对私法人
+                imgsRow = {
+                  ...utils.pickObj(data.imgs, [
+                    "settleCardImg",
+                    "identityHolderImg"
+                  ]), ...imgsRow
+                };
               } else {
-                //没有开户许可证 有授权证
-                imgsRow = {                  ...utils.pickObj(data.imgs, [
-                    "certificateImg"
-                  ]), ...imgsRow                };
+                //非法人
+                imgsRow = {
+                  ...utils.pickObj(data.imgs, [
+                    "settleCardImg",
+                    "certificateImg",
+                    "cardHolderFrontImg",
+                    "cardHolderBackImg",
+                    "holdCertificateImg",
+                    "cardHolderIdImg"
+                  ]), ...imgsRow
+                };
               }
             } else {
-              // imgsRow = utils.pickObj(data.imgs, [
-              //   "accountLicenseImg"
-              // ]);
+              imgsRow = utils.pickObj(data.imgs, [
+                "accountLicenseImg"
+              ]);
             }
             let imgsArr = Object.entries(imgsRow);
             for (var i = 0; i < imgsArr.length; i++) {
               let item = imgsArr[i][1];
               let index = imgsArr[i][0];
+              let imgname = "";
               if (index == "identityFrontImg") {
-                item["imgname"] = "法人身份证人像面"
+                imgname = "法人身份证人像面"
               } else if (index == "identityBackImg") {
-                item["imgname"] = "法人身份证国徽面"
+                imgname = "法人身份证国徽面"
               } else if (index == "bussinessLicenseImg") {
-                item["imgname"] = "营业执照"
+                imgname = "营业执照"
               } else if (index == "identityHolderImg") {
-                item["imgname"] = "手持身份证"
+                imgname = "法人手持身份证"
               } else if (index == "settleCardImg") {
-                item["imgname"] = "结算卡正面"
+                imgname = "结算卡正面"
               } else if (index == "accountLicenseImg") {
-                item["imgname"] = "开户许可证"
+                imgname = "开户许可证"
               } else if (index == "placeImg") {
-                item["imgname"] = "门头照片"
+                imgname = "门头照片"
               } else if (index == "storeImg") {
-                item["imgname"] = "店内照片"
+                imgname = "店内照片"
               } else if (index == "cashSpaceImg") {
-                item["imgname"] = "收银台照片"
+                imgname = "收银台照片"
               } else if (index == "certificateImg") {
-                item["imgname"] = "授权书照片"
-              } else {
-                item["imgname"] = ""
+                imgname = "授权书照片"
+              } else if (index == "holdCertificateImg") {
+                imgname = "法人手持身份证与授权书"
+              } else if (index == "cardHolderFrontImg") {
+                imgname = "结算人人面像"
+              } else if (index == "cardHolderBackImg") {
+                imgname = "结算人人国徽面"
+              } else if (index == "cardHolderIdImg") {
+                imgname = "结算人手持身份证合影"
               }
-              ((i) => {
-                let item = imgsArr[i][1];
-                let index = imgsArr[i][0];
-                var newImg = new Image();
-                newImg.src = item.url;
-                // console.log(item.url);
-                newImg.onerror = () => {
-                  imgsArr[i][1].url = ""
-                }
-                newImg.onload = () => {
-                  if (this.largeImgUrl == "") {
-                    // 默认显示的图片
-                    this.largeImg = { imgname: index, url: item.url };
-                    this.largeImgUrl = item.url
+              if (item) {
+                item["imgname"] = imgname;
+                ((i) => {
+                  let item = imgsArr[i][1];
+                  let index = imgsArr[i][0];
+                  var newImg = new Image();
+                  newImg.src = item.url;
+                  newImg.onerror = () => {
+                    imgsArr[i][1].url = ""
                   }
+                  newImg.onload = () => {
+                    if (this.largeImgUrl == "") {
+                      // 默认显示的图片
+                      this.largeImg = { imgname: index, url: item.url };
+                      this.largeImgUrl = item.url
+                    }
+                  }
+                })(i)
+              }
+              else {
+                imgsArr[i][1] = {
+                  imgname: imgname,
+                  url: ""
                 }
-              })(i)
-
+              }
             }
             this.imgsArr = imgsArr;
-            if (this.imgsArr.length == 0) {
-              this.detailRightVisible = false;
-            } else {
-              this.detailRightVisible = true;
-            }
           } else {
             this.detailRightVisible = false;
           }
-          // this.imgsRow = imgsRow;
+          if (this.detailsForm.payStatus == 'INIT') {
+            this.detailRightVisible = false;
+          }
           this.payStatusDetails = {
             ...this.payStatusDetails,
             ...customerRow,
             ...settleCardRow,
-            ...productRow,
-            // ...imgsRow
+            ...productRow
           }
-
+        } else {
+          this.$message({
+            message: data.msg,
+            type: "warning",
+            center: true
+          });
         }
         dialogLoading.close();
       });

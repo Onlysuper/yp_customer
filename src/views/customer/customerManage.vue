@@ -23,14 +23,14 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item class="full-width" label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-                <el-input v-model="addForm.enterpriseName" auto-complete="off"></el-input>
+                <el-input v-model.trim="addForm.enterpriseName" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light ">
               <el-form-item class="is-required" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-                <el-input v-model="addForm.taxNo" auto-complete="off"></el-input>
+                <el-input v-model.trim="addForm.taxNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -39,14 +39,14 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="联系人" prop="linkMan" :label-width="formLabelWidth">
-                <el-input v-model="addForm.linkMan" auto-complete="off"></el-input>
+                <el-input v-model.trim="addForm.linkMan" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item class="is-required" label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-                <el-input v-model="addForm.phoneNo" auto-complete="off"></el-input>
+                <el-input v-model.trim="addForm.phoneNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -55,14 +55,14 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="企业法人" prop="legalPerson" :label-width="formLabelWidth">
-                <el-input v-model="addForm.legalPerson" auto-complete="off"></el-input>
+                <el-input v-model.trim="addForm.legalPerson" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-                <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
+                <el-input v-model.trim="addForm.idCard" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -71,7 +71,10 @@
           <el-input v-model="addForm.bussinessAddress" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="公司电话" prop="bussinessPhone" :label-width="formLabelWidth">
-          <el-input v-model="addForm.bussinessPhone" auto-complete="off"></el-input>
+          <el-input v-model.trim="addForm.bussinessPhone" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
+          <el-input v-model="addForm.bussinessName" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -90,14 +93,14 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="企业名称" prop="enterpriseName" :label-width="formLabelWidth">
-                <el-input :disabled="disabledIs" v-model="editForm.enterpriseName" auto-complete="off"></el-input>
+                <el-input :disabled="disabledIs" v-model.trim="editForm.enterpriseName" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item class="is-required" label="手机号" prop="phoneNo" :label-width="formLabelWidth">
-                <el-input :disabled="disabledIs" v-model="editForm.phoneNo" auto-complete="off"></el-input>
+                <el-input :disabled="disabledIs" v-model.trim="editForm.phoneNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -106,14 +109,14 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item class="is-required" label="企业税号" prop="taxNo" :label-width="formLabelWidth">
-                <el-input :disabled="disabledIs" v-model="editForm.taxNo" auto-complete="off"></el-input>
+                <el-input :disabled="disabledIs" v-model.trim="editForm.taxNo" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="grid-content bg-purple-light">
               <el-form-item class="is-required" label="联系人" prop="linkMan" :label-width="formLabelWidth">
-                <el-input :disabled="disabledIs" v-model="editForm.linkMan" auto-complete="off"></el-input>
+                <el-input :disabled="disabledIs" v-model.trim="editForm.linkMan" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -122,7 +125,7 @@
           <el-col :span="12">
             <div class="grid-content bg-purple">
               <el-form-item label="身份证" prop="idCard" :label-width="formLabelWidth">
-                <el-input v-model="editForm.idCard" auto-complete="off"></el-input>
+                <el-input v-model.trim="editForm.idCard" auto-complete="off"></el-input>
               </el-form-item>
             </div>
           </el-col>
@@ -139,7 +142,7 @@
           <el-input v-model="editForm.bussinessAddress" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="公司电话" prop="bussinessPhone" :label-width="formLabelWidth">
-          <el-input v-model="editForm.bussinessPhone" auto-complete="off"></el-input>
+          <el-input v-model.trim="editForm.bussinessPhone" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="经营名称" prop="bussinessName" :label-width="formLabelWidth">
           <el-input v-model="editForm.bussinessName" auto-complete="off"></el-input>
@@ -303,14 +306,6 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, phoneNumVerify_r, taxNumVerify_r } from "@src/common/regexp";
-
-import {
-  provinceAndCityData,
-  regionData,
-  CodeToText,
-  TextToCode
-} from "element-china-area-data";
-
 import {
   getCustomers,
   postAddCustomer,
@@ -320,7 +315,6 @@ import {
   transferCustomer,
   perfectCustomer
 } from "@src/apis";
-import innetSourceQueryJSON from "@src/data/innetSourceQuery.json";
 export default {
   name: "customerlist",
   components: {
@@ -409,6 +403,17 @@ export default {
             this.searchCondition.customerNo = value;
           }
         },
+        // {
+        //   corresattr: "phoneNo",
+        //   type: "text", // 表单类型
+        //   label: "手机号", // 输入框前面的文字
+        //   show: true, // 普通搜索显示
+        //   value: "", // 表单默认的内容
+        //   cb: value => {
+        //     // 表单输入之后回调函数
+        //     this.searchCondition.phoneNo = value;
+        //   }
+        // },
 
         {
           corresattr: "enterpriseName",
@@ -490,9 +495,7 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            ...innetSourceQueryJSON.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            ...this.statusFilterQuery('customerFrom')
           ],
           cb: value => {
             this.searchCondition.customerFrom = value;
@@ -548,8 +551,13 @@ export default {
           },
           {
             key: "联系人",
-            width: "80px",
+            width: "100px",
             word: "linkMan"
+          },
+          {
+            key: "手机号",
+            width: "120px",
+            word: "phoneNo"
           },
           {
             key: "合伙人编号",
@@ -563,7 +571,6 @@ export default {
             status: true,
             type: data => {
               return this.statusFilter(data, 'customerFrom')
-
             }
           },
           {
@@ -584,11 +591,12 @@ export default {
               text: "详情",
               color: "#00c1df",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.customer_detail == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('customer_detail')
+                // if (this.adminOperationAll.customer_detail == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.detailsForm = rowdata;
@@ -598,15 +606,18 @@ export default {
             {
               text: "编辑",
               visibleFn: rowdata => {
-                if (
-                  this.adminOperationAll.customer_edit == "TRUE" &&
+                return this.adminFilter('customer_edit') &&
                   (rowdata.agentNo == this.userBussinessNo ||
                     this.userType == "admin")
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
+                // if (
+                //   this.adminOperationAll.customer_edit == "TRUE" &&
+                //   (rowdata.agentNo == this.userBussinessNo ||
+                //     this.userType == "admin")
+                // ) {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               color: "#00c1df",
               cb: rowdata => {
@@ -617,11 +628,12 @@ export default {
             {
               text: "转移",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.customer_transfer == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('customer_transfer')
+                // if (this.adminOperationAll.customer_transfer == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               color: "#00c1df",
               cb: rowdata => {
@@ -637,7 +649,7 @@ export default {
 
   methods: {
     closeButVisible(status) {
-      if (status == 'TRUE' && this.isAdmin) {
+      if (status == 'TRUE' && this.adminFilter('customer_updateByStatus')) {
         return true
       } else {
         return false;

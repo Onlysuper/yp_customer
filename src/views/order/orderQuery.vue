@@ -74,7 +74,6 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
 import { getPayOrders, getSumPayOrders } from "@src/apis";
-import orderStatus from "@src/data/orderStatus.json";
 import utils from "@src/common/utils";
 export default {
   name: "orderQuery",
@@ -129,9 +128,7 @@ export default {
               value: "",
               label: "全部"
             },
-            ...orderStatus.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            ...this.statusFilterQuery('orderQueryStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;

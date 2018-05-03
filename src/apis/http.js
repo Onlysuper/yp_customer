@@ -119,7 +119,7 @@ export default {
             data: qs.stringify(data),
             timeout: 10000,
             headers: {
-                // "X-requested-With": "XMLHttpRequest",
+                "X-requested-With": "XMLHttpRequest",
                 //使用form表单进行数据交互
                 "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
             },

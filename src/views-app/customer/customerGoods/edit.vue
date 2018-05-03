@@ -6,32 +6,13 @@
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <!-- 添加表单 -->
-        <!-- <template v-if="pageType == 'ADD'">
-          <mt-field @click.native="$refs.search.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
-          <mt-field type="text" :disabled="true" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
-          <mt-field type="text" :disabled="true" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
-          <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-arrow"></i>
-          </mt-field>
-          <mt-field type="text" label="商户编号" placeholder="请输入商户编号" v-model="good.customerNo"></mt-field>
-          <mt-field type="text" label="单位" placeholder="请输入单位" v-model="good.unit"></mt-field>
-          <mt-field type="text" label="含税单价" placeholder="请输入含税单价" v-model="good.unitPrice"></mt-field>
-          <mt-field type="text" label="规格型号" placeholder="请输入规格型号" v-model="good.model"></mt-field>
-          <mt-field @click.native="$refs.EnjoyPicker.open" type="text" label="享受优惠" placeholder="请选择享受优惠" :value="enjoyModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-arrow"></i>
-          </mt-field>
-          <mt-field @click.native="$refs.DiscountPicker.open" type="text" label="优惠类型" placeholder="请选择优惠类型" :value="discountModle.name" v-readonly-ios :readonly="true" :disableClear="true">
-            <i class="icon-arrow"></i>
-          </mt-field>
-        </template> -->
-
         <!-- 编辑表单 -->
         <template v-if="pageType == 'EDIT'">
           <mt-field @click.native="$refs.searchList.open" type="text" label="商品名称" placeholder="请输入商品名称" v-model="good.goodsName" v-readonly-ios :readonly="true"></mt-field>
+          <mt-field type="text" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
+          <mt-field type="text" label="商品类别简称" placeholder="请输入商品类别简称" v-model="good.goodsFirstType"></mt-field>
+          <mt-field type="text" label="商品类别名称" placeholder="请输入商品类别名称" v-model="good.goodsType"></mt-field>
 
-          <mt-field type="text" :disabled="true" label="统一编码" placeholder="请输入统一编码" v-model="good.unionNo"></mt-field>
-          <mt-field type="text" :disabled="true" label="标准名称" placeholder="请输入标准名称" v-model="good.goodsType"></mt-field>
           <mt-field type="text" label="商品编号" placeholder="请输入商品编号" v-model="good.goodsNo"></mt-field>
           <mt-field type="text" label="商户编号" placeholder="请输入商户编号" v-model="good.customerNo"></mt-field>
           <mt-field @click.native="$refs.TaxratePicker.open" type="text" label="税率" placeholder="请选择税率" :value="taxModle.name" v-readonly-ios :readonly="true" :disableClear="true">
@@ -51,7 +32,6 @@
             <i class="icon-arrow"></i>
           </mt-field>
         </template>
-
       </input-wrapper>
     </view-radius>
     <mt-actionsheet :actions="goodsActions" v-model="goodsVisible" cancelText="取消"></mt-actionsheet>
@@ -117,6 +97,7 @@ export default {
         goodsName: "",
         unionNo: "",
         goodsType: "",
+        goodsFirstType: "",
         goodsNo: "",
         customerNo: "",
         unit: "",
@@ -147,8 +128,24 @@ export default {
   created() {
     this.pageType == "EDIT" &&
       this.getGood(this.goodsNo).then(good => {
-        console.log(good);
-        this.good = Object.assign(this.good, good);
+        // console.log(good);
+        // console.log(this.good);
+        let newGood = utils.pickObj(good, [
+          "goodsName",
+          "unionNo",
+          "goodsType",
+          "goodsFirstType",
+          "goodsNo",
+          "customerNo",
+          "unit",
+          "unitPrice",
+          "model",
+          "taxRate",
+          "enjoyDiscount",
+          "discountType",
+          "type"
+        ]);
+        this.good = Object.assign(this.good, newGood);
         this.echoForm(this.good);
       });
   },
@@ -225,6 +222,7 @@ export default {
     goodsNameChange(item) {
       this.good.unionNo = item.code;
       this.good.goodsType = item.name;
+      this.good.goodsFirstType = item.shortName;
       // this.good.goodsName = this.goodsName;
       this.good.goodsName = item.goodsName || this.good.goodsName;
       let tax = this.taxActions.find(row => {

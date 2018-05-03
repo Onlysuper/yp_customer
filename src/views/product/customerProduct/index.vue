@@ -10,7 +10,7 @@
     <!-- 商户状态 start -->
     <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
     <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
-      <div class="detail-content">
+      <div class="detail-content-pro">
         <template>
           <!-- 聚合详情 -->
           <div class="line-box-left dialog-title-box">
@@ -117,6 +117,7 @@
       text-align: center;
     }
     .special-dialog-new {
+      // height: 100%;
       top: 20px !important;
       left: 20px !important;
       right: 20px !important;
@@ -124,6 +125,7 @@
       position: fixed;
       align-items: stretch;
       overflow: hidden;
+      flex-direction: column;
       .el-dialog__headerbtn {
         z-index: 999;
       }
@@ -132,6 +134,8 @@
         padding: 4px 0;
         padding-bottom: 10px;
         position: relative;
+        flex-shrink: 0;
+        box-sizing: border-box;
         .title-box {
           // flex: 1;
           flex: 1;
@@ -164,11 +168,23 @@
         flex: 1;
         display: flex;
         // flex-basis: 100%;
+        height: 100%;
       }
       .el-dialog__footer {
         flex-grow: 0;
+        flex-shrink: 0;
       }
     }
+  }
+  .detail-content-pro {
+    flex: 1;
+    height: 100%;
+    // overflow: auto;
+    // position: relative;
+    display: flex;
+    flex-direction: column;
+    // width: 100%;
+    // background: red;
   }
 }
 </style>
@@ -183,7 +199,6 @@ import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
-import { regionData } from "element-china-area-data";
 import utils from "@src/common/utils";
 import openInfo from "./openInfo";
 import paystatusGoods from "./paystatusGoods";
@@ -192,7 +207,6 @@ import paystatusSuccess from "./paystatusSuccess";
 import payDetail from "./payDetail";
 import elecDetail from "./elecDetail";
 import qrcodeDetail from "./qrcodeDetail";
-import payStatusQueryJson from "@src/data/payStatusQuery.json";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch,
@@ -383,7 +397,7 @@ export default {
       productOpenTitle: "完善信息",
       openProductView: "openInfo",
       customerTypeSelected: [],
-      optionsArea: regionData, //省市县插件
+      optionsArea: utils.areaPicherOptions(), //省市县数据
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
       qrcodeStatusVisible: false, // 快速
@@ -472,9 +486,11 @@ export default {
           show: true, // 普通搜索显示
           value: "",
           options: [
-            ...payStatusQueryJson.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            {
+              label: "全部",
+              value: ""
+            },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
           cb: value => {
             this.searchCondition.payStatus = value;
@@ -487,9 +503,11 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            ...payStatusQueryJson.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            {
+              label: "全部",
+              value: ""
+            },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
           cb: value => {
             this.searchCondition.qrcodeStatus = value;
@@ -502,9 +520,11 @@ export default {
           show: false, // 普通搜索显示
           value: "",
           options: [
-            ...payStatusQueryJson.map(item => {
-              return { value: item.code, label: item.name }
-            })
+            {
+              label: "全部",
+              value: ""
+            },
+            ...this.statusFilterQuery('handleProductOpenStatus')
           ],
           cb: value => {
             this.searchCondition.elecStatus = value;
@@ -569,15 +589,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
-                  isAdmin || !isBranchOffice
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              disabledFn: rowdata => {
-                if (
+                  (isAdmin || !isBranchOffice) &&
                   rowdata.payStatus == "INIT" ||
                   rowdata.payStatus == "WAITING_SUBMIT" ||
                   rowdata.payStatus == "REJECT" ||
@@ -588,11 +600,28 @@ export default {
                   rowdata.elecStatus == "REJECT" ||
                   rowdata.elecStatus == "FALSE"
                 ) {
-                  return false;
-                } else {
                   return true;
+                } else {
+                  return false;
                 }
               },
+              // disabledFn: rowdata => {
+              //   if (
+              //     rowdata.payStatus == "INIT" ||
+              //     rowdata.payStatus == "WAITING_SUBMIT" ||
+              //     rowdata.payStatus == "REJECT" ||
+              //     rowdata.payStatus == "FALSE" ||
+              //     rowdata.qrcodeStatus == "INIT" ||
+              //     rowdata.qrcodeStatus == "FALSE" ||
+              //     rowdata.elecStatus == "INIT" ||
+              //     rowdata.elecStatus == "REJECT" ||
+              //     rowdata.elecStatus == "FALSE"
+              //   ) {
+              //     return false;
+              //   } else {
+              //     return true;
+              //   }
+              // },
               cb: rowdata => {
                 this.resaultData = rowdata;
                 this.openProduct('payStatus');
@@ -676,7 +705,18 @@ export default {
             {
               text: "配置",
               color: "#00c1df",
+              visibleFn: rowdata => {
+                // console.log(this.adminFilter("userProductStatus_config"));
+                if (
+                  this.adminFilter("userProductStatus_config")
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
               cb: rowdata => {
+                // adminFilter
                 this.resaultData = rowdata;
                 let payType = rowdata.payType;
                 let invoiceType = rowdata.invoiceType;

@@ -351,18 +351,7 @@ export default {
               value: "",
               label: "所有"
             },
-            {
-              value: "TRUE",
-              label: "已确认"
-            },
-            {
-              value: "FALSE",
-              label: "待确认"
-            },
-            {
-              value: "SUCCESS",
-              label: "已结算"
-            }
+            ...this.statusFilterQuery('settleStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -425,27 +414,7 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data === "TRUE") {
-                return {
-                  text: "已确认",
-                  type: ""
-                };
-              } else if (data === "FALSE") {
-                return {
-                  text: "待确认",
-                  type: "info"
-                };
-              } else if (data === "SUCCESS") {
-                return {
-                  text: "已结算",
-                  type: "success"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'settleStatus');
             }
           }
         ],
@@ -458,7 +427,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 //已确认
-                if (rowdata.status == "TRUE" && !isAdmin) {
+                if (rowdata.status == "TRUE" && this.adminFilter('admin_settle_updateSettle')) {
                   return true;
                 } else {
                   return false;
@@ -469,20 +438,36 @@ export default {
                 this.editFormVisible = true;
               }
             },
+            // 代理商确认
+            {
+              text: "确认",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                //已确认
+                if (rowdata.status == "FALSE" && this.adminFilter('agent_settle_updateSettle')) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                this.editForm = Object.assign(this.editForm, rowdata);
+                this.sureFormVisible = true;
+              }
+            },
             {
               text: "查看",
               color: "#e6a23c",
               visibleFn: rowdata => {
-                if (isAdmin) {
-                  // alert("运营");
+                if (this.adminFilter('agent_settle_updateSettle')) {
                   // 运营
                   if (rowdata.status == "TRUE" || rowdata.status == "SUCCESS") {
                     return true;
                   } else {
                     return false;
                   }
-                } else {
-                  // alert("代理商");
+                }
+                if (this.adminFilter('admin_settle_updateSettle')) {
                   // 代理商
                   if (
                     rowdata.status == "FALSE" ||
@@ -497,23 +482,6 @@ export default {
               cb: rowdata => {
                 this.detailsForm = rowdata;
                 this.detailsFormVisible = true;
-              }
-            },
-            // 代理商确认
-            {
-              text: "确认",
-              color: "#00c1df",
-              visibleFn: rowdata => {
-                //已确认
-                if (rowdata.status == "FALSE" && isAdmin) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              cb: rowdata => {
-                this.editForm = Object.assign(this.editForm, rowdata);
-                this.sureFormVisible = true;
               }
             }
           ]

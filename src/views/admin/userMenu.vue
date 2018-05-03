@@ -136,6 +136,8 @@
   flex-direction: row;
   .tree-box {
     flex-shrink: 0;
+    overflow: auto;
+    width: 250px;
   }
   .table-box {
     flex-shrink: 1;
@@ -309,11 +311,12 @@ export default {
               text: "编辑",
               color: "#00c1df",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.menu_function_edit == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('menu_function_edit')
+                // if (this.adminOperationAll.menu_function_edit == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 this.editFuncForm = rowdata;
@@ -324,11 +327,12 @@ export default {
             {
               text: "删除",
               visibleFn: rowdata => {
-                if (this.adminOperationAll.menu_function_delete == "TRUE") {
-                  return true;
-                } else {
-                  return false;
-                }
+                return this.adminFilter('menu_function_delete')
+                // if (this.adminOperationAll.menu_function_delete == "TRUE") {
+                //   return true;
+                // } else {
+                //   return false;
+                // }
               },
               cb: rowdata => {
                 console.log(rowdata.functionCode);

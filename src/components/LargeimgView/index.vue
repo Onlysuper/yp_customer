@@ -78,11 +78,11 @@
       background: rgba(255, 255, 255, 0.2);
     }
     &.prebut {
-      left: 0px;
+      left: 10px;
       top: 50%;
     }
     &.nextbut {
-      right: 0px;
+      right: 10px;
       top: 50%;
     }
   }
@@ -157,11 +157,11 @@
       // width: 100%;
       position: absolute;
       z-index: 999;
-      left: 0;
-      right: 0;
+      left: 10px;
+      right: 10px;
       text-align: center;
       z-index: 9999;
-      bottom: 0;
+      bottom: 10px;
       background: rgba(0, 0, 0, 0.4);
       span {
         display: inline-block;
@@ -199,7 +199,7 @@
   }
   .largeButgroup {
     position: absolute;
-    top: 0;
+    top: 20px;
     left: 0;
     right: 0;
     // background: red;
@@ -357,7 +357,7 @@ export default {
         obj.imgId = index;
         obj.url = elem.url;
         obj.id = elem.id;
-        obj.imgname = elem.imgname;
+        obj.imgname = elem.imgname||"";
         arrSelf.push(obj)
       }
       this.imgsArrSelf = Object.entries(arrSelf) // 本页面需要的数组
@@ -407,7 +407,7 @@ export default {
         this.downloadName = imgalt;
       })
       this.showImgNow();
-      // this.setImgMiddle();
+      this.setImgMiddle();
     },
     showImgNow() {
       this.$nextTick(item => {
@@ -415,7 +415,7 @@ export default {
         let imgId = img.attr("id");
         this.idcardVisible = false;
         this.accountNoVisible = false;
-        if (imgId == "identityHolderImg" || imgId == "identityFrontImg" || imgId == "identityBackImg") {
+        if (imgId == "identityHolderImg" || imgId == "identityBackImg") {
           this.idcardVisible = true
         }
         if (imgId == "settleCardImg") {
