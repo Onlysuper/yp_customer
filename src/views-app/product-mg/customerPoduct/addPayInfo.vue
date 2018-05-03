@@ -13,7 +13,7 @@
             <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
             <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
             <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
-            <mt-field label="身份证号:" type="text" v-model="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
+            <mt-field label="身份证号:" type="text" v-model.trim="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
             <mt-field class="addpay-long-title" label="身份证生效时间:" type="text" v-model="form.idNoEffectiveBegin" @click.native="$refs.idNoEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -45,7 +45,7 @@
               <i class="icon-arrow"></i>
             </mt-field>
             <mt-field label="银行帐号:" type="tel" @input="validateNum($event,'form','accountNo')" v-model="form.accountNo" @change="cacheFrom" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="预留手机号:" type="tel" v-model="form.reservedPhoneNo" @change="cacheFrom" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
+            <mt-field label="预留手机号:" type="tel" v-model.trim="form.reservedPhoneNo" @change="cacheFrom" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
           </input-wrapper>
         </view-radius>
       </div>

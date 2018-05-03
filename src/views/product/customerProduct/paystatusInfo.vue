@@ -16,7 +16,7 @@
       </el-form-item>
 
       <el-form-item class="is-required" label="身份证号" prop="idCard" :label-width="formLabelWidth">
-        <el-input @change="setCache" v-model="payStatusForm.idCard" auto-complete="off"></el-input>
+        <el-input @change="setCache" v-model.trim="payStatusForm.idCard" auto-complete="off"></el-input>
       </el-form-item>
       <div class="timestartandend-box">
         <el-form-item class="" label="身份证有效期" prop="idNoEffectiveBegin" :label-width="formLabelWidth">
@@ -69,7 +69,7 @@
         <el-input @change="setCache" @input="validateNum($event,'payStatusForm','accountNo')" v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="预留手机号" prop="reservedPhoneNo" :label-width="formLabelWidth">
-        <el-input @change="setCache" v-model="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
+        <el-input @change="setCache" v-model.trim="payStatusForm.reservedPhoneNo" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
         <el-select @change="setCache" filterable @input="banksChange" size="small" v-model="payStatusForm.bankCode" placeholder="请选择">

@@ -204,6 +204,12 @@ export default {
           if (this.detailsForm.qrcodeStatus == 'INIT') {
             this.detailRightVisible = false;
           }
+        } else {
+          this.$message({
+            message: data.msg,
+            type: "warning",
+            center: true
+          });
         }
         dialogLoading.close();
       });
