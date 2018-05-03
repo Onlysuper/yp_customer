@@ -28,7 +28,7 @@
               <myp-tr title="批次号">{{item.batchNo}}</myp-tr>
               <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
               <myp-tr title="商户编号">
-                <span @click="customerDedaile(item.customerNo)">{{item.customerNo}}</span>
+                <span class="link-text" @click="customerDedaile(item.customerNo)">{{item.customerNo}}</span>
               </myp-tr>
               <myp-tr title="序列号">{{item.qrcode}}</myp-tr>
               <myp-tr title="授权码">{{item.authCode}}</myp-tr>
@@ -290,6 +290,8 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss">
+.link-text {
+  color: rgb(54, 133, 253);
+}
 </style>
