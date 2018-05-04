@@ -703,12 +703,7 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
-                if (rowdata.unionNo == "3070401000000000000") {
-                  // 餐饮服务
-                }
-                if (rowdata.unionNo == "3070402000000000000") {
-                  // 住宿服务
-                }
+
                 var rowNew = utils.pickObj(rowdata, [
                   "goodsNo",
                   "unionNo",
@@ -726,7 +721,12 @@ export default {
                 ]);
                 // console.log(rowNew);
                 this.addForm = rowNew;
-                this.addForm.taxRate = rowNew.taxRate + "";
+                // this.addForm.taxRate = rowNew.taxRate;
+                if (this.dataTaxRateHave(rowNew.taxRate)) {
+                  this.addForm.taxRate = rowNew.taxRate + '';
+                } else {
+                  this.addForm.taxRate = '';
+                }
                 this.addFormVisible = false;
                 this.editFormVisible = true;
                 this.formDialogVisible = true;
@@ -912,19 +912,13 @@ export default {
       this.saveLoading = false;
       return (extension || extension2) && isLt2M;
     },
-    checkTaxRateHave(code, type) {
+
+    dataTaxRateHave(code) {
       let index_ = this.taxRateOptions.findIndex(item => {
-        if (item.code == code) {
-          this.addForm.taxRate = item.code;
-        }
         return item.code == code;
       });
+      console.log(index_);
       if (index_ == "-1") {
-        this.$message({
-          message: "税率不存在",
-          type: "warning",
-          center: true
-        });
         return false;
       } else {
         return true;
@@ -941,9 +935,6 @@ export default {
           if (valid) {
             // this.saveLoading = true;
             let sendata = { ...addForm };
-            // if (!this.checkTaxRateHave(sendata.taxRate, "ADD")) {
-            //   return false;
-            // }
             postAddCustomerGood()({ ...sendata }).then(data => {
               if (data.code === "00") {
                 this.$message({
@@ -973,9 +964,7 @@ export default {
             let addForm = this.addForm;
             // editForm.goodsName = this.goodsName;
             let sendata = { ...addForm };
-            // if (!this.checkTaxRateHave(sendata.taxRate, "EDIT")) {
-            //   return false;
-            // }
+
             this.saveLoading = true;
             postEditCustomerGood(addForm.goodsNo)({ ...sendata }).then(data => {
               if (data.code === "00") {
