@@ -178,7 +178,8 @@
   }
   .detail-content-pro {
     flex: 1;
-    height: 100%;
+    // height: 100%;
+    // background: blue;
     // overflow: auto;
     // position: relative;
     display: flex;
@@ -886,7 +887,12 @@ export default {
         type: "warning"
       }).then(() => {
         this.resaultHandle(obj);
-      });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消'
+        });
+      });;
     },
     // 审核拒绝
     refuseSave(customerType, detailsForm) {
@@ -921,6 +927,16 @@ export default {
           type: "warning"
         }).then(() => {
           this.resaultHandle(obj);
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '取消'
+          });
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消'
         });
       });
     },
