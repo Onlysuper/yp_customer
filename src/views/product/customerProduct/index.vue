@@ -78,6 +78,13 @@
         <el-button type="primary" @click="styleFormSave('styleForm')">确定</el-button>
       </div>
     </el-dialog>
+    <el-dialog :title="confirmTitle" :visible.sync="confirmVisible" width="30%">
+      <span>{{confirmMsg}}</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="noFn">取 消</el-button>
+        <el-button type="primary" @click="yesFn">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -178,7 +185,7 @@
   }
   .detail-content-pro {
     flex: 1;
-    height: 100%;
+    // height: 100%;
     // overflow: auto;
     // position: relative;
     display: flex;
@@ -326,6 +333,9 @@ export default {
       }
     }
     return {
+      confirmVisible: false,
+      confirmMsg: "",
+      confirmTitle: "提示",
       accountVisible: false,// 开户行许可证 
       certificateVisible: false,// 授权书
       detailProductView: "",
@@ -915,14 +925,18 @@ export default {
           obj.payStatus = "REJECT";
           msg = "确定拒绝聚合业务并且将以短信形式通知商户?";
         }
-        this.$confirm(msg, {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(() => {
-          this.resaultHandle(obj);
-        });
+        this.confirmVisible = true;
+        this.confirmMsg = msg;
+        this.confirmTitle = "提示";
+        this.yesFn(this.resaultHandle, obj);
       });
+    },
+    yesFn(resaultHandle, obj) {
+      resaultHandle(obj);
+      this.confirmVisible = false;
+    },
+    noFn() {
+      this.confirmVisible = false
     },
     // 排版保存
     styleFormSave(formName) {

@@ -1,13 +1,13 @@
 
 <template>
   <div class="searchModle-box">
-    <div class="_search-mask" @touchmove.prevent v-show="visible"></div>
+    <!-- <div class="_search-mask" @touchmove.prevent v-show="visible"></div> -->
     <!-- <div class="my-search" :class="{show:visible,hide:!visible}"> -->
     <div class="my-search my-search-visible" :class="{show:visible,hide:!visible}">
       <div class="mint-searchbar">
         <a @click="close" class="mint-searchbar-cancel">取消</a>
         <div class="mint-searchbar-inner">
-          <input v-focus="true" placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
+          <input ref="inputEle" v-focus="true" placeholder="请输入企业名称 / 关键字" type="text" v-model="myval" class="mint-searchbar-core"></div>
         <span class="searchbut" @click="searchHandle">
           <i class="mintui mintui-search"></i>
         </span>
@@ -29,6 +29,7 @@ import {
   testKeyQuery,
   entCardQueryCode
 } from "@src/apis";
+
 export default {
   props: {
     defaultVal: {
@@ -47,18 +48,11 @@ export default {
   },
   directives: {
     focus: {
-      inserted: function (el) {
-        el.focus()
-      },
-      // 指令的定义
-      componentUpdated: (el, binding) => {
-        el.focus()
-      },
-      inserted: (el, binding) => {
-        // if (binding.value) {
-        console.log('聚焦');
-        el.focus()
-        // }
+      // inserted: function (el) {
+      //   $(el).trigger("focus");
+      // },
+      componentUpdated: function (el) {
+        el.focus();
       }
     }
   },
@@ -74,9 +68,6 @@ export default {
       this.$emit("initData");
       this.$emit("changeName", val);
     }
-    // visible(val) {
-    //   console.log(val);
-    // }
   },
   created() {
   },
@@ -114,6 +105,9 @@ export default {
     },
     open() {
       this.visible = true;
+      let el = this.$refs.inputEle;
+      $(el).trigger("focus");
+      el.focus();
     },
     close() {
       this.visible = false;
@@ -191,14 +185,16 @@ export default {
   }
 
   .show {
-    top: 50px;
+    top: 200px;
     bottom: 0%;
-    opacity: 1;
+    // opacity: 1;
     // display: block;
   }
   .hide {
+    // top: 200px;
+    // bottom: 0%;
     top: -100%;
-    opacity: 0;
+    // opacity: 0;
     // display: none;
   }
 
@@ -206,7 +202,7 @@ export default {
     text-align: center;
     span {
       text-decoration: underline;
-      color: red;
+      color: #666;
     }
   }
 }
