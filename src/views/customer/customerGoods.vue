@@ -915,12 +915,7 @@ export default {
     checkTaxRateHave(code, type) {
       let index_ = this.taxRateOptions.findIndex(item => {
         if (item.code == code) {
-          // if (type == "ADD") {
-          this.addForm.taxRate = item.name;
-          // }
-          // if (type == "EDIT") {
-          //   this.editForm.taxRate = item.name;
-          // }
+          this.addForm.taxRate = item.code;
         }
         return item.code == code;
       });
@@ -946,9 +941,9 @@ export default {
           if (valid) {
             // this.saveLoading = true;
             let sendata = { ...addForm };
-            if (!this.checkTaxRateHave(sendata.taxRate, "ADD")) {
-              return false;
-            }
+            // if (!this.checkTaxRateHave(sendata.taxRate, "ADD")) {
+            //   return false;
+            // }
             postAddCustomerGood()({ ...sendata }).then(data => {
               if (data.code === "00") {
                 this.$message({
@@ -978,9 +973,9 @@ export default {
             let addForm = this.addForm;
             // editForm.goodsName = this.goodsName;
             let sendata = { ...addForm };
-            if (!this.checkTaxRateHave(sendata.taxRate, "EDIT")) {
-              return false;
-            }
+            // if (!this.checkTaxRateHave(sendata.taxRate, "EDIT")) {
+            //   return false;
+            // }
             this.saveLoading = true;
             postEditCustomerGood(addForm.goodsNo)({ ...sendata }).then(data => {
               if (data.code === "00") {
