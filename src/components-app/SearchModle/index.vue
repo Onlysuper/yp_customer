@@ -49,12 +49,14 @@ export default {
     focus: {
       // 指令的定义
       componentUpdated: (el, binding) => {
-        el.focus()
+
+        setTimeout(() => {
+          alert(el);
+          console.log(el);
+          el.focus()
+        }, 1000)
       },
       inserted: (el, binding) => {
-        this.$nextTick(() => {
-          el.focus()
-        })
       }
     }
   },
@@ -189,12 +191,12 @@ export default {
   .show {
     top: 50px;
     bottom: 0%;
-    opacity: 1;
+    // opacity: 1;
     // display: block;
   }
   .hide {
     top: -100%;
-    opacity: 0;
+    // opacity: 0;
     // display: none;
   }
 
