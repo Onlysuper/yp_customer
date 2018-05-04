@@ -615,26 +615,27 @@ export default {
                   return false;
                 }
               },
-              // disabledFn: rowdata => {
-              //   if (
-              //     rowdata.payStatus == "INIT" ||
-              //     rowdata.payStatus == "WAITING_SUBMIT" ||
-              //     rowdata.payStatus == "REJECT" ||
-              //     rowdata.payStatus == "FALSE" ||
-              //     rowdata.qrcodeStatus == "INIT" ||
-              //     rowdata.qrcodeStatus == "FALSE" ||
-              //     rowdata.elecStatus == "INIT" ||
-              //     rowdata.elecStatus == "REJECT" ||
-              //     rowdata.elecStatus == "FALSE"
-              //   ) {
-              //     return false;
-              //   } else {
-              //     return true;
-              //   }
-              // },
               cb: rowdata => {
                 this.resaultData = rowdata;
                 this.openProduct('payStatus');
+              }
+            },
+            {
+              text: "编辑",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                if (
+                  (isAdmin || !isBranchOffice) &&
+                  rowdata.payStatus == "TRUE"
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                this.resaultData = rowdata;
+                this.openProductPay('payStatus');
               }
             },
             // 操作按钮
@@ -969,6 +970,32 @@ export default {
           })
         }
       })
+    },
+    openProductPay() {
+      let rowdata = { ...this.resaultData };
+      this.customerTypeSelected = [
+        {
+          value: "payStatus",
+          label: "聚合支付",
+          disabled:
+            rowdata.payStatus == "TRUE"
+              ? false
+              : true
+        },
+        {
+          value: "qrcodeStatus",
+          label: "快速开票",
+          disabled: true
+        },
+        {
+          value: "elecStatus",
+          label: "电子发票",
+          disabled: true
+        }
+      ];
+      this.resaultData = { ...rowdata };
+      this.nextFn("openInfo");
+      this.editFormVisible = true;
     },
     // 点击开通产品
     openProduct(type) {
