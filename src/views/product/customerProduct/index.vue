@@ -67,7 +67,7 @@
             <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="支付类型:" prop="" :label-width="formLabelWidth">
+        <el-form-item v-if="false" label="支付类型:" prop="" :label-width="formLabelWidth">
           <el-checkbox-group @change="payTypesChange" v-model="styleForm.payTypes">
             <el-checkbox v-for="item in payTypesOptions" :disabled="item.disabled" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
@@ -453,10 +453,10 @@ export default {
       styleFormRules: {
         payTypes: [
           { required: true, message: "请选择支付类型", trigger: "blur" }
-        ],
-        supportTypes: [
-          { required: true, message: "请选择开票类型", trigger: "blur" }
         ]
+        // supportTypes: [
+        //   { required: true, message: "请选择开票类型", trigger: "blur" }
+        // ]
       },
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
@@ -626,24 +626,24 @@ export default {
                 this.openProduct('payStatus');
               }
             },
-            {
-              text: "编辑",
-              color: "#00c1df",
-              visibleFn: rowdata => {
-                if (
-                  (isAdmin || !isBranchOffice) &&
-                  rowdata.payStatus == "TRUE"
-                ) {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
-              cb: rowdata => {
-                this.resaultData = rowdata;
-                this.openProductPay('payStatus');
-              }
-            },
+            // {
+            //   text: "变更",
+            //   color: "#00c1df",
+            //   visibleFn: rowdata => {
+            //     if (
+            //       (isAdmin || !isBranchOffice) &&
+            //       rowdata.payStatus == "TRUE"
+            //     ) {
+            //       return true;
+            //     } else {
+            //       return false;
+            //     }
+            //   },
+            //   cb: rowdata => {
+            //     this.resaultData = rowdata;
+            //     this.openProductPay('payStatus');
+            //   }
+            // },
             // 操作按钮
             {
               text: "查询",

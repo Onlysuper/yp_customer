@@ -1,167 +1,153 @@
 <template>
   <!-- 聚合支付详情 -->
-  <div class="product-detail-body">
-    <!-- {{detailsForm}}  -->
-    <div class="detaile-left">
-      <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
-      <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
-        <div class="line-label-box split">
-          <div class="line-cell">
-            <span class="lable-title gray-back">商户编号:</span>
-            <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+  <div class="product-detail-box">
+    <div class="product-detail-body change-before">
+      <div class="detaile-left">
+        <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
+        <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">商户编号:</span>
+              <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+            </div>
+            <div class="line-cell">
+              <span class="lable-title gray-back">预留手机号:</span>
+              <span class="line-label-last">{{payStatusDetails.reservedPhoneNo}}</span>
+            </div>
           </div>
-          <div class="line-cell">
-            <span class="lable-title gray-back">预留手机号:</span>
-            <span class="line-label-last">{{payStatusDetails.reservedPhoneNo}}</span>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">身份证有效期:</span>
+            <span class="line-label-last">{{payStatusDetails.idNoEffectiveBegin}} 至 {{payStatusDetails.idNoEffectiveEnd}}</span>
           </div>
-        </div>
-        <div class="line-label-box">
-          <span class="lable-title gray-back">身份证有效期:</span>
-          <span class="line-label-last">{{payStatusDetails.idNoEffectiveBegin}} 至 {{payStatusDetails.idNoEffectiveEnd}}</span>
-        </div>
-        <!-- <div class="line-label-box">
+          <!-- <div class="line-label-box">
           <span class="lable-title gray-back">商户编号:</span>
           <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
         </div> -->
-        <div class="line-label-box split">
-          <div class="line-cell">
-            <span class="lable-title gray-back">更新时间:</span>
-            <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">更新时间:</span>
+              <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
+            </div>
+            <div class="line-cell">
+              <span class="lable-title gray-back">开通状态:</span>
+              <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
+            </div>
           </div>
-          <div class="line-cell">
-            <span class="lable-title gray-back">开通状态:</span>
-            <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
+          <div class="split－padding"></div>
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">微信费率:</span>
+              <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
+            </div>
+            <div class="line-cell">
+              <span class="lable-title gray-back">支付宝费率:</span>
+              <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
+            </div>
+          </div>
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">开通秒到:</span>
+              <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
+            </div>
+            <div class="line-cell">
+              <span class="lable-title gray-back">D0手续费:</span>
+              <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||"0"}}</span>
+            </div>
+          </div>
+          <div class="split－padding"></div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">企业名称:</span>
+            <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
+          </div>
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">企业税号:</span>
+              <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
+            </div>
+            <div class="line-cell">
+              <span class="lable-title gray-back">行业类型:</span>
+              <span class="line-label-last">{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}</span>
+            </div>
+          </div>
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">身份证号:</span>
+              <span class="line-label-last">{{payStatusDetails.idCard}}</span>
+            </div>
+            <div class="line-cell">
+              <span class="lable-title gray-back">法人:</span>
+              <span class="line-label-last">{{payStatusDetails.legalPerson}}</span>
+            </div>
+          </div>
+          <div class="line-label-box">
+            <div class="line-cell">
+              <span class="lable-title gray-back">所在地区:</span>
+              <span class="line-label-last">{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}</span>
+            </div>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">详细地址:</span>
+            <span class="line-label-last">{{payStatusDetails.bussinessAddress}}</span>
+          </div>
+          <div class="split－padding"></div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">账户名称:</span>
+            <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
+          </div>
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">账号:</span>
+              <span class="line-label-last">{{payStatusDetails.accountNo||""}}</span>
+            </div>
+            <div class="line-cell">
+              <span class="lable-title gray-back">账户类型:</span>
+              <span class="line-label-last">{{payStatusDetails.accountType | statusFilter('accountType')}}</span>
+            </div>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">开户银行:</span>
+            <span class="line-label-last">{{payStatusDetails.bankName||""}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">开户支行:</span>
+            <span class="line-label-last">{{payStatusDetails.branchName||""}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">营业期限:</span>
+            <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
           </div>
         </div>
-        <div class="split－padding"></div>
-        <div class="line-label-box split">
-          <div class="line-cell">
-            <span class="lable-title gray-back">微信费率:</span>
-            <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
-          </div>
-          <div class="line-cell">
-            <span class="lable-title gray-back">支付宝费率:</span>
-            <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
-          </div>
-        </div>
-        <div class="line-label-box split">
-          <div class="line-cell">
-            <span class="lable-title gray-back">开通秒到:</span>
-            <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
-          </div>
-          <div class="line-cell">
-            <span class="lable-title gray-back">D0手续费:</span>
-            <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||"0"}}</span>
-          </div>
-        </div>
-        <div class="split－padding"></div>
-        <div class="line-label-box">
-          <span class="lable-title gray-back">企业名称:</span>
-          <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
-        </div>
-        <div class="line-label-box split">
-          <div class="line-cell">
-            <span class="lable-title gray-back">企业税号:</span>
-            <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
-          </div>
-          <div class="line-cell">
-            <span class="lable-title gray-back">行业类型:</span>
-            <span class="line-label-last">{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}</span>
-          </div>
-        </div>
-        <div class="line-label-box split">
-          <div class="line-cell">
-            <span class="lable-title gray-back">身份证号:</span>
-            <span class="line-label-last">{{payStatusDetails.idCard}}</span>
-          </div>
-          <div class="line-cell">
-            <span class="lable-title gray-back">法人:</span>
-            <span class="line-label-last">{{payStatusDetails.legalPerson}}</span>
-          </div>
-        </div>
-        <div class="line-label-box">
-          <div class="line-cell">
-            <span class="lable-title gray-back">所在地区:</span>
-            <span class="line-label-last">{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}</span>
-          </div>
-        </div>
-        <div class="line-label-box">
-          <span class="lable-title gray-back">详细地址:</span>
-          <span class="line-label-last">{{payStatusDetails.bussinessAddress}}</span>
-        </div>
-        <div class="split－padding"></div>
-        <div class="line-label-box">
-          <span class="lable-title gray-back">账户名称:</span>
-          <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
-        </div>
-        <div class="line-label-box split">
-          <div class="line-cell">
-            <span class="lable-title gray-back">账号:</span>
-            <span class="line-label-last">{{payStatusDetails.accountNo||""}}</span>
-          </div>
-          <div class="line-cell">
-            <span class="lable-title gray-back">账户类型:</span>
-            <span class="line-label-last">{{payStatusDetails.accountType | statusFilter('accountType')}}</span>
-          </div>
-        </div>
-        <div class="line-label-box">
-          <span class="lable-title gray-back">开户银行:</span>
-          <span class="line-label-last">{{payStatusDetails.bankName||""}}</span>
-        </div>
-        <div class="line-label-box">
-          <span class="lable-title gray-back">开户支行:</span>
-          <span class="line-label-last">{{payStatusDetails.branchName||""}}</span>
-        </div>
-        <div class="line-label-box">
-          <span class="lable-title gray-back">营业期限:</span>
-          <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
-        </div>
+        <!-- </iscroll-view> -->
       </div>
-      <!-- </iscroll-view> -->
-    </div>
-    <div class="detaile-right" v-if="detailRightVisible">
-      <div class="scroll-box">
-        <div class="small-but pre" @click="preFn" slot="preBut">《</div>
-        <div class="small-but next" @click="preNext" slot="nextBut">》</div>
-        <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
-          <div class="imgs-group">
-            <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
-              <p class="img-title">{{item[1].imgname}}:</p>
-              <div class="img-back">
-                <!-- <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname,item[1].name)" class="img-size" :src="item[1].url" alt=""> -->
-                <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname,item[1].name,index)" class="img-size" :src="item[1].url" alt="">
+      <div class="detaile-right" v-if="detailRightVisible">
+        <div class="scroll-box">
+          <div class="small-but pre" @click="preFn" slot="preBut">《</div>
+          <div class="small-but next" @click="preNext" slot="nextBut">》</div>
+          <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
+            <div class="imgs-group">
+              <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
+                <p class="img-title">{{item[1].imgname}}:</p>
+                <div class="img-back">
+                  <!-- <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname,item[1].name)" class="img-size" :src="item[1].url" alt=""> -->
+                  <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname,item[1].name,index)" class="img-size" :src="item[1].url" alt="">
+                </div>
+
               </div>
-
             </div>
-          </div>
-        </scroll-pane>
-      </div>
-      <div class="large-img-box">
-        <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" arrow="always">
-          <el-carousel-item v-for="(item,index) in imgsArr" :key="index" :label="item[1].name">
-            <div class="large-img">
-              <img @click="largeImageShow(item[1].url,'payStatus')" :src="item[1].url" alt="">
-            </div>
-            <p class="large-imgname">{{item[1].imgname}}</p>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-
-      <!-- <div class="large-img-box">
-        <div class="large-img">
-          <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large'" :src="largeImgUrl" :alt="largeImgArt">
+          </scroll-pane>
         </div>
-        <p class="large-imgname">{{largeImg.name}}</p>
-      </div> -->
-      <!-- <div class="largeButgroup">
-        <i title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
-      </div> -->
-    </div>
-    <!-- <transition name="slide-fade" class="fadeView">
-      <div v-if="fadeViewVisible">
-        <image-view :class="rotateClass" :imgArr="largeUrl" :showImageView="true" :imageIndex="0" v-on:hideImage="hideImageView"></image-view>
+        <div class="large-img-box">
+          <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" trigger='click' arrow="always" height="100%">
+            <el-carousel-item v-for="(item,index) in imgsArr" :key="index" :label="item[1].name">
+              <div class="large-img">
+                <img @click="largeImageShow(item[1].url,'payStatus')" :src="item[1].url" alt="">
+              </div>
+              <p class="large-imgname">{{item[1].imgname}}</p>
+            </el-carousel-item>
+          </el-carousel>
+        </div>
       </div>
-    </transition> -->
+    </div>
     <transition name="slide-fade" class="fadeView">
       <largeimg-view :payStatusDetails="payStatusDetails" ref="largeImg" :imgsArr="imgsArr" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>

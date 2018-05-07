@@ -81,18 +81,18 @@ export default {
       //判断开通状态
       switch (customer.payStatus) {
         //已开通
-        // case "TRUE":
-        //   this.$router.push({
-        //     path: "./detail/pay",
-        //     query: { customerNo: customer.bussinessNo }
-        //   });
-        //   break;
         case "TRUE":
           this.$router.push({
             path: "./detail/pay",
             query: { customerNo: customer.bussinessNo }
           });
           break;
+        // case "TRUE":
+        //   this.$router.push({
+        //     path: "./detail/pay",
+        //     query: { customerNo: customer.bussinessNo }
+        //   });
+        //   break;
         //未开通
         case "INIT":
           this.$router.push({

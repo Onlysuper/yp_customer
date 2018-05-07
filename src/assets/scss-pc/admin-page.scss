@@ -2,6 +2,11 @@
   .link-text{
     color: rgb(54, 133, 253);
     cursor: pointer;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    height: 30px;
   }
   .el-dialog--center .el-dialog__header{
     padding-top: 15px !important;

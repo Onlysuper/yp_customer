@@ -41,7 +41,7 @@
         </div>
       </scroll-pane>
       <div class="large-img-box">
-        <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" arrow="always">
+        <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" trigger='click' arrow="always" height="100%">
           <el-carousel-item v-for="(item,index) in imgsArr" :key="index" :label="item[1].name">
             <div class="large-img">
               <img @click="largeImageShow(item[1].url,'qrcode')" :src="item[1].url" alt="">
