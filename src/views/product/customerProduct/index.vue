@@ -67,7 +67,7 @@
             <el-checkbox v-for="item in supportTypesOptions" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="支付类型:" prop="" :label-width="formLabelWidth">
+        <el-form-item v-if="false" label="支付类型:" prop="" :label-width="formLabelWidth">
           <el-checkbox-group @change="payTypesChange" v-model="styleForm.payTypes">
             <el-checkbox v-for="item in payTypesOptions" :disabled="item.disabled" :label="item.code" :key="item.code">{{item.name}}</el-checkbox>
           </el-checkbox-group>
@@ -453,10 +453,10 @@ export default {
       styleFormRules: {
         payTypes: [
           { required: true, message: "请选择支付类型", trigger: "blur" }
-        ],
-        supportTypes: [
-          { required: true, message: "请选择开票类型", trigger: "blur" }
         ]
+        // supportTypes: [
+        //   { required: true, message: "请选择开票类型", trigger: "blur" }
+        // ]
       },
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
@@ -552,6 +552,12 @@ export default {
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
+            key: "时间",
+            width: "",
+            sortable: true,
+            word: "createTime"
+          },
+          {
             key: "商户编号",
             width: "",
             sortable: true,
@@ -615,28 +621,29 @@ export default {
                   return false;
                 }
               },
-              // disabledFn: rowdata => {
-              //   if (
-              //     rowdata.payStatus == "INIT" ||
-              //     rowdata.payStatus == "WAITING_SUBMIT" ||
-              //     rowdata.payStatus == "REJECT" ||
-              //     rowdata.payStatus == "FALSE" ||
-              //     rowdata.qrcodeStatus == "INIT" ||
-              //     rowdata.qrcodeStatus == "FALSE" ||
-              //     rowdata.elecStatus == "INIT" ||
-              //     rowdata.elecStatus == "REJECT" ||
-              //     rowdata.elecStatus == "FALSE"
-              //   ) {
-              //     return false;
-              //   } else {
-              //     return true;
-              //   }
-              // },
               cb: rowdata => {
                 this.resaultData = rowdata;
                 this.openProduct('payStatus');
               }
             },
+            // {
+            //   text: "变更",
+            //   color: "#00c1df",
+            //   visibleFn: rowdata => {
+            //     if (
+            //       (isAdmin || !isBranchOffice) &&
+            //       rowdata.payStatus == "TRUE"
+            //     ) {
+            //       return true;
+            //     } else {
+            //       return false;
+            //     }
+            //   },
+            //   cb: rowdata => {
+            //     this.resaultData = rowdata;
+            //     this.openProductPay('payStatus');
+            //   }
+            // },
             // 操作按钮
             {
               text: "查询",
@@ -969,6 +976,32 @@ export default {
           })
         }
       })
+    },
+    openProductPay() {
+      let rowdata = { ...this.resaultData };
+      this.customerTypeSelected = [
+        {
+          value: "payStatus",
+          label: "聚合支付",
+          disabled:
+            rowdata.payStatus == "TRUE"
+              ? false
+              : true
+        },
+        {
+          value: "qrcodeStatus",
+          label: "快速开票",
+          disabled: true
+        },
+        {
+          value: "elecStatus",
+          label: "电子发票",
+          disabled: true
+        }
+      ];
+      this.resaultData = { ...rowdata };
+      this.nextFn("openInfo");
+      this.editFormVisible = true;
     },
     // 点击开通产品
     openProduct(type) {

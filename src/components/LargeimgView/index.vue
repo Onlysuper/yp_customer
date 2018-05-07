@@ -357,7 +357,7 @@ export default {
         obj.imgId = index;
         obj.url = elem.url;
         obj.id = elem.id;
-        obj.imgname = elem.imgname||"";
+        obj.imgname = elem.imgname || "";
         arrSelf.push(obj)
       }
       this.imgsArrSelf = Object.entries(arrSelf) // 本页面需要的数组
@@ -415,7 +415,7 @@ export default {
         let imgId = img.attr("id");
         this.idcardVisible = false;
         this.accountNoVisible = false;
-        if (imgId == "identityHolderImg" || imgId == "identityBackImg") {
+        if (imgId == "identityHolderImg" || imgId == "identityFrontImg") {
           this.idcardVisible = true
         }
         if (imgId == "settleCardImg") {

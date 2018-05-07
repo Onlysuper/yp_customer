@@ -87,6 +87,12 @@ export default {
             query: { customerNo: customer.bussinessNo }
           });
           break;
+        // case "TRUE":
+        //   this.$router.push({
+        //     path: "./detail/pay",
+        //     query: { customerNo: customer.bussinessNo }
+        //   });
+        //   break;
         //未开通
         case "INIT":
           this.$router.push({

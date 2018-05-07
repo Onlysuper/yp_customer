@@ -13,7 +13,7 @@
           <mt-checklist @input="supportTypesChange" class="myp-chek-list border-1px" title="" v-model="dataList.invoiceTypes" :options="supportTypesOptions">
           </mt-checklist>
         </div>
-        <div>
+        <div v-if="false">
           <mt-cell title="支付类型" class="border-1px"></mt-cell>
           <mt-checklist @input="payTypesChange" class="myp-chek-list border-1px" title="" v-model="dataList.payTypes" :options="payTypesOptions">
           </mt-checklist>
@@ -184,10 +184,10 @@ export default {
       });
     },
     save() {
-      if (this.dataList.invoiceTypes.length == 0) {
-        this.MessageBox.alert("请选择开票类型！");
-        return;
-      }
+      // if (this.dataList.invoiceTypes.length == 0) {
+      //   this.MessageBox.alert("请选择开票类型！");
+      //   return;
+      // }
       // if (this.dataList.payTypes.length == 0) {
       //   this.MessageBox.alert("请选择支付类型！");
       //   return;

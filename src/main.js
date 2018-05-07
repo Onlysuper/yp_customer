@@ -72,11 +72,15 @@ import {
   Tabs as eleTabs,
   TabPane as eleTabPane,
   Autocomplete as eleAutocomplete,
+  Carousel as eleCarousel,
+  CarouselItem as eleCarouselItem,
   MessageBox,
   Message,
   Loading
 } from 'element-ui'
 
+Vue.component(eleCarousel.name, eleCarousel)
+Vue.component(eleCarouselItem.name, eleCarouselItem)
 Vue.component(eleSwitch.name, eleSwitch)
 Vue.component(eleRadio.name, eleRadio)
 Vue.component(eleRadioGroup.name, eleRadioGroup)
