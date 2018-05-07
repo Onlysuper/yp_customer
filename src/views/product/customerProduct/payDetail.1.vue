@@ -128,8 +128,7 @@
             <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
               <p class="img-title">{{item[1].imgname}}:</p>
               <div class="img-back">
-                <!-- <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname,item[1].name)" class="img-size" :src="item[1].url" alt=""> -->
-                <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname,item[1].name,index)" class="img-size" :src="item[1].url" alt="">
+                <img @click="showImg(item[1].url||'',item[0],'pay',item[1].imgname,item[1].name)" class="img-size" :src="item[1].url" alt="">
               </div>
 
             </div>
@@ -137,22 +136,12 @@
         </scroll-pane>
       </div>
       <div class="large-img-box">
-        <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" arrow="always">
-          <el-carousel-item v-for="(item,index) in imgsArr" :key="index" :label="item[1].name">
-            <div class="large-img">
-              <img @click="largeImageShow(item[1].url,'payStatus')" :src="item[1].url" alt="">
-            </div>
-            <p class="large-imgname">{{item[1].imgname}}</p>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
-
-      <!-- <div class="large-img-box">
         <div class="large-img">
+          <!-- <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large '+rotateClass" :src="largeImgUrl" :alt="largeImgArt"> -->
           <img @click="largeImageShow(largeImgUrl,'payStatus')" :class="'img-large'" :src="largeImgUrl" :alt="largeImgArt">
         </div>
         <p class="large-imgname">{{largeImg.name}}</p>
-      </div> -->
+      </div>
       <!-- <div class="largeButgroup">
         <i title="旋转" @click="rotateFn" class="el-icon-refresh but"></i>
       </div> -->
@@ -170,24 +159,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
-<style lang='scss'>
-// .el-carousel__item h3 {
-//   color: #475669;
-//   font-size: 18px;
-//   opacity: 0.75;
-//   line-height: 300px;
-//   margin: 0;
-//   // background: red;
-// }
-
-// .el-carousel__item:nth-child(2n) {
-//   background-color: #99a9bf;
-// }
-
-// .el-carousel__item:nth-child(2n + 1) {
-//   background-color: #d3dce6;
-// }
-
+<style lang='scss' scoped>
 @import "../../../../src/assets/scss-pc/payDetail.scss";
 .rightVsiblefalse {
   .line-label-box.split {
@@ -302,7 +274,6 @@ export default {
       }
     }
     return {
-      initialIndex: 0,//图片滚动滚动索引
       detailRightVisible: true,// 右侧是否显示
       accountVisible: false,// 开户行许可证 
       certificateVisible: false,// 授权书
@@ -445,13 +416,13 @@ export default {
               }
               if (item) {
                 item["imgname"] = imgname;
-                // if (item.url) {
-                //   if (this.largeImgUrl == "") {
-                //     // 默认显示的图片
-                //     this.largeImg = { imgname: index, url: item.url, name: imgname };
-                //     this.largeImgUrl = item.url
-                //   }
-                // }
+                if (item.url) {
+                  if (this.largeImgUrl == "") {
+                    // 默认显示的图片
+                    this.largeImg = { imgname: index, url: item.url, name: imgname };
+                    this.largeImgUrl = item.url
+                  }
+                }
                 // ((i) => {
                 //   let item = imgsArr[i][1];
                 //   let index = imgsArr[i][0];
@@ -518,16 +489,16 @@ export default {
       this.fadeViewVisible = true;
       this.$refs.largeImg.imgInit()
     },
-    showImg(url, item, imgname, type, name, initialIndex) {
+    showImg(url, imgname, type, name) {
+      console.log(url + "--" + imgname + "--" + type)
       this.rotateCurrent = 0
       this.rotateClass = "";
       this.largeImgUrl = url;
-      this.largeImg = { imgname: item, url: url, name: name };
-      this.setActiveItem(initialIndex);
-      // console.log(initialIndex);
-    },
-    setActiveItem(index) {
-      this.$refs.carousel.setActiveItem(index)
+      this.largeImg = { imgname: imgname, url: url, name: name };
+      // this.rotateCurrent = 0
+      // this.rotateClass = "";
+      // this.largeImgUrl = val.url;
+      // this.largeImg = { imgname: imgname, ...val };
     },
     rotateInit() {
       this.rotateCurrent = 0

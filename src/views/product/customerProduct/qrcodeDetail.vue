@@ -34,14 +34,25 @@
           <div class="img-box" v-for="(item,index) in imgsArr" :key="index">
             <p class="img-title">{{item[1].imgname}}:</p>
             <div class="img-back">
-              <img @click="showImg(item[1].url||'',item[0],'qrcode',item[1].imgname)" class="img-size" :src="item[1].url" alt="">
+              <!-- <img @click="showImg(item[1].url||'',item[0],'qrcode',item[1].imgname)" class="img-size" :src="item[1].url" alt=""> -->
+              <img @click="showImg(item[1].url||'',item[0],'qrcode',item[1].imgname,item[1].name,index)" class="img-size" :src="item[1].url" alt="">
             </div>
           </div>
         </div>
       </scroll-pane>
-      <div class="large-img">
-        <img @click="largeImageShow(largeImgUrl,'qrcode')" class="img-large" :src="largeImgUrl" alt="">
+      <div class="large-img-box">
+        <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" arrow="always">
+          <el-carousel-item v-for="(item,index) in imgsArr" :key="index" :label="item[1].name">
+            <div class="large-img">
+              <img @click="largeImageShow(item[1].url,'qrcode')" :src="item[1].url" alt="">
+            </div>
+            <p class="large-imgname">{{item[1].imgname}}</p>
+          </el-carousel-item>
+        </el-carousel>
       </div>
+      <!-- <div class="large-img">
+        <img @click="largeImageShow(largeImgUrl,'qrcode')" class="img-large" :src="largeImgUrl" alt="">
+      </div> -->
     </div>
     <!-- <transition name="slide-fade" class="fadeView">
       <div v-if="fadeViewVisible">
@@ -240,6 +251,10 @@ export default {
       this.rotateClass = "";
       this.largeImgUrl = url;
       this.largeImg = { imgname: imgname, url: url };
+      this.setActiveItem(initialIndex);
+    },
+    setActiveItem(index) {
+      this.$refs.carousel.setActiveItem(index)
     },
     rotateInit() {
       this.rotateCurrent = 0

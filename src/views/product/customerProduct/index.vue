@@ -552,6 +552,12 @@ export default {
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
+            key: "时间",
+            width: "",
+            sortable: true,
+            word: "createTime"
+          },
+          {
             key: "商户编号",
             width: "",
             sortable: true,
