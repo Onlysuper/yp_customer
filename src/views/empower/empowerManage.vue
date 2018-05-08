@@ -349,7 +349,14 @@ export default {
     };
     return {
       detailsFormVisible: false,
-      detailsForm: {},
+      detailsForm: {
+        enterpriseName: "",
+        taxNo: "",
+        legalPerson: "",
+        idCard: "",
+        linkMan: "",
+        phoneNo: ""
+      },
       deviceType: "AUTHCODE",
       formLabelWidth: "100px",
       qrcodeUrl: "",
@@ -407,7 +414,7 @@ export default {
           { required: true, message: "批次数量不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          // { required: true, message: "请选择支持类型", trigger: "blur,change" }
+          // {required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       editForm: {

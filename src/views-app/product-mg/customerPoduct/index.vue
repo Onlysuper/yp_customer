@@ -81,7 +81,7 @@ export default {
       //判断开通状态
       this.$router.push({
         path: "./qrcodeUpload",
-        query: { customerNo: customer.bussinessNo, type: 'Qrcode', qrcodeStatus: customer.qrcodeStatus }
+        query: { customerNo: customer.bussinessNo, type: 'Qrcode', qrcodeStatus: customer.qrcodeStatus, customerName: customer.customerName }
       });
     },
     openPay(customer) {
