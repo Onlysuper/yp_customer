@@ -257,7 +257,7 @@
     <el-dialog v-dialogDrag title="详情" center :visible.sync="detailsFormVisible" width="400px">
       <div class="detail-content">
         <div class="line-label-box cross-back">
-          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
+          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName || ""}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
@@ -721,7 +721,7 @@ export default {
               }).then((res) => {
                 if (res.code == '00') {
                   if (value.customerNo) {
-                    this.detailsForm = res.data[0];
+                    this.detailsForm = { ...res.data[0] };
                     this.detailsFormVisible = true
                   }
                 }

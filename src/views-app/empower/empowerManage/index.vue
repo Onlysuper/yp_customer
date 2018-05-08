@@ -132,7 +132,7 @@ export default {
           containChild: ''
         }).then((res) => {
           if (res.code == '00') {
-            let detailsForm = res.data[0];
+            let detailsForm = { ...res.data[0] };
             this.$refs.detail.open(detailsForm);
           }
         })
