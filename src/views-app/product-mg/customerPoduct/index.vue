@@ -11,7 +11,7 @@
           <mt-cell :title="item.customerName">
             <mt-button v-if="adminFilter('userProductStatus_config')" class="but" @click="stencilFn(item)" size="small">配置</mt-button>
           </mt-cell>
-          <mt-cell title="快速开票" is-link>
+          <mt-cell title="快速开票" is-link @click.native="openQrcode(item)">
             <span>{{item.qrcodeStatus | statusFilter('handleProductOpenStatus')}}</span>
           </mt-cell>
           <mt-cell title="聚合支付" is-link @click.native="openPay(item)">
@@ -75,6 +75,13 @@ export default {
       this.$router.push({
         path: "./stencil/" + rowdata.bussinessNo,
         query: { type: "STENCIL" }
+      });
+    },
+    openQrcode(customer) {
+      //判断开通状态
+      this.$router.push({
+        path: "./qrcodeUpload",
+        query: { customerNo: customer.bussinessNo, type: 'Qrcode' }
       });
     },
     openPay(customer) {

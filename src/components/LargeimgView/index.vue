@@ -243,7 +243,8 @@ export default {
       downloadUrl: "",
       downloadName: "",
       idcardVisible: false,
-      accountNoVisible: false
+      accountNoVisible: false,
+      canMove: true,
     };
   },
   methods: {
@@ -256,7 +257,7 @@ export default {
       let windowWidth = $(".fullpate-img").width();
       let imgboxLen_ = $(".imgbox").length;
       if (this.nowIndex > 0) {
-        newIndex = parseInt(this.nowIndex) - 1;
+        newIndex = this.nowIndex - 1;
       } else {
         newIndex = 0
       }
@@ -373,7 +374,7 @@ export default {
         let windowHeight = $(".fullpate-img").height();
         for (var i = 0; i < imgboxLen_; i++) {
           $(".imgbox").eq(i).css({ "width": windowWidth, "height": windowHeight });
-          $(".imgbox").eq(i).css("left", i * windowWidth + "px")
+          $(".imgbox").eq(i).css("left", utils.accMul(i, windowWidth) + "px")
         }
         $(".imgsGroup").width(utils.accMul(windowWidth, imgboxLen_));
 
@@ -381,25 +382,29 @@ export default {
       })
     },
     imgsGroupMove(index) {
+      let canMove = this.canMove;
       let windowWidth = $(".fullpate-img").width();
       let nowLeft = $(".imgsGroup").position().left;
-      if (index < this.nowIndex) {
+      if (index < this.nowIndex && canMove) {
         // 向左移动
-        // console.log("向左移动");
-        $(".imgsGroup").animate({ left: (nowLeft + windowWidth) + "px" }, 200)
+        // if (canMove) {
+        this.canMove = false;
+        $(".imgsGroup").animate({ left: (nowLeft + windowWidth) + "px" }, 'fast', 'swing', () => {
+          this.canMove = true;
+        })
         this.nowIndex = index;
-      } else if (index > this.nowIndex) {
+        // }
+      } else if (index > this.nowIndex && canMove) {
         //向右移动
-        // console.log("向右侧移动")
-        $(".imgsGroup").animate({ left: (nowLeft - windowWidth) + "px" }, 200)
+        this.canMove = false;
+        $(".imgsGroup").animate({ left: (nowLeft - windowWidth) + "px" }, 'fast', 'swing', () => {
+          this.canMove = true;
+        })
         this.nowIndex = index;
       } else {
         // 不动
-        // console.log("不动");
         $(".imgsGroup").css({ left: -utils.accMul(index, windowWidth) + "px" });
       }
-      // console.log(this.nowIndex);
-      // }
       this.$nextTick(item => {
         let imgsrc = $(".imgbox").eq(this.nowIndex).find("img").attr('src');
         let imgalt = $(".imgbox").eq(this.nowIndex).find("img").attr('alt');
@@ -415,7 +420,7 @@ export default {
         let imgId = img.attr("id");
         this.idcardVisible = false;
         this.accountNoVisible = false;
-        if (imgId == "identityHolderImg" || imgId == "identityFrontImg") {
+        if (imgId == "identityHolderImg" || imgId == "identityFrontImg" || imgId == 'cardHolderIdImg' || imgId == 'cardHolderFrontImg') {
           this.idcardVisible = true
         }
         if (imgId == "settleCardImg") {
@@ -432,8 +437,8 @@ export default {
       let $imgHeight = $img.height();
       if (biggeris == "smallImg") {
         // 放大
-        $img.width($imgWidth * 2);
-        $img.height($imgHeight * 2);
+        $img.width(utils.accMul($imgWidth, 2));
+        $img.height(utils.accMul($imgHeight, 2));
         this.biggeris = "bigImg";
         this.retateVisible = false;
       } else if (biggeris == "bigImg") {

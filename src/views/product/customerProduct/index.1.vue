@@ -8,7 +8,6 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 商户状态 start -->
-    <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
     <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
       <div class="detail-content-pro">
         <template>
@@ -236,8 +235,7 @@ export default {
     openInfo: openInfo,
     payDetail,
     elecDetail,
-    qrcodeDetail,
-    qrcodeUpload
+    qrcodeDetail
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
@@ -1050,8 +1048,8 @@ export default {
     editFn() {
       let customerType = this.selectOptions.customerType;
       if (customerType == "qrcodeStatus") {
-        this.nextFn('qrcodeUpload');
         this.editFormVisible = true;
+        this.openProduct('qrcode');
       } else if (customerType == "elecStatus") {
         this.editFormVisible = true;
         this.openProduct('elecStatus');
@@ -1066,10 +1064,6 @@ export default {
       this.openProductView = next;
       this.reloadData()
     },
-    backDetail() {
-      this.selectOptions.customerType = "payStatus";
-      this.detailsFormVisible = true;
-    },
     // 返回
     backFn(path) {
       if (path == "close") {
@@ -1080,7 +1074,6 @@ export default {
         this.openProductView = "";
       } else {
         this.openProductView = path;
-        // this.editFormVisible = true;
       }
       this.reloadData()
     },
@@ -1097,8 +1090,6 @@ export default {
         this.productOpenTitle = "电子发票开通";
       } else if (openProductView == "qrcodeInfo") {
         this.productOpenTitle = "快速开票";
-      } else if (openProductView == "qrcodeUpload") {
-        this.productOpenTitle = "变更图片";
       } else {
         this.productOpenTitle = openProductView;
       }
@@ -1121,12 +1112,11 @@ export default {
           this.detailProductView = "qrcodeDetail"
           break
       }
-      // 编辑按钮显示隐藏
+      /*新改代码end */
       if (this.check) {
         switch (type) {
           case "qrcodeStatus":
             this.qrcodeStatusVisible = true;
-            // this.editVisiblebut = true;
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
@@ -1142,12 +1132,12 @@ export default {
             break;
         }
       }
-      //审核按钮显示隐藏
       if (this.search) {
         switch (type) {
           case "qrcodeStatus":
             this.qrcodeStatusVisible = true;
             this.editVisiblebut = true;
+            this.nextFn('qrcodeUpload');
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
@@ -1163,6 +1153,14 @@ export default {
             break;
         }
       }
+    },
+    dialogViewSize() {
+      // let reduceHeight = 180
+      // if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+      //   reduceHeight += 30;
+      // }
+      // let windowHeight = $(window).height() - reduceHeight;
+      // $(".product-detail-body").height(windowHeight);
     }
   },
   computed: {
@@ -1194,6 +1192,15 @@ export default {
       if (!val) {
         this.detailProductView = "";
       }
+      this.$nextTick(() => {
+        // console.log($('.dialog-footer').height());
+        // let reduceHeight = 180
+        // if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
+        //   reduceHeight += 30;
+        // }
+        // let windowHeight = $(window).height() - reduceHeight;
+        // $(".product-detail-body").height(windowHeight);
+      })
     },
     editFormVisible(val) {
       if (!val) {

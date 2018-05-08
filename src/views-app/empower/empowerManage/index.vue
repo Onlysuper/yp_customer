@@ -116,24 +116,27 @@ export default {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   methods: {
+    // 点击商户编号
     customerDedaile(customerNo) {
-      getCustomers()({
-        page: 1,
-        limit: 10,
-        customerNo: customerNo,
-        taxNo: "",
-        enterpriseName: "",
-        createTimeStart: "",
-        createTimeEnd: "",
-        agentNo: "",
-        customerFrom: "",
-        containChild: ''
-      }).then((res) => {
-        if (res.code == '00') {
-          let detailsForm = res.data[0];
-          this.$refs.detail.open(detailsForm);
-        }
-      })
+      if (customerNo) {
+        getCustomers()({
+          page: 1,
+          limit: 10,
+          customerNo: customerNo,
+          taxNo: "",
+          enterpriseName: "",
+          createTimeStart: "",
+          createTimeEnd: "",
+          agentNo: "",
+          customerFrom: "",
+          containChild: ''
+        }).then((res) => {
+          if (res.code == '00') {
+            let detailsForm = res.data[0];
+            this.$refs.detail.open(detailsForm);
+          }
+        })
+      }
     },
     test() {
       this.$refs.MypLoadmoreApi.load(this.searchQuery);

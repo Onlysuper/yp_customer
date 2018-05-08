@@ -85,6 +85,15 @@ export default {
           },
         },
         {
+          path: "qrcodeUpload",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/qrcodeUpload")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "上传资质",
+          },
+        },
+        {
           path: "addSuccess",
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/addSuccess")) }, "product-mg-app")

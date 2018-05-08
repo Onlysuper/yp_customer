@@ -92,7 +92,7 @@ export default {
         if (data.code == "00") {
           this.$router.push({
             path: "./addUpload",
-            query: { customerNo: this.customerNo }
+            query: { customerNo: this.customerNo, type: 'Pay' }
           });
         } else {
           this.Toast(data.msg);

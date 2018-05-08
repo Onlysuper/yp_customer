@@ -223,8 +223,6 @@ export default {
       this.$emit("backFn", path);
     },
     editInfo() {
-      console.log('qqq');
-      console.log(this.rowData);
       let rowdata = this.rowData;
       this.editForm.featureType = "ELECTRONIC";
       this.editForm.customerNo = rowdata.bussinessNo;
