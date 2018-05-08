@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="formVisible" class="paystatusUpload-box">
-      <el-form size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
+      <el-form class="paystatusform" size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
         <div class="upload-group">
           <upload-img :label="'营业执照'" :upType="'BUSSINESS_LICENSE'" :imgKey="'bussinessLicenseImg'" :defaultImg='bussinessLicenseImg' ref="bussinessLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'法人身份证人像面'" :upType="'LEGAL_PERSON_ID_POSITIVE'" :imgKey="'identityFrontImg'" :defaultImg='identityFrontImg' ref="identityFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
@@ -76,6 +76,9 @@
       width: 178px;
       height: 178px;
       display: block;
+    }
+    .paystatusform {
+      padding-bottom: 20px;
     }
     .dialog-footer {
       text-align: center;
