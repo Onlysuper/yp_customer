@@ -5,6 +5,10 @@
     </mt-header>
 
     <div class="add-playinfo">
+      <mt-cell title="商户编号">{{customerNo}}</mt-cell>
+      <mt-cell title="快速开票">{{qrcodeStatus | statusFilter('handleProductOpenStatus')}}</mt-cell>
+      <mt-cell title="更新时间">{{customer.lastUpdateTime}}</mt-cell>
+      <mt-cell title="商户名称">{{customer.customerName}}</mt-cell>
       <view-radius class="uploads">
         <template>
           <upload-view :label="'营业执照'" class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg"></upload-view>
@@ -142,6 +146,7 @@ export default {
       notQrcode: true, // 非快速开票
       // 图片显示隐藏start
       pageType: this.$route.query["type"],
+      qrcodeStatus: this.$route.query["qrcodeStatus"],
       publicPerson: false,//对公
       corporatePerson: false,//对私法人
       unCorporatePerson: false,//对私非法人
@@ -154,12 +159,7 @@ export default {
       imgs: {},
       accountName: "",
       legalPerson: "",
-      form: {
-        bussinessNo: "",
-        qrcodeStatus: "",
-        lastUpdateTime: "",
-        customerName: "",
-      }
+      customer: {}
     };
   },
   created() {
@@ -196,6 +196,7 @@ export default {
       let { customer, imgs, settleCard } = data;
       if (customer instanceof Object) {
         this.legalPerson = customer.legalPerson;
+        this.customer = customer;
       }
       if (imgs instanceof Object) {
         for (let key in imgs) {
