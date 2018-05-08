@@ -153,7 +153,13 @@ export default {
       accountType: "",
       imgs: {},
       accountName: "",
-      legalPerson: ""
+      legalPerson: "",
+      form: {
+        bussinessNo: "",
+        qrcodeStatus: "",
+        lastUpdateTime: "",
+        customerName: "",
+      }
     };
   },
   created() {
@@ -164,6 +170,7 @@ export default {
       if (data.code == "00") {
         //回显信息
         this.echoForm(data.data);
+        console.log(data.data);
       } else {
         this.Toast(data.msg);
       }

@@ -34,7 +34,7 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
-      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
+      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
         <!-- 组件在 vm.openProductView 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -1050,8 +1050,10 @@ export default {
     editFn() {
       let customerType = this.selectOptions.customerType;
       if (customerType == "qrcodeStatus") {
+        // 快速开票编辑
         this.nextFn('qrcodeUpload');
         this.editFormVisible = true;
+        this.productOpenTitle = "修改信息";
       } else if (customerType == "elecStatus") {
         this.editFormVisible = true;
         this.openProduct('elecStatus');
@@ -1066,9 +1068,13 @@ export default {
       this.openProductView = next;
       this.reloadData()
     },
-    backDetail() {
-      this.selectOptions.customerType = "payStatus";
-      this.detailsFormVisible = true;
+    backDetail(type) {
+      if (type == 'qrcode') {
+        this.selectOptions.customerType = "qrcodeStatus";
+        this.detailsFormVisible = true;
+        this.editFormVisible = false;
+      }
+      this.changeVisibleFn();
     },
     // 返回
     backFn(path) {
@@ -1085,6 +1091,7 @@ export default {
       this.reloadData()
     },
     titleChange(openProductView) {
+      console.log(openProductView);
       if (openProductView == "paystatusInfo") {
         this.productOpenTitle = "完善信息";
       } else if (openProductView == "paystatusGoods") {

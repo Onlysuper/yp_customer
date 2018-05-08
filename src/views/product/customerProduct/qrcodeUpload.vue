@@ -2,15 +2,34 @@
   <div>
     <div v-if="formVisible" class="paystatusUpload-box">
       <el-form size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
+        <div class="detail-box-pro">
+          <div class="line-label-box">
+            <span class="lable-title gray-back">商户编号:</span>
+            <span class="line-label-last">{{rowData.bussinessNo}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">快速开票:</span>
+            <span class="line-label-last">{{rowData.qrcodeStatus | statusFilter('handleProductOpenStatus')}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">更新时间:</span>
+            <span class="line-label-last">{{rowData.lastUpdateTime}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">商户名称:</span>
+            <span class="line-label-last">{{rowData.customerName}}</span>
+          </div>
+
+        </div>
         <div class="upload-group">
           <upload-img :label="'营业执照'" :upType="'BUSSINESS_LICENSE'" :imgKey="'bussinessLicenseImg'" :defaultImg='bussinessLicenseImg' ref="bussinessLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'门头照片'" :upType="'PLACE_IMG'" :imgKey="'placeImg'" :defaultImg='placeImg' ref="placeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'收银台照片'" :upType="'CASH_SPACE_IMG'" :imgKey="'cashSpaceImg'" :defaultImg='cashSpaceImg' ref="cashSpaceImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
         </div>
       </el-form>
-      <!-- <div center slot="footer" class="dialog-footer">
+      <div center slot="footer" class="dialog-footer">
         <el-button @click="goback()">确定</el-button>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -177,7 +196,7 @@ export default {
       });
     },
     goback(path) {
-      this.$emit("backDetail");
+      this.$emit("backDetail", 'qrcode');
     },
 
     // 回显
