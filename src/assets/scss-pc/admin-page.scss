@@ -5,8 +5,14 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
-    overflow: hidden;
-    height: 30px;
+    width: 100%;
+    // overflow: hidden;
+    // background: red;
+    // display: inline-block;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    
+    // height: 30px;
   }
   .el-dialog--center .el-dialog__header{
     padding-top: 15px !important;

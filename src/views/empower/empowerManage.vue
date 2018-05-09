@@ -703,7 +703,7 @@ export default {
           },
           {
             key: "商户编号",
-            width: "100px",
+            width: "130px",
             word: "customerNo",
             event: true,
             cb: value => {
@@ -720,7 +720,7 @@ export default {
                 containChild: ''
               }).then((res) => {
                 if (res.code == '00') {
-                  if (value.customerNo) {
+                  if (value.customerNo.length) {
                     this.detailsForm = { ...res.data[0] };
                     this.detailsFormVisible = true
                   }
