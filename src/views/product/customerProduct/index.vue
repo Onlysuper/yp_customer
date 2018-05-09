@@ -24,7 +24,7 @@
           </component>
         </template>
       </div>
-      <div v-if="editVisiblebut||checkVisiblebut||checkVisiblebut" slot="footer" class="dialog-footer">
+      <div v-if="editVisiblebut||checkVisiblebut" slot="footer" class="dialog-footer">
         <el-button v-if="editVisiblebut" type="primary" @click="editFn()">编辑</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="adoptSave(selectOptions.customerType,detailsForm)">审核通过</el-button>
         <el-button v-if="checkVisiblebut" type="primary" @click="refuseSave(selectOptions.customerType,detailsForm)">审核拒绝</el-button>
@@ -34,7 +34,7 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
-      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
+      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
         <!-- 组件在 vm.openProductView 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -93,12 +93,12 @@
   .scroll-view-cus {
     // touch-action: none;
     /* -- Attention-- */
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    overflow: hidden;
+    // position: absolute;
+    // top: 0;
+    // bottom: 0;
+    // left: 0;
+    // right: 0;
+    // overflow: hidden;
   }
   .admin-page {
     .small-but {
@@ -214,6 +214,7 @@ import paystatusSuccess from "./paystatusSuccess";
 import payDetail from "./payDetail";
 import elecDetail from "./elecDetail";
 import qrcodeDetail from "./qrcodeDetail";
+import qrcodeUpload from "./qrcodeUpload";
 import {
   getCustomerOpenProducts,
   postCustomerOpenProductSearch,
@@ -235,7 +236,8 @@ export default {
     openInfo: openInfo,
     payDetail,
     elecDetail,
-    qrcodeDetail
+    qrcodeDetail,
+    qrcodeUpload
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
@@ -1048,6 +1050,10 @@ export default {
     editFn() {
       let customerType = this.selectOptions.customerType;
       if (customerType == "qrcodeStatus") {
+        // 快速开票编辑
+        this.nextFn('qrcodeUpload');
+        this.editFormVisible = true;
+        this.productOpenTitle = "修改信息";
       } else if (customerType == "elecStatus") {
         this.editFormVisible = true;
         this.openProduct('elecStatus');
@@ -1062,6 +1068,14 @@ export default {
       this.openProductView = next;
       this.reloadData()
     },
+    backDetail(type) {
+      if (type == 'qrcode') {
+        this.selectOptions.customerType = "qrcodeStatus";
+        this.detailsFormVisible = true;
+        this.editFormVisible = false;
+      }
+      this.changeVisibleFn();
+    },
     // 返回
     backFn(path) {
       if (path == "close") {
@@ -1072,10 +1086,12 @@ export default {
         this.openProductView = "";
       } else {
         this.openProductView = path;
+        // this.editFormVisible = true;
       }
       this.reloadData()
     },
     titleChange(openProductView) {
+      console.log(openProductView);
       if (openProductView == "paystatusInfo") {
         this.productOpenTitle = "完善信息";
       } else if (openProductView == "paystatusGoods") {
@@ -1088,6 +1104,8 @@ export default {
         this.productOpenTitle = "电子发票开通";
       } else if (openProductView == "qrcodeInfo") {
         this.productOpenTitle = "快速开票";
+      } else if (openProductView == "qrcodeUpload") {
+        this.productOpenTitle = "变更图片";
       } else {
         this.productOpenTitle = openProductView;
       }
@@ -1110,11 +1128,12 @@ export default {
           this.detailProductView = "qrcodeDetail"
           break
       }
-      /*新改代码end */
+      // 编辑按钮显示隐藏
       if (this.check) {
         switch (type) {
           case "qrcodeStatus":
             this.qrcodeStatusVisible = true;
+            // this.editVisiblebut = true;
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
@@ -1130,10 +1149,12 @@ export default {
             break;
         }
       }
+      //审核按钮显示隐藏
       if (this.search) {
         switch (type) {
           case "qrcodeStatus":
             this.qrcodeStatusVisible = true;
+            this.editVisiblebut = true;
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
@@ -1149,14 +1170,6 @@ export default {
             break;
         }
       }
-    },
-    dialogViewSize() {
-      // let reduceHeight = 180
-      // if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
-      //   reduceHeight += 30;
-      // }
-      // let windowHeight = $(window).height() - reduceHeight;
-      // $(".product-detail-body").height(windowHeight);
     }
   },
   computed: {
@@ -1188,15 +1201,6 @@ export default {
       if (!val) {
         this.detailProductView = "";
       }
-      this.$nextTick(() => {
-        // console.log($('.dialog-footer').height());
-        // let reduceHeight = 180
-        // if (this.editVisiblebut || this.checkVisiblebut || this.checkVisiblebut) {
-        //   reduceHeight += 30;
-        // }
-        // let windowHeight = $(window).height() - reduceHeight;
-        // $(".product-detail-body").height(windowHeight);
-      })
     },
     editFormVisible(val) {
       if (!val) {

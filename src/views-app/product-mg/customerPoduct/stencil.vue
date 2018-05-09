@@ -184,21 +184,15 @@ export default {
       });
     },
     save() {
-      // if (this.dataList.invoiceTypes.length == 0) {
-      //   this.MessageBox.alert("请选择开票类型！");
-      //   return;
-      // }
-      // if (this.dataList.payTypes.length == 0) {
-      //   this.MessageBox.alert("请选择支付类型！");
-      //   return;
-      // }
+      let invoiceType = this.dataList.invoiceTypes.length == 0 ? ['0'] : this.dataList.invoiceTypes;//开票类型
+      let payType = this.dataList.payTypes.length == 0 ? ['0'] : this.dataList.payTypes; //支付类型
       this.btnDisabled = true;
       if (this.pageType == "STENCIL") {
         this.getUserProductStatus({
           bussinessNo: this.dataList.bussinessNo,
           bussinessType: "customer",
-          invoiceTypes: this.dataList.invoiceTypes,
-          payTypes: this.dataList.payTypes
+          invoiceTypes: invoiceType,
+          payTypes: payType
         }).then(flag => {
           this.btnDisabled = false;
           console.log(flag);

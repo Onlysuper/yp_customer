@@ -2,7 +2,7 @@
   <div>
     <!-- 快速开票start -->
     暂不支持
-    <!-- 快速开票end -->
+    <!-- 快速开票end  -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -223,8 +223,6 @@ export default {
       this.$emit("backFn", path);
     },
     editInfo() {
-      console.log('qqq');
-      console.log(this.rowData);
       let rowdata = this.rowData;
       this.editForm.featureType = "ELECTRONIC";
       this.editForm.customerNo = rowdata.bussinessNo;

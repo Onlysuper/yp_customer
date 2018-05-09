@@ -5,29 +5,34 @@
     </mt-header>
 
     <div class="add-playinfo">
+      <mt-cell title="商户编号">{{customerNo}}</mt-cell>
+      <mt-cell title="快速开票">{{qrcodeStatus | statusFilter('handleProductOpenStatus')}}</mt-cell>
+      <mt-cell title="更新时间">{{customer.lastUpdateTime}}</mt-cell>
+      <mt-cell title="商户名称">{{customerName}}</mt-cell>
       <view-radius class="uploads">
         <template>
           <upload-view :label="'营业执照'" class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg"></upload-view>
           <upload-view :label="'门头照片'" class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg"></upload-view>
           <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg"></upload-view>
         </template>
-      </view-radius>
-      <view-radius class="uploads">
-        <upload-view :label="'法人身份证人像面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg"></upload-view>
-        <upload-view :label="'法人身份证国徽面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg"></upload-view>
-        <upload-view :label="'法人手持身份证'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg"></upload-view>
-        <upload-view :label="'法人手持身份证与授权书'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'HOLD_CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'holdCertificateImg'" ref="holdCertificateImg"></upload-view>
-        <upload-view :label="'授权书加盖公章'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg"></upload-view>
-        <upload-view :label="'店内照片'" class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg"></upload-view>
-        <upload-view :label="'开户许可证'" v-show="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg"></upload-view>
-        <upload-view :label="'结算卡正面'" v-show="corporatePerson || unCorporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg"></upload-view>
-        <upload-view :label="'结算人身份证人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg"></upload-view>
-        <upload-view :label="'结算人身份证国徽面'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_BACK'" @result="resultMediaId" :dataKey="'cardHolderBackImg'" ref="cardHolderBackImg"></upload-view>
-        <upload-view :label="'结算人手持身份证'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_WITH_ID'" @result="resultMediaId" :dataKey="'cardHolderIdImg'" ref="cardHolderIdImg"></upload-view>
-        <!-- 非法人添加end -->
+        <div v-show="false" style="margin:0;padding:0">
+          <upload-view :label="'法人身份证人像面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg"></upload-view>
+          <upload-view :label="'法人身份证国徽面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg"></upload-view>
+          <upload-view :label="'法人手持身份证'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg"></upload-view>
+          <upload-view :label="'法人手持身份证与授权书'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'HOLD_CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'holdCertificateImg'" ref="holdCertificateImg"></upload-view>
+          <upload-view :label="'授权书加盖公章'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg"></upload-view>
+          <upload-view :label="'店内照片'" class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg"></upload-view>
+          <upload-view :label="'开户许可证'" v-show="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg"></upload-view>
+          <upload-view :label="'结算卡正面'" v-show="corporatePerson || unCorporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg"></upload-view>
+          <upload-view :label="'结算人身份证人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg"></upload-view>
+          <upload-view :label="'结算人身份证国徽面'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_BACK'" @result="resultMediaId" :dataKey="'cardHolderBackImg'" ref="cardHolderBackImg"></upload-view>
+          <upload-view :label="'结算人手持身份证'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_WITH_ID'" @result="resultMediaId" :dataKey="'cardHolderIdImg'" ref="cardHolderIdImg"></upload-view>
+          <!-- 非法人添加end -->
+        </div>
       </view-radius>
       <mt-radio v-show="notQrcode" v-model="value" v-targetTo style="text-align: center;" @click.native="visible = true" :options="['同意《支付开通协议》']"></mt-radio>
     </div>
+    <mt-button class="btn" size="large" type="primary" @click="submit">确定并返回</mt-button>
     <mt-button v-show="notQrcode" class="btn" size="large" :disabled="value?false:true" type="primary" @click="submit">开通</mt-button>
     <myp-popup v-model="visible">
       <full-page class="agree">
@@ -141,6 +146,8 @@ export default {
       notQrcode: true, // 非快速开票
       // 图片显示隐藏start
       pageType: this.$route.query["type"],
+      qrcodeStatus: this.$route.query["qrcodeStatus"],
+      customerName: this.$route.query["customerName"],
       publicPerson: false,//对公
       corporatePerson: false,//对私法人
       unCorporatePerson: false,//对私非法人
@@ -152,7 +159,8 @@ export default {
       accountType: "",
       imgs: {},
       accountName: "",
-      legalPerson: ""
+      legalPerson: "",
+      customer: {}
     };
   },
   created() {
@@ -163,6 +171,7 @@ export default {
       if (data.code == "00") {
         //回显信息
         this.echoForm(data.data);
+        console.log(data.data);
       } else {
         this.Toast(data.msg);
       }
@@ -184,9 +193,11 @@ export default {
   },
   methods: {
     echoForm(data) {
+
       let { customer, imgs, settleCard } = data;
       if (customer instanceof Object) {
         this.legalPerson = customer.legalPerson;
+        this.customer = customer;
       }
       if (imgs instanceof Object) {
         for (let key in imgs) {
@@ -225,15 +236,9 @@ export default {
       else this.value = "";
     },
     submit() {
-      completeBussinessImg()({
-        ...this.imgs,
-        customerNo: this.customerNo
-      }).then(data => {
-        if (data.code == "00") {
-          this.$router.push({ path: "./addSuccess", query: { phoneNo: this.phoneNo } });
-        } else {
-          this.Toast(data.msg);
-        }
+      this.$router.push({
+        path: "./"
+        // query: { customerNo: this.customerNo, type: 'Pay' }
       });
     }
   }

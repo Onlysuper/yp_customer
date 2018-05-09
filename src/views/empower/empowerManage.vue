@@ -257,7 +257,7 @@
     <el-dialog v-dialogDrag title="详情" center :visible.sync="detailsFormVisible" width="400px">
       <div class="detail-content">
         <div class="line-label-box cross-back">
-          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
+          <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName || ""}}
         </div>
         <div class="line-label-box cross-back">
           <span class="line-label">企业税号:</span>{{detailsForm.taxNo}}
@@ -349,7 +349,14 @@ export default {
     };
     return {
       detailsFormVisible: false,
-      detailsForm: {},
+      detailsForm: {
+        enterpriseName: "",
+        taxNo: "",
+        legalPerson: "",
+        idCard: "",
+        linkMan: "",
+        phoneNo: ""
+      },
       deviceType: "AUTHCODE",
       formLabelWidth: "100px",
       qrcodeUrl: "",
@@ -407,7 +414,7 @@ export default {
           { required: true, message: "批次数量不能为空", trigger: "blur,change" }
         ],
         supportTypes: [
-          // { required: true, message: "请选择支持类型", trigger: "blur,change" }
+          // {required: true, message: "请选择支持类型", trigger: "blur,change" }
         ]
       },
       editForm: {
@@ -543,10 +550,21 @@ export default {
           }
         },
         {
+          corresattr: "customerNo",
+          type: "text", // 表单类型
+          label: "商户编号", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.customerNo = value;
+          }
+        },
+        {
           corresattr: "deviceType",
           type: "select",
           label: "设备类型",
-          show: true, // 普通搜索显示
+          show: false, // 普通搜索显示
           value: "",
           options: [
             {
@@ -600,18 +618,6 @@ export default {
             this.searchCondition.agentNo = value;
           }
         },
-        {
-          corresattr: "customerNo",
-          type: "text", // 表单类型
-          label: "商户编号", // 输入框前面的文字
-          show: false, // 普通搜索显示
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.customerNo = value;
-          }
-        },
-
         {
           corresattr: "authCode",
           type: "text", // 表单类型
@@ -714,9 +720,10 @@ export default {
                 containChild: ''
               }).then((res) => {
                 if (res.code == '00') {
-                  this.detailsForm = res.data[0];
-                  console.log(res.data)
-                  this.detailsFormVisible = true
+                  if (value.customerNo) {
+                    this.detailsForm = { ...res.data[0] };
+                    this.detailsFormVisible = true
+                  }
                 }
               })
             }
@@ -1350,7 +1357,12 @@ export default {
     },
     exportEmpowerCodeVisible(val) {
       this.saveLoadingStop(val);
-    },
+    }
+    // detailsFormVisible(val) {
+    //   if (!val) {
+    //     this.detailsForm = {};
+    //   }
+    // }
   }
 };
 </script>

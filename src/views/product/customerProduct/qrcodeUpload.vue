@@ -1,37 +1,36 @@
 <template>
   <div>
     <div v-if="formVisible" class="paystatusUpload-box">
-      <el-form class="paystatusform" size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
+      <el-form size="small" label-position="right" :model="payStatusForm" ref="payStatusForm" :rules="payStatusFormRules" label-width="80px">
+        <div class="detail-box-pro">
+          <div class="line-label-box">
+            <span class="lable-title gray-back">商户编号:</span>
+            <span class="line-label-last">{{rowData.bussinessNo}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">快速开票:</span>
+            <span class="line-label-last">{{rowData.qrcodeStatus | statusFilter('handleProductOpenStatus')}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">更新时间:</span>
+            <span class="line-label-last">{{rowData.lastUpdateTime}}</span>
+          </div>
+          <div class="line-label-box">
+            <span class="lable-title gray-back">商户名称:</span>
+            <span class="line-label-last">{{rowData.customerName}}</span>
+          </div>
+
+        </div>
         <div class="upload-group">
           <upload-img :label="'营业执照'" :upType="'BUSSINESS_LICENSE'" :imgKey="'bussinessLicenseImg'" :defaultImg='bussinessLicenseImg' ref="bussinessLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人身份证人像面'" :upType="'LEGAL_PERSON_ID_POSITIVE'" :imgKey="'identityFrontImg'" :defaultImg='identityFrontImg' ref="identityFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人身份证国徽面'" :upType="'LEGAL_PERSON_ID_BACK'" :imgKey="'identityBackImg'" :defaultImg='identityBackImg' ref="identityBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人手持身份证'" v-if="corporatePerson" :upType="'APPLICANT_WITH_ID'" :imgKey="'identityHolderImg'" :defaultImg='identityHolderImg' ref="identityHolderImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'法人手持身份证与授权书'" v-if="unCorporatePerson" :upType="'HOLD_CERTIFICATE_IMG'" :imgKey="'holdCertificateImg'" :defaultImg='holdCertificateImg' ref="holdCertificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'授权书加盖公章'" v-if="unCorporatePerson" :upType="'CERTIFICATE_IMG'" :imgKey="'certificateImg'" :defaultImg='certificateImg' ref="certificateImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'门头照片'" :upType="'PLACE_IMG'" :imgKey="'placeImg'" :defaultImg='placeImg' ref="placeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
           <upload-img :label="'收银台照片'" :upType="'CASH_SPACE_IMG'" :imgKey="'cashSpaceImg'" :defaultImg='cashSpaceImg' ref="cashSpaceImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'店内照片'" :upType="'STORE_IMG'" :imgKey="'storeImg'" :defaultImg='storeImg' ref="storeImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'开户许可证'" v-if="publicPerson" :upType="'ACCOUNT_OPENING_LICENSE'" :imgKey="'accountLicenseImg'" :defaultImg='accountLicenseImg' ref="accountLicenseImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算卡正面'" v-if="corporatePerson || unCorporatePerson" :upType="'SETTLE_CARD_IMG'" :imgKey="'settleCardImg'" :defaultImg='settleCardImg' ref="settleCardImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算人身份证人像面'" v-if="unCorporatePerson" :upType="'CARDHOLDER_ID_POSITIVE'" :imgKey="'cardHolderFrontImg'" :defaultImg='cardHolderFrontImg' ref="cardHolderFrontImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算人身份证国徽面'" v-if="unCorporatePerson" :upType="'CARDHOLDER_ID_BACK'" :imgKey="'cardHolderBackImg'" :defaultImg='cardHolderBackImg' ref="cardHolderBackImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-          <upload-img :label="'结算人手持身份证'" v-if="unCorporatePerson" :upType="'CARDHOLDER_WITH_ID'" :imgKey="'cardHolderIdImg'" :defaultImg='cardHolderIdImg' ref="cardHolderIdImg" :sendData="allImgData" :action="oaIp+'/bussinessImg/upload'" :uploadApi="uploadApi" @result="saveOneImg"></upload-img>
-        </div>
-        <div class="agree-box">
-          <el-checkbox v-model="agreeOpen"> </el-checkbox>
-          <span>同意《开通支付协议》
-            <span class="show" @click="agreeShowFn">查看详情</span>
-          </span>
         </div>
       </el-form>
       <div center slot="footer" class="dialog-footer">
-        <el-button @click="goback('paystatusGoods')">返回</el-button>
-        <el-button :loading="saveLoading" type="primary" @click="editSave()">下一步</el-button>
+        <el-button @click="goback()">确定</el-button>
       </div>
     </div>
-    <component v-if="agreementVisible" :is="currentChildView" @goback_c="goback_c">
-    </component>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -77,9 +76,6 @@
       height: 178px;
       display: block;
     }
-    .paystatusform {
-      padding-bottom: 20px;
-    }
     .dialog-footer {
       text-align: center;
     }
@@ -101,7 +97,7 @@ import {
 import paystatusAgreement from "./paystatusAgreement.vue";
 
 export default {
-  name: "",
+  name: "qrcodeUpload",
   components: { UploadImg },
   mixins: [mixinsPc],
   props: {
@@ -174,55 +170,7 @@ export default {
 
   methods: {
     editSave() {
-      // 编辑内容保存
-      // for (var i in this.saveForm) {
-      //   if (!this.saveForm[i]) {
-      //     if (i == "identityFrontImg") {
-      //       this.warningMsg("请上传身份证正面照片");
-      //       return false;
-      //     }
-      //     if (i == "identityBackImg") {
-      //       this.warningMsg("请上传身份证反面照片");
-      //       return false;
-      //     }
-      //     if (i == "identityHolderImg") {
-      //       this.warningMsg("请上传手持身份证照片");
-      //       return false;
-      //     }
-      //     if (i == "bussinessLicenseImg") {
-      //       this.warningMsg("请上传营业执照");
-      //       return false;
-      //     }
-      //     if (i == "settleCardImg") {
-      //       this.warningMsg("请上传结算卡照片");
-      //       return false;
-      //     }
-      //     if (i == "accountLicenseImg") {
-      //       if (this.accountVisible) {
-      //         this.warningMsg("请上传开户许可证照片");
-      //         return false;
-      //       }
-      //     }
-      //     if (i == "placeImg") {
-      //       this.warningMsg("请上传门头照片");
-      //       return false;
-      //     }
-      //     if (i == "storeImg") {
-      //       this.warningMsg("请上传店内照片");
-      //       return false;
-      //     }
-      //     if (i == "cashSpaceImg") {
-      //       this.warningMsg("请上传收银台照片");
-      //       return false;
-      //     }
-      //     if (i == "certificateImg") {
-      //       if (this.certificateVisible) {
-      //         this.warningMsg("请上传授权书照片");
-      //         return false;
-      //       }
-      //     }
-      //   }
-      // }
+
       if (!this.agreeOpen) {
         this.warningMsg("必须先勾选《同意开通支付协议》！");
         return false;
@@ -248,19 +196,9 @@ export default {
       });
     },
     goback(path) {
-      this.$emit("backFn", path);
+      this.$emit("backDetail", 'qrcode');
     },
-    // 查看协议
-    agreeShowFn() {
-      this.agreementVisible = true;
-      this.formVisible = false;
-      this.$emit("titleChange", "协议");
-    },
-    goback_c() {
-      this.agreementVisible = false;
-      this.formVisible = true;
-      this.$emit("titleChange", "上传资质");
-    },
+
     // 回显
     getCustomerEcho() {
       getCustomerEchoProduct()({

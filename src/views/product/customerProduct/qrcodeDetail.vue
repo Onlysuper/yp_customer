@@ -35,7 +35,7 @@
             <p class="img-title">{{item[1].imgname}}:</p>
             <div class="img-back">
               <!-- <img @click="showImg(item[1].url||'',item[0],'qrcode',item[1].imgname)" class="img-size" :src="item[1].url" alt=""> -->
-              <img @click="showImg(item[1].url||'',item[0],'qrcode',item[1].imgname,item[1].name,index)" class="img-size" :src="item[1].url" alt="">
+              <img @click="showImg(item[1].url||'',item[0],'qrcode',item[1].imgname,item[1].name,index,'carousel')" class="img-size" :src="item[1].url" alt="">
             </div>
           </div>
         </div>
@@ -120,6 +120,7 @@ export default {
       }
     }
     return {
+      initialIndex: 0,//图片滚动滚动索引
       detailRightVisible: true,
       imgsArr: [],
       largeImg: {},
@@ -163,26 +164,38 @@ export default {
           let qrcodeImgs = {};// 快速开票imgs
           if (data.imgs) {
             // 快速开票图片回显
+            // qrcodeImgs = utils.pickObj(data.imgs, [
+            //   "fastBussinessImg", "fastCashImg", "fastHeaderImg"
+            // ]);
             qrcodeImgs = utils.pickObj(data.imgs, [
-              "fastBussinessImg", "fastCashImg", "fastHeaderImg"
+              "bussinessLicenseImg", "cashSpaceImg", "placeImg"
             ]);
+            // bussinessLicenseImg cashSpaceImg placeImg
           }
           if (qrcodeImgs) {
             this.detailRightVisible = true;
           } else {
             this.detailRightVisible = false
           }
-          this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
+          // this.qrcodeImgs = { ...this.qrcodeImgs, ...qrcodeImgs };
+          this.qrcodeImgs = { ...qrcodeImgs };
           let imgsArr = Object.entries(this.qrcodeImgs);
           for (var i = 0; i < imgsArr.length; i++) {
             let imgname = " ";
             let item = imgsArr[i][1];
             let index = imgsArr[i][0];
-            if (index == "fastBussinessImg") {
+            // if (index == "fastBussinessImg") {
+            //   imgname = "营业执照"
+            // } else if (index == "fastCashImg") {
+            //   imgname = "收银台照片"
+            // } else if (index == "fastHeaderImg") {
+            //   imgname = "门头照片"
+            // }
+            if (index == "bussinessLicenseImg") {
               imgname = "营业执照"
-            } else if (index == "fastCashImg") {
+            } else if (index == "cashSpaceImg") {
               imgname = "收银台照片"
-            } else if (index == "fastHeaderImg") {
+            } else if (index == "placeImg") {
               imgname = "门头照片"
             }
             if (item) {
@@ -246,15 +259,16 @@ export default {
       this.fadeViewVisible = true
       this.imageIndex = 0
     },
-    showImg(val, type) {
+    showImg(url, item, imgname, type, name, initialIndex, refname) {
       this.rotateCurrent = 0
       this.rotateClass = "";
       this.largeImgUrl = url;
-      this.largeImg = { imgname: imgname, url: url };
-      this.setActiveItem(initialIndex);
+      this.largeImg = { imgname: item, url: url, name: name };
+      this.setActiveItem(refname, initialIndex);
     },
-    setActiveItem(index) {
-      this.$refs.carousel.setActiveItem(index)
+    setActiveItem(refname, index) {
+      console.log(refname)
+      this.$refs[refname].setActiveItem(index)
     },
     rotateInit() {
       this.rotateCurrent = 0
