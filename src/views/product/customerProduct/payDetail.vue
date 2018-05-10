@@ -17,6 +17,10 @@
             </div>
           </div>
           <div class="line-label-box">
+            <span class="lable-title gray-back">邮箱:</span>
+            <span class="line-label-last">{{payStatusDetails.contactEmail}}</span>
+          </div>
+          <div class="line-label-box">
             <span class="lable-title gray-back">身份证有效期:</span>
             <span class="line-label-last">{{payStatusDetails.idNoEffectiveBegin}} 至 {{payStatusDetails.idNoEffectiveEnd}}</span>
           </div>
@@ -91,9 +95,15 @@
             <span class="line-label-last">{{payStatusDetails.bussinessAddress}}</span>
           </div>
           <div class="split－padding"></div>
-          <div class="line-label-box">
-            <span class="lable-title gray-back">账户名称:</span>
-            <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
+          <div class="line-label-box split">
+            <div class="line-cell">
+              <span class="lable-title gray-back">账户名称:</span>
+              <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
+            </div>
+            <div v-if="settleIdCardVisible" class="line-cell">
+              <span class="lable-title gray-back">结算人身份证:</span>
+              <span class="line-label-last">{{payStatusDetails.settleIdCard}}</span>
+            </div>
           </div>
           <div class="line-label-box split">
             <div class="line-cell">
@@ -395,6 +405,7 @@ export default {
       storeImg: "", //店内照片
       cashSpaceImg: "", //授权书照片
       certificateImg: "", //收银台照片
+      settleIdCard: ""
     }
     var detailsForm = { // 查看一级数据详情 数据解构
       customer: {},
@@ -436,6 +447,7 @@ export default {
       }
     }
     return {
+      settleIdCardVisible: false,
       initialIndex: 0,//图片滚动滚动索引
       detailRightVisible: true,// 右侧是否显示
       accountVisible: false,// 开户行许可证 
@@ -478,6 +490,7 @@ export default {
         customerNo: resaultData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
+
         if (res.code == "00") {
           // 聚合支付查询详情
           let data = res.data;
@@ -490,16 +503,15 @@ export default {
           ]);
           let addImgs = {};
           if (data.customer) {
-            console.log(data.customer);
             customerRow = utils.pickObj(data.customer, [
               "orgCode", 'bussinessAddress', 'legalPerson', 'idCard', 'category',
               'taxNo', 'enterpriseName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-              'idNoEffectiveBegin', 'idNoEffectiveEnd'
+              'idNoEffectiveBegin', 'idNoEffectiveEnd', 'contactEmail'
             ]);
           }
           if (data.settleCard) {
             settleCardRow = utils.pickObj(data.settleCard, [
-              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo', 'reservedPhoneNo'
+              "accountType", 'accountName', 'bankName', 'branchName', 'accountNo', 'reservedPhoneNo', 'settleIdCard'
             ]);
           }
           if (data.product) {
@@ -517,6 +529,7 @@ export default {
                 ...imgsRow
               }
             } else if (settleCardRow.accountType == "1") {
+
               if (settleCardRow.accountName == customerRow.legalPerson) {
                 //对私法人
                 imgsRow = {
@@ -537,6 +550,7 @@ export default {
                     "cardHolderIdImg"
                   ]), ...imgsRow
                 };
+
               }
             } else {
               imgsRow = utils.pickObj(data.imgs, [
@@ -622,6 +636,10 @@ export default {
             ...customerRow,
             ...settleCardRow,
             ...productRow
+          }
+          if (settleCardRow.accountType == "1") {
+            //非法人
+            this.settleIdCardVisible = true;
           }
         } else {
           this.$message({

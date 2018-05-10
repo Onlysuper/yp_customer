@@ -77,12 +77,16 @@ export default {
         query: { type: "STENCIL" }
       });
     },
+    //点击快速开票
     openQrcode(customer) {
-      //判断开通状态
       this.$router.push({
-        path: "./qrcodeUpload",
+        path: "./qrcodeDetail",
         query: { customerNo: customer.bussinessNo, type: 'Qrcode', qrcodeStatus: customer.qrcodeStatus, customerName: customer.customerName }
       });
+      // this.$router.push({
+      //   path: "./qrcodeUpload",
+      //   query: { customerNo: customer.bussinessNo, type: 'Qrcode', qrcodeStatus: customer.qrcodeStatus, customerName: customer.customerName }
+      // });
     },
     openPay(customer) {
       //判断开通状态

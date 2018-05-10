@@ -64,7 +64,7 @@
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="settleIdCardDis?'':'accountName'" label="结算人身份证号" prop="settleIdCard" :label-width="formLabelWidth">
+      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="settleIdCardDis?'':'accountName'" label="结算人身份证号" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="settleIdCardDis" v-model="payStatusForm.settleIdCard" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
