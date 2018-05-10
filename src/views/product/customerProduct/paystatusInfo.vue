@@ -64,7 +64,7 @@
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item v-if="settleIdCardVisible" class="full-width" label="结算人身份证号" prop="settleIdCard" :label-width="formLabelWidth">
+      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="settleIdCardDis?'':'accountName'" label="结算人身份证号" prop="settleIdCard" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="settleIdCardDis" v-model="payStatusForm.settleIdCard" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
@@ -186,6 +186,9 @@ export default {
         bankArea: [] // 必须为数组
       },
       payStatusFormRules: {
+        settleIdCard: [
+          { required: true, message: "请填写结算人身份证", trigger: "blur,change" }
+        ],
         idNoEffectiveBegin: [
           { required: true, message: "请选择身份证有效期开始时间", trigger: "blur,change" }
         ],
@@ -488,6 +491,7 @@ export default {
       this.isLegalPersonSettleIdCard();
     },
     "payStatusForm.accountName"(val) {
+      console.log(val);
       this.isLegalPersonSettleIdCard();
     },
     "payStatusForm.legalPerson"(val) {
