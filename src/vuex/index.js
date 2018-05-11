@@ -11,7 +11,7 @@ import acceptMessage from "@src/vuex/acceptMessage/acceptMessage"
 import {
     customerGoods, customerManage, profitBilling, convergePayComm, agent, billCount, billRecord, billDay, billStandard,
     empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply, orderQuery, customerVersion,
-    settle, buriedPoint, bankCustomer
+    settle, buriedPoint, bankCustomer, changeBill
 } from "./modules";
 Vue.use(Vuex);
 
@@ -62,7 +62,8 @@ const store = new Vuex.Store({
         settle,
         buriedPoint,
         acceptMessage,
-        bankCustomer
+        bankCustomer,
+        changeBill
     }
 })
 console.warn("Vuex严格模式：" + store.strict)

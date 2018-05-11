@@ -415,6 +415,24 @@
       "color": "#909399"
     }
   },
+  "changeBill": {
+    "ADMIN_AUDIT": {
+      "name": "初审中",
+      "color": "#409EFF"
+    },
+    "WAIT_AUDIT": {
+      "name": "复审中",
+      "color": "#409EFF"
+    },
+    "SUCCESS": {
+      "name": "已完成",
+      "color": "#409EFF"
+    },
+    "REJECT": {
+      "name": "审核拒绝",
+      "color": "#409EFF"
+    }
+  },
   "orderQueryStatus": {
     "INIT": {
       "name": "订单初始化",

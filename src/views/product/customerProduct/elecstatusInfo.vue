@@ -126,6 +126,9 @@ export default {
     },
     rowData: {
       type: Object
+    },
+    doWhat:{
+      type:Object
     }
   },
   data() {

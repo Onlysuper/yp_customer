@@ -34,7 +34,8 @@
     <!-- 开通产品 start -->
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
-      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
+      <!-- <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData"> -->
+      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData" :doWhat="doWhat">
         <!-- 组件在 vm.openProductView 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -221,7 +222,8 @@ import {
   getCustomerEchoProduct,
   postHandleCustomerProduct,
   getQueryCustomerElectronic,
-  getUserProductStatus
+  getUserProductStatus,
+  changeBillOpenCheck
 } from "@src/apis";
 
 export default {
@@ -259,7 +261,6 @@ export default {
         identityBackImg: {
           url: ""
         },
-
         identityFrontImg: {
           url: ""
         },
@@ -409,6 +410,7 @@ export default {
       productOpenTitle: "完善信息",
       openProductView: "openInfo",
       customerTypeSelected: [],
+          doWhat: {},
       optionsArea: utils.areaPicherOptions(), //省市县数据
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
@@ -434,7 +436,6 @@ export default {
           }
         ]
       },
-
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
       formLabelWidth: "130px",
@@ -443,7 +444,6 @@ export default {
         Area: [] // 必须为数组
       }, // 编辑单个表单
       // 聚合支付查询详情
-
       qrcodeStatusDetails: {}, // 快速开票查询详情
       resaultForm: {}, // 拒绝表单
       closeForm: {},
@@ -463,8 +463,6 @@ export default {
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
       },
-
-
       // 查询条件数据
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
@@ -543,16 +541,11 @@ export default {
           }
         }
       ],
-
       // 列表数据
       actionUrl: getCustomerOpenProducts,
       postSearch: searchConditionVar,
       tableData: {
-        // getDataUrl: {
-        //   url: getCustomerOpenProducts // 初始化数据
-        // },
         dataHeader: [
-          // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "时间",
             width: "",
@@ -628,24 +621,38 @@ export default {
                 this.openProduct('payStatus');
               }
             },
-            // {
-            //   text: "变更",
-            //   color: "#00c1df",
-            //   visibleFn: rowdata => {
-            //     if (
-            //       (isAdmin || !isBranchOffice) &&
-            //       rowdata.payStatus == "TRUE"
-            //     ) {
-            //       return true;
-            //     } else {
-            //       return false;
-            //     }
-            //   },
-            //   cb: rowdata => {
-            //     this.resaultData = rowdata;
-            //     this.openProductPay('payStatus');
-            //   }
-            // },
+            {
+              text: "变更",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                if (
+                  (isAdmin || !isBranchOffice) &&
+                  rowdata.payStatus == "TRUE"
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                changeBillOpenCheck()({
+                  customerNo: rowdata.bussinessNo
+                }).then((res) => {
+                  if (res.code == '00') {
+                    if (res.data == 'TRUE') {
+                      this.resaultData = rowdata;
+                      this.changeProductPay('payStatus');
+                    }
+                  } else {
+                    this.$message({
+                      type: 'warning',
+                      message: res.msg
+                    });
+                  }
+                })
+
+              }
+            },
             // 操作按钮
             {
               text: "查询",
@@ -979,7 +986,8 @@ export default {
         }
       })
     },
-    openProductPay() {
+    //变更
+    changeProductPay() {
       let rowdata = { ...this.resaultData };
       this.customerTypeSelected = [
         {
@@ -1001,6 +1009,7 @@ export default {
           disabled: true
         }
       ];
+      this.doWhat = {type:'change'};
       this.resaultData = { ...rowdata };
       this.nextFn("openInfo");
       this.editFormVisible = true;
@@ -1043,6 +1052,7 @@ export default {
               : true
         }
       ];
+      this.doWhat = {type:'open'};
       this.resaultData = { ...rowdata };
       this.nextFn("openInfo");
       this.editFormVisible = true;
@@ -1064,7 +1074,7 @@ export default {
       this.detailsFormVisible = false
     },
     // 下一步
-    nextFn(next) {
+    nextFn(next, nextFn) {
       this.openProductView = next;
       this.reloadData()
     },

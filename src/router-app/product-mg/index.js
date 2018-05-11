@@ -113,6 +113,35 @@ export default {
         }
       ],
 
+    },
+    {
+      name: "changeBill",
+      path: 'changeBill',
+      redirect: "changeBill/index",
+      component: keepAlive,
+      children: [
+        {
+          path: "index",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/index")) }, "change-bill")
+          },
+          meta: {
+            pageTitle: "商户产品",
+            keepAlive: true,
+            menuCode: "changeBill"
+          },
+        },
+        {
+          path: "search",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/search")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "搜索商户"
+          },
+        }
+      ],
+
     }
   ]
 }

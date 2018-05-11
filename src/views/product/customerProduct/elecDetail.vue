@@ -97,6 +97,9 @@ export default {
     },
     rowData: {
       type: Object
+    },
+    doWhat:{
+      type:Object
     }
   },
   components: {

@@ -21,14 +21,10 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
-        startTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        endTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        orderNo: "",
-        agentNo: "",
         customerNo: "",
-        payType: "",
-        status: "SUCCESS",
-        hasChild: "TRUE",
+        status: "",
+        agentNo: "",
+        billNo: ""
       };
       state.sumData = {
         amountCount: 0,

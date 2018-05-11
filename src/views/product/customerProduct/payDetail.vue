@@ -625,7 +625,7 @@ export default {
           }
         } else {
           this.$message({
-            message: data.msg,
+            message: res.msg,
             type: "warning",
             center: true
           });

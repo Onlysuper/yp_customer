@@ -8,7 +8,7 @@
     </div>
     <!-- {{rowData}} {{customerTypeSelected}} -->
     <!-- 聚合支付开通 start -->
-    <component @titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData">
+    <component @titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData" :doWhat="doWhat">
     </component>
   </div>
 
@@ -48,6 +48,9 @@ export default {
       type: Array
     },
     rowData: {
+      type: Object
+    },
+    doWhat:{
       type: Object
     }
   },

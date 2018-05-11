@@ -65,6 +65,9 @@
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
+      <el-form-item class="full-width" label="结算人身份证号" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
+        <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
+      </el-form-item>
       <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
         <el-input @change="setCache" @input="validateNum($event,'payStatusForm','accountNo')" v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
       </el-form-item>
@@ -135,6 +138,9 @@ export default {
     },
     rowData: {
       type: Object
+    },
+    doWhat:{
+      type:Object
     }
   },
   mixins: [mixinsPc],

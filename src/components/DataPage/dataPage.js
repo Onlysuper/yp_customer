@@ -18,6 +18,7 @@ const mixinDataTable = {
         },
         // 重新获取数据
         reloadData(page, limit, search) {
+            console.log('11111111');
             let page_ = page ? page : this.postPage;
             let limit_ = limit ? limit : this.postLimit;
             let search_ = search ? search : this.postSearch;
@@ -30,6 +31,7 @@ const mixinDataTable = {
         // 普通搜索 具备隐藏
         seachstartHandle() {
             // 开始搜索
+
             this.reloadData();
         },
         // 重置某输入框
@@ -118,6 +120,7 @@ const mixinDataTable = {
         }
     },
     mounted() {
+        // this.reloadData();
         // this.$store.commit("initSearchVisibleFn");
     }
 }

@@ -11,6 +11,10 @@
         <p class="name-box">{{item[1].imgname}}
           <span v-if="idcardVisible">身份证号：{{payStatusDetails.idCard}}</span>
           <span v-if="accountNoVisible">账号：{{payStatusDetails.accountNo}}</span>
+
+          <span v-if="accountNoVisible">账号：{{payStatusDetails.accountNo}}</span>
+          <span v-if="accountNoVisible">账号：{{payStatusDetails.accountNo}}</span>
+          <span v-if="accountNoVisible">账号：{{payStatusDetails.accountNo}}</span>
         </p>
       </div>
     </div>

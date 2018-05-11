@@ -18,6 +18,7 @@ const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/
 
 // 用户信息
 const UserGet = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
+const changeBillOpenCheck = () => { return (params) => { return http.get(base.oaIp, "/changeBill/productEdit", params) } }
 // 管理密码修改
 const PasswordUpdate = () => { return (params) => { return http.patch(base.oaIp, "/user/update/password", params) } }
 
@@ -304,6 +305,7 @@ const getSumPayOrders = () => { return (params) => { return http.get(base.oaIp, 
 /**
  **商户版本管理Start
  */
+const getChangeBills = () => { return (params) => { return http.get(base.oaIp, "/changeBill/page", params) } }
 // end -------------------------------------------------
 export {
     Login,
@@ -462,6 +464,8 @@ export {
     upload,
     //交易订单查询
     getPayOrders,
-    getbankCustomers
+    getbankCustomers,
+    changeBillOpenCheck,
+    getChangeBills
 };
 

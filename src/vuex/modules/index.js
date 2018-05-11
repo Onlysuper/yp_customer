@@ -22,6 +22,7 @@ import orderQuery from "./order/orderQuery";
 import customerVersion from "./version/customerVersion";
 import settle from "./settle/settle";
 import buriedPoint from "./statistical/buriedPoint";
+import changeBill from "./changebill/changeBill";
 
 
 
@@ -45,8 +46,8 @@ export {
   customerProduct,
   enterpriseSupply,
   orderQuery,
-
   customerVersion,
   settle,
-  buriedPoint
+  buriedPoint,
+  changeBill
 };
