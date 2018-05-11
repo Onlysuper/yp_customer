@@ -18,9 +18,10 @@
           <mt-cell title="行业类别">{{customer.name}}</mt-cell>
           <mt-cell title="营业执照开始日期">{{customer.bussinessLicenseEffectiveBegin}}</mt-cell>
           <mt-cell title="营业执照结束日期">{{customer.bussinessLicenseEffectiveEnd}}</mt-cell>
-          <!-- <mt-cell title="邮箱">{{customer.contactEmail}}</mt-cell> -->
+          <mt-cell title="邮箱">{{customer.contactEmail}}</mt-cell>
           <mt-cell title="结算信息">{{accountTypes[settleCard.accountType]}}</mt-cell>
           <mt-cell title="账户名称">{{settleCard.accountName}}</mt-cell>
+          <mt-cell v-if="settleIdCardVisible" title="结算人身份证号">{{settleCard.settleIdCard}}</mt-cell>
           <mt-cell title="开户银行">{{settleCard.bankName}}</mt-cell>
           <mt-cell title="开户支行">
             <div class="text-r">{{settleCard.branchName}}</div>
@@ -71,6 +72,8 @@
         </input-wrapper>
       </view-radius>
     </template>
+
+    <!-- 聚合支付 -->
   </full-page>
 </template>
 
@@ -84,6 +87,7 @@ export default {
   components: { ShowImgView },
   data() {
     return {
+      settleIdCardVisible: false,
       publicPerson: false,//对公
       corporatePerson: false,//对私法人
       unCorporatePerson: false,//对私非法人
@@ -203,6 +207,7 @@ export default {
         } else {
           // 非法人
           this.unCorporatePerson = true;
+          this.settleIdCardVisible = true
         }
       }
 

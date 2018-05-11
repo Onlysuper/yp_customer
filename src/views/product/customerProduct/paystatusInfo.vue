@@ -14,7 +14,6 @@
       <el-form-item label="法人" prop="legalPerson" :label-width="formLabelWidth">
         <el-input @change="setCache" v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
       </el-form-item>
-
       <el-form-item class="is-required" label="身份证号" prop="idCard" :label-width="formLabelWidth">
         <el-input @change="setCache" v-model.trim="payStatusForm.idCard" auto-complete="off"></el-input>
       </el-form-item>
@@ -64,6 +63,9 @@
       </el-form-item>
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="settleIdCardDis?'':'accountName'" label="结算人身份证号" :label-width="formLabelWidth">
+        <el-input @change="setCache" :disabled="settleIdCardDis" v-model="payStatusForm.settleIdCard" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
         <el-input @change="setCache" @input="validateNum($event,'payStatusForm','accountNo')" v-model="payStatusForm.accountNo" auto-complete="off"></el-input>
@@ -141,6 +143,8 @@ export default {
   data() {
     return {
       cacheForm: "",
+      settleIdCardVisible: true,
+      settleIdCardDis: true,
       accountNameDis: true,
       currentChildView: "",
       formLabelWidth: "120px",
@@ -182,6 +186,9 @@ export default {
         bankArea: [] // 必须为数组
       },
       payStatusFormRules: {
+        settleIdCard: [
+          { required: true, message: "请填写结算人身份证", trigger: "blur,change" }
+        ],
         idNoEffectiveBegin: [
           { required: true, message: "请选择身份证有效期开始时间", trigger: "blur,change" }
         ],
@@ -284,7 +291,8 @@ export default {
             'reservedPhoneNo',
             'unionCode',
             'bankCode',
-            'contactEmail'
+            'contactEmail',
+            'settleIdCard'
           ]);
           // newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
           for (var i in newRow) {
@@ -383,10 +391,11 @@ export default {
             'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
             'idNoEffectiveBegin', 'idNoEffectiveEnd',
             'bussinessAddress', 'legalPerson', 'idCard', 'category',
-            'contactEmail', "bussinessName"
+            'contactEmail', "bussinessName",
+
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
-            'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName'
+            'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName', 'settleIdCard'
           ]);
 
           this.getaccountName = newSettleCard.accountName;// 带入的企业名称
@@ -394,11 +403,13 @@ export default {
           if (newSettleCard.accountType == "0") {
             // 对公:带入企业名称 不可更改
             accountName = newCustomer.enterpriseName
+            this.settleIdCardVisible = false;
             this.accountNameDis = true;
           } else if (newSettleCard.accountType == "1") {
             // 对私
             accountName = newSettleCard.accountName == newCustomer.enterpriseName ? newCustomer.legalPerson : newSettleCard.accountName || newCustomer.legalPerson;
             this.accountNameDis = false;
+            this.settleIdCardVisible = true;
             // this.accountNameDis = true;
           }
           this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard };
@@ -410,19 +421,41 @@ export default {
         }
       });
     },
+    isLegalPersonSettleIdCard(type) {
+      if (this.accountType == "0") {
+        this.settleIdCardVisible = false;
+      } else if (this.accountType == "1") {
+        if (this.payStatusForm.legalPerson == this.payStatusForm.accountName) {
+          // 法人
+          this.settleIdCardVisible = true;
+          this.settleIdCardDis = true
+          this.payStatusForm.settleIdCard = this.payStatusForm.idCard;
+        } else {
+          // 非法人
+          if (type == 'inputchange') {
+            this.payStatusForm.settleIdCard = "";
+          }
+          this.settleIdCardVisible = true;
+          this.settleIdCardDis = false;
+        }
+      }
+    },
     accountNameChange() {
       let accountType = this.accountType;
       if (accountType == "0") {
         // 对公:带入企业名称 不可更改
         this.payStatusForm.accountName = this.payStatusForm.enterpriseName;
         this.accountNameDis = true;
+        this.settleIdCardVisible = false;
       } else if (accountType == "1") {
         // 对私
         let accountName = this.getaccountName;
-        this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
         this.accountNameDis = false;
         // this.payStatusForm.accountName = this.payStatusForm.legalPerson;
         // this.accountNameDis = true;
+        this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
+        console.log(this.payStatusForm.legalPerson == this.payStatusForm.accountName);
+        this.isLegalPersonSettleIdCard();
       }
     },
     getCache() {
@@ -449,28 +482,21 @@ export default {
     },
     bussinessNo() {
       return this.rowData.bussinessNo
-    }
+    },
+
   },
   watch: {
     accountType(val) {
       this.accountNameChange();
-      // if (val == "0") {
-      //   // 对公:带入企业名称 不可更改
-      //   this.payStatusForm.accountName = this.payStatusForm.enterpriseName;
-      //   this.accountNameDis = true;
-      // } else if (val == "1") {
-      //   // 对私
-      //   let accountName = this.getaccountName;
-      //   this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
-      //   this.accountNameDis = false;
-      // }
+      this.isLegalPersonSettleIdCard();
     },
-    payStatusForm(value) {
-      // console.log('改变了')
+    "payStatusForm.accountName"(val) {
+      console.log(val);
+      this.isLegalPersonSettleIdCard();
     },
     "payStatusForm.legalPerson"(val) {
       this.accountNameChange();
-      // this.payStatusForm.accountName = val
+      this.isLegalPersonSettleIdCard();
     }
   }
 };
