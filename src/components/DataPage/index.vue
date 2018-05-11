@@ -183,6 +183,11 @@
     padding: 12px 0 !important;
   }
 }
+.el-table__empty-block {
+  width: 100% !important;
+}
+.el-table__body-wrapper {
+}
 // .__scrollStyle__ .el-table__body-wrapper::-webkit-scrollbar {
 //   width: 0.8rem;
 //   background-color: #f5f5f5;
@@ -297,7 +302,6 @@ export default {
       this.$emit("operation", rowdata, cb);
     },
     doLayout() {
-      console.log(this.$refs.tableList);
       this.$refs.tableList.doLayout();
     },
     // 导出
@@ -337,15 +341,12 @@ export default {
 
   mounted() {
     // this.doLayout();
-    this.$emit("databoxSize");
+    // this.$emit("databoxSize");
     // 初始化数据
+    this.$refs.tableList.doLayout();
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
   },
   activated() {
-    // this.unrealReload()
-    // this.$emit("databoxSize");
-    // 初始化数据
-    // this.postDataInit(this.getPage, this.getLimit, this.getSearch);
   },
   computed: {
     userAll() {
@@ -399,8 +400,9 @@ export default {
     fullScreen(value) {
       // 全屏切换
     },
+    $route(to, from) {
 
-    $route(to, from) { }
+    }
   }
 };
 </script>

@@ -18,12 +18,10 @@ const mixinDataTable = {
         },
         // 重新获取数据
         reloadData(page, limit, search) {
-            console.log('11111111');
             let page_ = page ? page : this.postPage;
             let limit_ = limit ? limit : this.postLimit;
             let search_ = search ? search : this.postSearch;
             this.$refs.dataTable.postDataInit(page_, limit_, search_);
-            // console.log("reload");
         },
         resetForm(formName) {
             this.$refs[formName].resetFields();
@@ -95,8 +93,6 @@ const mixinDataTable = {
         pagelimitHandle(value) {
             //每页条数改变
             this.postLimit = value;
-            console.log(this.postLimit);
-            console.log('table')
         },
         pagecountHandle(value) {
             // 页数改变
@@ -118,6 +114,9 @@ const mixinDataTable = {
             // 用户按钮权限
             return this.$store.state.userInfoAndMenu.userMessage.all;
         }
+    },
+    activated() {
+
     },
     mounted() {
         // this.reloadData();
