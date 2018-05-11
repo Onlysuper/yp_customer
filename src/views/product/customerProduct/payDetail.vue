@@ -633,7 +633,7 @@ export default {
           }
           this.payStatusDetails = {
             ...this.payStatusDetails,
-            ...customerRow,
+            ...customerRow, 
             ...settleCardRow,
             ...productRow
           }
