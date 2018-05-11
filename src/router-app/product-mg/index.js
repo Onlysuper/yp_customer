@@ -90,7 +90,16 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/qrcodeUpload")) }, "product-mg-app")
           },
           meta: {
-            pageTitle: "上传资质",
+            pageTitle: "快速开票图片修改",
+          },
+        },
+        {
+          path: "qrcodeDetail",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/customerPoduct/qrcodeDetail")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "快速开票详情",
           },
         },
         {

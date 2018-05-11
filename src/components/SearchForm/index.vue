@@ -338,11 +338,11 @@ export default {
       margin-top: 5px !important;
       .form-item {
         // width: 340px;
-        width: 271px;
+        width: 281px;
         flex-shrink: 0;
       }
       .form-item-month {
-        width: 271px;
+        width: 281px;
         flex-shrink: 0;
         .dateMonth {
           width: 100%;

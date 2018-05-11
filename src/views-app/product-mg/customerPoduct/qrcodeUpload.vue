@@ -15,20 +15,6 @@
           <upload-view :label="'门头照片'" class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg"></upload-view>
           <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg"></upload-view>
         </template>
-        <div v-show="false" style="margin:0;padding:0">
-          <upload-view :label="'法人身份证人像面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg"></upload-view>
-          <upload-view :label="'法人身份证国徽面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg"></upload-view>
-          <upload-view :label="'法人手持身份证'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg"></upload-view>
-          <upload-view :label="'法人手持身份证与授权书'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'HOLD_CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'holdCertificateImg'" ref="holdCertificateImg"></upload-view>
-          <upload-view :label="'授权书加盖公章'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CERTIFICATE_IMG'" @result="resultMediaId" :dataKey="'certificateImg'" ref="certificateImg"></upload-view>
-          <upload-view :label="'店内照片'" class="item" :customerNo="customerNo" :upType="'STORE_IMG'" @result="resultMediaId" :dataKey="'storeImg'" ref="storeImg"></upload-view>
-          <upload-view :label="'开户许可证'" v-show="publicPerson" class="item" :customerNo="customerNo" :upType="'ACCOUNT_OPENING_LICENSE'" @result="resultMediaId" :dataKey="'accountLicenseImg'" ref="accountLicenseImg"></upload-view>
-          <upload-view :label="'结算卡正面'" v-show="corporatePerson || unCorporatePerson" class="item" :customerNo="customerNo" :upType="'SETTLE_CARD_IMG'" @result="resultMediaId" :dataKey="'settleCardImg'" ref="settleCardImg"></upload-view>
-          <upload-view :label="'结算人身份证人面像'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_POSITIVE'" @result="resultMediaId" :dataKey="'cardHolderFrontImg'" ref="cardHolderFrontImg"></upload-view>
-          <upload-view :label="'结算人身份证国徽面'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_ID_BACK'" @result="resultMediaId" :dataKey="'cardHolderBackImg'" ref="cardHolderBackImg"></upload-view>
-          <upload-view :label="'结算人手持身份证'" v-show="unCorporatePerson" class="item" :customerNo="customerNo" :upType="'CARDHOLDER_WITH_ID'" @result="resultMediaId" :dataKey="'cardHolderIdImg'" ref="cardHolderIdImg"></upload-view>
-          <!-- 非法人添加end -->
-        </div>
       </view-radius>
       <mt-radio v-show="notQrcode" v-model="value" v-targetTo style="text-align: center;" @click.native="visible = true" :options="['同意《支付开通协议》']"></mt-radio>
     </div>
@@ -193,7 +179,6 @@ export default {
   },
   methods: {
     echoForm(data) {
-
       let { customer, imgs, settleCard } = data;
       if (customer instanceof Object) {
         this.legalPerson = customer.legalPerson;
@@ -202,8 +187,10 @@ export default {
       if (imgs instanceof Object) {
         for (let key in imgs) {
           if (imgs[key] instanceof Object) {
-            this.$refs[key].setImg(imgs[key].url);
-            this.resultMediaId(key, imgs[key].id);
+            if (key == "cashSpaceImg" || key == "placeImg" || key == "bussinessLicenseImg") {
+              this.$refs[key].setImg(imgs[key].url);
+              this.resultMediaId(key, imgs[key].id);
+            }
           }
         }
       }
@@ -236,9 +223,13 @@ export default {
       else this.value = "";
     },
     submit() {
+      // this.$router.push({
+      //   path: "./"
+      //   // query: { customerNo: this.customerNo, type: 'Pay' }
+      // });
       this.$router.push({
-        path: "./"
-        // query: { customerNo: this.customerNo, type: 'Pay' }
+        path: "./qrcodeDetail",
+        query: { customerNo: this.customerNo, type: 'Qrcode', qrcodeStatus: this.qrcodeStatus, customerName: this.customerName }
       });
     }
   }

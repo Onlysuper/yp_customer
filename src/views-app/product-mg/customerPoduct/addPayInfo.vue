@@ -38,6 +38,7 @@
             <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
             <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
             <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="true"></mt-field> -->
+            <mt-field v-if="settleIdCardVisible" label="结算人身份证:" type="text" v-model="form.settleIdCard" @change="cacheFrom" placeholder="请输入身份证号码" :disabled="settleIdCardDis"></mt-field>
             <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
               <i class="icon-arrow"></i>
             </mt-field>
@@ -103,12 +104,16 @@ export default {
         bussinessAddress: "",
         accountType: "",
         legalPerson: "",
+        accountName: "",
         bussinessLicenseEffectiveBegin: "",
         bussinessLicenseEffectiveEnd: "",
         idNoEffectiveBegin: "",
         idNoEffectiveEnd: "",
-        accountNo: ""
+        accountNo: "",
+        settleIdCard: ""
       },
+      settleIdCardDis: true,
+      settleIdCardVisible: true,
       city: {},
       //银行信息
       bank: {},
@@ -145,6 +150,26 @@ export default {
   computed: {
   },
   methods: {
+    isLegalPersonSettleIdCard(type) {
+      // console.log(this.form.legalPerson);
+      if (this.form.accountType == "0") {
+        this.settleIdCardVisible = false;
+      } else if (this.form.accountType == "1") {
+        if (this.form.legalPerson == this.form.accountName) {
+          // 法人
+          this.form.settleIdCard = this.form.idCard;
+          this.settleIdCardVisible = true;
+          this.settleIdCardDis = true
+        } else {
+          // 非法人
+          if (type == 'inputchange') {
+            this.form.settleIdCard = "";
+          }
+          this.settleIdCardVisible = true;
+          this.settleIdCardDis = false;
+        }
+      }
+    },
     echoForm(data) {
       let cacheForm = {};
       let { customer, settleCard } = data;
@@ -154,7 +179,6 @@ export default {
         */
         cacheForm = JSON.parse(window.localStorage.getItem(customer.customerNo)) || {};//取出缓存表单信息
         // console.log("取出", cacheForm)
-
         this.enterpriseName = cacheForm.enterpriseName || customer.enterpriseName;
         this.bussinessName = cacheForm.bussinessName || customer.bussinessName;
         this.taxNo = cacheForm.taxNo || customer.taxNo;
@@ -196,6 +220,7 @@ export default {
       } else {
         // this.form.accountType = "0"; //如果需要默认值
       }
+      this.isLegalPersonSettleIdCard();
     },
     //处理对公对私逻辑
     handleAccountType(accountType) {
@@ -298,6 +323,10 @@ export default {
         this.MessageBox.alert("请输入正确的手机号！");
         return;
       }
+      if (this.form.accountType == "1" && this.form.legalPerson != this.form.accountName && !this.validator.isMobile(this.form.settleIdCard)) {
+        this.MessageBox.alert("请填写结算人身份证号码！");
+        return;
+      }
       let form = this.sendParams();
       if (form.accountNo) {
         form.accountNo = form.accountNo.replace(/\s/g, '');
@@ -324,7 +353,7 @@ export default {
       if (this.form.accountType == "0") this.form.accountName = this.enterpriseName;
       else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
       // else this.form.accountName = this.form.legalPerson;
-
+      // this.isLegalPersonSettleIdCard();
       this.cacheFrom(); //缓存数据
     }
   },
@@ -334,6 +363,10 @@ export default {
     },
     "form.legalPerson"(val) {
       this.accountNameChange();
+    },
+    "form.accountName"(val) {
+      console.log("watch" + this.form.accountName);
+      this.isLegalPersonSettleIdCard('inputchange');
     }
   }
 };
