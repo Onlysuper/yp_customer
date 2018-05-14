@@ -1,28 +1,30 @@
 <template>
   <!-- 聚合支付详情 -->
   <div class="product-detail-box">
-    <h2 v-if="false" class="pro-title">变更前</h2>
+    <h2 v-if="true" class="pro-title">变更前</h2>
+     {{oldData}}
     <div class="product-detail-body change-before">
       <div class="detaile-left">
+       
         <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
         <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">商户编号:</span>
-              <span class="line-label-last">{{detailsForm.bussinessNo}}</span>
+              <span class="line-label-last">{{oldData.bussinessNo}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">预留手机号:</span>
-              <span class="line-label-last">{{payStatusDetails.reservedPhoneNo}}</span>
+              <span class="line-label-last">{{oldData.reservedPhoneNo}}</span>
             </div>
           </div>
           <div class="line-label-box">
             <span class="lable-title gray-back">邮箱:</span>
-            <span class="line-label-last">{{payStatusDetails.contactEmail}}</span>
+            <span class="line-label-last">{{oldData.contactEmail}}</span>
           </div>
           <div class="line-label-box">
             <span class="lable-title gray-back">身份证有效期:</span>
-            <span class="line-label-last">{{payStatusDetails.idNoEffectiveBegin}} 至 {{payStatusDetails.idNoEffectiveEnd}}</span>
+            <span class="line-label-last">{{oldData.idNoEffectiveBegin}} 至 {{oldData.idNoEffectiveEnd}}</span>
           </div>
           <!-- <div class="line-label-box">
           <span class="lable-title gray-back">商户编号:</span>
@@ -31,101 +33,101 @@
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">更新时间:</span>
-              <span class="line-label-last">{{detailsForm.lastUpdateTime}}</span>
+              <span class="line-label-last">{{oldData.lastUpdateTime}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">开通状态:</span>
-              <span class="line-label-last">{{detailsForm.payStatus | statusFilter('handleProductOpenStatus')}}</span>
+              <span class="line-label-last">{{oldData.status | statusFilter('handleProductOpenStatus')}}</span>
             </div>
           </div>
           <div class="split－padding"></div>
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">微信费率:</span>
-              <span class="line-label-last">{{utils.accMul(payStatusDetails.wechatRate,100)+'%' ||""}}</span>
+              <span class="line-label-last">{{utils.accMul(oldData.wechatRate,100)+'%' ||""}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">支付宝费率:</span>
-              <span class="line-label-last">{{utils.accMul(payStatusDetails.alipayRate,100)+'%'||""}}</span>
+              <span class="line-label-last">{{utils.accMul(oldData.alipayRate,100)+'%'||""}}</span>
             </div>
           </div>
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">开通秒到:</span>
-              <span class="line-label-last">{{payStatusDetails.settleMode | statusFilter('settleMode')}}</span>
+              <span class="line-label-last">{{oldData.settleMode | statusFilter('settleMode')}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">D0手续费:</span>
-              <span class="line-label-last">{{payStatusDetails.t0CashCostFixed||"0"}}</span>
+              <span class="line-label-last">{{oldData.t0CashCostFixed||"0"}}</span>
             </div>
           </div>
           <div class="split－padding"></div>
           <div class="line-label-box">
             <span class="lable-title gray-back">企业名称:</span>
-            <span class="line-label-last">{{payStatusDetails.enterpriseName}}</span>
+            <span class="line-label-last">{{oldData.enterpriseName}}</span>
           </div>
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">企业税号:</span>
-              <span class="line-label-last">{{payStatusDetails.taxNo}}</span>
+              <span class="line-label-last">{{oldData.taxNo}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">行业类型:</span>
-              <span class="line-label-last">{{payStatusDetails.category?utils.findBussinessType(payStatusDetails.category).name:""}}</span>
+              <span class="line-label-last">{{oldData.category?utils.findBussinessType(oldData.category).name:""}}</span>
             </div>
           </div>
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">身份证号:</span>
-              <span class="line-label-last">{{payStatusDetails.idCard}}</span>
+              <span class="line-label-last">{{oldData.idCard}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">法人:</span>
-              <span class="line-label-last">{{payStatusDetails.legalPerson}}</span>
+              <span class="line-label-last">{{oldData.legalPerson}}</span>
             </div>
           </div>
           <div class="line-label-box">
             <div class="line-cell">
               <span class="lable-title gray-back">所在地区:</span>
-              <span class="line-label-last">{{payStatusDetails.orgCode?utils.findCity(payStatusDetails.orgCode).resultAddr:""}}</span>
+              <span class="line-label-last">{{oldData.orgCode?utils.findCity(oldData.orgCode).resultAddr:""}}</span>
             </div>
           </div>
           <div class="line-label-box">
             <span class="lable-title gray-back">详细地址:</span>
-            <span class="line-label-last">{{payStatusDetails.bussinessAddress}}</span>
+            <span class="line-label-last">{{oldData.bussinessAddress}}</span>
           </div>
           <div class="split－padding"></div>
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">账户名称:</span>
-              <span class="line-label-last">{{payStatusDetails.accountName||""}}</span>
+              <span class="line-label-last">{{oldData.accountName||""}}</span>
             </div>
             <div v-if="settleIdCardVisible" class="line-cell">
               <span class="lable-title gray-back">结算人身份证:</span>
-              <span class="line-label-last">{{payStatusDetails.settleIdCard}}</span>
+              <span class="line-label-last">{{oldData.settleIdCard}}</span>
             </div>
           </div>
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">账号:</span>
-              <span class="line-label-last">{{payStatusDetails.accountNo||""}}</span>
+              <span class="line-label-last">{{oldData.accountNo||""}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">账户类型:</span>
-              <span class="line-label-last">{{payStatusDetails.accountType | statusFilter('accountType')}}</span>
+              <span class="line-label-last">{{oldData.accountType | statusFilter('accountType')}}</span>
             </div>
           </div>
           <div class="line-label-box">
             <span class="lable-title gray-back">开户银行:</span>
-            <span class="line-label-last">{{payStatusDetails.bankName||""}}</span>
+            <span class="line-label-last">{{oldData.bankName||""}}</span>
           </div>
           <div class="line-label-box">
             <span class="lable-title gray-back">开户支行:</span>
-            <span class="line-label-last">{{payStatusDetails.branchName||""}}</span>
+            <span class="line-label-last">{{oldData.branchName||""}}</span>
           </div>
           <div class="line-label-box">
             <span class="lable-title gray-back">营业期限:</span>
-            <span class="line-label-last">{{payStatusDetails.bussinessLicenseEffectiveBegin}} - {{payStatusDetails.bussinessLicenseEffectiveEnd}}</span>
+            <span class="line-label-last">{{oldData.bussinessLicenseEffectiveBegin}} - {{oldData.bussinessLicenseEffectiveEnd}}</span>
           </div>
         </div>
         <!-- </iscroll-view> -->
@@ -149,18 +151,20 @@
         </div>
         <div class="large-img-box">
           <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" trigger='click' arrow="always" height="100%">
-            <el-carousel-item v-for="(item,index) in imgsArr" :key="index" :label="item[1].name">
+            <!-- <el-carousel-item v-for="(item,index) in imgsArr" :key="index" :label="item[1].name">
               <div class="large-img">
                 <img @click="largeImageShow(item[1].url,'payStatus',item[0])" :src="item[1].url" alt="">
               </div>
               <p class="large-imgname">{{item[1].imgname}}</p>
-            </el-carousel-item>
+            </el-carousel-item> -->
+
+            <!-- "bussinessLicenseImg", "identityFrontImg", "identityBackImg", "placeImg", "cashSpaceImg", "storeImg" -->
           </el-carousel>
         </div>
       </div>
     </div>
-    <h2 v-if="false" class="pro-title">变更后</h2>
-    <div v-if="false" class="product-detail-body change-before">
+    <h2 v-if="true" class="pro-title">变更后</h2>
+    <div v-if="true" class="product-detail-body change-before">
       <div class="detaile-left">
         <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
         <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
@@ -332,7 +336,6 @@
 //   background-color: #d3dce6;
 // }
 
-@import "../../../../src/assets/scss-pc/payDetail.scss";
 .rightVsiblefalse {
   .line-label-box.split {
     justify-content: flex-start !important;
@@ -343,7 +346,8 @@
 }
 </style>
 <script>
-
+import "@src/assets/scss-pc/payDetail.scss";
+// @import "../../../../src/assets/scss-pc/payDetail.scss";
 import Vue from "vue";
 import IScrollView from "vue-iscroll-view";
 import IScroll from "iscroll";
@@ -371,6 +375,12 @@ export default {
       type: Array
     },
     rowData: {
+      type: Object
+    },
+    oldData: {
+      type: Object
+    },
+    newData: {
       type: Object
     }
   },
@@ -475,13 +485,15 @@ export default {
     }
   },
   created() {
-    this.detailsForm = Object.assign(this.detailsForm, this.rowData);
-    this.getCustomerEcho();
+    this.detailsForm = Object.assign(this.detailsForm, this.oldData);
+    console.log(1111111);
+    console.log(this.oldData);
+    // this.getCustomerEcho();
   },
   methods: {
     // 聚合支付回显
     getCustomerEcho() {
-      let resaultData = this.rowData;
+      let resaultData = this.oldData;
       let dialogLoading = this.$loading({
         target: document
           .querySelector("#dialogLoding")
@@ -491,17 +503,23 @@ export default {
         customerNo: resaultData.bussinessNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
+
         if (res.code == "00") {
           // 聚合支付查询详情
           let data = res.data;
           let customerRow = {};
           let settleCardRow = {};
           let productRow = {};
-          let imgsRow = {};
+          let imgsRow = {
+            bussinessLicenseImg:{
+              id:"",
+              imgname:"",
+              url:""
+            }
+          };
           imgsRow = utils.pickObj(data.imgs, [
             "bussinessLicenseImg", "identityFrontImg", "identityBackImg", "placeImg", "cashSpaceImg", "storeImg"
           ]);
-          console.log(imgsRow);
           let addImgs = {};
           if (data.customer) {
             customerRow = utils.pickObj(data.customer, [

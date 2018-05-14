@@ -9,8 +9,10 @@
       </mt-header>
       <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
+
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerName">
+          <div slot="btn" @click="checkFn('check',item)">审核</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'changeBill')">{{item.status | statusFilter('changeBill')}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
@@ -97,18 +99,26 @@ export default {
         isSuccess && this.$refs.sum.open(this.sumData);
       });
     },
-    toUrl(type, itemId, rowdata) {
-      if (type == "DETAIL") {
-        this.$router.push({
-          path: "./detail/" + itemId,
-          query: { type: type }
-        });
-      }
-    },
-    detail(rowdata) {
+    // toUrl(type, itemId, rowdata) {
+    //   if (type == "DETAIL") {
+    //     this.$router.push({
+    //       path: "./detail/" + itemId,
+    //       query: { type: type }
+    //     });
+    //   }
+    // },
+    checkFn(type, rowdata) {
       console.log(rowdata);
-      this.toUrl("DETAIL", rowdata.orderNo, rowdata);
-    }
+      this.$router.push({
+        // path: "./detail/" + rowdata.customerNo,
+        path: "./detail/" + rowdata.customerNo,
+        query: { type: type }
+      });
+    },
+    // detail(rowdata) {
+    //   console.log(rowdata);
+    //   this.toUrl("DETAIL", rowdata.orderNo, rowdata);
+    // }
   },
   activated() {
     this.routeMenuCode = this.$route.name;

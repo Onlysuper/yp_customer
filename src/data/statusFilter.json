@@ -416,21 +416,25 @@
     }
   },
   "changeBill": {
+    "INIT": {
+      "name": "已提交",
+      "color": "#409EFF"
+    },
     "ADMIN_AUDIT": {
       "name": "初审中",
-      "color": "#409EFF"
+      "color": "#E6A23C"
     },
     "WAIT_AUDIT": {
       "name": "复审中",
-      "color": "#409EFF"
+      "color": "#E6A23C"
     },
     "SUCCESS": {
       "name": "已完成",
-      "color": "#409EFF"
+      "color": "#67C23A"
     },
     "REJECT": {
       "name": "审核拒绝",
-      "color": "#409EFF"
+      "color": "#909399"
     }
   },
   "orderQueryStatus": {

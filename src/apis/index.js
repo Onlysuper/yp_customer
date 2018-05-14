@@ -306,6 +306,7 @@ const getSumPayOrders = () => { return (params) => { return http.get(base.oaIp, 
  **商户版本管理Start
  */
 const getChangeBills = () => { return (params) => { return http.get(base.oaIp, "/changeBill/page", params) } }
+const postUpdateBill = () => { return (params) => { return http.post(base.oaIp, "/changeBill/update", params) } }
 // end -------------------------------------------------
 export {
     Login,
@@ -466,6 +467,7 @@ export {
     getPayOrders,
     getbankCustomers,
     changeBillOpenCheck,
-    getChangeBills
+    getChangeBills,
+    postUpdateBill
 };
 

@@ -148,6 +148,15 @@ export default {
           meta: {
             pageTitle: "搜索商户"
           },
+        },
+        {
+          path: "detail/:customerNo",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/detail")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "变更单详情"
+          },
         }
       ],
 

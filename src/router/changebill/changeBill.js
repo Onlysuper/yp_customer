@@ -17,6 +17,6 @@ export default {
   },
   component: r => {
     loading(true);
-    return require.ensure([], () => { loading(false); return r(require("@src/views/changeBill/changeBill")) }, "change-bill")
+    return require.ensure([], () => { loading(false); return r(require("@src/views/changeBill/index")) }, "change-bill")
   }
 }
