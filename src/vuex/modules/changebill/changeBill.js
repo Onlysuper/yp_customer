@@ -11,7 +11,10 @@ export default {
     //是否搜索操作，便于刷新
     isSearch: false,
     //合计
-    sumData: {}
+    sumData: {},
+    rowData: {},
+    oldData: {},
+    nowData: {}
   },
   getters: {
   },
@@ -46,24 +49,25 @@ export default {
     //合计
     ["CHANGEBILL_SUM"](state, data) {
       state.sumData = data;
+    },
+    ["CHANGEBILL_NOWDATA"](state, data) {
+      state.nowData = data;
+    },
+    ["CHANGEBILL_OLDATA"](state, data) {
+      state.oldData = data;
+    },
+    ["CHANGEBILL_ROWDATA"](state, data) {
+      state.rowData = { ...data };
     }
   },
   actions: {
     // 数据列表中获取当前编辑得数据
-    getOrderQueryUnit({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
-      console.log(itemId)
-      return state.list.find(item => item.orderNo == itemId);
-    },
-    // 合计
-    getOrderQuerySum({ commit, dispatch, getters, rootGetters, rootState, state }, good) {
-      return getSumPayOrders()({ ...state.searchQuery }).then(data => {
-        if (data.code == "00") {
-          commit("ORDER_SUM", data.data);
-          return true;
-        } else {
-          Toast(data.msg);
-        }
-      })
+    getChangeBill({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
+      let rowData = state.list.find(item => item.customerNo == itemId);
+      commit("CHANGEBILL_OLDATA", JSON.parse(rowData.oldData));
+      commit("CHANGEBILL_NOWDATA", JSON.parse(rowData.nowData));
+      commit("CHANGEBILL_ROWDATA", rowData);
+      return rowData
     }
   }
 };

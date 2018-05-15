@@ -150,7 +150,7 @@
           <el-carousel ref="carousel" :autoplay='false' :initial-index="initialIndex" :interval="5000" trigger='click' arrow="always" height="100%">
             <el-carousel-item v-for="(item,index) in oldImgsRow" :key="index" :label="item[1].name">
               <div class="large-img">
-                <img @click="largeImageShow(item[1].url,'payStatus',item[0])" :src="item[1].url" alt="">
+                <img @click="largeImageShow(item[1].url,'payStatus',item[0],'changeBefore')" :src="item[1].url" alt="">
               </div>
               <p class="large-imgname">{{item[1].imgname}}</p>
             </el-carousel-item>
@@ -297,7 +297,7 @@
           <el-carousel ref="carouselAfter" :autoplay='false' :initial-index="initialIndex" :interval="5000" trigger='click' arrow="always" height="100%">
             <el-carousel-item v-for="(item,index) in newImgsRow" :key="index" :label="item[1].name">
               <div class="large-img">
-                <img @click="largeImageShow(item[1].url,'payStatus',item[0])" :src="item[1].url" alt="">
+                <img @click="largeImageShow(item[1].url,'payStatus',item[0],'changeAfter')" :src="item[1].url" alt="">
               </div>
               <p class="large-imgname">{{item[1].imgname}}</p>
             </el-carousel-item>
@@ -306,7 +306,7 @@
       </div>
     </div>
     <transition name="slide-fade" class="fadeView">
-      <largeimg-view :payStatusDetails="payStatusDetails" ref="largeImg" :imgsArr="oldImgsRow" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
+      <largeimg-view :payStatusDetails="payStatusDetails" ref="largeImg" :imgsArr="largeImgRow" :largeImg="largeImg" :largeImgUrl="largeImgUrl" :largeImgArt="largeImgArt" :rotateClass="rotateClass" @hideImageView="hideImageView" @rotateFn="rotateFn" @rotateInit="rotateInit" :fadeViewVisible="fadeViewVisible">
       </largeimg-view>
     </transition>
   </div>
@@ -453,6 +453,7 @@ export default {
       }
     }
     return {
+      largeImgRow: [],
       oldImgsRow: [],
       newImgsRow: [],
       settleIdCardVisible: false,
@@ -485,11 +486,9 @@ export default {
     this.detailsForm = Object.assign(this.detailsForm, this.oldData);
   },
   beforeDestroy() {
-    console.log('我要销毁了！');
   },
   methods: {
     dataInit() {
-      console.log(this.oldImgsRow);
       this.getCustomerEcho(this.oldData, 'oldImgsRow');
       this.getCustomerEcho(this.newData, 'newImgsRow');
     },
@@ -511,7 +510,6 @@ export default {
           break;
       }
       if (url) {
-        console.log(url);
         return url.replace("/nfs/test", before)
       }
     },
@@ -615,39 +613,7 @@ export default {
         }
       }
       oldImgsRow = Object.entries(oldImgsRow);
-      // Object.entries(imgsRow)
-      // 开始
-      // for (var i = 0; i < oldImgsRow.length; i++) {
-      //   let item = oldImgsRow[i][1];
-      //   let index = oldImgsRow[i][0];
 
-      //   if (item) {
-      //     let imgname = item.imgname;
-      //     if (item.url) {
-      //       if (this.largeImgUrl == "") {
-      //         // 默认显示的图片
-      //         this.largeImg = { imgname: index, url: item.url, name: item.imgname };
-      //         this.largeImgUrl = item.url
-      //       }
-      //     }
-      //     ((i) => {
-      //       let item = imgsArr[i][1];
-      //       let index = imgsArr[i][0];
-      //       var newImg = new Image();
-      //       newImg.src = item.url;
-      //       newImg.onerror = () => {
-      //         imgsArr[i][1].url = ""
-      //       }
-      //       newImg.onload = () => {
-      //         if (this.largeImgUrl == "") {
-      //           // 默认显示的图片
-      //           this.largeImg = { imgname: index, url: item.url };
-      //           this.largeImgUrl = item.url
-      //         }
-      //       }
-      //     })(i)
-      //   }
-      // }
       // 结束
       if (initName == 'newImgsRow') {
         this.newImgsRow = oldImgsRow;
@@ -671,13 +637,18 @@ export default {
         this.$refs.iscroll.refresh();
       })
     },
-    largeImageShow(url, type, item) {
+    largeImageShow(url, type, item, which) {
       this.rotateCurrent = 0
       this.rotateClass = "";
       this.largeImgUrl = url;
       this.largeImg = { imgname: item, url: url, name: name };
-
       this.fadeViewVisible = true;
+      if (which == 'changeBefore') {
+        this.largeImgRow = this.oldImgsRow;
+      }
+      if (which == 'changeAfter') {
+        this.largeImgRow = this.newImgsRow;
+      }
       this.$refs.largeImg.imgInit()
     },
     showImg(url, item, imgname, type, name, initialIndex, refname) {
@@ -686,7 +657,6 @@ export default {
       this.largeImgUrl = url;
       this.largeImg = { imgname: item, url: url, name: name };
       this.setActiveItem(refname, initialIndex);
-      // console.log(initialIndex);
     },
     setActiveItem(refname, index) {
       this.$refs[refname].setActiveItem(index)

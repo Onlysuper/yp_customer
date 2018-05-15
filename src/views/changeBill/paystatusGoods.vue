@@ -101,15 +101,10 @@ export default {
         if (valid) {
           let payStatusForm = this.payStatusForm;
           let obj = {
-            customerNo: this.rowData.bussinessNo,
+            customerNo: this.rowData.customerNo,
             settleMode: payStatusForm.settleMode,
             wechatRate: payStatusForm.wechatRate,
-            alipayRate: payStatusForm.alipayRate,
-            // wechatRate: utils.accMul(
-            //   parseFloat(payStatusForm.wechatRate),
-            //   0.01
-            // ),
-            // alipayRate: utils.accMul(parseFloat(payStatusForm.alipayRate), 0.01)
+            alipayRate: payStatusForm.alipayRate
           };
           if (payStatusForm.settleMode == "T0") {
             obj.t0CashCostFixed = parseFloat(payStatusForm.t0CashCostFixed);

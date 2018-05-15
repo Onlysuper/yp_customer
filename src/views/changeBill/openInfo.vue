@@ -6,7 +6,6 @@
         </el-option>
       </el-select>
     </div>
-    <!-- {{rowData}} {{customerTypeSelected}} -->
     <!-- 聚合支付开通 start -->
     <component @titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData" :oldData="oldData" :newData="newData" :doWhat="doWhat">
     </component>
@@ -102,8 +101,11 @@ export default {
     },
     // 下一步
     nextFn(next) {
-      console.log(11111111111);
       this.currentChildView = next;
+    },
+    dataInit(data) {
+      console.log('数据初始化');
+      console.log(this.rowData);
     },
     selectInfo() {
       let check = this.customerTypeSelected.find(item => {

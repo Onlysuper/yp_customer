@@ -181,7 +181,7 @@ export default {
 
   methods: {
     editSave() {
- 
+
       // 编辑内容保存
       // for (var i in this.saveForm) {
       //   if (!this.saveForm[i]) {
@@ -236,29 +236,29 @@ export default {
         return false;
       }
       let sureMsg = ""
-      if(this.doWhat.type=='open'){
-        sureMsg="确定要开通吗？"
-      }else if(this.doWhat.type=='change'){
-        sureMsg="确定提交变更信息吗？"
+      if (this.doWhat.type == 'open') {
+        sureMsg = "确定要开通吗？"
+      } else if (this.doWhat.type == 'change') {
+        sureMsg = "确定提交变更信息吗？"
       }
       this.$confirm(sureMsg, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-         this.saveLoading = true;
-          // 点击下一步提交所有图片
-          completeBussinessImg()(this.saveForm).then(res => {
-            if (res.code == "00") {
-              // 下一步
-              this.$emit("nextFn", "paystatusSuccess");
-            } else {
-              this.warningMsg(res.msg);
-            }
-            this.saveLoading = false;
-          });
-        }).catch(() => {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.saveLoading = true;
+        // 点击下一步提交所有图片
+        completeBussinessImg()(this.saveForm).then(res => {
+          if (res.code == "00") {
+            // 下一步
+            this.$emit("nextFn", "paystatusSuccess");
+          } else {
+            this.warningMsg(res.msg);
+          }
+          this.saveLoading = false;
         });
+      }).catch(() => {
+      });
     },
     // 遗憾信息提示
     warningMsg(msg) {
@@ -285,7 +285,7 @@ export default {
     // 回显
     getCustomerEcho() {
       getCustomerEchoProduct()({
-        customerNo: this.rowData.bussinessNo,
+        customerNo: this.rowData.customerNo,
         featureType: "CONVERGE_PAY"
       }).then(res => {
         if (res.code == "00") {

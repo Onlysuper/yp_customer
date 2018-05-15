@@ -123,14 +123,13 @@ export default {
       bankBranch: {},
       slotsActions: bussinessTypeJson,
       bussinessType: { name: "", code: "" },
-      customerNo: this.$route.query["customerNo"],
+      customerNo: this.$route.params["customerNo"],
       bussinessLicenseEffectiveBeginVal: new Date(),
       bussinessLicenseEffectiveEndVal: new Date(),
       idNoEffectiveBeginVal: new Date(),
       idNoEffectiveEndVal: new Date(),
     };
   },
-
   created() {
     getCustomerEchoProduct()({
       customerNo: this.customerNo,

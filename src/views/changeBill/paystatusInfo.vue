@@ -64,7 +64,7 @@
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="settleIdCardDis?'':'settleIdCard'" label="结算人身份证号" :label-width="formLabelWidth">
+      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="'settleIdCard'" label="结算人身份证号" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="settleIdCardDis" v-model="payStatusForm.settleIdCard" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
@@ -140,6 +140,12 @@ export default {
     },
     doWhat: {
       type: Object
+    },
+    newData: {
+      type: Object
+    },
+    oldData: {
+      type: Object
     }
   },
   mixins: [mixinsPc],
@@ -190,7 +196,8 @@ export default {
       },
       payStatusFormRules: {
         settleIdCard: [
-          { required: true, message: "请填写结算人身份证", trigger: "blur,change" }
+          { required: true, message: "请填写结算人身份证", trigger: "blur,change" },
+          { required: true, validator: idCardVerify, trigger: "blur,change" },
         ],
         idNoEffectiveBegin: [
           { required: true, message: "请选择身份证有效期开始时间", trigger: "blur,change" }
@@ -245,6 +252,9 @@ export default {
     };
   },
   methods: {
+    // dataInit() {
+    //   console.log('数据初始化');
+    // },
     areaChange(val) {
       this.payStatusForm.Area = val;
     },
@@ -305,7 +315,7 @@ export default {
             }
           }
           let sendata = {
-            customerNo: this.rowData.bussinessNo,
+            customerNo: this.rowData.customerNo,
             orgCode:
               payStatusForm.Area[2] ||
               payStatusForm.Area[1] ||
@@ -380,52 +390,42 @@ export default {
     },
     // 回显
     getCustomerEcho() {
-      getCustomerEchoProduct()({
-        customerNo: this.rowData.bussinessNo,
-        featureType: "CONVERGE_PAY"
-      }).then(res => {
-        this.getCache();
-        if (res.code == "00") {
-          let customerData = res.data.customer;
-          let settleCard = res.data.settleCard;
-          if (customerData.orgCode) {
-            this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
-            console.log(this.payStatusForm.Area)
-          }
-          let newCustomer = utils.pickObj(customerData, [
-            'enterpriseName', 'taxNo',
-            'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-            'idNoEffectiveBegin', 'idNoEffectiveEnd',
-            'bussinessAddress', 'legalPerson', 'idCard', 'category',
-            'contactEmail', "bussinessName",
-
-          ]);
-          let newSettleCard = utils.pickObj(settleCard, [
-            'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName', 'settleIdCard'
-          ]);
-
-          this.getaccountName = newSettleCard.accountName;// 带入的企业名称
-          let accountName = "";// 账户名称
-          if (newSettleCard.accountType == "0") {
-            // 对公:带入企业名称 不可更改
-            accountName = newCustomer.enterpriseName
-            this.settleIdCardVisible = false;
-            this.accountNameDis = true;
-          } else if (newSettleCard.accountType == "1") {
-            // 对私
-            accountName = newSettleCard.accountName == newCustomer.enterpriseName ? newCustomer.legalPerson : newSettleCard.accountName || newCustomer.legalPerson;
-            this.accountNameDis = false;
-            this.settleIdCardVisible = true;
-            // this.accountNameDis = true;
-          }
-          this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard };
-          this.payStatusForm = Object.assign(this.payStatusForm, this.cacheForm);
-          this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
-        } else {
-          this.payStatusForm = Object.assign({}, this.cacheForm);
-          this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
+      let newData = this.newData;
+      console.log('开始');
+      console.log(newData);
+      if (newData) {
+        if (newData.orgCode) {
+          this.payStatusForm.Area = areaOrgcode(newData.orgCode);
         }
-      });
+        let someData = utils.pickObj(newData, [
+          'enterpriseName', 'taxNo',
+          'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+          'idNoEffectiveBegin', 'idNoEffectiveEnd',
+          'bussinessAddress', 'legalPerson', 'idCard', 'category',
+          'contactEmail', "bussinessName",
+          'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName', 'settleIdCard'
+        ]);
+        this.getaccountName = newData.accountName;// 带入的企业名称
+        let accountName = "";// 账户名称
+        if (newData.accountType == "0") {
+          // 对公:带入企业名称 不可更改
+          accountName = newData.enterpriseName
+          this.settleIdCardVisible = false;
+          this.accountNameDis = true;
+        } else if (newData.accountType == "1") {
+          // 对私
+          accountName = newData.accountName == newData.enterpriseName ? newData.legalPerson : newData.accountName || newData.legalPerson;
+          this.accountNameDis = false;
+          this.settleIdCardVisible = true;
+        }
+        this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newData };
+        this.payStatusForm = Object.assign(this.payStatusForm, this.cacheForm);
+        this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
+      } else {
+        this.payStatusForm = Object.assign({}, this.cacheForm);
+        this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
+      }
+      this.isLegalPersonSettleIdCard();
     },
     isLegalPersonSettleIdCard(type) {
       if (this.accountType == "0") {
@@ -460,7 +460,6 @@ export default {
         // this.payStatusForm.accountName = this.payStatusForm.legalPerson;
         // this.accountNameDis = true;
         this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
-        console.log(this.payStatusForm.legalPerson == this.payStatusForm.accountName);
         this.isLegalPersonSettleIdCard();
       }
     },

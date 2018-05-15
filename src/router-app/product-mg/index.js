@@ -157,6 +157,15 @@ export default {
           meta: {
             pageTitle: "变更单详情"
           },
+        },
+        {
+          path: "edit/:customerNo",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/edit")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "变更单编辑"
+          },
         }
       ],
 

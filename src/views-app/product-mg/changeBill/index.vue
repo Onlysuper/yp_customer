@@ -5,16 +5,15 @@
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
         <!-- <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button> -->
-        <mt-button v-if="adminFilter('pay_order_sum')" slot="right" :disabled="false" type="danger" @click="sumHandle()">合计</mt-button>
       </mt-header>
-      <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
+      <!-- <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions> -->
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
 
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerName">
-          <div slot="btn" @click="checkFn('check',item)">审核</div>
+          <div v-if="item.status=='ADMIN_AUDIT'" slot="btn" @click="detail('check',item)">审核</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'changeBill')">{{item.status | statusFilter('changeBill')}}</mt-badge>
-          <myp-cell class="list-item" @click="detail(item)">
+          <myp-cell class="list-item" @click="detail('detail',item)">
             <!-- 详情 -->
             <table>
               <myp-tr title="变更单号">{{item.billNo}}</myp-tr>
@@ -25,12 +24,10 @@
         </myp-cell-pannel>
       </myp-loadmore-api>
     </full-page>
-    <sum ref="sum"></sum>
   </div>
 </template>
 
 <script>
-import sum from "./sum";
 import SliderNav from "@src/components-app/SliderNav";
 import MypPopupActions from "@src/components-app/MypPopupActions";
 import { scrollBehavior, filterColor } from "@src/common/mixins";
@@ -39,19 +36,9 @@ import { mapState, mapActions } from "vuex";
 import utils from "@src/common/utils";
 export default {
   mixins: [scrollBehavior, filterColor],
-  components: { SliderNav, MypPopupActions, sum },
+  components: { SliderNav, MypPopupActions },
   data() {
     return {
-      popupActionsVisible: false,
-      popupActions: [
-        {
-          name: "合计",
-          icon: "icon-admin",
-          method: () => {
-            this.sum();
-          }
-        }
-      ],
       munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
@@ -88,37 +75,29 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getOrderQuerySum"]),
-
+    ...mapActions(["getChangeBill"]),
     watchDataList(watchDataList) {
       this.$store.commit("CHANGEBILL_QUERY_SET_LIST", watchDataList);
       this.$store.commit("CHANGEBILL_QUERY_IS_SEARCH", false);
     },
-    sumHandle() {
-      this.getOrderQuerySum().then(isSuccess => {
-        isSuccess && this.$refs.sum.open(this.sumData);
-      });
-    },
-    // toUrl(type, itemId, rowdata) {
-    //   if (type == "DETAIL") {
-    //     this.$router.push({
-    //       path: "./detail/" + itemId,
-    //       query: { type: type }
-    //     });
-    //   }
-    // },
-    checkFn(type, rowdata) {
-      console.log(rowdata);
-      this.$router.push({
-        // path: "./detail/" + rowdata.customerNo,
-        path: "./detail/" + rowdata.customerNo,
-        query: { type: type }
-      });
-    },
-    // detail(rowdata) {
-    //   console.log(rowdata);
-    //   this.toUrl("DETAIL", rowdata.orderNo, rowdata);
-    // }
+    detail(type, rowdata) {
+      if (type == 'check') {
+        this.getChangeBill(rowdata.customerNo).then(rowdata => {
+          this.$router.push({
+            path: "./detail/" + rowdata.customerNo,
+            query: { productType: 'check' }
+          });
+        });
+      }
+      if (type == 'detail') {
+        this.getChangeBill(rowdata.customerNo).then(rowdata => {
+          this.$router.push({
+            path: "./detail/" + rowdata.customerNo,
+            query: { productType: 'detail' }
+          });
+        });
+      }
+    }
   },
   activated() {
     this.routeMenuCode = this.$route.name;

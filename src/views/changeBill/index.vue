@@ -26,7 +26,7 @@
     <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
       <!-- <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData"> -->
-      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="rowData" :doWhat="doWhat">
+      <component ref="editProductView" v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="rowData" :oldData="oldData" :newData="newData">
         <!-- 组件在 vm.openProductView 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -164,7 +164,6 @@ export default {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage, // 数据列表组件
     "payDetail": payDetail,
-    openInfo: openInfo,
     paystatusGoods: paystatusGoods,
     paystatusUpload: paystatusUpload,
     paystatusSuccess: paystatusSuccess,
@@ -182,6 +181,7 @@ export default {
     return {
       oldData: {},
       newData: {},
+      rowData: {},
       doWhat: {
         type: "change"
       },
@@ -227,7 +227,7 @@ export default {
       productOpenTitle: "",
       editVisiblebut: false,
       checkVisiblebut: false,
-      rowData: {},
+
       detailProductView: "",
       sumVisible: false,
       amountSum: "0",
@@ -257,7 +257,7 @@ export default {
           type: "select",
           label: "状态",
           show: true, // 普通搜索显示
-          value: "SUCCESS",
+          value: "",
           options: [
             {
               value: "",
@@ -334,12 +334,16 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.checkVisiblebut = false;
+                this.editVisiblebut = false;
                 if (rowdata.status == "ADMIN_AUDIT" || rowdata.status == "REJECT") {
                   this.editVisiblebut = true;
                 }
                 this.detailsFormVisible = true;
+                // this.rowData = {
+                //   bussinessNo: rowdata.customerNo,
+                //   ...rowdata
+                // }
                 this.rowData = {
-                  bussinessNo: rowdata.customerNo,
                   ...rowdata
                 }
                 this.newData = { ...JSON.parse(rowdata.nowData) };
@@ -353,7 +357,6 @@ export default {
               text: "审核",
               color: "#00c1df",
               visibleFn: rowdata => {
-
                 if (
                   rowdata.status == "ADMIN_AUDIT"
                 ) {
@@ -367,8 +370,11 @@ export default {
                 this.checkVisiblebut = true;
                 this.editVisiblebut = false;
                 this.detailsFormVisible = true;
+                // this.rowData = {
+                //   bussinessNo: rowdata.customerNo,
+                //   ...rowdata
+                // }
                 this.rowData = {
-                  bussinessNo: rowdata.customerNo,
                   ...rowdata
                 }
                 this.newData = { ...JSON.parse(rowdata.nowData) };
@@ -386,8 +392,11 @@ export default {
     //编辑
     editFn() {
       this.detailsFormVisible = false;
+      this.openProductView = "openInfo";
       this.editFormVisible = true;
-      this.openProductView = "openInfo"
+      this.$nextTick(() => {
+        this.$refs.editProductView.dataInit();
+      })
     },
     titleChange(openProductView) {
       if (openProductView == "paystatusInfo") {
@@ -499,9 +508,9 @@ export default {
   watch: {
     detailsFormVisible(val) {
       if (!val) {
-        this.oldData = {};
-        this.newData = {};
-        this.rowData = {};
+        // this.oldData = {};
+        // this.newData = {};
+        // this.rowData = {};
         this.$refs.detailProductView.leaveData();
       }
     }

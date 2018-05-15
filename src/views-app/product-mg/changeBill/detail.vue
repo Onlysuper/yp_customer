@@ -2,97 +2,187 @@
   <full-page>
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+      <mt-button v-if="productType=='check'?true:false" slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
+      <mt-button v-if="productType=='detail'&&(rowData.status== 'ADMIN_AUDIT' || rowData.status == 'REJECT')?true:false" slot="right" :disabled="false" type="danger" @click="editFn">编辑</mt-button>
     </mt-header>
-    <!-- 聚合支付详情 -->
-    <template v-if="productType == 'pay'">
-      <view-radius>
-        <input-wrapper>
-          <mt-cell title="企业名称">{{customer.enterpriseName}}</mt-cell>
-          <mt-cell title="企业税号">{{customer.taxNo}}</mt-cell>
-          <mt-cell title="所在地区">{{customer.addr}}</mt-cell>
-          <mt-cell title="详细地址">{{customer.bussinessAddress}}</mt-cell>
-          <mt-cell title="法人">{{customer.legalPerson}}</mt-cell>
-          <mt-cell title="身份证号">{{customer.idCard}}</mt-cell>
-          <mt-cell title="身份证生效期">{{customer.idNoEffectiveBegin}}</mt-cell>
-          <mt-cell title="身份证结束期">{{customer.idNoEffectiveEnd}}</mt-cell>
-          <mt-cell title="行业类别">{{customer.name}}</mt-cell>
-          <mt-cell title="营业执照开始日期">{{customer.bussinessLicenseEffectiveBegin}}</mt-cell>
-          <mt-cell title="营业执照结束日期">{{customer.bussinessLicenseEffectiveEnd}}</mt-cell>
-          <mt-cell title="邮箱">{{customer.contactEmail}}</mt-cell>
-          <mt-cell title="结算信息">{{accountTypes[settleCard.accountType]}}</mt-cell>
-          <mt-cell title="账户名称">{{settleCard.accountName}}</mt-cell>
-          <mt-cell v-if="settleIdCardVisible" title="结算人身份证号">{{settleCard.settleIdCard}}</mt-cell>
-          <mt-cell title="开户银行">{{settleCard.bankName}}</mt-cell>
-          <mt-cell title="开户支行">
-            <div class="text-r">{{settleCard.branchName}}</div>
-          </mt-cell>
-          <mt-cell title="帐号">{{settleCard.accountNo}}</mt-cell>
-          <mt-cell title="预留手机号">{{settleCard.reservedPhoneNo}}</mt-cell>
-          <mt-cell title="微信费率">{{product.wechatRate}}%</mt-cell>
-          <mt-cell title="支付宝费率">{{product.alipayRate}}%</mt-cell>
-          <mt-cell title="结算方式">{{product.settleMode}}</mt-cell>
-          <mt-cell title="D0手续费" v-if="product.settleMode == 'T0'">{{product.t0CashCostFixed}}元</mt-cell>
-        </input-wrapper>
-      </view-radius>
-      <view-radius class="uploads imagesParent" id="WeixinJSBridge">
-        <show-img-view class="item" :disabled="true" ref="identityFrontImg" :label="'法人身份证人像面'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="identityBackImg" :label="'法人身份证国徽面'"></show-img-view>
-        <show-img-view v-show="corporatePerson" class="item" :disabled="true" ref="identityHolderImg" :label="'法人手持身份证照'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></show-img-view>
-        <show-img-view class="item" :disabled="true" ref="placeImg" :label="'门头照片'"></show-img-view>
-        <show-img-view class="item" v-show="publicPerson" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="holdCertificateImg" :label="'法人手持身份证与授权书'"></show-img-view>
-        <show-img-view class="item" v-show="unCorporatePerson" :disabled="true" ref="certificateImg" :label="'授权书加盖公章'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderFrontImg" :label="'结算人身份证人面像'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderBackImg" :label="'结算人身份证国徽面'"></show-img-view>
-        <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderIdImg" :label="'结算人手持身份证'"></show-img-view>
-        <show-img-view v-show="corporatePerson || unCorporatePerson" class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
-      </view-radius>
-    </template>
-    <!-- 电票详情 -->
-    <template v-if="productType == 'elec'">
-      <view-radius>
-        <input-wrapper>
-          <mt-cell title="商户编号">{{customerNo}}</mt-cell>
-          <mt-cell title="商户名称">{{elec.enterpriseName}}</mt-cell>
-          <mt-cell title="经营名称">{{elec.enterpriseName}}</mt-cell>
-          <mt-cell title="经营区域">{{elec.addr}}</mt-cell>
-          <mt-cell title="经营地址">{{elec.bussinessAddress}}</mt-cell>
-          <mt-cell title="联系电话">{{elec.bussinessPhone}}</mt-cell>
-          <mt-cell title="行业类别">{{elec.name}}</mt-cell>
-          <mt-cell title="开户银行">{{elec.bankName}}</mt-cell>
-          <mt-cell title="开户支行">
-            <div class="text-r">{{elec.branchName}}</div>
-          </mt-cell>
-          <mt-cell title="银行帐号">{{elec.bankAccountNo}}</mt-cell>
-          <mt-cell title="注册资金">{{elec.registMoney}}</mt-cell>
-          <mt-cell title="月开票量">{{elec.mounthCount}}</mt-cell>
-        </input-wrapper>
-      </view-radius>
-    </template>
-
-    <!-- 聚合支付 -->
+    <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
+    <div class="page-navbar">
+      <mt-navbar class="page-part" v-model="selected" :fixed="true">
+        <mt-tab-item id="oldData">更新前</mt-tab-item>
+        <mt-tab-item id="newData">更新后</mt-tab-item>
+      </mt-navbar>
+      <mt-tab-container v-model="selected" :swipeable="true">
+        <div class="container-box">
+          <mt-tab-container-item id="oldData">
+            <!-- 更新前start -->
+            <view-radius>
+              <input-wrapper>
+                <mt-cell title="企业名称">{{oldData.enterpriseName}}</mt-cell>
+                <mt-cell title="企业税号">{{oldData.taxNo}}</mt-cell>
+                <mt-cell title="所在地区">{{oldData.addr}}</mt-cell>
+                <mt-cell title="详细地址">{{oldData.bussinessAddress}}</mt-cell>
+                <mt-cell title="法人">{{oldData.legalPerson}}</mt-cell>
+                <mt-cell title="身份证号">{{oldData.idCard}}</mt-cell>
+                <mt-cell title="身份证生效期">{{oldData.idNoEffectiveBegin}}</mt-cell>
+                <mt-cell title="身份证结束期">{{oldData.idNoEffectiveEnd}}</mt-cell>
+                <mt-cell title="行业类别">{{oldData.name}}</mt-cell>
+                <mt-cell title="营业执照开始日期">{{oldData.bussinessLicenseEffectiveBegin}}</mt-cell>
+                <mt-cell title="营业执照结束日期">{{oldData.bussinessLicenseEffectiveEnd}}</mt-cell>
+                <mt-cell title="邮箱">{{oldData.contactEmail}}</mt-cell>
+                <mt-cell title="结算信息">{{oldData[settleCard.accountType]}}</mt-cell>
+                <mt-cell title="账户名称">{{oldData.accountName}}</mt-cell>
+                <mt-cell v-if="settleIdCardVisible" title="结算人身份证号">{{oldData.settleIdCard}}</mt-cell>
+                <mt-cell title="开户银行">{{oldData.bankName}}</mt-cell>
+                <mt-cell title="开户支行">
+                  <div class="text-r">{{oldData.branchName}}</div>
+                </mt-cell>
+                <mt-cell title="帐号">{{oldData.accountNo}}</mt-cell>
+                <mt-cell title="预留手机号">{{oldData.reservedPhoneNo}}</mt-cell>
+                <mt-cell title="微信费率">{{oldData.wechatRate}}%</mt-cell>
+                <mt-cell title="支付宝费率">{{oldData.alipayRate}}%</mt-cell>
+                <mt-cell title="结算方式">{{oldData.settleMode}}</mt-cell>
+                <mt-cell title="D0手续费" v-if="oldData.settleMode == 'T0'">{{oldData.t0CashCostFixed}}元</mt-cell>
+              </input-wrapper>
+            </view-radius>
+            <view-radius class="uploads imagesParent" id="WeixinJSBridge">
+              <show-img-view class="item" :disabled="true" ref="identityFrontImg" :label="'法人身份证人像面'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="identityBackImg" :label="'法人身份证国徽面'"></show-img-view>
+              <show-img-view v-show="corporatePerson" class="item" :disabled="true" ref="identityHolderImg" :label="'法人手持身份证照'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="bussinessLicenseImg" :label="'营业执照'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="storeImg" :label="'店内照片'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="cashSpaceImg" :label="'收银台照片'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="placeImg" :label="'门头照片'"></show-img-view>
+              <show-img-view class="item" v-show="publicPerson" :disabled="true" ref="accountLicenseImg" :label="'开户许可证'"></show-img-view>
+              <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="holdCertificateImg" :label="'法人手持身份证与授权书'"></show-img-view>
+              <show-img-view class="item" v-show="unCorporatePerson" :disabled="true" ref="certificateImg" :label="'授权书加盖公章'"></show-img-view>
+              <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderFrontImg" :label="'结算人身份证人面像'"></show-img-view>
+              <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderBackImg" :label="'结算人身份证国徽面'"></show-img-view>
+              <show-img-view v-show="unCorporatePerson" class="item" :disabled="true" ref="cardHolderIdImg" :label="'结算人手持身份证'"></show-img-view>
+              <show-img-view v-show="corporatePerson || unCorporatePerson" class="item" :disabled="true" ref="settleCardImg" :label="'结算卡正面'"></show-img-view>
+            </view-radius>
+            <!-- 更新前end -->
+          </mt-tab-container-item>
+        </div>
+        <mt-tab-container-item id="newData">
+          <!-- 更新后start -->
+          <div class="container-box">
+            <view-radius>
+              <input-wrapper>
+                <mt-cell title="企业名称">{{oldData.enterpriseName}}</mt-cell>
+                <mt-cell title="企业税号">{{oldData.taxNo}}</mt-cell>
+                <mt-cell title="所在地区">{{oldData.addr}}</mt-cell>
+                <mt-cell title="详细地址">{{oldData.bussinessAddress}}</mt-cell>
+                <mt-cell title="法人">{{oldData.legalPerson}}</mt-cell>
+                <mt-cell title="身份证号">{{oldData.idCard}}</mt-cell>
+                <mt-cell title="身份证生效期">{{oldData.idNoEffectiveBegin}}</mt-cell>
+                <mt-cell title="身份证结束期">{{oldData.idNoEffectiveEnd}}</mt-cell>
+                <mt-cell title="行业类别">{{oldData.name}}</mt-cell>
+                <mt-cell title="营业执照开始日期">{{oldData.bussinessLicenseEffectiveBegin}}</mt-cell>
+                <mt-cell title="营业执照结束日期">{{oldData.bussinessLicenseEffectiveEnd}}</mt-cell>
+                <mt-cell title="邮箱">{{oldData.contactEmail}}</mt-cell>
+                <mt-cell title="结算信息">{{oldData[settleCard.accountType]}}</mt-cell>
+                <mt-cell title="账户名称">{{oldData.accountName}}</mt-cell>
+                <mt-cell v-if="settleIdCardVisible" title="结算人身份证号">{{oldData.settleIdCard}}</mt-cell>
+                <mt-cell title="开户银行">{{oldData.bankName}}</mt-cell>
+                <mt-cell title="开户支行">
+                  <div class="text-r">{{oldData.branchName}}</div>
+                </mt-cell>
+                <mt-cell title="帐号">{{oldData.accountNo}}</mt-cell>
+                <mt-cell title="预留手机号">{{oldData.reservedPhoneNo}}</mt-cell>
+                <mt-cell title="微信费率">{{oldData.wechatRate}}%</mt-cell>
+                <mt-cell title="支付宝费率">{{oldData.alipayRate}}%</mt-cell>
+                <mt-cell title="结算方式">{{oldData.settleMode}}</mt-cell>
+                <mt-cell title="D0手续费" v-if="oldData.settleMode == 'T0'">{{oldData.t0CashCostFixed}}元</mt-cell>
+              </input-wrapper>
+            </view-radius>
+            <view-radius class="uploads imagesParent" id="WeixinJSBridgeAfter">
+              <show-img-view class="item" :disabled="true" ref="identityFrontImgNow" :label="'法人身份证人像面'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="identityBackImgNow" :label="'法人身份证国徽面'"></show-img-view>
+              <show-img-view v-show="corporatePersonNow" class="item" :disabled="true" ref="identityHolderImgNow" :label="'法人手持身份证照'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="bussinessLicenseImgNow" :label="'营业执照'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="storeImgNow" :label="'店内照片'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="cashSpaceImgNow" :label="'收银台照片'"></show-img-view>
+              <show-img-view class="item" :disabled="true" ref="placeImgNow" :label="'门头照片'"></show-img-view>
+              <show-img-view class="item" v-show="publicPersonNow" :disabled="true" ref="accountLicenseImgNow" :label="'开户许可证'"></show-img-view>
+              <show-img-view v-show="unCorporatePersonNow" class="item" :disabled="true" ref="holdCertificateImgNow" :label="'法人手持身份证与授权书'"></show-img-view>
+              <show-img-view class="item" v-show="unCorporatePersonNow" :disabled="true" ref="certificateImgNow" :label="'授权书加盖公章'"></show-img-view>
+              <show-img-view v-show="unCorporatePersonNow" class="item" :disabled="true" ref="cardHolderFrontImgNow" :label="'结算人身份证人面像'"></show-img-view>
+              <show-img-view v-show="unCorporatePersonNow" class="item" :disabled="true" ref="cardHolderBackImgNow" :label="'结算人身份证国徽面'"></show-img-view>
+              <show-img-view v-show="unCorporatePersonNow" class="item" :disabled="true" ref="cardHolderIdImgNow" :label="'结算人手持身份证'"></show-img-view>
+              <show-img-view v-show="corporatePersonNow || unCorporatePersonNow" class="item" :disabled="true" ref="settleCardImgNow" :label="'结算卡正面'"></show-img-view>
+            </view-radius>
+          </div>
+          <!-- 更新后end -->
+        </mt-tab-container-item>
+      </mt-tab-container>
+    </div>
   </full-page>
 </template>
-
 <script>
-import { getCustomerEchoProduct, getQueryCustomerElectronic } from "@src/apis";
+import { getCustomerEchoProduct, postUpdateBill } from "@src/apis";
 import bussinessTypeJson from "@src/data/bussinessType.json";
 // import UploadView from "@src/components-app/Upload/UploadView";
 import ShowImgView from "@src/components-app/Upload/ShowImgView";
+import MypPopupActions from "@src/components-app/MypPopupActions";
 import utils from "@src/common/utils";
+import { mapState, mapActions } from "vuex";
+
 export default {
-  components: { ShowImgView },
+  components: { ShowImgView, MypPopupActions },
   data() {
     return {
+      popupActionsVisible: false,
+      popupActions: [
+        {
+          name: "审核通过",
+          icon: "icon-admin",
+          method: () => {
+            // MessageBox.confirm('确定执行此操作?', '提示');
+            // this.toUrl("BUILD");
+            this.MessageBox.confirm('确定审核通过吗?').then(action => {
+              let obj = {
+                billNo: this.rowData.billNo,
+                status: "SUCCESS"
+              };
+              this.resaultHandle(obj)
+            }).catch(() => {
+
+            });;
+          }
+        },
+        {
+          name: "审核拒绝",
+          icon: "icon-admin",
+          method: () => {
+            this.$nextTick(() => {
+              this.MessageBox.prompt(' ', '填写拒绝原因！').then(({ value }) => {
+                if (value) {
+                  let obj = {
+                    billNo: this.rowData.billNo,
+                    status: "REJECT",
+                    auditResult: value
+                  };
+                  this.resaultHandle(obj)
+                }
+              }).catch(() => {
+
+              });
+            })
+
+            // this.toUrl("ADDMATERIEL");
+          }
+        }
+      ],
+      selected: "oldData",
       settleIdCardVisible: false,
       publicPerson: false,//对公
       corporatePerson: false,//对私法人
       unCorporatePerson: false,//对私非法人
-      productType: this.$route.params["productType"],
-      customerNo: this.$route.query["customerNo"],
+      publicPersonNow: false,//对公
+      corporatePersonNow: false,//对私法人
+      unCorporatePersonNow: false,//对私非法人
+      productType: this.$route.query["productType"],
+      customerNo: this.$route.params["customerNo"],
       customer: {
         enterpriseName: "",
         taxNo: "",
@@ -141,112 +231,194 @@ export default {
     };
   },
   created() {
-    getCustomerEchoProduct()({
-      customerNo: this.customerNo,
-      featureType: "CONVERGE_PAY"
-    }).then(data => {
-      if (data.code == "00") {
-        this.echoForm(data.data);
-      } else {
-        this.Toast(data.msg);
-      }
-    });
+    this.echoForm(this.oldData, 'oldData');
+    this.echoForm(this.nowData, 'nowData');
+  },
+  computed: {
+    ...mapState({
+      oldData: state => state.changeBill.oldData,
+      nowData: state => state.changeBill.nowData,
+      rowData: state => state.changeBill.rowData
+    })
   },
   methods: {
-    echoForm(data) {
-      console.log(this.customerNo);
-      // return false;
-      let { customer, settleCard, product, imgs } = data;
-      if (customer instanceof Object) {
-        this.customer.enterpriseName = customer.enterpriseName;
-        this.customer.taxNo = customer.taxNo;
-        this.customer.addr = utils.findCity(customer.orgCode).resultAddr;
-        this.customer.bussinessAddress = customer.bussinessAddress;
-        this.customer.legalPerson = customer.legalPerson;
-        this.customer.idCard = customer.idCard;
-        this.customer.contactEmail = customer.contactEmail;
-        this.customer.bussinessLicenseEffectiveBegin = customer.bussinessLicenseEffectiveBegin;
-        this.customer.bussinessLicenseEffectiveEnd = customer.bussinessLicenseEffectiveEnd;
-        this.customer.idNoEffectiveBegin = customer.idNoEffectiveBegin;
-        this.customer.idNoEffectiveEnd = customer.idNoEffectiveEnd;
-        this.customer.name = utils.findBussinessType(customer.category).name;
-      }
-      if (settleCard instanceof Object) {
-        this.settleCard.accountName = settleCard.accountName;
-        this.settleCard.bankName = settleCard.bankName;
-        this.settleCard.branchName = settleCard.branchName;
-        this.settleCard.accountType = settleCard.accountType;
-        this.settleCard.accountNo = settleCard.accountNo;
-        this.settleCard.reservedPhoneNo = settleCard.reservedPhoneNo;
-      }
-      if (product instanceof Object) {
-        this.product.alipayRate = utils.accMul(product.alipayRate, 100);
-        this.product.wechatRate = utils.accMul(product.wechatRate, 100);
-        this.product.settleMode = product.settleMode;
-        this.product.t0CashCostFixed = product.t0CashCostFixed;
-      }
-      if (this.settleCard.accountType == '0') {
-        //对公
-        this.publicPerson = true;
-      } else if (this.settleCard.accountType == '1') {
-        // 对私
-        if (this.settleCard.accountName == this.customer.legalPerson) {
-          //法人
-          this.corporatePerson = true;
+    // 关闭，拒绝，通过
+    resaultHandle(obj) {
+      postUpdateBill()(obj).then(res => {
+        if (res.code == "00") {
+          this.Toast({
+            message: '操作成功！',
+            position: 'center',
+            duration: 5000
+          });
         } else {
-          // 非法人
-          this.unCorporatePerson = true;
-          this.settleIdCardVisible = true
+          alert('操作失败!')
         }
-      }
-
-      // 图片预览
-      if (imgs instanceof Object) {
-        for (let key in imgs) {
-          if (imgs[key] instanceof Object) {
-            this.$refs[key].setImg(imgs[key].url);
-          }
-        }
-      }
-      this.$nextTick(() => {
-        this.initWeixinJSBridge($("#WeixinJSBridge"));
-      })
+      });
     },
-    initWeixinJSBridge(imgParent) {
-      let img = imgParent.find("img");
-      let imgArr = [];
-      for (var i = 0; i < img.length; i++) {
-        let item = img.eq(i);
-        let imgUrl = item.attr('src');
-        imgArr.push(imgUrl);
-      }
-      img.click(function () {
-        let thisSrc = $(this).attr('src');
-        WeixinJSBridge.invoke("imagePreview", {
-          "current": thisSrc,
-          urls: imgArr
+    // 点击编辑
+    editFn() {
+      this.$nextTick(() => {
+        this.$router.push({
+          path: "../edit/" + this.rowData.customerNo,
         });
       })
     },
-    echoFormElec(data) {
-      let { customer, customerInvoiceConfig, product } = data;
-      if (customer instanceof Object) {
-        this.elec.enterpriseName = customer.enterpriseName;
-        this.elec.bussinessAddress = customer.bussinessAddress;
-        this.elec.bussinessPhone = customer.bussinessPhone;
-        this.elec.registMoney = customer.registMoney;
-        this.elec.bussinessName = customer.bussinessName;
-        this.elec.addr = utils.findCity(customer.orgCode).resultAddr;
-        this.elec.name = utils.findBussinessType(customer.category).name;
+    changeUrl(url) {
+      let before = "";
+      switch (process.env.NODE_ENV) {
+        case "development" || "productionTest":
+          before = "http://tf.yeepiao.com";
+          break;
+        case "productionTest":
+          before = "http://tf.yeepiao.com";
+          break;
+        case "production":
+          before = "https://f.yeepiao.com";
+          break;
       }
-      if (customerInvoiceConfig instanceof Object) {
-        this.elec.bankName = customerInvoiceConfig.bankName;
-        this.elec.branchName = customerInvoiceConfig.branchName;
-        this.elec.bankAccountNo = customerInvoiceConfig.bankAccountNo;
+      if (url) {
+        return url.replace("/nfs/test", before)
       }
-      if (product instanceof Object) {
-        this.elec.mounthCount = product.elecBillnum;
+    },
+    echoForm(imgsArr, type) {
+      let imgsAll = {
+        bussinessLicenseImg: {
+          id: imgsArr.bussinessLicenseImgId,
+          imgname: "营业执照",
+          url: this.changeUrl(imgsArr.bussinessLicenseImg)
+        },
+        identityFrontImg: {
+          id: imgsArr.identityFrontImgId,
+          imgname: "法人身份证人像面",
+          url: this.changeUrl(imgsArr.identityFrontImg)
+        },
+        identityBackImg: {
+          id: imgsArr.identityBackImgId,
+          imgname: "法人身份证国徽面",
+          url: this.changeUrl(imgsArr.identityBackImg)
+        },
+        identityBackImg: {
+          id: imgsArr.identityBackImgId,
+          imgname: "门头照片",
+          url: this.changeUrl(imgsArr.identityBackImg)
+        },
+        cashSpaceImg: {
+          id: imgsArr.cashSpaceImgId,
+          imgname: "收银台照片",
+          url: this.changeUrl(imgsArr.cashSpaceImg)
+        },
+        cashSpaceImg: {
+          id: imgsArr.storeImgId,
+          imgname: "店内照片",
+          url: this.changeUrl(imgsArr.storeImg)
+        },
+        accountLicenseImg: {
+          id: imgsArr.accountLicenseImgId,
+          imgname: "开户许可证",
+          url: this.changeUrl(imgsArr.accountLicenseImg)
+        },
+        settleCardImg: {
+          id: imgsArr.settleCardImgId,
+          imgname: "结算卡正面",
+          url: this.changeUrl(imgsArr.settleCardImg)
+        },
+        identityHolderImg: {
+          id: imgsArr.identityHolderImgId,
+          imgname: "法人手持身份证",
+          url: this.changeUrl(imgsArr.identityHolderImg)
+        },
+        settleCardImg: {
+          id: imgsArr.settleCardImgId,
+          imgname: "结算卡正面",
+          url: this.changeUrl(imgsArr.settleCardImg)
+        },
+        certificateImg: {
+          id: imgsArr.certificateImgId,
+          imgname: "授权书照片",
+          url: this.changeUrl(imgsArr.certificateImg)
+        },
+        cardHolderFrontImg: {
+          id: imgsArr.cardHolderFrontImgId,
+          imgname: "结算人人面像",
+          url: this.changeUrl(imgsArr.cardHolderFrontImg)
+        },
+        cardHolderBackImg: {
+          id: imgsArr.cardHolderBackImgId,
+          imgname: "结算人人国徽面",
+          url: this.changeUrl(imgsArr.cardHolderBackImg)
+        },
+        holdCertificateImg: {
+          id: imgsArr.holdCertificateImgId,
+          imgname: "法人手持身份证与授权书",
+          url: this.changeUrl(imgsArr.holdCertificateImg)
+        },
+        cardHolderIdImg: {
+          id: imgsArr.cardHolderIdImgId,
+          imgname: "结算人手持身份证合影",
+          url: this.changeUrl(imgsArr.cardHolderIdImg)
+        },
+        accountLicenseImg: {
+          id: imgsArr.accountLicenseImgId,
+          imgname: "开户许可证",
+          url: this.changeUrl(imgsArr.accountLicenseImg)
+        }
+      };
+
+      if (imgsArr.accountType == "0") {
+        // 对公:
+        type == 'oldData' ? this.publicPerson = true : this.publicPersonNow = true
+
+      } else if (imgsArr.accountType == "1") {
+        // 对私
+        if (imgsArr.accountName == imgsArr.legalPerson) {
+          // 法人
+          type == 'oldData' ? this.corporatePerson = true : this.corporatePersonNow = true;
+        } else {
+          // 非法人
+          type == 'oldData' ? this.unCorporatePerson = true : this.unCorporatePersonNow = true;
+        }
       }
+      // 图片预览
+      this.$nextTick(() => {
+        if (type == 'oldData') {
+          for (let key in imgsAll) {
+            if (imgsAll[key] instanceof Object) {
+              this.$refs[key].setImg(imgsAll[key].url);
+            }
+          }
+        }
+        else if (type = "nowData") {
+          for (let key in imgsAll) {
+            if (imgsAll[key] instanceof Object) {
+              this.$refs[key + 'Now'].setImg(imgsAll[key].url);
+            }
+          }
+        }
+        this.initWeixinJSBridge($("#WeixinJSBridge"));
+        this.initWeixinJSBridge($("#WeixinJSBridgeAfter"));
+      })
+
+    },
+    initWeixinJSBridge(imgParent) {
+      this.$nextTick(() => {
+        let img = imgParent.find("img");
+        console.log(img);
+        let imgArr = [];
+        for (var i = 0; i < img.length; i++) {
+          let item = img.eq(i);
+          let imgUrl = item.attr('src');
+          imgArr.push(imgUrl);
+        }
+        img.click(function () {
+          console.log('点击');
+          let thisSrc = $(this).attr('src');
+          WeixinJSBridge.invoke("imagePreview", {
+            "current": thisSrc,
+            urls: imgArr
+          });
+        })
+      })
     }
   }
 };
@@ -268,5 +440,15 @@ export default {
 .text-r {
   width: 500*$rem;
   text-align: right;
+}
+.mint-navbar {
+  // width: 100%;
+  // position: fixed;
+  // z-index: 999;
+  top: 100*$rem;
+}
+.container-box {
+  margin-top: 90*$rem;
+  width: 100%;
 }
 </style>

@@ -190,7 +190,8 @@ export default {
       },
       payStatusFormRules: {
         settleIdCard: [
-          { required: true, message: "请填写结算人身份证", trigger: "blur,change" }
+          { required: true, message: "请填写结算人身份证", trigger: "blur,change" },
+          { required: true, validator: idCardVerify, trigger: "blur,change" },
         ],
         idNoEffectiveBegin: [
           { required: true, message: "请选择身份证有效期开始时间", trigger: "blur,change" }
