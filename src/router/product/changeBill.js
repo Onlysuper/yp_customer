@@ -9,10 +9,10 @@ export default {
   path: '/changeBill',
   meta: {
     title: '支付变更单',
-    requiresAuth: true,
     keepAlive: true,
-    parent: "bill-mg",
-    parentname: "支付变更单",
+    requiresAuth: true,
+    parent: "customer",
+    parentname: "商户管理",
     role: ['root', 'admin']
   },
   component: r => {

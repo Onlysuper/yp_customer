@@ -336,7 +336,7 @@ export default {
                 console.log(rowdata);
                 this.checkVisiblebut = false;
                 this.editVisiblebut = false;
-                if (rowdata.status == "ADMIN_AUDIT" || rowdata.status == "REJECT") {
+                if (rowdata.status == "ADMIN_AUDIT" || rowdata.status == "REJECT" || rowdata.status == "INIT") {
                   this.editVisiblebut = true;
                 }
                 this.detailsFormVisible = true;
@@ -380,7 +380,7 @@ export default {
                 }
                 this.newData = { ...JSON.parse(rowdata.nowData) };
                 this.oldData = { ...JSON.parse(rowdata.oldData) };
-                 this.$nextTick(() => {
+                this.$nextTick(() => {
                   this.$refs.detailProductView.dataInit();
                 })
               }
@@ -396,8 +396,8 @@ export default {
     //编辑
     editFn() {
       this.detailsFormVisible = false;
-      this.openProductView = "openInfo";
       this.editFormVisible = true;
+      this.openProductView = "openInfo";
       // this.$nextTick(() => {
       //   this.$refs.editProductView.dataInit();
       // })
@@ -510,12 +510,13 @@ export default {
 
   },
   watch: {
-    detailsFormVisible(val) {
+    editFormVisible(val) {
       if (!val) {
-        // this.oldData = {};
-        // this.newData = {};
-        // this.rowData = {};
-        // this.$refs.detailProductView.leaveData();
+        this.$nextTick(() => {
+          if (this.openProductView == "openInfo") {
+            this.$refs.editProductView.dataInit();
+          }
+        })
       }
     }
   }

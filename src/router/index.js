@@ -40,7 +40,7 @@ import agentSettle from "./settle/agentSettle";
 import settle from "./settle/settle";
 import enterpriseSupply from "./enterprise/enterpriseSupply";
 import orderQuery from "./order/orderQuery";
-import changeBill from "./changebill/changeBill";
+import changeBill from "./product/changeBill";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({

@@ -74,7 +74,11 @@ export default {
       formLabelWidth: "100px"
     };
   },
+
   methods: {
+    dataInit() {
+      this.currentChildView = "paystatusInfo";
+    },
     customerTypeChange(value) {
       this.currentChildView = ""; // 聚合详情
       if (value == "qrcodeStatus") {
@@ -114,7 +118,7 @@ export default {
     }
   },
   created() {
-    console.log(this.rowData);
+    console.log('info');
   },
   computed: {},
   mounted() {

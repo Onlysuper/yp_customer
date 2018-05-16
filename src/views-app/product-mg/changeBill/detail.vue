@@ -3,7 +3,7 @@
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button v-if="productType=='check'?true:false" slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
-      <mt-button v-if="productType=='detail'&&(rowData.status== 'ADMIN_AUDIT' || rowData.status == 'REJECT')?true:false" slot="right" :disabled="false" type="danger" @click="editFn">编辑</mt-button>
+      <mt-button v-if="productType=='detail'&&(rowData.status== 'ADMIN_AUDIT' || rowData.status == 'REJECT' ||rowData.status == 'INIT' )?true:false" slot="right" :disabled="false" type="danger" @click="editFn">编辑</mt-button>
     </mt-header>
     <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
     <div class="page-navbar">

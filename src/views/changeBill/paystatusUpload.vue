@@ -115,7 +115,7 @@ export default {
   },
   data() {
     var allImgData = {
-      businessNo: this.rowData.bussinessNo,
+      businessNo: this.rowData.customerNo,
       businessType: "customer",
       imgString: ""
     }
@@ -133,7 +133,7 @@ export default {
 
       // 身份证正面
       saveForm: {
-        customerNo: this.rowData.bussinessNo,
+        customerNo: this.rowData.customerNo,
         identityFrontImg: "",
         identityBackImg: "",
         identityHolderImg: "",
