@@ -307,6 +307,7 @@ const getSumPayOrders = () => { return (params) => { return http.get(base.oaIp, 
  */
 const getChangeBills = () => { return (params) => { return http.get(base.oaIp, "/changeBill/page", params) } }
 const postUpdateBill = () => { return (params) => { return http.post(base.oaIp, "/changeBill/update", params) } }
+const getOneChangeBill = () => { return (params) => { return http.get(base.oaIp, "/changeBill/queryConvergeNowData", params) } }
 // end -------------------------------------------------
 export {
     Login,
@@ -468,6 +469,7 @@ export {
     getbankCustomers,
     changeBillOpenCheck,
     getChangeBills,
-    postUpdateBill
+    postUpdateBill,
+    getOneChangeBill
 };
 

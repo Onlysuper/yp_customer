@@ -9,7 +9,7 @@
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">商户编号:</span>
-              <span class="line-label-last">{{oldData.bussinessNo}}</span>
+              <span class="line-label-last">{{oldData.customerNo}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">预留手机号:</span>
@@ -31,7 +31,7 @@
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">更新时间:</span>
-              <span class="line-label-last">{{oldData.lastUpdateTime}}</span>
+              <span class="line-label-last">{{rowData.lastUpdateTime}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">开通状态:</span>
@@ -166,7 +166,7 @@
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">商户编号:</span>
-              <span class="line-label-last">{{newData.bussinessNo}}</span>
+              <span class="line-label-last">{{newData.customerNo}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">预留手机号:</span>
@@ -184,7 +184,7 @@
           <div class="line-label-box split">
             <div class="line-cell">
               <span class="lable-title gray-back">更新时间:</span>
-              <span class="line-label-last">{{newData.lastUpdateTime}}</span>
+              <span class="line-label-last">{{rowData.lastUpdateTime}}</span>
             </div>
             <div class="line-cell">
               <span class="lable-title gray-back">开通状态:</span>
@@ -336,8 +336,11 @@
     justify-content: flex-start !important;
   }
   .line-label-last {
-    min-width: 250px !important;
+    // min-width: 250px !important;
   }
+}
+.change-before{
+  height:300px;
 }
 </style>
 <script>
@@ -489,6 +492,7 @@ export default {
   },
   methods: {
     dataInit() {
+      this.leaveData();
       this.getCustomerEcho(this.oldData, 'oldImgsRow');
       this.getCustomerEcho(this.newData, 'newImgsRow');
     },

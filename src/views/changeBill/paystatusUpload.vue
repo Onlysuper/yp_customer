@@ -96,7 +96,7 @@ import UploadImg from "@src/components/UploadImg";
 import {
   upload,
   completeBussinessImg,
-  getCustomerEchoProduct
+  getOneChangeBill
 } from "@src/apis";
 import paystatusAgreement from "./paystatusAgreement.vue";
 
@@ -107,9 +107,6 @@ export default {
   // props: ["rowData", "doWhat", "testdata"],
   props: {
     rowData: {
-      type: Object
-    },
-    doWhat: {
       type: Object
     },
     testdata: {
@@ -235,12 +232,7 @@ export default {
         this.warningMsg("必须先勾选《同意开通支付协议》！");
         return false;
       }
-      let sureMsg = ""
-      if (this.doWhat.type == 'open') {
-        sureMsg = "确定要开通吗？"
-      } else if (this.doWhat.type == 'change') {
-        sureMsg = "确定提交变更信息吗？"
-      }
+      let sureMsg = "确定提交变更信息吗？"
       this.$confirm(sureMsg, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -284,9 +276,9 @@ export default {
     },
     // 回显
     getCustomerEcho() {
-      getCustomerEchoProduct()({
-        customerNo: this.rowData.customerNo,
-        featureType: "CONVERGE_PAY"
+      getOneChangeBill()({
+        billNo: this.rowData.billNo,
+        customerNo: this.rowData.customerNo
       }).then(res => {
         if (res.code == "00") {
           let customerData = res.data.customer;

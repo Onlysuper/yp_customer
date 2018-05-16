@@ -338,7 +338,7 @@
     justify-content: flex-start !important;
   }
   .line-label-last {
-    min-width: 250px !important;
+    // min-width: 250px !important;
   }
 }
 </style>

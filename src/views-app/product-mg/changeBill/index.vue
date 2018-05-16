@@ -84,16 +84,24 @@ export default {
       if (type == 'check') {
         this.getChangeBill(rowdata.customerNo).then(rowdata => {
           this.$router.push({
-            path: "./detail/" + rowdata.customerNo,
-            query: { productType: 'check' }
+            path: "./detail",
+            query: {
+              billNo: rowdata.billNo,
+              customerNo: rowdata.customerNo,
+              productType: 'check'
+            }
           });
         });
       }
       if (type == 'detail') {
         this.getChangeBill(rowdata.customerNo).then(rowdata => {
           this.$router.push({
-            path: "./detail/" + rowdata.customerNo,
-            query: { productType: 'detail' }
+            path: "./detail",
+            query: {
+              productType: 'detail',
+              billNo: rowdata.billNo,
+              customerNo: rowdata.customerNo,
+            }
           });
         });
       }
@@ -106,5 +114,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

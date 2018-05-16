@@ -19,17 +19,19 @@
               <input-wrapper>
                 <mt-cell title="企业名称">{{oldData.enterpriseName}}</mt-cell>
                 <mt-cell title="企业税号">{{oldData.taxNo}}</mt-cell>
-                <mt-cell title="所在地区">{{oldData.addr}}</mt-cell>
+                <mt-cell title="所在地区">{{oldData.orgCode?utils.findCity(oldData.orgCode).resultAddr:""}}</mt-cell>
                 <mt-cell title="详细地址">{{oldData.bussinessAddress}}</mt-cell>
                 <mt-cell title="法人">{{oldData.legalPerson}}</mt-cell>
                 <mt-cell title="身份证号">{{oldData.idCard}}</mt-cell>
                 <mt-cell title="身份证生效期">{{oldData.idNoEffectiveBegin}}</mt-cell>
                 <mt-cell title="身份证结束期">{{oldData.idNoEffectiveEnd}}</mt-cell>
-                <mt-cell title="行业类别">{{oldData.name}}</mt-cell>
+                <mt-cell title="行业类型">{{utils.findBussinessType(oldData.category).name}}</mt-cell>
                 <mt-cell title="营业执照开始日期">{{oldData.bussinessLicenseEffectiveBegin}}</mt-cell>
                 <mt-cell title="营业执照结束日期">{{oldData.bussinessLicenseEffectiveEnd}}</mt-cell>
                 <mt-cell title="邮箱">{{oldData.contactEmail}}</mt-cell>
-                <mt-cell title="结算信息">{{oldData[settleCard.accountType]}}</mt-cell>
+                <mt-cell title="结算信息">
+                  {{oldData.accountType | statusFilter('accountType')}}
+                </mt-cell>
                 <mt-cell title="账户名称">{{oldData.accountName}}</mt-cell>
                 <mt-cell v-if="settleIdCardVisible" title="结算人身份证号">{{oldData.settleIdCard}}</mt-cell>
                 <mt-cell title="开户银行">{{oldData.bankName}}</mt-cell>
@@ -68,31 +70,31 @@
           <div class="container-box">
             <view-radius>
               <input-wrapper>
-                <mt-cell title="企业名称">{{oldData.enterpriseName}}</mt-cell>
-                <mt-cell title="企业税号">{{oldData.taxNo}}</mt-cell>
-                <mt-cell title="所在地区">{{oldData.addr}}</mt-cell>
-                <mt-cell title="详细地址">{{oldData.bussinessAddress}}</mt-cell>
-                <mt-cell title="法人">{{oldData.legalPerson}}</mt-cell>
-                <mt-cell title="身份证号">{{oldData.idCard}}</mt-cell>
-                <mt-cell title="身份证生效期">{{oldData.idNoEffectiveBegin}}</mt-cell>
-                <mt-cell title="身份证结束期">{{oldData.idNoEffectiveEnd}}</mt-cell>
-                <mt-cell title="行业类别">{{oldData.name}}</mt-cell>
-                <mt-cell title="营业执照开始日期">{{oldData.bussinessLicenseEffectiveBegin}}</mt-cell>
-                <mt-cell title="营业执照结束日期">{{oldData.bussinessLicenseEffectiveEnd}}</mt-cell>
-                <mt-cell title="邮箱">{{oldData.contactEmail}}</mt-cell>
-                <mt-cell title="结算信息">{{oldData[settleCard.accountType]}}</mt-cell>
-                <mt-cell title="账户名称">{{oldData.accountName}}</mt-cell>
-                <mt-cell v-if="settleIdCardVisible" title="结算人身份证号">{{oldData.settleIdCard}}</mt-cell>
-                <mt-cell title="开户银行">{{oldData.bankName}}</mt-cell>
+                <mt-cell title="企业名称">{{nowData.enterpriseName}}</mt-cell>
+                <mt-cell title="企业税号">{{nowData.taxNo}}</mt-cell>
+                <mt-cell title="所在地区">{{nowData.orgCode?utils.findCity(nowData.orgCode).resultAddr:""}}</mt-cell>
+                <mt-cell title="详细地址">{{nowData.bussinessAddress}}</mt-cell>
+                <mt-cell title="法人">{{nowData.legalPerson}}</mt-cell>
+                <mt-cell title="身份证号">{{nowData.idCard}}</mt-cell>
+                <mt-cell title="身份证生效期">{{nowData.idNoEffectiveBegin}}</mt-cell>
+                <mt-cell title="身份证结束期">{{nowData.idNoEffectiveEnd}}</mt-cell>
+                <mt-cell title="行业类型">{{utils.findBussinessType(nowData.category).name}}</mt-cell>
+                <mt-cell title="营业执照开始日期">{{nowData.bussinessLicenseEffectiveBegin}}</mt-cell>
+                <mt-cell title="营业执照结束日期">{{nowData.bussinessLicenseEffectiveEnd}}</mt-cell>
+                <mt-cell title="邮箱">{{nowData.contactEmail}}</mt-cell>
+                <mt-cell title="结算信息">{{nowData[settleCard.accountType]}}</mt-cell>
+                <mt-cell title="账户名称">{{nowData.accountName}}</mt-cell>
+                <mt-cell v-if="settleIdCardVisible" title="结算人身份证号">{{nowData.settleIdCard}}</mt-cell>
+                <mt-cell title="开户银行">{{nowData.bankName}}</mt-cell>
                 <mt-cell title="开户支行">
-                  <div class="text-r">{{oldData.branchName}}</div>
+                  <div class="text-r">{{nowData.branchName}}</div>
                 </mt-cell>
-                <mt-cell title="帐号">{{oldData.accountNo}}</mt-cell>
-                <mt-cell title="预留手机号">{{oldData.reservedPhoneNo}}</mt-cell>
-                <mt-cell title="微信费率">{{oldData.wechatRate}}%</mt-cell>
-                <mt-cell title="支付宝费率">{{oldData.alipayRate}}%</mt-cell>
-                <mt-cell title="结算方式">{{oldData.settleMode}}</mt-cell>
-                <mt-cell title="D0手续费" v-if="oldData.settleMode == 'T0'">{{oldData.t0CashCostFixed}}元</mt-cell>
+                <mt-cell title="帐号">{{nowData.accountNo}}</mt-cell>
+                <mt-cell title="预留手机号">{{nowData.reservedPhoneNo}}</mt-cell>
+                <mt-cell title="微信费率">{{nowData.wechatRate}}%</mt-cell>
+                <mt-cell title="支付宝费率">{{nowData.alipayRate}}%</mt-cell>
+                <mt-cell title="结算方式">{{nowData.settleMode}}</mt-cell>
+                <mt-cell title="D0手续费" v-if="nowData.settleMode == 'T0'">{{nowData.t0CashCostFixed}}元</mt-cell>
               </input-wrapper>
             </view-radius>
             <view-radius class="uploads imagesParent" id="WeixinJSBridgeAfter">
@@ -142,7 +144,7 @@ export default {
             this.MessageBox.confirm('确定审核通过吗?').then(action => {
               let obj = {
                 billNo: this.rowData.billNo,
-                status: "SUCCESS"
+                status: "WAIT_AUDIT"
               };
               this.resaultHandle(obj)
             }).catch(() => {
@@ -182,7 +184,8 @@ export default {
       corporatePersonNow: false,//对私法人
       unCorporatePersonNow: false,//对私非法人
       productType: this.$route.query["productType"],
-      customerNo: this.$route.params["customerNo"],
+      customerNo: this.$route.query["customerNo"],
+      billNo: this.$route.query["billNo"],
       customer: {
         enterpriseName: "",
         taxNo: "",
@@ -260,7 +263,11 @@ export default {
     editFn() {
       this.$nextTick(() => {
         this.$router.push({
-          path: "../edit/" + this.rowData.customerNo,
+          path: "./edit",
+          query: {
+            billNo: this.rowData.billNo,
+            customerNo: this.rowData.customerNo,
+          }
         });
       })
     },
@@ -298,17 +305,17 @@ export default {
           imgname: "法人身份证国徽面",
           url: this.changeUrl(imgsArr.identityBackImg)
         },
-        identityBackImg: {
-          id: imgsArr.identityBackImgId,
+        placeImg: {
+          id: imgsArr.placeImgId,
           imgname: "门头照片",
-          url: this.changeUrl(imgsArr.identityBackImg)
+          url: this.changeUrl(imgsArr.placeImg)
         },
         cashSpaceImg: {
           id: imgsArr.cashSpaceImgId,
           imgname: "收银台照片",
           url: this.changeUrl(imgsArr.cashSpaceImg)
         },
-        cashSpaceImg: {
+        storeImg: {
           id: imgsArr.storeImgId,
           imgname: "店内照片",
           url: this.changeUrl(imgsArr.storeImg)
@@ -427,7 +434,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
 .uploads {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -438,17 +445,17 @@ export default {
   }
 }
 .text-r {
-  width: 500*$rem;
+  width: 500 * $rem;
   text-align: right;
 }
 .mint-navbar {
   // width: 100%;
   // position: fixed;
   // z-index: 999;
-  top: 100*$rem;
+  top: 100 * $rem;
 }
 .container-box {
-  margin-top: 90*$rem;
+  margin-top: 90 * $rem;
   width: 100%;
 }
 </style>

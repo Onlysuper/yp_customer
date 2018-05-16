@@ -77,7 +77,8 @@ import { validateInput } from "@src/common/mixins";
 import {
   getBankList,
   getCustomerEchoProduct,
-  completeSettleInfo
+  completeSettleInfo,
+  getOneChangeBill
 } from "@src/apis";
 import { mapActions, install } from "vuex";
 export default {
@@ -131,11 +132,13 @@ export default {
     };
   },
   created() {
-    getCustomerEchoProduct()({
-      customerNo: this.customerNo,
-      featureType: "CONVERGE_PAY"
+    getOneChangeBill()({
+      billNo: this.billNo,
+      customerNo: this.customerNo
+      // featureType: "CONVERGE_PAY"
     }).then(data => {
       if (data.code == "00") {
+        console.log(data);
         //回显信息
         this.echoForm(data.data);
         //保存到localStorage中
@@ -341,7 +344,7 @@ export default {
         if (data.code == "00") {
           this.clearcacheFrom();
           this.$router.push({
-            path: "./addGoods",
+            path: "../addGoods",
             query: { customerNo: this.customerNo }
           });
         } else {
@@ -353,8 +356,6 @@ export default {
     accountNameChange() {
       if (this.form.accountType == "0") this.form.accountName = this.enterpriseName;
       else this.form.accountName = this._accountName == this.enterpriseName ? this.form.legalPerson : this._accountName || this.form.legalPerson;
-      // else this.form.accountName = this.form.legalPerson;
-      // this.isLegalPersonSettleIdCard();
       this.cacheFrom(); //缓存数据
     }
   },
@@ -378,18 +379,18 @@ export default {
 .mint-radiolist-row {
   display: flex;
   padding: 1px;
-  min-height: 100*$rem;
+  min-height: 100 * $rem;
   .mint-cell {
     flex: 1;
     background-image: none;
   }
   .mint-radiolist-title {
-    font-size: 32*$rem;
+    font-size: 32 * $rem;
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 0;
-    width: 160*$rem;
-    line-height: 100*$rem;
+    width: 160 * $rem;
+    line-height: 100 * $rem;
     color: inherit;
   }
 }
@@ -403,18 +404,18 @@ export default {
     }
   }
   input {
-    padding-left: 80*$rem;
+    padding-left: 80 * $rem;
   }
 }
 </style>
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
 .add-playinfo {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
 }
 .btn {
-  margin: 30*$rem auto;
+  margin: 30 * $rem auto;
   width: 95%;
 }
 </style>

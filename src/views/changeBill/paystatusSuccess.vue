@@ -5,8 +5,8 @@
         <i class="el-alert__icon el-icon-success is-big"></i>
       </div>
       <div class="row">
-        <h2>您申请的支付产品已受理！</h2>
-        <p>开通结果预计会在1-3个工作日以短信的形式通知到您{{phoneNo}}的手机上，敬请查收。</p>
+        <h2>您申请的表更申请已受理！</h2>
+        <!-- <p>开通结果预计会在1-3个工作日以短信的形式通知到您{{phoneNo}}的手机上，敬请查收。</p> -->
       </div>
       <!-- {{rowData}}  -->
     </div>
@@ -53,7 +53,7 @@
 </style>
 <script>
 import { mixinsPc } from "@src/common/mixinsPc";
-import { getCustomerEchoProduct } from "@src/apis";
+import { getOneChangeBill } from "@src/apis";
 export default {
   name: "",
   components: {},
@@ -75,9 +75,9 @@ export default {
     },
     // 回显
     getCustomerEcho() {
-      getCustomerEchoProduct()({
-        customerNo: this.rowData.bussinessNo,
-        featureType: "CONVERGE_PAY"
+      getOneChangeBill()({
+        billNo: this.rowData.billNo,
+        customerNo: this.rowData.customerNo
       }).then(res => {
         if (res.code == "00") {
           console.log(res.data);

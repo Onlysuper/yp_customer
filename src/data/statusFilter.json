@@ -417,7 +417,7 @@
   },
   "changeBill": {
     "INIT": {
-      "name": "已提交",
+      "name": "待提交",
       "color": "#409EFF"
     },
     "ADMIN_AUDIT": {

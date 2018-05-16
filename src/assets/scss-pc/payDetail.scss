@@ -265,15 +265,8 @@
       &.split{
  justify-content:space-between !important;
       }
-      .line-cell{
-        // width: 100%;
-        // min-width: 300px;
-        // flex: 1;
-        // display: flex;
-        // align-items: stretch;
-        span.line-label-last{
-          min-width: 100px;
-        }
+      span.line-label-last{
+        flex:1;
       }
       .lable-title{
         display: inline-block;
@@ -285,7 +278,7 @@
         padding-left: 10px;
       }
       .line-label-last{
-        display: inline-block;
+        // display: inline-block;
         // max-width: 100px;
       }
       span{

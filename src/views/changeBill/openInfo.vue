@@ -7,7 +7,7 @@
       </el-select>
     </div>
     <!-- 聚合支付开通 start -->
-    <component @titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData" :oldData="oldData" :newData="newData" :doWhat="doWhat">
+    <component @titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" v-bind:is="currentChildView" :customerTypeSelected="customerTypeSelected" :rowData="rowData" :oldData="oldData" :newData="newData">
     </component>
   </div>
 
@@ -52,9 +52,6 @@ export default {
     },
     oldData: {
       type: Object
-    },
-    doWhat: {
-      type: Object
     }
   },
   components: {
@@ -73,7 +70,7 @@ export default {
         customerType: ""
       }, // 必须为数组
       // currentChildView: "paystatusInfo",
-      currentChildView: "",
+      currentChildView: "paystatusInfo",
       formLabelWidth: "100px"
     };
   },
@@ -102,10 +99,6 @@ export default {
     // 下一步
     nextFn(next) {
       this.currentChildView = next;
-    },
-    dataInit(data) {
-      console.log('数据初始化');
-      console.log(this.rowData);
     },
     selectInfo() {
       let check = this.customerTypeSelected.find(item => {

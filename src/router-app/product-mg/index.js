@@ -150,7 +150,7 @@ export default {
           },
         },
         {
-          path: "detail/:customerNo",
+          path: "detail",
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/detail")) }, "product-mg-app")
           },
@@ -159,9 +159,18 @@ export default {
           },
         },
         {
-          path: "edit/:customerNo",
+          path: "edit",
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/edit")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "变更单编辑"
+          },
+        },
+        {
+          path: "addGoods",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/addGoods")) }, "product-mg-app")
           },
           meta: {
             pageTitle: "变更单编辑"

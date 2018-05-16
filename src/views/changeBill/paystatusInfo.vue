@@ -126,7 +126,7 @@ import utils from "@src/common/utils"
 import {
   getBankList,
   completeSettleInfo,
-  getCustomerEchoProduct
+  getOneChangeBill
 } from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
@@ -136,9 +136,6 @@ export default {
       type: Array
     },
     rowData: {
-      type: Object
-    },
-    doWhat: {
       type: Object
     },
     newData: {
@@ -390,42 +387,55 @@ export default {
     },
     // 回显
     getCustomerEcho() {
-      let newData = this.newData;
-      console.log('开始');
-      console.log(newData);
-      if (newData) {
-        if (newData.orgCode) {
-          this.payStatusForm.Area = areaOrgcode(newData.orgCode);
+      console.log('过来了');
+      console.log(this.rowData);
+      getOneChangeBill()({
+        billNo: this.rowData.billNo,
+        customerNo: this.rowData.customerNo
+      }).then(res => {
+        this.getCache();
+        if (res.code == "00") {
+          let customerData = res.data.customer;
+          let settleCard = res.data.settleCard;
+          if (customerData.orgCode) {
+            this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
+            console.log(this.payStatusForm.Area)
+          }
+          let newCustomer = utils.pickObj(customerData, [
+            'enterpriseName', 'taxNo',
+            'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+            'idNoEffectiveBegin', 'idNoEffectiveEnd',
+            'bussinessAddress', 'legalPerson', 'idCard', 'category',
+            'contactEmail', "bussinessName",
+
+          ]);
+          let newSettleCard = utils.pickObj(settleCard, [
+            'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName', 'settleIdCard'
+          ]);
+
+          this.getaccountName = newSettleCard.accountName;// 带入的企业名称
+          let accountName = "";// 账户名称
+          if (newSettleCard.accountType == "0") {
+            // 对公:带入企业名称 不可更改
+            accountName = newCustomer.enterpriseName
+            this.settleIdCardVisible = false;
+            this.accountNameDis = true;
+          } else if (newSettleCard.accountType == "1") {
+            // 对私
+            accountName = newSettleCard.accountName == newCustomer.enterpriseName ? newCustomer.legalPerson : newSettleCard.accountName || newCustomer.legalPerson;
+            this.accountNameDis = false;
+            this.settleIdCardVisible = true;
+            // this.accountNameDis = true;
+          }
+          this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newCustomer, ...newSettleCard };
+          this.payStatusForm = Object.assign(this.payStatusForm, this.cacheForm);
+          this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
+        } else {
+          this.payStatusForm = Object.assign({}, this.cacheForm);
+          this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
         }
-        let someData = utils.pickObj(newData, [
-          'enterpriseName', 'taxNo',
-          'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-          'idNoEffectiveBegin', 'idNoEffectiveEnd',
-          'bussinessAddress', 'legalPerson', 'idCard', 'category',
-          'contactEmail', "bussinessName",
-          'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName', 'settleIdCard'
-        ]);
-        this.getaccountName = newData.accountName;// 带入的企业名称
-        let accountName = "";// 账户名称
-        if (newData.accountType == "0") {
-          // 对公:带入企业名称 不可更改
-          accountName = newData.enterpriseName
-          this.settleIdCardVisible = false;
-          this.accountNameDis = true;
-        } else if (newData.accountType == "1") {
-          // 对私
-          accountName = newData.accountName == newData.enterpriseName ? newData.legalPerson : newData.accountName || newData.legalPerson;
-          this.accountNameDis = false;
-          this.settleIdCardVisible = true;
-        }
-        this.payStatusForm = { accountName: accountName, ...this.payStatusForm, ...newData };
-        this.payStatusForm = Object.assign(this.payStatusForm, this.cacheForm);
-        this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
-      } else {
-        this.payStatusForm = Object.assign({}, this.cacheForm);
-        this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
-      }
-      this.isLegalPersonSettleIdCard();
+        this.isLegalPersonSettleIdCard();
+      });
     },
     isLegalPersonSettleIdCard(type) {
       if (this.accountType == "0") {
@@ -477,6 +487,9 @@ export default {
     clearCache() {
       window.localStorage.removeItem('productForm_pc' + this.bussinessNo);
     }
+  },
+  updated: function () {
+    console.log('更新了哦!');
   },
   created() {
     this.getCustomerEcho();

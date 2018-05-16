@@ -151,7 +151,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayDate, today_ } from "@src/common/dateSerialize";
-import { getChangeBills, postUpdateBill } from "@src/apis";
+import { getChangeBills, postUpdateBill, getOneChangeBill } from "@src/apis";
 import utils from "@src/common/utils";
 import payDetail from "./payDetail";
 import openInfo from "./openInfo";
@@ -333,6 +333,7 @@ export default {
               text: "查看",
               color: "#00c1df",
               cb: rowdata => {
+                console.log(rowdata);
                 this.checkVisiblebut = false;
                 this.editVisiblebut = false;
                 if (rowdata.status == "ADMIN_AUDIT" || rowdata.status == "REJECT") {
@@ -379,6 +380,9 @@ export default {
                 }
                 this.newData = { ...JSON.parse(rowdata.nowData) };
                 this.oldData = { ...JSON.parse(rowdata.oldData) };
+                 this.$nextTick(() => {
+                  this.$refs.detailProductView.dataInit();
+                })
               }
             }
           ]
@@ -394,9 +398,9 @@ export default {
       this.detailsFormVisible = false;
       this.openProductView = "openInfo";
       this.editFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs.editProductView.dataInit();
-      })
+      // this.$nextTick(() => {
+      //   this.$refs.editProductView.dataInit();
+      // })
     },
     titleChange(openProductView) {
       if (openProductView == "paystatusInfo") {
@@ -445,7 +449,7 @@ export default {
       console.log(resaultForm);
       let obj = {
         billNo: resaultForm.billNo,
-        status: "SUCCESS"
+        status: "WAIT_AUDIT"
       };
       let msg = "确认变更信息申请通过？";
       this.$confirm(msg, {
@@ -511,7 +515,7 @@ export default {
         // this.oldData = {};
         // this.newData = {};
         // this.rowData = {};
-        this.$refs.detailProductView.leaveData();
+        // this.$refs.detailProductView.leaveData();
       }
     }
   }

@@ -44,7 +44,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { todayDate } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
-import { completeConvergeProduct, getCustomerEchoProduct } from "@src/apis";
+import { completeConvergeProduct, getOneChangeBill } from "@src/apis";
 import settleMode from "@src/data/settleMode.json";
 import utils from "@src/common/utils";
 export default {
@@ -135,9 +135,9 @@ export default {
     },
     // 回显
     getCustomerEcho() {
-      getCustomerEchoProduct()({
-        customerNo: this.rowData.bussinessNo,
-        featureType: "CONVERGE_PAY"
+      getOneChangeBill()({
+        billNo: this.rowData.billNo,
+        customerNo: this.rowData.customerNo
       }).then(res => {
         if (res.code == "00") {
           let product = res.data.product;
