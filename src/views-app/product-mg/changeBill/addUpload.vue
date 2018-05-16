@@ -28,7 +28,7 @@
       </view-radius>
       <mt-radio v-show="notQrcode" v-model="value" v-targetTo style="text-align: center;" @click.native="visible = true" :options="['同意《支付开通协议》']"></mt-radio>
     </div>
-    <mt-button v-show="notQrcode" class="btn" size="large" :disabled="value?false:true" type="primary" @click="submit">开通</mt-button>
+    <mt-button v-show="notQrcode" class="btn" size="large" :disabled="value?false:true" type="primary" @click="submit">确定变更</mt-button>
     <myp-popup v-model="visible">
       <full-page class="agree">
         <div slot="header" class="border-bottom-1px clear">
@@ -129,7 +129,7 @@ import UploadView from "@src/components-app/Upload/UploadView";
 import MypPopup from "@src/components-app/MypPopup";
 import PullDownTip from "@src/components-app/PullDownTip";
 
-import { completeBussinessImg, getCustomerEchoProduct } from "@src/apis";
+import { completeBussinessImg, getOneChangeBill } from "@src/apis";
 export default {
   components: {
     UploadView,
@@ -148,6 +148,7 @@ export default {
       visible: false,
       value: "",
       customerNo: this.$route.query["customerNo"],
+      billNo: this.$route.query["billNo"],
       phoneNo: "",
       accountType: "",
       imgs: {},
@@ -156,9 +157,9 @@ export default {
     };
   },
   created() {
-    getCustomerEchoProduct()({
-      customerNo: this.customerNo,
-      featureType: "CONVERGE_PAY"
+    getOneChangeBill()({
+      customerNo: this.$route.query["customerNo"],
+      billNo: this.$route.query["billNo"],
     }).then(data => {
       if (data.code == "00") {
         //回显信息
@@ -243,15 +244,15 @@ export default {
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
 .add-playinfo {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
 }
 .btn {
-  margin: 30*$rem auto;
+  margin: 30 * $rem auto;
   width: 95%;
 }
 .uploads {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
@@ -265,7 +266,7 @@ export default {
   height: 400px;
 }
 .agree-text {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
 }
 .indent {

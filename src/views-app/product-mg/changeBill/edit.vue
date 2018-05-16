@@ -124,7 +124,8 @@ export default {
       bankBranch: {},
       slotsActions: bussinessTypeJson,
       bussinessType: { name: "", code: "" },
-      customerNo: this.$route.params["customerNo"],
+      customerNo: this.$route.query["customerNo"],
+      billNo: this.$route.query["billNo"],
       bussinessLicenseEffectiveBeginVal: new Date(),
       bussinessLicenseEffectiveEndVal: new Date(),
       idNoEffectiveBeginVal: new Date(),
@@ -164,9 +165,9 @@ export default {
           this.settleIdCardDis = true
         } else {
           // 非法人
-          if (type == 'inputchange') {
-            this.form.settleIdCard = "";
-          }
+          // if (type == 'inputchange') {
+          //   this.form.settleIdCard = "";
+          // }
           this.settleIdCardVisible = true;
           this.settleIdCardDis = false;
         }
@@ -215,7 +216,7 @@ export default {
           branchName: cacheForm.branchName || settleCard.branchName,
           unionCode: cacheForm.unionCode || settleCard.unionCode
         });
-        this.form.accountType = cacheForm.accountType || settleCard.accountType;
+        this.form.settleIdCard = cacheForm.settleIdCard || settleCard.settleIdCard;
         this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = cacheForm.accountNo || settleCard.accountNo;
         this.form.reservedPhoneNo = cacheForm.reservedPhoneNo || settleCard.reservedPhoneNo;
@@ -344,8 +345,11 @@ export default {
         if (data.code == "00") {
           this.clearcacheFrom();
           this.$router.push({
-            path: "../addGoods",
-            query: { customerNo: this.customerNo }
+            path: "./addGoods",
+            query: {
+              customerNo: this.customerNo,
+              billNo: this.billNo
+            }
           });
         } else {
           this.Toast(data.msg);

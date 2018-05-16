@@ -213,6 +213,7 @@ export default {
           branchName: cacheForm.branchName || settleCard.branchName,
           unionCode: cacheForm.unionCode || settleCard.unionCode
         });
+        this.form.settleIdCard = cacheForm.settleIdCard || settleCard.settleIdCard
         this.form.accountType = cacheForm.accountType || settleCard.accountType;
         this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = cacheForm.accountNo || settleCard.accountNo;
@@ -379,18 +380,18 @@ export default {
 .mint-radiolist-row {
   display: flex;
   padding: 1px;
-  min-height: 100*$rem;
+  min-height: 100 * $rem;
   .mint-cell {
     flex: 1;
     background-image: none;
   }
   .mint-radiolist-title {
-    font-size: 32*$rem;
+    font-size: 32 * $rem;
     margin-top: 0;
     margin-bottom: 0;
     margin-right: 0;
-    width: 160*$rem;
-    line-height: 100*$rem;
+    width: 160 * $rem;
+    line-height: 100 * $rem;
     color: inherit;
   }
 }
@@ -404,18 +405,18 @@ export default {
     }
   }
   input {
-    padding-left: 80*$rem;
+    padding-left: 80 * $rem;
   }
 }
 </style>
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
 .add-playinfo {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
 }
 .btn {
-  margin: 30*$rem auto;
+  margin: 30 * $rem auto;
   width: 95%;
 }
 </style>

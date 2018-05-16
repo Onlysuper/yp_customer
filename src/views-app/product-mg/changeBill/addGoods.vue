@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { getCustomerEchoProduct, completeConvergeProduct } from "@src/apis";
+import { getOneChangeBill, completeConvergeProduct } from "@src/apis";
 import utils from "@src/common/utils";
 import { install } from "vuex";
 import settleMode from "@src/data/settleMode.json";
@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       customerNo: this.$route.query["customerNo"],
+      billNo: this.$route.query["billNo"],
       wechatRateActions: settleMode,
       alipayRateActions: settleMode,
       wechatRate: {},
@@ -57,9 +58,9 @@ export default {
     }
   },
   created() {
-    getCustomerEchoProduct()({
-      customerNo: this.customerNo,
-      featureType: "CONVERGE_PAY"
+    getOneChangeBill()({
+      customerNo: this.$route.query["customerNo"],
+      billNo: this.$route.query["billNo"],
     }).then(data => {
       if (data.code == "00") {
         this.echoForm(data.data);
@@ -92,7 +93,11 @@ export default {
         if (data.code == "00") {
           this.$router.push({
             path: "./addUpload",
-            query: { customerNo: this.customerNo, type: 'Pay' }
+            query: {
+              customerNo: this.$route.query["customerNo"],
+              billNo: this.$route.query["billNo"],
+              type: 'Pay'
+            }
           });
         } else {
           this.Toast(data.msg);
@@ -106,11 +111,11 @@ export default {
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
 .add-playinfo {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
 }
 .btn {
-  margin: 30*$rem auto;
+  margin: 30 * $rem auto;
   width: 95%;
 }
 </style>

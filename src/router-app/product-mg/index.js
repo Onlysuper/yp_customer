@@ -175,6 +175,24 @@ export default {
           meta: {
             pageTitle: "变更单编辑"
           },
+        },
+        {
+          path: "addUpload",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/addUpload")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "变更单编辑"
+          },
+        },
+        {
+          path: "addSuccess",
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/product-mg/changeBill/addSuccess")) }, "product-mg-app")
+          },
+          meta: {
+            pageTitle: "变更单编辑"
+          },
         }
       ],
 
