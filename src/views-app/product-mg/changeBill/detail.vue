@@ -7,7 +7,7 @@
     </mt-header>
     <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
     <div class="page-navbar">
-      <mt-navbar class="page-part" v-model="selected" :fixed="true">
+      <mt-navbar class="page-part myp-mint-navbar" v-model="selected" :fixed="true">
         <mt-tab-item id="oldData">更新前</mt-tab-item>
         <mt-tab-item id="newData">更新后</mt-tab-item>
       </mt-navbar>
@@ -448,7 +448,7 @@ export default {
   width: 500 * $rem;
   text-align: right;
 }
-.mint-navbar {
+.myp-mint-navbar {
   // width: 100%;
   // position: fixed;
   // z-index: 999;

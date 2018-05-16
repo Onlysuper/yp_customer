@@ -39,7 +39,7 @@ import {
 } from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
-  name: "openInfo",
+  name: "changeBillOpenInfo",
   props: {
     customerTypeSelected: {
       type: Array

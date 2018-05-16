@@ -6,7 +6,7 @@
       </div>
       <div class="row">
         <h2>您申请的表更申请已受理！</h2>
-        <p>开通结果预计会在1-3个工作日以短信的形式通知到您{{phoneNo}}的手机上，敬请查收。</p>
+        <p>变更结果预计会在1-3个工作日以短信的形式通知到您{{phoneNo}}的手机上，敬请查收。</p>
       </div>
       <!-- {{rowData}}  -->
     </div>
@@ -55,7 +55,7 @@
 import { mixinsPc } from "@src/common/mixinsPc";
 import { getOneChangeBill } from "@src/apis";
 export default {
-  name: "",
+  name: "changeBillPaystatusSuccess",
   components: {},
   mixins: [mixinsPc],
   props: {

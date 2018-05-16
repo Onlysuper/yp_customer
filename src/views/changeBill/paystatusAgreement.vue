@@ -158,7 +158,7 @@ import utils from "@src/common/utils";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 export default {
-  name: "",
+  name: "changeBillPaystatusAgreement",
   components: {},
   mixins: [mixinsPc],
   data() {

@@ -4,7 +4,7 @@ import loading from "@src/router/loading"
  * 登录模块
  */
 export default {
-  // 商品管理
+  // 变更单
   name: 'changeBill',
   path: '/changeBill',
   meta: {
@@ -15,8 +15,9 @@ export default {
     parentname: "商户管理",
     role: ['root', 'admin']
   },
+
   component: r => {
     loading(true);
-    return require.ensure([], () => { loading(false); return r(require("@src/views/changeBill/index")) }, "change-bill")
+    return require.ensure([], () => { loading(false); return r(require("@src/views/changeBill/index")) }, "customer-product")
   }
 }

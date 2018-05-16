@@ -159,7 +159,7 @@ import paystatusGoods from "./paystatusGoods";
 import paystatusUpload from "./paystatusUpload";
 import paystatusSuccess from "./paystatusSuccess";
 export default {
-  name: "orderQuery",
+  name: "changeBill",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage, // 数据列表组件

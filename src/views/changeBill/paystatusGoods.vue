@@ -48,7 +48,7 @@ import { completeConvergeProduct, getOneChangeBill } from "@src/apis";
 import settleMode from "@src/data/settleMode.json";
 import utils from "@src/common/utils";
 export default {
-  name: "",
+  name: "changeBillPaystatusGoods",
   components: {},
   mixins: [mixinsPc],
   props: {

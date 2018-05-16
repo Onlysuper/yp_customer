@@ -101,7 +101,7 @@ import {
 import paystatusAgreement from "./paystatusAgreement.vue";
 
 export default {
-  name: "",
+  name: "changeBillPaystatusUpload",
   components: { UploadImg },
   mixins: [mixinsPc],
   // props: ["rowData", "doWhat", "testdata"],

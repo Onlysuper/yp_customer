@@ -136,10 +136,8 @@ export default {
     getOneChangeBill()({
       billNo: this.billNo,
       customerNo: this.customerNo
-      // featureType: "CONVERGE_PAY"
     }).then(data => {
       if (data.code == "00") {
-        console.log(data);
         //回显信息
         this.echoForm(data.data);
         //保存到localStorage中
@@ -154,7 +152,6 @@ export default {
   },
   methods: {
     isLegalPersonSettleIdCard(type) {
-      // console.log(this.form.legalPerson);
       if (this.form.accountType == "0") {
         this.settleIdCardVisible = false;
       } else if (this.form.accountType == "1") {
@@ -181,7 +178,6 @@ export default {
         * 回显表单逻辑必须是优先从缓存中取
         */
         cacheForm = JSON.parse(window.localStorage.getItem(customer.customerNo)) || {};//取出缓存表单信息
-        // console.log("取出", cacheForm)
         this.enterpriseName = cacheForm.enterpriseName || customer.enterpriseName;
         this.bussinessName = cacheForm.bussinessName || customer.bussinessName;
         this.taxNo = cacheForm.taxNo || customer.taxNo;
@@ -217,6 +213,7 @@ export default {
           unionCode: cacheForm.unionCode || settleCard.unionCode
         });
         this.form.settleIdCard = cacheForm.settleIdCard || settleCard.settleIdCard;
+        this.form.accountType = cacheForm.accountType || settleCard.accountType;
         this.form.accountName = this._accountName = settleCard.accountName;
         this.form.accountNo = cacheForm.accountNo || settleCard.accountNo;
         this.form.reservedPhoneNo = cacheForm.reservedPhoneNo || settleCard.reservedPhoneNo;
@@ -311,7 +308,6 @@ export default {
     //save from to localStorage
     cacheFrom() {
       window.localStorage.setItem(this.customerNo, JSON.stringify(this.sendParams()));
-      // console.log(JSON.stringify(form))
     },
     clearcacheFrom() {
       window.localStorage.removeItem(this.customerNo);
@@ -371,7 +367,6 @@ export default {
       this.accountNameChange();
     },
     "form.accountName"(val) {
-      console.log("watch" + this.form.accountName);
       this.isLegalPersonSettleIdCard('inputchange');
     }
   }

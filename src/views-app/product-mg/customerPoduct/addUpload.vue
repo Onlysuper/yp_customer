@@ -5,14 +5,16 @@
     </mt-header>
 
     <div class="add-playinfo">
-      <view-radius class="uploads">
+      <!-- <view-radius class="uploads">
         <template>
-          <upload-view :label="'营业执照'" class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg"></upload-view>
-          <upload-view :label="'门头照片'" class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg"></upload-view>
-          <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg"></upload-view>
+         
         </template>
-      </view-radius>
+      </view-radius> -->
       <view-radius class="uploads">
+        <upload-view :label="'营业执照'" class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg"></upload-view>
+        <upload-view :label="'门头照片'" class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg"></upload-view>
+        <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg"></upload-view>
+
         <upload-view :label="'法人身份证人像面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg"></upload-view>
         <upload-view :label="'法人身份证国徽面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg"></upload-view>
         <upload-view :label="'法人手持身份证'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg"></upload-view>
@@ -243,18 +245,19 @@ export default {
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
 .add-playinfo {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
 }
 .btn {
-  margin: 30*$rem auto;
+  margin: 30 * $rem auto;
   width: 95%;
 }
 .uploads {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: row;
   .item {
     // float: left;
     width: 33%;
@@ -265,7 +268,7 @@ export default {
   height: 400px;
 }
 .agree-text {
-  padding: 20*$rem;
+  padding: 20 * $rem;
   box-sizing: border-box;
 }
 .indent {

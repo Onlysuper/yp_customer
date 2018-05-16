@@ -130,7 +130,7 @@ import {
 } from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
-  name: "paystatusInfo",
+  name: "changeBillPaystatusInfo",
   props: {
     customerTypeSelected: {
       type: Array
@@ -387,8 +387,6 @@ export default {
     },
     // 回显
     getCustomerEcho() {
-      console.log('过来了');
-      console.log(this.rowData);
       getOneChangeBill()({
         billNo: this.rowData.billNo,
         customerNo: this.rowData.customerNo
@@ -489,7 +487,6 @@ export default {
     }
   },
   updated: function () {
-    console.log('更新了哦!');
   },
   created() {
     this.getCustomerEcho();
@@ -509,7 +506,6 @@ export default {
       this.isLegalPersonSettleIdCard();
     },
     "payStatusForm.accountName"(val) {
-      console.log(val);
       this.isLegalPersonSettleIdCard();
     },
     "payStatusForm.legalPerson"(val) {

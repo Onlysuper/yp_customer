@@ -339,8 +339,8 @@
     // min-width: 250px !important;
   }
 }
-.change-before{
-  height:300px;
+.change-before {
+  height: 300px;
 }
 </style>
 <script>
@@ -367,7 +367,7 @@ import {
 } from "@src/apis";
 import { banks } from "@src/common/bank";
 export default {
-  name: "payDetail",
+  name: "changeBillPayDetail",
   props: {
     customerTypeSelected: {
       type: Array
