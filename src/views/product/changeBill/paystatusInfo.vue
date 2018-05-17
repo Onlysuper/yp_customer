@@ -15,7 +15,7 @@
         <el-input @change="setCache" v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="is-required" label="身份证号" prop="idCard" :label-width="formLabelWidth">
-        <el-input @change="setCache" v-model.trim="payStatusForm.idCard" auto-complete="off"></el-input>
+        <el-input @input="idCardInput" @change="setCache" v-model.trim="payStatusForm.idCard" auto-complete="off"></el-input>
       </el-form-item>
       <div class="timestartandend-box">
         <el-form-item class="" label="身份证有效期" prop="idNoEffectiveBegin" :label-width="formLabelWidth">
@@ -249,6 +249,9 @@ export default {
     };
   },
   methods: {
+    idCardInput() {
+      this.isLegalPersonSettleIdCard();
+    },
     accountNameInput() {
       this.isLegalPersonSettleIdCard('inputchange');
     },
@@ -271,7 +274,9 @@ export default {
     },
     editSave(formName) {
       // 编辑内容保存
-      console.log('infoinfo');
+      if (this.payStatusForm.legalPerson != this.payStatusForm.accountName && this.payStatusForm.settleIdCard == this.payStatusForm.idCard) {
+        this.payStatusForm.settleIdCard = "";
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
           let payStatusForm = this.payStatusForm;
@@ -447,7 +452,9 @@ export default {
         } else {
           // 非法人
           if (type == 'inputchange') {
-            this.payStatusForm.settleIdCard = "";
+            if (this.payStatusForm.legalPerson != this.payStatusForm.accountName && this.payStatusForm.settleIdCard == this.payStatusForm.idCard) {
+              this.payStatusForm.settleIdCard = "";
+            }
           }
           this.settleIdCardVisible = true;
           this.settleIdCardDis = false;

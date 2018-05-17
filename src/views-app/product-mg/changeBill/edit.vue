@@ -12,7 +12,7 @@
           <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
           <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
           <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
-          <mt-field label="身份证号:" type="text" v-model.trim="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
+          <mt-field @change="idCardInput" label="身份证号:" type="text" v-model.trim="form.idCard"  placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
           <mt-field class="addpay-long-title" label="身份证生效时间:" type="text" v-model="form.idNoEffectiveBegin" @click.native="$refs.idNoEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
             <i class="icon-arrow"></i>
           </mt-field>
@@ -35,7 +35,7 @@
           </mt-field>
           <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
           <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
-          <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
+          <mt-field @change="accountNameInput" label="账户名称:" type="text" v-model="form.accountName" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
           <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="true"></mt-field> -->
           <mt-field v-if="settleIdCardVisible" label="结算人身份证:" type="text" v-model.trim="form.settleIdCard" @change="cacheFrom" placeholder="请输入身份证号码" :disabled="settleIdCardDis"></mt-field>
           <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
@@ -149,6 +149,15 @@ export default {
   computed: {
   },
   methods: {
+    idCardInput() {
+      this.isLegalPersonSettleIdCard();
+      this.sendParams()
+    },
+    accountNameInput() {
+      alert(1);
+      this.isLegalPersonSettleIdCard("inputchange");
+      this.sendParams()
+    },
     isLegalPersonSettleIdCard(type) {
       if (this.form.accountType == "0") {
         this.settleIdCardVisible = false;
@@ -160,9 +169,12 @@ export default {
           this.settleIdCardDis = true
         } else {
           // 非法人
-          // if (type == 'inputchange') {
-          //   this.form.settleIdCard = "";
-          // }
+          if (type == 'inputchange') {
+            this.form.settleIdCard = "";
+            if (this.form.legalPerson != this.form.accountName && this.form.settleIdCard == this.form.idCard) {
+              this.form.settleIdCard = "";
+            }
+          }
           this.settleIdCardVisible = true;
           this.settleIdCardDis = false;
         }
@@ -312,6 +324,9 @@ export default {
     },
     //提交
     submit() {
+      if (this.form.legalPerson != this.form.accountName && this.form.settleIdCard == this.form.idCard) {
+        this.form.settleIdCard = "";
+      }
       if (!this.validator.isCardNo(this.form.idCard)) {
         this.MessageBox.alert("请输入有效身份证号码！");
         return;
@@ -364,9 +379,9 @@ export default {
     "form.legalPerson"(val) {
       this.accountNameChange();
     },
-    "form.accountName"(val) {
-      this.isLegalPersonSettleIdCard('inputchange');
-    }
+    // "form.accountName"(val) {
+    //   this.isLegalPersonSettleIdCard();
+    // }
   }
 };
 </script>
