@@ -626,29 +626,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss'>
-// .el-carousel__item h3 {
-//   color: #475669;
-//   font-size: 18px;
-//   opacity: 0.75;
-//   line-height: 300px;
-//   margin: 0;
-//   // background: red;
-// }
-
-// .el-carousel__item:nth-child(2n) {
-//   background-color: #99a9bf;
-// }
-
-// .el-carousel__item:nth-child(2n + 1) {
-//   background-color: #d3dce6;
-// }
-
 .rightVsiblefalse {
   .line-label-box.split {
     justify-content: flex-start !important;
-  }
-  .line-label-last {
-    // min-width: 250px !important;
   }
 }
 .change-before {

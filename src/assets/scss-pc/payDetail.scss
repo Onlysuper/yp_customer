@@ -90,7 +90,7 @@
   margin-bottom: 10px;
   border-bottom: 1px solid #ebeef5;
   .detaile-left {
-    flex: 4;
+    flex: 5;
     flex-shrink: 0;
     position: relative;
    display: flex;
@@ -253,6 +253,10 @@
   }
 }
 .detail-box-pro{
+  .line-cell{
+    display: flex;
+    // min-width: 211px;
+  }
     .line-label-box{
     justify-content:flex-start !important;
       border-bottom: 1px solid #ebeef5;
@@ -263,23 +267,22 @@
       flex-wrap: wrap;
       flex-direction: row;
       &.split{
- justify-content:space-between !important;
+      justify-content:space-between !important;
       }
       span.line-label-last{
-        flex:1;
+        // flex:1;
+        // display: block;
+        min-width: 80px;
+        // display: inline-block;
+        // display: run-in;
       }
       .lable-title{
         display: inline-block;
         width: 100px;
         text-align: right;
         border-right: 1px solid #ebeef5;
-        // border-left:1px solid #ebeef5;
         padding-right: 10px;
         padding-left: 10px;
-      }
-      .line-label-last{
-        // display: inline-block;
-        // max-width: 100px;
       }
       span{
         // display: table-cell;

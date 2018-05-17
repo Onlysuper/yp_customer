@@ -337,9 +337,6 @@
   .line-label-box.split {
     justify-content: flex-start !important;
   }
-  .line-label-last {
-    // min-width: 250px !important;
-  }
 }
 </style>
 <script>

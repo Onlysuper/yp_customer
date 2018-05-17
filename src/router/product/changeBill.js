@@ -18,6 +18,6 @@ export default {
 
   component: r => {
     loading(true);
-    return require.ensure([], () => { loading(false); return r(require("@src/views/changeBill/index")) }, "customer-product")
+    return require.ensure([], () => { loading(false); return r(require("@src/views/product/changeBill/index")) }, "customer-product")
   }
 }

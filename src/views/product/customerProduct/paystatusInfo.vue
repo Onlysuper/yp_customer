@@ -62,7 +62,7 @@
         </el-select>
       </el-form-item>
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
-        <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
+        <el-input @input="accountNameInput" @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="'settleIdCard'" label="结算人身份证号" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="settleIdCardDis" v-model="payStatusForm.settleIdCard" auto-complete="off"></el-input>
@@ -246,6 +246,9 @@ export default {
     };
   },
   methods: {
+    accountNameInput() {
+      this.isLegalPersonSettleIdCard('inputchange');
+    },
     areaChange(val) {
       this.payStatusForm.Area = val;
     },
