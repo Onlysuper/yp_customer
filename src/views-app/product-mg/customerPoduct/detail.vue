@@ -1,5 +1,5 @@
 <template>
-  <full-page>
+  <full-page class="customerpro-detail-page">
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
     </mt-header>
@@ -265,19 +265,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
-.uploads {
-  padding: 20*$rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  .item {
-    // float: left;
-    width: 33%;
-    // flex: 1;
+.customerpro-detail-page {
+  .uploads {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      // float: left;
+      width: 33%;
+      // flex: 1;
+    }
   }
-}
-.text-r {
-  width: 500*$rem;
-  text-align: right;
+  .text-r {
+    width: 500 * $rem;
+    text-align: right;
+  }
 }
 </style>

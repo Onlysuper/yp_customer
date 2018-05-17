@@ -1,5 +1,5 @@
 <template>
-  <full-page>
+  <full-page class="changebill-detail">
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
       <mt-button v-if="productType=='check'?true:false" slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button>
@@ -433,29 +433,28 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
-.uploads {
-  padding: 20 * $rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  .item {
-    // float: left;
-    width: 33%;
-    // flex: 1;
+.changebill-detail {
+  .uploads {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      // float: left;
+      width: 33%;
+      // flex: 1;
+    }
   }
-}
-.text-r {
-  width: 500 * $rem;
-  text-align: right;
-}
-.myp-mint-navbar {
-  // width: 100%;
-  // position: fixed;
-  // z-index: 999;
-  top: 100 * $rem;
-}
-.container-box {
-  margin-top: 90 * $rem;
-  width: 100%;
+  .text-r {
+    width: 500 * $rem;
+    text-align: right;
+  }
+  .myp-mint-navbar {
+    top: 100 * $rem;
+  }
+  .container-box {
+    margin-top: 90 * $rem;
+    width: 100%;
+  }
 }
 </style>

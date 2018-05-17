@@ -169,31 +169,9 @@
     "QUERY_FAIL": {
       "name": "查询失败",
       "color": "#909399"
-    }
-  },
-  "billStatus": {
-    "SUCCESS": {
-      "name": "推送成功",
-      "color": "#67C23A"
     },
-    "BILLING_SUCCESS": {
-      "name": "开票成功",
-      "color": "#67C23A"
-    },
-    "BILLING": {
-      "name": "开票中",
-      "color": "#E6A23C"
-    },
-    "ORDER": {
-      "name": "待开票",
-      "color": "#409EFF"
-    },
-    "BILLING_FAIL": {
-      "name": "失败",
-      "color": "#F56C6C"
-    },
-    "QUERY_FAIL": {
-      "name": "查询失败",
+    "SUBMITTING": {
+      "name": "已提交",
       "color": "#909399"
     }
   },

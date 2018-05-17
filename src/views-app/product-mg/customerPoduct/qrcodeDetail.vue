@@ -1,5 +1,5 @@
 <template>
-  <full-page>
+  <full-page class="costomerpro-qrcode-page">
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="goIndex">返回</mt-button>
       <mt-button slot="right" :disabled="false" type="danger" @click="qrcodeEdit">编辑</mt-button>
@@ -110,19 +110,21 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
-.uploads {
-  padding: 20*$rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  .item {
-    // float: left;
-    width: 33%;
-    // flex: 1;
+.costomerpro-qrcode-page {
+  .uploads {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      // float: left;
+      width: 33%;
+      // flex: 1;
+    }
   }
-}
-.text-r {
-  width: 500*$rem;
-  text-align: right;
+  .text-r {
+    width: 500 * $rem;
+    text-align: right;
+  }
 }
 </style>

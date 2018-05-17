@@ -3,18 +3,11 @@
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
     </mt-header>
-
     <div class="add-playinfo">
-      <!-- <view-radius class="uploads">
-        <template>
-         
-        </template>
-      </view-radius> -->
       <view-radius class="uploads">
         <upload-view :label="'营业执照'" class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg"></upload-view>
         <upload-view :label="'门头照片'" class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg"></upload-view>
         <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg"></upload-view>
-
         <upload-view :label="'法人身份证人像面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg"></upload-view>
         <upload-view :label="'法人身份证国徽面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg"></upload-view>
         <upload-view :label="'法人手持身份证'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg"></upload-view>
@@ -143,9 +136,9 @@ export default {
       notQrcode: true, // 非快速开票
       // 图片显示隐藏start
       pageType: this.$route.query["type"],
-      publicPerson: false,//对公
-      corporatePerson: false,//对私法人
-      unCorporatePerson: false,//对私非法人
+      publicPerson: true,//对公
+      corporatePerson: true,//对私法人
+      unCorporatePerson: true,//对私非法人
       // 图片显示隐藏end
       visible: false,
       value: "",
@@ -206,14 +199,20 @@ export default {
       if (this.accountType == "0") {
         // 对公:
         this.publicPerson = true;
+        this.corporatePerson = false;
+        this.unCorporatePerson = false;
       } else if (this.accountType == "1") {
         // 对私
         if (this.accountName == this.legalPerson) {
           // 法人
           this.corporatePerson = true;
+          this.publicPerson = false;
+          this.unCorporatePerson = false;
         } else {
           // 非法人
           this.unCorporatePerson = true;
+          this.publicPerson = false;
+          this.corporatePerson = false;
         }
       }
     },
@@ -244,34 +243,36 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
-.add-playinfo {
-  padding: 20 * $rem;
-  box-sizing: border-box;
-}
-.btn {
-  margin: 30 * $rem auto;
-  width: 95%;
-}
-.uploads {
-  padding: 20 * $rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  .item {
-    // float: left;
-    width: 33%;
-    // flex: 1;
+.add-goods-container {
+  .add-playinfo {
+    padding: 20 * $rem;
+    box-sizing: border-box;
   }
-}
-.agree {
-  height: 400px;
-}
-.agree-text {
-  padding: 20 * $rem;
-  box-sizing: border-box;
-}
-.indent {
-  text-indent: 25px;
+  .btn {
+    margin: 30 * $rem auto;
+    width: 95%;
+  }
+  .uploads {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    .item {
+      // float: left;
+      width: 33%;
+      // flex: 1;
+    }
+  }
+  .agree {
+    height: 400px;
+  }
+  .agree-text {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+  }
+  .indent {
+    text-indent: 25px;
+  }
 }
 </style>

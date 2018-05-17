@@ -1,58 +1,56 @@
 <template>
-  <div class="page">
-    <full-page>
-      <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
-        <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
-      </mt-header>
+  <full-page class="change-page-edit">
+    <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
+      <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
+    </mt-header>
 
-      <!-- 个人信息 -->
-      <div class="add-playinfo">
-        <view-radius>
-          <input-wrapper>
-            <mt-field label="企业名称:" type="text" v-model="enterpriseName" :disabled="true"></mt-field>
-            <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
-            <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
-            <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
-            <mt-field label="身份证号:" type="text" v-model.trim="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
-            <mt-field class="addpay-long-title" label="身份证生效时间:" type="text" v-model="form.idNoEffectiveBegin" @click.native="$refs.idNoEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-field class="addpay-long-title" label="身份证截止时间:" type="text" v-model="form.idNoEffectiveEnd" @click.native="$refs.idNoEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-field label="邮箱:" type="email" @change="cacheFrom" v-model="form.contactEmail" placeholder="接收开通信息（必填）" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-field label="详细地址:" type="text" v-model="form.bussinessAddress" @change="cacheFrom" placeholder="例如：古美路18号" v-required :attr="{maxlength:50}"></mt-field>
-            <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-field class="addpay-long-title" label="营业执照起始日期:" type="text" v-model="form.bussinessLicenseEffectiveBegin" @click.native="$refs.bussinessLicenseEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-field class="addpay-long-title" label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" @click.native="$refs.bussinessLicenseEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
-            <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
-            <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
-            <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="true"></mt-field> -->
-            <mt-field v-if="settleIdCardVisible" label="结算人身份证:" type="text" v-model.trim="form.settleIdCard" @change="cacheFrom" placeholder="请输入身份证号码" :disabled="settleIdCardDis"></mt-field>
-            <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-field label="开户支行:" type="text" v-model="bankBranch.branchName" @click.native="openBankBranch" placeholder="选择开户支行" v-readonly-ios :readonly="true">
-              <i class="icon-arrow"></i>
-            </mt-field>
-            <mt-field label="银行帐号:" type="tel" @input="validateNum($event,'form','accountNo')" v-model="form.accountNo" @change="cacheFrom" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
-            <mt-field label="预留手机号:" type="tel" v-model.trim="form.reservedPhoneNo" @change="cacheFrom" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
-          </input-wrapper>
-        </view-radius>
-      </div>
-      <mt-button class="btn" size="large" type="primary" @click="submit">下一步</mt-button>
+    <!-- 个人信息 -->
+    <div class="add-playinfo">
+      <view-radius>
+        <input-wrapper>
+          <mt-field label="企业名称:" type="text" v-model="enterpriseName" :disabled="true"></mt-field>
+          <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
+          <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
+          <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
+          <mt-field label="身份证号:" type="text" v-model.trim="form.idCard" @change="cacheFrom" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
+          <mt-field class="addpay-long-title" label="身份证生效时间:" type="text" v-model="form.idNoEffectiveBegin" @click.native="$refs.idNoEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field class="addpay-long-title" label="身份证截止时间:" type="text" v-model="form.idNoEffectiveEnd" @click.native="$refs.idNoEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field label="邮箱:" type="email" @change="cacheFrom" v-model="form.contactEmail" placeholder="接收开通信息（必填）" :attr="{maxlength:50}"></mt-field>
+          <mt-field label="所在地区:" type="text" v-model="city.resultAddr" @click.native="cityVisible = true" placeholder="选择地区" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field label="详细地址:" type="text" v-model="form.bussinessAddress" @change="cacheFrom" placeholder="例如：古美路18号" v-required :attr="{maxlength:50}"></mt-field>
+          <mt-field label="行业类别:" type="text" v-model="bussinessType.name" @click.native="$refs.bussinessType.open" placeholder="选择行业类别" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field class="addpay-long-title" label="营业执照起始日期:" type="text" v-model="form.bussinessLicenseEffectiveBegin" @click.native="$refs.bussinessLicenseEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field class="addpay-long-title" label="营业执照到期日期:" type="text" v-model="form.bussinessLicenseEffectiveEnd" @click.native="$refs.bussinessLicenseEffectiveEnd.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-radio title="结算信息" v-model="form.accountType" :options="[{ label: '对公',value: '0' },{ label: '对私',value: '1' }]" class="mint-radiolist-row border-1px"></mt-radio>
+          <!-- 对公显示,带入企业名称,不可更改。对私显示,带入法人名称,可更改-->
+          <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="form.accountType == '0'"></mt-field>
+          <!-- <mt-field label="账户名称:" type="text" v-model="form.accountName" @change="cacheFrom" placeholder="请输入账户名称" :disabled="true"></mt-field> -->
+          <mt-field v-if="settleIdCardVisible" label="结算人身份证:" type="text" v-model.trim="form.settleIdCard" @change="cacheFrom" placeholder="请输入身份证号码" :disabled="settleIdCardDis"></mt-field>
+          <mt-field label="开户银行:" type="text" v-model="bank.value" @click.native="bankVisible = true" placeholder="选择开户银行" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field label="开户支行:" type="text" v-model="bankBranch.branchName" @click.native="openBankBranch" placeholder="选择开户支行" v-readonly-ios :readonly="true">
+            <i class="icon-arrow"></i>
+          </mt-field>
+          <mt-field label="银行帐号:" type="tel" @input="validateNum($event,'form','accountNo')" v-model="form.accountNo" @change="cacheFrom" placeholder="请输入帐号" :attr="{maxlength:50}"></mt-field>
+          <mt-field label="预留手机号:" type="tel" v-model.trim="form.reservedPhoneNo" @change="cacheFrom" placeholder="请输入银行预留手机号" :attr="{maxlength:11}"></mt-field>
+        </input-wrapper>
+      </view-radius>
+    </div>
+    <mt-button class="btn" size="large" type="primary" @click="submit">下一步</mt-button>
 
-    </full-page>
     <city-picher ref="CityPicher" v-model="cityVisible" :resultCallback="resultCallback"></city-picher>
     <picker v-model="bussinessType" ref="bussinessType" :slotsActions="slotsActions" @confirm="confirm"></picker>
     <bank-popup v-model="bankVisible" @bankresult="bankResult"></bank-popup>
@@ -62,7 +60,7 @@
     <mt-datetime-picker v-model="bussinessLicenseEffectiveEndVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setEndDate" ref="bussinessLicenseEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
     <mt-datetime-picker v-model="idNoEffectiveBeginVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setstartDate_Idcar" ref="idNoEffectiveBegin" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
     <mt-datetime-picker v-model="idNoEffectiveEndVal" type="date" :endDate="new Date('2199-12-31')" @confirm="setEndDate_Idcar" ref="idNoEffectiveEnd" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日"></mt-datetime-picker>
-  </div>
+  </full-page>
 </template>
 
 <script>
@@ -373,24 +371,26 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 @import "../../../assets/scss/base.scss";
-.mint-radiolist-row {
-  display: flex;
-  padding: 1px;
-  min-height: 100 * $rem;
-  .mint-cell {
-    flex: 1;
-    background-image: none;
-  }
-  .mint-radiolist-title {
-    font-size: 32 * $rem;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-right: 0;
-    width: 160 * $rem;
-    line-height: 100 * $rem;
-    color: inherit;
+.change-page-edit {
+  .mint-radiolist-row {
+    display: flex;
+    padding: 1px;
+    min-height: 100 * $rem;
+    .mint-cell {
+      flex: 1;
+      background-image: none;
+    }
+    .mint-radiolist-title {
+      font-size: 32 * $rem;
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-right: 0;
+      width: 160 * $rem;
+      line-height: 100 * $rem;
+      color: inherit;
+    }
   }
 }
 </style>

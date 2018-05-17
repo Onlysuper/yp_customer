@@ -1,5 +1,5 @@
 <template>
-  <full-page class="add-goods-container">
+  <full-page class="add-upload-container page">
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
     </mt-header>
@@ -8,7 +8,6 @@
         <upload-view :label="'营业执照'" class="item" :customerNo="customerNo" :upType="'BUSSINESS_LICENSE'" @result="resultMediaId" :dataKey="'bussinessLicenseImg'" ref="bussinessLicenseImg"></upload-view>
         <upload-view :label="'门头照片'" class="item" :customerNo="customerNo" :upType="'PLACE_IMG'" @result="resultMediaId" :dataKey="'placeImg'" ref="placeImg"></upload-view>
         <upload-view :label="'收银台照片'" class="item" :customerNo="customerNo" :upType="'CASH_SPACE_IMG'" @result="resultMediaId" :dataKey="'cashSpaceImg'" ref="cashSpaceImg"></upload-view>
-
         <upload-view :label="'法人身份证人像面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_POSITIVE'" @result="resultMediaId" :dataKey="'identityFrontImg'" ref="identityFrontImg"></upload-view>
         <upload-view :label="'法人身份证国徽面'" class="item" :customerNo="customerNo" :upType="'LEGAL_PERSON_ID_BACK'" @result="resultMediaId" :dataKey="'identityBackImg'" ref="identityBackImg"></upload-view>
         <upload-view :label="'法人手持身份证'" v-show="corporatePerson" class="item" :customerNo="customerNo" :upType="'APPLICANT_WITH_ID'" @result="resultMediaId" :dataKey="'identityHolderImg'" ref="identityHolderImg"></upload-view>
@@ -24,7 +23,7 @@
       </view-radius>
       <mt-radio v-show="notQrcode" v-model="value" v-targetTo style="text-align: center;" @click.native="visible = true" :options="['同意《支付开通协议》']"></mt-radio>
     </div>
-    <mt-button v-show="notQrcode" class="btn" size="large" :disabled="value?false:true" type="primary" @click="submit">确定变更</mt-button>
+    <mt-button v-show="notQrcode" class="btn" size="large" :disabled="value?false:true" type="primary" @click="submit">开通</mt-button>
     <myp-popup v-model="visible">
       <full-page class="agree">
         <div slot="header" class="border-bottom-1px clear">
@@ -136,9 +135,9 @@ export default {
       notQrcode: true, // 非快速开票
       // 图片显示隐藏start
       pageType: this.$route.query["type"],
-      publicPerson: false,//对公
-      corporatePerson: false,//对私法人
-      unCorporatePerson: false,//对私非法人
+      publicPerson: true,//对公
+      corporatePerson: true,//对私法人
+      unCorporatePerson: true,//对私非法人
       // 图片显示隐藏end
       visible: false,
       value: "",
@@ -151,7 +150,8 @@ export default {
       legalPerson: ""
     };
   },
-  created() {
+  mounted() {
+
     getOneChangeBill()({
       customerNo: this.$route.query["customerNo"],
       billNo: this.$route.query["billNo"],
@@ -184,14 +184,7 @@ export default {
       if (customer instanceof Object) {
         this.legalPerson = customer.legalPerson;
       }
-      if (imgs instanceof Object) {
-        for (let key in imgs) {
-          if (imgs[key] instanceof Object) {
-            this.$refs[key].setImg(imgs[key].url);
-            this.resultMediaId(key, imgs[key].id);
-          }
-        }
-      }
+
       if (settleCard instanceof Object) {
         this.phoneNo = settleCard.phoneNo;
         this.accountType = settleCard.accountType;
@@ -200,14 +193,28 @@ export default {
       if (this.accountType == "0") {
         // 对公:
         this.publicPerson = true;
+        this.corporatePerson = false;
+        this.unCorporatePerson = false;
       } else if (this.accountType == "1") {
         // 对私
         if (this.accountName == this.legalPerson) {
           // 法人
           this.corporatePerson = true;
+          this.publicPerson = false;
+          this.unCorporatePerson = false;
         } else {
           // 非法人
           this.unCorporatePerson = true;
+          this.publicPerson = false;
+          this.corporatePerson = false;
+        }
+        if (imgs instanceof Object) {
+          for (let key in imgs) {
+            if (imgs[key] instanceof Object) {
+              this.$refs[key].setImg(imgs[key].url);
+              this.resultMediaId(key, imgs[key].id);
+            }
+          }
         }
       }
     },
@@ -238,38 +245,36 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
-.add-playinfo {
-  padding: 20 * $rem;
-  box-sizing: border-box;
-}
-.btn {
-  margin: 30 * $rem auto;
-  width: 95%;
-}
-.uploads {
-  padding: 20 * $rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  .item {
-    // float: left;
-    width: 33%;
-    // flex: 33%;
-    // flex: 1;
+.add-upload-container {
+  .add-playinfo {
+    padding: 20 * $rem;
+    box-sizing: border-box;
   }
-}
-.view-radius {
-  width: auto;
-}
-.agree {
-  height: 400px;
-}
-.agree-text {
-  padding: 20 * $rem;
-  box-sizing: border-box;
-}
-.indent {
-  text-indent: 25px;
+  .btn {
+    margin: 30 * $rem auto;
+    width: 95%;
+  }
+  .uploads {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    .item {
+      // float: left;
+      width: 33%;
+      // flex: 1;
+    }
+  }
+  .agree {
+    height: 400px;
+  }
+  .agree-text {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+  }
+  .indent {
+    text-indent: 25px;
+  }
 }
 </style>

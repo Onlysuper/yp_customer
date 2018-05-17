@@ -1,5 +1,5 @@
 <template>
-  <full-page class="add-goods-container page">
+  <full-page class="costomerpro-qrcodeupload-page">
     <mt-header slot="header" :title="$route.meta.pageTitle" class="re-mint-header">
       <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
     </mt-header>
@@ -238,33 +238,35 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../../assets/scss/base.scss";
-.add-playinfo {
-  padding: 20*$rem;
-  box-sizing: border-box;
-}
-.btn {
-  margin: 30*$rem auto;
-  width: 95%;
-}
-.uploads {
-  padding: 20*$rem;
-  box-sizing: border-box;
-  display: flex;
-  flex-wrap: wrap;
-  .item {
-    // float: left;
-    width: 33%;
-    // flex: 1;
+.costomerpro-qrcodeupload-page {
+  .add-playinfo {
+    padding: 20 * $rem;
+    box-sizing: border-box;
   }
-}
-.agree {
-  height: 400px;
-}
-.agree-text {
-  padding: 20*$rem;
-  box-sizing: border-box;
-}
-.indent {
-  text-indent: 25px;
+  .btn {
+    margin: 30 * $rem auto;
+    width: 95%;
+  }
+  .uploads {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    .item {
+      // float: left;
+      width: 33%;
+      // flex: 1;
+    }
+  }
+  .agree {
+    height: 400px;
+  }
+  .agree-text {
+    padding: 20 * $rem;
+    box-sizing: border-box;
+  }
+  .indent {
+    text-indent: 25px;
+  }
 }
 </style>
