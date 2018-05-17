@@ -1,6 +1,6 @@
 <template>
   <!-- 聚合支付详情 -->
-  <div class="product-detail-box">
+  <div class="changebill-detail-box">
     <el-tabs :tab-position="'right'" style="height: 100%;">
     <el-tab-pane label="变更前" style="height: 100%;overflow:hidden">
         <div class="product-detail-body change-before">
@@ -338,14 +338,16 @@
 // .el-carousel__item:nth-child(2n + 1) {
 //   background-color: #d3dce6;
 // }
-
-.rightVsiblefalse {
-  .line-label-box.split {
-    justify-content: flex-start !important;
+.changebill-detail-box {
+  height: 100%;
+  .rightVsiblefalse {
+    .line-label-box.split {
+      justify-content: flex-start !important;
+    }
   }
-  .line-label-last {
-    // min-width: 250px !important;
-  }
+}
+.el-tabs__content {
+  height: 100%;
 }
 .change-before {
   height: 100%;
