@@ -6,6 +6,7 @@
       <mt-button v-if="productType=='detail'&&(rowData.status== 'ADMIN_AUDIT' || rowData.status == 'REJECT' ||rowData.status == 'INIT' )?true:false" slot="right" :disabled="false" type="danger" @click="editFn">编辑</mt-button>
     </mt-header>
     <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
+  
     <div class="page-navbar">
       <mt-navbar class="page-part myp-mint-navbar" v-model="selected" :fixed="true">
         <mt-tab-item id="oldData">更新前</mt-tab-item>
