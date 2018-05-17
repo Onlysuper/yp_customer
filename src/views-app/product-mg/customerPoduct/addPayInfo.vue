@@ -162,9 +162,9 @@ export default {
           this.settleIdCardDis = true
         } else {
           // 非法人
-          if (type == 'inputchange') {
-            this.form.settleIdCard = "";
-          }
+          // if (type == 'inputchange') {
+          //   this.form.settleIdCard = "";
+          // }
           this.settleIdCardVisible = true;
           this.settleIdCardDis = false;
         }

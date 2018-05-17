@@ -23,7 +23,7 @@
       </view-radius>
       <mt-radio v-show="notQrcode" v-model="value" v-targetTo style="text-align: center;" @click.native="visible = true" :options="['同意《支付开通协议》']"></mt-radio>
     </div>
-    <mt-button v-show="notQrcode" class="btn" size="large" :disabled="value?false:true" type="primary" @click="submit">开通</mt-button>
+    <mt-button v-show="notQrcode" class="btn" size="large" :disabled="value?false:true" type="primary" @click="submit">变更</mt-button>
     <myp-popup v-model="visible">
       <full-page class="agree">
         <div slot="header" class="border-bottom-1px clear">

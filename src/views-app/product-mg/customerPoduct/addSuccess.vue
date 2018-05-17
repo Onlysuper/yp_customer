@@ -35,16 +35,16 @@ export default {
 .add-success {
   background: #fff;
   text-align: center;
-  padding: 200*$rem 100*$rem;
+  padding: 200 * $rem 100 * $rem;
   box-sizing: border-box;
 }
 
 .tip {
   text-align: center;
   box-sizing: border-box;
-  margin: 80*$rem 0;
-  font-size: 32*$rem;
-  line-height: 50*$rem;
+  margin: 80 * $rem 0;
+  font-size: 32 * $rem;
+  line-height: 50 * $rem;
 }
 .btn {
   width: 88%;
@@ -52,6 +52,6 @@ export default {
 }
 
 .icon-wait {
-  font-size: 300*$rem;
+  font-size: 300 * $rem;
 }
 </style>
