@@ -138,6 +138,7 @@
     // position: relative;
     display: flex;
     flex-direction: column;
+    position: relative;
     // width: 100%;
     // background: red;
   }
