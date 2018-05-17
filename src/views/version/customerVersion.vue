@@ -337,7 +337,7 @@ export default {
     },
   },
   created() {
-    this.versionTypeOptions = this.statusFilterQuery('typeCustomerVersion').filter(item => { return item['code'] != 'RELEASE' })
+    this.versionTypeOptions = this.statusFilterQuery('typeCustomerVersion').filter(item => { return item['value'] != 'RELEASE' })
   }
 };
 </script>
