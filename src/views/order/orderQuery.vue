@@ -248,9 +248,6 @@ export default {
       actionUrl: getPayOrders,
       postSearch: searchConditionVar,
       tableData: {
-        // getDataUrl: {
-        //   url: getPayOrders // 初始化数据
-        // },
         havecheck: false, //是否显示选择框
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息

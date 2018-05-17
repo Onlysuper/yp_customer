@@ -1,4 +1,14 @@
 {
+  "emailStatus": {
+    "TRUE": {
+      "name": "是",
+      "color": "#E6A23C"
+    },
+    "FALSE": {
+      "name": "否",
+      "color": "#E6A23C"
+    }
+  },
   "containChild": {
     "TRUE": {
       "name": "包含下级",

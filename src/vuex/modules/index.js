@@ -19,6 +19,7 @@ import bankCustomer from "./customer/bankCustomer";
 import customerProduct from "./customerProduct";
 import enterpriseSupply from "./enterprise/enterprise_supply";
 import orderQuery from "./order/orderQuery";
+import email from "./order/email";
 import customerVersion from "./version/customerVersion";
 import settle from "./settle/settle";
 import buriedPoint from "./statistical/buriedPoint";
@@ -46,6 +47,7 @@ export {
   customerProduct,
   enterpriseSupply,
   orderQuery,
+  email,
   customerVersion,
   settle,
   buriedPoint,

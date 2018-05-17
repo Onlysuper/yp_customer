@@ -309,6 +309,14 @@ const getChangeBills = () => { return (params) => { return http.get(base.oaIp, "
 const postUpdateBill = () => { return (params) => { return http.post(base.oaIp, "/changeBill/update", params) } }
 const getOneChangeBill = () => { return (params) => { return http.get(base.oaIp, "/changeBill/queryConvergeNowData", params) } }
 // end -------------------------------------------------
+
+
+// 邮箱配置start
+const getEmailconfigs = () => { return (params) => { return http.get(base.oaIp, "/emailconfig/page", params) } }
+const postAddEmailconfig = () => { return (params) => { return http.post(base.oaIp, "/emailconfig/add", params) } }
+const postEditEmailconfig = () => { return (params) => { return http.get(base.oaIp, "/emailconfig/update", params) } }
+
+// 邮箱配置end
 export {
     Login,
     Logout,
@@ -470,6 +478,9 @@ export {
     changeBillOpenCheck,
     getChangeBills,
     postUpdateBill,
-    getOneChangeBill
+    getOneChangeBill,
+    getEmailconfigs,
+    postAddEmailconfig,
+    postEditEmailconfig,
 };
 

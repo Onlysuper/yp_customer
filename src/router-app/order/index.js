@@ -45,6 +45,34 @@ export default {
           }
         }
       ]
+    },
+    {
+      name: "email",//--->对应菜单menuCode字段 路由跳转name:直接取值menuCode
+      path: "email",
+      redirect: "email/index",
+      component: App,
+      children: [
+        {
+          path: 'index',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/order/email")) }, "email-app")
+          },
+          meta: {
+            pageTitle: "对账邮箱",
+            keepAlive: true,
+            menuCode: "email",
+          }
+        },
+        {
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/order/email/search")) }, "email-app")
+          },
+          meta: {
+            pageTitle: "搜索",
+          }
+        }
+      ]
     }
   ]
 }

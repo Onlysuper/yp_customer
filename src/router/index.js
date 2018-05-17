@@ -40,6 +40,7 @@ import agentSettle from "./settle/agentSettle";
 import settle from "./settle/settle";
 import enterpriseSupply from "./enterprise/enterpriseSupply";
 import orderQuery from "./order/orderQuery";
+import email from "./order/email";
 import changeBill from "./product/changeBill";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
@@ -85,7 +86,8 @@ const asyncRouter = [
     settle,// 结算统计
     enterpriseSupply,// 自制补充
     orderQuery,//订单查询
-    changeBill
+    changeBill,
+    email
 ];
 // 路由过滤
 
