@@ -665,10 +665,13 @@ export default {
       this.fadeViewVisible = true;
       if (which == 'changeBefore') {
         this.largeImgRow = this.oldImgsRow;
+        this.payStatusDetails = this.oldData;
       }
       if (which == 'changeAfter') {
         this.largeImgRow = this.newImgsRow;
+        this.payStatusDetails = this.newData;
       }
+      console.log(this.newData);
       this.$refs.largeImg.imgInit()
     },
     showImg(url, item, imgname, type, name, initialIndex, refname) {
