@@ -5,20 +5,22 @@
         <mt-button slot="left" :disabled="false" type="danger" @click="$router.back()">返回</mt-button>
         <mt-button slot="right" style="float:left;" :disabled="false" type="danger" @click="$router.push({path:'./search'})">搜索</mt-button>
         <!-- <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button> -->
-        <mt-button v-if="adminFilter('pay_order_sum')" slot="right" :disabled="false" type="danger" @click="sumHandle()">合计</mt-button>
+        <mt-button  slot="right" :disabled="false" type="danger" @click="operationHandle('ADD')">新增</mt-button>
       </mt-header>
       <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerName">
-          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'orderQueryStatus')">{{item.status | statusFilter('orderQueryStatus')}}</mt-badge>
-          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.payType,'payType')">{{item.payType | statusFilter('payType')}}</mt-badge>
-          <myp-cell class="list-item" @click="detail(item)">
+          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.bussinessType,'emailBussinessType')">{{item.bussinessType | statusFilter('emailBussinessType')}}</mt-badge>
+          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'emailStatus')">{{item.status | statusFilter('emailStatus')}}</mt-badge>
+           <div slot="btn" @click="operationHandle('EDIT',item.bussinessNo)">编辑</div>
+          <myp-cell class="list-item" @click="operationHandle('DETAIL',item.bussinessNo)">
             <!-- 详情 -->
             <table>
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
-              <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
-              <myp-tr title="交易金额">{{utils.accMul(item.amount, 0.01)}}元</myp-tr>
+              <myp-tr title="业务编号">{{item.bussinessNo}}</myp-tr>
+              <myp-tr title="邮箱">{{item.contactEmail}}</myp-tr>
+              <myp-tr title="层级详情">{{item.levelDetail}}</myp-tr>
             </table>
           </myp-cell>
         </myp-cell-pannel>
@@ -62,18 +64,8 @@ export default {
     ...mapState({
       list: state => state.email.list,
       isSearch: state => state.email.isSearch,
-      searchQuery: state => state.email.searchQuery,
-      sumData: state => state.email.sumData
-    }),
-    isAdmin() {
-      var user = this.$store.state.userInfoAndMenu.userMessage.all;
-      var isAdmin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return isAdmin
-    },
+      searchQuery: state => state.email.searchQuery
+    })
   },
   mounted() {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
@@ -85,25 +77,31 @@ export default {
   },
   methods: {
     ...mapActions(["getOrderQuerySum"]),
-
     watchDataList(watchDataList) {
       this.$store.commit("EMAIL_SET_LIST", watchDataList);
       this.$store.commit("EMAIL_IS_SEARCH", false);
     },
-    sumHandle() {
-      this.getOrderQuerySum().then(isSuccess => {
-      });
-    },
-    toUrl(type, itemId, rowdata) {
-      if (type == "DETAIL") {
+    operationHandle(type, itemId) {
+      if (type == 'ADD') {
         this.$router.push({
-          path: "./detail/" + itemId,
-          query: { type: type }
+          path: "./add",
+          query: {
+            pageType: type
+          }
         });
       }
-    },
-    detail(rowdata) {
-      this.toUrl("DETAIL", rowdata.orderNo, rowdata);
+      if (type == 'EDIT') {
+        this.$router.push({
+          path: "./edit/" + itemId,
+          query: { pageType: type }
+        });
+      }
+      if (type == 'DETAIL') {
+        this.$router.push({
+          path: "./detail/" + itemId,
+          query: { pageType: type }
+        });
+      }
     }
   },
   activated() {

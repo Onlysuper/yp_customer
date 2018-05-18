@@ -157,6 +157,11 @@ export default {
             word: "levelDetail"
           },
           {
+            key: "业务类型",
+            width: "160px",
+            word: "bussinessType"
+          },
+          {
             key: "状态",
             width: "120px",
             word: "status",

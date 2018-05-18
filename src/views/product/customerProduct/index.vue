@@ -410,7 +410,7 @@ export default {
       productOpenTitle: "完善信息",
       openProductView: "openInfo",
       customerTypeSelected: [],
-          doWhat: {},
+      doWhat: {},
       optionsArea: utils.areaPicherOptions(), //省市县数据
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
@@ -1009,7 +1009,7 @@ export default {
           disabled: true
         }
       ];
-      this.doWhat = {type:'change'};
+      this.doWhat = { type: 'change' };
       this.resaultData = { ...rowdata };
       this.nextFn("openInfo");
       this.editFormVisible = true;
@@ -1052,7 +1052,7 @@ export default {
               : true
         }
       ];
-      this.doWhat = {type:'open'};
+      this.doWhat = { type: 'open' };
       this.resaultData = { ...rowdata };
       this.nextFn("openInfo");
       this.editFormVisible = true;

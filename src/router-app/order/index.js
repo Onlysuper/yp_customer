@@ -64,6 +64,24 @@ export default {
           }
         },
         {
+          path: 'add',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/order/email/edit")) }, "email-app")
+          },
+          meta: {
+            pageTitle: "新增",
+          }
+        },
+        {
+          path: './edit',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/order/email/edit")) }, "email-app")
+          },
+          meta: {
+            pageTitle: "新增",
+          }
+        },
+        {
           path: 'search',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/order/email/search")) }, "email-app")
