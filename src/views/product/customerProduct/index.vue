@@ -642,6 +642,12 @@ export default {
                     if (res.data == 'TRUE') {
                       this.resaultData = rowdata;
                       this.changeProductPay('payStatus');
+                    } else {
+                      console.log(res);
+                      this.$message({
+                        type: 'warning',
+                        message: "请去变更单操作"
+                      });
                     }
                   } else {
                     this.$message({

@@ -336,6 +336,14 @@
 .rightVsiblefalse {
   .line-label-box.split {
     justify-content: flex-start !important;
+    .line-cell {
+      &:nth-of-type(1) {
+        flex: 5;
+      }
+      &:nth-of-type(2) {
+        flex: 8;
+      }
+    }
   }
 }
 </style>

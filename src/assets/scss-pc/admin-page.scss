@@ -25,42 +25,42 @@
   .small-line{
     padding: 0 10px;
   }
-  .detail-box{
-    background: red;
-    .line-label-box{
-    justify-content: start !important;
-      border-bottom: 1px solid #ebeef5;
-      // border-right: 1px solid #ebeef5;
-      padding: 0px !important;
-      width: auto !important;
-      .line-cell{
-        min-width: 300px;
-        display: flex;
-        align-items: stretch;
-      }
-      .lable-title{
-        display: inline-block;
-        width: 80px;
-        text-align: right;
-        border-right: 1px solid #ebeef5;
-        // border-left:1px solid #ebeef5;
-        padding-right: 10px;
-        padding-left: 10px;
-      }
-      .line-label-last{
-        // display: inline-block;
-        min-width: 100px;
-        flex:1;
-      }
-      span{
-        // display: table-cell;
-        padding: 5px !important;
-      }
-    }
-    .gray-back{
-      background:  #fafafa;;
-    }
-  }
+  // .detail-box{
+  //   .line-label-box{
+  //   justify-content: start !important;
+  //     border-bottom: 1px solid #ebeef5;
+  //     // border-right: 1px solid #ebeef5;
+  //     padding: 0px !important;
+  //     width: auto !important;
+  //     .line-cell{
+  //       flex: 1;
+  //       min-width: 300px;
+  //       display: flex;
+  //       align-items: stretch;
+  //     }
+  //     .lable-title{
+  //       display: inline-block;
+  //       width: 80px;
+  //       text-align: right;
+  //       border-right: 1px solid #ebeef5;
+  //       // border-left:1px solid #ebeef5;
+  //       padding-right: 10px;
+  //       padding-left: 10px;
+  //     }
+  //     .line-label-last{
+  //       // display: inline-block;
+  //       min-width: 100px;
+  //       flex:1;
+  //     }
+  //     span{
+  //       // display: table-cell;
+  //       padding: 5px !important;
+  //     }
+  //   }
+  //   .gray-back{
+  //     background:  #fafafa;;
+  //   }
+  // }
   // 垂直分割线
   .split-line-v{
     margin: 0 5px;

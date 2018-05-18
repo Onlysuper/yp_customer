@@ -17,7 +17,7 @@ export default {
   },
   mutations: {
     //初始化store orderQuery
-    ["CHANGEBILL_QUERY_INIT"](state) {
+    ["ORDER_QUERY_INIT"](state) {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
@@ -36,19 +36,19 @@ export default {
       }
     },
     //设置商品列表profitBilling
-    ["CHANGEBILL_QUERY_SET_LIST"](state, list) {
+    ["ORDER_QUERY_SET_LIST"](state, list) {
       state.list = list || [];
     },
     //设置搜索条件
-    ["CHANGEBILL_QUERY_SET_SEARCH"](state, searchObj) {
+    ["ORDER_QUERY_SET_SEARCH"](state, searchObj) {
       state.searchQuery = Object.assign(state.searchQuery, searchObj)
     },
     //是否开始搜索
-    ["CHANGEBILL_QUERY_IS_SEARCH"](state, flag) {
+    ["ORDER_QUERY_IS_SEARCH"](state, flag) {
       state.isSearch = flag;
     },
     //合计
-    ["CHANGEBILL_SUM"](state, data) {
+    ["ORDER_SUM"](state, data) {
       state.sumData = data;
     }
   },

@@ -878,6 +878,7 @@ export default {
                 // console.log(rowdata);
                 this.bindForm.authCode = rowdata.authCode;
                 this.bindForm.qrcode = rowdata.qrcode;
+                this.bindForm.agentNo = rowdata.agentNo;
                 this.bindFormVisible = true;
               }
             },
