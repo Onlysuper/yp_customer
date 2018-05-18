@@ -64,7 +64,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -597,8 +596,8 @@ export default {
             rate: addForm.rate,
             fixed: addForm.fixed,
             effectiveDay: addForm.effectiveDay
-          }).then(data => {
-            if (data.code === "00") {
+          }).then(res => {
+            if (res.code === "00") {
               this.$message({
                 message: "恭喜你，新增数据成功",
                 type: "success",
@@ -609,7 +608,7 @@ export default {
               this.reloadData();
             } else {
               this.$message({
-                message: data.msg,
+                message: res.msg,
                 type: "warning",
                 center: true
               });

@@ -1,12 +1,22 @@
 {
+  "emailBussinessType": {
+    "customer": {
+      "name": "商户",
+      "color": "#E6A23C"
+    },
+    "agent": {
+      "name": "服务商",
+      "color": "#67C23A"
+    }
+  },
   "emailStatus": {
     "TRUE": {
       "name": "是",
-      "color": "#E6A23C"
+      "color": "#67C23A"
     },
     "FALSE": {
       "name": "否",
-      "color": "#E6A23C"
+      "color": "#909399"
     }
   },
   "containChild": {
