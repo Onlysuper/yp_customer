@@ -2,6 +2,31 @@
 import bussinessTypeJson from "@src/data/bussinessType.json";
 import statusFilter from "@src/data/statusFilter.json"
 import org from "@src/data/org.json";
+// console.log(org);
+// let myorg = {};
+// for (var [shengIndex, sheng] of Object.keys(org).entries()) {
+//     //这里需要知道索引
+//     if (!myorg[sheng]) {
+//         myorg[sheng] = {};
+//     }
+//     for (var [shiIndex, shi] of Object.keys(org[sheng]).entries()) {
+//         //这里需要知道索引
+//         if (!myorg[sheng][shi]) {
+//             myorg[sheng][shi] = {};
+//         }
+
+//         for (var [xianIndex, xian] of Object.keys(org[sheng][shi]).entries()) {
+//             //这里需要知道索引
+//             if (xian != '市辖区') {
+//                 if (!myorg[sheng][shi][xian]) {
+//                     myorg[sheng][shi][xian] = org[sheng][shi][xian]
+//                 }
+//             }
+//         }
+//     }
+// }
+// console.log(myorg);
+// console.log(JSON.stringify(myorg));
 export default {
     /**
      * 乘法，解决js精度损失问题

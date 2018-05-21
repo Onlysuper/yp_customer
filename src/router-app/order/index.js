@@ -58,7 +58,7 @@ export default {
             return require.ensure([], () => { return r(require("@src/views-app/order/email")) }, "email-app")
           },
           meta: {
-            pageTitle: "对账邮箱",
+            pageTitle: "邮箱配置",
             keepAlive: true,
             menuCode: "email",
           }
@@ -73,7 +73,7 @@ export default {
           }
         },
         {
-          path: './edit',
+          path: 'edit',
           component: r => {
             return require.ensure([], () => { return r(require("@src/views-app/order/email/edit")) }, "email-app")
           },

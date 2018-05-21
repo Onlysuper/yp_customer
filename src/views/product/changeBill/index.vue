@@ -312,9 +312,9 @@ export default {
           },
 
           {
-            key: "入网时间",
+            key: "变更时间",
             width: "120px",
-            word: "createTimeStart"
+            word: "lastUpdateTime"
           },
 
           {

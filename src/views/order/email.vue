@@ -26,7 +26,7 @@
           </el-form-item>
           <el-form-item class="full-width" label="状态" prop="status">
             <el-select v-model="editForm.status" placeholder="请选择">
-              <el-option v-for="item in emailOptions" :key="item.value" :label="item.label" :value="item.value">
+              <el-option v-for="item in emailStatusOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -74,7 +74,7 @@ export default {
     return {
       isEdit: true,// 是否为编辑操作
       addFormVisible: false,
-      emailOptions: [],
+      emailStatusOptions: [],
       bussinessTypeOptions: [],
       editForm: {
         status: "",
@@ -244,7 +244,7 @@ export default {
     }
   },
   created() {
-    this.emailOptions = this.statusFilterQuery('emailStatus');
+    this.emailStatusOptions = this.statusFilterQuery('emailStatus');
     this.bussinessTypeOptions = this.statusFilterQuery('emailBussinessType');
   },
   mounted() {

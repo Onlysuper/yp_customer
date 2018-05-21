@@ -48,13 +48,12 @@
 
 <script>
 import json from "./org.json";
-
 export default {
   name: "CityPicher",
   props: {
     resultCallback: {
       type: Function,
-      default: function() {
+      default: function () {
         console.info("请传入回调函数");
       }
     },
@@ -116,7 +115,7 @@ export default {
       this.$emit("input", val);
     }
   },
-  created() {},
+  created() { },
   mounted() {
     // var _this = this;
     // this.$nextTick(function() {

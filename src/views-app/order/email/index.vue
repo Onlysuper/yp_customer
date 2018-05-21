@@ -7,15 +7,14 @@
         <!-- <mt-button slot="right" :disabled="false" type="danger" @click="popupActionsVisible = !popupActionsVisible">...</mt-button> -->
         <mt-button  slot="right" :disabled="false" type="danger" @click="operationHandle('ADD')">新增</mt-button>
       </mt-header>
-      <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
+      
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.customerName">
+        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" title="">
           <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.bussinessType,'emailBussinessType')">{{item.bussinessType | statusFilter('emailBussinessType')}}</mt-badge>
           <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'emailStatus')">{{item.status | statusFilter('emailStatus')}}</mt-badge>
            <div slot="btn" @click="operationHandle('EDIT',item.bussinessNo)">编辑</div>
-          <myp-cell class="list-item" @click="operationHandle('DETAIL',item.bussinessNo)">
-            <!-- 详情 -->
+          <myp-cell class="list-item">
             <table>
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
               <myp-tr title="业务编号">{{item.bussinessNo}}</myp-tr>
@@ -41,15 +40,6 @@ export default {
   components: { SliderNav, MypPopupActions },
   data() {
     return {
-      popupActionsVisible: false,
-      popupActions: [
-        {
-          name: "合计",
-          icon: "icon-admin",
-          method: () => {
-          }
-        }
-      ],
       munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,
@@ -58,11 +48,11 @@ export default {
     };
   },
   created() {
-    this.$store.commit("EMAIL_INIT");
+    this.$store.commit("EMAIL_QUERY_INIT");
   },
   computed: {
     ...mapState({
-      list: state => state.email.list,
+      list: state => state.email.list || [],
       isSearch: state => state.email.isSearch,
       searchQuery: state => state.email.searchQuery
     })
@@ -76,7 +66,6 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getOrderQuerySum"]),
     watchDataList(watchDataList) {
       this.$store.commit("EMAIL_SET_LIST", watchDataList);
       this.$store.commit("EMAIL_IS_SEARCH", false);
@@ -92,14 +81,11 @@ export default {
       }
       if (type == 'EDIT') {
         this.$router.push({
-          path: "./edit/" + itemId,
-          query: { pageType: type }
-        });
-      }
-      if (type == 'DETAIL') {
-        this.$router.push({
-          path: "./detail/" + itemId,
-          query: { pageType: type }
+          path: "./edit",
+          query: {
+            pageType: type,
+            bussinessNo: itemId
+          }
         });
       }
     }

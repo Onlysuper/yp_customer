@@ -18,7 +18,7 @@
             <table>
               <myp-tr title="变更单号">{{item.billNo}}</myp-tr>
               <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
-              <myp-tr title="入网时间">{{item.createTimeStart}}</myp-tr>
+              <myp-tr title="变更时间">{{item.lastUpdateTime}}</myp-tr>
             </table>
           </myp-cell>
         </myp-cell-pannel>
