@@ -556,23 +556,24 @@ export default {
           imgname: "法人身份证国徽面",
           url: this.changeUrl(imgsArr.identityBackImg)
         },
-        identityBackImg: {
-          id: imgsArr.identityBackImgId,
+        placeImg: {
+          id: imgsArr.placeImgId,
           imgname: "门头照片",
-          url: this.changeUrl(imgsArr.identityBackImg)
+          url: this.changeUrl(imgsArr.placeImg)
         },
         cashSpaceImg: {
           id: imgsArr.cashSpaceImgId,
           imgname: "收银台照片",
           url: this.changeUrl(imgsArr.cashSpaceImg)
         },
-        cashSpaceImg: {
+        storeImg: {
           id: imgsArr.storeImgId,
           imgname: "店内照片",
           url: this.changeUrl(imgsArr.storeImg)
         }
       };
       if (imgsArr.accountType == "0") {
+        // console.log('对公对公对公');
         // 对公  有开户许可证 没有授权证
         oldImgsRow.accountLicenseImg = {
           id: imgsArr.accountLicenseImgId,
@@ -633,7 +634,6 @@ export default {
         }
       }
       oldImgsRow = Object.entries(oldImgsRow);
-
       // 结束
       if (initName == 'newImgsRow') {
         this.newImgsRow = oldImgsRow;
@@ -671,7 +671,6 @@ export default {
         this.largeImgRow = this.newImgsRow;
         this.payStatusDetails = this.newData;
       }
-      console.log(this.newData);
       this.$refs.largeImg.imgInit()
     },
     showImg(url, item, imgname, type, name, initialIndex, refname) {
