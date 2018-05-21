@@ -76,6 +76,9 @@ const mixinDataTable = {
                     element.value = [todayDate, todayDate]
                     this.searchCondition[element.option1] = todayDate;
                     this.searchCondition[element.option2] = todayDate;
+                } else if (element.type == "select") {
+                    element.value = element.options[0].value;
+                    this.searchCondition[element.corresattr] = element.options[0].value;
                 } else {
                     element.value = "";
                     this.searchCondition[element.corresattr] = "";
