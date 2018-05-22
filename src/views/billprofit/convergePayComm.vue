@@ -20,7 +20,6 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -193,7 +192,7 @@ export default {
           },
           {
             key: "分润金额(元)",
-            width: "",
+            width: "120px",
             word: "amount",
             type: data => {
               return {

@@ -198,7 +198,7 @@ export default {
           },
           {
             key: "更新时间",
-            width: "",
+            width: "130px",
             sortable: true,
             word: "lastUpdateTime"
           }

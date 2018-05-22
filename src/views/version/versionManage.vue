@@ -175,7 +175,7 @@ export default {
           },
           {
             key: "版本类型",
-            width: "130px",
+            width: "170px",
             word: "type",
             status: true,
             type: data => {
@@ -224,7 +224,7 @@ export default {
           },
           {
             key: "下载地址",
-            width: "220px",
+            width: "420px",
             word: "url"
           }
         ],

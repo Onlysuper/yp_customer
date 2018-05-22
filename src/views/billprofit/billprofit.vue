@@ -167,13 +167,13 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "商户编号",
-            width: "120px",
+            width: "100px",
             sortable: true,
             word: "customerNo"
           },
           {
             key: "商户名称",
-            width: "",
+            width: "150px",
             word: "enterpriseName"
           },
           {
@@ -183,12 +183,12 @@ export default {
           },
           {
             key: "补贴(元)",
-            width: "",
+            width: "100px",
             word: "subsidy"
           },
           {
             key: "中间人(元)",
-            width: "",
+            width: "100px",
             word: "rebate",
             hidden: isAdmin ? false : true
           },

@@ -178,8 +178,14 @@ export default {
             width: "200px",
             word: "content",
             type: data => {
+              let msg = "";
+              try {
+                msg = JSON.parse(data).data
+              } catch (err) {
+                msg = data
+              }
               return {
-                text: JSON.parse(data).data,
+                text: msg
               };
             }
           },

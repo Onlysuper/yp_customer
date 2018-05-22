@@ -221,7 +221,6 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -375,7 +374,7 @@ export default {
 
           {
             key: "结算单号",
-            width: "120px",
+            width: "140px",
             sortable: true,
             word: "settleNo"
             // hidden: isAdmin
@@ -388,7 +387,7 @@ export default {
           },
           {
             key: "代理商编号",
-            width: "",
+            width: "130px",
             word: "agentNo",
             hidden: isAdmin
           },
@@ -405,12 +404,12 @@ export default {
           },
           {
             key: "结算金额(元)",
-            width: "",
+            width: "100px",
             word: "settlePrice"
           },
           {
             key: "结算状态",
-            width: "",
+            width: "100px",
             word: "status",
             status: true,
             type: data => {
