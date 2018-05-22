@@ -314,7 +314,7 @@ const getOneChangeBill = () => { return (params) => { return http.get(base.oaIp,
 // 邮箱配置start
 const getEmailconfigs = () => { return (params) => { return http.get(base.oaIp, "/emailconfig/page", params) } }
 const postAddEmailconfig = () => { return (params) => { return http.post(base.oaIp, "/emailconfig/add", params) } }
-const postEditEmailconfig = () => { return (params) => { return http.get(base.oaIp, "/emailconfig/update", params) } }
+const postEditEmailconfig = () => { return (params) => { return http.post(base.oaIp, "/emailconfig/update", params) } }
 
 // 邮箱配置end
 export {

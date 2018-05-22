@@ -39,14 +39,21 @@ export default {
     ["EMAIL_IS_SEARCH"](state, flag) {
       state.isSearch = flag;
     },
+    // 是否有更新
+    ["EMAIL_IS_UPDATE"](state, flag) {
+      state.isUpdate = flag;
+    },
     ['EMAIL_ADD'](state, data) {
       state.list.push(data)
     },
     ['EMAIL_EDIT'](state, data) {
       state.list = state.list.map(item => {
-        if (good.customerNo == item.customerNo) return good;
+        if (data.bussinessNo == item.bussinessNo) {
+          return Object.assign(item, data);
+        }
         else return item;
       })
+      console.log(state.list);
     }
   },
   actions: {
@@ -70,9 +77,10 @@ export default {
     //编辑
     postEditEmailconfig({ commit, dispatch, getters, rootGetters, rootState, state }, sendData) {
       return postEditEmailconfig()({ ...sendData }).then(data => {
+        console.log(data);
         if (data.code == "00") {
           Toast("修改成功");
-          commit("EMAIL_EDIT", good);
+          commit("EMAIL_EDIT", { ...sendData });
           return true;
         } else {
           Toast(data.msg);

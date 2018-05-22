@@ -527,6 +527,7 @@ export default {
           }
           if (data.imgs) {
             if (settleCardRow.accountType == "0") {
+              this.settleIdCardVisible = false;
               // 对公  有开户许可证 没有授权证
               imgsRow = {
                 ...utils.pickObj(data.imgs, [
@@ -535,9 +536,9 @@ export default {
                 ...imgsRow
               }
             } else if (settleCardRow.accountType == "1") {
-
               if (settleCardRow.accountName == customerRow.legalPerson) {
                 //对私法人
+                this.settleIdCardVisible = false;
                 imgsRow = {
                   ...utils.pickObj(data.imgs, [
                     "settleCardImg",
@@ -546,6 +547,7 @@ export default {
                 };
               } else {
                 //非法人
+                this.settleIdCardVisible = true;
                 imgsRow = {
                   ...utils.pickObj(data.imgs, [
                     "settleCardImg",
@@ -556,7 +558,6 @@ export default {
                     "cardHolderIdImg"
                   ]), ...imgsRow
                 };
-
               }
             } else {
               imgsRow = utils.pickObj(data.imgs, [
@@ -599,29 +600,6 @@ export default {
               }
               if (item) {
                 item["imgname"] = imgname;
-                // if (item.url) {
-                //   if (this.largeImgUrl == "") {
-                //     // 默认显示的图片
-                //     this.largeImg = { imgname: index, url: item.url, name: imgname };
-                //     this.largeImgUrl = item.url
-                //   }
-                // }
-                // ((i) => {
-                //   let item = imgsArr[i][1];
-                //   let index = imgsArr[i][0];
-                //   var newImg = new Image();
-                //   newImg.src = item.url;
-                //   newImg.onerror = () => {
-                //     imgsArr[i][1].url = ""
-                //   }
-                //   newImg.onload = () => {
-                //     if (this.largeImgUrl == "") {
-                //       // 默认显示的图片
-                //       this.largeImg = { imgname: index, url: item.url };
-                //       this.largeImgUrl = item.url
-                //     }
-                //   }
-                // })(i)
               }
               else {
                 imgsArr[i][1] = {
@@ -643,10 +621,7 @@ export default {
             ...settleCardRow,
             ...productRow
           }
-          if (settleCardRow.accountType == "1") {
-            //非法人
-            this.settleIdCardVisible = true;
-          }
+
         } else {
           this.$message({
             message: res.msg,

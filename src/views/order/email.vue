@@ -15,7 +15,7 @@
     <!-- 新增start -->
      <el-dialog title="新增邮箱配置" center :visible.sync="addFormVisible">
         <el-form size="small" ref="editForm" :model="editForm" label-width="110px" :rules="editFormRules">
-          <el-form-item v-if="!isEdit" class="full-width" label="商户类型" prop="bussinessType">
+          <el-form-item v-show="!isEdit" class="full-width" label="商户类型" prop="bussinessType">
              <el-select v-model="editForm.bussinessType" placeholder="请选择">
               <el-option v-for="item in bussinessTypeOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -78,7 +78,7 @@ export default {
       bussinessTypeOptions: [],
       editForm: {
         status: "",
-        bussinessType: "customer",
+        bussinessType: "",
         bussinessNo: "",
         contactEmail: ""
       },
@@ -178,8 +178,8 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
-                console.log(rowdata);
                 this.operationVisible('edit', rowdata);
+                console.log(rowdata);
               }
             }
           ]
@@ -216,8 +216,8 @@ export default {
       if (type == 'edit') {
         operationApi = postEditEmailconfig;
         operationSucMsg = "恭喜你，数据修改成功";
-        sendData = utils.pickObj(this.editForm, [
-          "bussinessNo", "contactEmail", "status"
+        sendData = utils.pickObj({ ...this.editForm }, [
+          "bussinessNo", "contactEmail", "status", "bussinessType"
         ]);
       }
       this.$refs[formName].validate(valid => {

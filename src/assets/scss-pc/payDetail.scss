@@ -271,11 +271,8 @@
       justify-content:space-between !important;
       }
       span.line-label-last{
-        // flex:1;
-        // display: block;
+        flex:1;
         min-width: 80px;
-        // display: inline-block;
-        // display: run-in;
       }
       .lable-title{
         display: inline-block;
@@ -286,7 +283,6 @@
         padding-left: 10px;
       }
       span{
-        // display: table-cell;
         padding: 5px !important;
       }
     }

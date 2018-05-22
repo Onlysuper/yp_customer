@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     ...mapState({
-      list: state => state.email.list || [],
+      list: state => state.email.list,
       isSearch: state => state.email.isSearch,
       searchQuery: state => state.email.searchQuery
     })
@@ -69,6 +69,7 @@ export default {
     watchDataList(watchDataList) {
       this.$store.commit("EMAIL_SET_LIST", watchDataList);
       this.$store.commit("EMAIL_IS_SEARCH", false);
+      this.$store.commit("EMAIL_IS_UPDATE", false);
     },
     operationHandle(type, itemId) {
       if (type == 'ADD') {

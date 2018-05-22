@@ -140,12 +140,11 @@ export default {
       this.btnDisabled = true;
       if (this.pageType == "EDIT") {
         let senddata_ = utils.pickObj(sendata, [
-          "bussinessNo", "contactEmail", "status"
+          "bussinessNo", "contactEmail", "status", "bussinessType"
         ]);
         this.postEditEmailconfig({ ...senddata_ }).then(flag => {
           this.btnDisabled = false;
           if (flag) {
-            this.$store.commit("EMAIL_IS_SEARCH", true);
             this.$router.back();
           }
         })
