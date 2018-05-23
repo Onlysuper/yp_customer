@@ -32,7 +32,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.searchConfig.push({
-        title: "业务编号",
+        title: "商户编号",
         type: "myp-text",
         defaultValue: this.searchQuery.bussinessNo,
         cb: value => {

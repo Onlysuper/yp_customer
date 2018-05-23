@@ -11,11 +11,11 @@
   },
   "emailStatus": {
     "TRUE": {
-      "name": "是",
+      "name": "开启",
       "color": "#67C23A"
     },
     "FALSE": {
-      "name": "否",
+      "name": "关闭",
       "color": "#909399"
     }
   },

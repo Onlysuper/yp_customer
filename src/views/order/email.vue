@@ -102,7 +102,7 @@ export default {
         {
           corresattr: "bussinessNo",
           type: "text", // 表单类型
-          label: "业务编号", // 输入框前面的文字
+          label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
           value: "", // 表单默认的内容
           cb: value => {
@@ -142,7 +142,7 @@ export default {
             word: "createTime"
           },
           {
-            key: "业务编号",
+            key: "商户编号",
             width: "160px",
             word: "bussinessNo"
           },
@@ -151,18 +151,22 @@ export default {
             width: "160px",
             word: "contactEmail"
           },
+          // {
+          //   key: "层级详情",
+          //   width: "160px",
+          //   word: "levelDetail"
+          // },
+          // {
+          //   key: "业务类型",
+          //   width: "160px",
+          //   word: "bussinessType",
+          //   status: true,
+          //   type: data => {
+          //     return this.statusFilter(data, 'emailBussinessType');
+          //   }
+          // },
           {
-            key: "层级详情",
-            width: "160px",
-            word: "levelDetail"
-          },
-          {
-            key: "业务类型",
-            width: "160px",
-            word: "bussinessType"
-          },
-          {
-            key: "状态",
+            key: "发送对账邮箱",
             width: "120px",
             word: "status",
             status: true,

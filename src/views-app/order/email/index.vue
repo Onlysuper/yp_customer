@@ -11,15 +11,15 @@
       
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" title="">
-          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.bussinessType,'emailBussinessType')">{{item.bussinessType | statusFilter('emailBussinessType')}}</mt-badge>
+          <!-- <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.bussinessType,'emailBussinessType')">{{item.bussinessType | statusFilter('emailBussinessType')}}</mt-badge> -->
           <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'emailStatus')">{{item.status | statusFilter('emailStatus')}}</mt-badge>
            <div slot="btn" @click="operationHandle('EDIT',item.bussinessNo)">编辑</div>
           <myp-cell class="list-item">
             <table>
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
-              <myp-tr title="业务编号">{{item.bussinessNo}}</myp-tr>
+              <myp-tr title="商户编号">{{item.bussinessNo}}</myp-tr>
               <myp-tr title="邮箱">{{item.contactEmail}}</myp-tr>
-              <myp-tr title="层级详情">{{item.levelDetail}}</myp-tr>
+              <!-- <myp-tr title="层级详情">{{item.levelDetail}}</myp-tr> -->
             </table>
           </myp-cell>
         </myp-cell-pannel>
