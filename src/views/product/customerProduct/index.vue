@@ -32,7 +32,7 @@
     </el-dialog>
     <!-- 详情 end -->
     <!-- 开通产品 start -->
-    <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
+    <el-dialog v-dialogDrag :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
       <!-- <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData"> -->
       <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData" :doWhat="doWhat">
