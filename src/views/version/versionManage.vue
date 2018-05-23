@@ -31,7 +31,7 @@
             <el-col :span="12">
               <el-form-item label="客户端类型" prop="type">
                 <el-select :disabled="editType" v-model="form.type" placeholder="请选择">
-                  <el-option v-for="item in versionTypeOptions" :key="item.code" :label="item.name" :value="item.code">
+                  <el-option v-for="item in versionTypeOptions" :key="item.value" :label="item.label" :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -175,7 +175,7 @@ export default {
           },
           {
             key: "版本类型",
-            width: "130px",
+            width: "170px",
             word: "type",
             status: true,
             type: data => {
@@ -224,7 +224,7 @@ export default {
           },
           {
             key: "下载地址",
-            width: "220px",
+            width: "420px",
             word: "url"
           }
         ],
