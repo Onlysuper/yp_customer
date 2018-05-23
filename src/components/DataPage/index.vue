@@ -17,7 +17,7 @@
             <div slot="reference" class="name-wrapper">
               <div class="inline-text">
                 {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
-                <i class="el-icon-tickets copy-icon"></i>
+                <i :data-clipboard-text="item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]" @click="copyText" class="el-icon-tickets copy-icon"></i>
               </div>
             </div>
           </el-popover>
@@ -120,11 +120,19 @@
     -webkit-line-clamp: 1;
     overflow: hidden;
     height: 30px;
+    transition: all 0.3s;
     .copy-icon {
       position: absolute;
       top: 10px;
       right: 0;
+      cursor: pointer;
       display: none;
+      color: rgba(0, 193, 223, 0.8);
+    }
+    &:hover {
+      .copy-icon {
+        display: inline;
+      }
     }
   }
 }
@@ -224,6 +232,7 @@ import $ from "jquery";
 import qs from "qs";
 import Vue from "vue";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
+import Clipboard from 'clipboard';
 export default {
   props: ["tableDataInit", "page", "limit", "search", "actionUrl"],
   mixins: [mixinDataTable],
@@ -248,6 +257,21 @@ export default {
   },
 
   methods: {
+    copyText() {
+      this.$nextTick(() => {
+        let clipboard = new Clipboard('.copy-icon');
+        clipboard.on('success', e => {
+          // 释放内存  
+          clipboard.destroy()
+        })
+        clipboard.on('error', e => {
+          // 不支持复制  
+          console.log('该浏览器不支持自动复制')
+          // 释放内存  
+          clipboard.destroy()
+        })
+      })
+    },
     visibleArrFn(rowdata, cb) {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);

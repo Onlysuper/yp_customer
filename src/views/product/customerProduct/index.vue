@@ -548,25 +548,25 @@ export default {
         dataHeader: [
           {
             key: "时间",
-            width: "",
+            width: "160px",
             sortable: true,
             word: "createTime"
           },
           {
             key: "商户编号",
-            width: "",
+            width: "130px",
             sortable: true,
             word: "bussinessNo"
           },
           {
             key: "商户名称",
-            width: "",
+            width: "130px",
             word: "customerName"
           },
 
           {
             key: "快速开票",
-            width: "",
+            width: "130px",
             word: "qrcodeStatus",
             status: true,
             type: data => {
@@ -575,7 +575,7 @@ export default {
           },
           {
             key: "聚合支付",
-            width: "",
+            width: "130px",
             word: "payStatus",
             status: true,
             type: data => {
@@ -584,7 +584,7 @@ export default {
           },
           {
             key: "电子发票",
-            width: "",
+            width: "130px",
             word: "elecStatus",
             status: true,
             type: data => {
