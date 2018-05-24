@@ -48,7 +48,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="是否为成品油商品" prop="type" :label-width="'210px'">
+            <el-form-item label="是否为成品油商品" prop="type" :label-width="'140px'">
               <el-switch v-model="addForm.type" active-text="是" inactive-text="否" active-value="TRUE" inactive-value="FALSE">
               </el-switch>
             </el-form-item>
