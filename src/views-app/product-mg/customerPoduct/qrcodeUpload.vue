@@ -223,14 +223,7 @@ export default {
       else this.value = "";
     },
     submit() {
-      // this.$router.push({
-      //   path: "./"
-      //   // query: { customerNo: this.customerNo, type: 'Pay' }
-      // });
-      this.$router.push({
-        path: "./qrcodeDetail",
-        query: { customerNo: this.customerNo, type: 'Qrcode', qrcodeStatus: this.qrcodeStatus, customerName: this.customerName }
-      });
+      this.$router.back(-1)
     }
   }
 };
