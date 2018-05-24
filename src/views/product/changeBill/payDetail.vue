@@ -5,8 +5,13 @@
       <el-tab-pane label="变更前" style="height: 100%;overflow:hidden">
           <div class="product-detail-body change-before">
         <div class="detaile-left">
+         
           <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
           <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
+            <div class="line-label-box" v-if="rowData.status=='REJECT'?true:false">
+              <span class="lable-title gray-back">拒绝原因:</span>
+              <span class="line-label-last"> {{rowData.auditResult}}</span>
+            </div>
             <div class="line-label-box split">
               <div class="line-cell">
                 <span class="lable-title gray-back">商户编号:</span>
@@ -165,6 +170,10 @@
         <div class="detaile-left">
           <!-- <iscroll-view class="scroll-view-cus" ref="iscroll" :options="iscrollOptions"> -->
           <div :class="'scroll-view-cus detail-box-pro rightVsible' + detailRightVisible">
+            <div class="line-label-box" v-if="rowData.status=='REJECT'?true:false">
+              <span class="lable-title gray-back">拒绝原因:</span>
+              <span class="line-label-last"> {{rowData.auditResult}}</span>
+            </div>
             <div class="line-label-box split">
               <div class="line-cell">
                 <span class="lable-title gray-back">商户编号:</span>
