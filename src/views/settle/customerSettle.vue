@@ -7,6 +7,51 @@
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
+      <!-- 详细信息 start -->
+    <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
+      <div class="detail-content">
+        <div class="line-label-box cross-back">
+          <span class="line-label">交易金额:</span>
+          <span class="line-label-last">{{detailsForm.payAmount}} 元</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">手续费:</span>
+          <span class="line-label-last">{{detailsForm.proceduresFee}} 元</span>
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">出款手续费:</span>{{detailsForm.outMoneyFee}} 元
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">冻结金额:</span>{{detailsForm.freezeAmount}} 元
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">结算金额:</span>{{detailsForm.settleAmount}} 元
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">银行名称:</span>{{detailsForm.settleAmount}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">身份证号:</span>{{detailsForm.settleIdCard}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">交易类型:</span>{{detailsForm.settleType}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">交易时间:</span>{{detailsForm.payTime}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">出款状态:</span>{{detailsForm.outMoneyStatus | statusFilter('customerSettleOutMoneyStatus')}}
+        </div>
+        <div class="line-label-box cross-back">
+          <span class="line-label">备注:</span>{{detailsForm.remark}}
+        </div>
+     
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="detailsFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 详情 end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -40,12 +85,13 @@ export default {
       status: "" // 结算状态
     };
     return {
+      detailsForm: {},
+      detailsFormVisible: false,
       sumVisible: true,
       customerNumber: 0,
       settlePrice: 0,
       sumLoading: false,
       formLabelWidth: "100px",
-      detailsFormVisible: false,
       editFormVisible: false,
       editForm: {},
       searchCondition: searchConditionVar,
@@ -203,10 +249,28 @@ export default {
           options: [
             // 操作按钮
             {
-              text: "查看详情",
+              text: "详情",
               color: "#00c1df",
               cb: rowdata => {
-
+                this.detailsForm = { ...rowdata }
+                this.detailsFormVisible = true
+              }
+            },
+            {
+              text: "同步状态",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                if (
+                  rowdata.outMoneyStatus == "OUT_FAIL"
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                let myrow = rowdata
+                rowdata.outMoneyStatus = "OUT_FAIL"
               }
             }
           ]

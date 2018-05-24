@@ -48,6 +48,20 @@ export default {
     //是否开始搜索
     ["CUSTOMERSETTLE_SEARCH"](state, flag) {
       state.isSearch = flag;
+    },
+    //更新状态
+    ["CUSTOMERSETTLE_UPDATE_STATUS"](state, data) {
+      let onlyId = data.customerNo;
+      let newStatus = data.newStatus;
+      state.list = state.list.map((item, index) => {
+        if (onlyId == item.customerNo) {
+          let newItem = { ...item };
+          newItem.outMoneyStatus = newStatus;
+          return newItem;
+        } else {
+          return item
+        }
+      })
     }
 
   },

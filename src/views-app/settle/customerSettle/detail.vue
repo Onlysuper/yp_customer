@@ -6,18 +6,39 @@
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <mt-field :disabled="true" type="text" label="交易金额" placeholder="交易金额" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="手续费" placeholder="手续费" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="出款手续费" placeholder="出款手续费" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="冻结金额" placeholder="冻结金额" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="结算金额" placeholder="结算金额" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="银行名称" placeholder="银行名称" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="身份证号" placeholder="身份证号" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="交易类型" placeholder="交易类型" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="交易时间" placeholder="交易时间" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="出款状态" placeholder="出款状态" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="备注" placeholder="备注" v-model="dataList.orderNo"></mt-field>
-       
+        <mt-cell title="交易金额">
+          <span>{{dataList.payAmount}} 元</span>
+        </mt-cell>
+        <mt-cell title="手续费">
+          <span>{{dataList.proceduresFee}} 元</span>
+        </mt-cell>
+        <mt-cell title="出款手续费">
+          <span>{{dataList.outMoneyFee}} 元</span>
+        </mt-cell>
+        <mt-cell title="冻结金额">
+          <span>{{dataList.freezeAmount}} 元</span>
+        </mt-cell>
+        <mt-cell title="结算金额">
+          <span>{{dataList.settleAmount}} 元</span>
+        </mt-cell>
+        <mt-cell title="银行名称">
+          <span>{{dataList.bankName}}</span>
+        </mt-cell>
+        <mt-cell title="身份证号">
+          <span>{{dataList.settleIdCard}}</span>
+        </mt-cell>
+        <mt-cell title="交易类型">
+          <span>{{dataList.settleType}}</span>
+        </mt-cell>
+        <mt-cell title="交易时间">
+          <span>{{dataList.payTime}}</span>
+        </mt-cell>
+        <mt-cell title="出款状态">
+          <span>{{dataList.outMoneyStatus | statusFilter('customerSettleOutMoneyStatus')}}</span>
+        </mt-cell>
+         <mt-cell title="备注">
+          <span>{{dataList.remark}}</span>
+        </mt-cell>
       </input-wrapper>
     </view-radius>
   </full-page>
@@ -86,6 +107,7 @@ export default {
       if (this.pageType == "DETAIL") {
         this.surePage = false;
         this.getCustomerSettle(this.customerNo).then(dataList => {
+          console.log(dataList);
           this.dataList = { ...dataList }
         });
       }

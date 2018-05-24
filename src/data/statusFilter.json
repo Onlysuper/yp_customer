@@ -2,11 +2,11 @@
   "customerSettleOutMoneyStatus": {
     "OUT_SUCCESS": {
       "name": "成功",
-      "color": "#E6A23C"
+      "color": "#67C23A"
     },
     "OUT_FAIL": {
       "name": "失败",
-      "color": "#67C23A"
+      "color": "#E6A23C"
     },
     "WAIT_AUDIT": {
       "name": "失败",

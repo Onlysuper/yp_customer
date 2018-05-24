@@ -11,6 +11,7 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" title="">
+          <div slot="btn" v-if="item.outMoneyStatus =='OUT_FAIL'?true:false" @click="dataUpdate(item)">状态更新</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.outMoneyStatus,'customerSettleOutMoneyStatus')">{{item.outMoneyStatus | statusFilter('customerSettleOutMoneyStatus')}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
@@ -21,11 +22,11 @@
               <myp-tr title="出款状态">{{item.outMoneyStatus}}</myp-tr>
               <myp-tr title="结算名称">{{item.settleName}}</myp-tr>
               <myp-tr title="结算账号">{{item.settleNo}}</myp-tr>
-              <myp-tr title="交易金额">{{item.payAmount}}</myp-tr>
+              <!-- <myp-tr title="交易金额">{{item.payAmount}}</myp-tr>
               <myp-tr title="手续费">{{item.proceduresFee}}</myp-tr>
               <myp-tr title="冻结金额">{{item.freezeAmount}}</myp-tr>
-              <myp-tr title="结算金额">{{item.settleAmount}}</myp-tr>
-              <myp-tr title="交易类型">{{item.settleType}}</myp-tr>
+              <myp-tr title="结算金额">{{item.settleAmount}}</myp-tr> -->
+              <!-- <myp-tr title="交易类型">{{item.settleType}}</myp-tr> -->
             </table>
           </myp-cell>
         </myp-cell-pannel>
@@ -93,6 +94,14 @@ export default {
   },
   methods: {
     ...mapActions(["getConvergePayCommSum", "getAgentSettleSumAc"]),
+    //状态更新
+    dataUpdate(item) {
+      let data_ = item;
+      this.$store.commit("CUSTOMERSETTLE_UPDATE_STATUS", {
+        customerNo: data_.customerNo,
+        newStatus: 'xzt'
+      });
+    },
     watchDataList(watchDataList, count) {
       this.count = count;
       this.$store.commit("CUSTOMERSETTLE_SEARCH_LIST", watchDataList);
