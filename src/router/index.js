@@ -38,6 +38,7 @@ import customerVersion from "./version/customerVersion";
 import versionManage from "./version/versionManage";
 import agentSettle from "./settle/agentSettle";
 import settle from "./settle/settle";
+import customerSettle from "./settle/customerSettle";
 import enterpriseSupply from "./enterprise/enterpriseSupply";
 import orderQuery from "./order/orderQuery";
 import email from "./order/email";
@@ -84,6 +85,7 @@ const asyncRouter = [
     versionManage, //版本管理
     agentSettle,// 代理商结算统计
     settle,// 结算统计
+    customerSettle,
     enterpriseSupply,// 自制补充
     orderQuery,//订单查询
     changeBill,

@@ -85,6 +85,20 @@
       "color": "#67C23A"
     }
   },
+  "convergePayStatus": {
+    "TRUE": {
+      "name": "正常",
+      "color": "#409EFF"
+    },
+    "FALSE": {
+      "name": "异常",
+      "color": "#E6A23C"
+    },
+    "SUCCESS": {
+      "name": "正常",
+      "color": "#67C23A"
+    }
+  },
   "versionStatus": {
     "TRUE": {
       "name": "允许升级",

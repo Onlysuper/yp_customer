@@ -64,6 +64,26 @@ export default {
           }
         }
       ],
+    },
+    {
+      name: "customerSettle",
+      path: 'customerSettle',
+      redirect: "customerSettle/index",
+      component: App,
+      children: [
+        {
+          path: "index",
+          component: r => {
+            loading(true);
+            return require.ensure([], () => { loading(false); return r(require("@src/views-app/settle/customerSettle")) }, "customerSettle-app")
+          },
+          meta: {
+            pageTitle: "结算管理",
+            keepAlive: true,
+            menuCode: "customerSettle"
+          }
+        }
+      ],
     }
   ]
 }

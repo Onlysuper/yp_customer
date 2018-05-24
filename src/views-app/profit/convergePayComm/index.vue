@@ -9,13 +9,12 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="item.enterpriseName">
-
+          <mt-badge slot="badge" class="g-min-badge" size="small" :color="filterColor(item.status,'convergePayStatus')">{{item.status | statusFilter('convergePayStatus')}}</mt-badge>
           <myp-cell class="list-item">
             <!-- 详情 -->
             <table>
               <myp-tr title="时间">{{item.payTime}}</myp-tr>
               <myp-tr title="分润金额">{{item.subsidy}}</myp-tr>
-              <myp-tr title="状态">{{item.status}}</myp-tr>
               <myp-tr title="合伙人编号">{{item.agentNo}}</myp-tr>
               <myp-tr title="合伙人名称">{{item.bussinessName}}</myp-tr>
             </table>
@@ -85,5 +84,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

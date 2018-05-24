@@ -69,14 +69,7 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "TRUE",
-              label: "已结算"
-            },
-            {
-              value: "FALSE",
-              label: "未结算"
-            }
+            ...this.statusFilterQuery('convergePayStatus')
           ],
           cb: value => {
             this.searchCondition.status = value;
@@ -208,27 +201,7 @@ export default {
             word: "status",
             status: true,
             type: data => {
-              if (data === "TRUE") {
-                return {
-                  text: "已结算",
-                  type: "success"
-                };
-              } else if (data === "FALSE") {
-                return {
-                  text: "未结算",
-                  type: "info"
-                };
-              } else if (data === "SUCCESS") {
-                return {
-                  text: "已结算",
-                  type: ""
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
+              return this.statusFilter(data, 'convergePayStatus')
             }
           }
         ]

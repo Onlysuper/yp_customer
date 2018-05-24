@@ -21,12 +21,10 @@ export default {
       state.list = [];
       state.isSearch = false;
       state.searchQuery = {
-        startTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        endTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
-        orderNo: "",
+        status: "",
+        dataTime: utils.formatDate(new Date(), "yyyy-MM-dd"),
         agentNo: "",
-        customerNo: "",
-        bussinessName: "",
+        enterpriseName: "",
         hasChild: "TRUE",
       };
       state.sumData = {

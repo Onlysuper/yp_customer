@@ -5,7 +5,9 @@
 <script>
 import SearchPage from "@src/components-app/Search/SearchPage";
 import { mapState } from "vuex";
+import { statusFilterQuery } from "@src/common/mixins";
 export default {
+  mixins: [statusFilterQuery],
   components: { SearchPage },
   data() {
     return {
@@ -21,17 +23,24 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.searchConfig.push({
-        title: "交易订单号",
-        type: "myp-text",
-        defaultValue: this.searchQuery.orderNo,
+        title: "状态",
+        type: "myp-select",
+        defaultValue: this.searchQuery.status,
+        values: [
+          {
+            name: "全部",
+            code: ""
+          },
+          ...this.statusFilterQuery('convergePayStatus')
+        ],
         cb: value => {
           this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
-            orderNo: value
+            status: value
           });
         }
       });
       this.searchConfig.push({
-        title: "代理商编号",
+        title: "合伙人编号",
         type: "myp-text",
         defaultValue: this.searchQuery.agentNo,
         cb: value => {
@@ -41,37 +50,17 @@ export default {
         }
       });
       this.searchConfig.push({
-        title: "商户编号",
+        title: "合伙人名称",
         type: "myp-text",
-        defaultValue: this.searchQuery.customerNo,
+        defaultValue: this.searchQuery.enterpriseName,
         cb: value => {
           this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
-            customerNo: value
+            enterpriseName: value
           });
         }
       });
       this.searchConfig.push({
-        title: "商户简称",
-        type: "myp-text",
-        defaultValue: this.searchQuery.bussinessName,
-        cb: value => {
-          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
-            bussinessName: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "开始日期",
-        type: "myp-date",
-        defaultValue: this.searchQuery.startTime,
-        cb: value => {
-          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
-            startTime: value
-          });
-        }
-      });
-      this.searchConfig.push({
-        title: "结束日期",
+        title: "日期",
         type: "myp-date",
         defaultValue: this.searchQuery.endTime,
         cb: value => {
@@ -80,31 +69,7 @@ export default {
           });
         }
       });
-      this.searchConfig.push({
-        title: "包含关系",
-        type: "myp-radio-list",
-        defaultValue: this.searchQuery.hasChild || "ALL",
-        options: [
-          {
-            label: "全部",
-            value: "ALL"
-          },
-          {
-            label: "含下级",
-            value: "TRUE"
-          },
-          {
-            label: "不含下级",
-            value: "FALSE"
-          }
-        ],
-        cb: value => {
-          if (value == "ALL") value = "";
-          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
-            hasChild: value
-          });
-        }
-      });
+
     });
   },
   methods: {
@@ -117,5 +82,4 @@ export default {
 </script>
 
 <style>
-
 </style>
