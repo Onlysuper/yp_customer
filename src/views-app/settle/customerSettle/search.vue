@@ -17,57 +17,38 @@ export default {
   },
   computed: {
     ...mapState({
-      searchQuery: state => state.settle.searchQuery
-    }),
-    isAdmin() {
-      var user = this.$store.state.userInfoAndMenu.userMessage.all;
-      var isAdmin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return isAdmin
-    }
+      searchQuery: state => state.customerSettle.searchQuery
+    })
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.isAdmin) { // 运营
-        this.searchConfig.push({
-          title: "代理商编号",
-          type: "myp-text",
-          defaultValue: this.searchQuery.agentNo,
-          cb: value => {
-            this.$store.commit("SETTLE_SEARCH_QUERY", {
-              agentNo: value
-            });
-          }
-        });
-        this.searchConfig.push({
-          title: "代理商名称",
-          type: "myp-text",
-          defaultValue: this.searchQuery.agentName,
-          cb: value => {
-            this.$store.commit("SETTLE_SEARCH_QUERY", {
-              agentName: value
-            });
-          }
-        });
-      }
-
       this.searchConfig.push({
-        title: "打款状态",
-        type: "myp-select",
-        defaultValue: this.searchQuery.status,
-        values: [
-          {
-            name: "全部",
-            code: ""
-          },
-          ...this.statusFilterQuery('settleStatus')
-        ],
+        title: "商户编号",
+        type: "myp-text",
+        defaultValue: this.searchQuery.customerNo,
         cb: value => {
-          this.$store.commit("SETTLE_SEARCH_QUERY", {
-            status: value
+          this.$store.commit("CUSTOMERSETTLE_SEARCH_QUERY", {
+            customerNo: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "商户名称",
+        type: "myp-text",
+        defaultValue: this.searchQuery.customerName,
+        cb: value => {
+          this.$store.commit("CUSTOMERSETTLE_SEARCH_QUERY", {
+            customerName: value
+          });
+        }
+      });
+      this.searchConfig.push({
+        title: "结算名称",
+        type: "myp-text",
+        defaultValue: this.searchQuery.settleName,
+        cb: value => {
+          this.$store.commit("CUSTOMERSETTLE_SEARCH_QUERY", {
+            settleName: value
           });
         }
       });
@@ -76,7 +57,7 @@ export default {
         type: "myp-date",
         defaultValue: this.searchQuery.createTimeStart,
         cb: value => {
-          this.$store.commit("SETTLE_SEARCH_QUERY", {
+          this.$store.commit("CUSTOMERSETTLE_SEARCH_QUERY", {
             createTimeStart: value
           });
         }
@@ -86,16 +67,34 @@ export default {
         type: "myp-date",
         defaultValue: this.searchQuery.createTimeEnd,
         cb: value => {
-          this.$store.commit("SETTLE_SEARCH_QUERY", {
+          this.$store.commit("CUSTOMERSETTLE_SEARCH_QUERY", {
             createTimeEnd: value
           });
         }
       });
+      this.searchConfig.push({
+        title: "状态",
+        type: "myp-select",
+        defaultValue: this.searchQuery.outMoneyStatus,
+        values: [
+          {
+            name: "全部",
+            code: ""
+          },
+          ...this.statusFilterQuery('customerSettleOutMoneyStatus')
+        ],
+        cb: value => {
+          this.$store.commit("CUSTOMERSETTLE_SEARCH_QUERY", {
+            outMoneyStatus: value
+          });
+        }
+      });
+
     });
   },
   methods: {
     searchPanelResult() {
-      this.$store.commit("SETTLE_SEARCH", true);
+      this.$store.commit("CUSTOMERSETTLE_SEARCH", true);
       this.$router.back();
     }
   }
@@ -103,5 +102,4 @@ export default {
 </script>
 
 <style>
-
 </style>

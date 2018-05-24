@@ -8,11 +8,13 @@
         <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
           <!-- <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag> -->
           <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition disable-transitions> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
-          <span class="link-text" v-else-if="item.event&&scope.row[scope.column.property]!='null'&&scope.row[scope.column.property]?true:false" @click="operationHandle(scope.row,item.cb)"> {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}</span>
+          <span class="link-text inline-text" v-else-if="item.event&&scope.row[scope.column.property]!='null'&&scope.row[scope.column.property]?true:false" @click="operationHandle(scope.row,item.cb)"> 
+            {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
+            <i :data-clipboard-text="item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]" @click="copyText" class="el-icon-tickets copy-icon"></i>
+          </span>
           <el-popover v-else-if="scope.row[scope.column.property]?true:false" trigger="click" placement="top">
             <p>
               {{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
-              
               </p>
             <div slot="reference" class="name-wrapper">
               <div class="inline-text">

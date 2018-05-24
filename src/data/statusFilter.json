@@ -1,4 +1,18 @@
 {
+  "customerSettleOutMoneyStatus": {
+    "OUT_SUCCESS": {
+      "name": "成功",
+      "color": "#E6A23C"
+    },
+    "OUT_FAIL": {
+      "name": "失败",
+      "color": "#67C23A"
+    },
+    "WAIT_AUDIT": {
+      "name": "失败",
+      "color": "#67C23A"
+    }
+  },
   "emailBussinessType": {
     "customer": {
       "name": "商户",

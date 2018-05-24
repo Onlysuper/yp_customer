@@ -5,23 +5,12 @@
       <!-- search form start -->
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @changeSearchVisible="changeSearchVisible" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <!-- search form end -->
-      <div class="operation-box">
-        <el-button-group class="button-group">
-          <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
-          <span v-if="sumVisible" class="sumtext">
-            <span>达标商户数量:{{customerNumber}} </span>
-            <span class="split-line-v"></span>
-            <span>结算金额:{{settlePrice}}</span>
-          </span>
-        </el-button-group>
-      </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -35,7 +24,7 @@ import {
   eightday,
   today_
 } from "@src/common/dateSerialize";
-import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
+import { getAgentSettleSum, postUpdateSettles, getCustomerSettles } from "@src/apis";
 export default {
   name: "agent-settle",
   components: {
@@ -64,6 +53,17 @@ export default {
       searchOptions: [
         // 请注意 该数组里对象的corresattr属性值与searchCondition里面的属性是一一对应的 不可少
         {
+          corresattr: "customerNo",
+          type: "text", // 表单类型
+          label: "商户编号", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.customerNo = value;
+          }
+        },
+        {
           type: "dateGroup",
           label: "选择时间",
           show: true, // 普通搜索显示
@@ -88,9 +88,9 @@ export default {
         },
 
         {
-          corresattr: "status",
+          corresattr: "outMoneyStatus",
           type: "select",
-          label: "结算状态",
+          label: "出款状态",
           show: true, // 普通搜索显示
           value: "",
           options: [
@@ -98,32 +98,40 @@ export default {
               value: "",
               label: "全部"
             },
-            {
-              value: "TRUE",
-              label: "已确认"
-            },
-            {
-              value: "FALSE",
-              label: "待确认"
-            },
-            {
-              value: "SUCCESS",
-              label: "已结算"
-            }
+            ...this.statusFilterQuery('customerSettleOutMoneyStatus')
           ],
           cb: value => {
-            this.searchCondition.status = value;
+            this.searchCondition.outMoneyStatus = value;
+          }
+        },
+        {
+          corresattr: "customerName",
+          type: "text", // 表单类型
+          label: "商户名称", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.customerName = value;
+          }
+        },
+        {
+          corresattr: "settleName",
+          type: "text", // 表单类型
+          label: "结算名称", // 输入框前面的文字
+          show: false, // 普通搜索显示
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.settleName = value;
           }
         }
       ],
 
       // 列表数据
       postSearch: searchConditionVar,
-      actionUrl: getSettles,
+      actionUrl: getCustomerSettles,
       tableData: {
-        // getDataUrl: {
-        //   url: getSettles // 初始化数据
-        // },
         summary: {
           is: false
         }, //显示合计
@@ -131,54 +139,63 @@ export default {
         dataHeader: [
           // table列信息 key=>表头标题，word=>表内容信息
           {
-            key: "结算单号",
+            key: "创建时间",
             width: "120px",
+            word: "createTime"
+          },
+          {
+            key: "商户名称",
+            width: "120px",
+            word: "customerName"
+          },
+          {
+            key: "商户编号",
+            width: "180px",
+            word: "customerNo"
+          },
+          {
+            key: "出款状态",
+            width: "120px",
+            word: "outMoneyStatus",
+            status: true,
+            type: data => {
+              return this.statusFilter(data, 'customerSettleOutMoneyStatus')
+            }
+          },
+          {
+            key: "结算名称",
+            width: "120px",
+            word: "settleName"
+          },
+          {
+            key: "结算账号",
+            width: "160px",
             word: "settleNo"
           },
           {
-            key: "时间",
-            width: "180px",
-            word: "dataTime"
+            key: "交易金额",
+            width: "120px",
+            word: "payAmount"
           },
-
           {
-            key: "商户数量",
-            width: "",
-            word: "customerNumber"
+            key: "手续费",
+            width: "120px",
+            word: "proceduresFee"
+          },
+          {
+            key: "冻结金额",
+            width: "120px",
+            word: "freezeAmount"
           },
           {
             key: "结算金额",
-            width: "",
-            word: "settlePrice"
+            width: "120px",
+            word: "settleAmount"
           },
           {
-            key: "结算状态",
-            width: "",
-            word: "status",
-            status: true,
-            type: data => {
-              if (data === "TRUE") {
-                return {
-                  text: "已确认",
-                  type: ""
-                };
-              } else if (data === "FALSE") {
-                return {
-                  text: "待确认",
-                  type: "info"
-                };
-              } else if (data === "SUCCESS") {
-                return {
-                  text: "已结算",
-                  type: "success"
-                };
-              } else {
-                return {
-                  text: data,
-                  type: "info"
-                };
-              }
-            }
+            key: "交易类型",
+            width: "120px",
+            word: "settleType"
           }
         ],
         operation: {
@@ -186,41 +203,10 @@ export default {
           options: [
             // 操作按钮
             {
-              text: "待确认",
+              text: "查看详情",
               color: "#00c1df",
-              visibleFn: rowdata => {
-                //已确认
-                if (rowdata.status == "FALSE") {
-                  return true;
-                } else {
-                  return false;
-                }
-              },
               cb: rowdata => {
-                // 确认结算订单金额
-                this.$confirm("此操作将确认结算订单金额, 是否继续?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                }).then(() => {
-                  postUpdateSettles()({
-                    agentNo: rowdata.agentNo,
-                    settleNo: rowdata.settleNo
-                  }).then(data => {
-                    if (data.code == "00") {
-                      this.$message({
-                        type: "success",
-                        message: "已确认"
-                      });
-                    } else {
-                      this.$message({
-                        type: "warning",
-                        message: data.msg
-                      });
-                    }
-                    this.reloadData();
-                  });
-                });
+
               }
             }
           ]

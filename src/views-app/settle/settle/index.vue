@@ -14,8 +14,8 @@
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="isAdmin?item.agentName:''">
           <div v-if="adminFilter('admin_settle_updateSettle') && item.status == 'TRUE'" slot="btn" @click="settlement(item,'settle')">结算</div>
           <div v-if="adminFilter('agent_settle_updateSettle') && item.status == 'FALSE'" slot="btn" @click="settlement(item,'sure')">确认</div>
-
-          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.status,'settleStatus')">{{item.status | statusSettle}}</mt-badge>
+          <!-- <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.status,'settleStatus')">{{item.status | statusSettle}}</mt-badge> -->
+          <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.status,'settleStatus')">{{item.status | statusFilter('settleStatus')}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
             <table>
@@ -145,5 +145,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

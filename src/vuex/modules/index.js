@@ -22,6 +22,7 @@ import orderQuery from "./order/orderQuery";
 import email from "./order/email";
 import customerVersion from "./version/customerVersion";
 import settle from "./settle/settle";
+import customerSettle from "./settle/customerSettle";
 import buriedPoint from "./statistical/buriedPoint";
 import changeBill from "./changebill/changeBill";
 
@@ -50,6 +51,7 @@ export {
   email,
   customerVersion,
   settle,
+  customerSettle,
   buriedPoint,
   changeBill
 };

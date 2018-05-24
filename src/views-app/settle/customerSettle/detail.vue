@@ -6,14 +6,18 @@
     </mt-header>
     <view-radius>
       <input-wrapper>
-        <mt-field :disabled="true" type="text" label="订单编号" placeholder="订单编号" v-model="dataList.orderNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="对公账户名称" placeholder="对公账户名称" v-model="dataList.receiveMan"></mt-field>
-        <mt-field :disabled="true" type="text" label="收款账号" placeholder="收款账号" v-model="dataList.accountNo"></mt-field>
-        <mt-field :disabled="true" type="text" label="开户行" placeholder="开户行" v-model="dataList.bankName"></mt-field>
-        <mt-field :disabled="true" type="text" label="实付金额" placeholder="实付金额" v-model="dataList.settlePrice"></mt-field>
-        <mt-field :disabled="true" type="text" label="达标商户数量" placeholder="达标商户数量" v-model="dataList.customerNumber"></mt-field>
-        <mt-field :disabled="true" type="text" label="联系电话" placeholder="联系电话" v-model="dataList.agentPhone"></mt-field>
-        <mt-field :disabled="true" type="text" label="打款时间" placeholder="打款时间" v-model="dataList.remitTime"></mt-field>
+        <mt-field :disabled="true" type="text" label="交易金额" placeholder="交易金额" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="手续费" placeholder="手续费" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="出款手续费" placeholder="出款手续费" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="冻结金额" placeholder="冻结金额" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="结算金额" placeholder="结算金额" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="银行名称" placeholder="银行名称" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="身份证号" placeholder="身份证号" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="交易类型" placeholder="交易类型" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="交易时间" placeholder="交易时间" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="出款状态" placeholder="出款状态" v-model="dataList.orderNo"></mt-field>
+        <mt-field :disabled="true" type="text" label="备注" placeholder="备注" v-model="dataList.orderNo"></mt-field>
+       
       </input-wrapper>
     </view-radius>
   </full-page>
@@ -55,7 +59,8 @@ export default {
       user.userType === "operator"
     ); // 运营
     return {
-      settleNo: this.$route.params["settleNo"],
+      customerNo: this.$route.params["customerNo"],
+      // customerNo
       surePage: false,
       isAdmin: isAdmin,
       statusObj: {},
@@ -76,13 +81,12 @@ export default {
     this.init();
   },
   methods: {
-    ...mapActions(["getAgentSettleUnit", "postUpdateSettlesAc"]),
+    ...mapActions(["getCustomerSettle"]),
     init() {
       if (this.pageType == "DETAIL") {
         this.surePage = false;
-        this.getAgentSettleUnit(this.settleNo).then(empowerList => {
-
-          this.dataList = { ...empowerList }
+        this.getCustomerSettle(this.customerNo).then(dataList => {
+          this.dataList = { ...dataList }
         });
       }
     }
@@ -91,5 +95,4 @@ export default {
 </script>
 
 <style>
-
 </style>

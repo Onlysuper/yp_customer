@@ -75,14 +75,34 @@ export default {
           path: "index",
           component: r => {
             loading(true);
-            return require.ensure([], () => { loading(false); return r(require("@src/views-app/settle/customerSettle")) }, "customerSettle-app")
+            return require.ensure([], () => { loading(false); return r(require("@src/views-app/settle/customerSettle")) }, "customer-settle-app")
           },
           meta: {
             pageTitle: "结算管理",
             keepAlive: true,
             menuCode: "customerSettle"
           }
-        }
+        },
+        {
+          name: "customerSettleSearch",
+          path: 'search',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/settle/customerSettle/search")) }, "customer-settle-app")
+          },
+          meta: {
+            pageTitle: "搜索"
+          }
+        },
+        {
+          name: "customerSettleDetail",
+          path: 'detail/:customerNo',
+          component: r => {
+            return require.ensure([], () => { return r(require("@src/views-app/settle/customerSettle/detail")) }, "customer-settle-app")
+          },
+          meta: {
+            pageTitle: "详情"
+          }
+        },
       ],
     }
   ]

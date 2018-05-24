@@ -11,7 +11,7 @@ import acceptMessage from "@src/vuex/acceptMessage/acceptMessage"
 import {
     customerGoods, customerManage, profitBilling, convergePayComm, agent, billCount, billRecord, billDay, billStandard,
     empowerCheck, empowerManage, empowerPurchase, empowerTransfer, customerProduct, enterpriseSupply, orderQuery, customerVersion,
-    settle, buriedPoint, bankCustomer, changeBill, email
+    settle, customerSettle, buriedPoint, bankCustomer, changeBill, email
 } from "./modules";
 Vue.use(Vuex);
 
@@ -60,6 +60,7 @@ const store = new Vuex.Store({
         orderQuery,
         customerVersion,
         settle,
+        customerSettle,
         buriedPoint,
         acceptMessage,
         bankCustomer,
