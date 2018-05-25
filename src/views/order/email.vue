@@ -252,7 +252,6 @@ export default {
     this.bussinessTypeOptions = this.statusFilterQuery('emailBussinessType');
   },
   mounted() {
-    // this.SumHandle()
   },
   computed: {
     isAdmin() {

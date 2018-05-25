@@ -21,7 +21,6 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -256,7 +255,9 @@ export default {
     }
   },
   mounted() {
-    this.SumHandle();
+    if (adminFilter('billprofit_sum')) {
+      this.SumHandle();
+    }
   }
 };
 </script>

@@ -384,7 +384,6 @@ export default {
     }
   },
   mounted() {
-    // this.SumHandle()
   },
   computed: {
     isAdmin() {
