@@ -8,7 +8,7 @@
         <el-button-group class="button-group">
           <!-- <el-button class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isBatchUpdate = false;isUpdate = false;dialogVisible = true">新增升级商户</el-button> -->
           <!-- <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">修改升级商户</el-button> -->
-          <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="reset();isBatchUpdate = true;isUpdate = false;dialogVisible = true">新增 修改升级商户</el-button>
+          <el-button class="mybutton" size="small" type="primary" icon="el-icon-edit" @click="addVisible">新增 修改升级商户</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
@@ -213,6 +213,9 @@ export default {
               cb: rowdata => {
                 this.dialogVisible = true;
                 this.form = { ...rowdata };
+                this.$nextTick(() => {
+                  this.$refs["form"].clearValidate();
+                })
               }
             }
           ]
@@ -250,6 +253,12 @@ export default {
     };
   },
   methods: {
+    addVisible() {
+      this.isBatchUpdate = true;
+      this.isUpdate = false;
+      this.dialogVisible = true;
+      this.reset();
+    },
     getDialogTitle() {
       if (this.isBatchUpdate || this.isUpdate) {
         return "修改升级商户";
@@ -320,9 +329,14 @@ export default {
       });
     },
     reset() {
-      this.form.status = "";
-      this.form.customerNo = "";
-      this.form.type = "";
+      this.form = {
+        customerNo: "",
+        type: "",
+        status: ""
+      }
+      this.$nextTick(() => {
+        this.$refs["form"].clearValidate();
+      })
     },
     dialogClosed() {
       this.isUpdate = true;

@@ -318,6 +318,7 @@ const postEditEmailconfig = () => { return (params) => { return http.post(base.o
 
 //支付商户结算
 const getCustomerSettles = () => { return (params) => { return http.get(base.oaIp, "/customerSettle/page", params) } }
+const postStatusCustomerSettle = () => { return (params) => { return http.post(base.oaIp, "/customerSettle/queryCustomerNo", params) } }
 
 // 邮箱配置end
 export {
@@ -485,6 +486,7 @@ export {
     getEmailconfigs,
     postAddEmailconfig,
     postEditEmailconfig,
-    getCustomerSettles
+    getCustomerSettles,
+    postStatusCustomerSettle
 };
 

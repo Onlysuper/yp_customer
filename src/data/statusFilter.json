@@ -4,12 +4,20 @@
       "name": "成功",
       "color": "#67C23A"
     },
+    "OUT_SEND": {
+      "name": "出款已发送",
+      "color": "#67C23A"
+    },
     "OUT_FAIL": {
-      "name": "失败",
+      "name": "出款失败",
       "color": "#E6A23C"
     },
     "WAIT_AUDIT": {
-      "name": "失败",
+      "name": "审核失败",
+      "color": "#67C23A"
+    },
+    "AUDIT_FAIL": {
+      "name": "审核失败",
       "color": "#67C23A"
     }
   },

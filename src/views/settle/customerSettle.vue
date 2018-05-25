@@ -69,7 +69,7 @@ import {
   eightday,
   today_
 } from "@src/common/dateSerialize";
-import { getAgentSettleSum, postUpdateSettles, getCustomerSettles } from "@src/apis";
+import { getCustomerSettles, postStatusCustomerSettle } from "@src/apis";
 export default {
   name: "agent-settle",
   components: {
@@ -269,8 +269,37 @@ export default {
                 }
               },
               cb: rowdata => {
-                let myrow = rowdata
-                rowdata.outMoneyStatus = "OUT_FAIL"
+                postStatusCustomerSettle()({
+                  customerNo: rowdata.customerNo,
+                  payTime: rowdata.payTime
+                }).then(res => {
+                  if (res.code == "00") {
+
+                  } else {
+                    this.$message({
+                      message: res.msg,
+                      type: "warning",
+                      center: true
+                    });
+                  }
+                });
+                // postStatusCustomerSettle()({
+                //   customerNo: rowdata.customerNo,
+                //   payTime: rowdata.payTime
+                // }).then((res) => {
+                //   console.log(res)
+                //   if (res.code == '00') {
+
+                //   } else {
+                //     this.$message({
+                //       message: res.msg,
+                //       type: "warning",
+                //       center: true
+                //     });
+                //   }
+                // })
+                // let myrow = rowdata
+                // rowdata.outMoneyStatus = "OUT_FAIL"
               }
             }
           ]
@@ -280,33 +309,8 @@ export default {
   },
 
   methods: {
-    // 合计
-    SumHandle() {
-      this.sumLoading = true;
-      var searchCondition = this.searchCondition;
-      getAgentSettleSum()({
-        createTimeStart: searchCondition.createTimeStart,
-        createTimeEnd: searchCondition.createTimeEnd,
-        status: searchCondition.status
-      }).then(res => {
-        if (res.code == "00") {
-          var data = res.data;
-          this.customerNumber = data.customerNumber;
-          this.settlePrice = data.settlePrice;
-          this.sumVisible = true;
-        } else {
-          this.$message({
-            message: res.msg,
-            type: "warning",
-            center: true
-          });
-        }
-        this.sumLoading = false;
-      });
-    }
   },
   mounted() {
-    this.SumHandle();
   }
 };
 </script>

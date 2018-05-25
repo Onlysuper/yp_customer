@@ -6,7 +6,7 @@
       <myp-search-form @changeform="callbackformHandle" @resetInput="resetSearchHandle" @visiblesome="visiblesomeHandle" @seachstart="seachstartHandle" :searchOptions="searchOptions"></myp-search-form>
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button v-if="adminFilter('agent_add')" class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="reset();isUpdate = false;uploadDialogVisible = true;editType=false">上传新版本</el-button>
+          <el-button v-if="adminFilter('agent_add')" class="mybutton" size="small" type="primary" icon="el-icon-plus" @click="addVisible">上传新版本</el-button>
         </el-button-group>
       </div>
       <!-- search form end -->
@@ -246,6 +246,9 @@ export default {
                 this.uploadDialogVisible = true;
                 this.editType = true;
                 this.form = { ...rowdata };
+                this.$nextTick(() => {
+                  this.$refs["form"].clearValidate();
+                })
               }
             },
             {
@@ -331,6 +334,12 @@ export default {
     };
   },
   methods: {
+    addVisible() {
+      this.isUpdate = false;
+      this.uploadDialogVisible = true;
+      this.editType = false;
+      this.reset();
+    },
     getDialogTitle() {
       return this.isUpdate ? "修改上传版本" : "上传新版本";
     },
@@ -405,12 +414,17 @@ export default {
       });
     },
     reset() {
-      this.form.clientVersion = "";
-      this.form.url = "";
-      this.form.type = "";
-      this.form.isForced = "FALSE";
-      this.form.compatibleVersion = "0";
-      this.form.info = "";
+      this.form = {
+        clientVersion: "",
+        url: "",
+        type: "",
+        isForced: "FALSE",
+        compatibleVersion: "0",
+        info: ""
+      }
+      this.$nextTick(() => {
+        this.$refs["form"].clearValidate();
+      })
     },
     dialogClosed() {
       this.isUpdate = true;
