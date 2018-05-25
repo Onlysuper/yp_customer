@@ -27,7 +27,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { thisMonth, lastMonth } from "@src/common/dateSerialize";
+import { thisMonthStr, lastMonthStr } from "@src/common/dateSerialize";
 import { getpayProfits, getBillprofitSum } from "@src/apis";
 import utils from "@src/common/utils";
 export default {
@@ -45,7 +45,7 @@ export default {
       customerNo: "", // 商户编号
       enterpriseName: "", // 商户名称
       containChild: "TRUE",
-      dataTime: lastMonth
+      dataTime: lastMonthStr
     };
     return {
       sumVisible: false,
@@ -63,6 +63,7 @@ export default {
           type: "select",
           label: "结算状态",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -86,6 +87,7 @@ export default {
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -103,6 +105,7 @@ export default {
               ? "FALSE"
               : "TRUE",
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -119,7 +122,7 @@ export default {
               this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
               ? false
               : true, // 普通搜索显示
-          value: lastMonth, // 表单默认的内容
+          value: lastMonthStr, // 表单默认的内容
           cb: value => {
             // console.log(value);
             // 表单输入之后回调函数

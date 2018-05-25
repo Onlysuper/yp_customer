@@ -33,10 +33,10 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
-  todayDate,
-  yesterday,
-  eightday,
-  todayDate_,
+  yesterdayStr,
+  eightdayStr,
+  today_,
+  todayStr,
   yesterday_,
   eightday_
 } from "@src/common/dateSerialize";
@@ -50,8 +50,8 @@ export default {
   mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
-      dataTimeBegin: eightday, // 开始日期
-      dataTimeEnd: yesterday, // 结束日期
+      dataTimeBegin: eightdayStr, // 开始日期
+      dataTimeEnd: yesterdayStr, // 结束日期
       agentNo: "", // 合伙人编号
       containChild: "TRUE" // 下级
     };
@@ -71,6 +71,7 @@ export default {
           type: "text", // 表单类型
           label: "合伙人编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -86,6 +87,7 @@ export default {
             {
               corresattr: "dataTimeBegin",
               label: "开始时间",
+              defaultVlue: eightdayStr,
               value: eightday_,
               cb: value => {
                 this.searchCondition.dataTimeBegin = value;
@@ -94,6 +96,7 @@ export default {
             {
               corresattr: "dataTimeEnd",
               lable: "结束时间",
+              defaultVlue: yesterdayStr,
               value: yesterday_,
               cb: value => {
                 this.searchCondition.dataTimeEnd = value;
@@ -106,6 +109,7 @@ export default {
           type: "select",
           label: "包含关系",
           show: true, // 普通搜索显示
+          defaultVlue: "TRUE",
           value: "TRUE",
           options: [
             {

@@ -312,7 +312,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import {
   getArantNumManages,
   postMakeEmpower,
@@ -335,8 +335,8 @@ export default {
   mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
-      createTimeStart: todayDate, // 开始日期
-      createTimeEnd: todayDate, // 结束日期
+      createTimeStart: todayStr, // 开始日期
+      createTimeEnd: todayStr, // 结束日期
       batchNo: "", // 批次编号
       agentNo: "", // 合伙人编号
       containChild: "TRUE", // 下级
@@ -523,6 +523,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -531,6 +532,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
@@ -543,6 +545,7 @@ export default {
           type: "text", // 表单类型
           label: "序列号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -554,6 +557,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -565,6 +569,7 @@ export default {
           type: "select",
           label: "设备类型",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -589,6 +594,7 @@ export default {
           type: "text", // 表单类型
           label: "批次编号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -612,6 +618,7 @@ export default {
           type: "text", // 表单类型
           label: "合伙人编号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -623,6 +630,7 @@ export default {
           type: "text", // 表单类型
           label: "授权码", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -634,6 +642,7 @@ export default {
           type: "select",
           label: "状态",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             // empowerBindStatus
@@ -652,6 +661,7 @@ export default {
           type: "select",
           label: "包含关系",
           show: false, // 普通搜索显示
+          defaultVlue: "TRUE",
           value: "TRUE",
           options: [
             ...this.statusFilterQuery('containChild')
@@ -666,6 +676,7 @@ export default {
           type: "select",
           label: "是否有物料",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

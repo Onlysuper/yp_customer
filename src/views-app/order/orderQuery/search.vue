@@ -157,10 +157,10 @@ export default {
         defaultValue: this.searchQuery.status,
         values:
           [
-            {
-              name: "全部",
-              code: ""
-            },
+            // {
+            //   name: "全部",
+            //   code: ""
+            // },
             ...this.statusFilterQuery('orderQueryStatus')
           ],
         cb: value => {
@@ -181,5 +181,4 @@ export default {
 </script>
 
 <style>
-
 </style>

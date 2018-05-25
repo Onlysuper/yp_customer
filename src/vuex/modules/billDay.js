@@ -1,7 +1,7 @@
 
 // 日开票详情
 import { } from "@src/apis";
-import { eightday, yesterday } from "@src/common/dateSerialize";
+import { eightdayStr, yesterdayStr } from "@src/common/dateSerialize";
 import { Toast } from "mint-ui";
 import utils from "@src/common/utils";
 export default {

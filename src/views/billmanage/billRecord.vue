@@ -188,10 +188,10 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
-  todayDate,
-  yesterday,
+  yesterdayStr,
+  yesterday_,
   today_,
-  yesterday_
+  todayStr
 } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { getBillrecords, postEditBillrecord } from "@src/apis";
@@ -208,8 +208,8 @@ export default {
       customerNo: "", // 商户编号
       authCode: "", // 授权码
       invoiceType: "", // 开票类型
-      createTimeStart: todayDate, // 开始时间
-      createTimeEnd: todayDate, // 结束时间
+      createTimeStart: todayStr, // 开始时间
+      createTimeEnd: todayStr, // 结束时间
       status: "" // 状态
     };
     return {
@@ -230,6 +230,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -241,6 +242,7 @@ export default {
           type: "select",
           label: "状态",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -261,6 +263,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -269,6 +272,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
@@ -281,6 +285,7 @@ export default {
           type: "text",
           label: "授权码",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.authCode = value;
@@ -291,6 +296,7 @@ export default {
           type: "select",
           label: "开票类型",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

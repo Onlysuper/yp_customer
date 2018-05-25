@@ -22,7 +22,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import { getBurialPointManages, getNewBurialPointManages, getBurialPointTotal, getNewBurialPointTotal } from "@src/apis";
 import buriedPointActionId from "@src/data/buriedPointActionId.json"
 export default {
@@ -39,8 +39,8 @@ export default {
       version: "", // 版本号
       actionId: "", // 操作类型
       userId: "", // 授权码
-      createTimeStart: todayDate, // 开始时间
-      createTimeEnd: todayDate // 结束时间
+      createTimeStart: todayStr, // 开始时间
+      createTimeEnd: todayStr // 结束时间
     };
     return {
       scanSum: 0,
@@ -60,6 +60,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -76,6 +77,7 @@ export default {
               clearable: false,
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 // this.searchOptions[1].options[0].value = value;
@@ -86,6 +88,7 @@ export default {
               clearable: false,
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 // this.searchOptions[1].options[1].value = value;
@@ -99,6 +102,7 @@ export default {
           type: "select",
           label: "用户类型",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -123,6 +127,7 @@ export default {
           type: "text", // 表单类型
           label: "合伙人编号", // 输入框前面的文字
           show: false,
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -134,6 +139,7 @@ export default {
           type: "select",
           label: "新老版本",
           show: false, // 普通搜索显示
+          defaultVlue: "old",
           value: "old",
           options: [
             // {
@@ -164,6 +170,7 @@ export default {
           type: "text", // 表单类型
           label: "版本号", // 输入框前面的文字
           show: false,
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -175,6 +182,7 @@ export default {
           type: "select",
           label: "操作类型",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

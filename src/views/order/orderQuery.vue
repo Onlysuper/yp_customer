@@ -72,7 +72,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import { getPayOrders, getSumPayOrders } from "@src/apis";
 import utils from "@src/common/utils";
 export default {
@@ -86,8 +86,8 @@ export default {
     // 日期格式转换成如“2017-12-19”的格式
     var searchConditionVar = {
       orderNo: "",
-      startTime: todayDate,
-      endTime: todayDate,
+      startTime: todayStr,
+      endTime: todayStr,
       customerNo: "",
       agentNo: "",
       hasChild: true,
@@ -111,6 +111,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -122,12 +123,13 @@ export default {
           type: "select",
           label: "交易状态",
           show: true, // 普通搜索显示
+          defaultVlue: "SUCCESS",
           value: "SUCCESS",
           options: [
-            {
-              value: "",
-              label: "全部"
-            },
+            // {
+            //   value: "",
+            //   label: "全部"
+            // },
             ...this.statusFilterQuery('orderQueryStatus')
           ],
           cb: value => {
@@ -142,6 +144,7 @@ export default {
             {
               corresattr: "startTime",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.startTime = value;
@@ -150,6 +153,7 @@ export default {
             {
               corresattr: "endTime",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.endTime = value;
@@ -162,6 +166,7 @@ export default {
           type: "text", // 表单类型
           label: "交易单号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -184,6 +189,7 @@ export default {
           type: "select",
           label: "包含关系",
           show: false, // 普通搜索显示
+          defaultVlue: "TRUE",
           value: "TRUE",
           options: [
             {
@@ -212,6 +218,7 @@ export default {
               ? "FALSE"
               : "TRUE",
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -223,6 +230,7 @@ export default {
           type: "select",
           label: "交易类型",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

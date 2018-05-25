@@ -205,7 +205,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate } from "@src/common/dateSerialize";
+import { todayStr } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import utils from "@src/common/utils";
 import openInfo from "./openInfo";
@@ -473,6 +473,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -484,6 +485,7 @@ export default {
           type: "text",
           label: "商户名称",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.customerName = value;
@@ -494,6 +496,7 @@ export default {
           type: "select",
           label: "聚合支付",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -511,6 +514,7 @@ export default {
           type: "select",
           label: "快速开票",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -528,6 +532,7 @@ export default {
           type: "select",
           label: "电子发票",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

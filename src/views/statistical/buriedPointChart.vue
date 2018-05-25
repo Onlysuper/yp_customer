@@ -15,7 +15,7 @@ import SearchForm from "@src/components/SearchForm";
 import BuriedPointChart from "@src/components/BuriedPointChart";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/BuriedPointChart/chartPage";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import { postBurialPointCharts, getBurialPointTotal } from "@src/apis";
 export default {
   name: "operator_log_chart",
@@ -27,8 +27,8 @@ export default {
   data() {
     var searchConditionVar = {
       userType: "",
-      createTimeStart: todayDate, // 开始时间
-      createTimeEnd: todayDate // 结束时间
+      createTimeStart: todayStr, // 开始时间
+      createTimeEnd: todayStr // 结束时间
     };
     return {
       searchCondition: searchConditionVar,
@@ -39,6 +39,7 @@ export default {
           type: "select",
           label: "用户类型",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -63,6 +64,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -71,6 +73,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;

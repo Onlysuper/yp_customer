@@ -17,7 +17,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-
 </style>
 <script>
 import qs from "qs";
@@ -27,7 +26,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday, today_ } from "@src/common/dateSerialize";
+import { yesterdayStr, todayStr, today_ } from "@src/common/dateSerialize";
 import { getBillcountcustomers, getExportcountcustomers } from "@src/apis";
 
 export default {
@@ -39,10 +38,10 @@ export default {
   mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
-      standardTimeBegin: todayDate, // 开始日期
-      standardTimeEnd: todayDate, // 结束日期
-      startNetTime: todayDate, // 入网开始时间
-      endNetTime: todayDate, // 入网结束时间
+      standardTimeBegin: todayStr, // 开始日期
+      standardTimeEnd: todayStr, // 结束日期
+      startNetTime: todayStr, // 入网开始时间
+      endNetTime: todayStr, // 入网结束时间
       customerNo: "", // 商户编号
       agentNo: "", // 代理商编号
       containChild: "TRUE", // 下级
@@ -65,6 +64,7 @@ export default {
             {
               corresattr: "startNetTime",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.startNetTime = value;
@@ -73,6 +73,7 @@ export default {
             {
               corresattr: "endNetTime",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.endNetTime = value;
@@ -88,6 +89,7 @@ export default {
             {
               corresattr: "standardTimeBegin",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.standardTimeBegin = value;
@@ -96,6 +98,7 @@ export default {
             {
               corresattr: "standardTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.standardTimeEnd = value;
@@ -108,6 +111,7 @@ export default {
           type: "select",
           label: "达标情况",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -132,6 +136,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -143,6 +148,7 @@ export default {
           type: "text", // 表单类型
           label: "合伙人编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -155,6 +161,7 @@ export default {
           type: "select",
           label: "包含关系",
           show: true, // 普通搜索显示
+          defaultVlue: "TRUE",
           value: "TRUE",
           options: [
             {
@@ -175,6 +182,7 @@ export default {
           type: "select",
           label: "推送次数",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

@@ -1,4 +1,4 @@
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayStr, yesterdayStr, thisMonthStr } from "@src/common/dateSerialize";
 // 公用table页与search页功能
 const mixinDataTable = {
     data() {
@@ -68,23 +68,50 @@ const mixinDataTable = {
             // 重置查询表单
             this.searchOptions.forEach(element => {
                 if (element.type == "dateGroup") {
-                    element.options[0].value = todayDate;
-                    element.options[1].value = todayDate;
-                    this.searchCondition[element.options[0].corresattr] = todayDate;
-                    this.searchCondition[element.options[1].corresattr] = todayDate;
+                    element.options[0].value = element.options[0].defaultVlue;
+                    element.options[1].value = element.options[1].defaultVlue;
+                    this.searchCondition[element.options[0].corresattr] = element.options[0].defaultVlue;
+                    this.searchCondition[element.options[1].corresattr] = element.options[1].defaultVlue;
+                } else if (element.type == "dateMonth") {
+                    element.value = element.defaultVlue;
+                    this.searchCondition[element.corresattr] = element.defaultVlue
                 } else if (element.type == "dateGroup2") {
-                    element.value = [todayDate, todayDate]
-                    this.searchCondition[element.option1] = todayDate;
-                    this.searchCondition[element.option2] = todayDate;
+                    element.value = [element.defaultVlue[0], element.defaultVlue[1]];
+                    this.searchCondition[element.option1] = element.defaultVlue[0];
+                    this.searchCondition[element.option2] = element.defaultVlue[1];
                 } else if (element.type == "select") {
-                    element.value = element.options[0].value;
-                    this.searchCondition[element.corresattr] = element.options[0].value;
+                    element.value = element.defaultVlue;
+                    this.searchCondition[element.corresattr] = element.defaultVlue;
                 } else {
-                    element.value = "";
-                    this.searchCondition[element.corresattr] = "";
+                    element.value = element.defaultVlue;
+                    this.searchCondition[element.corresattr] = element.defaultVlue;
                 }
             });
         },
+        // resetSearchHandle() {
+        //     // 重置查询表单
+        //     this.searchOptions.forEach(element => {
+        //         if (element.type == "dateGroup") {
+        //             element.options[0].value = todayStr;
+        //             element.options[1].value = todayStr;
+        //             this.searchCondition[element.options[0].corresattr] = todayStr;
+        //             this.searchCondition[element.options[1].corresattr] = todayStr;
+        //         } else if (element.type == "dateMonth") {
+        //             element.value = thisMonthStr;
+        //             this.searchCondition[element.corresattr] = thisMonthStr
+        //         } else if (element.type == "dateGroup2") {
+        //             element.value = [todayStr, todayStr]
+        //             this.searchCondition[element.option1] = todayStr;
+        //             this.searchCondition[element.option2] = todayStr;
+        //         } else if (element.type == "select") {
+        //             element.value = element.options[0].value;
+        //             this.searchCondition[element.corresattr] = element.options[0].value;
+        //         } else {
+        //             element.value = "";
+        //             this.searchCondition[element.corresattr] = "";
+        //         }
+        //     });
+        // },
         resetSomeInputHandle(value) {
             this.searchOptions.forEach(element => {
                 if (element.type == value) {

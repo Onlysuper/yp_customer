@@ -151,7 +151,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import { getChangeBills, postUpdateBill, getOneChangeBill } from "@src/apis";
 import utils from "@src/common/utils";
 import payDetail from "./payDetail";
@@ -246,6 +246,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -258,6 +259,7 @@ export default {
           type: "select",
           label: "状态",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -275,6 +277,7 @@ export default {
           type: "text", // 表单类型
           label: "代理商编号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -286,6 +289,7 @@ export default {
           type: "text", // 表单类型
           label: "变更单号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数

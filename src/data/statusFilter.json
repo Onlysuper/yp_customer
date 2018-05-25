@@ -472,6 +472,10 @@
     }
   },
   "orderQueryStatus": {
+    "SUCCESS": {
+      "name": "成功",
+      "color": "#67C23A"
+    },
     "INIT": {
       "name": "订单初始化",
       "color": "#409EFF"
@@ -483,10 +487,6 @@
     "FAIL": {
       "name": "失败",
       "color": "#F56C6C"
-    },
-    "SUCCESS": {
-      "name": "成功",
-      "color": "#67C23A"
     },
     "REFUND": {
       "name": "退款",

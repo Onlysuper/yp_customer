@@ -144,7 +144,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, yesterday, today_ } from "@src/common/dateSerialize";
+import { todayStr, yesterdayStr, today_ } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import {
   postEnterpriseSupplys,
@@ -161,8 +161,8 @@ export default {
   mixins: [mixinDataTable, mixinsPc],
   data() {
     var searchConditionVar = {
-      createTimeStart: todayDate, // 开始时间
-      createTimeEnd: todayDate, // 结束时间
+      createTimeStart: todayStr, // 开始时间
+      createTimeEnd: todayStr, // 结束时间
       name: "",
       tax: "",
       operator: ""
@@ -191,6 +191,7 @@ export default {
           type: "text",
           label: "企业名称",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.name = value;
@@ -201,6 +202,7 @@ export default {
           type: "text",
           label: "企业税号",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.tax = value;
@@ -214,6 +216,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -222,6 +225,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
@@ -234,6 +238,7 @@ export default {
           type: "text",
           label: "操作员",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.operator = value;

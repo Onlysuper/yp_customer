@@ -8,28 +8,28 @@ let dateSerialize = (nowDate, type) => {
         var thismonth = year + "-" + month;
         return thismonth;
     } else if (type == "day") {
-        var todayDate = year + "-" + month + "-" + day;
-        return todayDate;
+        var todayStr = year + "-" + month + "-" + day;
+        return todayStr;
     }
 };
-let todayDate = dateSerialize(new Date(), "day"); // 初始化默认开始查询日期
-let yesterday = dateSerialize(new Date() - 24 * 60 * 60 * 1000, "day"); // 初始化默认结束查询日期
-let eightday = dateSerialize(new Date() - 7 * (24 * 60 * 60 * 1000), "day"); // 8天前
-let thisMonth = dateSerialize(new Date(), "month"); // 初始化默认开始查询日期
-let lastMonth = dateSerialize(new Date() - 30 * (24 * 60 * 60 * 1000), "month"); // 初始化默认开始查询日期
+let todayStr = dateSerialize(new Date(), "day"); // 初始化默认开始查询日期
+let yesterdayStr = dateSerialize(new Date() - 24 * 60 * 60 * 1000, "day"); // 初始化默认结束查询日期
+let eightdayStr = dateSerialize(new Date() - 7 * (24 * 60 * 60 * 1000), "day"); // 8天前
+let thisMonthStr = dateSerialize(new Date(), "month"); // 初始化默认开始查询日期
+let lastMonthStr = dateSerialize(new Date() - 30 * (24 * 60 * 60 * 1000), "month"); // 初始化默认开始查询日期
 
 let today_ = new Date();
 let yesterday_ = new Date(new Date() - 24 * 60 * 60 * 1000);
 let eightday_ = new Date(new Date() - 7 * (24 * 60 * 60 * 1000));
-let thisMonth_ = new Date(thisMonth);
-let lastMonth_ = new Date(lastMonth);
+let thisMonth_ = new Date(thisMonthStr);
+let lastMonth_ = new Date(lastMonthStr);
 export {
     dateSerialize,
-    todayDate,
-    yesterday,
-    eightday,
-    thisMonth,
-    lastMonth,
+    todayStr,
+    yesterdayStr,
+    eightdayStr,
+    thisMonthStr,
+    lastMonthStr,
     today_,
     yesterday_,
     eightday_,

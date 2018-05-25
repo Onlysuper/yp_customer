@@ -1,4 +1,4 @@
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayStr, yesterdayStr } from "@src/common/dateSerialize";
 // 公用table页与search页功能
 const mixinDataTable = {
     data() {
@@ -55,14 +55,14 @@ const mixinDataTable = {
             // 重置查询表单
             this.searchOptions.forEach(element => {
                 if (element.type == "dateGroup") {
-                    element.options[0].value = todayDate;
-                    element.options[1].value = todayDate;
-                    this.searchCondition[element.options[0].corresattr] = todayDate;
-                    this.searchCondition[element.options[1].corresattr] = todayDate;
+                    element.options[0].value = todayStr;
+                    element.options[1].value = todayStr;
+                    this.searchCondition[element.options[0].corresattr] = todayStr;
+                    this.searchCondition[element.options[1].corresattr] = todayStr;
                 } else if (element.type == "dateGroup2") {
-                    element.value = [todayDate, todayDate]
-                    this.searchCondition[element.option1] = todayDate;
-                    this.searchCondition[element.option2] = todayDate;
+                    element.value = [todayStr, todayStr]
+                    this.searchCondition[element.option1] = todayStr;
+                    this.searchCondition[element.option2] = todayStr;
                 } else {
                     element.value = "";
                     this.searchCondition[element.corresattr] = "";

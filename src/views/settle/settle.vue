@@ -229,9 +229,9 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import {
-  todayDate,
-  yesterday,
-  eightday,
+  todayStr,
+  yesterdayStr,
+  eightdayStr,
   today_
 } from "@src/common/dateSerialize";
 import { getSettles, getAgentSettleSum, postUpdateSettles } from "@src/apis";
@@ -249,8 +249,8 @@ export default {
     var searchConditionVar = {
       agentNo: "", // 代理商编号
       agentName: "", // 代理商名称
-      createTimeStart: todayDate, // 开始时间
-      createTimeEnd: todayDate, // 结束时间
+      createTimeStart: todayStr, // 开始时间
+      createTimeEnd: todayStr, // 结束时间
       status: "" // 结束时间
     };
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
@@ -295,6 +295,7 @@ export default {
           type: "text", // 表单类型
           label: "代理商编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           visible: isAdmin ? "TRUE" : "FALSE",
           cb: value => {
@@ -308,6 +309,7 @@ export default {
           label: "代理商名称", // 输入框前面的文字
           visible: isAdmin ? "TRUE" : "FALSE",
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -322,6 +324,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -330,6 +333,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;

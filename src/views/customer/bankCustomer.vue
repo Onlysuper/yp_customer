@@ -89,6 +89,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -100,6 +101,7 @@ export default {
           type: "text",
           label: "银行商户编号",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.bankCustomerNo = value;
@@ -110,6 +112,7 @@ export default {
           type: "select",
           label: "通道",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -127,6 +130,7 @@ export default {
           type: "select",
           label: "状态",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

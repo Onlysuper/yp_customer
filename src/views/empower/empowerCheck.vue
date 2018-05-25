@@ -109,7 +109,6 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-
 </style>
 <script>
 import $ from "jquery";
@@ -118,7 +117,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import utils from "@src/common/utils"
 import {
   getArantNumExamines,
@@ -138,8 +137,8 @@ export default {
       receiptNo: "", // 采购单号
       status: "", // 状态
       receiptType: "", //设备类型
-      createTimeStart: todayDate, // 开始日期
-      createTimeEnd: todayDate // 结束日期
+      createTimeStart: todayStr, // 开始日期
+      createTimeEnd: todayStr // 结束日期
     };
     return {
       // 授权码
@@ -198,6 +197,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -206,6 +206,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
@@ -218,6 +219,7 @@ export default {
           type: "select",
           label: "状态",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -235,6 +237,7 @@ export default {
           type: "select",
           label: "设备类型",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -252,6 +255,7 @@ export default {
           type: "text", // 表单类型
           label: "采购单号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数

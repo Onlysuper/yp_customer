@@ -295,7 +295,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang='scss' scoped>
-
 </style>
 <script>
 import SearchForm from "@src/components/SearchForm";
@@ -304,7 +303,7 @@ import { mixinsPc } from "@src/common/mixinsPc";
 
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, phoneNumVerify_r, taxNumVerify_r } from "@src/common/regexp";
 import {
   getCustomers,
@@ -332,8 +331,8 @@ export default {
       customerNo: "", // 商户编号
       taxNo: "", // 企业税号
       enterpriseName: "", // 企业名称
-      createTimeStart: todayDate, // 开始时间
-      createTimeEnd: todayDate, // 结束时间
+      createTimeStart: todayStr, // 开始时间
+      createTimeEnd: todayStr, // 结束时间
       agentNo: "", // 合伙人编号
       customerFrom: "", // 入网来源
       containChild: "TRUE"
@@ -397,6 +396,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -420,6 +420,7 @@ export default {
           type: "text",
           label: "企业名称",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.enterpriseName = value;
@@ -433,6 +434,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -441,6 +443,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
@@ -453,6 +456,7 @@ export default {
           type: "select",
           label: "状态",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -473,6 +477,7 @@ export default {
           type: "text",
           label: "企业税号",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.taxNo = value;
@@ -483,6 +488,7 @@ export default {
           type: "text",
           label: "合伙人编号",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.agentNo = value;
@@ -493,6 +499,7 @@ export default {
           type: "select",
           label: "入网来源",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             ...this.statusFilterQuery('customerFrom')
@@ -506,6 +513,7 @@ export default {
           type: "select",
           label: "包含关系",
           show: false, // 普通搜索显示
+          defaultVlue: "TRUE",
           value: "TRUE",
           options: [
             {

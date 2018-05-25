@@ -156,7 +156,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import { getArantNumTransfers, postMigrateNumTransfer } from "@src/apis";
 export default {
   name: "qr_code_migrate",
@@ -170,8 +170,8 @@ export default {
     var searchConditionVar = {
       migrateNo: "", // 转移单号
       migrateMode: "", // 转移类型
-      createTimeStart: todayDate, //开始日期
-      createTimeEnd: todayDate //结束日期
+      createTimeStart: todayStr, //开始日期
+      createTimeEnd: todayStr //结束日期
     };
     return {
       formLabelWidth: "110px",
@@ -265,6 +265,7 @@ export default {
           type: "text", // 表单类型
           label: "转移单号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -276,6 +277,7 @@ export default {
           type: "select",
           label: "转移类型",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -303,6 +305,7 @@ export default {
             {
               corresattr: "dataTimeBegin",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -311,6 +314,7 @@ export default {
             {
               corresattr: "dataTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
@@ -324,7 +328,7 @@ export default {
         //   limit: false, //日期联动
         //   limitnum: 7,
         //   show: true, // 普通搜索显示
-        //   value: [todayDate, todayDate],
+        //   value: [todayStr, todayStr],
         //   option1: "createTimeStart",
         //   option2: "createTimeEnd",
         //   cb: (startTime, endTime) => {

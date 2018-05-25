@@ -1,4 +1,4 @@
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayStr, yesterdayStr } from "@src/common/dateSerialize";
 import utils from "@src/common/utils";
 // 公用table页与search页功能
 const mixinsPc = {

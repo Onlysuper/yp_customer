@@ -29,7 +29,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { thisMonth } from "@src/common/dateSerialize";
+import { thisMonthStr } from "@src/common/dateSerialize";
 import { getBillprofits, getBillprofitSum } from "@src/apis";
 export default {
   name: "billprofit",
@@ -46,7 +46,7 @@ export default {
       agentNo: "",
       containChild: "TRUE",
       settleStatus: "",
-      dataTime: thisMonth
+      dataTime: thisMonthStr
     };
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
     var isAdmin = user.userType === "admin" || user.userType === "branchOffice"; // 运营
@@ -66,7 +66,9 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
+          defaultValue: "",
           cb: value => {
             // 表单输入之后回调函数
             this.searchCondition.customerNo = value;
@@ -77,6 +79,7 @@ export default {
           type: "text", // 表单类型
           label: "商户名称", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -88,7 +91,8 @@ export default {
           type: "dateMonth", // 表单类型
           label: "日期", // 输入框前面的文字
           show: true, // 普通搜索显示
-          value: thisMonth, // 表单默认的内容
+          defaultVlue: thisMonthStr, // 表单默认的内容
+          value: thisMonthStr, // 表单默认的内容
           cb: value => {
             // console.log(value);
             // 表单输入之后回调函数
@@ -100,6 +104,7 @@ export default {
           type: "text", // 表单类型
           label: "合伙人编号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -111,6 +116,7 @@ export default {
           type: "select",
           label: "包含关系",
           show: false, // 普通搜索显示
+          defaultVlue: "TRUE",
           value: "TRUE",
           options: [
             {
@@ -131,6 +137,7 @@ export default {
           type: "select",
           label: "结算情况",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

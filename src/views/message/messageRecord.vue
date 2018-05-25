@@ -16,7 +16,7 @@ import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate, today_ } from "@src/common/dateSerialize";
+import { todayStr, today_ } from "@src/common/dateSerialize";
 import { getMessages } from "@src/apis";
 export default {
   name: "message-list",
@@ -30,8 +30,8 @@ export default {
       sendBusinessNo: "", // 发送方
       receiveBusinessNo: "", // 接收方
       status: "", // 消息状态
-      createTimeStart: todayDate, // 开始时间
-      createTimeEnd: todayDate // 结束时间
+      createTimeStart: todayStr, // 开始时间
+      createTimeEnd: todayStr // 结束时间
     };
     return {
       scanSum: 0,
@@ -50,6 +50,7 @@ export default {
           type: "text", // 表单类型
           label: "发送方", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -64,6 +65,7 @@ export default {
             {
               corresattr: "createTimeStart",
               label: "开始时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeStart = value;
@@ -72,6 +74,7 @@ export default {
             {
               corresattr: "createTimeEnd",
               lable: "结束时间",
+              defaultVlue: todayStr,
               value: today_,
               cb: value => {
                 this.searchCondition.createTimeEnd = value;
@@ -84,6 +87,7 @@ export default {
           type: "select",
           label: "消息状态",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {

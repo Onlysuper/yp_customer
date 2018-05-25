@@ -379,7 +379,7 @@ import DataPage from "@src/components/DataPage";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
-import { todayDate, yesterday } from "@src/common/dateSerialize";
+import { todayStr, yesterdayStr } from "@src/common/dateSerialize";
 import { phoneNumVerify } from "@src/common/regexp";
 import utils from "@src/common/utils"
 // 省市区一转三格式
@@ -549,6 +549,7 @@ export default {
           type: "text",
           label: "合伙人编号",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.agentNo = value;
@@ -559,6 +560,7 @@ export default {
           type: "text",
           label: "合伙人名称",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.agentName = value;
@@ -571,6 +573,7 @@ export default {
           type: "select",
           label: "级别",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -604,6 +607,7 @@ export default {
           type: "select",
           label: "级别",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -628,6 +632,7 @@ export default {
           type: "text", // 表单类型
           label: "手机号", // 输入框前面的文字
           show: false, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
