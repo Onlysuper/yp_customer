@@ -12,7 +12,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog :modal-append-to-body="false" :append-to-body="false" center :title="addTitle" :visible.sync="addFormVisible">
+    <el-dialog v-dialogDrag :modal-append-to-body="false" :append-to-body="false" center :title="addTitle" :visible.sync="addFormVisible">
       <el-form class="fieldset-box" size="small" ref="addForm" :model="addForm" :rules="addFormRules" label-width="100px">
         <fieldset>
           <legend>基本信息</legend>
@@ -228,7 +228,7 @@
     <!-- 新增end -->
 
     <!-- 编辑 start -->
-    <el-dialog title="编辑合伙人信息" center :visible.sync="editFormVisible">
+    <el-dialog v-dialogDrag title="编辑合伙人信息" center :visible.sync="editFormVisible">
       <el-form class="fieldset-box" size="small" :model="editForm" ref="editForm" :rules="addFormRules" label-width="90px">
         <fieldset>
           <legend>基本信息</legend>

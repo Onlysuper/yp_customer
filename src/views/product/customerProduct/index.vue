@@ -61,7 +61,7 @@
     </el-dialog>
     <!-- 关闭end -->
     <!-- 排版 -->
-    <el-dialog title="" center :visible.sync="styleVisible">
+    <el-dialog v-dialogDrag  title="配置" center :visible.sync="styleVisible">
       <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
         <el-form-item label="开票类型:" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group @input="supportTypesChange" v-model="styleForm.supportTypes">

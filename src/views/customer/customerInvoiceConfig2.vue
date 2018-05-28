@@ -7,14 +7,14 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button class="mybutton" @click="addDialog" size="small" type="primary" icon="el-icon-plus">新增</el-button>
+          <el-button class="mybutton" @click="formVisible('add')" size="small" type="primary" icon="el-icon-plus">新增</el-button>
         </el-button-group>
       </div>
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     
     <!-- 新增start -->
-    <el-dialog v-dialogDrag center title="新增开票配置" :visible.sync="addFormVisible">
+    <el-dialog v-dialogDrag center :title="dialogTitle" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-row>
           <el-col :span="12">
@@ -82,83 +82,13 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetAddForm('addForm')">重置</el-button>
-        <el-button :loading="saveLoading" type="primary" @click="addSave('addForm')">立即提交</el-button>
+        <!-- <el-button v-if="isAdd?true:false" :loading="saveLoading" type="primary" @click="addSave('addForm')">立即提交</el-button> -->
+         <!-- <el-button v-if="isEdit?true:false"  :loading="saveLoading" type="primary" @click="editSave('addForm')">确定</el-button> -->
+         <el-button v-if="isAdd?true:false"  :loading="saveLoading" type="primary" @click="submit('addForm','add')">确定</el-button>
+         <el-button v-if="isEdit?true:false"  :loading="saveLoading" type="primary" @click="submit('addForm','edit')">确定</el-button>
       </div>
     </el-dialog>
     <!-- 新增end -->
-    <!-- 编辑start -->
-    <el-dialog v-dialogDrag center title="修改开票信息" :visible.sync="editFormVisible">
-      <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.customerNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item class="full-width" label="设备类型" prop="deviceType" :label-width="formLabelWidth">
-                <el-select v-model="editForm.deviceType" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.deviceTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-form-item class="full-width" label="开票地区" prop="invoiceLocation" :label-width="formLabelWidth">
-          <el-select v-model="editForm.invoiceLocation" placeholder="请选择">
-            <el-option v-for="item in invoiceAreaOptions" :key="item.name" :label="item.name" :value="item.name">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item class="full-width" label="客户端类型" prop="clientType" :label-width="formLabelWidth">
-                <el-select v-model="editForm.clientType" placeholder="请选择">
-                  <el-option v-for="item in selectOptions.clientTypeOptions" :key="item.value" :label="item.label" :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="设备编号" prop="deviceNo" :label-width="formLabelWidth">
-                <el-input v-model="editForm.deviceNo" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <div class="grid-content bg-purple">
-              <el-form-item label="收款人" prop="receiveMan" :label-width="formLabelWidth">
-                <el-input v-model="editForm.receiveMan" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-          <el-col :span="12">
-            <div class="grid-content bg-purple-light">
-              <el-form-item label="开票人" prop="invoiceMan" :label-width="formLabelWidth">
-                <el-input v-model="editForm.invoiceMan" auto-complete="off"></el-input>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-        <el-form-item label="复核人" prop="checkMan" :label-width="formLabelWidth">
-          <el-input v-model="editForm.checkMan" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editFormVisible=false">关闭</el-button>
-        <el-button :loading="saveLoading" type="primary" @click="editSave('editForm')">确定</el-button>
-      </div>
-    </el-dialog>
-    <!-- 编辑end -->
   </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -190,6 +120,8 @@ export default {
       customerNo: "" // 商户编号
     };
     return {
+      isAdd: false,
+      isEdit: false,
       // 查询条件数据
       invoiceAreaOptions: invoiceAreaJson,
       addFormVisible: false, // 新增框
@@ -352,9 +284,8 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
+                this.formVisible('eidt', rowdata);
 
-                this.editForm = rowdata;
-                this.editFormVisible = true;
               }
             }
           ]
@@ -364,6 +295,31 @@ export default {
   },
 
   methods: {
+    formVisible(type, data) {
+      this.addFormVisible = true;
+      this.isAdd = false;
+      this.isEdit = false;
+      if (type == 'add') {
+        this.isAdd = true;
+        this.addForm = {
+          customerNo: "",
+          deviceType: "",
+          clientType: "",
+          deviceNo: "",
+          receiveMan: "",
+          invoiceMan: "",
+          checkMan: "",
+          invoiceLocation: ""
+        };
+      }
+      if (type == 'eidt') {
+        this.isEdit = true;
+        this.addForm = { ...data };
+      }
+      this.$nextTick(() => {
+        this.$refs.addForm.clearValidate()
+      })
+    },
     addDialog() {
       // 新增数据 弹出框
       this.addFormVisible = true;
@@ -371,18 +327,36 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-
-    // 新增保存
-    addSave(formName) {
-      // 新增内容保存
+    submit(formName, type) {
+      let submitApi = "";
+      let submitMsg = "";
+      let sendData = {};
+      if (type == 'add') {
+        submitApi = postAddCustomerConfigs;
+        submitMsg = "恭喜你，新增数据成功";
+        sendData = { ...this.addForm }
+      }
+      if (type == 'edit') {
+        submitApi = postEditCustomerConfigs;
+        submitMsg = "恭喜你，修改数据成功";
+        sendData = utils.pickObj(this[formName], [
+          "customerNo",
+          "deviceType",
+          "clientType",
+          "deviceNo",
+          "receiveMan",
+          "invoiceMan",
+          "checkMan",
+          "invoiceLocation"
+        ]);
+      }
       this.$refs[formName].validate(valid => {
-        let addForm = this.addForm;
         if (valid) {
           this.saveLoading = true;
-          postAddCustomerConfigs()(addForm).then(data => {
+          submitApi()(sendData).then(data => {
             if (data.code === "00") {
               this.$message({
-                message: "恭喜你，新增数据成功",
+                message: submitMsg,
                 type: "success",
                 center: true
               });
@@ -400,44 +374,6 @@ export default {
           });
         }
       });
-    },
-    // 保存编辑
-    editSave(formName) {
-      // 编辑内容保存
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          this.saveLoading = true;
-          let rowNew = utils.pickObj(this.editForm, [
-            "customerNo",
-            "deviceType",
-            "clientType",
-            "deviceNo",
-            "receiveMan",
-            "invoiceMan",
-            "checkMan",
-            "invoiceLocation"
-          ]);
-          postEditCustomerConfigs()({ ...rowNew }).then(data => {
-            if (data.code === "00") {
-              this.$message({
-                message: "恭喜你，修改数据成功",
-                type: "success",
-                center: true
-              });
-              this.editFormVisible = false;
-              this.reloadData();
-            } else {
-              this.$message({
-                message: data.msg,
-                type: "warning",
-                center: true
-              });
-            }
-            this.saveLoading = false;
-            console.log(data);
-          });
-        }
-      });
     }
   },
   computed: {
@@ -452,6 +388,16 @@ export default {
     },
     editFormVisible(val) {
       this.saveLoadingStop(val);
+    }
+  },
+  computed: {
+    dialogTitle() {
+      if (this.isAdd) {
+        return "新增开票配置"
+      }
+      if (this.isEdit) {
+        return "编辑开票配置"
+      }
     }
   },
   mounted() { }

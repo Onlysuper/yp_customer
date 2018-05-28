@@ -18,7 +18,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详细信息 start -->
-    <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
+    <el-dialog v-dialogDrag :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
         <div class="line-label-box cross-back">
           <span class="line-label">交易时间:</span>

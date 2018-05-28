@@ -12,7 +12,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增产品模板" :visible.sync="addFormVisible">
+    <el-dialog v-dialogDrag center title="新增产品模板" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-form-item class="full-width" v-if="visibleBussinessType" label="业务类型" prop="bussinessType" :label-width="formLabelWidth">
           <el-select @input="bussinessTypeChange" v-model="addForm.bussinessType" placeholder="请选择">
@@ -47,7 +47,7 @@
     <!-- 新增end -->
 
     <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="修改商户信息" center :visible.sync="editFormVisible" width="500px">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item label="产品名称" prop="productName" :label-width="formLabelWidth">
           <el-input v-model="editForm.productName" auto-complete="off"></el-input>

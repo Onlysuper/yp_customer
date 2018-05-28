@@ -9,7 +9,14 @@ import App from './App';
 import mypDirective from './common/directives';
 import mypFilter from './common/filters';
 import validator from "@src/common/validator";
+/*背景初始化展示一个小图然后切换为大图 start*/
+import progressive from 'progressive-image/dist/vue'
 
+Vue.use(progressive, {
+  removePreview: true,
+  scale: true
+})
+/*背景初始化展示一个小图然后切换为大图 end*/
 /* Using these kinds of IScroll class for different cases. */
 
 Vue.use(mypDirective);

@@ -17,7 +17,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增商户" :visible.sync="addFormVisible">
+    <el-dialog v-dialogDrag center title="新增商户" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-row>
           <el-col :span="12">
@@ -84,7 +84,7 @@
     </el-dialog>
     <!-- 新增end -->
     <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible" width="600px">
+    <el-dialog v-dialogDrag title="修改商户信息" center :visible.sync="editFormVisible" width="600px">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item label="商户编号" prop="customerNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editForm.customerNo" auto-complete="off"></el-input>
@@ -156,7 +156,7 @@
     </el-dialog>
     <!-- 编辑 end -->
     <!-- 批量入网 start -->
-    <el-dialog title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="商户批量入网" center :visible.sync="batchNetFormVisible" width="500px">
       <el-form label-width="0" label-position="top" size="small" :model="batchNetForm" ref="batchNetForm" :rules="batchNetFormRules">
         <div class="content-center-box">
           <div class="sep-inline">
@@ -182,7 +182,7 @@
     </el-dialog>
     <!-- 批量入网 end -->
     <!-- 批量转移 start -->
-    <el-dialog title="商户批量转移" center :visible.sync="batchTransferFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="商户批量转移" center :visible.sync="batchTransferFormVisible" width="500px">
       <div class="content-center-box">
         <div class="sep-inline">
           <a class="link-Label" :href="oaIp+'/static/template/trans-batch-2007.xlsx'">下载转移模板</a>
@@ -204,7 +204,7 @@
     </el-dialog>
     <!-- 批量转移 end -->
     <!-- 商户电票开通start -->
-    <el-dialog title="商户批量开通发票" center :visible.sync="electronicOpenFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="商户批量开通发票" center :visible.sync="electronicOpenFormVisible" width="500px">
       <div class="content-center-box">
         <div class="sep-inline">
           <a class="link-Label" :href="oaIp+'/static/template/electronicOpen-2007.xlsx'">下载电子发票开通模板</a>
@@ -226,7 +226,7 @@
     </el-dialog>
     <!-- 商户电票开通 end -->
     <!-- 详情 start -->
-    <el-dialog title="详情" center :visible.sync="detailsFormVisible" width="400px">
+    <el-dialog v-dialogDrag title="详情" center :visible.sync="detailsFormVisible" width="400px">
       <div class="detail-content">
         <div class="line-label-box cross-back">
           <span class="line-label">企业名称:</span>{{detailsForm.enterpriseName}}
@@ -269,7 +269,7 @@
     </el-dialog>
     <!-- 详情 end -->
     <!-- 商户转移 start -->
-    <el-dialog title="商户转移" center :visible.sync="transferFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="商户转移" center :visible.sync="transferFormVisible" width="500px">
       <el-form size="small" :model="transferForm" ref="transferForm" :rules="transferFormRules">
         <el-form-item label="商户编号" prop="" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="transferForm.customerNo" auto-complete="off"></el-input>

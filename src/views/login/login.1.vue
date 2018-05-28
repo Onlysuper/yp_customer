@@ -1,11 +1,5 @@
 <template>
   <div class="login-page">
-    <div class="progressive-box" v-for="(item,index) in imgs" :key="index">
-      <div class="space"></div>
-      <div class="progressive">
-        <img class="preview" v-progressive="item.src" :data-srcset="item.srcset" :src="item.preview" />
-      </div>
-    </div>
     <div class="login-main">
       <div class="content-box">
         <header class="header">
@@ -45,18 +39,10 @@
 
 import $ from "jquery";
 import { Login } from "@src/apis";
-var backImgUrl = "@src/assets/images/LoginBackSmall.png"
 export default {
   name: "Login",
   data() {
     return {
-      backImg: backImgUrl,
-      imgs: [
-        {
-          src: require('@src/assets/images/LoginBack.png'),
-          preview: require('@src/assets/images/LoginBackSmall.png')
-        }
-      ],
       loading: false,
       ruleForm: {
         username: "",
@@ -125,11 +111,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-@import "//unpkg.com/progressive-image/dist/index.css";
-</style>
 <style lang='scss'>
-$default-color: rgb(12, 11, 11); // 字体颜色
+$default-color: #333; // 字体颜色
 $center-width: 280px; // 表单宽度
 .login-page {
   position: absolute;
@@ -269,28 +252,6 @@ $center-width: 280px; // 表单宽度
       img {
         width: 190px;
       }
-    }
-  }
-}
-
-/*渐进式背景start*/
-.progressive-box {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: block;
-  overflow: hidden;
-  height: 100%;
-  .progressive {
-    height: 100%;
-    width: 100%;
-    img {
-      display: block;
-      max-width: 100%;
-      min-height: 100%;
-      border: 0none;
     }
   }
 }

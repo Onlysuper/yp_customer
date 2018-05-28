@@ -21,6 +21,7 @@
     "jquery-mousewheel": "^3.1.13",
     "lrz": "^4.9.40",
     "mint-ui": "^2.2.9",
+    "progressive-image": "^1.2.0",
     "pubsub-js": "^1.5.7",
     "qrcode": "^1.2.0",
     "screenfull": "^3.3.2",

@@ -8,7 +8,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 详情 start -->
-    <el-dialog title="详情" center :visible.sync="detailsFormVisible">
+    <el-dialog v-dialogDrag  title="详情" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
         <!-- change start -->
         <!-- <el-row class="cross-back">
@@ -84,7 +84,7 @@
     </el-dialog>
     <!-- 详情 end -->
     <!-- 编辑 start -->
-    <el-dialog title="修改商户信息" center :visible.sync="editFormVisible">
+    <el-dialog v-dialogDrag title="修改商户信息" center :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm">
         <el-row>
           <el-col :span="12">

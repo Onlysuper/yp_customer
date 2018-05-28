@@ -14,7 +14,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增商品信息" :visible.sync="formDialogVisible">
+    <el-dialog v-dialogDrag center title="新增商品信息" :visible.sync="formDialogVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-form-item label="商品名称" prop="goodsName" :label-width="formLabelWidth">
           <el-input placeholder="请输入内容" v-model="addForm.goodsName" class="input-with-select">
