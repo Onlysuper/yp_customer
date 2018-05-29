@@ -359,13 +359,16 @@
       justify-content: flex-start !important;
     }
   }
-}
-.el-tabs__content {
-  height: 100%;
-}
-.change-before {
-  height: 100%;
-  // height: 300px;
+  .el-tabs__content {
+    height: 100%;
+  }
+  .change-before {
+    height: 100%;
+    // height: 300px;
+  }
+  .el-tabs__nav-scroll {
+    padding: 0 !important;
+  }
 }
 </style>
 <script>

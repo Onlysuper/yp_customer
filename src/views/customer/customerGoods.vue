@@ -851,6 +851,12 @@ export default {
         discountType: "",
         goodsFirstType: ""
       }
+      this.clearValidate();
+    },
+    clearValidate() {
+      this.$nextTick(() => {
+        this.$refs.addForm.clearValidate()
+      })
     },
     // 导入成功
     uploadSuccess(res, file, fileList) {

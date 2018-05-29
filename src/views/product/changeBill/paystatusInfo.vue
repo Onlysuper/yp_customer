@@ -438,6 +438,10 @@ export default {
           this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
         }
         this.isLegalPersonSettleIdCard();
+
+        this.$nextTick(() => {
+          this.$refs.payStatusForm.clearValidate();
+        })
       });
     },
     isLegalPersonSettleIdCard(type) {
