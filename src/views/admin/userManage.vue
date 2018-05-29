@@ -365,6 +365,9 @@ export default {
   },
 
   methods: {
+    resetAddForm(formName) {
+      this.$refs[formName].resetFields();
+    },
     _roleTree(data) {
       this.zTreeInit($("#roleTree"), data, this.setting);
     },
