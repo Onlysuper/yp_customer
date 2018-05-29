@@ -54,15 +54,15 @@
   "empowerBindStatus": {
     "BINDED": {
       "name": "已绑定",
-      "color": "#E6A23C"
+      "color": "#67C23A"
     },
     "TRUE": {
       "name": "未绑定",
-      "color": "#E6A23C"
+      "color": "#409EFF"
     },
     "FALSE": {
       "name": "无效",
-      "color": "#67C23A"
+      "color": "##909399"
     }
   },
   "bankCustomerStatus": {
