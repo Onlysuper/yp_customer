@@ -597,50 +597,53 @@ export default {
                 }
               },
               cb: rowdata => {
-                this.$confirm("确定继续本次操作吗?", "提示", {
-                  confirmButtonText: "确定",
-                  cancelButtonText: "取消",
-                  type: "warning"
-                })
-                  .then(() => {
-                    postDefaultCustomerGood(rowdata.goodsNo)({
-                      createTime: rowdata.createTime,
-                      lastUpdateTime: rowdata.lastUpdateTime,
-                      customerNo: rowdata.customerNo,
-                      goodsNo: rowdata.goodsNo,
-                      model: rowdata.model,
-                      unit: rowdata.unit,
-                      unitPrice: rowdata.unitPrice,
-                      taxRate: rowdata.taxRate,
-                      status: rowdata.status,
-                      enjoyDiscount: rowdata.enjoyDiscount,
-                      discountType: rowdata.discountType,
-                      remark: rowdata.remark,
-                      goodsName: rowdata.goodsName,
-                      unionNo: rowdata.unionNo,
-                      defaultType: rowdata.defaultType,
-                      goodsType: rowdata.goodsType
-                    }).then(data => {
-                      if (data.code == "00") {
-                        this.$message({
-                          type: "success",
-                          message: "操作成功!"
-                        });
-                        this.reloadData();
-                      } else {
-                        this.$message({
-                          type: "warning",
-                          message: data.msg
-                        });
-                      }
-                    });
+                if (!rowdata.unitPrice) {
+                  this.$confirm("确定继续本次操作吗?", "提示", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning"
                   })
-                  .catch(() => {
-                    // this.$message({
-                    //   type: "info",
-                    //   message: "已取消操作"
-                    // });
+                    .then(() => {
+                      postDefaultCustomerGood(rowdata.goodsNo)({
+                        createTime: rowdata.createTime,
+                        lastUpdateTime: rowdata.lastUpdateTime,
+                        customerNo: rowdata.customerNo,
+                        goodsNo: rowdata.goodsNo,
+                        model: rowdata.model,
+                        unit: rowdata.unit,
+                        unitPrice: rowdata.unitPrice,
+                        taxRate: rowdata.taxRate,
+                        status: rowdata.status,
+                        enjoyDiscount: rowdata.enjoyDiscount,
+                        discountType: rowdata.discountType,
+                        remark: rowdata.remark,
+                        goodsName: rowdata.goodsName,
+                        unionNo: rowdata.unionNo,
+                        defaultType: rowdata.defaultType,
+                        goodsType: rowdata.goodsType
+                      }).then(data => {
+                        if (data.code == "00") {
+                          this.$message({
+                            type: "success",
+                            message: "操作成功!"
+                          });
+                          this.reloadData();
+                        } else {
+                          this.$message({
+                            type: "warning",
+                            message: data.msg
+                          });
+                        }
+                      });
+                    })
+                    .catch(() => {
+                    });
+                } else {
+                  this.$message({
+                    type: "warning",
+                    message: "存在单价，不可设置为默认"
                   });
+                }
               }
             },
             {

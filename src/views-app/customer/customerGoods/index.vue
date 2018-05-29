@@ -20,8 +20,9 @@
         <mt-badge slot="badge" v-if="item.taxRate" class="g-min-badge" size="small" type="primary">{{item.taxRate | handleTaxRate}}</mt-badge>
         <mt-badge slot="badge" v-if="item.discountType" class="g-min-badge" size="small" type="primary">{{item.discountType | handleDiscountType}}</mt-badge>
         <mt-badge slot="badge" v-if="item.enjoyDiscount" class="g-min-badge" size="small" type="primary">{{item.enjoyDiscount | handleEnjoyDiscount}}</mt-badge>
-        <mt-badge v-if="item.defaultType == 'TRUE'" slot="badge" class="g-min-badge" size="small" type="error">{{item.defaultType | statusFilter('handleDefaultType')}}</mt-badge>
-
+        <!-- <mt-badge v-if="item.defaultType == 'TRUE'" slot="badge" class="g-min-badge" size="small" type="error">{{item.defaultType | statusFilter('handleDefaultType')}}</mt-badge> -->
+        <mt-badge v-if="item.defaultType == 'TRUE'" slot="badge" class="g-min-badge" size="small" type="error" :color="filterColor(item.defaultType,'handleDefaultType')">{{item.defaultType | statusFilter('handleDefaultType')}}</mt-badge>
+<!-- <mt-badge slot="badge" v-if="item.status" class="g-min-badge" size="small" :color="filterColor(item.status,'handleStatus')">{{item.status | statusFilter('handleStatus')}}</mt-badge> -->
         <myp-cell class="list-item">
           <!-- 详情 -->
           <table>
@@ -122,16 +123,21 @@ export default {
       this.sheetVisible = true;
       this._customer = customer;
       this.actions = [
-        {
-          name: this._customer.defaultType == "TRUE" ? "取消默认" : "设为默认",
-          defaultType: this._customer.defaultType,
-          method: this.setDefault
-        },
+
         {
           name: "删除",
           method: this.remove
         }
       ];
+      if (!customer.unitPrice) {
+        this.actions.push(
+          {
+            name: this._customer.defaultType == "TRUE" ? "取消默认" : "设为默认",
+            defaultType: this._customer.defaultType,
+            method: this.setDefault
+          }
+        )
+      }
     },
     remove() {
       this.MessageBox.confirm("确定删除吗?").then(action => {
@@ -158,5 +164,4 @@ export default {
 </script>
 
 <style>
-
 </style>
