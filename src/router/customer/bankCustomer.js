@@ -17,6 +17,6 @@ export default {
   },
   component: r => {
     loading(true);
-    return require.ensure([], () => { loading(false); return r(require("@src/views/customer/bankCustomer")) }, "bank－customer")
+    return require.ensure([], () => { loading(false); return r(require("@src/views/customer/bankCustomer")) }, "bank-customer")
   }
 }
