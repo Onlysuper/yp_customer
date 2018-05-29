@@ -12,7 +12,7 @@
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
       <!-- 上传新版本start -->
-      <el-dialog center :title="getDialogTitle()" :visible.sync="uploadDialogVisible" @close="dialogClosed">
+      <el-dialog v-dialogDrag center :title="getDialogTitle()" :visible.sync="uploadDialogVisible" @close="dialogClosed">
         <el-form ref="form" :model="form" label-width="110px" :rules="validateRules">
           <el-row>
             <el-col :span="12">

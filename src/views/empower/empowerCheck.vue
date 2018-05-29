@@ -9,7 +9,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 审核授权码采购 -->
-    <el-dialog center title="授权码采购清单" :visible.sync="checkFormVisible">
+    <el-dialog v-dialogDrag center title="授权码采购清单" :visible.sync="checkFormVisible">
       <el-form size="small" :model="checkForm" ref="checkForm" :rules="checkFormRules">
         <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="checkForm.receiptNo" auto-complete="off"></el-input>

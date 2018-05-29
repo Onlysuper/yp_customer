@@ -12,7 +12,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 新增start -->
-    <el-dialog center title="新增用户" :visible.sync="addFormVisible">
+    <el-dialog v-dialogDrag center title="新增用户" :visible.sync="addFormVisible">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-form-item label="用户名" prop="realname" :label-width="formLabelWidth">
           <el-input v-model="addForm.realname" auto-complete="off"></el-input>
@@ -35,7 +35,7 @@
     <!-- 新增end -->
 
     <!-- 编辑 start -->
-    <el-dialog title="修改用户信息" center :visible.sync="editFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="修改用户信息" center :visible.sync="editFormVisible" width="500px">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item label="用户名" prop="realname" :label-width="formLabelWidth">
           <el-input v-model="editForm.realname" auto-complete="off"></el-input>
@@ -51,7 +51,7 @@
     </el-dialog>
     <!-- 编辑 end -->
     <!-- 配置角色 start -->
-    <el-dialog title="修改用户信息" center :visible.sync="configRoleFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="修改用户信息" center :visible.sync="configRoleFormVisible" width="500px">
       <!-- <el-tree :data="roleData" ref="roleConfigtree" :props="propsRoleData" lazy show-checkbox>
       </el-tree> -->
       <div class="zTreeDemoBackground left">

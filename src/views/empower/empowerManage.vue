@@ -16,7 +16,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 生成授权码start -->
-    <el-dialog center title="生成授权码" :visible.sync="empoverCodeFormVisible">
+    <el-dialog v-dialogDrag center title="生成授权码" :visible.sync="empoverCodeFormVisible">
       <el-form size="small" :model="empoverCodeForm" ref="empoverCodeForm" :rules="empoverCodeRules">
         <el-row>
           <el-col :span="12">
@@ -53,7 +53,7 @@
     </el-dialog>
     <!-- 生成授权码end -->
     <!-- 物料入库start -->
-    <el-dialog center title="物料入库" :visible.sync="addMaterielFormVisible">
+    <el-dialog v-dialogDrag center title="物料入库" :visible.sync="addMaterielFormVisible">
       <el-form size="small" :model="addMaterielForm" ref="addMaterielForm" :rules="addMaterielRules">
         <el-row>
           <el-col :span="12">
@@ -109,7 +109,7 @@
     </el-dialog>
     <!-- 生成授权码end -->
     <!-- 导出start -->
-    <el-dialog center title="导出授权码" :visible.sync="exportEmpowerCodeVisible">
+    <el-dialog v-dialogDrag center title="导出授权码" :visible.sync="exportEmpowerCodeVisible">
       <el-form size="small" :model="exportEmpowerCodeForm" ref="exportEmpowerCodeForm" :rules="exportEmpowerCodeRules">
         <el-form-item class="full-width" label="选择样式" prop="styleType" :label-width="formLabelWidth">
           <el-select v-model="exportEmpowerCodeForm.styleType" placeholder="请选择">
@@ -125,7 +125,7 @@
     </el-dialog>
     <!-- 导出end -->
     <!-- 批量绑定start -->
-    <el-dialog center title="批量绑定" :visible.sync="batchBindVisible">
+    <el-dialog  v-dialogDrag center title="批量绑定" :visible.sync="batchBindVisible">
       <form>
         <div class="content-center-box">
           <div class="sep-inline">
@@ -155,7 +155,7 @@
     </el-dialog>
     <!-- 预览end -->
     <!-- 编辑 start -->
-    <el-dialog center title="修改信息" :visible.sync="editFormVisible">
+    <el-dialog v-dialogDrag center title="修改信息" :visible.sync="editFormVisible">
       <el-form size="small" :model="editForm" ref="editForm" :rules="editFormRules">
         <el-row>
           <el-col :span="12">

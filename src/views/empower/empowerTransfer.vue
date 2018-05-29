@@ -14,7 +14,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 授权码分配  start-->
-    <el-dialog id="dialogLoding" ref="allotFormVisible" center title="授权码分配" :visible.sync="allotFormVisible">
+    <el-dialog v-dialogDrag id="dialogLoding" ref="allotFormVisible" center title="授权码分配" :visible.sync="allotFormVisible">
       <el-form size="small" :model="allotForm" ref="allotForm" :rules="allotFormRules">
         <el-row>
           <el-col :span="12">
@@ -82,7 +82,7 @@
     <!-- 授权码分配 end -->
 
     <!-- 授权码上缴  start-->
-    <el-dialog center title="授权码上缴" :visible.sync="payFormVisible">
+    <el-dialog v-dialogDrag center title="授权码上缴" :visible.sync="payFormVisible">
       <el-form size="small" :model="payForm" ref="payForm" :rules="payFormRules">
         <el-row>
           <el-col :span="12">

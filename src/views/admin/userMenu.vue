@@ -15,7 +15,7 @@
       </div>
     </div>
     <!-- 新增功能 start -->
-    <el-dialog title="新增功能" center :visible.sync="addFuncFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="新增功能" center :visible.sync="addFuncFormVisible" width="500px">
       <el-form size="small" :model="addFuncForm" ref="addFuncForm" :rules="addFuncFormRules">
         <el-form-item label="归属菜单" prop="menuName" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="addFuncForm.menuName" auto-complete="off"></el-input>
@@ -49,7 +49,7 @@
     </el-dialog>
     <!-- 新增功能 end -->
     <!-- 功能编辑 start -->
-    <el-dialog title="修改功能" center :visible.sync="editFuncFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="修改功能" center :visible.sync="editFuncFormVisible" width="500px">
       <el-form size="small" :model="editFuncForm" ref="editFuncForm" :rules="addFormRules">
         <el-form-item label="归属菜单" prop="menuName" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editFuncForm.menuName" auto-complete="off"></el-input>
@@ -77,7 +77,7 @@
     </el-dialog>
     <!-- 功能编辑 end -->
     <!-- 新增菜单 start -->
-    <el-dialog title="新增菜单" center :visible.sync="addFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="新增菜单" center :visible.sync="addFormVisible" width="500px">
       <el-form size="small" :model="addForm" ref="addForm" :rules="addFormRules">
         <el-form-item label="菜单名称" prop="menuName" :label-width="formLabelWidth">
           <el-input v-model="addForm.menuName" auto-complete="off"></el-input>
@@ -101,7 +101,7 @@
     </el-dialog>
     <!-- 新增菜单 end -->
     <!-- 编辑 start -->
-    <el-dialog title="修改菜单" center :visible.sync="editFormVisible" width="500px">
+    <el-dialog v-dialogDrag title="修改菜单" center :visible.sync="editFormVisible" width="500px">
       <el-form size="small" :model="editForm" ref="editForm" :rules="addFormRules">
         <el-form-item label="菜单名称" prop="menuName" :label-width="formLabelWidth">
           <el-input v-model="editForm.menuName" auto-complete="off"></el-input>

@@ -14,7 +14,7 @@
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
     <!-- 授权码采购  start-->
-    <el-dialog center title="授权码采购" :visible.sync="purchaseFormVisible">
+    <el-dialog v-dialogDrag center title="授权码采购" :visible.sync="purchaseFormVisible">
       <el-form size="small" :model="purchaseForm" ref="purchaseForm" :rules="purchaseFormRules">
         <el-row>
           <el-col :span="12">
@@ -47,7 +47,7 @@
     </el-dialog>
     <!-- 授权码采购 end -->
     <!-- 抢购扫码枪  start-->
-    <el-dialog center title="抢购扫码枪" :visible.sync="scangunFormVisible">
+    <el-dialog v-dialogDrag center title="抢购扫码枪" :visible.sync="scangunFormVisible">
       <el-form size="small" :model="scangunForm" ref="scangunForm" :rules="scangunFormRules">
         <el-form-item label="申请数量" prop="qrcodeCount" :label-width="formLabelWidth">
           <el-input v-model="scangunForm.qrcodeCount" auto-complete="off"></el-input>
@@ -60,7 +60,7 @@
     </el-dialog>
     <!-- 抢购扫码枪 end -->
     <!-- 授权码采购单修改  start-->
-    <el-dialog center title="授权码采购单修改" :visible.sync="editPayFormVisible">
+    <el-dialog v-dialogDrag center title="授权码采购单修改" :visible.sync="editPayFormVisible">
       <el-form size="small" :model="editPayForm" ref="editPayForm" :rules="editPayFormRules">
         <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
           <el-input :disabled="true" v-model="editPayForm.receiptNo" auto-complete="off"></el-input>
@@ -95,7 +95,7 @@
     </el-dialog>
     <!-- 授权码采购单修改 end -->
     <!-- 扫描枪采购单修改  start-->
-    <el-dialog center title="扫描枪采购单修改" :visible.sync="editScangunFormVisible">
+    <el-dialog v-dialogDrag center title="扫描枪采购单修改" :visible.sync="editScangunFormVisible">
       <el-form size="small" :model="editScangunForm" ref="editScangunForm" :rules="editScangunFormRules">
         <el-form-item label="采购单号" prop="receiptNo" :label-width="formLabelWidth">
           <el-input disabled v-model="editScangunForm.receiptNo" auto-complete="off"></el-input>
