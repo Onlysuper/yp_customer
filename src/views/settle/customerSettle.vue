@@ -266,8 +266,9 @@ export default {
               text: "同步状态",
               color: "#00c1df",
               visibleFn: rowdata => {
+
                 if (
-                  rowdata.outMoneyStatus == "OUT_FAIL"
+                  rowdata.outMoneyStatus != "OUT_SUCCESS"
                 ) {
                   return true;
                 } else {

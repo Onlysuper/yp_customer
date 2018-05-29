@@ -1,6 +1,6 @@
 import utils from "@src/common/utils";
 // 商户版本
-import { getAgentSettleSum, postUpdateSettles } from "@src/apis";
+import { postStatusCustomerSettle } from "@src/apis";
 import { Toast } from "mint-ui";
 export default {
   state: {
@@ -51,10 +51,11 @@ export default {
     },
     //更新状态
     ["CUSTOMERSETTLE_UPDATE_STATUS"](state, data) {
-      let onlyId = data.customerNo;
+      let customerNo = data.customerNo;
+      let payTime = data.payTime;
       let newStatus = data.newStatus;
       state.list = state.list.map((item, index) => {
-        if (onlyId == item.customerNo) {
+        if (customerNo == item.customerNo && payTime == item.payTime) {
           let newItem = { ...item };
           newItem.outMoneyStatus = newStatus;
           return newItem;
@@ -63,18 +64,20 @@ export default {
         }
       })
     }
-
   },
   actions: {
     // 数据列表中获取当前编辑得数据
     getCustomerSettle({ commit, dispatch, getters, rootGetters, rootState, state }, itemId) {
       return state.list.find(item => item.customerNo == itemId);
     },
-    // 合计
-    getAgentSettleSumAc({ commit, dispatch, getters, rootGetters, rootState, state }) {
-      return getAgentSettleSum()({ ...state.searchQuery }).then(data => {
+    // 同步状态
+    updateCustomerSettle({ commit, dispatch, getters, rootGetters, rootState, state }, item) {
+      return postStatusCustomerSettle()({
+        customerNo: item.customerNo,
+        payTime: item.payTime
+      }).then(data => {
         if (data.code == "00") {
-          commit("SETTLE_SUM", data.data);
+          commit("CUSTOMERSETTLE_UPDATE_STATUS", data.data);
           return true;
         } else {
           Toast(data.msg);

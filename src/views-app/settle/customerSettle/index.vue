@@ -11,7 +11,7 @@
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
         <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" title="">
-          <div slot="btn" v-if="item.outMoneyStatus =='OUT_FAIL'?true:false" @click="dataUpdate(item)">状态更新</div>
+          <div slot="btn" v-if="item.outMoneyStatus !='OUT_SUCCESS'?true:false" @click="dataUpdate(item)">状态更新</div>
           <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.outMoneyStatus,'customerSettleOutMoneyStatus')">{{item.outMoneyStatus | statusFilter('customerSettleOutMoneyStatus')}}</mt-badge>
           <myp-cell class="list-item" @click="detail(item)">
             <!-- 详情 -->
@@ -93,13 +93,12 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getConvergePayCommSum", "getAgentSettleSumAc"]),
+    ...mapActions(['updateCustomerSettle']),
     //状态更新
     dataUpdate(item) {
       let data_ = item;
-      this.$store.commit("CUSTOMERSETTLE_UPDATE_STATUS", {
-        customerNo: data_.customerNo,
-        newStatus: 'xzt'
+      this.updateCustomerSettle(data_).then(isSuccess => {
+        // isSuccess && this.$refs.sum.open(this.sumData);
       });
     },
     watchDataList(watchDataList, count) {
