@@ -179,7 +179,7 @@ export default {
           },
           {
             key: "内容",
-            width: "200px",
+            width: "150px",
             word: "content",
             type: data => {
               let msg = "";
@@ -230,7 +230,7 @@ export default {
           },
           {
             key: "备注",
-            width: "",
+            width: "150px",
             word: "remark"
           }
         ]

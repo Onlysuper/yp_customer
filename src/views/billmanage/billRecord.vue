@@ -334,7 +334,7 @@ export default {
           },
           {
             key: "经营名称",
-            width: "180px",
+            width: "150px",
             word: "bussinessName"
           },
           //  {{#  if(  d.invoiceMedia == 'PAPERY'&&d.billType == 1  ){ }}
@@ -348,7 +348,7 @@ export default {
           //     {{#  } }}
           {
             key: "开票类型",
-            width: "100px",
+            width: "96px",
             word: "billType",
             status: true,
             type: (data, row) => {
@@ -382,7 +382,7 @@ export default {
           },
           {
             key: "状态",
-            width: "100px",
+            width: "94px",
             word: "status",
             status: true,
             type: data => {

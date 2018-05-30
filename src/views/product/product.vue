@@ -367,7 +367,7 @@ export default {
           },
           {
             key: "固定成本",
-            width: "100px",
+            width: "90px",
             word: "fixed"
           },
           {

@@ -542,7 +542,7 @@ export default {
           },
           {
             key: "默认",
-            width: "80px",
+            width: "60px",
             word: "defaultType",
             status: true,
             type: data => {
@@ -566,12 +566,12 @@ export default {
           },
           {
             key: "单价",
-            width: "100px",
+            width: "90px",
             word: "unitPrice"
           },
           {
             key: "单位",
-            width: "80px",
+            width: "50px",
             word: "unit"
           },
           {

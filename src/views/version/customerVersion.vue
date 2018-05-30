@@ -184,7 +184,7 @@ export default {
           },
           {
             key: "版本类型",
-            width: "130px",
+            width: "160px",
             word: "type",
             status: true,
             type: data => {

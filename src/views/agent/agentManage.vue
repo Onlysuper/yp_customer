@@ -655,23 +655,23 @@ export default {
           },
           {
             key: "合伙人名称",
-            width: "",
+            width: "100px",
             word: "agentName"
           },
           {
             key: "手机号",
-            width: "",
+            width: "100px",
             word: "phoneNo"
           },
           {
             key: "层级详情",
-            width: "",
+            width: "130px",
             word: "levelDetail",
             hidden: hideData // 显示条件
           },
           {
             key: "状态",
-            width: "",
+            width: "100px",
             word: "status",
             status: true,
             type: data => {

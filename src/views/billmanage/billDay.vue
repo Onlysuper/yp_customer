@@ -137,28 +137,28 @@ export default {
           // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "时间",
-            width: "",
+            width: "130px",
             sortable: true,
             word: "dataTime"
           },
           {
             key: "商户编号",
-            width: "",
+            width: "100px",
             word: "customerNo"
           },
           {
             key: "企业名称",
-            width: "",
+            width: "100px",
             word: "enterpriseName"
           },
           {
             key: "合伙人编号",
-            width: "",
+            width: "100px",
             word: "agentNo"
           },
           {
             key: "扫码次数",
-            width: "",
+            width: "100px",
             word: "scan"
           },
           {
@@ -168,7 +168,7 @@ export default {
           },
           {
             key: "在线时长(时)",
-            width: "",
+            width: "100px",
             word: "online"
           }
         ]

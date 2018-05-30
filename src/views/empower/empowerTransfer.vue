@@ -361,7 +361,7 @@ export default {
           {
             // key: "来源合伙人",
             key: "转移状态",
-            width: "250px",
+            width: "220px",
             word: "agentNo",
             status: true,
             type: (agentNo, row) => {
@@ -439,7 +439,7 @@ export default {
           // },
           {
             key: "状态",
-            width: "",
+            width: "100px",
             word: "status",
             status: true,
             type: data => {

@@ -9,7 +9,6 @@
     </div>
    
     <!-- 商户状态 start -->
-    <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
     <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
       <div class="detail-content-pro">
         <template>
@@ -92,21 +91,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
 @media screen and (min-width: 500px) {
-  .scroll-view-cus {
-    // touch-action: none;
-    /* -- Attention-- */
-    // position: absolute;
-    // top: 0;
-    // bottom: 0;
-    // left: 0;
-    // right: 0;
-    // overflow: hidden;
-  }
   .admin-page {
     .small-but {
       position: absolute;
-      // width: 30px;
-      // height: 30px;
       padding: 0 5px;
       text-align: center;
       line-height: 30px;
@@ -146,7 +133,6 @@
         flex-shrink: 0;
         box-sizing: border-box;
         .title-box {
-          // flex: 1;
           flex: 1;
           align-self: center;
           text-align: center;
@@ -176,7 +162,6 @@
         padding-bottom: 0px;
         flex: 1;
         display: flex;
-        // flex-basis: 100%;
         height: 100%;
       }
       .el-dialog__footer {
@@ -187,13 +172,8 @@
   }
   .detail-content-pro {
     flex: 1;
-    // height: 100%;
-    // overflow: auto;
-    // position: relative;
     display: flex;
     flex-direction: column;
-    // width: 100%;
-    // background: red;
   }
 }
 </style>
@@ -758,6 +738,7 @@ export default {
                 let invoiceType = rowdata.invoiceType;
                 this.styleForm.payTypes = [payType];
                 this.styleForm.supportTypes = [invoiceType];
+                console.log(invoiceType);
                 switch (payType) {
                   case 0:
                     this.styleForm.payTypes = [];

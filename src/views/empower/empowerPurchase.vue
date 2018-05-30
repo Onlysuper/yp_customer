@@ -403,7 +403,7 @@ export default {
           },
           {
             key: "是否生产水牌",
-            width: "150px",
+            width: "120px",
             word: "isPrint",
             status: true,
             type: (data, row) => {

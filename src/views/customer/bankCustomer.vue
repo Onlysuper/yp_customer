@@ -159,7 +159,7 @@ export default {
           },
           {
             key: "银行商户编号",
-            width: "100px",
+            width: "140px",
             word: "bankCustomerNo"
           },
           {

@@ -311,7 +311,7 @@ export default {
           },
           {
             key: "商户编号",
-            width: "160px",
+            width: "100px",
             word: "customerNo"
           },
 
