@@ -349,7 +349,6 @@ export default {
               // },
               color: "#00c1df",
               cb: rowdata => {
-                console.log(rowdata);
                 this.detailsForm = rowdata;
                 this.detailsFormVisible = true;
               }

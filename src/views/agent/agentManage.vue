@@ -702,7 +702,6 @@ export default {
               text: "编辑",
               color: "#e6a23c",
               cb: rowdata => {
-                // console.log(rowdata);
                 this.editFormVisible = true;
                 if (rowdata.level == "1") {
                   this.visibleEditBank = true;

@@ -419,7 +419,6 @@ export default {
               text: "编辑",
               color: "#00c1df",
               cb: rowdata => {
-                console.log(rowdata);
                 this.editForm = rowdata;
                 this.editFormVisible = true;
               }

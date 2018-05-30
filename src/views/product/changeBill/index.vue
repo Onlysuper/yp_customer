@@ -338,17 +338,12 @@ export default {
               text: "查看",
               color: "#00c1df",
               cb: rowdata => {
-                console.log(rowdata);
                 this.checkVisiblebut = false;
                 this.editVisiblebut = false;
                 if (rowdata.status == "ADMIN_AUDIT" || rowdata.status == "REJECT" || rowdata.status == "INIT") {
                   this.editVisiblebut = true;
                 }
                 this.detailsFormVisible = true;
-                // this.rowData = {
-                //   bussinessNo: rowdata.customerNo,
-                //   ...rowdata
-                // }
                 this.rowData = {
                   ...rowdata
                 }

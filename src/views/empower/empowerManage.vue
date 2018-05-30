@@ -886,7 +886,6 @@ export default {
               },
               cb: rowdata => {
                 // this.bindForm = rowdata;
-                // console.log(rowdata);
                 this.bindForm.authCode = rowdata.authCode;
                 this.bindForm.qrcode = rowdata.qrcode;
                 this.bindForm.agentNo = rowdata.agentNo;

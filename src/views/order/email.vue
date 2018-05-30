@@ -185,7 +185,6 @@ export default {
               color: "#00c1df",
               cb: rowdata => {
                 this.operationVisible('edit', rowdata);
-                console.log(rowdata);
               }
             }
           ]

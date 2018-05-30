@@ -98,7 +98,6 @@ export default {
       }
     },
     detail(rowdata) {
-      console.log(rowdata);
       this.toUrl("DETAIL", rowdata.orderNo, rowdata);
     }
   },
