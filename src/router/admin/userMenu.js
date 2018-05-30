@@ -4,7 +4,7 @@ import loading from "@src/router/loading"
  * 登录模块
  */
 export default {
-  name: "menu",
+  name: "userMenu",
   path: '/menu',
   meta: {
     title: '菜单管理',

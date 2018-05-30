@@ -163,7 +163,7 @@ import $ from "jquery";
 import "@src/common/zTree/js/jquery.ztree.all.js";
 
 export default {
-  name: "menu",
+  name: "userMenu",
   components: {
     "myp-data-page": DataPage // 数据列表组件
   },
@@ -539,11 +539,13 @@ export default {
     },
     // 树加载成功之后展开根节点
     zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
-      var treeObj = $.fn.zTree.getZTreeObj(this.treeId);
-      var nodes = treeObj.getNodes();
-      for (var i = 0; i < nodes.length; i++) {
-        treeObj.expandNode(nodes[i], true);
-      }
+     this.$nextTick(()=>{
+        var treeObj = $.fn.zTree.getZTreeObj(this.treeId);
+        var nodes = treeObj.getNodes();
+        for (var i = 0; i < nodes.length; i++) {
+          treeObj.expandNode(nodes[i], true);
+        }
+     })
     },
     // 点击编辑按钮
     beforeEditName(treeId, treeNode) {

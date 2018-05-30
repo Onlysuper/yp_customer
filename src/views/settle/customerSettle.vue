@@ -71,7 +71,7 @@ import {
 } from "@src/common/dateSerialize";
 import { getCustomerSettles, postStatusCustomerSettle } from "@src/apis";
 export default {
-  name: "agent-settle",
+  name: "customerSettle",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage // 数据列表组件
