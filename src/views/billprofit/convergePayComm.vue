@@ -7,7 +7,7 @@
       <!-- search form end -->
       <div class="operation-box">
         <el-button-group class="button-group">
-          <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button>
+          <!-- <el-button v-if="adminFilter('billprofit_sum')" class="mybutton" @click="SumHandle" :loading="sumLoading" size="small" type="primary" icon="el-icon-plus">合计</el-button> -->
           <span v-if="sumVisible" class="sumtext">
             <span>分润金额:{{utils.accMul(customerSum, 0.01)}}元</span>
 
@@ -128,33 +128,33 @@ export default {
             // 表单输入之后回调函数
             this.searchCondition.dataTime = value;
           }
+        },
+        {
+          corresattr: "containChild",
+          type: "select",
+          label: "包含关系",
+          visible:
+            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
+              "admin" ||
+            this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
+              ? "TRUE"
+              : "FALSE",
+          show: false, // 普通搜索显示
+          value: "TRUE",
+          options: [
+            {
+              value: "TRUE",
+              label: "包含下级"
+            },
+            {
+              value: "FALSE",
+              label: "不包含下级"
+            }
+          ],
+          cb: value => {
+            this.searchCondition.containChild = value;
+          }
         }
-        // {
-        //   corresattr: "containChild",
-        //   type: "select",
-        //   label: "包含关系",
-        //   visible:
-        //     this.$store.state.userInfoAndMenu.userMessage.all.userType ==
-        //       "admin" ||
-        //     this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
-        //       ? "TRUE"
-        //       : "FALSE",
-        //   show: false, // 普通搜索显示
-        //   value: "TRUE",
-        //   options: [
-        //     {
-        //       value: "TRUE",
-        //       label: "包含下级"
-        //     },
-        //     {
-        //       value: "FALSE",
-        //       label: "不包含下级"
-        //     }
-        //   ],
-        //   cb: value => {
-        //     this.searchCondition.containChild = value;
-        //   }
-        // }
       ],
 
       // 列表数据

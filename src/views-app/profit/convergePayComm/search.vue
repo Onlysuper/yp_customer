@@ -40,6 +40,23 @@ export default {
         }
       });
       this.searchConfig.push({
+        title: "包含下级",
+        type: "myp-select",
+        defaultValue: this.searchQuery.hasChild,
+        values: [
+          {
+            name: "全部",
+            code: ""
+          },
+          ...this.statusFilterQuery('containChild')
+        ],
+        cb: value => {
+          this.$store.commit("CONVERGE_PAY_COMM_SET_SEARCH", {
+            hasChild: value
+          });
+        }
+      });
+      this.searchConfig.push({
         title: "合伙人编号",
         type: "myp-text",
         defaultValue: this.searchQuery.agentNo,
