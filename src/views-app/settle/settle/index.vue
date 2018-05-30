@@ -11,7 +11,7 @@
       <myp-popup-actions slot="header" :actions="popupActions" v-model="popupActionsVisible"></myp-popup-actions>
       <slider-nav v-model="routeMenuCode" slot="header" :munes="munes"></slider-nav>
       <myp-loadmore-api class="list" ref="MypLoadmoreApi" :api="api" @watchDataList="watchDataList">
-        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="isAdmin?item.agentName:''">
+        <myp-cell-pannel class="spacing-20" v-for="(item,index) in list" :key="index" :title="$store.state.userInfoAndMenu.isOperate?item.agentName:''">
           <div v-if="adminFilter('admin_settle_updateSettle') && item.status == 'TRUE'" slot="btn" @click="settlement(item,'settle')">结算</div>
           <div v-if="adminFilter('agent_settle_updateSettle') && item.status == 'FALSE'" slot="btn" @click="settlement(item,'sure')">确认</div>
           <!-- <mt-badge slot="badge" class="g-min-badge" size="small" type="primary" :color="filterColor(item.status,'settleStatus')">{{item.status | statusSettle}}</mt-badge> -->
@@ -20,8 +20,8 @@
             <!-- 详情 -->
             <table>
               <myp-tr title="结算单号">{{item.settleNo}}</myp-tr>
-              <myp-tr v-if="!isAdmin" title="商户数量">{{item.customerNumber}}</myp-tr>
-              <myp-tr v-if="isAdmin" title="代理商编号">{{item.agentNo}}</myp-tr>
+              <myp-tr v-if="!$store.state.userInfoAndMenu.isOperate" title="商户数量">{{item.customerNumber}}</myp-tr>
+              <myp-tr v-if="$store.state.userInfoAndMenu.isOperate" title="代理商编号">{{item.agentNo}}</myp-tr>
               <!-- <myp-tr v-if="!isAdmin" title="代理商名称">{{item.agentName}}</myp-tr> -->
               <myp-tr title="时间">{{item.dataTime}}</myp-tr>
               <myp-tr title="结算金额(元)">{{item.settlePrice}}</myp-tr>
@@ -74,16 +74,7 @@ export default {
       isSearch: state => state.settle.isSearch,
       searchQuery: state => state.settle.searchQuery,
       sumData: state => state.settle.sumData
-    }),
-    isAdmin() {
-      let user = this.$store.state.userInfoAndMenu.userMessage.all;
-      let admin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return admin
-    }
+    })
   },
   mounted() {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);

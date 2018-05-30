@@ -13,7 +13,7 @@
             <span class="split-line-v"></span>
             <span>返利:{{subsidySum}}元</span>
             <span class="split-line-v"></span>
-            <span v-if="isAdmin">中间人:{{rebateSum}}元</span>
+            <span v-if="$store.state.userInfoAndMenu.branchOffice">中间人:{{rebateSum}}元</span>
           </span>
         </el-button-group>
       </div>
@@ -49,7 +49,6 @@ export default {
       dataTime: thisMonthStr
     };
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
-    var isAdmin = user.userType === "admin" || user.userType === "branchOffice"; // 运营
     return {
       sumVisible: false,
       customerSum: 0,
@@ -197,7 +196,7 @@ export default {
             key: "中间人(元)",
             width: "100px",
             word: "rebate",
-            hidden: isAdmin ? false : true
+            hidden: this.$store.state.userInfoAndMenu.branchOffice ? false : true
           },
           {
             key: "结算状态",
@@ -266,14 +265,6 @@ export default {
   mounted() {
   },
   computed: {
-    isAdmin() {
-      let user = this.$store.state.userInfoAndMenu.userMessage.all;
-      if (user.userType === "admin" || user.userType === "branchOffice") {
-        return true;
-      } else {
-        return false;
-      }
-    },
     userAll() {
       // 所有的用户信息
       return this.$store.state.userInfoAndMenu.userMessage.all;

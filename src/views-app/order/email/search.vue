@@ -18,16 +18,7 @@ export default {
   computed: {
     ...mapState({
       searchQuery: state => state.email.searchQuery
-    }),
-    isAdmin() {
-      var user = this.$store.state.userInfoAndMenu.userMessage.all;
-      var isAdmin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return isAdmin
-    }
+    })
   },
   mounted() {
     this.$nextTick(() => {

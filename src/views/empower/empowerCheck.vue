@@ -367,11 +367,7 @@ export default {
                 this.checkForm = rowdata;
                 this.checkFormVisible = true;
                 let isPrint = rowdata.isPrint == "Y";
-                let isAdmin =
-                  this.userType == "root" ||
-                  this.userType == "admin" ||
-                  this.userType == "operator";
-                let isShow = !(isAdmin && !isPrint);
+                let isShow = !(this.$store.state.userInfoAndMenu.isOperate && !isPrint);
                 this.isShowDistributeType(isShow);
               }
             },

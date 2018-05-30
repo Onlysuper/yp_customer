@@ -7,9 +7,11 @@ const userInfoAndMenu = {
             realname: "",
             username: "",
             userBussinessNo: "",
-            userType: ""
+            userType: "",
         },
-
+        isAdmin:false,
+        isOperate:false,
+        isBranchOffice:false,
         menuList: [], // 菜单列表信息
         menuListApp: [], // 菜单列表信息-移动端用
         isCollapse: false,//菜单收起
@@ -32,18 +34,29 @@ const userInfoAndMenu = {
         userData(state, data) {
             var data = data.data;
             state.userMessage.all = data;
-            // state.userMessage.userBussinessNo = data.userBussinessNo // 登录账号
-            // state.userMessage.userType = data.userType // 登录账号
+            console.log(1111111);
+            //判断是不是运营
+            if(data.userType=="admin"||data.userType=="root"){
+                state.isAdmin = true;
+                console.log(`vuex:${state.isAdmin}`)
+            }else{
+                state.isAdmin = false;
+                console.log(`vuex:${state.isAdmin}`)
+            }
+            if(data.userType=="admin"||data.userType=="root"||data.userType=="operator"){
+                state.isOperate = true
+            }else{
+                state.isOperate = false;
+            }
+
+            if(data.userType=="admin"||data.userType=="root"||data.userType=="branchOffice"){
+                state.isBranchOffice = true;
+            }else{
+                state.isBranchOffice = false;
+            }
         },
         clearMenuList(state) { // 清空左侧菜单
             state.menuList = []
-            // state.userMessage = { // 管理员信息
-            //     all: "",
-            //     realname: "",
-            //     username: "",
-            //     userBussinessNo: "",
-            //     userType: ""
-            // }
         },
         //移动端使用的路由
         asyncNewRoutes(state, asyncNewRoutes) {

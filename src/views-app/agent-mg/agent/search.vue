@@ -16,11 +16,7 @@ export default {
   computed: {
     ...mapState({
       searchQuery: state => state.agent.searchQuery
-    }),
-    isAdmin() {
-      let user = this.$store.state.userInfoAndMenu.userMessage.all;
-      return user.userType === "root" || user.userType === "admin";
-    }
+    })
   },
   mounted() {
     this.$nextTick(() => {
@@ -50,7 +46,7 @@ export default {
           });
         }
       });
-      if (this.isAdmin) {
+      if (this.$store.state.userInfoAndMenu.isAdmin) {
         // 只有运营显示
         this.searchConfig.push({
           title: "级别",

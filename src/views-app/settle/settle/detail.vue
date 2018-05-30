@@ -48,16 +48,9 @@ import utils from "@src/common/utils"
 export default {
   components: { Picker },
   data() {
-    let user = this.$store.state.userInfoAndMenu.userMessage.all;
-    let isAdmin = (
-      user.userType === "root" ||
-      user.userType === "admin" ||
-      user.userType === "operator"
-    ); // 运营
     return {
       settleNo: this.$route.params["settleNo"],
       surePage: false,
-      isAdmin: isAdmin,
       statusObj: {},
       type: {},
       btnDisabled: false,

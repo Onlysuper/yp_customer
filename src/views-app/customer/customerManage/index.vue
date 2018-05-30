@@ -67,14 +67,7 @@ export default {
     detail
   },
   data() {
-    let user = this.$store.state.userInfoAndMenu.userMessage.all;
-    let isAdmin = (
-      user.userType === "root" ||
-      user.userType === "admin" ||
-      user.userType === "operator"
-    ); // 运营
     return {
-      isAdmin: isAdmin,
       munes: this.$store.state.userInfoAndMenu.menuList[
         this.$route.query["menuIndex"]
       ].child,

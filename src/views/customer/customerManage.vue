@@ -322,11 +322,6 @@ export default {
   },
   mixins: [mixinsPc, mixinDataTable],
   data() {
-    var user = this.$store.state.userInfoAndMenu.userMessage.all;
-    var isAdmin =
-      user.userType === "root" ||
-      user.userType === "admin" ||
-      user.userType === "operator"; // 运营
     var searchConditionVar = {
       customerNo: "", // 商户编号
       taxNo: "", // 企业税号
@@ -339,7 +334,7 @@ export default {
     };
     return {
       fileList: [],
-      disabledIs: isAdmin ? false : true,
+      disabledIs: this.$store.state.userInfoAndMenu.isOperate ? false : true,
       addFormVisible: false, // 新增框
       batchNetFormVisible: false, // 批量入网框
       batchTransferFormVisible: false, // 批量转移模板
@@ -905,15 +900,6 @@ export default {
     }
   },
   computed: {
-    isAdmin() {
-      var user = this.$store.state.userInfoAndMenu.userMessage.all;
-      var isAdmin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return isAdmin
-    }
   },
   mounted() { }
 };

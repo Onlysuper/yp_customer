@@ -416,7 +416,6 @@ export default {
       user.userType === "branchOffice" ||
       user.userType === "agent"
     );
-    var isAdmin = user.userType === "root" || user.userType === "admin";
     return {
       settleModeOption: settleModeAgent,
       visibleEditIntermediay: false, // 编辑的分润模块
@@ -569,7 +568,7 @@ export default {
 
         {
           corresattr: "level", // 只有运营显示
-          visible: !isAdmin ? "TRUE" : "FALSE",
+          visible: !this.$store.state.userInfoAndMenu.isAdmin ? "TRUE" : "FALSE",
           type: "select",
           label: "级别",
           show: true, // 普通搜索显示
@@ -603,7 +602,7 @@ export default {
         },
         {
           corresattr: "level", // 非运营显示
-          visible: isAdmin ? "TRUE" : "FALSE",
+          visible: this.$store.state.userInfoAndMenu.isAdmin ? "TRUE" : "FALSE",
           type: "select",
           label: "级别",
           show: true, // 普通搜索显示

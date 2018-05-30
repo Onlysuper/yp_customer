@@ -7,6 +7,7 @@
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
+   
     <!-- 商户状态 start -->
     <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
     <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
@@ -244,7 +245,6 @@ export default {
   mixins: [mixinsPc, mixinDataTable],
   data() {
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
-    var isAdmin = user.userType === "root" || user.userType === "admin" || user.userType === "operator"; // 运营
     var isBranchOffice = user.userType === "branchOffice"; // 分公司
     var searchConditionVar = {
       bussinessNo: "",
@@ -388,7 +388,6 @@ export default {
       // showImageVisible: true,
       largeImgUrl: "",
       qrcodelargeImgUrl: "",
-      isAdmin: isAdmin,
       // 默认数据初始值
       detailsFormDefault: { ...detailsForm },
       resaultDataDefault: {},
@@ -605,7 +604,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
-                  (isAdmin || !isBranchOffice) &&
+                  (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice) &&
                   rowdata.payStatus == "INIT" ||
                   rowdata.payStatus == "WAITING_SUBMIT" ||
                   rowdata.payStatus == "REJECT" ||
@@ -631,7 +630,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
-                  (isAdmin || !isBranchOffice) &&
+                  (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice) &&
                   rowdata.payStatus == "TRUE"
                 ) {
                   return true;
@@ -685,7 +684,7 @@ export default {
               text: "审核",
               visibleFn: rowdata => {
                 if (
-                  isAdmin &&
+                  this.$store.state.userInfoAndMenu.isOperate &&
                   (
                     rowdata.elecStatus == "CHECKING")
                 ) {
@@ -715,7 +714,7 @@ export default {
               text: "关闭",
               visibleFn: rowdata => {
                 if (
-                  isAdmin &&
+                  this.$store.state.userInfoAndMenu.isOperate &&
                   (
                     // rowdata.payStatus == "TRUE" ||
                     // rowdata.qrcodeStatus == "TRUE" ||
@@ -1179,13 +1178,13 @@ export default {
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
-            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && (this.isAdmin || !isBranchOffice)) {
+            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;
           case "payStatus":
             this.payStatusVisible = true;
-            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && (this.isAdmin || !isBranchOffice)) {
+            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;

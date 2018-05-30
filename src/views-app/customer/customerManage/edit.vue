@@ -27,12 +27,8 @@ import { mapState, mapActions } from "vuex";
 export default {
   data() {
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
-    var isAdmin =
-      user.userType === "root" ||
-      user.userType === "admin" ||
-      user.userType === "operator"; // 运营
     return {
-      disabledIs: this.$route.query["type"] == 'EDIT' ? isAdmin ? false : true : false,
+      disabledIs: this.$route.query["type"] == 'EDIT' ? this.$store.state.userInfoAndMenu.isOperate ? false : true : false,
       btnDisabled: false,
       pageType: this.$route.query["type"] || "ADD",
       customerNo: this.$route.params["customerNo"],

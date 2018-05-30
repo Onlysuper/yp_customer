@@ -73,16 +73,7 @@ export default {
       list: state => state.customerSettle.list,
       isSearch: state => state.customerSettle.isSearch,
       searchQuery: state => state.customerSettle.searchQuery,
-    }),
-    isAdmin() {
-      let user = this.$store.state.userInfoAndMenu.userMessage.all;
-      let admin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return admin
-    }
+    })
   },
   mounted() {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);

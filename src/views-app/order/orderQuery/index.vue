@@ -67,16 +67,7 @@ export default {
       isSearch: state => state.orderQuery.isSearch,
       searchQuery: state => state.orderQuery.searchQuery,
       sumData: state => state.orderQuery.sumData
-    }),
-    isAdmin() {
-      var user = this.$store.state.userInfoAndMenu.userMessage.all;
-      var isAdmin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return isAdmin
-    },
+    })
   },
   mounted() {
     this.$refs.MypLoadmoreApi.load(this.searchQuery);

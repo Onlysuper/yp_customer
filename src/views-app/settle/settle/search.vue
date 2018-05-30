@@ -18,20 +18,11 @@ export default {
   computed: {
     ...mapState({
       searchQuery: state => state.settle.searchQuery
-    }),
-    isAdmin() {
-      var user = this.$store.state.userInfoAndMenu.userMessage.all;
-      var isAdmin = (
-        user.userType === "root" ||
-        user.userType === "admin" ||
-        user.userType === "operator"
-      ); // 运营
-      return isAdmin
-    }
+    })
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.isAdmin) { // 运营
+      if (this.$store.state.userInfoAndMenu.isOperate) { // 运营
         this.searchConfig.push({
           title: "代理商编号",
           type: "myp-text",

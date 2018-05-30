@@ -16,7 +16,7 @@
         <mt-field :disabled="true" type="text" label="实付金额" placeholder="请输入实付金额" v-model="dataList.settlePrice"></mt-field>
         <mt-field :disabled="true" type="text" label="达标商户数量" placeholder="请输入达标商户数量" v-model="dataList.customerNumber"></mt-field>
         <mt-field :disabled="true" type="text" label="联系电话" placeholder="请输入联系电话" v-model="dataList.agentPhone"></mt-field>
-        <mt-field v-if="!isAdmin" :disabled="true" type="text" label="打款时间" placeholder="请输入打款时间" v-model="dataList.remitTime"></mt-field>
+        <mt-field v-if="!$store.state.userInfoAndMenu.isOperate" :disabled="true" type="text" label="打款时间" placeholder="请输入打款时间" v-model="dataList.remitTime"></mt-field>
       </input-wrapper>
     </view-radius>
   </full-page>
@@ -52,15 +52,9 @@ export default {
   components: { Picker },
   data() {
     let user = this.$store.state.userInfoAndMenu.userMessage.all;
-    let isAdmin = (
-      user.userType === "root" ||
-      user.userType === "admin" ||
-      user.userType === "operator"
-    ); // 运营
     return {
       settleNo: this.$route.params["settleNo"],
       surePage: false,
-      isAdmin: isAdmin,
       statusObj: {},
       type: {},
       btnDisabled: false,
