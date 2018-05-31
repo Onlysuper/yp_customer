@@ -42,7 +42,7 @@
 <script>
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
-import { todayDate } from "@src/common/dateSerialize";
+import { todayStr } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import { completeConvergeProduct, getCustomerEchoProduct } from "@src/apis";
 import settleMode from "@src/data/settleMode.json";

@@ -4,9 +4,13 @@
       <div class="row icon-box">
         <i class="el-alert__icon el-icon-success is-big"></i>
       </div>
-      <div class="row">
+      <div class="row" v-if="doWhat.type=='open'">
         <h2>您申请的支付产品已受理！</h2>
         <p>开通结果预计会在1-3个工作日以短信的形式通知到您{{phoneNo}}的手机上，敬请查收。</p>
+      </div>
+      <div class="row" v-if="doWhat.type=='change'">
+        <h2>您的变更申请已受理！</h2>
+        <p>详情可查看变更单。</p>
       </div>
       <!-- {{rowData}}  -->
     </div>
@@ -61,7 +65,10 @@ export default {
   props: {
     rowData: {
       type: Object
-    }
+    },
+    doWhat: {
+      type: Object
+    },
   },
   data() {
     return {

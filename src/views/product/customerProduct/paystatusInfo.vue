@@ -15,7 +15,7 @@
         <el-input @change="setCache" v-model="payStatusForm.legalPerson" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item class="is-required" label="身份证号" prop="idCard" :label-width="formLabelWidth">
-        <el-input @change="setCache" v-model.trim="payStatusForm.idCard" auto-complete="off"></el-input>
+        <el-input @input="idCardInput" @change="setCache" v-model.trim="payStatusForm.idCard" auto-complete="off"></el-input>
       </el-form-item>
       <div class="timestartandend-box">
         <el-form-item class="" label="身份证有效期" prop="idNoEffectiveBegin" :label-width="formLabelWidth">
@@ -62,9 +62,9 @@
         </el-select>
       </el-form-item>
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
-        <el-input @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
+        <el-input @input="accountNameInput" @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="settleIdCardDis?'':'accountName'" label="结算人身份证号" :label-width="formLabelWidth">
+      <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="'settleIdCard'" label="结算人身份证号" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="settleIdCardDis" v-model="payStatusForm.settleIdCard" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="银行账号" prop="accountNo" :label-width="formLabelWidth">
@@ -118,7 +118,7 @@
 import bussinessTypeJson from "@src/data/bussinessType.json";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
-import { todayDate } from "@src/common/dateSerialize";
+import { todayStr } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, idCardVerify_r } from "@src/common/regexp";
 import { areaOrgcode } from "@src/common/orgcode";
 import utils from "@src/common/utils"
@@ -136,6 +136,9 @@ export default {
       type: Array
     },
     rowData: {
+      type: Object
+    },
+    doWhat: {
       type: Object
     }
   },
@@ -187,7 +190,8 @@ export default {
       },
       payStatusFormRules: {
         settleIdCard: [
-          { required: true, message: "请填写结算人身份证", trigger: "blur,change" }
+          { required: true, message: "请填写结算人身份证", trigger: "blur,change" },
+          { required: true, validator: idCardVerify, trigger: "blur,change" },
         ],
         idNoEffectiveBegin: [
           { required: true, message: "请选择身份证有效期开始时间", trigger: "blur,change" }
@@ -242,6 +246,12 @@ export default {
     };
   },
   methods: {
+    accountNameInput() {
+      this.isLegalPersonSettleIdCard('inputchange');
+    },
+    idCardInput() {
+      this.isLegalPersonSettleIdCard();
+    },
     areaChange(val) {
       this.payStatusForm.Area = val;
     },
@@ -261,6 +271,9 @@ export default {
     },
     editSave(formName) {
       // 编辑内容保存
+      if (this.payStatusForm.legalPerson != this.payStatusForm.accountName && this.payStatusForm.settleIdCard == this.payStatusForm.idCard) {
+        this.payStatusForm.settleIdCard = "";
+      }
       this.$refs[formName].validate(valid => {
         if (valid) {
           let payStatusForm = this.payStatusForm;
@@ -296,7 +309,9 @@ export default {
           ]);
           // newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
           for (var i in newRow) {
-            newRow[i] = newRow[i].replace(/\s/g, '');
+            if (newRow[i]) {
+              newRow[i] = newRow[i].replace(/\s/g, '');
+            }
           }
           let sendata = {
             customerNo: this.rowData.bussinessNo,
@@ -419,6 +434,10 @@ export default {
           this.payStatusForm = Object.assign({}, this.cacheForm);
           this.validateNum(this.payStatusForm.accountNo, 'payStatusForm', 'accountNo');
         }
+        this.isLegalPersonSettleIdCard();
+        this.$nextTick(() => {
+          this.$refs.payStatusForm.clearValidate();
+        })
       });
     },
     isLegalPersonSettleIdCard(type) {
@@ -433,7 +452,9 @@ export default {
         } else {
           // 非法人
           if (type == 'inputchange') {
-            this.payStatusForm.settleIdCard = "";
+            if (this.payStatusForm.legalPerson != this.payStatusForm.accountName && this.payStatusForm.settleIdCard == this.payStatusForm.idCard) {
+              this.payStatusForm.settleIdCard = "";
+            }
           }
           this.settleIdCardVisible = true;
           this.settleIdCardDis = false;
@@ -475,6 +496,9 @@ export default {
   },
   created() {
     this.getCustomerEcho();
+  },
+  mounted() {
+
   },
   computed: {
     accountType() {

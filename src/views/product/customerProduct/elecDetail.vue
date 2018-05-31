@@ -81,7 +81,7 @@ import ScrollPane from "@src/components/ScrollPane";
 import bussinessTypeJson from "@src/data/bussinessType.json";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
-import { todayDate } from "@src/common/dateSerialize";
+import { todayStr } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify, idCardVerify_r } from "@src/common/regexp";
 import { areaOrgcode } from "@src/common/orgcode";
 import utils from "@src/common/utils"
@@ -96,6 +96,9 @@ export default {
       type: Array
     },
     rowData: {
+      type: Object
+    },
+    doWhat: {
       type: Object
     }
   },
