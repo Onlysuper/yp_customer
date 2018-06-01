@@ -1,7 +1,7 @@
 {
   "customerSettleOutMoneyStatus": {
     "OUT_SUCCESS": {
-      "name": "成功",
+      "name": "出款成功",
       "color": "#67C23A"
     },
     "OUT_SEND": {

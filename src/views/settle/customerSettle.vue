@@ -266,9 +266,9 @@ export default {
               text: "同步状态",
               color: "#00c1df",
               visibleFn: rowdata => {
-
                 if (
-                  rowdata.outMoneyStatus != "OUT_SUCCESS"
+                  // rowdata.outMoneyStatus != "OUT_SUCCESS"
+                  rowdata.outMoneyStatus=="OUT_FAIL"||rowdata.outMoneyStatus=="WAIT_AUDIT"||rowdata.outMoneyStatus=="OUT_SEND"||rowdata.outMoneyStatus=="AUDIT_FAIL"
                 ) {
                   return true;
                 } else {
@@ -281,7 +281,8 @@ export default {
                   payTime: rowdata.payTime
                 }).then(res => {
                   if (res.code == "00") {
-
+                    // let nowStatus = res
+                    // rowdata.outMoneyStatus = "OUT_FAIL"
                   } else {
                     this.$message({
                       message: res.msg,
@@ -290,23 +291,6 @@ export default {
                     });
                   }
                 });
-                // postStatusCustomerSettle()({
-                //   customerNo: rowdata.customerNo,
-                //   payTime: rowdata.payTime
-                // }).then((res) => {
-                //   console.log(res)
-                //   if (res.code == '00') {
-
-                //   } else {
-                //     this.$message({
-                //       message: res.msg,
-                //       type: "warning",
-                //       center: true
-                //     });
-                //   }
-                // })
-                // let myrow = rowdata
-                // rowdata.outMoneyStatus = "OUT_FAIL"
               }
             }
           ]

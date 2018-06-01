@@ -1321,7 +1321,10 @@ export default {
     qrcodeCheck(type) {
       if (type == "addQrcode") {
         let reg = /,$/gi;
-        let newQrcodes = this.addMaterielForm.qrcodes.replace(reg, "");
+        let newQrcodes = "";
+        if(this.addMaterielForm.qrcodes){
+          newQrcodes =this.addMaterielForm.qrcodes.replace(reg, "");
+        }
         this.addMaterielForm.qrcodes = newQrcodes;
         let qrcodes = this.addMaterielForm.qrcodes;
         if (qrcodes) {
