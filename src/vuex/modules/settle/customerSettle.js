@@ -75,12 +75,14 @@ export default {
       return postStatusCustomerSettle()({
         customerNo: item.customerNo,
         payTime: item.payTime
-      }).then(data => {
-        if (data.code == "00") {
-          commit("CUSTOMERSETTLE_UPDATE_STATUS", data.data);
+      }).then(res => {
+        if (res.code == "00") {
+          let data = {...item};
+          data.newStatus = res.data;
+          commit("CUSTOMERSETTLE_UPDATE_STATUS", data);
           return true;
         } else {
-          Toast(data.msg);
+          Toast(res.msg);
         }
       })
     }
