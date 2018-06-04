@@ -281,8 +281,8 @@ export default {
                   payTime: rowdata.payTime
                 }).then(res => {
                   if (res.code == "00") {
-                    // let nowStatus = res
-                    // rowdata.outMoneyStatus = "OUT_FAIL"
+                    let nowStatus = res
+                    rowdata.outMoneyStatus = res.data
                   } else {
                     this.$message({
                       message: res.msg,
