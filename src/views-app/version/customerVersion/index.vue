@@ -71,7 +71,6 @@ export default {
     })
   },
   mounted() {
-    console.log(this.$state)
     this.$refs.MypLoadmoreApi.load(this.searchQuery);
   },
   watch: {

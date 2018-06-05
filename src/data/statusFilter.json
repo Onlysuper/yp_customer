@@ -6,19 +6,19 @@
     },
     "OUT_SEND": {
       "name": "出款已发送",
-      "color": "#67C23A"
+      "color": "#409EFF"
     },
     "OUT_FAIL": {
       "name": "出款失败",
-      "color": "#E6A23C"
+      "color": "#909399"
     },
     "WAIT_AUDIT": {
-      "name": "审核失败",
+      "name": "待审核",
       "color": "#67C23A"
     },
     "AUDIT_FAIL": {
       "name": "审核失败",
-      "color": "#67C23A"
+      "color": "#E6A23C"
     }
   },
   "emailBussinessType": {

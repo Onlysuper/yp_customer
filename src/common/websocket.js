@@ -16,7 +16,7 @@ function downloadFile(url) {
 const websocket = {
   data() {
     return {
-      ws: 'eeeee'
+      ws: ''
     }
   },
   methods: {
@@ -47,10 +47,10 @@ const websocket = {
 
       this.ws.onopen = () => {
         console.log("websockt链接成功")
-        setInterval(() => {
-          console.log("heart")
-          this.ws.send("heart");
-        }, 12000)
+        // setInterval(() => {
+        //   console.log("heart")
+        //   this.ws.send("heart");
+        // }, 12000)
       }
 
       //接收到消息的回调方法
