@@ -258,22 +258,22 @@ export default {
           },
           {
             key: "设备编号",
-            width: "",
+            width: "120px",
             word: "deviceNo"
           },
           {
             key: "收款人",
-            width: "",
+            width: "120px",
             word: "receiveMan"
           },
           {
             key: "开票人",
-            width: "",
+            width: "120px",
             word: "invoiceMan"
           },
           {
             key: "复核人",
-            width: "",
+            width: "120px",
             word: "checkMan"
           }
         ],
