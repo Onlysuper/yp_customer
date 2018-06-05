@@ -54,7 +54,7 @@
           </el-col>
         </el-form-item>
         <el-form-item class="full-width" label="开户银行" prop="bankCode" :label-width="formLabelWidth">
-          <el-select @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="请选择">
+          <el-select :filterable='true' @input="banksChange" size="small" v-model="editForm.bankCode" placeholder="可输入关键字检索选择">
             <el-option v-for="item in bankOptions" :key="item.code" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
@@ -125,6 +125,9 @@ export default {
       type: Array
     },
     rowData: {
+      type: Object
+    },
+    doWhat: {
       type: Object
     }
   },

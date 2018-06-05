@@ -7,8 +7,8 @@
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
+   
     <!-- 商户状态 start -->
-    <!-- <el-dialog top="10px" class="special-dialog" title="信息详情" center :visible.sync="detailsFormVisible" id="dialogLoding"> -->
     <el-dialog class="special-dialog-new" bottom="10px" title="" center :visible.sync="detailsFormVisible" id="dialogLoding" :close-on-click-modal="false">
       <div class="detail-content-pro">
         <template>
@@ -32,9 +32,10 @@
     </el-dialog>
     <!-- 详情 end -->
     <!-- 开通产品 start -->
-    <el-dialog :title="productOpenTitle" center :visible.sync="editFormVisible">
+    <el-dialog v-dialogDrag :title="productOpenTitle" center :visible.sync="editFormVisible">
       <!-- <keep-alive> -->
-      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData">
+      <!-- <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData"> -->
+      <component v-on:titleChange="titleChange" v-on:nextFn="nextFn" v-on:backFn="backFn" @backDetail="backDetail" v-bind:is="openProductView" :customerTypeSelected="customerTypeSelected" :rowData="resaultData" :doWhat="doWhat">
         <!-- 组件在 vm.openProductView 变化时改变！ -->
       </component>
       <!-- </keep-alive> -->
@@ -60,7 +61,7 @@
     </el-dialog>
     <!-- 关闭end -->
     <!-- 排版 -->
-    <el-dialog title="" center :visible.sync="styleVisible">
+    <el-dialog v-dialogDrag  title="配置" center :visible.sync="styleVisible">
       <el-form size="small" :model="styleForm" ref="styleForm" :rules="styleFormRules" label-width="100px">
         <el-form-item label="开票类型:" prop="supportTypes" :label-width="formLabelWidth">
           <el-checkbox-group @input="supportTypesChange" v-model="styleForm.supportTypes">
@@ -90,21 +91,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
 @media screen and (min-width: 500px) {
-  .scroll-view-cus {
-    // touch-action: none;
-    /* -- Attention-- */
-    // position: absolute;
-    // top: 0;
-    // bottom: 0;
-    // left: 0;
-    // right: 0;
-    // overflow: hidden;
-  }
   .admin-page {
     .small-but {
       position: absolute;
-      // width: 30px;
-      // height: 30px;
       padding: 0 5px;
       text-align: center;
       line-height: 30px;
@@ -144,7 +133,6 @@
         flex-shrink: 0;
         box-sizing: border-box;
         .title-box {
-          // flex: 1;
           flex: 1;
           align-self: center;
           text-align: center;
@@ -174,7 +162,6 @@
         padding-bottom: 0px;
         flex: 1;
         display: flex;
-        // flex-basis: 100%;
         height: 100%;
       }
       .el-dialog__footer {
@@ -185,13 +172,8 @@
   }
   .detail-content-pro {
     flex: 1;
-    // height: 100%;
-    // overflow: auto;
-    // position: relative;
     display: flex;
     flex-direction: column;
-    // width: 100%;
-    // background: red;
   }
 }
 </style>
@@ -204,7 +186,7 @@ import DataPage from "@src/components/DataPage";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
-import { todayDate } from "@src/common/dateSerialize";
+import { todayStr } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import utils from "@src/common/utils";
 import openInfo from "./openInfo";
@@ -221,7 +203,8 @@ import {
   getCustomerEchoProduct,
   postHandleCustomerProduct,
   getQueryCustomerElectronic,
-  getUserProductStatus
+  getUserProductStatus,
+  changeBillOpenCheck
 } from "@src/apis";
 
 export default {
@@ -242,7 +225,6 @@ export default {
   mixins: [mixinsPc, mixinDataTable],
   data() {
     var user = this.$store.state.userInfoAndMenu.userMessage.all;
-    var isAdmin = user.userType === "root" || user.userType === "admin" || user.userType === "operator"; // 运营
     var isBranchOffice = user.userType === "branchOffice"; // 分公司
     var searchConditionVar = {
       bussinessNo: "",
@@ -259,7 +241,6 @@ export default {
         identityBackImg: {
           url: ""
         },
-
         identityFrontImg: {
           url: ""
         },
@@ -387,7 +368,6 @@ export default {
       // showImageVisible: true,
       largeImgUrl: "",
       qrcodelargeImgUrl: "",
-      isAdmin: isAdmin,
       // 默认数据初始值
       detailsFormDefault: { ...detailsForm },
       resaultDataDefault: {},
@@ -409,6 +389,7 @@ export default {
       productOpenTitle: "完善信息",
       openProductView: "openInfo",
       customerTypeSelected: [],
+      doWhat: {},
       optionsArea: utils.areaPicherOptions(), //省市县数据
       sumLoading: false,
       payStatusVisible: false, // 聚合详情
@@ -434,7 +415,6 @@ export default {
           }
         ]
       },
-
       detailsFormVisible: false, // 详情框
       editFormVisible: false, // 编辑框
       formLabelWidth: "130px",
@@ -443,7 +423,6 @@ export default {
         Area: [] // 必须为数组
       }, // 编辑单个表单
       // 聚合支付查询详情
-
       qrcodeStatusDetails: {}, // 快速开票查询详情
       resaultForm: {}, // 拒绝表单
       closeForm: {},
@@ -463,8 +442,6 @@ export default {
       resaultFormRules: {
         reason: [{ required: true, message: "请填写拒绝理由", trigger: "blur,change" }]
       },
-
-
       // 查询条件数据
       searchCondition: searchConditionVar,
       // 顶部搜索表单信息
@@ -475,6 +452,7 @@ export default {
           type: "text", // 表单类型
           label: "商户编号", // 输入框前面的文字
           show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
           cb: value => {
             // 表单输入之后回调函数
@@ -486,6 +464,7 @@ export default {
           type: "text",
           label: "商户名称",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           cb: value => {
             this.searchCondition.customerName = value;
@@ -496,6 +475,7 @@ export default {
           type: "select",
           label: "聚合支付",
           show: true, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -513,6 +493,7 @@ export default {
           type: "select",
           label: "快速开票",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -530,6 +511,7 @@ export default {
           type: "select",
           label: "电子发票",
           show: false, // 普通搜索显示
+          defaultVlue: "",
           value: "",
           options: [
             {
@@ -543,37 +525,32 @@ export default {
           }
         }
       ],
-
       // 列表数据
       actionUrl: getCustomerOpenProducts,
       postSearch: searchConditionVar,
       tableData: {
-        // getDataUrl: {
-        //   url: getCustomerOpenProducts // 初始化数据
-        // },
         dataHeader: [
-          // table列信息 key=>表头标题，word=>表内容信息
           {
             key: "时间",
-            width: "",
+            width: "160px",
             sortable: true,
             word: "createTime"
           },
           {
             key: "商户编号",
-            width: "",
+            width: "130px",
             sortable: true,
             word: "bussinessNo"
           },
           {
             key: "商户名称",
-            width: "",
+            width: "130px",
             word: "customerName"
           },
 
           {
             key: "快速开票",
-            width: "",
+            width: "130px",
             word: "qrcodeStatus",
             status: true,
             type: data => {
@@ -582,7 +559,7 @@ export default {
           },
           {
             key: "聚合支付",
-            width: "",
+            width: "130px",
             word: "payStatus",
             status: true,
             type: data => {
@@ -591,7 +568,7 @@ export default {
           },
           {
             key: "电子发票",
-            width: "",
+            width: "130px",
             word: "elecStatus",
             status: true,
             type: data => {
@@ -607,7 +584,7 @@ export default {
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
-                  (isAdmin || !isBranchOffice) &&
+                  (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice) &&
                   rowdata.payStatus == "INIT" ||
                   rowdata.payStatus == "WAITING_SUBMIT" ||
                   rowdata.payStatus == "REJECT" ||
@@ -628,24 +605,44 @@ export default {
                 this.openProduct('payStatus');
               }
             },
-            // {
-            //   text: "变更",
-            //   color: "#00c1df",
-            //   visibleFn: rowdata => {
-            //     if (
-            //       (isAdmin || !isBranchOffice) &&
-            //       rowdata.payStatus == "TRUE"
-            //     ) {
-            //       return true;
-            //     } else {
-            //       return false;
-            //     }
-            //   },
-            //   cb: rowdata => {
-            //     this.resaultData = rowdata;
-            //     this.openProductPay('payStatus');
-            //   }
-            // },
+            {
+              text: "变更",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                if (
+                  (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice) &&
+                  rowdata.payStatus == "TRUE"
+                ) {
+                  return true;
+                } else {
+                  return false;
+                }
+              },
+              cb: rowdata => {
+                changeBillOpenCheck()({
+                  customerNo: rowdata.bussinessNo
+                }).then((res) => {
+                  if (res.code == '00') {
+                    if (res.data == 'TRUE') {
+                      this.resaultData = rowdata;
+                      this.changeProductPay('payStatus');
+                    } else {
+                      console.log(res);
+                      this.$message({
+                        type: 'warning',
+                        message: "请去变更单操作"
+                      });
+                    }
+                  } else {
+                    this.$message({
+                      type: 'warning',
+                      message: res.msg
+                    });
+                  }
+                })
+
+              }
+            },
             // 操作按钮
             {
               text: "查询",
@@ -667,7 +664,7 @@ export default {
               text: "审核",
               visibleFn: rowdata => {
                 if (
-                  isAdmin &&
+                  this.$store.state.userInfoAndMenu.isOperate &&
                   (
                     rowdata.elecStatus == "CHECKING")
                 ) {
@@ -697,7 +694,7 @@ export default {
               text: "关闭",
               visibleFn: rowdata => {
                 if (
-                  isAdmin &&
+                  this.$store.state.userInfoAndMenu.isOperate &&
                   (
                     // rowdata.payStatus == "TRUE" ||
                     // rowdata.qrcodeStatus == "TRUE" ||
@@ -741,6 +738,7 @@ export default {
                 let invoiceType = rowdata.invoiceType;
                 this.styleForm.payTypes = [payType];
                 this.styleForm.supportTypes = [invoiceType];
+                console.log(invoiceType);
                 switch (payType) {
                   case 0:
                     this.styleForm.payTypes = [];
@@ -979,7 +977,8 @@ export default {
         }
       })
     },
-    openProductPay() {
+    //变更
+    changeProductPay() {
       let rowdata = { ...this.resaultData };
       this.customerTypeSelected = [
         {
@@ -1001,6 +1000,7 @@ export default {
           disabled: true
         }
       ];
+      this.doWhat = { type: 'change' };
       this.resaultData = { ...rowdata };
       this.nextFn("openInfo");
       this.editFormVisible = true;
@@ -1043,6 +1043,7 @@ export default {
               : true
         }
       ];
+      this.doWhat = { type: 'open' };
       this.resaultData = { ...rowdata };
       this.nextFn("openInfo");
       this.editFormVisible = true;
@@ -1064,7 +1065,7 @@ export default {
       this.detailsFormVisible = false
     },
     // 下一步
-    nextFn(next) {
+    nextFn(next, nextFn) {
       this.openProductView = next;
       this.reloadData()
     },
@@ -1158,13 +1159,13 @@ export default {
             break;
           case "elecStatus":
             this.elecStatusVisible = true;
-            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && (this.isAdmin || !isBranchOffice)) {
+            if (row.elecStatus == "REJECT" || row.elecStatus == "WAITING_SUBMIT" && (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;
           case "payStatus":
             this.payStatusVisible = true;
-            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && (this.isAdmin || !isBranchOffice)) {
+            if (row.payStatus == "REJECT" || row.payStatus == "WAITING_SUBMIT" && (this.$store.state.userInfoAndMenu.isOperate || !isBranchOffice)) {
               this.editVisiblebut = true;
             }
             break;

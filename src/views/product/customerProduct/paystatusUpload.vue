@@ -90,7 +90,7 @@
 import utils from "@src/common/utils";
 import { mixinsPc } from "@src/common/mixinsPc";
 // table页与搜索页公用功能
-import { todayDate } from "@src/common/dateSerialize";
+import { todayStr } from "@src/common/dateSerialize";
 import { taxNumVerify, idCardVerify, phoneNumVerify } from "@src/common/regexp";
 import UploadImg from "@src/components/UploadImg";
 import {
@@ -104,9 +104,16 @@ export default {
   name: "",
   components: { UploadImg },
   mixins: [mixinsPc],
+  // props: ["rowData", "doWhat", "testdata"],
   props: {
     rowData: {
       type: Object
+    },
+    doWhat: {
+      type: Object
+    },
+    testdata: {
+      type: String
     }
   },
   data() {
@@ -174,6 +181,7 @@ export default {
 
   methods: {
     editSave() {
+
       // 编辑内容保存
       // for (var i in this.saveForm) {
       //   if (!this.saveForm[i]) {
@@ -227,16 +235,29 @@ export default {
         this.warningMsg("必须先勾选《同意开通支付协议》！");
         return false;
       }
-      this.saveLoading = true;
-      // 点击下一步提交所有图片
-      completeBussinessImg()(this.saveForm).then(res => {
-        if (res.code == "00") {
-          // 下一步
-          this.$emit("nextFn", "paystatusSuccess");
-        } else {
-          this.warningMsg(res.msg);
-        }
-        this.saveLoading = false;
+      let sureMsg = ""
+      if (this.doWhat.type == 'open') {
+        sureMsg = "确定要开通吗？"
+      } else if (this.doWhat.type == 'change') {
+        sureMsg = "确定提交变更信息吗？"
+      }
+      this.$confirm(sureMsg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.saveLoading = true;
+        // 点击下一步提交所有图片
+        completeBussinessImg()(this.saveForm).then(res => {
+          if (res.code == "00") {
+            // 下一步
+            this.$emit("nextFn", "paystatusSuccess");
+          } else {
+            this.warningMsg(res.msg);
+          }
+          this.saveLoading = false;
+        });
+      }).catch(() => {
       });
     },
     // 遗憾信息提示

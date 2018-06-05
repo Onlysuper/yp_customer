@@ -1,4 +1,46 @@
 {
+  "customerSettleOutMoneyStatus": {
+    "OUT_SUCCESS": {
+      "name": "出款成功",
+      "color": "#67C23A"
+    },
+    "OUT_SEND": {
+      "name": "出款已发送",
+      "color": "#409EFF"
+    },
+    "OUT_FAIL": {
+      "name": "出款失败",
+      "color": "#909399"
+    },
+    "WAIT_AUDIT": {
+      "name": "待审核",
+      "color": "#67C23A"
+    },
+    "AUDIT_FAIL": {
+      "name": "审核失败",
+      "color": "#E6A23C"
+    }
+  },
+  "emailBussinessType": {
+    "customer": {
+      "name": "商户",
+      "color": "#E6A23C"
+    },
+    "agent": {
+      "name": "服务商",
+      "color": "#67C23A"
+    }
+  },
+  "emailStatus": {
+    "TRUE": {
+      "name": "开启",
+      "color": "#67C23A"
+    },
+    "FALSE": {
+      "name": "关闭",
+      "color": "#909399"
+    }
+  },
   "containChild": {
     "TRUE": {
       "name": "包含下级",
@@ -12,15 +54,15 @@
   "empowerBindStatus": {
     "BINDED": {
       "name": "已绑定",
-      "color": "#E6A23C"
+      "color": "#67C23A"
     },
     "TRUE": {
       "name": "未绑定",
-      "color": "#E6A23C"
+      "color": "#409EFF"
     },
     "FALSE": {
       "name": "无效",
-      "color": "#67C23A"
+      "color": "#909399"
     }
   },
   "bankCustomerStatus": {
@@ -62,6 +104,20 @@
     },
     "SUCCESS": {
       "name": "已结算",
+      "color": "#67C23A"
+    }
+  },
+  "convergePayStatus": {
+    "TRUE": {
+      "name": "正常",
+      "color": "#409EFF"
+    },
+    "FALSE": {
+      "name": "异常",
+      "color": "#E6A23C"
+    },
+    "SUCCESS": {
+      "name": "正常",
       "color": "#67C23A"
     }
   },
@@ -146,9 +202,13 @@
     }
   },
   "payStatus": {
+    "PLUGIN_SUCCESS": {
+      "name": "插件接受成功",
+      "color": "#67C23A"
+    },
     "SUCCESS": {
       "name": "推送成功",
-      "color": "##409EFF"
+      "color": "#409EFF"
     },
     "BILLING_SUCCESS": {
       "name": "开票成功",
@@ -169,31 +229,9 @@
     "QUERY_FAIL": {
       "name": "查询失败",
       "color": "#909399"
-    }
-  },
-  "billStatus": {
-    "SUCCESS": {
-      "name": "推送成功",
-      "color": "#67C23A"
     },
-    "BILLING_SUCCESS": {
-      "name": "开票成功",
-      "color": "#67C23A"
-    },
-    "BILLING": {
-      "name": "开票中",
-      "color": "#E6A23C"
-    },
-    "ORDER": {
-      "name": "待开票",
-      "color": "#409EFF"
-    },
-    "BILLING_FAIL": {
-      "name": "失败",
-      "color": "#F56C6C"
-    },
-    "QUERY_FAIL": {
-      "name": "查询失败",
+    "SUBMITTING": {
+      "name": "已提交",
       "color": "#909399"
     }
   },
@@ -415,7 +453,33 @@
       "color": "#909399"
     }
   },
+  "changeBill": {
+    "INIT": {
+      "name": "待提交",
+      "color": "#409EFF"
+    },
+    "ADMIN_AUDIT": {
+      "name": "初审中",
+      "color": "#E6A23C"
+    },
+    "WAIT_AUDIT": {
+      "name": "复审中",
+      "color": "#E6A23C"
+    },
+    "SUCCESS": {
+      "name": "已完成",
+      "color": "#67C23A"
+    },
+    "REJECT": {
+      "name": "审核拒绝",
+      "color": "#909399"
+    }
+  },
   "orderQueryStatus": {
+    "SUCCESS": {
+      "name": "成功",
+      "color": "#67C23A"
+    },
     "INIT": {
       "name": "订单初始化",
       "color": "#409EFF"
@@ -427,10 +491,6 @@
     "FAIL": {
       "name": "失败",
       "color": "#F56C6C"
-    },
-    "SUCCESS": {
-      "name": "成功",
-      "color": "#67C23A"
     },
     "REFUND": {
       "name": "退款",

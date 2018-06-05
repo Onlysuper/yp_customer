@@ -376,7 +376,7 @@ export default {
           },
           {
             key: "状态",
-            width: "100px",
+            width: "120px",
             word: "status",
             status: true,
             type: data => {

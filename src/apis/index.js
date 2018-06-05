@@ -18,6 +18,7 @@ const MenuGet = () => { return (params) => { return http.get(base.oaIp, "/index/
 
 // 用户信息
 const UserGet = () => { return (params) => { return http.get(base.oaIp, "/user/privilege", params) } }
+const changeBillOpenCheck = () => { return (params) => { return http.get(base.oaIp, "/changeBill/productEdit", params) } }
 // 管理密码修改
 const PasswordUpdate = () => { return (params) => { return http.patch(base.oaIp, "/user/update/password", params) } }
 
@@ -304,7 +305,22 @@ const getSumPayOrders = () => { return (params) => { return http.get(base.oaIp, 
 /**
  **商户版本管理Start
  */
+const getChangeBills = () => { return (params) => { return http.get(base.oaIp, "/changeBill/page", params) } }
+const postUpdateBill = () => { return (params) => { return http.post(base.oaIp, "/changeBill/update", params) } }
+const getOneChangeBill = () => { return (params) => { return http.get(base.oaIp, "/changeBill/queryConvergeNowData", params) } }
 // end -------------------------------------------------
+
+
+// 邮箱配置start
+const getEmailconfigs = () => { return (params) => { return http.get(base.oaIp, "/emailconfig/page", params) } }
+const postAddEmailconfig = () => { return (params) => { return http.post(base.oaIp, "/emailconfig/add", params) } }
+const postEditEmailconfig = () => { return (params) => { return http.post(base.oaIp, "/emailconfig/update", params) } }
+
+//支付商户结算
+const getCustomerSettles = () => { return (params) => { return http.get(base.oaIp, "/customerSettle/page", params) } }
+const postStatusCustomerSettle = () => { return (params) => { return http.post(base.oaIp, "/customerSettle/queryCustomerNo", params) } }
+
+// 邮箱配置end
 export {
     Login,
     Logout,
@@ -462,6 +478,15 @@ export {
     upload,
     //交易订单查询
     getPayOrders,
-    getbankCustomers
+    getbankCustomers,
+    changeBillOpenCheck,
+    getChangeBills,
+    postUpdateBill,
+    getOneChangeBill,
+    getEmailconfigs,
+    postAddEmailconfig,
+    postEditEmailconfig,
+    getCustomerSettles,
+    postStatusCustomerSettle
 };
 
