@@ -325,7 +325,7 @@ import {
   postMakeTorageEmpower,
   getCustomers
 } from "@src/apis";
-
+import utils from "@src/common/utils"
 export default {
   name: "qrcode",
   components: {
@@ -1322,7 +1322,7 @@ export default {
       if (type == "addQrcode") {
         let reg = /,$/gi;
         let newQrcodes = "";
-        if(this.addMaterielForm.qrcodes){
+        if(this.addMaterielForm.qrcodes&& utils.isString(this.addMaterielForm.qrcodes)){
           newQrcodes =this.addMaterielForm.qrcodes.replace(reg, "");
         }
         this.addMaterielForm.qrcodes = newQrcodes;

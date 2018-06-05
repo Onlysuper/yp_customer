@@ -299,20 +299,33 @@ export default {
                 r => r.unionCode == payStatusForm.unionCode
               ).branchName || payStatusForm.unionCode;
           }
-          // console.log(payStatusForm);
-          let newRow = utils.pickObj(payStatusForm, [
-            'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-            'idNoEffectiveBegin', 'idNoEffectiveEnd',
-            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
-            'reservedPhoneNo',
-            'unionCode',
-            'bankCode',
-            'contactEmail',
-            'settleIdCard'
-          ]);
-          // newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
+          let newRow = {};
+          if(this.accountType == "0"){
+            // 对公
+             newRow = utils.pickObj(payStatusForm, [
+              'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+              'idNoEffectiveBegin', 'idNoEffectiveEnd',
+              'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
+              'reservedPhoneNo',
+              'unionCode',
+              'bankCode',
+              'contactEmail'
+            ]);
+          }else{
+            // 对私
+              newRow = utils.pickObj(payStatusForm, [
+              'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+              'idNoEffectiveBegin', 'idNoEffectiveEnd',
+              'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
+              'reservedPhoneNo',
+              'unionCode',
+              'bankCode',
+              'contactEmail',
+              'settleIdCard'
+            ]);
+          }
           for (var i in newRow) {
-            if (newRow[i]) {
+            if (newRow[i] && utils.isString(newRow[i])) {
               newRow[i] = newRow[i].replace(/\s/g, '');
             }
           }

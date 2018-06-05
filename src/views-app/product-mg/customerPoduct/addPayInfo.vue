@@ -344,11 +344,11 @@ export default {
         }
       }
       let form = this.sendParams();
-      if (form.accountNo) {
-        form.accountNo = form.accountNo.replace(/\s/g, '');
-      }
+      // if (form.accountNo) {
+      //   form.accountNo = form.accountNo.replace(/\s/g, '');
+      // }
       for (var i in form) {
-        if (form[i]) {
+        if (form[i]&&utils.isString(form[i])) {
           form[i] = form[i].replace(/\s/g, '');
         }
       }

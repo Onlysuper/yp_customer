@@ -285,8 +285,10 @@ export default {
           before = "https://f.yeepiao.com";
           break;
       }
-      if (url) {
+      if (url&&utils.isString(url)) {
         return url.replace("/nfs/test", before)
+      }else{
+        return url
       }
     },
     echoForm(imgsArr, type) {
