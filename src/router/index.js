@@ -42,7 +42,8 @@ import customerSettle from "./settle/customerSettle";
 import enterpriseSupply from "./enterprise/enterpriseSupply";
 import orderQuery from "./order/orderQuery";
 import email from "./order/email";
-import changeBill from "./product/changeBill";
+// import changeBill from "./product/changeBill";
+import changeBill from "./modifyinfo/changeBill";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({

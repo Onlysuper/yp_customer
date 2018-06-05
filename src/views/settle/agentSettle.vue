@@ -232,6 +232,11 @@ export default {
   },
 
   methods: {
+     seachstartHandle() {
+      // 开始搜索
+      this.reloadData();
+      this.sumVisible = false;
+    },
     // 合计
     SumHandle() {
       this.sumLoading = true;
