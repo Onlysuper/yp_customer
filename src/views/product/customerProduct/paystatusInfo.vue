@@ -296,20 +296,33 @@ export default {
                 r => r.unionCode == payStatusForm.unionCode
               ).branchName || payStatusForm.unionCode;
           }
-          // console.log(payStatusForm);
-          let newRow = utils.pickObj(payStatusForm, [
-            'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
-            'idNoEffectiveBegin', 'idNoEffectiveEnd',
-            'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
-            'reservedPhoneNo',
-            'unionCode',
-            'bankCode',
-            'contactEmail',
-            'settleIdCard'
-          ]);
-          // newRow.accountNo = newRow.accountNo.replace(/\s/g, '');
+          let newRow = {};
+          if(this.accountType == "0"){
+            // 对公
+             newRow = utils.pickObj(payStatusForm, [
+              'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+              'idNoEffectiveBegin', 'idNoEffectiveEnd',
+              'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
+              'reservedPhoneNo',
+              'unionCode',
+              'bankCode',
+              'contactEmail'
+            ]);
+          }else{
+            // 对私
+              newRow = utils.pickObj(payStatusForm, [
+              'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
+              'idNoEffectiveBegin', 'idNoEffectiveEnd',
+              'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
+              'reservedPhoneNo',
+              'unionCode',
+              'bankCode',
+              'contactEmail',
+              'settleIdCard'
+            ]);
+          }
           for (var i in newRow) {
-            if (newRow[i]) {
+            if (newRow[i] && utils.isString(newRow[i])) {
               newRow[i] = newRow[i].replace(/\s/g, '');
             }
           }
@@ -365,7 +378,6 @@ export default {
           bankCode: this.bankCode,
           cityId: this.bankCity
         }).then(data => {
-          console.log(data);
           if (data.code == "00") {
             this.branchBankOptions = data.data;
           }
@@ -399,7 +411,6 @@ export default {
           let settleCard = res.data.settleCard;
           if (customerData.orgCode) {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
-            console.log(this.payStatusForm.Area)
           }
           let newCustomer = utils.pickObj(customerData, [
             'enterpriseName', 'taxNo',
@@ -475,7 +486,6 @@ export default {
         // this.payStatusForm.accountName = this.payStatusForm.legalPerson;
         // this.accountNameDis = true;
         this.payStatusForm.accountName = accountName == this.payStatusForm.enterpriseName ? this.payStatusForm.legalPerson : accountName || this.payStatusForm.legalPerson;
-        console.log(this.payStatusForm.legalPerson == this.payStatusForm.accountName);
         this.isLegalPersonSettleIdCard();
       }
     },
@@ -487,7 +497,6 @@ export default {
       }
     },
     setCache() {
-      console.log(this.payStatusForm);
       window.localStorage.setItem('productForm_pc' + this.bussinessNo, JSON.stringify(this.payStatusForm));
     },
     clearCache() {
@@ -515,7 +524,6 @@ export default {
       this.isLegalPersonSettleIdCard();
     },
     "payStatusForm.accountName"(val) {
-      console.log(val);
       this.isLegalPersonSettleIdCard();
     },
     "payStatusForm.legalPerson"(val) {
