@@ -7,7 +7,7 @@
       <!-- search form end -->
       <myp-data-page :actionUrl="actionUrl" @pagecount="pagecountHandle" @pagelimit="pagelimitHandle" @operation="operationHandle" ref="dataTable" :tableDataInit="tableData" :page="postPage" :limit="postLimit" :search="postSearch"></myp-data-page>
     </div>
-      <!-- 详细信息 start -->
+    <!-- 详细信息 start -->
     <el-dialog :title="detailsForm.customerName" center :visible.sync="detailsFormVisible">
       <div class="detail-content">
         <div class="line-label-box cross-back">
@@ -45,7 +45,7 @@
         <div class="line-label-box cross-back">
           <span class="line-label">备注:</span>{{detailsForm.remark}}
         </div>
-     
+
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="detailsFormVisible = false">取 消</el-button>
@@ -263,12 +263,12 @@ export default {
               }
             },
             {
-              text: "同步状态",
+              text: "状态更新",
               color: "#00c1df",
               visibleFn: rowdata => {
                 if (
                   // rowdata.outMoneyStatus != "OUT_SUCCESS"
-                  rowdata.outMoneyStatus=="OUT_FAIL"||rowdata.outMoneyStatus=="WAIT_AUDIT"||rowdata.outMoneyStatus=="OUT_SEND"||rowdata.outMoneyStatus=="AUDIT_FAIL"
+                  rowdata.outMoneyStatus == "OUT_FAIL" || rowdata.outMoneyStatus == "WAIT_AUDIT" || rowdata.outMoneyStatus == "OUT_SEND" || rowdata.outMoneyStatus == "AUDIT_FAIL"
                 ) {
                   return true;
                 } else {
@@ -282,7 +282,12 @@ export default {
                 }).then(res => {
                   if (res.code == "00") {
                     let nowStatus = res
-                    rowdata.outMoneyStatus = res.data
+                    rowdata.outMoneyStatus = res.data;
+                    this.$message({
+                      message: "已更新",
+                      type: "success",
+                      center: true
+                    });
                   } else {
                     this.$message({
                       message: res.msg,

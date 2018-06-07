@@ -19,7 +19,7 @@
               <myp-tr title="创建时间">{{item.createTime}}</myp-tr>
               <myp-tr title="商户名称">{{item.customerName}}</myp-tr>
               <myp-tr title="商户编号">{{item.customerNo}}</myp-tr>
-              <myp-tr title="出款状态">{{item.outMoneyStatus}}</myp-tr>
+              <!-- <myp-tr title="出款状态">{{item.outMoneyStatus}}</myp-tr> -->
               <myp-tr title="结算名称">{{item.settleName}}</myp-tr>
               <myp-tr title="结算账号">{{item.settleNo}}</myp-tr>
               <!-- <myp-tr title="交易金额">{{item.payAmount}}</myp-tr>
@@ -89,6 +89,9 @@ export default {
     dataUpdate(item) {
       let data_ = item;
       this.updateCustomerSettle(data_).then(isSuccess => {
+        if (isSuccess) {
+          Toast("已更新");
+        }
         // isSuccess && this.$refs.sum.open(this.sumData);
       });
     },

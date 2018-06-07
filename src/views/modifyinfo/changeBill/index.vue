@@ -511,13 +511,26 @@ export default {
 
   },
   watch: {
+    // editFormVisible(val) {
+    //   if (!val) {
+
+    //     this.$nextTick(() => {
+    //       if (this.openProductView == "openInfo") {
+    //         this.$refs.editProductView.dataInit();
+    //       }
+    //     })
+    //   }
+    // },
     editFormVisible(val) {
       if (!val) {
-        this.$nextTick(() => {
-          if (this.openProductView == "openInfo") {
-            this.$refs.editProductView.dataInit();
-          }
-        })
+        this.openProductView = ""
+      }
+    },
+    detailsFormVisible(val) {
+      if (!val) {
+        // this.rowData = {}
+        this.newData = {};
+        this.oldData = {};
       }
     }
   }
