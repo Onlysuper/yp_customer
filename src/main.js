@@ -41,6 +41,7 @@ import {
   Menu as eleMenu,
   Submenu as eleSubmenu,
   MenuItem as eleMenuItem,
+  MenuItemGroup as eleMenuItemGroup,
   Header as eleHeader,
   Badge as eleBadge,
   Dropdown as eleDropdown,
@@ -81,6 +82,7 @@ import {
   Autocomplete as eleAutocomplete,
   Carousel as eleCarousel,
   CarouselItem as eleCarouselItem,
+  Main as eleMain,
   MessageBox,
   Message,
   Loading
@@ -103,6 +105,7 @@ Vue.component(eleContainer.name, eleContainer)
 Vue.component(eleMenu.name, eleMenu)
 Vue.component(eleSubmenu.name, eleSubmenu)
 Vue.component(eleMenuItem.name, eleMenuItem)
+Vue.component(eleMenuItemGroup.name, eleMenuItemGroup)
 Vue.component(eleHeader.name, eleHeader)
 Vue.component(eleBadge.name, eleBadge)
 Vue.component(eleDropdown.name, eleDropdown)
@@ -132,6 +135,7 @@ Vue.component(eleColorPicker.name, eleColorPicker)
 Vue.component(eleAlert.name, eleAlert)
 Vue.component(eleTabs.name, eleTabs)
 Vue.component(eleTabPane.name, eleTabPane)
+Vue.component(eleMain.name, eleMain)
 Vue.component(eleAutocomplete.name, eleAutocomplete)
 Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }

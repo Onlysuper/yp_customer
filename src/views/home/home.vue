@@ -77,6 +77,7 @@ export default {
   left: 0;
   right: 0;
   .welcome {
+    text-align: left;
     h2 {
       color: #00c1df;
       font-size: 32px;

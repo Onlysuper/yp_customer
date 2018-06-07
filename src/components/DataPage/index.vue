@@ -1,21 +1,22 @@
 <template>
   <!-- 表格与分页展示区域 -->
   <div class="tablelist-box">
-    <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" width="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
+    <!-- <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" width="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true"> -->
+    <el-table ref="tableList" border :fit="true" :stripe="true" :data="tableData" class="__scrollStyle__" height="100%" max-height="200" width="100%" v-loading="ifloading" empty-text="暂无数据" header-row-class-name="tableHeader" show-overflow-tooltip="true">
       <el-table-column v-if="tableDataInit.havecheck" fixed type="selection" width="40">
       </el-table-column>
       <el-table-column v-for="(item,index) in tableDataInit.dataHeader" :key="index" :prop="item.word" :label="item.key" v-if="item.hidden?false:true" :min-width="item.width" :sortable="item.sortable">
         <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
           <!-- <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag> -->
           <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition disable-transitions> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
-          <span class="link-text inline-text" v-else-if="item.event&&scope.row[scope.column.property]!='null'&&scope.row[scope.column.property]?true:false" @click="operationHandle(scope.row,item.cb)"> 
+          <span class="link-text inline-text" v-else-if="item.event&&scope.row[scope.column.property]!='null'&&scope.row[scope.column.property]?true:false" @click="operationHandle(scope.row,item.cb)">
             {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
             <i :data-clipboard-text="item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]" @click="copyText" class="el-icon-tickets copy-icon"></i>
           </span>
           <el-popover v-else-if="scope.row[scope.column.property]?true:false" trigger="click" placement="top">
             <p>
               {{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
-              </p>
+            </p>
             <div slot="reference" class="name-wrapper">
               <div class="inline-text">
                 {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
@@ -227,6 +228,11 @@
 //   border-radius: 0.2rem;
 //   // -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 //   background-color: #989797;
+// }
+
+// 解决谷歌浏览器 在了fixed之后不出现滚动条的问题
+// .el-table__fixed-body-wrapper {
+//   overflow: auto;
 // }
 </style>
 <script>

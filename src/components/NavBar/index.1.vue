@@ -1,13 +1,11 @@
 
 <template>
   <!-- layout顶部 公司名与用户信息操作区域-->
-  <div class="my-header">
+  <el-header class="my-header">
     <div @click="isCollapsefn" class="head-l">
       <span :class="[isCollapseicon?'isCollapseicon':'','icon-recycling','collapse-button']"></span>
     </div>
-    <!-- <div class="tags-box"> -->
     <tags-view></tags-view>
-    <!-- </div> -->
     <div class="head-r">
       <i title="全屏显示" class="el-icon-rank fullpage-icont" @click="fullPageHandle()"></i>
       <!-- <theme-picker class="theme-picker"></theme-picker> -->
@@ -44,7 +42,7 @@
     </div>
 
     <!-- 修改管理员密码 end -->
-  </div>
+  </el-header>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
@@ -98,40 +96,30 @@
 </style>
 <style lang='scss' scoped>
 /*重置样式*/
-@mixin my-transition($attr, $section) {
+@mixin my-transition($attr,$section) {
   transition: $attr $section;
   -moz-transition: $attr $section;
   -webkit-transition: $attr $section;
   -o-transition: $attr $section;
 } //声明一个带有参数$radius的混合宏
 .my-header {
-  // z-index: 10;
-  // background-color: #fff;
-  // box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px rgba(105, 105, 105, 0.2);
   color: #333;
   width: 100%;
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  // padding: 0px !important;
+  padding: 0px !important;
   box-sizing: border-box;
   flex-shrink: 0;
-  height: 100%;
-  // height: 54px !important;
+  height: 54px !important;
 
   .theme-picker {
     margin-right: 10px;
   }
-  .tags-box {
-    flex: 1;
-    height: 100%;
-    .tags-view-wrapper {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-  }
+
   .fullpage-icont {
     font-size: 25px;
     transform: rotate(45deg);
@@ -155,7 +143,7 @@
     &:hover,
     &.message-box.active {
       outline: none;
-      @include my-transition(background, 0.8s);
+      @include my-transition(background,0.8s);
       background: rgba(0, 193, 223, 0.2);
       cursor: pointer;
     }
@@ -173,7 +161,7 @@
       transform: rotate(180deg); /* Safari 和 Chrome */
     }
     &:hover {
-      @include my-transition(background, 0.8s);
+      @include my-transition(background,0.8s);
       background: rgba(0, 193, 223, 0.2);
       cursor: pointer;
     }

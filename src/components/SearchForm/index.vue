@@ -335,7 +335,7 @@ export default {
       margin-bottom: 10px;
     }
     .form-box {
-      margin-top: 5px !important;
+      margin-top: 10px !important;
       .form-item {
         // width: 340px;
         width: 281px;

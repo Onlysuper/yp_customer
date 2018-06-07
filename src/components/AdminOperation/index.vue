@@ -45,7 +45,7 @@
       </div>
     </el-dialog>
     <!-- 修改管理员密码 start -->
-    <el-dialog :show-close="closeVisible"  center title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="450px">
+    <el-dialog :show-close="closeVisible" center title="修改密码" :visible.sync="dialogFormVisible" :modal="ifmodal" :close-on-click-modal="ifmodalclose" :modal-append-to-body="ifappendbody" :append-to-body="ifappendbody" width="450px">
       <el-form :model="resetPwform" ref="resetPwform" :rules="passwordRules">
         <el-form-item label="旧密码" prop="oldPassword" :label-width="formLabelWidth">
           <el-input id="oldPassword" type="password" v-model="resetPwform.oldPassword" auto-complete="off"></el-input>
@@ -67,7 +67,7 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
-@mixin my-transition($attr,$section) {
+@mixin my-transition($attr, $section) {
   transition: $attr $section;
   -moz-transition: $attr $section;
   -webkit-transition: $attr $section;
@@ -105,6 +105,7 @@
         display: inline-block;
         vertical-align: middle;
         outline: none;
+        display: flex;
         &:focus,
         &:hover {
           outline: none;
@@ -202,7 +203,7 @@ export default {
       }
     };
     return {
-      closeVisible:true,//关闭按钮
+      closeVisible: true,//关闭按钮
       defaultPickerColor: "#00c1df",
       realname: "",
       dialogUserVisible: false, //管理员信息弹出框
@@ -225,7 +226,7 @@ export default {
   },
 
   methods: {
-     
+
     dialogUserVisiblefn() {
       // 管理员信息弹出框
       this.dialogUserVisible = true;
@@ -283,7 +284,7 @@ export default {
       this.$refs[formName].resetFields();
       this.dialogFormVisible = false;
     },
-     // 按钮权限
+    // 按钮权限
     adminFilter(fileterName) {
       let fileter = this.$store.state.userInfoAndMenu.userMessage.all[fileterName]
       if (fileter == "TRUE") {
@@ -298,8 +299,8 @@ export default {
       return this.$store.state.userInfoAndMenu.userMessage;
     }
   },
-  mounted() { 
-    if(this.adminFilter('resetPasswordStatus')){
+  mounted() {
+    if (this.adminFilter('resetPasswordStatus')) {
       this.closeVisible = false;
       this.dialogFormVisible = true;
     }

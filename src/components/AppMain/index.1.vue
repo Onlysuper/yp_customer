@@ -1,6 +1,6 @@
 <template>
   <!-- layout 内容展示区域 -->
-  <!-- <div class="reset-main"> -->
+  <div class="reset-main">
     <!-- <transition> -->
     <!-- <keep-alive>
         <router-view v-if="$route.meta.keepAlive"></router-view>
@@ -10,7 +10,7 @@
       <router-view></router-view>
     </keep-alive>
     <!-- </transition> -->
-  <!-- </div> -->
+  </div>
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss'>
