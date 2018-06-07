@@ -62,7 +62,7 @@
         </el-select>
       </el-form-item>
       <el-form-item class="full-width" label="账户名称" :prop="accountNameDis?'':'accountName'" :label-width="formLabelWidth">
-        <el-input @input="accountNameInput"  @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
+        <el-input @input="accountNameInput" @change="setCache" :disabled="accountNameDis" v-model="payStatusForm.accountName" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item v-if="settleIdCardVisible" class="full-width" :prop="'settleIdCard'" label="结算人身份证号" :label-width="formLabelWidth">
         <el-input @change="setCache" :disabled="settleIdCardDis" v-model="payStatusForm.settleIdCard" auto-complete="off"></el-input>
@@ -300,9 +300,9 @@ export default {
               ).branchName || payStatusForm.unionCode;
           }
           let newRow = {};
-          if(this.accountType == "0"){
+          if (this.accountType == "0") {
             // 对公
-             newRow = utils.pickObj(payStatusForm, [
+            newRow = utils.pickObj(payStatusForm, [
               'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
               'idNoEffectiveBegin', 'idNoEffectiveEnd',
               'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
@@ -311,9 +311,9 @@ export default {
               'bankCode',
               'contactEmail'
             ]);
-          }else{
+          } else {
             // 对私
-              newRow = utils.pickObj(payStatusForm, [
+            newRow = utils.pickObj(payStatusForm, [
               'accountName', 'bussinessLicenseEffectiveBegin', 'bussinessLicenseEffectiveEnd',
               'idNoEffectiveBegin', 'idNoEffectiveEnd',
               'bussinessAddress', 'legalPerson', "idCard", 'category', 'accountNo', 'accountType',
@@ -497,17 +497,17 @@ export default {
     },
     getCache() {
       try {
-        this.cacheForm = JSON.parse(window.localStorage.getItem('productForm_pc' + this.bussinessNo)) || {};
+        this.cacheForm = JSON.parse(window.localStorage.getItem('changeBill_pc' + this.bussinessNo)) || {};
       } catch (e) {
         console.log('error：暂无cache');
       }
     },
     setCache() {
       console.log(this.payStatusForm);
-      window.localStorage.setItem('productForm_pc' + this.bussinessNo, JSON.stringify(this.payStatusForm));
+      window.localStorage.setItem('changeBill_pc' + this.bussinessNo, JSON.stringify(this.payStatusForm));
     },
     clearCache() {
-      window.localStorage.removeItem('productForm_pc' + this.bussinessNo);
+      window.localStorage.removeItem('changeBill_pc' + this.bussinessNo);
     }
   },
   updated: function () {

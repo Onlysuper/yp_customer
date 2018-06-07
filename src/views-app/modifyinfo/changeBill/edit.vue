@@ -12,7 +12,7 @@
           <mt-field label="企业税号:" type="text" v-model="taxNo" :disabled="true"></mt-field>
           <mt-field label="经营名称:" type="text" v-model="bussinessName" :disabled="true"></mt-field>
           <mt-field label="法人:" type="text" v-model="form.legalPerson" @change="cacheFrom" placeholder="输入法人姓名" v-required :attr="{maxlength:50}"></mt-field>
-          <mt-field @change="idCardInput" label="身份证号:" type="text" v-model.trim="form.idCard"  placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
+          <mt-field @change="idCardInput" label="身份证号:" type="text" v-model.trim="form.idCard" placeholder="输入身份证号" v-required :attr="{maxlength:50}"></mt-field>
           <mt-field class="addpay-long-title" label="身份证生效时间:" type="text" v-model="form.idNoEffectiveBegin" @click.native="$refs.idNoEffectiveBegin.open" placeholder="请选择日期" v-readonly-ios :readonly="true">
             <i class="icon-arrow"></i>
           </mt-field>
@@ -154,7 +154,6 @@ export default {
       this.sendParams()
     },
     accountNameInput() {
-      alert(1);
       this.isLegalPersonSettleIdCard("inputchange");
       this.sendParams()
     },
@@ -187,7 +186,7 @@ export default {
         /*
         * 回显表单逻辑必须是优先从缓存中取
         */
-        cacheForm = JSON.parse(window.localStorage.getItem(customer.customerNo)) || {};//取出缓存表单信息
+        cacheForm = JSON.parse(window.localStorage.getItem(customer.customerNo + 'app')) || {};//取出缓存表单信息
         this.enterpriseName = cacheForm.enterpriseName || customer.enterpriseName;
         this.bussinessName = cacheForm.bussinessName || customer.bussinessName;
         this.taxNo = cacheForm.taxNo || customer.taxNo;
@@ -317,10 +316,10 @@ export default {
     },
     //save from to localStorage
     cacheFrom() {
-      window.localStorage.setItem(this.customerNo, JSON.stringify(this.sendParams()));
+      window.localStorage.setItem(this.customerNo + 'app', JSON.stringify(this.sendParams()));
     },
     clearcacheFrom() {
-      window.localStorage.removeItem(this.customerNo);
+      window.localStorage.removeItem(this.customerNo + 'app');
     },
     //提交
     submit() {
@@ -346,7 +345,7 @@ export default {
       //   form.accountNo = form.accountNo.replace(/\s/g, '');
       // }
       for (var i in form) {
-        if (form[i]&&utils.isString(form[i])) {
+        if (form[i] && utils.isString(form[i])) {
           form[i] = form[i].replace(/\s/g, '');
         }
       }

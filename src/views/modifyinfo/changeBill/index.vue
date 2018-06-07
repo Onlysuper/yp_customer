@@ -356,6 +356,25 @@ export default {
               }
             },
             {
+              text: "编辑",
+              color: "#00c1df",
+              visibleFn: rowdata => {
+                if (rowdata.status == "ADMIN_AUDIT" || rowdata.status == "REJECT" || rowdata.status == "INIT") {
+                  return true
+                } else {
+                  return false
+                }
+              },
+              cb: rowdata => {
+
+
+                this.rowData = {
+                  ...rowdata
+                }
+                this.editFn()
+              }
+            },
+            {
               text: "审核",
               color: "#00c1df",
               visibleFn: rowdata => {
