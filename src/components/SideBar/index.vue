@@ -2,7 +2,8 @@
   <!-- layout 左侧菜单区域 -->
   <div class="aside-box">
     <div class="scroll-view-box">
-      <el-menu :collapse-transition='true' popper-class="myp-menu-active" background-color="#001529" :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#878d99" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+      <el-menu  class="el-menu-vertical" :unique-opened="true" text-color="#878d99"  background-color="#001529" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse">
+        <!-- <el-menu  :show-timeout="200" :hide-timeout="200" class="el-menu-vertical" :unique-opened="true" text-color="#878d99" :router="isrouter" :default-openeds="defaultOpeneds" :default-active="defaultActive" @open="handleOpen" @close="handleClose" @select="handleSelect" :collapse="isCollapse" > -->
         <div :class="'logo-box'" ref="logoBox">
           <div class="img-box">
             <img :src="require('@src/assets/images/logoSmall.png')" alt="">

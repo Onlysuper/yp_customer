@@ -160,7 +160,7 @@ import paystatusGoods from "./paystatusGoods";
 import paystatusUpload from "./paystatusUpload";
 import paystatusSuccess from "./paystatusSuccess";
 export default {
-  name: "changeBill",
+  name: "paychangebill",
   components: {
     "myp-search-form": SearchForm, // 搜索组件
     "myp-data-page": DataPage, // 数据列表组件
@@ -272,6 +272,19 @@ export default {
             this.searchCondition.status = value;
           }
         },
+
+        {
+          corresattr: "billNo",
+          type: "text", // 表单类型
+          label: "变更单号", // 输入框前面的文字
+          show: true, // 普通搜索显示
+          defaultVlue: "", // 表单默认的内容
+          value: "", // 表单默认的内容
+          cb: value => {
+            // 表单输入之后回调函数
+            this.searchCondition.billNo = value;
+          }
+        },
         {
           corresattr: "agentNo",
           type: "text", // 表单类型
@@ -282,18 +295,6 @@ export default {
           cb: value => {
             // 表单输入之后回调函数
             this.searchCondition.agentNo = value;
-          }
-        },
-        {
-          corresattr: "billNo",
-          type: "text", // 表单类型
-          label: "变更单号", // 输入框前面的文字
-          show: false, // 普通搜索显示
-          defaultVlue: "", // 表单默认的内容
-          value: "", // 表单默认的内容
-          cb: value => {
-            // 表单输入之后回调函数
-            this.searchCondition.billNo = value;
           }
         }
       ],
@@ -332,7 +333,7 @@ export default {
           }
         ],
         operation: {
-          width: "160px",
+          width: "130px",
           options: [
             {
               text: "查看",

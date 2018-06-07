@@ -343,8 +343,10 @@ export default {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);
     },
-    doLayout() {
-      this.$refs.tableList.doLayout();
+    doLayoutReload() {
+      this.$nextTick(() => {
+        this.$refs.tableList.doLayout();
+      })
     },
     // 导出
     ExportExcel(path, param, haveparam) {
@@ -382,13 +384,15 @@ export default {
   },
 
   mounted() {
-    // this.doLayout();
+    // this.doLayoutReload();
     // this.$emit("databoxSize");
     // 初始化数据
-    this.$refs.tableList.doLayout();
+    // this.$refs.tableList.doLayout();
+    this.doLayoutReload();
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
   },
   activated() {
+    // this.doLayoutReload();
   },
   computed: {
     userAll() {
@@ -416,7 +420,7 @@ export default {
   },
   watch: {
     visibleinput(val) {
-      this.doLayout();
+      this.doLayoutReload();
       // 监听高级搜索与普通搜索模式转变
     },
     getPage(value) {
