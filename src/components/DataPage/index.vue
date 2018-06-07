@@ -48,6 +48,7 @@
   overflow: auto;
   height: 100%;
   flex-shrink: 1;
+  width: 100%;
   .table-outbox {
     // flex: 1;
     // height: 100%;
@@ -312,8 +313,8 @@ export default {
             this.$emit("operation", data, this.dataSuccess);
           }
           this.ifloading = false;
+          this.doLayoutReload();
         } else {
-          // alert(1);
           this.$message({
             message: data.msg,
             type: "warning",
