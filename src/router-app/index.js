@@ -36,18 +36,18 @@ const router = new Router({
 
 
 const asyncRoutes = [
-    customer,
-    billmanage,
-    profit,
-    empower,
-    agent,
-    productMg,
-    order,
-    enterprise,
-    version,
     settle,
-    statistical,
-    modifyinfo
+    order
+    // customer,
+    // billmanage,
+    // profit,
+    // empower,
+    // agent,
+    // productMg,
+    // enterprise,
+    // version,
+    // statistical,
+    // modifyinfo
 ]
 
 
