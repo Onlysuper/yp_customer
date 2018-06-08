@@ -9,9 +9,9 @@ const userInfoAndMenu = {
             userBussinessNo: "",
             userType: "",
         },
-        isAdmin:false,
-        isOperate:false,
-        isBranchOffice:false,
+        isAdmin: false,
+        isOperate: false,
+        isBranchOffice: false,
         menuList: [], // 菜单列表信息
         menuListApp: [], // 菜单列表信息-移动端用
         isCollapse: false,//菜单收起
@@ -36,22 +36,22 @@ const userInfoAndMenu = {
             state.userMessage.all = data;
             console.log(1111111);
             //判断是不是运营
-            if(data.userType=="admin"||data.userType=="root"){
+            if (data.userType == "admin" || data.userType == "root") {
                 state.isAdmin = true;
                 console.log(`vuex:${state.isAdmin}`)
-            }else{
+            } else {
                 state.isAdmin = false;
                 console.log(`vuex:${state.isAdmin}`)
             }
-            if(data.userType=="admin"||data.userType=="root"||data.userType=="operator"){
+            if (data.userType == "admin" || data.userType == "root" || data.userType == "operator") {
                 state.isOperate = true
-            }else{
+            } else {
                 state.isOperate = false;
             }
 
-            if(data.userType=="admin"||data.userType=="root"||data.userType=="branchOffice"){
+            if (data.userType == "admin" || data.userType == "root" || data.userType == "branchOffice") {
                 state.isBranchOffice = true;
-            }else{
+            } else {
                 state.isBranchOffice = false;
             }
         },
@@ -65,9 +65,18 @@ const userInfoAndMenu = {
         //移动端路由对应的菜单
         setMenuList(state, menuList) {
             state.menuList = menuList;
+        },
+        filterMenu(state, menuCode) {
+            console.log("走了");
+            state.menuList = state.menuList.filter(item => {
+                console.log(item);
+                return item
+            })
         }
     },
     actions: {
+        // 根据路由过滤菜单
+
         UserMenulistFetch(context) { // 获取‘用户信息‘与‘菜单列表‘数据
             return new Promise((resolve, reject) => {
                 MenuGet()({}).then(function (data) {
