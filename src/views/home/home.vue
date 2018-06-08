@@ -9,9 +9,6 @@
         <li v-if="downloadPower">
           <a target="_blank" class="docUrl" :href="docUrl" download="操作手册">操作手册下载</a>
         </li>
-        <li v-if="downloadPower">
-          <a target="_blank" class="docUrl" href="http://www.yeepiao.com/download/plugin/MANUAL/1.1.0.pdf" download="速票通非法人清算授权书">速票通非法人清算授权书下载</a>
-        </li>
       </ul>
     </div>
     <div class="img-box">
@@ -20,7 +17,6 @@
   </div>
 </template>
 <script>
-import { getVersion } from "@src/apis";
 export default {
   name: "home",
   data() {
@@ -51,15 +47,7 @@ export default {
     },
     downloadDoc() {
       this.downloadPower = true;
-      getVersion()({
-        clientVersion: "",
-        status: "TRUE",
-        type: "MANUAL"
-      }).then(d => {
-        if (d.code === "00" && d.data && d.data.url) {
-          this.docUrl = d.data.url;
-        }
-      });
+
     }
   }
 };
