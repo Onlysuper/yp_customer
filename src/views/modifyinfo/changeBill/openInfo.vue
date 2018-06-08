@@ -118,7 +118,6 @@ export default {
     }
   },
   created() {
-    console.log('info');
   },
   computed: {},
   mounted() {

@@ -415,7 +415,6 @@ export default {
           let settleCard = res.data.settleCard;
           if (customerData.orgCode) {
             this.payStatusForm.Area = areaOrgcode(customerData.orgCode);
-            console.log(this.payStatusForm.Area)
           }
           let newCustomer = utils.pickObj(customerData, [
             'enterpriseName', 'taxNo',
@@ -423,7 +422,6 @@ export default {
             'idNoEffectiveBegin', 'idNoEffectiveEnd',
             'bussinessAddress', 'legalPerson', 'idCard', 'category',
             'contactEmail', "bussinessName",
-
           ]);
           let newSettleCard = utils.pickObj(settleCard, [
             'accountType', 'accountName', 'accountNo', 'reservedPhoneNo', 'bankCode', 'unionCode', 'branchName', 'settleIdCard'
