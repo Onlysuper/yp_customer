@@ -2,7 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import router from './router';
-import routerApp from './router-app';
+// import routerApp from './router-app';
 import store from './vuex';
 import App from './App';
 
@@ -191,7 +191,8 @@ var vue = new Vue({
   created() {
     // this.websocketFn();
   },
-  router: isMobile ? routerApp : router,
+  // router: isMobile ? routerApp : router,
+  router: router,
   template: '<App/>',
   components: { App }
 })

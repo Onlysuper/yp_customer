@@ -40,10 +40,6 @@
         <div class="line-label-box cross-back">
           <span class="line-label">代理商编号:</span>{{detailsForm.agentNo}}
         </div>
-        <!-- <div class="line-label-box">
-          <span class="line-label">代理商分润:</span>
-        </div> -->
-
         <div class="line-label-box cross-back">
           <span class="line-label">收款方式:</span>{{detailsForm.payTypeDetail | statusFilter('payTypeDetail')}}
         </div>
@@ -69,7 +65,6 @@
 import $ from "jquery";
 import SearchForm from "@src/components/SearchForm";
 import DataPage from "@src/components/DataPage";
-// table页与搜索页公用功能
 import { mixinsPc } from "@src/common/mixinsPc";
 import { mixinDataTable } from "@src/components/DataPage/dataPage";
 import { todayStr, today_ } from "@src/common/dateSerialize";
@@ -126,10 +121,6 @@ export default {
           defaultVlue: "SUCCESS",
           value: "SUCCESS",
           options: [
-            // {
-            //   value: "",
-            //   label: "全部"
-            // },
             ...this.statusFilterQuery('orderQueryStatus')
           ],
           cb: value => {
@@ -173,17 +164,7 @@ export default {
             this.searchCondition.orderNo = value;
           }
         },
-        // {
-        //   corresattr: "customerName",
-        //   type: "text", // 表单类型
-        //   label: "商户名称", // 输入框前面的文字
-        //   show: false, // 普通搜索显示
-        //   value: "", // 表单默认的内容
-        //   cb: value => {
-        //     // 表单输入之后回调函数
-        //     this.searchCondition.customerName = value;
-        //   }
-        // },
+
         {
           corresattr: "hasChild",
           type: "select",
@@ -192,16 +173,8 @@ export default {
           defaultVlue: "TRUE",
           value: "TRUE",
           options: [
-            {
-              value: "TRUE",
-              label: "包含下级"
-            },
-            {
-              value: "FALSE",
-              label: "不包含下级"
-            }
+            ...this.statusFilterQuery('containChild')
           ],
-
           cb: value => {
             this.searchCondition.hasChild = value;
           }
@@ -212,11 +185,7 @@ export default {
           type: "text", // 表单类型
           label: "代理商编号", // 输入框前面的文字
           visible:
-            this.$store.state.userInfoAndMenu.userMessage.all.userType ==
-              "admin" ||
-              this.$store.state.userInfoAndMenu.userMessage.all.userType == "root"
-              ? "FALSE"
-              : "TRUE",
+            !this.$store.state.userInfoAndMenu.isAdmin ? "TRUE" : "FALSE",
           show: false, // 普通搜索显示
           defaultVlue: "", // 表单默认的内容
           value: "", // 表单默认的内容
@@ -294,37 +263,7 @@ export default {
             status: true,
             type: data => {
               return this.statusFilter(data, 'orderQueryStatus');
-              // if (data == "INIT") {
-              //   return {
-              //     text: "订单初始化",
-              //     type: ""
-              //   };
-              // } else if (data == "PAY_WAIT") {
-              //   return {
-              //     text: "等待支付",
-              //     type: ""
-              //   };
-              // } else if (data == "FAIL") {
-              //   return {
-              //     text: "失败",
-              //     type: "danger"
-              //   };
-              // } else if (data == "SUCCESS") {
-              //   return {
-              //     text: "成功",
-              //     type: "success"
-              //   };
-              // } else if (data == "CANCEL") {
-              //   return {
-              //     text: "撤单",
-              //     type: "warning"
-              //   };
-              // } else {
-              //   return {
-              //     text: data,
-              //     type: ""
-              //   };
-              // }
+
             }
           }
         ],

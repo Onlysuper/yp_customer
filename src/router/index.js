@@ -32,7 +32,7 @@ import home from "./home/home";
 // import buriedPoint from "./statistical/buriedPoint";
 // import buriedBillChart from "./statistical/buriedBillChart";
 // import buriedPointChart from "./statistical/buriedPointChart";
-// import messageRecord from "./message/messageRecord";
+import messageRecord from "./message/messageRecord";
 // import customerVersion from "./version/customerVersion";
 // import versionManage from "./version/versionManage";
 // import agentSettle from "./settle/agentSettle";
@@ -77,16 +77,16 @@ const asyncRouter = [
     // buriedPoint, //埋点管理
     // buriedBillChart, //埋点管理
     // buriedPointChart, //埋点管理
-    // messageRecord, //消息记录
+    messageRecord, //消息记录
     // empowerCheck, // 授权码审核
     // empowerTransfer, // 授权码转移
     // empowerPurchase, // 授权码采购
     // customerVersion, // 商户版本
     // versionManage, //版本管理
     // agentSettle,// 代理商结算统计
-    settle,// 结算统计
     // customerSettle,
     // enterpriseSupply,// 自制补充
+    settle,// 结算统计
     orderQuery,//订单查询
     changeBill
     // email
