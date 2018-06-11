@@ -141,8 +141,8 @@ Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }
 
 
-import mintui from "mint-ui";
-Vue.use(mintui);
+// import mintui from "mint-ui";
+// Vue.use(mintui);
 import utils from "@src/common/utils";
 
 Vue.prototype.$loading = Loading.service;
@@ -152,38 +152,38 @@ Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$prompt = MessageBox.prompt;
 Vue.prototype.$notify = eleNotification;
 Vue.prototype.$message = Message;
-Vue.prototype.Toast = mintui.Toast;
-Vue.prototype.MessageBox = mintui.MessageBox;
+// Vue.prototype.Toast = mintui.Toast;
+// Vue.prototype.MessageBox = mintui.MessageBox;
 Vue.prototype.validator = validator;
 Vue.prototype.utils = utils;
 
-import FullPage from "@src/components-app/FullPage";
-Vue.component(FullPage.name, FullPage);
-import FullPagePopup from "@src/components-app/FullPagePopup";
-Vue.component(FullPagePopup.name, FullPagePopup);
-import MypCell from "@src/components-app/MypCell";
-Vue.component(MypCell.name, MypCell);
-import MypCellPannel from "@src/components-app/MypCellPannel";
-Vue.component(MypCellPannel.name, MypCellPannel);
-import MypLoadmoreApi from "@src/components-app/MypLoadmoreApi";
-Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
-import InputWrapper from "@src/components-app/InputWrapper";
-Vue.component(InputWrapper.name, InputWrapper);
-import ViewRadius from "@src/components-app/ViewRadius";
-Vue.component(ViewRadius.name, ViewRadius);
-import MypTr from "@src/components-app/MypTr";
-Vue.component(MypTr.name, MypTr);
-import SliderNav from "@src/components-app/SliderNav";
-Vue.component(SliderNav.name, SliderNav);
+// import FullPage from "@src/components-app/FullPage";
+// Vue.component(FullPage.name, FullPage);
+// import FullPagePopup from "@src/components-app/FullPagePopup";
+// Vue.component(FullPagePopup.name, FullPagePopup);
+// import MypCell from "@src/components-app/MypCell";
+// Vue.component(MypCell.name, MypCell);
+// import MypCellPannel from "@src/components-app/MypCellPannel";
+// Vue.component(MypCellPannel.name, MypCellPannel);
+// import MypLoadmoreApi from "@src/components-app/MypLoadmoreApi";
+// Vue.component(MypLoadmoreApi.name, MypLoadmoreApi);
+// import InputWrapper from "@src/components-app/InputWrapper";
+// Vue.component(InputWrapper.name, InputWrapper);
+// import ViewRadius from "@src/components-app/ViewRadius";
+// Vue.component(ViewRadius.name, ViewRadius);
+// import MypTr from "@src/components-app/MypTr";
+// Vue.component(MypTr.name, MypTr);
+// import SliderNav from "@src/components-app/SliderNav";
+// Vue.component(SliderNav.name, SliderNav);
 
 
-if (isMobile) {
-  document.body.style.height = document.documentElement.clientHeight + "px";
-  window.onresize = function () {
-    document.body.style.height = document.documentElement.clientHeight + "px";
-  }
-}
-console.log()
+// if (isMobile) {
+//   document.body.style.height = document.documentElement.clientHeight + "px";
+//   window.onresize = function () {
+//     document.body.style.height = document.documentElement.clientHeight + "px";
+//   }
+// }
+// console.log()
 var vue = new Vue({
   el: '#app',
   store,
