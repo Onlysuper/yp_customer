@@ -19,10 +19,10 @@
         <div class="dateGroup" v-if="item.type=='dateGroup'">
           <!-- {{item.options}} -->
           <!-- {{item.options[1].value}} -->
-          <el-date-picker value-format="yyyy-MM-dd" :blur="datepickerBlur" align="center" :picker-options="pickerOptions1" :editable="false" :clearable="item.options[0].clearable==false?item.options[0].clearable:true" id="dateGroup" ref="myinputData1" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'date',item.options[0].clearable)" type="date" placeholder="开始时间"></el-date-picker>
+          <el-date-picker value-format="yyyy-MM-dd" :blur="datepickerBlur" align="center" :picker-options="pickerOptions1" :editable="false" :clearable="item.options[0].clearable==false?item.options[0].clearable:true" id="dateGroup" ref="myinputData1" v-model="item.options[0].value" @input="changeInput(item.options[0].cb,$event,'startdate',item.options[0].clearable)" type="date" placeholder="开始时间"></el-date-picker>
           <!-- <el-date-picker :blur="datepickerBlur" align="center" :picker-options="pickerOptions1" :editable="false" :clearable="item.options[0].clearable==false?item.options[0].clearable:true" id="dateGroup" ref="myinputData1" v-model="item.options[1].value" @input="changeInput(item.options[0].cb,$event,'date',item.options[0].clearable)" type="date" placeholder="开始时间"></el-date-picker> -->
           <span class="to-line">-</span>
-          <el-date-picker value-format="yyyy-MM-dd" :blur="datepickerBlur" align="center" :picker-options="pickerOptions2" :editable="false" :clearable="item.options[1].clearable==false?item.options[1].clearable:true" id="dateGroup1" ref="myinputData2" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'date',item.options[1].clearable)" type="date" placeholder="结束时间"></el-date-picker>
+          <el-date-picker value-format="yyyy-MM-dd" :blur="datepickerBlur" align="center" :picker-options="pickerOptions2" :editable="false" :clearable="item.options[1].clearable==false?item.options[1].clearable:true" id="dateGroup1" ref="myinputData2" class="enddate-box" v-model="item.options[1].value" @input="changeInput(item.options[1].cb,$event,'enddate',item.options[1].clearable)" type="date" placeholder="结束时间"></el-date-picker>
         </div>
 
         <!-- 日期组合2 -->
@@ -78,9 +78,16 @@ export default {
   },
   data() {
     return {
+      startDateTime: "",
+      endDateTime: "",
       pickerOptions1: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
+        disabledDate: (time) => {
+          if (this.endDateTime != "") {
+            return time.getTime() > Date.now() || time.getTime() > this.endDateTime;
+          } else {
+            return time.getTime() > Date.now();
+          }
+
         },
         shortcuts: [
           {
@@ -98,7 +105,7 @@ export default {
             }
           },
           {
-            text: "一周前",
+            text: "上一周",
             onClick(picker) {
               const date = new Date();
               date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
@@ -108,8 +115,8 @@ export default {
         ]
       },
       pickerOptions2: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
+        disabledDate: (time) => {
+          return time.getTime() < (this.startDateTime - (3600 * 1000 * 24)) || time.getTime() > Date.now();
         },
         shortcuts: [
           {
@@ -231,8 +238,9 @@ export default {
       // 表单内容双向绑定 把表单输入的内容交给父页面进行操作
       if (event) {
         var val = "";
-        if (type == "date") {
+        if (type == "startdate" || type == "enddate") {
           var date = new Date(event);
+          type == "startdate" ? this.startDateTime = date : this.endDateTime = date;
           var month = date.getMonth() + 1;
           month = month * 1 < 10 ? "0" + month : month;
           var day =
