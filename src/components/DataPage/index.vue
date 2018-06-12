@@ -253,6 +253,7 @@ export default {
       //   useTransition: true //CSS过渡
       // },
       clipboard: "",
+      copynum: 0,
       dataSuccess: this.tableDataInit.dataSuccess, // 数据家在完成
       ifloading: false,
       tableData: [],
@@ -382,11 +383,14 @@ export default {
       let clipboard = this.clipboard;
       clipboard.on('success', e => {
         // 释放内存  
-        clipboard.destroy()
+        this.copynum++;
         this.$message({
           message: "复制成功",
           duration: 800
         });
+        if (this.copynum > 0) {
+          clipboard.destroy()
+        }
       })
       clipboard.on('error', e => {
         // 不支持复制  

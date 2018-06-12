@@ -1,45 +1,59 @@
 <template>
-  <!-- 产品费率 -->
+  <!-- 发起代付 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <div class="source-container">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>产品费率</span>
-        </div>
-        <ul class="myp-content-list">
-          <li>
-            <div>
-              <span class="lable">借记卡手续费率:</span>
-              <span class="text"> 0.45%</span>
+        <el-tabs v-model="activeName" type="card">
+          <el-tab-pane label=" 单笔代付 " name="first">
+            <div class="source-block">
+              <div class="source ">
+                <el-form ref="form " :model="form " label-width="100px">
+                  <el-form-item label="代付金额">
+                    <el-input v-model="form.name "></el-input>
+                  </el-form-item>
+                  <el-form-item label="收款人姓名">
+                    <el-input v-model="form.name "></el-input>
+                  </el-form-item>
+                  <el-form-item label="开户银行">
+                    <el-input v-model="form.name "></el-input>
+                  </el-form-item>
+                  <el-form-item label="选择支行">
+                    <el-input v-model="form.name "></el-input>
+                  </el-form-item>
+                  <el-form-item label="银行账号">
+                    <el-input v-model="form.name "></el-input>
+                  </el-form-item>
+                  <el-form-item>
+                    <el-button>重置</el-button>
+                    <el-button type="primary ">发起代付</el-button>
+                  </el-form-item>
+                </el-form>
+              </div>
             </div>
-            <div>
-              <span class="lable">借记卡封顶金额:</span>
-              <span class="text">0.0</span>
+          </el-tab-pane>
+          <el-tab-pane label="批量代付 " name="second">
+            <div class="source-block ">
+              <div class="source ">
+                <el-form ref="form " :model="form " label-width="100px">
+                  <div class="content-center-box">
+                    <div class="sep-inline">
+                      <a class="link-Label" :href="oaIp+'/static/template/qrcode-batch-bind.xlsx'">下载批量代付模板</a>
+                    </div>
+                    <div class="sep-inline">
+                      <el-upload :with-credentials="true" :headers='{"X-requested-With": "XMLHttpRequest"}' :limit="1" :on-exceed="handleExceed" class="upload-demo" ref="batchBindFile" :before-upload="beforeBindBatchUpload" :on-success="batchBindUploadSuccess" :on-error="uploadFilleError" :action="oaIp+'/qrcode/bindBatchQrCode'" :file-list="fileList" :auto-upload="false" accept="file" drag>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将入网文件拖到此处，或
+                          <em>点击上传</em>
+                        </div>
+                        <div class="el-upload__tip" slot="tip">只能上传xlsx文件,请注意文件格式</div>
+                      </el-upload>
+                    </div>
+                  </div>
+                </el-form>
+              </div>
             </div>
-          </li>
-          <li>
-            <span class="lable">贷记卡手续费率: </span>
-            <span class="text">0.52%</span>
-          </li>
-          <li>
-            <span class="lable">微信手续费率:</span>
-            <span class="text">0.38%</span>
-          </li>
-          <li>
-            <span class="lable">支付宝手续费率: </span>
-            <span class="text">0.45%</span>
-          </li>
-          <li>
-            <span class="lable">快捷支付手续费率:</span>
-            <span class="text">1%</span>
-          </li>
-          <li>
-            <span class="lable">代付手续费率:</span>
-            <span class="text">0.5元/笔</span>
-          </li>
-        </ul>
-      </el-card>
+          </el-tab-pane>
+        </el-tabs>
       </div>
     </div>
   </div>
