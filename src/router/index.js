@@ -7,14 +7,8 @@ import layout from '@src/views/layout/layout'
 import login from "./login/login";
 import error from "./error/error";
 import home from "./home/home";
-
 import empowerManage from "./empower/empowerManage";
-import empowerCheck from "./empower/empowerCheck";
-import empowerTransfer from "./empower/empowerTransfer";
-import empowerPurchase from "./empower/empowerPurchase";
-
-// import changeBill from "./product/changeBill";
-import changeBill from "./modifyinfo/changeBill";
+import orderQuery from "./order/orderQuery";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
@@ -28,9 +22,7 @@ const router = new Router({
 
 const asyncRouter = [
     empowerManage,
-    empowerCheck, // 授权码审核
-    empowerTransfer, // 授权码转移
-    empowerPurchase // 授权码采购
+    orderQuery
 ];
 // 路由过滤
 
