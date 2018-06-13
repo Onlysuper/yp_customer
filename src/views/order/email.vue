@@ -3,43 +3,54 @@
   <div class="admin-page">
     <div class="admin-main-box">
       <div class="source-container">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>产品费率</span>
-        </div>
-        <ul class="myp-content-list">
-          <li>
-            <div>
-              <span class="lable">借记卡手续费率:</span>
-              <span class="text"> 0.45%</span>
-            </div>
-            <div>
-              <span class="lable">借记卡封顶金额:</span>
-              <span class="text">0.0</span>
-            </div>
-          </li>
-          <li>
-            <span class="lable">贷记卡手续费率: </span>
-            <span class="text">0.52%</span>
-          </li>
-          <li>
-            <span class="lable">微信手续费率:</span>
-            <span class="text">0.38%</span>
-          </li>
-          <li>
-            <span class="lable">支付宝手续费率: </span>
-            <span class="text">0.45%</span>
-          </li>
-          <li>
-            <span class="lable">快捷支付手续费率:</span>
-            <span class="text">1%</span>
-          </li>
-          <li>
-            <span class="lable">代付手续费率:</span>
-            <span class="text">0.5元/笔</span>
-          </li>
-        </ul>
-      </el-card>
+        <el-card shadow="hover">
+          <div slot="header" class="clearfix">
+            <span>产品费率</span>
+          </div>
+          <ul class="myp-content-list">
+            <li>
+              <div>
+                <span class="lable">借记卡手续费率:</span>
+                <span class="text"> 0.45%</span>
+              </div>
+              <div>
+                <span class="lable">借记卡封顶金额:</span>
+                <span class="text">0.0</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <span class="lable">贷记卡手续费率: </span>
+                <span class="text">0.52%</span>
+              </div>
+
+            </li>
+            <li>
+              <div>
+                <span class="lable">微信手续费率:</span>
+                <span class="text">0.38%</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <span class="lable">支付宝手续费率: </span>
+                <span class="text">0.45%</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <span class="lable">快捷支付手续费率:</span>
+                <span class="text">1%</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <span class="lable">代付手续费率:</span>
+                <span class="text">0.5元/笔</span>
+              </div>
+            </li>
+          </ul>
+        </el-card>
       </div>
     </div>
   </div>

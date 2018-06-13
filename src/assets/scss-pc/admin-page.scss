@@ -217,16 +217,28 @@
        width:460px;
      }
   }
+  .el-card{
+    box-shadow: none !important;
+  }
 }
 // 文字列表
 .myp-content-list{
   li{
-    padding:2px 0;
+    display: flex;
+    div{
+      // flex: 1;
+      vertical-align: middle;
+      display: flex;
+    }
   }
   .lable{
-
+    min-width: 120px;
+    flex-grow: 0;
+    text-align: right;
+    padding-right: 5px;
   }
   .text{
-
+    flex: 1;
+    padding-right: 10px;
   }
 }
