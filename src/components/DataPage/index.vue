@@ -9,9 +9,7 @@
         <template slot-scope="scope" v-if="item.visibleFn?item.visibleFn(scope.row):true">
           <!-- <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag> -->
           <el-tag v-if="item.status&&item.type(scope.row[scope.column.property],scope.row).text&&scope.row[scope.column.property]!='null'?true:false" :type="item.type(scope.row[scope.column.property],scope.row).type?item.type(scope.row[scope.column.property],scope.row).type:''" close-transition disable-transitions> {{scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:""}}</el-tag>
-          <span class="link-text inline-text" 
-          v-else-if="item.event&&scope.row[scope.column.property]!='null'&&scope.row[scope.column.property]?true:false"
-           @click="operationHandle(scope.row,item.cb)">
+          <span class="link-text inline-text" v-else-if="item.event&&scope.row[scope.column.property]!='null'&&scope.row[scope.column.property]?true:false" @click="operationHandle(scope.row,item.cb)">
             {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
             <!-- <i :data-clipboard-text="item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]" @click="copyText" class="el-icon-tickets copy-icon copy-box"></i> -->
           </span>
@@ -20,7 +18,7 @@
               {{ item.type?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
             </p>
             <div slot="reference" class="name-wrapper">
-              <div class="inline-text copy-box" :data-clipboard-text="item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]" @dblclick="copyText($event)">
+              <div class="inline-text copy-box" :data-clipboard-text="item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]" @dblclick="copyText">
                 {{ item.type&&scope.row[scope.column.property]!='null'?item.type(scope.row[scope.column.property],scope.row).text:scope.row[scope.column.property]}}
               </div>
             </div>
@@ -254,7 +252,8 @@ export default {
       //   useTransform: true, //CSS转化
       //   useTransition: true //CSS过渡
       // },
-      clipboard:"",
+      clipboard: "",
+      copynum: 0,
       dataSuccess: this.tableDataInit.dataSuccess, // 数据家在完成
       ifloading: false,
       tableData: [],
@@ -266,32 +265,9 @@ export default {
       getLimit: this.limit // 搜索条件
     };
   },
-  
+
   methods: {
-    copyText(ev) {
-      // this.$nextTick(() => {
-      let clipboard = "";
-      if(this.clipboard){
-        clipboard = this.clipboard;
-      }else{
-        clipboard = new Clipboard('.copy-box');
-      }
-        clipboard.on('success', e => {
-          // 释放内存  
-          clipboard.destroy()
-          this.$message({
-            message:"复制成功",
-            duration:1000
-          });
-        })
-        clipboard.on('error', e => {
-          // 不支持复制  
-          console.log('该浏览器不支持自动复制')
-          // 释放内存  
-          clipboard.destroy()
-        })
-      // })
-    },
+
     visibleArrFn(rowdata, cb) {
       // 点击操作按钮
       this.$emit("operation", rowdata, cb);
@@ -392,6 +368,36 @@ export default {
     },
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
+    },
+    clipboardFn() {
+      this.$nextTick(() => {
+        if (this.clipboard) {
+          this.clipboard.destroy();
+        } else {
+          this.clipboard = new Clipboard('.copy-box');
+          console.log(this.clipboard);
+        }
+      })
+    },
+    copyText() {
+      let clipboard = this.clipboard;
+      clipboard.on('success', e => {
+        // 释放内存  
+        this.copynum++;
+        this.$message({
+          message: "复制成功",
+          duration: 800
+        });
+        if (this.copynum > 0) {
+          clipboard.destroy()
+        }
+      })
+      clipboard.on('error', e => {
+        // 不支持复制  
+        console.log('该浏览器不支持自动复制')
+        // 释放内存  
+        clipboard.destroy()
+      })
     }
   },
 
@@ -400,12 +406,13 @@ export default {
     // this.$emit("databoxSize");
     // 初始化数据
     // this.$refs.tableList.doLayout();
-   
     this.doLayoutReload();
     this.postDataInit(this.getPage, this.getLimit, this.getSearch);
+    this.clipboardFn();
   },
   activated() {
-     this.clipboard=new Clipboard('.copy-box');
+    console.log("这里这里这里");
+    this.clipboardFn();
     // this.doLayoutReload();
   },
   computed: {

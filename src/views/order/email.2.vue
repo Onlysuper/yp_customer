@@ -1,56 +1,56 @@
 <template>
-  <!-- 产品费率 -->
+  <!-- 商户信息 -->
   <div class="admin-page">
     <div class="admin-main-box">
       <div class="source-container">
-        <el-card shadow="hover">
-          <div slot="header" class="clearfix">
-            <span>产品费率</span>
-          </div>
-          <ul class="myp-content-list">
-            <li>
-              <div>
-                <span class="lable">借记卡手续费率:</span>
-                <span class="text"> 0.45%</span>
-              </div>
-              <div>
-                <span class="lable">借记卡封顶金额:</span>
-                <span class="text">0.0</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <span class="lable">贷记卡手续费率: </span>
-                <span class="text">0.52%</span>
-              </div>
-
-            </li>
-            <li>
-              <div>
-                <span class="lable">微信手续费率:</span>
-                <span class="text">0.38%</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <span class="lable">支付宝手续费率: </span>
-                <span class="text">0.45%</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <span class="lable">快捷支付手续费率:</span>
-                <span class="text">1%</span>
-              </div>
-            </li>
-            <li>
-              <div>
-                <span class="lable">代付手续费率:</span>
-                <span class="text">0.5元/笔</span>
-              </div>
-            </li>
-          </ul>
-        </el-card>
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>商户信息</span>
+        </div>
+        <ul class="myp-content-list">
+          <li>
+            <span class="lable">商户编号:</span>
+            <span class="text">8023023232</span>
+          </li>
+          <li>
+            <span class="lable">商户全称：</span>
+            <span class="text">北京速票通科技有限公司河南办事处</span>
+          </li>
+          <li>
+            <span class="lable">商户简称：</span>
+               <span class="text">北京速票通河南办事处</span>
+               </li>
+          <li>
+            <span class="lable">联 系 人 ：</span>
+               <span class="text">陈志勇</span>
+               </li>
+          <li>
+            <span class="lable">联系电话：</span>
+               <span class="text">13811960945</span>
+               </li>
+        </ul>
+      </el-card>
+      </div>
+      <div class="source-container">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>结算信息</span>
+        </div>
+         <ul class="myp-content-list">
+          <li>
+            <span class="lable">结算帐号：</span>
+            <span class="text">811070******6805</span>
+          </li>
+          <li>
+            <span class="lable">结算名称：</span>
+            <span class="text">北京速票通科技有限公司河南办事处</span>
+          </li>
+          <li>
+            <span class="lable">结算方式：</span>
+            <span class="text">T+1</span>
+          </li>
+        </ul>
+      </el-card>
       </div>
     </div>
   </div>

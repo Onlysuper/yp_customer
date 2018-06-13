@@ -9,6 +9,7 @@ import error from "./error/error";
 import home from "./home/home";
 import empowerManage from "./empower/empowerManage";
 import orderQuery from "./order/orderQuery";
+import email from "./order/email";
 import { MenuGet } from "@src/apis"
 Vue.use(Router)
 const router = new Router({
@@ -22,7 +23,8 @@ const router = new Router({
 
 const asyncRouter = [
     empowerManage,
-    orderQuery
+    orderQuery,
+    email
 ];
 // 路由过滤
 

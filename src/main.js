@@ -65,6 +65,7 @@ import {
   Upload as eleUpload,
   Tree as eleTree,
   Cascader as eleCascader,
+  Card as eleCard,
 
   Notification as eleNotification,
   Switch as eleSwitch,
@@ -136,6 +137,7 @@ Vue.component(eleAlert.name, eleAlert)
 Vue.component(eleTabs.name, eleTabs)
 Vue.component(eleTabPane.name, eleTabPane)
 Vue.component(eleMain.name, eleMain)
+Vue.component(eleCard.name, eleCard)
 Vue.component(eleAutocomplete.name, eleAutocomplete)
 Vue.use(Loading.directive)
 // Vue.prototype.$ELEMENT = { size: 'small' }

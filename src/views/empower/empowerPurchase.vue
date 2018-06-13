@@ -114,6 +114,26 @@
 </template>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang='scss' scoped>
+.form-box {
+  .fieldset-box {
+    fieldset {
+      border: 1px solid #eee;
+      border-left: 0;
+      border-right: 0;
+      margin-top: 16px;
+      padding: 8px;
+      legend {
+        font-size: 14px;
+        .small {
+          font-size: 12px;
+          color: #67c23a;
+        }
+      }
+    }
+  }
+  width: 500px;
+  padding-left: 20px;
+}
 </style>
 <script>
 import $ from "jquery";
